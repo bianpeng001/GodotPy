@@ -278,37 +278,37 @@ namespace Rona
 
         }
 
-        private static IExpression ParseAtom(Tokenizer tokenizer)
+        private static IExpression ParserPrimaryExpr(Tokenizer tokenizer)
         {
-            ref var token = ref tokenizer.token;
+            ref var token = ref tokenizer.peek;
 
             if (token.type == TokenType.INT)
             {
                 var value = ParseInteger(tokenizer.input, token.start, token.end, 10);
-                tokenizer.Eat(TokenType.INT);
+                tokenizer.Consume(TokenType.INT);
                 return new ConstExpr(value);
             }
             else if (token.type == TokenType.NUM)
             {
                 var value = ParseNumber(tokenizer.input, token.start, token.end);
-                tokenizer.Eat(TokenType.NUM);
+                tokenizer.Consume(TokenType.NUM);
                 return new ConstExpr(value);
             }
             else if (token.type == TokenType.STR)
             {
-                var value = tokenizer.input.Substring(token.start + 1, token.end - token.start - 2);
-                tokenizer.Eat(TokenType.STR);
-                return new ConstExpr(value);
+                var str = tokenizer.input.Substring(token.start + 1, token.end - token.start - 2);
+                tokenizer.Consume(TokenType.STR);
+                return new ConstExpr(str);
             }
-            else if (token.type == TokenType.ID)
+            else if (token.type == TokenType.SYMBOL)
             {
                 // 识别成ID, 只能是变量，变量的查找顺序，LGB
-                var identity = tokenizer.input.Substring(token.start, token.end - token.start);
-                tokenizer.Eat(TokenType.ID);
+                var symbol = tokenizer.input.Substring(token.start, token.end - token.start);
+                tokenizer.Consume(TokenType.SYMBOL);
 
-                if (tokenizer.token.type == TokenType.LP)
+                if (tokenizer.peek.type == TokenType.LP)
                 {
-                    var call = new CallExpr(GetCached(identity),
+                    var call = new CallExpr(GetCached(symbol),
                         ParseArguments(tokenizer));
                     
                     return call;
@@ -316,16 +316,17 @@ namespace Rona
             }
             else if (token.type == TokenType.LP)
             {
-                tokenizer.Eat(TokenType.LP);
+                tokenizer.Consume(TokenType.LP);
                 var expr = ParseExpr(tokenizer);
                 if (token.type != TokenType.RP)
                     throw new FormulaException();
-                tokenizer.Eat(TokenType.RP);
+                tokenizer.Consume(TokenType.RP);
                 return expr;
             }
 
             throw new FormulaException();
         }
+
 
         private static double ParseNumber(string input, int start, int end)
         {
@@ -373,21 +374,23 @@ namespace Rona
 
         private static IExpression[] ParseArguments(Tokenizer tokenizer)
         {
-            tokenizer.Eat(TokenType.LP);
+            tokenizer.Consume(TokenType.LP);
             List<IExpression> aList = new List<IExpression>();
             while (true)
             {
                 var item = ParseExpr(tokenizer);
                 aList.Add(item);
-                if (tokenizer.token.type == TokenType.COMMA)
-                    tokenizer.Eat(TokenType.COMMA);
-                else if (tokenizer.token.type == TokenType.RP)
+                if (tokenizer.peek.type == TokenType.COMMA)
+                    tokenizer.Consume(TokenType.COMMA);
+                else if (tokenizer.peek.type == TokenType.RP)
                 {
-                    tokenizer.Eat(TokenType.RP);
+                    tokenizer.Consume(TokenType.RP);
                     break;
                 }
                 else
+                {
                     throw new FormulaException();
+                }
             }
             
             return aList.ToArray();
@@ -404,60 +407,56 @@ namespace Rona
             return value;
         }
 
+        private static IExpression ParseMulExpr(Tokenizer tokenizer)
+        {
+            IExpression expr = ParserPrimaryExpr(tokenizer);
+
+            ref var token = ref tokenizer.peek;
+            var opcode = token.charcode;
+            while (token.type == TokenType.OP && opcode == '*' || opcode == '/')
+            {
+                tokenizer.Consume(TokenType.OP);
+                var rhs = ParseMulExpr(tokenizer);
+
+                var op = new Op2Expr()
+                {
+                    oprand1 = expr,
+                    oprand2 = rhs,
+                };
+                if (opcode == '*')
+                    op.func = Op_Mul;
+                else if (opcode == '/')
+                    op.func = Op_Div;
+                expr = op;
+
+                opcode = token.charcode;
+            }
+            return expr;
+        }
+
         private static IExpression ParseExpr(Tokenizer tokenizer)
         {
-            IExpression expr = ParseAtom(tokenizer);
-            for (; ; )
+            IExpression expr = ParseMulExpr(tokenizer);
+
+            ref var token = ref tokenizer.peek;
+            var opcode = token.charcode;
+            while (token.type == TokenType.OP && opcode == '+' || opcode == '-')
             {
-                ref var token = ref tokenizer.token;
+                tokenizer.Consume(TokenType.OP);
+                var rhs = ParseMulExpr(tokenizer);
 
-                if (token.IsEof ||
-                        token.type == TokenType.SEMI ||
-                        token.type ==  TokenType.COMMA ||
-                        token.type == TokenType.RP)
-                    break;
-                else if (token.type == TokenType.OP)
+                var op = new Op2Expr()
                 {
-                    var c = tokenizer.input[token.start];
+                    oprand1 = expr,
+                    oprand2 = rhs,
+                };
+                if (opcode == '+')
+                    op.func = Op_Add;
+                else if (opcode == '-')
+                    op.func = Op_Sub;
+                expr = op;
 
-                    tokenizer.Eat(TokenType.OP);
-                    var operand2 = ParseAtom(tokenizer);
-
-                    var op = new Op2Expr()
-                    {
-                        oprand1 = expr,
-                        oprand2 = operand2,
-                    };
-                    op.func = c switch
-                    {
-                        '+' => Op_Add,
-                        '-' => Op_Sub,
-                        '*' => Op_Mul,
-                        '/' => Op_Div,
-                        '%' => Op_Mod,
-                        _ => throw new FormulaException(),
-                    };
-
-                    // 这里要处理优先级
-                    if (c == '*' || c == '/')
-                        op.level = 1;
-                    else
-                        op.level = 0;
-                    if (expr is Op2Expr op1 && op.level > op1.level)
-                    {
-                        op.oprand1 = op1.oprand2;
-                        op1.oprand2 = op;
-                        expr = op1;
-                    }
-                    else
-                    {
-                        expr = op;
-                    }
-                }
-                else
-                {
-                    throw new FormulaException();
-                }
+                opcode = token.charcode;
             }
             return expr;
         }
@@ -488,7 +487,7 @@ namespace Rona
             for(; i < input.Length; ++i)
             {
                 var c = input[i];
-                if (c != ' ' && c != '\t' && c != '\n')
+                if (!(c == ' ' || c == '\t' && c == '\n'))
                     break;
             }
         }
@@ -496,16 +495,16 @@ namespace Rona
         public static IExpression Parse(string input)
         {
             var tokenizer = new Tokenizer(input);
-            tokenizer.Eat(TokenType.NONE);
+            tokenizer.Consume(TokenType.NONE);
             var expr = ParseExpr(tokenizer);
-            if (tokenizer.token.IsEof)
+            if (tokenizer.peek.IsEof)
                 return expr;
 
             var aList = new List<IExpression>();
             aList.Add(expr);
-            while (tokenizer.token.type == TokenType.SEMI)
+            while (tokenizer.peek.type == TokenType.SEMI)
             {
-                tokenizer.Eat(TokenType.SEMI);
+                tokenizer.Consume(TokenType.SEMI);
                 aList.Add(ParseExpr(tokenizer));
             }
             return new StmtsExpr() { stmts = aList.ToArray() };
@@ -521,7 +520,7 @@ namespace Rona
             INT,
             NUM,
             STR,
-            ID,
+            SYMBOL,
             
             OP, // +-*/%
             
@@ -573,7 +572,7 @@ namespace Rona
         {
             public TokenType type;
             // 单个字符的时候，这个code有用
-            public int charcode;
+            public char charcode;
             // end is excluded
             public int start, end;
 
@@ -591,14 +590,14 @@ namespace Rona
                 this.index = 0;
             }
 
-            public Token token;
+            public Token peek;
 
-            public void Eat(TokenType type)
+            public void Consume(TokenType type)
             {
-                if (token.type != type)
+                if (peek.type != type)
                     throw new FormulaException();
 
-                token = ParseToken();
+                peek = ParseToken();
             }
 
             private Token ParseToken()
@@ -649,7 +648,7 @@ namespace Rona
                         if (!IsLetter(c1) && !IsDigit(c1) && c != '_')
                             break;
                     }
-                    return new Token() { type = TokenType.ID, start = start, end = index };
+                    return new Token() { type = TokenType.SYMBOL, start = start, end = index };
                 }
                 else if (c == '\'' || c == '"')
                 {
