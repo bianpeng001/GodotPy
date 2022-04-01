@@ -227,11 +227,11 @@ namespace Rona
         }
 
         // 变量访问, 这个需要缓存一下，挺多的实际上
-        public class IdentityExpr : IExpression
+        public class SymbolExpr : IExpression
         {
             public readonly string name;
 
-            public IdentityExpr(string name)
+            public SymbolExpr(string name)
             {
                 this.name = name;
             }
@@ -258,63 +258,98 @@ namespace Rona
             }
         }
 
-        public class IndexExpr : IExpression
+        // 属性访问
+        public class IndexerExpr : IExpression
         {
-            public IExpression main;
+            public IExpression lhs;
             public IExpression index;
 
             public Value Eval(Env env)
             {
-                return new Value();
+
+                //return new Value();
+                return 1234;
             }
         }
 
         //----------------------------------------------------------------------------
         // parser and tokenizer
+        // 层层递进，越里面的parse步骤，优先级越高
         //----------------------------------------------------------------------------
+
+        // 稍作缓存管理
+        // 名字，用来访问名字的东西，是一个引用
+        private static readonly Dictionary<string, SymbolExpr> symbolCache = new Dictionary<string, SymbolExpr>();
+        private static SymbolExpr GetSymbolFromCache(string symbol)
+        {
+            if (symbolCache.TryGetValue(symbol, out var result))
+                return result;
+            result = new SymbolExpr(symbol);
+            symbolCache.Add(symbol, result);
+            return result;
+        }
+
+        // 字符串常量缓存
+        private static readonly Dictionary<string, ConstExpr> strCache = new Dictionary<string, ConstExpr>();
+        private static ConstExpr GetStrFromCache(string str)
+        {
+            if (strCache.TryGetValue(str, out var result))
+                return result;
+            result = new ConstExpr(str);
+            strCache.Add(str, result);
+            return result;
+        }
 
         public class FormulaException : Exception
         {
+            public FormulaException()
+            {
 
+            }
+
+            public FormulaException(string message) : base(message)
+            {
+
+            }
         }
 
         private static IExpression ParserPrimaryExpr(Tokenizer tokenizer)
         {
             ref var token = ref tokenizer.peek;
+            var type = tokenizer.peek.type;
 
-            if (token.type == TokenType.INT)
+            if (type == TokenType.INT)
             {
-                var value = ParseInteger(tokenizer.input, token.start, token.end, 10);
+                var value = ExtractInteger(tokenizer.input, token.start, token.end, 10);
                 tokenizer.Consume(TokenType.INT);
                 return new ConstExpr(value);
             }
-            else if (token.type == TokenType.NUM)
+            else if (type == TokenType.NUM)
             {
-                var value = ParseNumber(tokenizer.input, token.start, token.end);
+                var value = ExtractNumber(tokenizer.input, token.start, token.end);
                 tokenizer.Consume(TokenType.NUM);
                 return new ConstExpr(value);
             }
-            else if (token.type == TokenType.STR)
+            else if (type == TokenType.STR)
             {
                 var str = tokenizer.input.Substring(token.start + 1, token.end - token.start - 2);
                 tokenizer.Consume(TokenType.STR);
                 return new ConstExpr(str);
             }
-            else if (token.type == TokenType.SYMBOL)
+            else if (type == TokenType.SYMBOL)
             {
                 // 识别成ID, 只能是变量，变量的查找顺序，LGB
-                var symbol = tokenizer.input.Substring(token.start, token.end - token.start);
+                var symbol = tokenizer.GetSymbol(tokenizer.peek);
                 tokenizer.Consume(TokenType.SYMBOL);
-
+                /*
                 if (tokenizer.peek.type == TokenType.LP)
                 {
-                    var call = new CallExpr(GetCached(symbol),
-                        ParseArguments(tokenizer));
                     
-                    return call;
                 }
+                */
+                return GetSymbolFromCache(symbol);
             }
-            else if (token.type == TokenType.LP)
+            else if (type == TokenType.LP)
             {
                 tokenizer.Consume(TokenType.LP);
                 var expr = ParseExpr(tokenizer);
@@ -324,11 +359,10 @@ namespace Rona
                 return expr;
             }
 
-            throw new FormulaException();
+            throw new FormulaException($"error: {tokenizer.peek.type}");
         }
 
-
-        private static double ParseNumber(string input, int start, int end)
+        private static double ExtractNumber(string input, int start, int end)
         {
             int left = 0;
 
@@ -362,16 +396,6 @@ namespace Rona
             return left + right;
         }
 
-        private static readonly Dictionary<string, IdentityExpr> identityCache = new Dictionary<string, IdentityExpr>();
-        private static IdentityExpr GetCached(string identity)
-        {
-            if (identityCache.TryGetValue(identity, out var result))
-                return result;
-            result = new IdentityExpr(identity);
-            identityCache.Add(identity, result);
-            return result;
-        }
-
         private static IExpression[] ParseArguments(Tokenizer tokenizer)
         {
             tokenizer.Consume(TokenType.LP);
@@ -396,7 +420,7 @@ namespace Rona
             return aList.ToArray();
         }
 
-        private static int ParseInteger(string input, int start, int end, int baseNumber)
+        private static int ExtractInteger(string input, int start, int end, int baseNumber)
         {
             int value = 0;
             for(int i = start; i < end; ++i)
@@ -407,16 +431,61 @@ namespace Rona
             return value;
         }
 
+        // indexer, funcall, field
+        private static IExpression ParseIndexerExpr(Tokenizer tokenizer)
+        {
+            var expr = ParserPrimaryExpr(tokenizer);
+            while (true)
+            {
+                var type = tokenizer.peek.type;
+                if (type == TokenType.DOT)
+                {
+                    tokenizer.Consume(TokenType.DOT);
+                    if (tokenizer.peek.type == TokenType.SYMBOL)
+                    {
+                        var symbol = tokenizer.GetSymbol(tokenizer.peek);
+                        tokenizer.Consume(TokenType.SYMBOL);
+
+                        var indexer = new IndexerExpr();
+                        indexer.lhs = expr;
+                        indexer.index = GetStrFromCache(symbol);
+
+                        expr = indexer;
+                    }
+                    else
+                        throw new FormulaException();
+                }
+                else if (type == TokenType.LP)
+                {
+                    // fun call
+                    expr = new CallExpr(expr,
+                        ParseArguments(tokenizer));
+                }
+                else if (tokenizer.peek.type == TokenType.LBracket)
+                {
+                    // TODO: 下标
+                }
+                else
+                    break;
+            }
+            return expr;
+        }
+
         private static IExpression ParseMulExpr(Tokenizer tokenizer)
         {
-            IExpression expr = ParserPrimaryExpr(tokenizer);
+            //var expr = ParserPrimaryExpr(tokenizer);
+            var expr = ParseIndexerExpr(tokenizer);
 
             ref var token = ref tokenizer.peek;
             var opcode = token.charcode;
-            while (token.type == TokenType.OP && opcode == '*' || opcode == '/')
+            while (token.type == TokenType.OP &&
+                (opcode == '*' ||
+                opcode == '/' ||
+                opcode == '%' ))
             {
                 tokenizer.Consume(TokenType.OP);
-                var rhs = ParseMulExpr(tokenizer);
+                //var rhs = ParserPrimaryExpr(tokenizer);
+                var rhs = ParseIndexerExpr(tokenizer);
 
                 var op = new Op2Expr()
                 {
@@ -427,6 +496,8 @@ namespace Rona
                     op.func = Op_Mul;
                 else if (opcode == '/')
                     op.func = Op_Div;
+                else if (opcode == '%')
+                    op.func = Op_Mod;
                 expr = op;
 
                 opcode = token.charcode;
@@ -542,6 +613,7 @@ namespace Rona
             LE, // <=
             GT, // >
             GE, // >=
+            DOT, // .
 
             // keyword
             FUN, // function f(a,b,c,d) end
@@ -591,6 +663,14 @@ namespace Rona
             }
 
             public Token peek;
+
+            public string GetSymbol(in Token token)
+            {
+                if (token.type != TokenType.SYMBOL)
+                    throw new FormulaException();
+
+                return input.Substring(token.start, token.end - token.start);
+            }
 
             public void Consume(TokenType type)
             {
@@ -682,6 +762,7 @@ namespace Rona
                     ')' => TokenType.RP,
                     ',' => TokenType.COMMA,
                     ';' => TokenType.SEMI,
+                    '.' => TokenType.DOT,
                     _ => TokenType.NONE,
                 };
                 if (type != TokenType.NONE)
@@ -1092,6 +1173,7 @@ namespace Rona
         private static Op2TypeMap sub = new Op2TypeMap_Sub();
         private static Op2TypeMap mul = new Op2TypeMap_Mul();
         private static Op2TypeMap div = new Op2TypeMap_Div();
+        private static Op2TypeMap mod = new Op2TypeMap_Div();
 
         #endregion
 
@@ -1128,7 +1210,7 @@ namespace Rona
         {
             var a = left.Eval(env);
             var b = right.Eval(env);
-            return a.GetInt32() % b.GetInt32();
+            return mod.Eval(a, b);
         }
 
         private static Value Print(Env env, IExpression[] arguments)
@@ -1149,36 +1231,30 @@ namespace Rona
         //----------------------------------------------------------------------------
         // tests
         //----------------------------------------------------------------------------
-        public static void Test()
+        public static void Test(Env env)
         {
-            var env = new Env();
+            if (env == null)
+                env = new Env();
 
-            var test1 = Parse("123 + 456 - 111");
-            Console.WriteLine(test1.Eval(env));
+            Parse("print(123 + 456 - 111)").Eval(env);
 
-            var test2 = Parse("1 + 2 + 3 + 4 +5+6+7+8+9+10");
-            Console.WriteLine(test2.Eval(env));
+            Parse("print(1 + 2 + 3 + 4 +5+6+7+8+9+10)").Eval(env);
 
-            var test3 = Parse("print('hello', 1234)");
-            Console.WriteLine(test3.Eval(env));
+            Parse("print('hello', 1234)").Eval(env);
 
-            var test4 = Parse("print('hello');print('world');1245");
-            Console.WriteLine(test4.Eval(env));
+            Parse("print('hello');print('world');1245").Eval(env);
 
-            var test5 = Parse("1 + 1.234");
-            Console.WriteLine(test5.Eval(env));
+            Parse("print(1 + 1.234)").Eval(env);
 
-            var test6 = Parse("'x'*10");
-            Console.WriteLine(test6.Eval(env));
+            Parse("print('x'*10)").Eval(env);
 
-            var test7 = Parse("print('x'*10 + 'abcd')");
-            Console.WriteLine(test7.Eval(env));
+            Parse("print('x'*10 + 'abcd')").Eval(env);
 
-            var test8 = Parse("1 + 2 * 3");
-            Console.WriteLine(test8.Eval(env));
+            Parse("print(1 + 2 * 3)").Eval(env);
 
-            var test9 = Parse("(1 + 2) * 3");
-            Console.WriteLine(test9.Eval(env));
+            Parse("print((1 + 2) * 3)").Eval(env);
+
+            Parse("print(p.name, p.id)").Eval(env);
         }
     }
 
