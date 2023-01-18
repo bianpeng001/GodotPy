@@ -193,7 +193,9 @@ LIBRARY_OBJS_OMIT_FROZEN = [
     'Modules/getbuildinfo.c'
 ] + PARSER_OBJS + OBJECT_OBJS + PYTHON_OBJS 
 
-ModuleName = 'godot_python3'
+
+# module
+ModuleName = 'GodotPy'
 cppdefines = [
     'Py_BUILD_CORE',
     'Py_BUILD_CORE_BUILTIN',
@@ -204,10 +206,10 @@ cppdefines = [
     ('VPATH', f'\\"{ModuleName}\\"'),
     ('PY3_DLLNAME', f'\\"{ModuleName}\\"'),
     ('MS_DLL_ID', 'TEXT(\\"3.12\\")'),
-    ('PREFIX', f'\\"xx\\"'),
-    ('EXEC_PREFIX', f'\\"xx\\"'),
+    ('PREFIX', f'\\"prefix\\"'),
+    ('EXEC_PREFIX', f'\\"exec_prefix\\"'),
     ('VERSION', f'\\"3.12\\"'),
-    ('PLATLIBDIR', f'\\"Lib\\"'),
+    ('PLATLIBDIR', f'\\"GodotPyLib\\"'),
     ]
 libs = [
     'Bcrypt',
@@ -216,7 +218,7 @@ libs = [
     'Advapi32',
     'Ws2_32',
 ]
-includes = [
+incs = [
     '.',
     './Include',
     './Include/internal',
@@ -239,7 +241,7 @@ includes = [
 env = Environment()
 env.Execute('echo begin frozen...')
 env.Append(CPPDEFINES = cppdefines)
-env.Append(CPPPATH = includes)
+env.Append(CPPPATH = incs)
 env.Append(CCFLAGS = [
     #'/O2',
     '/Zi',
@@ -248,24 +250,25 @@ env.Append(LINKFLAGS = [
     '/debug:full',
 ])
 
-FrozenName = 'Programs/_frozen.exe'
-env.Program(FrozenName,
+Frozen = 'Programs/_frozen.exe'
+Program1 = env.Program(Frozen,
     source = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + Modules + IOModules + [
         'Programs/_freeze_module.c',
         'Modules/getpath_noop.c',
         'Godot/config.c',
     ],
-    cpppaths = includes,
+    cpppaths = incs,
     LIBS = libs
     )
 
-env.Program('_bootstrap_python',
+BootstrapPython = './_bootstrap_python.exe'
+Program2 = env.Program(BootstrapPython,
     source = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + Modules + IOModules + [
         'Programs/_bootstrap_python.c',
         'Modules/getpath.c',
         'Godot/config.c',
     ],
-    cpppaths = includes,
+    cpppaths = incs,
     LIBS = libs
 )
 
@@ -273,68 +276,81 @@ def run(cmd):
     print(cmd)
     os.system(cmd)
 
-print('generate freeze files')
-FREEZE_MODULE_BOOTSTRAP = '{0}'.format(FrozenName.replace('/', '\\'))
-if os.path.exists(FREEZE_MODULE_BOOTSTRAP):
-    os.system(f'{FREEZE_MODULE_BOOTSTRAP} getpath Modules/getpath.py Python/frozen_modules/getpath.h')
-    os.system(f'{FREEZE_MODULE_BOOTSTRAP} importlib._bootstrap Lib/importlib/_bootstrap.py Python/frozen_modules/importlib._bootstrap.h')
-    os.system(f'{FREEZE_MODULE_BOOTSTRAP} importlib._bootstrap_external Lib/importlib/_bootstrap_external.py Python/frozen_modules/importlib._bootstrap_external.h')
-    os.system(f'{FREEZE_MODULE_BOOTSTRAP} zipimport Lib/zipimport.py Python/frozen_modules/zipimport.h')
-    pass
+def run_gen1(**kw):
+    if os.path.exists(Frozen):
+        filename = '{0}'.format(Frozen.replace('/', '\\'))
+        run(f'{filename} getpath Modules/getpath.py Python/frozen_modules/getpath.h')
+        run(f'{filename} importlib._bootstrap Lib/importlib/_bootstrap.py Python/frozen_modules/importlib._bootstrap.h')
+        run(f'{filename} importlib._bootstrap_external Lib/importlib/_bootstrap_external.py Python/frozen_modules/importlib._bootstrap_external.h')
+        run(f'{filename} zipimport Lib/zipimport.py Python/frozen_modules/zipimport.h')
 
-FREEZE_MODULE = '.\\_bootstrap_python.exe'
-if os.path.exists(FREEZE_MODULE):
-    run(f'{FREEZE_MODULE} Tools/build/deepfreeze.py ' +
-        'Python/frozen_modules/importlib._bootstrap.h:importlib._bootstrap ' +\
-        'Python/frozen_modules/importlib._bootstrap_external.h:importlib._bootstrap_external ' +\
-        'Python/frozen_modules/zipimport.h:zipimport ' +\
-        'Python/frozen_modules/abc.h:abc ' +\
-        'Python/frozen_modules/codecs.h:codecs ' +\
-        'Python/frozen_modules/io.h:io ' +\
-        'Python/frozen_modules/_collections_abc.h:_collections_abc ' +\
-        'Python/frozen_modules/_sitebuiltins.h:_sitebuiltins ' +\
-        'Python/frozen_modules/genericpath.h:genericpath ' +\
-        'Python/frozen_modules/ntpath.h:ntpath ' +\
-        'Python/frozen_modules/posixpath.h:posixpath ' +\
-        'Python/frozen_modules/os.h:os ' +\
-        'Python/frozen_modules/site.h:site ' +\
-        'Python/frozen_modules/stat.h:stat ' +\
-        'Python/frozen_modules/importlib.util.h:importlib.util ' +\
-        'Python/frozen_modules/importlib.machinery.h:importlib.machinery ' +\
-        'Python/frozen_modules/runpy.h:runpy ' +\
-        'Python/frozen_modules/__hello__.h:__hello__ ' +\
-        'Python/frozen_modules/__phello__.h:__phello__ ' +\
-        'Python/frozen_modules/__phello__.ham.h:__phello__.ham ' +\
-        'Python/frozen_modules/__phello__.ham.eggs.h:__phello__.ham.eggs ' +\
-        'Python/frozen_modules/__phello__.spam.h:__phello__.spam ' +\
-        'Python/frozen_modules/frozen_only.h:frozen_only ' +\
-        '-o ' +\
-        'Python/deepfreeze/deepfreeze.c '
+Gen1 = env.Command(
+    target = 'Python/frozen_modules/getpath.h',
+    source = Frozen,
+    action = run_gen1
     )
-    FREEZE_MODULE += ' Programs/_freeze_module.py'
-    os.system(f'{FREEZE_MODULE} abc Lib/abc.py Python/frozen_modules/abc.h')
-    os.system(f'{FREEZE_MODULE} codecs Lib/codecs.py Python/frozen_modules/codecs.h')
-    os.system(f'{FREEZE_MODULE} io Lib/io.py Python/frozen_modules/io.h')
-    os.system(f'{FREEZE_MODULE} _collections_abc Lib/_collections_abc.py Python/frozen_modules/_collections_abc.h')
-    os.system(f'{FREEZE_MODULE} _sitebuiltins Lib/_sitebuiltins.py Python/frozen_modules/_sitebuiltins.h')
-    os.system(f'{FREEZE_MODULE} genericpath Lib/genericpath.py Python/frozen_modules/genericpath.h')
-    os.system(f'{FREEZE_MODULE} ntpath Lib/ntpath.py Python/frozen_modules/ntpath.h')
-    os.system(f'{FREEZE_MODULE} posixpath Lib/posixpath.py Python/frozen_modules/posixpath.h')
-    os.system(f'{FREEZE_MODULE} os Lib/os.py Python/frozen_modules/os.h')
-    os.system(f'{FREEZE_MODULE} site Lib/site.py Python/frozen_modules/site.h')
-    os.system(f'{FREEZE_MODULE} stat Lib/stat.py Python/frozen_modules/stat.h')
-    os.system(f'{FREEZE_MODULE} importlib.util Lib/importlib/util.py Python/frozen_modules/importlib.util.h')
-    os.system(f'{FREEZE_MODULE} importlib.machinery Lib/importlib/machinery.py Python/frozen_modules/importlib.machinery.h')
-    os.system(f'{FREEZE_MODULE} runpy Lib/runpy.py Python/frozen_modules/runpy.h')
-    os.system(f'{FREEZE_MODULE} __hello__ Lib/__hello__.py Python/frozen_modules/__hello__.h')
-    os.system(f'{FREEZE_MODULE} __phello__ Lib/__phello__/__init__.py Python/frozen_modules/__phello__.h')
-    os.system(f'{FREEZE_MODULE} __phello__.ham Lib/__phello__/ham/__init__.py Python/frozen_modules/__phello__.ham.h')
-    os.system(f'{FREEZE_MODULE} __phello__.ham.eggs Lib/__phello__/ham/eggs.py Python/frozen_modules/__phello__.ham.eggs.h')
-    os.system(f'{FREEZE_MODULE} __phello__.spam Lib/__phello__/spam.py Python/frozen_modules/__phello__.spam.h')
-    os.system(f'{FREEZE_MODULE} frozen_only Tools/freeze/flag.py Python/frozen_modules/frozen_only.h')
 
-    
+env.Requires(Gen1, Program1)
 
+def run_gen2(**kw):
+    if os.path.exists(BootstrapPython):
+        filename = '{0}'.format(BootstrapPython.replace('/', '\\'))
+        run(f'{filename} Tools/build/deepfreeze.py ' +
+            'Python/frozen_modules/importlib._bootstrap.h:importlib._bootstrap ' +\
+            'Python/frozen_modules/importlib._bootstrap_external.h:importlib._bootstrap_external ' +\
+            'Python/frozen_modules/zipimport.h:zipimport ' +\
+            'Python/frozen_modules/abc.h:abc ' +\
+            'Python/frozen_modules/codecs.h:codecs ' +\
+            'Python/frozen_modules/io.h:io ' +\
+            'Python/frozen_modules/_collections_abc.h:_collections_abc ' +\
+            'Python/frozen_modules/_sitebuiltins.h:_sitebuiltins ' +\
+            'Python/frozen_modules/genericpath.h:genericpath ' +\
+            'Python/frozen_modules/ntpath.h:ntpath ' +\
+            'Python/frozen_modules/posixpath.h:posixpath ' +\
+            'Python/frozen_modules/os.h:os ' +\
+            'Python/frozen_modules/site.h:site ' +\
+            'Python/frozen_modules/stat.h:stat ' +\
+            'Python/frozen_modules/importlib.util.h:importlib.util ' +\
+            'Python/frozen_modules/importlib.machinery.h:importlib.machinery ' +\
+            'Python/frozen_modules/runpy.h:runpy ' +\
+            'Python/frozen_modules/__hello__.h:__hello__ ' +\
+            'Python/frozen_modules/__phello__.h:__phello__ ' +\
+            'Python/frozen_modules/__phello__.ham.h:__phello__.ham ' +\
+            'Python/frozen_modules/__phello__.ham.eggs.h:__phello__.ham.eggs ' +\
+            'Python/frozen_modules/__phello__.spam.h:__phello__.spam ' +\
+            'Python/frozen_modules/frozen_only.h:frozen_only ' +\
+            '-o ' +\
+            'Python/deepfreeze/deepfreeze.c'
+        )
+        filename += ' Programs/_freeze_module.py'
+        run(f'{filename} abc Lib/abc.py Python/frozen_modules/abc.h')
+        run(f'{filename} codecs Lib/codecs.py Python/frozen_modules/codecs.h')
+        run(f'{filename} io Lib/io.py Python/frozen_modules/io.h')
+        run(f'{filename} _collections_abc Lib/_collections_abc.py Python/frozen_modules/_collections_abc.h')
+        run(f'{filename} _sitebuiltins Lib/_sitebuiltins.py Python/frozen_modules/_sitebuiltins.h')
+        run(f'{filename} genericpath Lib/genericpath.py Python/frozen_modules/genericpath.h')
+        run(f'{filename} ntpath Lib/ntpath.py Python/frozen_modules/ntpath.h')
+        run(f'{filename} posixpath Lib/posixpath.py Python/frozen_modules/posixpath.h')
+        run(f'{filename} os Lib/os.py Python/frozen_modules/os.h')
+        run(f'{filename} site Lib/site.py Python/frozen_modules/site.h')
+        run(f'{filename} stat Lib/stat.py Python/frozen_modules/stat.h')
+        run(f'{filename} importlib.util Lib/importlib/util.py Python/frozen_modules/importlib.util.h')
+        run(f'{filename} importlib.machinery Lib/importlib/machinery.py Python/frozen_modules/importlib.machinery.h')
+        run(f'{filename} runpy Lib/runpy.py Python/frozen_modules/runpy.h')
+        run(f'{filename} __hello__ Lib/__hello__.py Python/frozen_modules/__hello__.h')
+        run(f'{filename} __phello__ Lib/__phello__/__init__.py Python/frozen_modules/__phello__.h')
+        run(f'{filename} __phello__.ham Lib/__phello__/ham/__init__.py Python/frozen_modules/__phello__.ham.h')
+        run(f'{filename} __phello__.ham.eggs Lib/__phello__/ham/eggs.py Python/frozen_modules/__phello__.ham.eggs.h')
+        run(f'{filename} __phello__.spam Lib/__phello__/spam.py Python/frozen_modules/__phello__.spam.h')
+        run(f'{filename} frozen_only Tools/freeze/flag.py Python/frozen_modules/frozen_only.h')
+
+Gen2 = env.Command(
+    target = 'Python/deepfreeze/deepfreeze.c',
+    source = BootstrapPython,
+    action = run_gen2
+)
+
+env.Requires(Gen2, Program2)
 
 # python library
 srcs = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + Modules + IOModules + [
@@ -343,15 +359,16 @@ srcs = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + Modules + IOModules + [
         'Modules/getpath.c',
         'Godot/config.c',
     ]
-
-env.SharedLibrary(ModuleName,
+Lib1 = env.SharedLibrary(ModuleName,
     source = srcs,
-    cpppaths = includes,
+    cpppaths = incs,
     LIBS = libs
 )
+env.Requires(Lib1, [Gen1, Gen2])
+
 env.MSVSProject(target = ModuleName + env['MSVSPROJECTSUFFIX'],
     srcs = srcs,
-    cpppaths = [includes],
+    cpppaths = [incs],
     buildtarget = ModuleName + '.dll',
     variant = 'Debug|x64'
 )
