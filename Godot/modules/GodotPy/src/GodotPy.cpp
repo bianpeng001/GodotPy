@@ -8,6 +8,12 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
+static void f_destroy_capsule(PyObject* p_capsule) {
+	auto name = PyCapsule_GetName(p_capsule);
+
+	print_line(vformat("capsule free: %s", name));
+}
+
 static PyObject *f_print(PyObject *module, PyObject *args) {
 	const char *str;
 
@@ -19,8 +25,32 @@ static PyObject *f_print(PyObject *module, PyObject *args) {
 	Py_RETURN_NONE;
 }
 
+static PyObject* f_find_node(PyObject* module, PyObject* args) {
+	const char *path;
+	const char *node_name;
+
+	if (!PyArg_ParseTuple(args, "s", &path)) {
+		goto end;
+	}
+
+	/*
+	auto scene = SceneTree::get_singleton()->get_current_scene();
+	auto node = scene->get_node(NodePath(path));
+	if (!node) {
+		goto end;
+	}
+
+	node_name = static_cast<String>(node->get_name()).utf8();
+	return PyCapsule_New(node, node_name, &f_destroy_capsule);
+	*/
+
+end:
+	Py_RETURN_NONE;
+}
+
 static PyMethodDef GodotPy_methods[] = {
 	{ "print", f_print, METH_VARARGS, NULL },
+	{ "find_node", f_find_node, METH_VARARGS, NULL },
 	{ NULL, NULL, 0, NULL }
 };
 static struct PyModuleDef GodotPymodule = {
