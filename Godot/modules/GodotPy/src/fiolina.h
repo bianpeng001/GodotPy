@@ -8,8 +8,8 @@
 /// <summary>
 /// 启动逻辑
 /// </summary>
-class FioStart : public Node {
-	GDCLASS(FioStart, Node);
+class FObject : public Node {
+	GDCLASS(FObject, Node);
 
 private:
 	// 在GDCLASS的机制，如果定义了_notification(int）
@@ -21,8 +21,8 @@ protected:
 	static void _bind_methods();
 	
 public:
-	FioStart();
-	virtual ~FioStart();
+	FObject();
+	virtual ~FObject();
 	static void say_hello();
 
 };

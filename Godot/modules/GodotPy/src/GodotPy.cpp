@@ -2,13 +2,13 @@
 // 2023-1-17
 //
 
-#include "libpython.h"
+#include "GodotPy.h"
 
 #include <Windows.h>
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
-static PyObject *fio_print(PyObject *module, PyObject *args) {
+static PyObject *f_print(PyObject *module, PyObject *args) {
 	const char *str;
 
 	if (!PyArg_ParseTuple(args, "s", &str)) {
@@ -20,13 +20,12 @@ static PyObject *fio_print(PyObject *module, PyObject *args) {
 }
 
 static PyMethodDef fio_methods[] = {
-	{ "print", fio_print, METH_VARARGS, NULL },
+	{ "print", f_print, METH_VARARGS, NULL },
 	{ NULL, NULL, 0, NULL }
 };
-
-static struct PyModuleDef fiomodule = {
+static struct PyModuleDef GodotPymodule = {
 	PyModuleDef_HEAD_INIT,
-	"fio",
+	"GodotPy",
 	NULL,
 	0,
 	fio_methods,
@@ -35,11 +34,11 @@ static struct PyModuleDef fiomodule = {
 	NULL,
 	NULL,
 };
-PyMODINIT_FUNC PyInit_fio(void) {
-	return PyModuleDef_Init(&fiomodule);
+PyMODINIT_FUNC PyInit_GodotPy(void) {
+	return PyModuleDef_Init(&GodotPymodule);
 }
 static int InitPython() {
-	const char program[] = "game";
+	const char program[] = "GodotPyGame";
 	PyStatus status;
 	PyConfig config;
 	size_t program_len;
@@ -72,24 +71,24 @@ exception:
 	Py_ExitStatusException(status);
 }
 
-bool FioLibPython::bInit = false;
+bool FLibPy::bInit = false;
 
-void FioLibPython::Init() {
+void FLibPy::Init() {
 	if (!bInit) {
 		bInit = true;
 		print_line("begin init python");
 
 		SetEnvironmentVariableA("PYTHONPATH", ".");
-		PyImport_AppendInittab("fio", &PyInit_fio);
+		PyImport_AppendInittab("GodotPy", &PyInit_GodotPy);
 		InitPython();
 		//Py_Initialize();
 		
-		//PyRun_SimpleString("print('hello python')\n");
+		PyRun_SimpleString("import GodotPy;GodotPy.print('hello python')\n");
 		print_line("init python ok");
 	}
 }
 
-void FioLibPython::Clean() {
+void FLibPy::Clean() {
 	if (!bInit) {
 		Py_FinalizeEx();
 		bInit = false;
@@ -98,20 +97,20 @@ void FioLibPython::Clean() {
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-FioExecPython::FioExecPython() :
+FPyModule::FPyModule() :
 		py_file_path(),
-		py_obj(nullptr) {
+		py_module(nullptr) {
 	//this->add_child();
 }
 
-FioExecPython::~FioExecPython() {
-	if (py_obj) {
-		Py_DECREF(py_obj);
-		py_obj = nullptr;
+FPyModule::~FPyModule() {
+	if (py_module) {
+		Py_DECREF(py_module);
+		py_module = nullptr;
 	}
 }
 
-void FioExecPython::_notification(int p_what) {
+void FPyModule::_notification(int p_what) {
 	switch (p_what) {
 		case NOTIFICATION_READY:
 			_ready();
@@ -119,26 +118,27 @@ void FioExecPython::_notification(int p_what) {
 	}
 }
 
-void FioExecPython::_ready() {
-	print_line(vformat("load module: %s", py_file_path));
+void FPyModule::_ready() {
 	if (!py_file_path.is_empty()) {
+		print_line(vformat("load module: %s", py_file_path));
+
 		PyObject *pName = PyUnicode_FromString(py_file_path.utf8().get_data());
-		py_obj = PyImport_Import(pName);
+		py_module = PyImport_Import(pName);
 		Py_DECREF(pName);
 
-		if (py_obj) {
+		if (py_module) {
 			print_line("load module ok");
 		}
 	}
 }
 
-void FioExecPython::set_python(const String &a_file_path) {
+void FPyModule::set_python(const String &a_file_path) {
 	py_file_path = a_file_path;
 }
 
-void FioExecPython::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("set_python", "python"), &FioExecPython::set_python);
-	ClassDB::bind_method(D_METHOD("get_python"), &FioExecPython::get_python);
+void FPyModule::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("set_python", "python"), &FPyModule::set_python);
+	ClassDB::bind_method(D_METHOD("get_python"), &FPyModule::get_python);
 	ADD_PROPERTY(PropertyInfo(Variant::STRING, "python"), "set_python", "get_python");
 }
 

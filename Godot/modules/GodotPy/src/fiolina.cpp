@@ -5,18 +5,18 @@
 
 #include "core/os/os.h"
 
-FioStart::FioStart() {
+FObject::FObject() {
 	
 }
 
-FioStart::~FioStart() {
+FObject::~FObject() {
 }
 
-void FioStart::_ready() {
+void FObject::_ready() {
 	print_line("FioStart::_ready");
 }
 
-void FioStart::_notification(int p_what) {
+void FObject::_notification(int p_what) {
 	//print_line(vformat("FioStart::_notification %d", p_what));
 	switch (p_what) {
 		case NOTIFICATION_READY:
@@ -25,12 +25,12 @@ void FioStart::_notification(int p_what) {
 	}
 }
 
-void FioStart::_bind_methods() {
+void FObject::_bind_methods() {
 	const char class_name[] = "FioStart";
 	ClassDB::bind_static_method(class_name, D_METHOD("say_hello"), &FioStart::say_hello);
 }
 
-void FioStart::say_hello() {
+void FObject::say_hello() {
 	print_line("hello");
 }
 

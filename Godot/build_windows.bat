@@ -14,7 +14,7 @@ goto :end
 :gd
 @rem scons p=windows vsproj=yes bits=64 -j6 target=editor
 scons p=windows vsproj=yes bits=64 -j6 target=editor dev_build=true
-scons p=windows tools=no bits=64 -j6 target=template_release
+@rem scons p=windows tools=no bits=64 -j6 target=template_release
 goto :end
 
 

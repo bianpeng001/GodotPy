@@ -11,15 +11,15 @@
 //------------------------------------------------------------------------------
 typedef struct _object PyObject;
 
-class FioExecPython : public Node {
-	GDCLASS(FioExecPython, Node)
+class FPyModule : public Node {
+	GDCLASS(FPyModule, Node)
 private:
 	String py_file_path;
-	PyObject *py_obj;
+	PyObject *py_module;
 
 public:
-	FioExecPython();
-	virtual ~FioExecPython();
+	FPyModule();
+	virtual ~FPyModule();
 
 private:
 	void _notification(int p_what);
@@ -35,7 +35,7 @@ private:
 /// <summary>
 ///
 /// </summary>
-class FioLibPython {
+class FLibPy {
 private:
 	static bool bInit;
 

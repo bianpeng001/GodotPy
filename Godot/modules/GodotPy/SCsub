@@ -1,0 +1,22 @@
+Import('env')
+Import("env_modules")
+
+print('init GodotPy...')
+
+
+env.Append(LIBPATH = [
+    'modules/GodotPy'
+])
+env.Append(LIBS = [
+    'GodotPy',
+])
+
+godotpy_module = env_modules.Clone()
+godotpy_module.Append(CPPPATH = [
+    'D:/OpenSource/cpython/Include',
+    'D:/OpenSource/cpython/Include/internal',
+    'D:/OpenSource/GodotPy/Python/Godot',
+])
+godotpy_module.add_source_files(env.modules_sources, "src/*.cpp")
+
+
