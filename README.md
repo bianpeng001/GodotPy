@@ -1,27 +1,13 @@
 # GodotPy
 
+## 学习一下godot + python。
 
-## 起因
-2023年1月18日，快过年了，有点时间。
+给godot engine做一个简单的python脚本绑定。
 
-一直在关注godot engine，最近4.0快发布了，共襄盛举。对比成熟引擎，很多人比较过优缺点了。我觉得godot比较简单精致，参与感更强一些。
+为godot4.0助助威。
 
-python现在越来越好，想继续用，况且长远看python在服务器端也有机会一展拳脚。
+以前用lua多一些，尝试一下python。
 
-因此，godot + python 有没有搞头？
 
-其实python是godot抛弃的脚本语言，因为官方解释得很清楚了，gdscript更合适godot的特性。但毕竟那是很久以前的事情了，python和godot都今非昔比。此外找了一下，发现已经有一个python绑定了，但是看着比较重量级。而我只想当脚本用用，越轻量级越好。
 
-## python对比lua
-在游戏脚本领域，其实lua是更主流的选择，lua来做很多事情就会简单直接很多，比如嵌入扩展啥的。但是，lua本身相比于python，相对弱一些，各种工具和开发者数量上都不足。所以，我还是想尝试一下用python的实现，权当是一次学习。
-
-然后接入过程里，我已经感受到了python的烦人之处了。
-
-## 目录
-Demo: 试验工程
-Godot: godot的扩展和构造脚本
-Python: python的构造脚本和扩展
-GameFormula: 一个公式的实现，旧代码保留
-
-##
 
