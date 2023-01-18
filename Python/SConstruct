@@ -223,6 +223,7 @@ incs = [
     './Include',
     './Include/internal',
     './Godot',
+    #'d:/OpenSource/zlib',
 ]
 
 # frozen modules
@@ -249,7 +250,9 @@ env.Append(CCFLAGS = [
 env.Append(LINKFLAGS = [
     '/debug:full',
 ])
-
+env.Append(LIBPATH = [
+    'D:\OpenSource\zlib'
+])
 Frozen = 'Programs/_frozen.exe'
 Program1 = env.Program(Frozen,
     source = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + Modules + IOModules + [
@@ -356,12 +359,14 @@ env.Requires(Gen2, Program2)
 srcs = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + Modules + IOModules + [
         'Python/frozen.c',
         'Python/deepfreeze/deepfreeze.c',
+        #'Modules/zlibmodule.c',
         'Modules/getpath.c',
         'Godot/config.c',
     ]
 Lib1 = env.SharedLibrary(ModuleName,
     source = srcs,
     cpppaths = incs,
+    #LIBS = libs + ['zlib'],
     LIBS = libs
 )
 env.Requires(Lib1, [Gen1, Gen2])

@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://cipun2g0qp50n"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="FPyModule" type="FPyModule" parent="."]
+python = "main"
+
+[node name="Button" type="Button" parent="."]
+offset_left = 150.0
+offset_top = 160.0
+offset_right = 250.0
+offset_bottom = 200.0
+text = "Hello"

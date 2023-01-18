@@ -5,7 +5,7 @@ print('init GodotPy...')
 
 
 env.Append(LIBPATH = [
-    'modules/GodotPy'
+    'D:/OpenSource/cpython'
 ])
 env.Append(LIBS = [
     'GodotPy',

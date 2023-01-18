@@ -4,7 +4,7 @@
 #include "GodotPy.h"
 #include "fiolina.h"
 
-void initialize_fiolina_module(ModuleInitializationLevel p_level) {
+void initialize_GodotPy_module(ModuleInitializationLevel p_level) {
     if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
             return;
     }
@@ -13,7 +13,7 @@ void initialize_fiolina_module(ModuleInitializationLevel p_level) {
 	ClassDB::register_class<FObject>();
 }
 
-void uninitialize_fiolina_module(ModuleInitializationLevel p_level) {
+void uninitialize_GodotPy_module(ModuleInitializationLevel p_level) {
     if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE) {
             return;
     }
