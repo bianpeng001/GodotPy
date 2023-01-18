@@ -1,0 +1,22 @@
+Import('env')
+Import("env_modules")
+
+print('init fiolina_module...')
+
+
+env.Append(LIBPATH = [
+    'H:/OpenSource/godot/modules/fiolina/python'
+])
+env.Append(LIBS = [
+    'godot_python3',
+])
+
+fiolina_module = env_modules.Clone()
+fiolina_module.Append(CPPPATH = [
+    'H:/OpenSource/cpython/Include',
+    'H:/OpenSource/cpython/Include/internal',
+    './python/Godot',
+])
+fiolina_module.add_source_files(env.modules_sources, "src/*.cpp")
+
+
