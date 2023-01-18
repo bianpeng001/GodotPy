@@ -8,13 +8,15 @@ Import("env_modules")
 print('init GodotPy...')
 
 PYTHON_HOME = 'D:/OpenSource/cpython'
+if not os.path.exists(PYTHON_HOME):
+    PYTHON_HOME = 'H:/cpython'
 
 # 准备工作
 def GetReady():
     GodotPyLib = PYTHON_HOME + '/GodotPy.lib'
     DstName = PYTHON_HOME + '/GodotPy' + env["LIBSUFFIX"]
     if os.path.exists(GodotPyLib) and not os.path.exists(DstName):
-        print('copy GodotPy.Lib')
+        print('copy GodotPy.lib')
         shutil.copyfile(GodotPyLib, DstName)
 
 
@@ -36,3 +38,7 @@ godotpy_module.Append(CPPPATH = [
 godotpy_module.add_source_files(env.modules_sources, "src/*.cpp")
 
 
+#
+# build_windows.bat
+# bin\godot.windows.editor.dev.x86_64.console.exe --path h:\GodotPy\Demo -e -w
+#
