@@ -19,7 +19,7 @@ static PyObject *f_print(PyObject *module, PyObject *args) {
 	Py_RETURN_NONE;
 }
 
-static PyMethodDef fio_methods[] = {
+static PyMethodDef GodotPy_methods[] = {
 	{ "print", f_print, METH_VARARGS, NULL },
 	{ NULL, NULL, 0, NULL }
 };
@@ -28,7 +28,7 @@ static struct PyModuleDef GodotPymodule = {
 	"GodotPy",
 	NULL,
 	0,
-	fio_methods,
+	GodotPy_methods,
 	NULL,
 	NULL,
 	NULL,
