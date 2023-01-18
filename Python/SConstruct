@@ -194,12 +194,15 @@ LIBRARY_OBJS_OMIT_FROZEN = [
 ] + PARSER_OBJS + OBJECT_OBJS + PYTHON_OBJS 
 
 
+ZLIB = 'd:/OpenSource/zlib'
+
 # module
 ModuleName = 'GodotPy'
 cppdefines = [
     'Py_BUILD_CORE',
     'Py_BUILD_CORE_BUILTIN',
     'Py_ENABLE_SHARED',
+    '_Py_HAVE_ZLIB',
 
     '_DEBUG',
 
@@ -223,7 +226,7 @@ incs = [
     './Include',
     './Include/internal',
     './Godot',
-    #'d:/OpenSource/zlib',
+    ZLIB,
 ]
 
 # frozen modules
@@ -251,7 +254,7 @@ env.Append(LINKFLAGS = [
     '/debug:full',
 ])
 env.Append(LIBPATH = [
-    'D:\OpenSource\zlib'
+    
 ])
 Frozen = 'Programs/_frozen.exe'
 Program1 = env.Program(Frozen,
@@ -259,6 +262,7 @@ Program1 = env.Program(Frozen,
         'Programs/_freeze_module.c',
         'Modules/getpath_noop.c',
         'Godot/config.c',
+        'Godot/zipmodule.c',
     ],
     cpppaths = incs,
     LIBS = libs
@@ -270,6 +274,7 @@ Program2 = env.Program(BootstrapPython,
         'Programs/_bootstrap_python.c',
         'Modules/getpath.c',
         'Godot/config.c',
+        'Godot/zipmodule.c',
     ],
     cpppaths = incs,
     LIBS = libs
@@ -359,15 +364,24 @@ env.Requires(Gen2, Program2)
 srcs = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + Modules + IOModules + [
         'Python/frozen.c',
         'Python/deepfreeze/deepfreeze.c',
-        #'Modules/zlibmodule.c',
         'Modules/getpath.c',
         'Godot/config.c',
+
+        'Modules/zlibmodule.c',
+        ZLIB + '/adler32.c',
+        ZLIB + '/crc32.c',
+        ZLIB + '/trees.c',
+        ZLIB + '/deflate.c',
+        ZLIB + '/inflate.c',
+        ZLIB + '/inftrees.c',
+        ZLIB + '/inffast.c',
+        ZLIB + '/zutil.c',
     ]
 Lib1 = env.SharedLibrary(ModuleName,
     source = srcs,
     cpppaths = incs,
-    #LIBS = libs + ['zlib'],
-    LIBS = libs
+    LIBS = libs,
+    
 )
 env.Requires(Lib1, [Gen1, Gen2])
 
