@@ -27,7 +27,7 @@ static PyObject *f_print(PyObject *module, PyObject *args) {
 
 static PyObject* f_find_node(PyObject* module, PyObject* args) {
 	const char *path;
-	const char *node_name;
+	//const char *node_name;
 
 	if (!PyArg_ParseTuple(args, "s", &path)) {
 		goto end;
@@ -127,20 +127,23 @@ void FLibPy::Clean() {
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-FPyModule::FPyModule() :
-		py_file_path(),
-		py_module(nullptr) {
-	//this->add_child();
+FPyObject::FPyObject() :
+		p_module(nullptr), p_object(nullptr) {
 }
 
-FPyModule::~FPyModule() {
-	if (py_module) {
-		Py_DECREF(py_module);
-		py_module = nullptr;
+FPyObject::~FPyObject() {
+	if (p_module) {
+		Py_DECREF(p_module);
+		p_module = nullptr;
+	}
+
+	if (p_object) {
+		Py_DECREF(p_object);
+		p_object = nullptr;
 	}
 }
 
-void FPyModule::_notification(int p_what) {
+void FPyObject::_notification(int p_what) {
 	switch (p_what) {
 		case NOTIFICATION_READY:
 			_ready();
@@ -148,28 +151,68 @@ void FPyModule::_notification(int p_what) {
 	}
 }
 
-void FPyModule::_ready() {
-	if (!py_file_path.is_empty()) {
-		print_line(vformat("load module: %s", py_file_path));
-
-		PyObject *pName = PyUnicode_FromString(py_file_path.utf8().get_data());
-		py_module = PyImport_Import(pName);
-		Py_DECREF(pName);
-
-		if (py_module) {
-			print_line("load module ok");
+void FPyObject::_ready() {
+	do {
+		if (py_path.is_empty()) {
+			break;
 		}
-	}
+		print_line(vformat("load module: %s", py_path));
+		PyObject *p_path = PyUnicode_FromString(py_path.utf8().get_data());
+		p_module = PyImport_Import(p_path);
+		if (!p_module) {
+			PyErr_Print();
+			break;
+		}
+		Py_DECREF(p_path);
+
+		if (py_class.is_empty()) {
+			break;
+		}
+
+		auto dict = PyModule_GetDict(p_module);
+		if (!dict) {
+			PyErr_Print();
+			break;
+		}
+
+		auto s_class = py_class.utf8().get_data();
+		auto p_class_info = PyDict_GetItemString(dict, s_class);
+		if (!p_class_info) {
+			PyErr_Print();
+			break;
+		}
+		Py_DECREF(dict);
+
+		if (PyCallable_Check(p_class_info)) {
+			p_object = PyObject_CallObject(p_class_info, NULL);
+			if (!p_object) {
+				PyErr_Print();
+				break;
+			}
+			//print_line("create object ok");
+			Py_DECREF(p_class_info);
+		} else {
+			Py_DECREF(p_class_info);
+			break;
+		}
+
+		auto ret = PyObject_CallMethod(p_object, "hello", NULL);
+		if (ret) {
+			Py_DECREF(ret);
+		}
+			
+	} while (0);
+		
 }
 
-void FPyModule::set_python(const String &a_file_path) {
-	py_file_path = a_file_path;
-}
+void FPyObject::_bind_methods() {
+	ClassDB::bind_method(D_METHOD("set_python_path", "python_path"), &FPyObject::set_python_path);
+	ClassDB::bind_method(D_METHOD("get_python_path"), &FPyObject::get_python_path);
+	ADD_PROPERTY(PropertyInfo(Variant::STRING, "python_path"), "set_python_path", "get_python_path");
 
-void FPyModule::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("set_python", "python"), &FPyModule::set_python);
-	ClassDB::bind_method(D_METHOD("get_python"), &FPyModule::get_python);
-	ADD_PROPERTY(PropertyInfo(Variant::STRING, "python"), "set_python", "get_python");
+	ClassDB::bind_method(D_METHOD("set_python_class", "py_class"), &FPyObject::set_python_class);
+	ClassDB::bind_method(D_METHOD("get_python_class"), &FPyObject::get_python_class);
+	ADD_PROPERTY(PropertyInfo(Variant::STRING, "python_class"), "set_python_class", "get_python_class");
 }
 
 
