@@ -22,6 +22,7 @@ private:
 
 	PyObject *p_module;
 	PyObject *p_object;
+	PyObject *p_capsule;
 
 public:
 	FPyObject();

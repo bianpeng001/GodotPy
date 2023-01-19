@@ -2,7 +2,7 @@
 
 [node name="Node3D" type="Node3D"]
 
-[node name="FPyModule" type="FPyObject" parent="."]
+[node name="FPyObject" type="FPyObject" parent="."]
 python_path = "main"
 python_class = "TestClass"
 

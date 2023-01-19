@@ -8,10 +8,44 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
-static void f_destroy_capsule(PyObject* p_capsule) {
-	auto name = PyCapsule_GetName(p_capsule);
+static const char *c_capsule_name = "py_capsule";
 
-	print_line(vformat("capsule free: %s", name));
+/// <summary>
+/// 用来存一个PyCapsule指针
+/// </summary>
+class FCapsuleObject : public Object {
+public:
+	PyObject *p_capsule;
+
+	FCapsuleObject(PyObject *a_capsule) :
+			p_capsule(a_capsule) {
+
+	}
+	virtual ~FCapsuleObject() {
+		print_line("desctroy FCapsuleObject");
+		if (p_capsule) {
+			Py_DECREF(p_capsule);
+			p_capsule = nullptr;
+		}
+	}
+	static List<FCapsuleObject *> instance_list;
+};
+List<FCapsuleObject *> FCapsuleObject::instance_list;
+
+static PyObject* get_or_create_capsule(Node* p_node) {
+	auto v = p_node->get(c_capsule_name);
+	
+	if (!v) {
+		PyObject *p_capsule = PyCapsule_New(p_node, NULL, NULL);
+
+		auto ptr = new FCapsuleObject(p_capsule);
+		FCapsuleObject::instance_list.push_back(ptr);
+
+		v = ptr;
+		p_node->set(c_capsule_name, v);
+	}
+	auto obj = static_cast<Object*>(v);
+	return static_cast<FCapsuleObject *>(obj)->p_capsule;
 }
 
 static PyObject *f_print(PyObject *module, PyObject *args) {
@@ -27,9 +61,9 @@ static PyObject *f_print(PyObject *module, PyObject *args) {
 
 static PyObject* f_find_node(PyObject* module, PyObject* args) {
 	const char *path;
-	//const char *node_name;
+	PyObject *node;
 
-	if (!PyArg_ParseTuple(args, "s", &path)) {
+	if (!PyArg_ParseTuple(args, "Os", &node, & path)) {
 		goto end;
 	}
 
@@ -43,6 +77,16 @@ static PyObject* f_find_node(PyObject* module, PyObject* args) {
 	node_name = static_cast<String>(node->get_name()).utf8();
 	return PyCapsule_New(node, node_name, &f_destroy_capsule);
 	*/
+
+	auto p_node = (Node*)PyCapsule_GetPointer(node, NULL);
+	Node *p_get = p_node->get_node(NodePath(path));
+
+	if (!p_get) {
+		goto end;
+	}
+
+	auto capsule = get_or_create_capsule(p_get);
+	return capsule;
 
 end:
 	Py_RETURN_NONE;
@@ -74,6 +118,9 @@ static int InitPython() {
 	size_t program_len;
 
 	PyConfig_InitPythonConfig(&config);
+	// 一般来说嵌入， 需要 isolated=1, 会无视一些参数，包括环境变量
+	// 但是我目前的当前目录加到sys.path，这个步骤需要依赖环境变量，
+	// 所以目前还没有想到更好的办法，保持isolated = 0
 	//config.isolated = 1;
 	config.program_name = Py_DecodeLocale(program, &program_len);
 
@@ -128,7 +175,7 @@ void FLibPy::Clean() {
 //
 //------------------------------------------------------------------------------
 FPyObject::FPyObject() :
-		p_module(nullptr), p_object(nullptr) {
+		p_module(nullptr), p_object(nullptr), p_capsule(nullptr) {
 }
 
 FPyObject::~FPyObject() {
@@ -140,6 +187,11 @@ FPyObject::~FPyObject() {
 	if (p_object) {
 		Py_DECREF(p_object);
 		p_object = nullptr;
+	}
+
+	if (p_capsule) {
+		Py_DECREF(p_capsule);
+		p_capsule = nullptr;
 	}
 }
 
@@ -189,6 +241,9 @@ void FPyObject::_ready() {
 				PyErr_Print();
 				break;
 			}
+			p_capsule = get_or_create_capsule(this);
+			PyObject_SetAttrString(p_object, c_capsule_name, p_capsule);
+
 			//print_line("create object ok");
 			Py_DECREF(p_class_info);
 		} else {
