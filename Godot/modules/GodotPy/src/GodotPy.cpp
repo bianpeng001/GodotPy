@@ -50,12 +50,19 @@ static PyObject* get_or_create_capsule(Node* p_node) {
 
 static PyObject *f_print(PyObject *module, PyObject *args) {
 	const char *str;
-
 	if (!PyArg_ParseTuple(args, "s", &str)) {
 		return NULL;
 	}
 	print_line(str);
+	/*
+	PyObject *p_obj, *p_str;
 
+	if (!PyArg_ParseTuple(args, "O", &p_obj)) {
+		return NULL;
+	}
+
+	p_str = PyObject_Str(p_obj);
+	*/
 	Py_RETURN_NONE;
 }
 
@@ -63,7 +70,7 @@ static PyObject* f_find_node(PyObject* module, PyObject* args) {
 	const char *path;
 	PyObject *node;
 
-	if (!PyArg_ParseTuple(args, "Os", &node, & path)) {
+	if (!PyArg_ParseTuple(args, "Os", &node, &path)) {
 		goto end;
 	}
 
@@ -196,6 +203,10 @@ FPyObject::~FPyObject() {
 }
 
 void FPyObject::_notification(int p_what) {
+	if (Engine::get_singleton()->is_editor_hint()) {
+		return;
+	}
+
 	switch (p_what) {
 		case NOTIFICATION_READY:
 			_ready();

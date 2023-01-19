@@ -22,23 +22,28 @@ def GetReady():
 
 GetReady()
 
+incs = [
+    PYTHON_HOME + '/Include',
+    PYTHON_HOME + '/Include/internal',
+    PYTHON_HOME + '/Godot',
+]
+
 env.Append(LIBPATH = [
     PYTHON_HOME,
 ])
 env.Append(LIBS = [
     'GodotPy',
 ])
+env.Append(CPPPATH = incs)
 
 godotpy_module = env_modules.Clone()
-godotpy_module.Append(CPPPATH = [
-    PYTHON_HOME + '/Include',
-    PYTHON_HOME + '/Include/internal',
-    PYTHON_HOME + '/Godot',
-])
+godotpy_module.Append(CPPPATH = incs)
 godotpy_module.add_source_files(env.modules_sources, "src/*.cpp")
 
 
 #
 # build_windows.bat
-# bin\godot.windows.editor.dev.x86_64.console.exe --path h:\GodotPy\Demo -e -w
+# bin\godot.windows.editor.dev.x86_64.console.exe --path h:\GodotPy\Demo -w -e
+# bin\godot.windows.editor.dev.x86_64.console.exe --path h:\GodotPy\Demo -w --export-pack "Windows Desktop" .\Output\Demo.pck
+#
 #
