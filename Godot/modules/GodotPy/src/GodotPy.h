@@ -11,23 +11,38 @@
 //------------------------------------------------------------------------------
 typedef struct _object PyObject;
 
-class FPyModule : public Node {
-	GDCLASS(FPyModule, Node)
+/// <summary>
+/// 
+/// </summary>
+class FPyObject : public Node {
+	GDCLASS(FPyObject, Node)
 private:
-	String py_file_path;
-	PyObject *py_module;
+	String py_path;
+	String py_class;
+
+	PyObject *p_module;
+	PyObject *p_object;
+	PyObject *p_capsule;
 
 public:
-	FPyModule();
-	virtual ~FPyModule();
+	FPyObject();
+	virtual ~FPyObject();
 
 private:
 	void _notification(int p_what);
 	void _ready();
 
-	void set_python(const String &file_path);
-	String get_python() const {
-		return py_file_path;
+	void set_python_path(const String& a_file_path) {
+		py_path = a_file_path;
+	}
+	const String &get_python_path() const {
+		return py_path;
+	}
+	void set_python_class(const String& a_py_class) {
+		py_class = a_py_class;
+	}
+	const String &get_python_class() const {
+		return py_class;
 	}
 	static void _bind_methods();
 };
