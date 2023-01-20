@@ -42,3 +42,11 @@ godotpy_module.add_source_files(env.modules_sources, "src/*.cpp")
 # build_windows.bat
 # bin\godot.windows.editor.dev.x86_64.console.exe --path h:\GodotPy\Demo -e -w
 #
+# eval `ssh-agent`
+# ssh-add -k bianpeng001_home.pub
+#
+# ssh-keygen.exe -t ed25519 -C "bianpeng001@163.com"
+#
+#
+#
+#
