@@ -1,10 +1,8 @@
-[gd_scene format=3 uid="uid://cipun2g0qp50n"]
+[gd_scene load_steps=2 format=3 uid="uid://cipun2g0qp50n"]
+
+[ext_resource type="PackedScene" uid="uid://dx4jt88t2pkvs" path="res://Model/City01.glb" id="1_fy31c"]
 
 [node name="Node3D" type="Node3D"]
-
-[node name="FPyObject" type="FPyObject" parent="."]
-python_path = "main"
-python_class = "TestClass"
 
 [node name="Button" type="Button" parent="."]
 offset_left = 150.0
@@ -12,3 +10,26 @@ offset_top = 160.0
 offset_right = 250.0
 offset_bottom = 200.0
 text = "Hello"
+
+[node name="FPyObject" type="FPyObject" parent="."]
+python_path = "main"
+python_class = "TestClass"
+
+[node name="City01" parent="." instance=ExtResource("1_fy31c")]
+
+[node name="City02" parent="." instance=ExtResource("1_fy31c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.7499, 0, -13.6001)
+
+[node name="City03" parent="." instance=ExtResource("1_fy31c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.1538, 0, -26.5104)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.833577, -0.490839, 0.253428, 0, 0.458774, 0.888553, -0.552403, -0.740678, 0.382423, 0, 14.6445, 0)
+
+[node name="CameraController" type="FPyObject" parent="."]
+python_path = "game.camera_controller"
+python_class = "CameraController"
+
+[node name="MainCamera" type="Camera3D" parent="CameraController"]
+transform = Transform3D(0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, -0.5, 0.5, -15, 20, 15)
+fov = 45.0

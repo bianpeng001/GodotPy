@@ -1,7 +1,6 @@
 import GodotPy as gp
 
-gp.print('module loaded')
-
+gp.print('main module loaded')
 
 import sys
 for a in sys.path:

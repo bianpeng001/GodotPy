@@ -237,7 +237,6 @@ void FPyObject::_ready() {
 			PyErr_Print();
 			break;
 		}
-
 		auto s_class = py_class.utf8().get_data();
 		auto p_class_info = PyDict_GetItemString(dict, s_class);
 		if (!p_class_info) {
