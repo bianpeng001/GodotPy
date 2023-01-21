@@ -1,6 +1,6 @@
 import GodotPy as gp
 
-def print_safe(a):
+def print_line(a):
     if isinstance(a, str):
         gp.print_line(a)
         #print(a)
@@ -13,5 +13,5 @@ class BaseClass:
         self.py_capsule = None
     
     def print(self):
-        print_safe(self.py_capsule)
+        print_line(self.py_capsule)
 

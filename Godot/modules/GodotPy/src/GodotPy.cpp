@@ -9,6 +9,7 @@
 #include <Python.h>
 
 static const char *c_capsule_name = "py_capsule";
+static const char *c_node_name = "node";
 
 /// <summary>
 /// 用来存一个PyCapsule指针
@@ -36,7 +37,7 @@ static PyObject* get_or_create_capsule(Node* p_node) {
 	auto v = p_node->get(c_capsule_name);
 	
 	if (!v) {
-		PyObject *p_capsule = PyCapsule_New(p_node, NULL, NULL);
+		PyObject *p_capsule = PyCapsule_New(p_node, c_node_name, NULL);
 
 		auto ptr = new FCapsuleObject(p_capsule);
 		FCapsuleObject::instance_list.push_back(ptr);
@@ -51,7 +52,7 @@ static PyObject* get_or_create_capsule(Node* p_node) {
 static PyObject *f_print_line(PyObject *module, PyObject *args) {
 	const char *str;
 	if (!PyArg_ParseTuple(args, "s", &str)) {
-		return NULL;
+		Py_RETURN_NONE;
 	}
 	print_line(str);
 	/*
@@ -65,17 +66,29 @@ static PyObject *f_print_line(PyObject *module, PyObject *args) {
 	*/
 	Py_RETURN_NONE;
 }
-static PyObject *f_set_process(PyObject *mode, PyObject *args) {
+static PyObject *f_set_process(PyObject *module, PyObject *args) {
 	PyObject *node;
+	int value;
 
-	//if (!PyArg_ParseTuple(args, "Os", &node, &path)) {
-	//	goto end;
-	//}
+	if (!PyArg_ParseTuple(args, "Oi", &node, &value)) {
+		Py_RETURN_NONE;
+	}
 
-end:
+	auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
+	p_node->set_process(value != 0);
+
 	Py_RETURN_NONE;
 }
+static PyObject *f_connect(PyObject *module, PyObject *args) {
+	const char *signal;
+	PyObject *callback;
 
+	if (!PyArg_ParseTuple(args, "sO", &signal, &callback)) {
+		Py_RETURN_NONE;
+	}
+
+	Py_RETURN_NONE;
+}
 static PyObject* f_find_node(PyObject* module, PyObject* args) {
 	const char *path;
 	PyObject *node;
@@ -95,7 +108,7 @@ static PyObject* f_find_node(PyObject* module, PyObject* args) {
 	return PyCapsule_New(node, node_name, &f_destroy_capsule);
 	*/
 
-	auto p_node = (Node*)PyCapsule_GetPointer(node, NULL);
+	auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
 	Node *p_get = p_node->get_node(NodePath(path));
 
 	if (!p_get) {
@@ -108,11 +121,11 @@ static PyObject* f_find_node(PyObject* module, PyObject* args) {
 end:
 	Py_RETURN_NONE;
 }
-
 static PyMethodDef GodotPy_methods[] = {
 	{ "print_line", f_print_line, METH_VARARGS, NULL },
 	{ "find_node", f_find_node, METH_VARARGS, NULL },
 	{ "set_process", f_set_process, METH_VARARGS, NULL },
+	{ "connect", f_connect, METH_VARARGS, NULL },
 	{ NULL, NULL, 0, NULL }
 };
 static struct PyModuleDef GodotPymodule = {
@@ -269,6 +282,8 @@ void FPyObject::_ready() {
 			p_capsule = get_or_create_capsule(this);
 			PyObject_SetAttrString(p_object, c_capsule_name, p_capsule);
 
+			PyObject_CallMethod(p_object, "post_create", NULL);
+
 			//print_line("create object ok");
 			Py_DECREF(p_class_info);
 		} else {
@@ -276,7 +291,7 @@ void FPyObject::_ready() {
 			break;
 		}
 
-		this->set_process(true);
+		//this->set_process(true);
 		//auto ret = PyObject_CallMethod(p_object, "hello", NULL);
 		//if (ret) {
 		//	Py_DECREF(ret);
@@ -292,7 +307,6 @@ void FPyObject::_process() {
 			break;
 		}
 
-		print_line("begin process");
 		auto ret = PyObject_CallMethod(p_object, "process", NULL);
 		if (ret) {
 			Py_DECREF(ret);

@@ -8,9 +8,9 @@ for a in sys.path:
 #btn = gp.find_node('/root/Node3D/Button')
 #gp.print(repr(btn))
 
-from game.core import BaseClass, print_safe
+from game.core import BaseClass, print_line
 
-print_safe('main module loaded')
+print_line('main module loaded')
 
 class TestClass(BaseClass):
     def __init__(self):
