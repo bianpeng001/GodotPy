@@ -48,7 +48,7 @@ static PyObject* get_or_create_capsule(Node* p_node) {
 	return static_cast<FCapsuleObject *>(obj)->p_capsule;
 }
 
-static PyObject *f_print(PyObject *module, PyObject *args) {
+static PyObject *f_print_line(PyObject *module, PyObject *args) {
 	const char *str;
 	if (!PyArg_ParseTuple(args, "s", &str)) {
 		return NULL;
@@ -63,6 +63,16 @@ static PyObject *f_print(PyObject *module, PyObject *args) {
 
 	p_str = PyObject_Str(p_obj);
 	*/
+	Py_RETURN_NONE;
+}
+static PyObject *f_set_process(PyObject *mode, PyObject *args) {
+	PyObject *node;
+
+	//if (!PyArg_ParseTuple(args, "Os", &node, &path)) {
+	//	goto end;
+	//}
+
+end:
 	Py_RETURN_NONE;
 }
 
@@ -100,8 +110,9 @@ end:
 }
 
 static PyMethodDef GodotPy_methods[] = {
-	{ "print", f_print, METH_VARARGS, NULL },
+	{ "print_line", f_print_line, METH_VARARGS, NULL },
 	{ "find_node", f_find_node, METH_VARARGS, NULL },
+	{ "set_process", f_set_process, METH_VARARGS, NULL },
 	{ NULL, NULL, 0, NULL }
 };
 static struct PyModuleDef GodotPymodule = {
@@ -211,6 +222,10 @@ void FPyObject::_notification(int p_what) {
 		case NOTIFICATION_READY:
 			_ready();
 			break;
+
+		case NOTIFICATION_PROCESS:
+			_process();
+			break;
 	}
 }
 
@@ -261,13 +276,29 @@ void FPyObject::_ready() {
 			break;
 		}
 
-		auto ret = PyObject_CallMethod(p_object, "hello", NULL);
-		if (ret) {
-			Py_DECREF(ret);
-		}
+		this->set_process(true);
+		//auto ret = PyObject_CallMethod(p_object, "hello", NULL);
+		//if (ret) {
+		//	Py_DECREF(ret);
+		//}
 			
 	} while (0);
 		
+}
+
+void FPyObject::_process() {
+	do {
+		if (!p_object) {
+			break;
+		}
+
+		print_line("begin process");
+		auto ret = PyObject_CallMethod(p_object, "process", NULL);
+		if (ret) {
+			Py_DECREF(ret);
+			ret = NULL;
+		}
+	} while (0);
 }
 
 void FPyObject::_bind_methods() {
