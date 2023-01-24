@@ -3,10 +3,40 @@
 //
 
 #include "GodotPy.h"
+// impl
+#include "core/os/memory.h"
 
 #include <Windows.h>
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
+
+/// <summary>
+/// 
+/// </summary>
+class CallableCustomCallback : public CallableCustomMethodPointerBase {
+private:
+	struct Data {
+		Node *p_node;
+		PyObject *py_func;
+		PyObject *py_args;
+	} data;
+
+public:
+	CallableCustomCallback(Node *p_node, PyObject *func, PyObject *args) {
+		Py_INCREF(func);
+		data.p_node = p_node;
+		data.py_func = func;
+		data.py_args = args;
+		_setup((uint32_t *)&data, sizeof(Data));
+	}
+	virtual ObjectID get_object() const {
+		return data.p_node->get_instance_id();
+	}
+	virtual void call(const Variant **p_arguments, int p_argcount, Variant &r_return_value, Callable::CallError &r_call_error) const {
+		print_line("CallableCustomCallback::call");
+		PyObject_Call(data.py_func, data.py_args, NULL);
+	};
+};
 
 static const char *c_capsule_name = "py_capsule";
 static const char *c_node_name = "node";
@@ -79,17 +109,30 @@ static PyObject *f_set_process(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_connect_callback(PyObject *callback) {
+
+}
 static PyObject *f_connect(PyObject *module, PyObject *args) {
 	PyObject *node;
 	const char *signal;
 	PyObject *callback;
 
-	if (!PyArg_ParseTuple(args, "OsO", &signal, &callback)) {
+	if (!PyArg_ParseTuple(args, "OsO", &node, &signal, &callback)) {
+		//goto end;
 		Py_RETURN_NONE;
 	}
 	auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
-	//p_node->connect(signal, );
 
+	auto py_args = PyTuple_New(0);
+	auto ccb = memnew(CallableCustomCallback(p_node, callback, py_args));
+	p_node->connect(signal, ccb);
+
+	// test
+	Variant ret;
+	Callable::CallError err;
+	ccb->call(NULL, 0, ret, err);
+
+end:
 	Py_RETURN_NONE;
 }
 static PyObject* f_find_node(PyObject* module, PyObject* args) {
@@ -99,17 +142,6 @@ static PyObject* f_find_node(PyObject* module, PyObject* args) {
 	if (!PyArg_ParseTuple(args, "Os", &node, &path)) {
 		goto end;
 	}
-
-	/*
-	auto scene = SceneTree::get_singleton()->get_current_scene();
-	auto node = scene->get_node(NodePath(path));
-	if (!node) {
-		goto end;
-	}
-
-	node_name = static_cast<String>(node->get_name()).utf8();
-	return PyCapsule_New(node, node_name, &f_destroy_capsule);
-	*/
 
 	auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
 	Node *p_get = p_node->get_node(NodePath(path));
