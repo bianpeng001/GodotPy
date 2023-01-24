@@ -80,12 +80,15 @@ static PyObject *f_set_process(PyObject *module, PyObject *args) {
 	Py_RETURN_NONE;
 }
 static PyObject *f_connect(PyObject *module, PyObject *args) {
+	PyObject *node;
 	const char *signal;
 	PyObject *callback;
 
-	if (!PyArg_ParseTuple(args, "sO", &signal, &callback)) {
+	if (!PyArg_ParseTuple(args, "OsO", &signal, &callback)) {
 		Py_RETURN_NONE;
 	}
+	auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
+	//p_node->connect(signal, );
 
 	Py_RETURN_NONE;
 }
