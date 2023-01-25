@@ -24,6 +24,9 @@ private:
 	PyObject *p_object;
 	PyObject *p_capsule;
 
+protected:
+	virtual void input(const Ref<InputEvent> &p_event) override;
+
 public:
 	FPyObject();
 	virtual ~FPyObject();

@@ -20,7 +20,6 @@ private:
 		PyObject *py_func;
 		PyObject *py_args;
 	} data;
-
 public:
 	CallableCustomCallback(Node *p_node, PyObject *func, PyObject *args) {
 		Py_INCREF(func);
@@ -29,11 +28,21 @@ public:
 		data.py_args = args;
 		_setup((uint32_t *)&data, sizeof(Data));
 	}
+	virtual ~CallableCustomCallback() {
+		if (data.py_func) {
+			Py_DECREF(data.py_func);
+			data.py_func = NULL;
+		}
+		if (data.py_args) {
+			Py_DECREF(data.py_args);
+			data.py_args = NULL;
+		}
+	}
 	virtual ObjectID get_object() const {
 		return data.p_node->get_instance_id();
 	}
 	virtual void call(const Variant **p_arguments, int p_argcount, Variant &r_return_value, Callable::CallError &r_call_error) const {
-		print_line("CallableCustomCallback::call");
+		//print_line("CallableCustomCallback::call");
 		PyObject_Call(data.py_func, data.py_args, NULL);
 	};
 };
@@ -96,6 +105,19 @@ static PyObject *f_print_line(PyObject *module, PyObject *args) {
 	*/
 	Py_RETURN_NONE;
 }
+static PyObject *f_set_process_input(PyObject *module, PyObject *args) {
+	PyObject *node;
+	int value;
+
+	if (!PyArg_ParseTuple(args, "Oi", &node, &value)) {
+		Py_RETURN_NONE;
+	}
+
+	auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
+	p_node->set_process_input(value != 0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_set_process(PyObject *module, PyObject *args) {
 	PyObject *node;
 	int value;
@@ -110,7 +132,7 @@ static PyObject *f_set_process(PyObject *module, PyObject *args) {
 	Py_RETURN_NONE;
 }
 static PyObject *f_connect_callback(PyObject *callback) {
-
+	Py_RETURN_NONE;
 }
 static PyObject *f_connect(PyObject *module, PyObject *args) {
 	PyObject *node;
@@ -125,12 +147,7 @@ static PyObject *f_connect(PyObject *module, PyObject *args) {
 
 	auto py_args = PyTuple_New(0);
 	auto ccb = memnew(CallableCustomCallback(p_node, callback, py_args));
-	p_node->connect(signal, ccb);
-
-	// test
-	Variant ret;
-	Callable::CallError err;
-	ccb->call(NULL, 0, ret, err);
+	p_node->connect(signal, Callable(ccb));
 
 end:
 	Py_RETURN_NONE;
@@ -160,6 +177,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "print_line", f_print_line, METH_VARARGS, NULL },
 	{ "find_node", f_find_node, METH_VARARGS, NULL },
 	{ "set_process", f_set_process, METH_VARARGS, NULL },
+	{ "set_process_input", f_set_process_input, METH_VARARGS, NULL },
 	{ "connect", f_connect, METH_VARARGS, NULL },
 	{ NULL, NULL, 0, NULL }
 };
@@ -236,6 +254,24 @@ void FLibPy::Clean() {
 		Py_FinalizeEx();
 		bInit = false;
 	}
+}
+void FPyObject::input(const Ref<InputEvent> &p_event) {
+	//print_line(vformat("input: %s", p_event->as_text()));
+	Ref<InputEventMouseMotion> mm = p_event;
+	if (mm.is_valid()) {
+		auto pos = mm->get_relative();
+		print_line(vformat("MouseMotion: %f,%f", pos.x, pos.y));
+	}
+	Ref<InputEventKey> k = p_event;
+	if (k.is_valid()) {
+		auto code = k->get_keycode();
+		print_line(vformat("Key: %d %d", (int)code, k->is_pressed() ? 1 : 0));
+	}
+	if (p_event->is_action("LeftButton")) {
+		print_line("LeftButton111");
+	}
+
+	
 }
 //------------------------------------------------------------------------------
 //

@@ -2,6 +2,8 @@ from game.core import BaseClass, print_line
 print_line('camera controller loaded')
 import GodotPy as gp
 
+import sys
+
 def test_callback():
     print_line("test_callback")
 
@@ -12,6 +14,7 @@ class CameraController(BaseClass):
 
     def post_create(self):
         #gp.set_process(self.py_capsule, True)
+        gp.set_process_input(self.py_capsule, True)
         #gp.connect(self.py_capsule, "ready", test_callback)
         gp.connect(self.py_capsule, "ready", self._ready)
         pass
@@ -22,7 +25,7 @@ class CameraController(BaseClass):
         pass
 
     def _ready(self):
-        print_line("in python ready")
+        print_line(f"ready _ready:{sys.getrefcount(self._ready)}")
         
 
 
