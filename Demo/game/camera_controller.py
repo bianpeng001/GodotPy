@@ -1,5 +1,4 @@
-from game.core import BaseClass, print_line
-print_line('camera controller loaded')
+from game.core import NodeObject, print_line
 import GodotPy as gp
 
 import sys
@@ -7,7 +6,7 @@ import sys
 def test_callback():
     print_line("test_callback")
 
-class CameraController(BaseClass):
+class CameraController(NodeObject):
     def __init__(self):
         super().__init__()
         print_line('create camera controller')
@@ -27,5 +26,10 @@ class CameraController(BaseClass):
     def _ready(self):
         print_line(f"ready _ready:{sys.getrefcount(self._ready)}")
         
+    def on_key_pressed(self, keycode, pressed):
+        print_line(f'key pressed: keycode={keycode} press={pressed}')
+
+    def on_mouse_button(self, button, x, y):
+        print_line(f'mouse move: button={button} x={x} y={y}')
 
 

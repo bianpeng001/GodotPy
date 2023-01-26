@@ -8,10 +8,17 @@ def print_line(a):
         gp.print_line(str(a))
         #print(a)
 
-class BaseClass:
+class NodeObject:
     def __init__(self):
+        # 记录一个node的指针
         self.py_capsule = None
     
     def print(self):
         print_line(self.py_capsule)
+
+    def on_mouse_button(self, button, x, y):
+        pass
+
+    def on_key_pressed(self, keycode, pressed):
+        pass
 

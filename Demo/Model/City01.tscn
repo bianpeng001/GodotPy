@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://4hvmkb1n5qtb"]
+
+[ext_resource type="PackedScene" uid="uid://dx4jt88t2pkvs" path="res://Model/City01.glb" id="1_dnl8w"]
+[ext_resource type="Material" uid="uid://bft44cxmukfxl" path="res://Model/MatCity01.tres" id="2_3de47"]
+[ext_resource type="PackedScene" uid="uid://oop7cbbkolr3" path="res://Model/Flag01.glb" id="3_3x2e3"]
+[ext_resource type="FontFile" uid="uid://cfhxpqexrydct" path="res://FZKT.ttf" id="4_8de7a"]
+
+[node name="City01" instance=ExtResource("1_dnl8w")]
+
+[node name="Cube" parent="." index="0"]
+surface_material_override/0 = ExtResource("2_3de47")
+
+[node name="Flag01" parent="." index="1" instance=ExtResource("3_3x2e3")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -1, 0.5, -1)
+
+[node name="Label3D" type="Label3D" parent="." index="2"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -0.793441, 2, -0.620222)
+pixel_size = 0.028
+text = "刘"
+font = ExtResource("4_8de7a")

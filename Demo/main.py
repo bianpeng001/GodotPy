@@ -8,11 +8,11 @@ for a in sys.path:
 #btn = gp.find_node('/root/Node3D/Button')
 #gp.print(repr(btn))
 
-from game.core import BaseClass, print_line
+from game.core import NodeObject, print_line
 
 print_line('main module loaded')
 
-class TestClass(BaseClass):
+class TestClass(NodeObject):
     def __init__(self):
         super().__init__()
 
