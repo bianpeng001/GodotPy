@@ -259,19 +259,29 @@ void FPyObject::input(const Ref<InputEvent> &p_event) {
 	//print_line(vformat("input: %s", p_event->as_text()));
 	Ref<InputEventMouseMotion> mm = p_event;
 	if (mm.is_valid()) {
+		auto pressure = mm->get_pressure();
 		auto pos = mm->get_position();
 		//print_line(vformat("MouseMotion: %f,%f", pos.x, pos.y));
-		PyObject_CallMethod(this->p_object, "on_mouse_move", "ff", pos.x, pos.y);
+		auto ret = PyObject_CallMethod(this->p_object, "on_mouse_move", "ff", pos.x, pos.y);
+		if (ret) {
+			Py_DECREF(ret);
+			ret = NULL;
+		}
 	}
 
 	Ref<InputEventMouseButton> mb = p_event;
 	if (mb.is_valid()) {
+		int button_index = (int)mb->get_button_index();
 		int pressed = mb->is_pressed();
 		auto pos = mb->get_position();
-		int button_index = (int)mb->get_button_index();
 		//print_line(vformat("MouseButton: %d %d", button_index, pressed));
-		PyObject_CallMethod(this->p_object, "on_mouse_button", "iff",
-			button_index, pos.x, pos.y);
+		auto ret = PyObject_CallMethod(this->p_object, "on_mouse_button", "iiff",
+			button_index, pressed,
+			pos.x, pos.y);
+		if (ret) {
+			Py_DECREF(ret);
+			ret = NULL;
+		}
 	}
 
 	Ref<InputEventKey> k = p_event;
@@ -279,8 +289,12 @@ void FPyObject::input(const Ref<InputEvent> &p_event) {
 		auto code = k->get_keycode();
 		int pressed = k->is_pressed();
 		//print_line(vformat("Key: %d %d", (int)code, pressed));
-		PyObject_CallMethod(this->p_object, "on_key_pressed", "ii",
+		auto ret = PyObject_CallMethod(this->p_object, "on_key_pressed", "ii",
 			(int)code, pressed);
+		if (ret) {
+			Py_DECREF(ret);
+			ret = NULL;
+		}
 	}
 
 	//if (p_event->is_action("LeftButton")) {
@@ -369,8 +383,11 @@ void FPyObject::_ready() {
 			p_capsule = get_or_create_capsule(this);
 			PyObject_SetAttrString(p_object, c_capsule_name, p_capsule);
 
-			PyObject_CallMethod(p_object, "post_create", NULL);
-
+			auto ret = PyObject_CallMethod(p_object, "_post_create", NULL);
+			if (ret) {
+				Py_DECREF(ret);
+				ret = NULL;
+			}
 			//print_line("create object ok");
 			Py_DECREF(p_class_info);
 		} else {
@@ -394,7 +411,7 @@ void FPyObject::_process() {
 			break;
 		}
 
-		auto ret = PyObject_CallMethod(p_object, "process", NULL);
+		auto ret = PyObject_CallMethod(p_object, "_process", NULL);
 		if (ret) {
 			Py_DECREF(ret);
 			ret = NULL;

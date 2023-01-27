@@ -11,14 +11,14 @@ class CameraController(NodeObject):
         super().__init__()
         print_line('create camera controller')
 
-    def post_create(self):
+    def _post_create(self):
         #gp.set_process(self.py_capsule, True)
         #gp.set_process_input(self.py_capsule, True)
         #gp.connect(self.py_capsule, "ready", test_callback)
         #gp.connect(self.py_capsule, "ready", self._ready)
         pass
 
-    def process(self):
+    def _process(self):
         #print_safe(str(self.py_capsule))
         print_line('process')
         pass

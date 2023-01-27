@@ -10,7 +10,7 @@ void initialize_GodotPy_module(ModuleInitializationLevel p_level) {
     }
 	FLibPy::Init();
 	ClassDB::register_class<FPyObject>();
-	ClassDB::register_class<FObject>();
+	//ClassDB::register_class<FObject>();
 }
 
 void uninitialize_GodotPy_module(ModuleInitializationLevel p_level) {

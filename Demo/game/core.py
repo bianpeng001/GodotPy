@@ -16,7 +16,7 @@ class NodeObject:
     def print(self):
         print_line(self.py_capsule)
 
-    def on_mouse_button(self, button, x, y):
+    def on_mouse_button(self, button, pressed, x, y):
         pass
 
     def on_key_pressed(self, keycode, pressed):
@@ -26,6 +26,12 @@ class NodeObject:
         pass
 
     def _ready(self):
+        pass
+
+    def _process(self):
+        pass
+
+    def _post_create(self):
         pass
 
 
