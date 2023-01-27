@@ -22,3 +22,10 @@ class NodeObject:
     def on_key_pressed(self, keycode, pressed):
         pass
 
+    def on_mouse_move(self, x, y):
+        pass
+
+    def _ready(self):
+        pass
+
+

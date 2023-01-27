@@ -16,6 +16,8 @@ text = "Hello"
 python_path = "main"
 python_class = "TestClass"
 
+[node name="City01" parent="." instance=ExtResource("2_2sjd1")]
+
 [node name="City02" parent="." instance=ExtResource("1_fy31c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.7499, 0, -13.6001)
 
@@ -35,7 +37,9 @@ fov = 45.0
 near = 5.0
 far = 1000.0
 
-[node name="City01" parent="." instance=ExtResource("2_2sjd1")]
+[node name="InputController" type="FPyObject" parent="."]
+python_path = "game.input_controller"
+python_class = "InputController"
 
 [editable path="City02"]
 [editable path="City03"]

@@ -260,7 +260,8 @@ void FPyObject::input(const Ref<InputEvent> &p_event) {
 	Ref<InputEventMouseMotion> mm = p_event;
 	if (mm.is_valid()) {
 		auto pos = mm->get_position();
-		print_line(vformat("MouseMotion: %f,%f", pos.x, pos.y));
+		//print_line(vformat("MouseMotion: %f,%f", pos.x, pos.y));
+		PyObject_CallMethod(this->p_object, "on_mouse_move", "ff", pos.x, pos.y);
 	}
 
 	Ref<InputEventMouseButton> mb = p_event;
@@ -268,7 +269,7 @@ void FPyObject::input(const Ref<InputEvent> &p_event) {
 		int pressed = mb->is_pressed();
 		auto pos = mb->get_position();
 		int button_index = (int)mb->get_button_index();
-		print_line(vformat("MouseButton: %d %d", button_index, pressed));
+		//print_line(vformat("MouseButton: %d %d", button_index, pressed));
 		PyObject_CallMethod(this->p_object, "on_mouse_button", "iff",
 			button_index, pos.x, pos.y);
 	}
@@ -277,8 +278,9 @@ void FPyObject::input(const Ref<InputEvent> &p_event) {
 	if (k.is_valid()) {
 		auto code = k->get_keycode();
 		int pressed = k->is_pressed();
-		print_line(vformat("Key: %d %d", (int)code, pressed));
-		PyObject_CallMethod(this->p_object, "on_key_pressed", "ii", (int)code, pressed);
+		//print_line(vformat("Key: %d %d", (int)code, pressed));
+		PyObject_CallMethod(this->p_object, "on_key_pressed", "ii",
+			(int)code, pressed);
 	}
 
 	//if (p_event->is_action("LeftButton")) {

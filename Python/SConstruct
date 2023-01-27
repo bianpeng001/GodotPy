@@ -197,7 +197,7 @@ LIBRARY_OBJS_OMIT_FROZEN = [
 ZLIB = 'd:/OpenSource/zlib'
 
 # module
-ModuleName = 'GodotPy'
+ModuleName = 'python3'
 cppdefines = [
     'Py_BUILD_CORE',
     'Py_BUILD_CORE_BUILTIN',

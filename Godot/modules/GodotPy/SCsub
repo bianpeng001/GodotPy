@@ -13,10 +13,10 @@ if not os.path.exists(PYTHON_HOME):
 
 # 准备工作
 def GetReady():
-    GodotPyLib = PYTHON_HOME + '/GodotPy.lib'
-    DstName = PYTHON_HOME + '/GodotPy' + env["LIBSUFFIX"]
+    GodotPyLib = PYTHON_HOME + '/python3.lib'
+    DstName = PYTHON_HOME + '/python3' + env["LIBSUFFIX"]
     if os.path.exists(GodotPyLib) and not os.path.exists(DstName):
-        print('copy GodotPy.lib')
+        print('copy python3.lib')
         shutil.copyfile(GodotPyLib, DstName)
 
 
@@ -32,7 +32,7 @@ env.Append(LIBPATH = [
     PYTHON_HOME,
 ])
 env.Append(LIBS = [
-    'GodotPy',
+    'python3',
 ])
 env.Append(CPPPATH = incs)
 
