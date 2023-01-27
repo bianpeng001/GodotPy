@@ -31,7 +31,7 @@ class NodeObject:
     def _process(self):
         pass
 
-    def _post_create(self):
+    def _create(self):
         pass
 
 

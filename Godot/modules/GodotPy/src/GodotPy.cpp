@@ -383,7 +383,7 @@ void FPyObject::_ready() {
 			p_capsule = get_or_create_capsule(this);
 			PyObject_SetAttrString(p_object, c_capsule_name, p_capsule);
 
-			auto ret = PyObject_CallMethod(p_object, "_post_create", NULL);
+			auto ret = PyObject_CallMethod(p_object, "_create", NULL);
 			if (ret) {
 				Py_DECREF(ret);
 				ret = NULL;

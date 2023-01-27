@@ -8,7 +8,7 @@ class InputController(NodeObject):
         super().__init__()
         self.left_mouse_pressed = False
 
-    def _post_create(self):
+    def _create(self):
         gp.set_process(self.py_capsule, True)
         gp.set_process_input(self.py_capsule, True)
         gp.connect(self.py_capsule, "ready", self._ready)
@@ -30,4 +30,3 @@ class InputController(NodeObject):
 
 
 
-        
