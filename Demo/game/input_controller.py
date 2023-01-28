@@ -3,10 +3,14 @@ import sys
 from game.core import NodeObject, print_line
 import GodotPy as gp
 
+#
+# handle input events
+#
 class InputController(NodeObject):
     def __init__(self):
         super().__init__()
-        self.left_mouse_pressed = False
+        print_line('create InputController')
+        self.mouse_pressed = [False, False, False, False]
 
     def _create(self):
         gp.set_process(self.py_capsule, True)
@@ -18,11 +22,11 @@ class InputController(NodeObject):
 
     def on_mouse_button(self, button, pressed, x, y):
         print_line(f'mouse button: {button} {pressed} x={x} y={y}')
-        if button == 1:
-            self.left_mouse_pressed = pressed != 0
+        is_pressed = pressed != 0
+        self.mouse_pressed[button] = is_pressed
 
     def on_mouse_move(self, x, y):
-        if self.left_mouse_pressed:
+        if self.mouse_pressed[1]:
             print_line(f'mouse move: x={x} y={y}')
 
     def _process(self):

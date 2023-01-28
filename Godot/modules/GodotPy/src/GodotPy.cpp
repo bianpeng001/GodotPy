@@ -244,7 +244,7 @@ void FLibPy::Init() {
 		InitPython();
 		//Py_Initialize();
 		
-		PyRun_SimpleString("import GodotPy;GodotPy.print('hello python')\n");
+		PyRun_SimpleString("from GodotPy import print_line;print_line('hello python')\n");
 		print_line("init python ok");
 	}
 }
@@ -349,7 +349,8 @@ void FPyObject::_ready() {
 			break;
 		}
 		print_line(vformat("load module: %s", py_path));
-		PyObject *p_path = PyUnicode_FromString(py_path.utf8().get_data());
+		auto& path_utf8 = py_path.utf8();
+		PyObject *p_path = PyUnicode_FromString(path_utf8.get_data());
 		p_module = PyImport_Import(p_path);
 		if (!p_module) {
 			PyErr_Print();
@@ -366,7 +367,9 @@ void FPyObject::_ready() {
 			PyErr_Print();
 			break;
 		}
-		auto s_class = py_class.utf8().get_data();
+		
+		auto &class_utf8 = py_class.utf8();
+		auto s_class = class_utf8.get_data();
 		auto p_class_info = PyDict_GetItemString(dict, s_class);
 		if (!p_class_info) {
 			PyErr_Print();
@@ -375,6 +378,7 @@ void FPyObject::_ready() {
 		Py_DECREF(dict);
 
 		if (PyCallable_Check(p_class_info)) {
+			print_line(vformat("create class: %s", py_class));
 			p_object = PyObject_CallObject(p_class_info, NULL);
 			if (!p_object) {
 				PyErr_Print();

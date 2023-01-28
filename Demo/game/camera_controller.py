@@ -6,10 +6,13 @@ import GodotPy as gp
 def test_callback():
     print_line("test_callback")
 
+#
+#
+#
 class CameraController(NodeObject):
     def __init__(self):
         super().__init__()
-        print_line('create camera controller')
+        print_line('create CameraController')
 
     def _create(self):
         #gp.set_process(self.py_capsule, True)
