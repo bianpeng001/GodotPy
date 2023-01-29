@@ -4,10 +4,12 @@
 
 #include "GodotPy.h"
 
-// impl
+// godot
 #include "core/os/memory.h"
 #include "scene/3d/node_3d.h"
+#include "scene/3d/camera_3d.h"
 
+// python
 #include <Windows.h>
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
@@ -275,17 +277,43 @@ static PyObject *f_get_rotation(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_screen_to_world(PyObject *module, PyObject *args) {
+	PyObject *node;
+	float x, y, z;
+
+	do {
+		if (!PyArg_ParseTuple(args, "Offf", &node, &x, &y, &z)) {
+			break;
+		}
+
+		auto ptr_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
+		auto camera = dynamic_cast<Camera3D *>(ptr_node);
+		if (!camera) {
+			break;
+		}
+
+		//camera->project_ray_origin();
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyMethodDef GodotPy_methods[] = {
 	{ "print_line", f_print_line, METH_VARARGS, NULL },
+
+	// node
 	{ "find_node", f_find_node, METH_VARARGS, NULL },
 	{ "set_process", f_set_process, METH_VARARGS, NULL },
 	{ "set_process_input", f_set_process_input, METH_VARARGS, NULL },
 	{ "connect", f_connect, METH_VARARGS, NULL },
 
+	// node3d
 	{ "set_position", f_set_position, METH_VARARGS, NULL },
 	{ "get_position", f_get_position, METH_VARARGS, NULL },
 	{ "set_rotation", f_set_rotation, METH_VARARGS, NULL },
 	{ "get_rotation", f_get_rotation, METH_VARARGS, NULL },
+
+	// camera3d
+	{ "screen_to_world", f_screen_to_world, METH_VARARGS, NULL },
 
 	{ NULL, NULL, 0, NULL }
 };
@@ -359,7 +387,6 @@ void FLibPy::Init() {
 		print_line("init python ok");
 	}
 }
-
 void FLibPy::Clean() {
 	if (!bInit) {
 		Py_FinalizeEx();
@@ -412,14 +439,12 @@ void FPyObject::input(const Ref<InputEvent> &p_event) {
 	//	print_line("LeftButton111");
 	//}
 }
-
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
 FPyObject::FPyObject() :
 		p_module(nullptr), p_object(nullptr), p_capsule(nullptr) {
 }
-
 FPyObject::~FPyObject() {
 	//if (p_module) {
 	//	Py_DECREF(p_module);
@@ -436,7 +461,6 @@ FPyObject::~FPyObject() {
 		p_capsule = nullptr;
 	}
 }
-
 void FPyObject::_notification(int p_what) {
 	if (Engine::get_singleton()->is_editor_hint()) {
 		return;
@@ -459,7 +483,6 @@ void FPyObject::_notification(int p_what) {
 			break;
 	}
 }
-
 void FPyObject::_ready() {
 	do {
 		if (py_path.is_empty()) {
@@ -520,7 +543,6 @@ void FPyObject::_ready() {
 	} while (0);
 		
 }
-
 void FPyObject::_process() {
 	do {
 		if (!p_object) {
@@ -534,7 +556,6 @@ void FPyObject::_process() {
 		}
 	} while (0);
 }
-
 void FPyObject::_exit_tree() {
 	// TODO: 暂时放在这里清空
 	auto& list = FCapsuleObject::instance_list;
@@ -545,7 +566,6 @@ void FPyObject::_exit_tree() {
 		list.clear();
 	}
 }
-
 void FPyObject::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_python_path", "python_path"), &FPyObject::set_python_path);
 	ClassDB::bind_method(D_METHOD("get_python_path"), &FPyObject::get_python_path);

@@ -1,4 +1,4 @@
-import GodotPy as gp
+#import GodotPy as gp
 from game.core import *
 from game.input_controller import get_input
 
