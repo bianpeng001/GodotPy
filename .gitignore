@@ -31,8 +31,9 @@
 *.out
 *.app
 
+*.rar
+*.zip
+
 .godot
 __pycache__
 
-
-Test

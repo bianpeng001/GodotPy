@@ -8,14 +8,12 @@ def print_line(a):
         gp.print_line(str(a))
         #print(a)
 
+# 对应于godot场景树
 class NodeObject:
     def __init__(self):
         # 记录一个node的指针
         self.py_capsule = None
     
-    def print(self):
-        print_line(self.py_capsule)
-
     def on_mouse_button(self, button, pressed, x, y):
         pass
 
@@ -31,6 +29,7 @@ class NodeObject:
     def _process(self):
         pass
 
+    # 构造函数之后回调
     def _create(self):
         pass
 

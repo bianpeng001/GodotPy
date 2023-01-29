@@ -35,6 +35,7 @@ private:
 	void _notification(int p_what);
 	void _ready();
 	void _process();
+	void _exit_tree();
 
 	void set_python_path(const String& a_file_path) {
 		py_path = a_file_path;

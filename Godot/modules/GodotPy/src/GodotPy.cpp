@@ -3,15 +3,17 @@
 //
 
 #include "GodotPy.h"
+
 // impl
 #include "core/os/memory.h"
+#include "scene/3d/node_3d.h"
 
 #include <Windows.h>
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
 /// <summary>
-/// 
+/// 用来处理python的callback
 /// </summary>
 class CallableCustomCallback : public CallableCustomMethodPointerBase {
 private:
@@ -42,16 +44,18 @@ public:
 		return data.p_node->get_instance_id();
 	}
 	virtual void call(const Variant **p_arguments, int p_argcount, Variant &r_return_value, Callable::CallError &r_call_error) const {
+		// TODO: 这里要解决一下参数，目前没有穿参数
 		//print_line("CallableCustomCallback::call");
 		PyObject_Call(data.py_func, data.py_args, NULL);
 	};
 };
 
+// 常量区域
 static const char *c_capsule_name = "py_capsule";
 static const char *c_node_name = "node";
 
 /// <summary>
-/// 用来存一个PyCapsule指针
+/// 用来存一个PyCapsule指针, 在离开场景时要清空
 /// </summary>
 class FCapsuleObject : public Object {
 public:
@@ -62,7 +66,8 @@ public:
 
 	}
 	virtual ~FCapsuleObject() {
-		print_line("desctroy FCapsuleObject");
+		print_line(vformat("destroy FCapsuleObject: %d", (uint64_t)this->get_instance_id()));
+
 		if (p_capsule) {
 			Py_DECREF(p_capsule);
 			p_capsule = nullptr;
@@ -78,31 +83,21 @@ static PyObject* get_or_create_capsule(Node* p_node) {
 	if (!v) {
 		PyObject *p_capsule = PyCapsule_New(p_node, c_node_name, NULL);
 
-		auto ptr = new FCapsuleObject(p_capsule);
+		auto ptr = memnew(FCapsuleObject(p_capsule));
 		FCapsuleObject::instance_list.push_back(ptr);
 
 		v = ptr;
 		p_node->set(c_capsule_name, v);
 	}
-	auto obj = static_cast<Object*>(v);
+	auto obj = static_cast<Object *>(v);
 	return static_cast<FCapsuleObject *>(obj)->p_capsule;
 }
-
 static PyObject *f_print_line(PyObject *module, PyObject *args) {
 	const char *str;
 	if (!PyArg_ParseTuple(args, "s", &str)) {
 		Py_RETURN_NONE;
 	}
 	print_line(str);
-	/*
-	PyObject *p_obj, *p_str;
-
-	if (!PyArg_ParseTuple(args, "O", &p_obj)) {
-		return NULL;
-	}
-
-	p_str = PyObject_Str(p_obj);
-	*/
 	Py_RETURN_NONE;
 }
 static PyObject *f_set_process_input(PyObject *module, PyObject *args) {
@@ -137,19 +132,22 @@ static PyObject *f_connect_callback(PyObject *callback) {
 static PyObject *f_connect(PyObject *module, PyObject *args) {
 	PyObject *node;
 	const char *signal;
-	PyObject *callback;
+	PyObject *func;
 
-	if (!PyArg_ParseTuple(args, "OsO", &node, &signal, &callback)) {
-		//goto end;
-		Py_RETURN_NONE;
-	}
-	auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
+	do {
+		if (!PyArg_ParseTuple(args, "OsO", &node, &signal, &func)) {
+			break;
+		}
+		Py_INCREF(func);
 
-	auto py_args = PyTuple_New(0);
-	auto ccb = memnew(CallableCustomCallback(p_node, callback, py_args));
-	p_node->connect(signal, Callable(ccb));
+		auto py_args = PyTuple_New(0);
 
-end:
+		auto p_node = reinterpret_cast<Node *>(PyCapsule_GetPointer(node, c_node_name));
+		auto ccb = memnew(CallableCustomCallback(p_node, func, py_args));
+		p_node->connect(signal, Callable(ccb));
+
+	} while (0);
+	
 	Py_RETURN_NONE;
 }
 static PyObject* f_find_node(PyObject* module, PyObject* args) {
@@ -161,16 +159,109 @@ static PyObject* f_find_node(PyObject* module, PyObject* args) {
 	}
 
 	auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
-	Node *p_get = p_node->get_node(NodePath(path));
-
-	if (!p_get) {
+	Node *result = p_node->get_node(NodePath(path));
+	if (!result) {
 		goto end;
 	}
 
-	auto capsule = get_or_create_capsule(p_get);
+	PyObject *capsule = get_or_create_capsule(result);
 	return capsule;
 
 end:
+	Py_RETURN_NONE;
+}
+static PyObject *f_set_position(PyObject *module, PyObject *args) {
+	PyObject *node;
+	float x, y, z;
+
+	do {
+		if (!PyArg_ParseTuple(args, "Offf", &node, &x, &y, &z)) {
+			break;
+		}
+
+		auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
+		auto p_node3d = dynamic_cast<Node3D *>(p_node);
+		if (!p_node3d) {
+			break;
+		}
+
+		p_node3d->set_position(Vector3(x, y, z));
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_get_position(PyObject *module, PyObject *args) {
+	PyObject *node;
+
+	do {
+		if (!PyArg_ParseTuple(args, "O", &node)) {
+			break;
+		}
+
+		auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
+		auto p_node3d = dynamic_cast<Node3D *>(p_node);
+		if (!p_node3d) {
+			break;
+		}
+
+		auto p = p_node3d->get_position();
+
+		auto tuple = PyTuple_New(3);
+		PyTuple_SetItem(tuple, 0, Py_BuildValue("f", p.x));
+		PyTuple_SetItem(tuple, 1, Py_BuildValue("f", p.y));
+		PyTuple_SetItem(tuple, 2, Py_BuildValue("f", p.z));
+		return tuple;
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_set_rotation(PyObject *module, PyObject *args) {
+	PyObject *node;
+	float x, y, z;
+
+	do {
+		if (!PyArg_ParseTuple(args, "Offf", &node, &x, &y, &z)) {
+			break;
+		}
+
+		auto p_node = reinterpret_cast<Node *>(PyCapsule_GetPointer(node, c_node_name));
+		auto p_node3d = dynamic_cast<Node3D *>(p_node);
+		if (!p_node3d) {
+			break;
+		}
+
+		p_node3d->set_rotation_degrees(Vector3(x, y, z));
+
+	} while (0);
+	
+	Py_RETURN_NONE;
+}
+static PyObject *f_get_rotation(PyObject *module, PyObject *args) {
+	PyObject *node;
+
+	do {
+		if (!PyArg_ParseTuple(args, "O", &node)) {
+			break;
+		}
+
+		auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
+		auto p_node3d = dynamic_cast<Node3D *>(p_node);
+		if (!p_node3d) {
+			break;
+		}
+
+		auto p = p_node3d->get_rotation();
+
+		auto tuple = PyTuple_New(3);
+		PyTuple_SetItem(tuple, 0, Py_BuildValue("f", p.x));
+		PyTuple_SetItem(tuple, 1, Py_BuildValue("f", p.y));
+		PyTuple_SetItem(tuple, 2, Py_BuildValue("f", p.z));
+		return tuple;
+
+	} while (0);
+
 	Py_RETURN_NONE;
 }
 static PyMethodDef GodotPy_methods[] = {
@@ -179,6 +270,12 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "set_process", f_set_process, METH_VARARGS, NULL },
 	{ "set_process_input", f_set_process_input, METH_VARARGS, NULL },
 	{ "connect", f_connect, METH_VARARGS, NULL },
+
+	{ "set_position", f_set_position, METH_VARARGS, NULL },
+	{ "get_position", f_get_position, METH_VARARGS, NULL },
+	{ "set_rotation", f_set_rotation, METH_VARARGS, NULL },
+	{ "get_rotation", f_get_rotation, METH_VARARGS, NULL },
+
 	{ NULL, NULL, 0, NULL }
 };
 static struct PyModuleDef GodotPymodule = {
@@ -311,10 +408,10 @@ FPyObject::FPyObject() :
 }
 
 FPyObject::~FPyObject() {
-	if (p_module) {
-		Py_DECREF(p_module);
-		p_module = nullptr;
-	}
+	//if (p_module) {
+	//	Py_DECREF(p_module);
+	//	p_module = nullptr;
+	//}
 
 	if (p_object) {
 		Py_DECREF(p_object);
@@ -340,6 +437,13 @@ void FPyObject::_notification(int p_what) {
 		case NOTIFICATION_PROCESS:
 			_process();
 			break;
+
+		case NOTIFICATION_ENTER_TREE:
+			break;
+
+		case NOTIFICATION_EXIT_TREE:
+			_exit_tree();
+			break;
 	}
 }
 
@@ -349,7 +453,8 @@ void FPyObject::_ready() {
 			break;
 		}
 		print_line(vformat("load module: %s", py_path));
-		auto& path_utf8 = py_path.utf8();
+		auto &path_utf8 = py_path.utf8();
+
 		PyObject *p_path = PyUnicode_FromString(path_utf8.get_data());
 		p_module = PyImport_Import(p_path);
 		if (!p_module) {
@@ -369,42 +474,36 @@ void FPyObject::_ready() {
 		}
 		
 		auto &class_utf8 = py_class.utf8();
-		auto s_class = class_utf8.get_data();
-		auto p_class_info = PyDict_GetItemString(dict, s_class);
+		auto p_class_info = PyDict_GetItemString(dict, class_utf8.get_data());
 		if (!p_class_info) {
 			PyErr_Print();
 			break;
 		}
 		Py_DECREF(dict);
-
-		if (PyCallable_Check(p_class_info)) {
-			print_line(vformat("create class: %s", py_class));
-			p_object = PyObject_CallObject(p_class_info, NULL);
-			if (!p_object) {
-				PyErr_Print();
-				break;
-			}
-			p_capsule = get_or_create_capsule(this);
-			PyObject_SetAttrString(p_object, c_capsule_name, p_capsule);
-
-			auto ret = PyObject_CallMethod(p_object, "_create", NULL);
-			if (ret) {
-				Py_DECREF(ret);
-				ret = NULL;
-			}
-			//print_line("create object ok");
-			Py_DECREF(p_class_info);
-		} else {
+		if (!PyCallable_Check(p_class_info)) {
 			Py_DECREF(p_class_info);
 			break;
 		}
 
-		//this->set_process(true);
-		//auto ret = PyObject_CallMethod(p_object, "hello", NULL);
-		//if (ret) {
-		//	Py_DECREF(ret);
-		//}
-			
+		print_line(vformat("create class: %s", py_class));
+		p_object = PyObject_CallObject(p_class_info, NULL);
+		if (!p_object) {
+			PyErr_Print();
+			break;
+		}
+		Py_DECREF(p_class_info);
+		Py_INCREF(p_object);
+
+		p_capsule = get_or_create_capsule(this);
+		PyObject_SetAttrString(p_object, c_capsule_name, p_capsule);
+		Py_INCREF(p_capsule);
+
+		auto ret = PyObject_CallMethod(p_object, "_create", NULL);
+		if (ret) {
+			Py_DECREF(ret);
+			ret = NULL;
+		}
+	
 	} while (0);
 		
 }
@@ -421,6 +520,17 @@ void FPyObject::_process() {
 			ret = NULL;
 		}
 	} while (0);
+}
+
+void FPyObject::_exit_tree() {
+	// TODO: 暂时放在这里清空
+	auto& list = FCapsuleObject::instance_list;
+	if (list.size() > 0) {
+		for (auto it : list) {
+			memdelete(it);
+		}
+		list.clear();
+	}
 }
 
 void FPyObject::_bind_methods() {
