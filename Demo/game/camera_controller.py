@@ -1,7 +1,5 @@
-import sys
-
 import GodotPy as gp
-from game.core import NodeObject, print_line
+from game.core import *
 from game.input_controller import get_input
 
 def test_callback():
@@ -14,19 +12,20 @@ class CameraController(NodeObject):
         print_line('create CameraController')
 
     def _create(self):
-        gp.set_process(self.py_capsule, True)
+        set_process(self.py_capsule, process=True)
+        #gp.set_process(self.py_capsule, True)
         #gp.set_process_input(self.py_capsule, True)
         #gp.connect(self.py_capsule, "ready", test_callback)
-        gp.connect(self.py_capsule, "ready", self._ready)
-        self.main_camera = gp.find_node(self.py_capsule, 'MainCamera')
-        pass
+        #gp.connect(self.py_capsule, "ready", self._ready)
+        connect(self.py_capsule, "ready", self._ready)
+        self.main_camera = find_node(self.py_capsule, 'MainCamera')
 
     def _process(self):
         #print_safe(str(self.py_capsule))
         input = get_input()
         if input:
             if input.is_mouse_pressed(1):
-                x,y,z = gp.get_position(self.main_camera)
+                x,y,z = get_position(self.main_camera)
                 print_line((x,y,z))
 
     def _ready(self):
