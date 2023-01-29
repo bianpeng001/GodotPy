@@ -1,7 +1,4 @@
-import sys
-
-from game.core import NodeObject, print_line
-import GodotPy as gp
+from game.core import *
 
 instance = None
 
@@ -21,9 +18,8 @@ class InputController(NodeObject):
         self.key_dict = {}
 
     def _create(self):
-        gp.set_process(self.py_capsule, True)
-        gp.set_process_input(self.py_capsule, True)
-        gp.connect(self.py_capsule, "ready", self._ready)
+        set_process(self.py_capsule, process=True, input=True)
+        connect(self.py_capsule, "ready", self._ready)
 
     def _ready(self):
         print_line(f"input controller ready")

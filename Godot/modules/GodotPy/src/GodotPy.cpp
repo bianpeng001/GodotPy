@@ -12,6 +12,10 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
+//------------------------------------------------------------------------------
+//
+//------------------------------------------------------------------------------
+
 /// <summary>
 /// 用来处理python的callback
 /// </summary>
@@ -66,7 +70,11 @@ public:
 
 	}
 	virtual ~FCapsuleObject() {
-		print_line(vformat("destroy FCapsuleObject: %d", (uint64_t)this->get_instance_id()));
+		auto node = reinterpret_cast<Node *>(PyCapsule_GetPointer(p_capsule, c_node_name));
+		print_line(vformat("destroy FCapsuleObject: %s(%d) of %s ",
+				node->get_name(),
+				(uint64_t)this->get_instance_id(),
+				node->get_class_name()));
 
 		if (p_capsule) {
 			Py_DECREF(p_capsule);
@@ -92,6 +100,9 @@ static PyObject* get_or_create_capsule(Node* p_node) {
 	auto obj = static_cast<Object *>(v);
 	return static_cast<FCapsuleObject *>(obj)->p_capsule;
 }
+//------------------------------------------------------------------------------
+// module function implementation
+//------------------------------------------------------------------------------
 static PyObject *f_print_line(PyObject *module, PyObject *args) {
 	const char *str;
 	if (!PyArg_ParseTuple(args, "s", &str)) {
@@ -336,7 +347,10 @@ void FLibPy::Init() {
 		bInit = true;
 		print_line("begin init python");
 
-		SetEnvironmentVariableA("PYTHONPATH", ".");
+		// 这里是通过环境变量，把当前目录加到路径里面去，具体的逻辑在
+		// Modules/getpath.py
+		::SetEnvironmentVariableA("PYTHONPATH", ".");
+
 		PyImport_AppendInittab("GodotPy", &PyInit_GodotPy);
 		InitPython();
 		//Py_Initialize();
@@ -397,9 +411,8 @@ void FPyObject::input(const Ref<InputEvent> &p_event) {
 	//if (p_event->is_action("LeftButton")) {
 	//	print_line("LeftButton111");
 	//}
-
-	
 }
+
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
