@@ -381,10 +381,10 @@ Lib1 = env.SharedLibrary(ModuleName,
     source = srcs,
     cpppaths = incs,
     LIBS = libs,
-    
 )
 env.Requires(Lib1, [Gen1, Gen2])
 
+# generate vsproject
 env.MSVSProject(target = ModuleName + env['MSVSPROJECTSUFFIX'],
     srcs = srcs,
     cpppaths = [incs],
