@@ -101,6 +101,8 @@ class CameraController(NodeObject):
     def on_mouse_button_up(self):
         input = get_input()
 
+        print_line(get_delta_time())
+
         t = get_time()
         if t - self.press_time < 100:
             a = gp.instantiate('res://Model/City01.tscn')

@@ -75,4 +75,9 @@ def screen_to_world(camera, x, y):
 def get_time():
     return gp.get_time()
 
+def get_delta_time():
+    return gp.get_delta_time()
 
+
+
+    

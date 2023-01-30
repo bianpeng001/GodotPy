@@ -368,12 +368,12 @@ static PyObject *f_instantiate(PyObject *module, PyObject *args) {
 	Py_RETURN_NONE;
 }
 static PyObject *f_get_time(PyObject *module, PyObject *args) {
-	do {
-		auto time = (int)Time::get_singleton()->get_ticks_msec();
-		return Py_BuildValue("i", time);
-	} while (0);
-
-	Py_RETURN_NONE;
+	auto time = (int)Time::get_singleton()->get_ticks_msec();
+	return Py_BuildValue("i", time);
+}
+static PyObject *f_get_delta_time(PyObject *module, PyObject *args) {
+	float delta = (float)SceneTree::get_singleton()->get_process_time();
+	return Py_BuildValue("f", delta);
 }
 static PyMethodDef GodotPy_methods[] = {
 	{ "print_line", f_print_line, METH_VARARGS, NULL },
@@ -400,6 +400,7 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// os
 	{ "get_time", f_get_time, METH_VARARGS, NULL },
+	{ "get_delta_time", f_get_delta_time, METH_VARARGS, NULL },
 
 	// over
 	{ NULL, NULL, 0, NULL }
