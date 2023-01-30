@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cipun2g0qp50n"]
+[gd_scene load_steps=3 format=3 uid="uid://cipun2g0qp50n"]
 
 [ext_resource type="PackedScene" uid="uid://je36l1jcis70" path="res://models/City01.tscn" id="1_8bby1"]
+[ext_resource type="PackedScene" uid="uid://b6kjnaugcynxl" path="res://models/Square.tscn" id="2_h26w8"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -33,3 +34,5 @@ python_path = "game.input_controller"
 python_class = "InputController"
 
 [node name="City01" parent="." instance=ExtResource("1_8bby1")]
+
+[node name="Square" parent="." instance=ExtResource("2_h26w8")]

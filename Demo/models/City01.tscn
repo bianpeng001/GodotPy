@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://je36l1jcis70"]
+[gd_scene load_steps=5 format=3 uid="uid://je36l1jcis70"]
 
 [ext_resource type="ArrayMesh" uid="uid://dmsqjes4gdq2x" path="res://models/City01Mesh.res" id="1_vo51y"]
 [ext_resource type="Material" uid="uid://bft44cxmukfxl" path="res://models/MatCity01.tres" id="2_ce25a"]
 [ext_resource type="ArrayMesh" uid="uid://b08g3fgs0s3ae" path="res://models/Flag01Mesh.res" id="3_vg770"]
+[ext_resource type="FontFile" uid="uid://cfhxpqexrydct" path="res://FZKT.ttf" id="4_7s6ej"]
 
 [node name="City01" type="Node3D"]
 
@@ -15,3 +16,9 @@ surface_material_override/0 = ExtResource("2_ce25a")
 mesh = ExtResource("3_vg770")
 
 [node name="Title" type="Label3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 4, 0)
+pixel_size = 0.02
+text = "刘"
+font = ExtResource("4_7s6ej")
+font_size = 48
+outline_size = 8
