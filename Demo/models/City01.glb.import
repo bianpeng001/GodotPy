@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://jjjsicyvwnqb"
-path="res://.godot/imported/Flag01.glb-67a01b6fc7c403d2b23c1f26309390ff.scn"
+uid="uid://cuaqchn3t53ur"
+path="res://.godot/imported/City01.glb-aea451d29e151210829e1063bed2cbfe.scn"
 
 [deps]
 
-source_file="res://models/Flag01.glb"
-dest_files=["res://.godot/imported/Flag01.glb-67a01b6fc7c403d2b23c1f26309390ff.scn"]
+source_file="res://models/City01.glb"
+dest_files=["res://.godot/imported/City01.glb-aea451d29e151210829e1063bed2cbfe.scn"]
 
 [params]
 
@@ -29,7 +29,7 @@ animation/trimming=false
 import_script/path=""
 _subresources={
 "meshes": {
-"Flag02_Flag02": {
+"City01_City01": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,
 "generate/shadow_meshes": 0,
@@ -37,7 +37,7 @@ _subresources={
 "lods/normal_split_angle": 25.0,
 "save_to_file/enabled": true,
 "save_to_file/make_streamable": "",
-"save_to_file/path": "res://models/Flag02_Mesh.res"
+"save_to_file/path": "res://models/City01Mesh.res"
 }
 }
 }
