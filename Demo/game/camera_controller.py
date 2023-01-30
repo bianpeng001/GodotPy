@@ -61,15 +61,13 @@ class CameraController(NodeObject):
         self.start_x = x
         self.start_y = y
         self.start_z = z
+        
         pass
         
     def on_mouse_drag(self):
         input = get_input()
-        #x,y,z = screen_to_world(self.main_camera, input.x, input.y)
-        pass
 
-    def on_mouse_button_up(self):
-        input = get_input()
+        # 拖拽场景，用移动摄像头来实现
         x,y,z = gp.screen_to_world(self.main_camera, input.x, input.y)
         #print_line((x,y,z))
         dx = x - self.start_x
@@ -88,6 +86,11 @@ class CameraController(NodeObject):
             self.center_x,
             self.center_y,
             self.center_z)
+        
+        pass
+
+    def on_mouse_button_up(self):
+        
         pass
 
     def _ready(self):
