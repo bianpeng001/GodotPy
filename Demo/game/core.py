@@ -59,3 +59,7 @@ def set_position(node, x, y, z):
 def lookat(node, x, y, z):
     gp.lookat(node, x, y, z)
 
+def screen_to_world(camera, x, y):
+    return gp.screen_to_world(camera, x, y)
+
+

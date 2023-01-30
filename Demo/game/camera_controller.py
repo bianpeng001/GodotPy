@@ -17,10 +17,14 @@ class CameraController(NodeObject):
         print_line('create CameraController')
 
         self.is_left_button_pressed = False
+
         self.offset_x = 15
-        # 15*math.sin(math.pi/4)
         self.offset_y = 20
         self.offset_z = 15
+
+        self.center_x = 0
+        self.center_y = 0
+        self.center_z = 0
 
     def _create(self):
         set_process(self.py_capsule, process=True, input=False)
@@ -35,7 +39,6 @@ class CameraController(NodeObject):
         #print_safe(str(self.py_capsule))
         self.handle_input()
 
-
     def handle_input(self):
         input = get_input()
         if not input:
@@ -45,6 +48,8 @@ class CameraController(NodeObject):
             if not self.is_left_button_pressed:
                 self.is_left_button_pressed = True
                 self.on_mouse_button_down()
+            else:
+                self.on_mouse_drag()
         else:
             if self.is_left_button_pressed:
                 self.is_left_button_pressed = False
@@ -52,18 +57,37 @@ class CameraController(NodeObject):
         
     def on_mouse_button_down(self):
         input = get_input()
-        x,y,z = gp.screen_to_world(self.main_camera, input.x, input.y)
-        print_line((x,y,z))
-        set_position(self.main_camera, 
-            x + self.offset_x,
-            y + self.offset_y,
-            z + self.offset_z)
-        lookat(self.main_camera, x, y, z)
+        x,y,z = screen_to_world(self.main_camera, input.x, input.y)
+        self.start_x = x
+        self.start_y = y
+        self.start_z = z
+        pass
+        
+    def on_mouse_drag(self):
+        input = get_input()
+        #x,y,z = screen_to_world(self.main_camera, input.x, input.y)
+        pass
 
     def on_mouse_button_up(self):
-        # input = get_input()
-        # x,y,z = gp.screen_to_world(self.main_camera, input.x, input.y)
-        # print_line((x,y,z))
+        input = get_input()
+        x,y,z = gp.screen_to_world(self.main_camera, input.x, input.y)
+        #print_line((x,y,z))
+        dx = x - self.start_x
+        dy = y - self.start_y
+        dz = z - self.start_z
+        
+        self.center_x -= dx
+        self.center_y -= dy
+        self.center_z -= dz
+
+        set_position(self.main_camera, 
+            self.center_x + self.offset_x,
+            self.center_y + self.offset_y,
+            self.center_z + self.offset_z)
+        lookat(self.main_camera,
+            self.center_x,
+            self.center_y,
+            self.center_z)
         pass
 
     def _ready(self):
