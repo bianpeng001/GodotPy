@@ -89,17 +89,23 @@ public:
 };
 List<FCapsuleObject *> FCapsuleObject::instance_list;
 
-static PyObject* get_or_create_capsule(Node* p_node) {
-	auto v = p_node->get(c_capsule_name);
+template<typename T>
+static T *GetCapsulePointer(PyObject *capsule) {
+	auto node = reinterpret_cast<Node *>(PyCapsule_GetPointer(capsule, c_node_name));
+	return Object::cast_to<T>(node);
+}
+
+static PyObject* get_or_create_capsule(Node* a_node) {
+	auto v = a_node->get(c_capsule_name);
 	
 	if (!v) {
-		PyObject *p_capsule = PyCapsule_New(p_node, c_node_name, NULL);
+		PyObject *p_capsule = PyCapsule_New(a_node, c_node_name, NULL);
 
 		auto ptr = memnew(FCapsuleObject(p_capsule));
 		FCapsuleObject::instance_list.push_back(ptr);
 
 		v = ptr;
-		p_node->set(c_capsule_name, v);
+		a_node->set(c_capsule_name, v);
 	}
 	auto obj = static_cast<Object *>(v);
 	return static_cast<FCapsuleObject *>(obj)->p_capsule;
@@ -116,28 +122,29 @@ static PyObject *f_print_line(PyObject *module, PyObject *args) {
 	Py_RETURN_NONE;
 }
 static PyObject *f_set_process_input(PyObject *module, PyObject *args) {
-	PyObject *node;
+	PyObject *a_node;
 	int value;
 
-	if (!PyArg_ParseTuple(args, "Oi", &node, &value)) {
+	if (!PyArg_ParseTuple(args, "Oi", &a_node, &value)) {
 		Py_RETURN_NONE;
 	}
 
-	auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
-	p_node->set_process_input(value != 0);
+	auto node = (Node *)PyCapsule_GetPointer(a_node, c_node_name);
+	node->set_process_input(value != 0);
 
 	Py_RETURN_NONE;
 }
 static PyObject *f_set_process(PyObject *module, PyObject *args) {
-	PyObject *node;
+	PyObject *a_node;
 	int value;
 
-	if (!PyArg_ParseTuple(args, "Oi", &node, &value)) {
+	if (!PyArg_ParseTuple(args, "Oi", &a_node, &value)) {
 		Py_RETURN_NONE;
 	}
 
-	auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
-	p_node->set_process(value != 0);
+	//auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
+	auto node = GetCapsulePointer<Node>(a_node);
+	node->set_process(value != 0);
 
 	Py_RETURN_NONE;
 }
@@ -145,19 +152,21 @@ static PyObject *f_connect_callback(PyObject *callback) {
 	Py_RETURN_NONE;
 }
 static PyObject *f_connect(PyObject *module, PyObject *args) {
-	PyObject *node;
-	const char *signal;
-	PyObject *callback;
-
+	
 	do {
-		if (!PyArg_ParseTuple(args, "OsO", &node, &signal, &callback)) {
+		PyObject *a_node;
+		const char *signal;
+		PyObject *callback;
+
+		if (!PyArg_ParseTuple(args, "OsO", &a_node, &signal, &callback)) {
 			break;
 		}
 		Py_INCREF(callback);
 
-		auto p_node = reinterpret_cast<Node *>(PyCapsule_GetPointer(node, c_node_name));
-		auto ccb = memnew(CallableCustomCallback(p_node, callback, NULL));
-		p_node->connect(signal, Callable(ccb));
+		//auto node = reinterpret_cast<Node *>(PyCapsule_GetPointer(a_node, c_node_name));
+		auto node = GetCapsulePointer<Node>(a_node);
+		auto ccb = memnew(CallableCustomCallback(node, callback, NULL));
+		node->connect(signal, Callable(ccb));
 
 	} while (0);
 	
@@ -171,8 +180,7 @@ static PyObject* f_find_node(PyObject* module, PyObject* args) {
 		goto end;
 	}
 
-	auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
-	Node *result = p_node->get_node(NodePath(path));
+	Node *result = GetCapsulePointer<Node>(node)->get_node(NodePath(path));
 	if (!result) {
 		goto end;
 	}
@@ -184,57 +192,59 @@ end:
 	Py_RETURN_NONE;
 }
 static PyObject *f_set_position(PyObject *module, PyObject *args) {
-	PyObject *node;
-	float x, y, z;
-
+	
 	do {
-		if (!PyArg_ParseTuple(args, "Offf", &node, &x, &y, &z)) {
+		PyObject *a_node;
+		float x, y, z;
+
+		if (!PyArg_ParseTuple(args, "Offf", &a_node, &x, &y, &z)) {
 			break;
 		}
 
-		auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
-		auto p_node3d = dynamic_cast<Node3D *>(p_node);
-		if (!p_node3d) {
+		auto node = GetCapsulePointer<Node3D>(a_node);
+		if (!node) {
 			break;
 		}
 
-		p_node3d->set_position(Vector3(x, y, z));
+		node->set_position(Vector3(x, y, z));
 
 	} while (0);
 
 	Py_RETURN_NONE;
 }
 static PyObject *f_get_position(PyObject *module, PyObject *args) {
-	PyObject *node;
-
+	
 	do {
-		if (!PyArg_ParseTuple(args, "O", &node)) {
+		PyObject *a_node;
+
+		if (!PyArg_ParseTuple(args, "O", &a_node)) {
 			break;
 		}
 
-		auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
-		auto p_node3d = dynamic_cast<Node3D *>(p_node);
-		if (!p_node3d) {
+		auto node = GetCapsulePointer<Node3D>(a_node);
+		if (!node) {
 			break;
 		}
 
-		auto p = p_node3d->get_position();
+		auto p = node->get_position();
 
-		auto tuple = PyTuple_New(3);
-		PyTuple_SetItem(tuple, 0, Py_BuildValue("f", p.x));
-		PyTuple_SetItem(tuple, 1, Py_BuildValue("f", p.y));
-		PyTuple_SetItem(tuple, 2, Py_BuildValue("f", p.z));
-		return tuple;
+		//auto tuple = PyTuple_New(3);
+		//PyTuple_SetItem(tuple, 0, Py_BuildValue("f", p.x));
+		//PyTuple_SetItem(tuple, 1, Py_BuildValue("f", p.y));
+		//PyTuple_SetItem(tuple, 2, Py_BuildValue("f", p.z));
+		//return tuple;
+		return Py_BuildValue("(fff)", p.x, p.y, p.z);
 
 	} while (0);
 
 	Py_RETURN_NONE;
 }
 static PyObject *f_set_rotation(PyObject *module, PyObject *args) {
-	PyObject *node;
-	float x, y, z;
-
+	
 	do {
+		PyObject *node;
+		float x, y, z;
+
 		if (!PyArg_ParseTuple(args, "Offf", &node, &x, &y, &z)) {
 			break;
 		}
@@ -251,55 +261,77 @@ static PyObject *f_set_rotation(PyObject *module, PyObject *args) {
 	
 	Py_RETURN_NONE;
 }
-static PyObject *f_get_rotation(PyObject *module, PyObject *args) {
-	PyObject *node;
-
+static PyObject *f_lookat(PyObject *module, PyObject *args) {
 	do {
-		if (!PyArg_ParseTuple(args, "O", &node)) {
+		PyObject *a_node;
+		float x, y, z;
+
+		if (!PyArg_ParseTuple(args, "Offf", &a_node, &x, &y, &z)) {
 			break;
 		}
 
-		auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
-		auto p_node3d = dynamic_cast<Node3D *>(p_node);
-		if (!p_node3d) {
+		auto node = GetCapsulePointer<Node3D>(a_node);
+		if (!node) {
 			break;
 		}
 
-		auto p = p_node3d->get_rotation();
+		//node->set_rotation_degrees(Vector3(x, y, z));
+		node->look_at(Vector3(x, y, z), Vector3(0, 1, 0));
 
-		auto tuple = PyTuple_New(3);
-		PyTuple_SetItem(tuple, 0, Py_BuildValue("f", p.x));
-		PyTuple_SetItem(tuple, 1, Py_BuildValue("f", p.y));
-		PyTuple_SetItem(tuple, 2, Py_BuildValue("f", p.z));
-		return tuple;
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_get_rotation(PyObject *module, PyObject *args) {
+	
+	do {
+		PyObject *a_node;
+
+		if (!PyArg_ParseTuple(args, "O", &a_node)) {
+			break;
+		}
+
+		auto node = GetCapsulePointer<Node3D>(a_node);
+		if (!node) {
+			break;
+		}
+
+		auto p = node->get_rotation();
+
+		//auto tuple = PyTuple_New(3);
+		//PyTuple_SetItem(tuple, 0, Py_BuildValue("f", p.x));
+		//PyTuple_SetItem(tuple, 1, Py_BuildValue("f", p.y));
+		//PyTuple_SetItem(tuple, 2, Py_BuildValue("f", p.z));
+		//return tuple;
+		return Py_BuildValue("(fff)", p.x, p.y, p.z);
 
 	} while (0);
 
 	Py_RETURN_NONE;
 }
 static PyObject *f_screen_to_world(PyObject *module, PyObject *args) {
-	PyObject *node;
-	float x, y;
 
 	do {
-		if (!PyArg_ParseTuple(args, "Off", &node, &x, &y)) {
+		PyObject *a_node;
+		float x, y;
+
+		if (!PyArg_ParseTuple(args, "Off", &a_node, &x, &y)) {
 			break;
 		}
 
-		auto ptr_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
-		auto camera = dynamic_cast<Camera3D *>(ptr_node);
+		auto camera = GetCapsulePointer<Camera3D>(a_node);
 		if (!camera) {
 			break;
 		}
 
-		Vector2 screen_pos(x, y);
+		const Vector2 screen_pos(x, y);
 		auto ray_origin = camera->project_ray_origin(screen_pos);
 		auto ray_normal = camera->project_ray_normal(screen_pos);
 
-		Plane plane(Vector3(0, 1, 0), 0);
-		Vector3 out;
-		if (plane.intersects_ray(ray_origin, ray_normal, &out)) {
-			print_line(vformat("hit floor: %f,%f,%f", out.x, out.y, out.z));
+		const Plane plane(Vector3(0, 1, 0), 0);
+		Vector3 p;
+		if (plane.intersects_ray(ray_origin, ray_normal, &p)) {
+			return Py_BuildValue("(fff)", p.x, p.y, p.z);
 		}
 		
 	} while (0);
@@ -319,10 +351,12 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "set_position", f_set_position, METH_VARARGS, NULL },
 	{ "get_position", f_get_position, METH_VARARGS, NULL },
 	{ "set_rotation", f_set_rotation, METH_VARARGS, NULL },
+	{ "lookat", f_lookat, METH_VARARGS, NULL },
 	{ "get_rotation", f_get_rotation, METH_VARARGS, NULL },
 
 	// camera3d
 	{ "screen_to_world", f_screen_to_world, METH_VARARGS, NULL },
+	{ "world_to_screen", f_screen_to_world, METH_VARARGS, NULL },
 
 	{ NULL, NULL, 0, NULL }
 };
@@ -455,10 +489,10 @@ FPyObject::FPyObject() :
 		p_module(nullptr), p_object(nullptr), p_capsule(nullptr) {
 }
 FPyObject::~FPyObject() {
-	//if (p_module) {
-	//	Py_DECREF(p_module);
-	//	p_module = nullptr;
-	//}
+	if (p_module) {
+		Py_DECREF(p_module);
+		p_module = nullptr;
+	}
 
 	if (p_object) {
 		Py_DECREF(p_object);
@@ -497,7 +531,7 @@ void FPyObject::_ready() {
 		if (py_path.is_empty()) {
 			break;
 		}
-		print_line(vformat("load module: %s", py_path));
+		//print_line(vformat("load module: %s", py_path));
 		auto &path_utf8 = py_path.utf8();
 
 		PyObject *p_path = PyUnicode_FromString(path_utf8.get_data());
@@ -530,7 +564,7 @@ void FPyObject::_ready() {
 			break;
 		}
 
-		print_line(vformat("create class: %s", py_class));
+		//print_line(vformat("create class: %s", py_class));
 		p_object = PyObject_CallObject(p_class_info, NULL);
 		if (!p_object) {
 			PyErr_Print();
@@ -543,12 +577,13 @@ void FPyObject::_ready() {
 		PyObject_SetAttrString(p_object, c_capsule_name, p_capsule);
 		Py_INCREF(p_capsule);
 
+		// post create object
 		auto ret = PyObject_CallMethod(p_object, "_create", NULL);
 		if (ret) {
 			Py_DECREF(ret);
 			ret = NULL;
 		}
-	
+
 	} while (0);
 		
 }

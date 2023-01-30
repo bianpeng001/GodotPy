@@ -1,3 +1,7 @@
+#
+# 2023年1月30日 bianpeng
+#
+
 import GodotPy as gp
 
 # 对应于godot场景树的节点，的容器
@@ -5,7 +9,6 @@ class NodeObject:
     def __init__(self):
         # 记录一个node的指针
         self.py_capsule = None
-        #self.node = None
     
     def on_mouse_button(self, button, pressed, x, y):
         pass
@@ -47,11 +50,12 @@ def set_process(node, process=False, input=False):
 def connect(node, signal, callback):
     gp.connect(node, signal, callback)
 
-
 def get_position(node):
     return gp.get_position(node)
 
 def set_position(node, x, y, z):
     gp.set_position(node, x, y, z)
 
+def lookat(node, x, y, z):
+    gp.lookat(node, x, y, z)
 
