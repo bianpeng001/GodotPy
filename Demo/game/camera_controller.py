@@ -102,10 +102,11 @@ class CameraController(NodeObject):
         input = get_input()
 
         print_line(get_delta_time())
+        print('asasdfasdf')
 
         t = get_time()
         if t - self.press_time < 100:
-            a = gp.instantiate('res://Model/City01.tscn')
+            a = gp.instantiate('res://models/City01.tscn')
             x,y,z = screen_to_world(self.main_camera, input.x, input.y)
             set_position(a, x, y, z)
         pass

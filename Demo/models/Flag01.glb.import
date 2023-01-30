@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://oop7cbbkolr3"
-path="res://.godot/imported/Flag01.glb-2e2f5038d0e96ee372e5585e7ccbb38b.scn"
+path="res://.godot/imported/Flag01.glb-67a01b6fc7c403d2b23c1f26309390ff.scn"
 
 [deps]
 
-source_file="res://Model/Flag01.glb"
-dest_files=["res://.godot/imported/Flag01.glb-2e2f5038d0e96ee372e5585e7ccbb38b.scn"]
+source_file="res://models/Flag01.glb"
+dest_files=["res://.godot/imported/Flag01.glb-67a01b6fc7c403d2b23c1f26309390ff.scn"]
 
 [params]
 

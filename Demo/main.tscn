@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cipun2g0qp50n"]
+[gd_scene load_steps=2 format=3 uid="uid://cipun2g0qp50n"]
 
-[ext_resource type="PackedScene" uid="uid://dx4jt88t2pkvs" path="res://Model/City01.glb" id="1_fy31c"]
-[ext_resource type="PackedScene" uid="uid://4hvmkb1n5qtb" path="res://Model/City01.tscn" id="2_2sjd1"]
+[ext_resource type="PackedScene" uid="uid://4hvmkb1n5qtb" path="res://models/City01.tscn" id="2_xqycq"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -15,14 +14,6 @@ text = "Hello"
 [node name="FPyObject" type="FPyObject" parent="."]
 python_path = "main"
 python_class = "TestClass"
-
-[node name="City01" parent="." instance=ExtResource("2_2sjd1")]
-
-[node name="City02" parent="." instance=ExtResource("1_fy31c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17.7499, 0, -13.6001)
-
-[node name="City03" parent="." instance=ExtResource("1_fy31c")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.1538, 0, -26.5104)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.833577, -0.490839, 0.253428, 0, 0.458774, 0.888553, -0.552403, -0.740678, 0.382423, 0, 14.6445, 0)
@@ -41,5 +32,4 @@ far = 1000.0
 python_path = "game.input_controller"
 python_class = "InputController"
 
-[editable path="City02"]
-[editable path="City03"]
+[node name="City01" parent="." instance=ExtResource("2_xqycq")]
