@@ -26,6 +26,8 @@ class CameraController(NodeObject):
         self.center_y = 0
         self.center_z = 0
 
+        self.press_time = 0
+
     def _create(self):
         set_process(self.py_capsule, process=True, input=False)
         #gp.set_process(self.py_capsule, True)
@@ -34,6 +36,8 @@ class CameraController(NodeObject):
         #gp.connect(self.py_capsule, "ready", self._ready)
         connect(self.py_capsule, "ready", self._ready)
         self.main_camera = find_node(self.py_capsule, 'MainCamera')
+
+        self.update_camera()
 
     def _process(self):
         #print_safe(str(self.py_capsule))
@@ -61,23 +65,30 @@ class CameraController(NodeObject):
         self.start_x = x
         self.start_y = y
         self.start_z = z
-        
+
+        self.press_time = get_time()
+
         pass
-        
+    
+    # TODO： begin_drag(), end_drag(), drag()
     def on_mouse_drag(self):
         input = get_input()
 
         # 拖拽场景，用移动摄像头来实现
-        x,y,z = gp.screen_to_world(self.main_camera, input.x, input.y)
+        x,y,z = screen_to_world(self.main_camera, input.x, input.y)
         #print_line((x,y,z))
         dx = x - self.start_x
         dy = y - self.start_y
         dz = z - self.start_z
-        
+
         self.center_x -= dx
         self.center_y -= dy
         self.center_z -= dz
 
+        self.update_camera()
+        
+    # 刷新camera位置和朝向
+    def update_camera(self):
         set_position(self.main_camera, 
             self.center_x + self.offset_x,
             self.center_y + self.offset_y,
@@ -86,11 +97,15 @@ class CameraController(NodeObject):
             self.center_x,
             self.center_y,
             self.center_z)
-        
-        pass
 
     def on_mouse_button_up(self):
-        
+        input = get_input()
+
+        t = get_time()
+        if t - self.press_time < 100:
+            a = gp.instantiate('res://Model/City01.tscn')
+            x,y,z = screen_to_world(self.main_camera, input.x, input.y)
+            set_position(a, x, y, z)
         pass
 
     def _ready(self):

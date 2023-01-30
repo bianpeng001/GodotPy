@@ -6,9 +6,14 @@
 
 // godot
 #include "core/os/memory.h"
+#include "core/os/time.h"
+
 #include "core/math/plane.h"
+
 #include "scene/3d/node_3d.h"
 #include "scene/3d/camera_3d.h"
+
+#include "scene/resources/packed_scene.h"
 
 // python
 #include <Windows.h>
@@ -74,15 +79,15 @@ public:
 
 	}
 	virtual ~FCapsuleObject() {
-		auto node = reinterpret_cast<Node *>(PyCapsule_GetPointer(p_capsule, c_node_name));
-		print_line(vformat("destroy FCapsuleObject: %s(%d) of %s ",
-				node->get_name(),
-				(uint64_t)this->get_instance_id(),
-				node->get_class_name()));
+		//auto node = reinterpret_cast<Node *>(PyCapsule_GetPointer(p_capsule, c_node_name));
+		//print_line(vformat("destroy FCapsuleObject: %s(%d) of %s ",
+		//		node->get_name(),
+		//		(uint64_t)this->get_instance_id(),
+		//		node->get_class_name()));
 
 		if (p_capsule) {
 			Py_DECREF(p_capsule);
-			p_capsule = nullptr;
+			p_capsule = NULL;
 		}
 	}
 	static List<FCapsuleObject *> instance_list;
@@ -94,7 +99,6 @@ static T *GetCapsulePointer(PyObject *capsule) {
 	auto node = reinterpret_cast<Node *>(PyCapsule_GetPointer(capsule, c_node_name));
 	return Object::cast_to<T>(node);
 }
-
 static PyObject* get_or_create_capsule(Node* a_node) {
 	auto v = a_node->get(c_capsule_name);
 	
@@ -152,7 +156,7 @@ static PyObject *f_connect_callback(PyObject *callback) {
 	Py_RETURN_NONE;
 }
 static PyObject *f_connect(PyObject *module, PyObject *args) {
-	
+
 	do {
 		PyObject *a_node;
 		const char *signal;
@@ -338,6 +342,39 @@ static PyObject *f_screen_to_world(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_instantiate(PyObject *module, PyObject *args) {
+	do {
+		const char *a_path;
+
+		if (!PyArg_ParseTuple(args, "s", &a_path)) {
+			break;
+		}
+		const String path(a_path);
+		Ref<PackedScene> res = ResourceLoader::load(path);
+		if (!res.is_null()) {
+			auto node = Object::cast_to<Node3D>(res->instantiate(PackedScene::GEN_EDIT_STATE_DISABLED));
+			//node->set_position(Vector3(2, 2, 2));
+
+			auto st = SceneTree::get_singleton();
+			auto scene = st->get_current_scene();
+			scene->add_child(node);
+
+			PyObject *obj = get_or_create_capsule(node);
+			return obj;
+		}
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_get_time(PyObject *module, PyObject *args) {
+	do {
+		auto time = (int)Time::get_singleton()->get_ticks_msec();
+		return Py_BuildValue("i", time);
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyMethodDef GodotPy_methods[] = {
 	{ "print_line", f_print_line, METH_VARARGS, NULL },
 
@@ -358,6 +395,13 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "screen_to_world", f_screen_to_world, METH_VARARGS, NULL },
 	{ "world_to_screen", f_screen_to_world, METH_VARARGS, NULL },
 
+	// resource
+	{ "instantiate", f_instantiate, METH_VARARGS, NULL },
+
+	// os
+	{ "get_time", f_get_time, METH_VARARGS, NULL },
+
+	// over
 	{ NULL, NULL, 0, NULL }
 };
 static struct PyModuleDef GodotPymodule = {

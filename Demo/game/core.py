@@ -4,6 +4,16 @@
 
 import GodotPy as gp
 
+#
+class Vector3:
+    def __init__(self):
+        self.x = self.y = self.z = 0
+
+    def set(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+
 # 对应于godot场景树的节点，的容器
 class NodeObject:
     def __init__(self):
@@ -61,5 +71,8 @@ def lookat(node, x, y, z):
 
 def screen_to_world(camera, x, y):
     return gp.screen_to_world(camera, x, y)
+
+def get_time():
+    return gp.get_time()
 
 

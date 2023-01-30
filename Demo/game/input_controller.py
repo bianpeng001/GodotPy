@@ -19,7 +19,7 @@ class InputController(NodeObject):
 
         print_line('create InputController')
         self.x = self.y = 0
-        self.mouse_pressed = [False, False, False, False]
+        self.mouse_pressed = [False, False, False, False, False, False, False, False, False]
         self.key_dict = {}
 
     def _create(self):
