@@ -1,4 +1,4 @@
-#import GodotPy as gp
+import GodotPy as gp
 from game.core import *
 from game.input_controller import get_input
 
@@ -25,8 +25,9 @@ class CameraController(NodeObject):
         input = get_input()
         if input:
             if input.is_mouse_pressed(1):
-                x,y,z = get_position(self.main_camera)
-                print_line((x,y,z))
+                #x,y,z = get_position(self.main_camera)
+                #print_line((x,y,z))
+                gp.screen_to_world(self.main_camera, input.x, input.y)
 
     def _ready(self):
         print_line(f"camera controller ready")

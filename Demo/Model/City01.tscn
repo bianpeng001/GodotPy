@@ -11,10 +11,10 @@
 surface_material_override/0 = ExtResource("2_3de47")
 
 [node name="Flag01" parent="." index="1" instance=ExtResource("3_3x2e3")]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -1, 0.5, -1)
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -1, 0.5, 1)
 
-[node name="Label3D" type="Label3D" parent="." index="2"]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -0.793441, 2, -0.620222)
+[node name="Title" type="Label3D" parent="." index="2"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 3, 0)
 pixel_size = 0.028
 text = "刘"
 font = ExtResource("4_8de7a")

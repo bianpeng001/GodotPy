@@ -16,6 +16,7 @@ class InputController(NodeObject):
         print_line('create InputController')
         self.mouse_pressed = [False, False, False, False]
         self.key_dict = {}
+        self.x = self.y = 0
 
     def _create(self):
         set_process(self.py_capsule, process=True, input=True)
@@ -33,16 +34,21 @@ class InputController(NodeObject):
         is_pressed = pressed != 0
         print_line(f'mouse button: button={button} pressed={is_pressed} x={x} y={y}')
         self.mouse_pressed[button] = is_pressed
+        self.x = x
+        self.y = y
 
     def is_mouse_pressed(self, button):
         return self.mouse_pressed[button]
 
     def on_mouse_move(self, x, y):
-        if self.is_mouse_pressed(1):
-            #print_line(f'mouse move: x={x} y={y}')
-            pass
-        else:
-            pass
+        self.x = x
+        self.y = y
+
+        # if self.is_mouse_pressed(1):
+        #     print_line(f'mouse move: x={x} y={y}')
+        #     pass
+        # else:
+        #     pass
 
     def _process(self):
         pass

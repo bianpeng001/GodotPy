@@ -6,6 +6,7 @@
 
 // godot
 #include "core/os/memory.h"
+#include "core/math/plane.h"
 #include "scene/3d/node_3d.h"
 #include "scene/3d/camera_3d.h"
 
@@ -39,20 +40,21 @@ public:
 	virtual ~CallableCustomCallback() {
 		if (data.py_func) {
 			Py_DECREF(data.py_func);
-			data.py_func = NULL;
+			//data.py_func = NULL;
 		}
 		if (data.py_args) {
 			Py_DECREF(data.py_args);
-			data.py_args = NULL;
+			//data.py_args = NULL;
 		}
 	}
-	virtual ObjectID get_object() const {
+	virtual ObjectID get_object() const override {
 		return data.p_node->get_instance_id();
 	}
-	virtual void call(const Variant **p_arguments, int p_argcount, Variant &r_return_value, Callable::CallError &r_call_error) const {
-		// TODO: 这里要解决一下参数，目前没有穿参数
-		//print_line("CallableCustomCallback::call");
-		PyObject_Call(data.py_func, data.py_args, NULL);
+	virtual void call(const Variant **p_arguments, int p_argcount, Variant &r_return_value, Callable::CallError &r_call_error) const override {
+		// TODO: 这里要解决一下参数，目前没有传入参数
+		auto args = PyTuple_New(0);
+		PyObject_Call(data.py_func, args, NULL);
+		Py_DECREF(args);
 	};
 };
 
@@ -145,18 +147,16 @@ static PyObject *f_connect_callback(PyObject *callback) {
 static PyObject *f_connect(PyObject *module, PyObject *args) {
 	PyObject *node;
 	const char *signal;
-	PyObject *func;
+	PyObject *callback;
 
 	do {
-		if (!PyArg_ParseTuple(args, "OsO", &node, &signal, &func)) {
+		if (!PyArg_ParseTuple(args, "OsO", &node, &signal, &callback)) {
 			break;
 		}
-		Py_INCREF(func);
-
-		auto py_args = PyTuple_New(0);
+		Py_INCREF(callback);
 
 		auto p_node = reinterpret_cast<Node *>(PyCapsule_GetPointer(node, c_node_name));
-		auto ccb = memnew(CallableCustomCallback(p_node, func, py_args));
+		auto ccb = memnew(CallableCustomCallback(p_node, callback, NULL));
 		p_node->connect(signal, Callable(ccb));
 
 	} while (0);
@@ -279,10 +279,10 @@ static PyObject *f_get_rotation(PyObject *module, PyObject *args) {
 }
 static PyObject *f_screen_to_world(PyObject *module, PyObject *args) {
 	PyObject *node;
-	float x, y, z;
+	float x, y;
 
 	do {
-		if (!PyArg_ParseTuple(args, "Offf", &node, &x, &y, &z)) {
+		if (!PyArg_ParseTuple(args, "Off", &node, &x, &y)) {
 			break;
 		}
 
@@ -292,7 +292,16 @@ static PyObject *f_screen_to_world(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		//camera->project_ray_origin();
+		Vector2 screen_pos(x, y);
+		auto ray_origin = camera->project_ray_origin(screen_pos);
+		auto ray_normal = camera->project_ray_normal(screen_pos);
+
+		Plane plane(Vector3(0, 1, 0), 0);
+		Vector3 out;
+		if (plane.intersects_ray(ray_origin, ray_normal, &out)) {
+			print_line(vformat("hit floor: %f,%f,%f", out.x, out.y, out.z));
+		}
+		
 	} while (0);
 
 	Py_RETURN_NONE;
