@@ -67,8 +67,6 @@ class CameraController(NodeObject):
         self.start_z = z
 
         self.press_time = get_time()
-
-        pass
     
     # TODO： begin_drag(), end_drag(), drag()
     def on_mouse_drag(self):
