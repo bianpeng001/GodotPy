@@ -20,6 +20,9 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
+//#define GP_DECREF(X) Py_DECREF(X); X = NULL
+#define GP_DECREF(X) X = NULL
+
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
@@ -44,11 +47,11 @@ public:
 	}
 	virtual ~CallableCustomCallback() {
 		if (data.py_func) {
-			Py_DECREF(data.py_func);
+			GP_DECREF(data.py_func);
 			//data.py_func = NULL;
 		}
 		if (data.py_args) {
-			Py_DECREF(data.py_args);
+			GP_DECREF(data.py_args);
 			//data.py_args = NULL;
 		}
 	}
@@ -59,7 +62,7 @@ public:
 		// TODO: 这里要解决一下参数，目前没有传入参数
 		auto args = PyTuple_New(0);
 		PyObject_Call(data.py_func, args, NULL);
-		Py_DECREF(args);
+		GP_DECREF(args);
 	};
 };
 
@@ -72,10 +75,10 @@ static const char *c_node_name = "node";
 /// </summary>
 class FCapsuleObject : public Object {
 public:
-	PyObject *p_capsule;
+	PyObject *p_node_capsule;
 
 	FCapsuleObject(PyObject *a_capsule) :
-			p_capsule(a_capsule) {
+			p_node_capsule(a_capsule) {
 
 	}
 	virtual ~FCapsuleObject() {
@@ -85,9 +88,8 @@ public:
 		//		(uint64_t)this->get_instance_id(),
 		//		node->get_class_name()));
 
-		if (p_capsule) {
-			Py_DECREF(p_capsule);
-			p_capsule = NULL;
+		if (p_node_capsule) {
+			GP_DECREF(p_node_capsule);
 		}
 	}
 	static List<FCapsuleObject *> instance_list;
@@ -102,17 +104,17 @@ static T *GetCapsulePointer(PyObject *capsule) {
 static PyObject* get_or_create_capsule(Node* a_node) {
 	auto v = a_node->get(c_capsule_name);
 	
-	if (!v) {
-		PyObject *p_capsule = PyCapsule_New(a_node, c_node_name, NULL);
+	if (v.is_null()) {
+		PyObject *node_capsule = PyCapsule_New(a_node, c_node_name, NULL);
 
-		auto ptr = memnew(FCapsuleObject(p_capsule));
+		auto ptr = memnew(FCapsuleObject(node_capsule));
 		FCapsuleObject::instance_list.push_back(ptr);
 
 		v = ptr;
 		a_node->set(c_capsule_name, v);
 	}
 	auto obj = static_cast<Object *>(v);
-	return static_cast<FCapsuleObject *>(obj)->p_capsule;
+	return static_cast<FCapsuleObject *>(obj)->p_node_capsule;
 }
 //------------------------------------------------------------------------------
 // module function implementation
@@ -301,12 +303,6 @@ static PyObject *f_get_rotation(PyObject *module, PyObject *args) {
 		}
 
 		auto p = node->get_rotation();
-
-		//auto tuple = PyTuple_New(3);
-		//PyTuple_SetItem(tuple, 0, Py_BuildValue("f", p.x));
-		//PyTuple_SetItem(tuple, 1, Py_BuildValue("f", p.y));
-		//PyTuple_SetItem(tuple, 2, Py_BuildValue("f", p.z));
-		//return tuple;
 		return Py_BuildValue("(fff)", p.x, p.y, p.z);
 
 	} while (0);
@@ -490,7 +486,7 @@ void FPyObject::input(const Ref<InputEvent> &p_event) {
 		//print_line(vformat("MouseMotion: %f,%f", pos.x, pos.y));
 		auto ret = PyObject_CallMethod(this->p_object, "on_mouse_move", "ff", pos.x, pos.y);
 		if (ret) {
-			Py_DECREF(ret);
+			GP_DECREF(ret);
 			ret = NULL;
 		}
 	}
@@ -505,7 +501,7 @@ void FPyObject::input(const Ref<InputEvent> &p_event) {
 			button_index, pressed,
 			pos.x, pos.y);
 		if (ret) {
-			Py_DECREF(ret);
+			GP_DECREF(ret);
 			ret = NULL;
 		}
 	}
@@ -518,7 +514,7 @@ void FPyObject::input(const Ref<InputEvent> &p_event) {
 		auto ret = PyObject_CallMethod(this->p_object, "on_key_pressed", "ii",
 			(int)code, pressed);
 		if (ret) {
-			Py_DECREF(ret);
+			GP_DECREF(ret);
 			ret = NULL;
 		}
 	}
@@ -535,17 +531,17 @@ FPyObject::FPyObject() :
 }
 FPyObject::~FPyObject() {
 	if (p_module) {
-		Py_DECREF(p_module);
+		GP_DECREF(p_module);
 		p_module = nullptr;
 	}
 
 	if (p_object) {
-		Py_DECREF(p_object);
+		GP_DECREF(p_object);
 		p_object = nullptr;
 	}
 
 	if (p_capsule) {
-		Py_DECREF(p_capsule);
+		GP_DECREF(p_capsule);
 		p_capsule = nullptr;
 	}
 }
@@ -585,7 +581,7 @@ void FPyObject::_ready() {
 			PyErr_Print();
 			break;
 		}
-		Py_DECREF(p_path);
+		GP_DECREF(p_path);
 
 		if (py_class.is_empty()) {
 			break;
@@ -603,9 +599,9 @@ void FPyObject::_ready() {
 			PyErr_Print();
 			break;
 		}
-		Py_DECREF(dict);
+		GP_DECREF(dict);
 		if (!PyCallable_Check(p_class_info)) {
-			Py_DECREF(p_class_info);
+			GP_DECREF(p_class_info);
 			break;
 		}
 
@@ -615,17 +611,16 @@ void FPyObject::_ready() {
 			PyErr_Print();
 			break;
 		}
-		Py_DECREF(p_class_info);
-		Py_INCREF(p_object);
+		GP_DECREF(p_class_info);
 
 		p_capsule = get_or_create_capsule(this);
 		PyObject_SetAttrString(p_object, c_capsule_name, p_capsule);
-		Py_INCREF(p_capsule);
+		GP_DECREF(p_capsule);
 
 		// post create object
 		auto ret = PyObject_CallMethod(p_object, "_create", NULL);
 		if (ret) {
-			Py_DECREF(ret);
+			GP_DECREF(ret);
 			ret = NULL;
 		}
 
@@ -640,7 +635,7 @@ void FPyObject::_process() {
 
 		auto ret = PyObject_CallMethod(p_object, "_process", NULL);
 		if (ret) {
-			Py_DECREF(ret);
+			GP_DECREF(ret);
 			ret = NULL;
 		}
 	} while (0);
