@@ -31,8 +31,6 @@ class GroundMgr(NodeObject):
     def _create(self):
         #set_process(self._get_node(), process=False, input=False)
         connect(self._get_node(), "ready", self._ready)
-        
-        print_line('create GroundMgr ok')
 
     def _ready(self):
         print_line('GroundMgr ready')
@@ -62,7 +60,7 @@ class GroundMgr(NodeObject):
         # 补两个远角
         self.update_tile(cx    , cz - 2)
         self.update_tile(cx + 1, cz - 2)
-        self.update_tile(cx - 2, cz)
+        self.update_tile(cx - 2, cz    )
         self.update_tile(cx - 2, cz + 1)
 
     def update_tile(self, cx, cz):

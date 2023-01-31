@@ -36,7 +36,7 @@ class Singleton:
 
     def __init__(self):
         pass
-    
+   
 
 # 对应于godot场景树的节点，的容器
 class NodeObject:

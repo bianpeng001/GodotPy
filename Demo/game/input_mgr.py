@@ -20,8 +20,6 @@ class InputMgr(NodeObject):
         set_process(self._get_node(), process=False, input=True)
         connect(self._get_node(), "ready", self._ready)
 
-        print_line('create InputMgr ok')
-
     def _ready(self):
         print_line(f"InputMgr ready")
 

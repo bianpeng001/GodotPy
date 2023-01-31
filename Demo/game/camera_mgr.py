@@ -34,8 +34,6 @@ class CameraMgr(NodeObject):
         connect(self._get_node(), "ready", self._ready)
         self.main_camera = find_node(self._get_node(), 'MainCamera')
 
-        print_line('create CameraMgr ok')
-
     def _ready(self):
         print_line("CameraMgr ready")
 

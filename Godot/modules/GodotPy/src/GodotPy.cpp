@@ -459,7 +459,7 @@ bool FLibPy::bInit = false;
 void FLibPy::Init() {
 	if (!bInit) {
 		bInit = true;
-		print_line("begin init python");
+		print_line("init python");
 
 		// 这里是通过环境变量，把当前目录加到路径里面去，具体的逻辑在
 		// Modules/getpath.py
@@ -469,7 +469,7 @@ void FLibPy::Init() {
 		InitPython();
 		//Py_Initialize();
 		
-		PyRun_SimpleString("from GodotPy import print_line;print_line('hello python')\n");
+		PyRun_SimpleString("from GodotPy import print_line;print_line('hello godot')\n");
 		print_line("init python ok");
 	}
 }
@@ -614,6 +614,7 @@ void FPyObject::_ready() {
 		if (ret) {
 			GP_DECREF(ret);
 		}
+		print_line(vformat("create %s ok", py_class));
 
 	} while (0);
 		
