@@ -18,9 +18,9 @@ class CameraController(NodeObject):
 
         self.is_left_button_pressed = False
 
-        self.offset_x = 15
-        self.offset_y = 20
-        self.offset_z = 15
+        self.offset_x = 30
+        self.offset_y = 35
+        self.offset_z = 30
 
         self.center_x = 0
         self.center_y = 0

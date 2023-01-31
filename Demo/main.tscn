@@ -25,14 +25,16 @@ python_class = "CameraController"
 
 [node name="MainCamera" type="Camera3D" parent="CameraController"]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 15, 20, 15)
-fov = 45.0
+fov = 28.0
 near = 5.0
-far = 1000.0
+far = 100.0
 
 [node name="InputController" type="FPyObject" parent="."]
 python_path = "game.input_controller"
 python_class = "InputController"
 
 [node name="City01" parent="." instance=ExtResource("1_8bby1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.236233, 0, 0)
 
 [node name="Square" parent="." instance=ExtResource("2_h26w8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.21026, 0, 0)
