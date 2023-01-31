@@ -105,6 +105,8 @@ def get_time():
 def get_delta_time():
     return gp.get_delta_time()
 
+def instantiate(path):
+    return gp.instantiate(path)
 
 
 

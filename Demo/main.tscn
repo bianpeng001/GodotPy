@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cipun2g0qp50n"]
+[gd_scene load_steps=2 format=3 uid="uid://cipun2g0qp50n"]
 
 [ext_resource type="PackedScene" uid="uid://je36l1jcis70" path="res://models/City01.tscn" id="1_8bby1"]
-[ext_resource type="PackedScene" uid="uid://b6kjnaugcynxl" path="res://models/Square.tscn" id="2_h26w8"]
 
 [node name="RootNode" type="FPyObject"]
 python_module = "game.mainloop"
@@ -30,9 +29,6 @@ transform = Transform3D(0.833577, -0.490839, 0.253428, 0, 0.458774, 0.888553, -0
 
 [node name="City01" parent="." instance=ExtResource("1_8bby1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.236233, 0, 0)
-
-[node name="Square" parent="." instance=ExtResource("2_h26w8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.21026, 0, 0)
 
 [node name="MainUI" type="Node2D" parent="."]
 

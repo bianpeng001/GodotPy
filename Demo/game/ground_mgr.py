@@ -6,16 +6,18 @@ import math
 from game.core import *
 from game.game_mgr import game_mgr
 
-TILE_SIZE = 15
+TILE_SIZE = 24
 
 class Tile:
     def __init__(self, x, z):
         self.x = x*TILE_SIZE
         self.z = z*TILE_SIZE
+        self.model_node = None
 
     def load(self):
-        print_line(f'load tile: {self.x},{self.z}')
-        pass
+        print_line(f'load tile: x={self.x} z={self.z}')
+        self.model_node = instantiate('res://models/Square.tscn')
+        set_position(self.model_node, self.x, 0, self.z)
 
 # 地面
 class GroundMgr(NodeObject):
@@ -45,17 +47,23 @@ class GroundMgr(NodeObject):
         cx = math.floor((x / TILE_SIZE) + 0.5)
         cz = math.floor((z / TILE_SIZE) + 0.5)
 
-        self.update_tile(cx, cz)
-        self.update_tile(cx - 1, cz)
-        self.update_tile(cx + 1, cz)
+        self.update_tile(cx    , cz    )
+        self.update_tile(cx - 1, cz    )
+        self.update_tile(cx + 1, cz    )
 
-        self.update_tile(cx, cz - 1)
+        self.update_tile(cx    , cz - 1)
         self.update_tile(cx - 1, cz - 1)
         self.update_tile(cx + 1, cz - 1)
-
-        self.update_tile(cx, cz + 1)
+        
+        self.update_tile(cx    , cz + 1)
         self.update_tile(cx - 1, cz + 1)
         self.update_tile(cx + 1, cz + 1)
+
+        # 补两个远角
+        self.update_tile(cx    , cz - 2)
+        self.update_tile(cx + 1, cz - 2)
+        self.update_tile(cx - 2, cz)
+        self.update_tile(cx - 2, cz + 1)
 
     def update_tile(self, cx, cz):
         key = (cx, cz)

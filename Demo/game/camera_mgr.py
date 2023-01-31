@@ -3,7 +3,6 @@
 #
 import math
 
-import GodotPy as gp
 from game.core import *
 from game.game_mgr import game_mgr
 
@@ -103,7 +102,7 @@ class CameraMgr(NodeObject):
 
         t = get_time()
         if t - self.press_time < 80:
-            a = gp.instantiate('res://models/City01.tscn')
+            a = instantiate('res://models/City01.tscn')
             x,y,z = screen_to_world(self.main_camera, input.x, input.y)
             set_position(a, x, y, z)
         

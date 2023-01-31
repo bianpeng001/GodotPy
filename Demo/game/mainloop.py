@@ -5,7 +5,7 @@
 from game.core import *
 from game.game_mgr import game_mgr
 
-#
+# 主循环
 class MainLoop(NodeObject):
     def __init__(self):
         super().__init__()

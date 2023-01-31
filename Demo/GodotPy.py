@@ -25,7 +25,9 @@ def get_time():
 
 def get_delta_time():
     return 0
-
+    
+def instantiate(path):
+    return None
 
 print('init GodotPy ok')
     
