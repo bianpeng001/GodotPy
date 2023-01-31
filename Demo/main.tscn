@@ -5,22 +5,6 @@
 
 [node name="Node3D" type="Node3D"]
 
-[node name="Button" type="Button" parent="."]
-offset_left = 150.0
-offset_top = 160.0
-offset_right = 250.0
-offset_bottom = 200.0
-text = "Hello"
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.833577, -0.490839, 0.253428, 0, 0.458774, 0.888553, -0.552403, -0.740677, 0.382423, 0, 14.6445, 0)
-
-[node name="City01" parent="." instance=ExtResource("1_8bby1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.236233, 0, 0)
-
-[node name="Square" parent="." instance=ExtResource("2_h26w8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.21026, 0, 0)
-
 [node name="CameraController" type="FPyObject" parent="."]
 python_module = "game.camera_mgr"
 python_class = "CameraMgr"
@@ -38,3 +22,21 @@ python_class = "InputMgr"
 [node name="GroundMgr" type="FPyObject" parent="."]
 python_module = "game.ground_mgr"
 python_class = "GroundMgr"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.833577, -0.490839, 0.253428, 0, 0.458774, 0.888553, -0.552403, -0.740677, 0.382423, 0, 14.6445, 0)
+
+[node name="City01" parent="." instance=ExtResource("1_8bby1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.236233, 0, 0)
+
+[node name="Square" parent="." instance=ExtResource("2_h26w8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.21026, 0, 0)
+
+[node name="MainUI" type="Node2D" parent="."]
+
+[node name="Button" type="Button" parent="MainUI"]
+offset_left = 150.0
+offset_top = 160.0
+offset_right = 250.0
+offset_bottom = 200.0
+text = "Hello"
