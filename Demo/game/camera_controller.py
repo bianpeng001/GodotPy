@@ -5,16 +5,17 @@ import math
 
 import GodotPy as gp
 from game.core import *
-from game.input_controller import get_input
+from game.game_mgr import GameMgr
 
 def test_callback():
     print_line("test_callback")
+
+game_mgr = GameMgr.get_instance()
 
 # 镜头管理
 class CameraController(NodeObject):
     def __init__(self):
         super().__init__()
-        print_line('create CameraController')
 
         self.is_left_button_pressed = False
 
@@ -29,22 +30,23 @@ class CameraController(NodeObject):
         self.press_time = 0
 
     def _create(self):
-        set_process(self.py_capsule, process=True, input=False)
-        #gp.set_process(self.py_capsule, True)
-        #gp.set_process_input(self.py_capsule, True)
-        #gp.connect(self.py_capsule, "ready", test_callback)
-        #gp.connect(self.py_capsule, "ready", self._ready)
-        connect(self.py_capsule, "ready", self._ready)
-        self.main_camera = find_node(self.py_capsule, 'MainCamera')
+        set_process(self._get_node(), process=True, input=False)
+        #gp.set_process(self._get_node(), True)
+        #gp.set_process_input(self._get_node(), True)
+        #gp.connect(self._get_node(), "ready", test_callback)
+        #gp.connect(self._get_node(), "ready", self._ready)
+        connect(self._get_node(), "ready", self._ready)
+        self.main_camera = find_node(self._get_node(), 'MainCamera')
 
         self.update_camera()
+        print_line('create CameraController ok')
 
     def _process(self):
-        #print_safe(str(self.py_capsule))
+        #print_safe(str(self._get_node()))
         self.handle_input()
 
     def handle_input(self):
-        input = get_input()
+        input = game_mgr.get_input()
         if not input:
             return
         
@@ -60,7 +62,7 @@ class CameraController(NodeObject):
                 self.on_mouse_button_up()
         
     def on_mouse_button_down(self):
-        input = get_input()
+        input = game_mgr.get_input()
         x,y,z = screen_to_world(self.main_camera, input.x, input.y)
         self.start_x = x
         self.start_y = y
@@ -70,7 +72,7 @@ class CameraController(NodeObject):
     
     # TODO： begin_drag(), end_drag(), drag()
     def on_mouse_drag(self):
-        input = get_input()
+        input = game_mgr.get_input()
 
         # 拖拽场景，用移动摄像头来实现
         x,y,z = screen_to_world(self.main_camera, input.x, input.y)
@@ -97,9 +99,9 @@ class CameraController(NodeObject):
             self.center_z)
 
     def on_mouse_button_up(self):
-        input = get_input()
+        input = game_mgr.get_input()
 
-        print_line(get_delta_time())
+        #print_line(get_delta_time())
 
         t = get_time()
         if t - self.press_time < 80:
@@ -109,7 +111,7 @@ class CameraController(NodeObject):
         pass
 
     def _ready(self):
-        print_line(f"camera controller ready")
+        print_line("camera controller ready")
         
         
 

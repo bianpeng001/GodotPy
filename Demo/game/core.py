@@ -4,7 +4,7 @@
 
 import GodotPy as gp
 
-#
+# Vector3
 class Vector3:
     def __init__(self):
         self.x = self.y = self.z = 0
@@ -14,11 +14,38 @@ class Vector3:
         self.y = y
         self.z = z
 
+    def add(self, left, right):
+        self.x = left.x + right.x
+        self.y = left.y + right.y
+        self.z = left.z + right.z
+
+    def inc(self, x, y, z):
+        self.x += x
+        self.y += y
+        self.z += z
+
+
+# 单例
+class Singleton:
+    _instance = None
+    @classmethod
+    def get_instance(class_):
+        if not class_._instance:
+            class_._instance = class_()
+        return class_._instance
+
+    def __init__(self):
+        pass
+    
+
 # 对应于godot场景树的节点，的容器
 class NodeObject:
     def __init__(self):
         # 记录一个node的指针
-        self.py_capsule = None
+        self.node_capsule = None
+
+    def _get_node(self):
+        return self.node_capsule
     
     def on_mouse_button(self, button, pressed, x, y):
         pass
@@ -30,7 +57,7 @@ class NodeObject:
         pass
 
     def _ready(self):
-        pass
+        print_line(f'{type(self)} ready')
 
     def _process(self):
         pass
@@ -80,4 +107,4 @@ def get_delta_time():
 
 
 
-    
+

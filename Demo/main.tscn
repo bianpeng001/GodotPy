@@ -33,6 +33,10 @@ far = 100.0
 python_path = "game.input_controller"
 python_class = "InputController"
 
+[node name="GroudMgr" type="FPyObject" parent="InputController"]
+python_path = "game.groud_mgr"
+python_class = "GroudMgr"
+
 [node name="City01" parent="." instance=ExtResource("1_8bby1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.236233, 0, 0)
 

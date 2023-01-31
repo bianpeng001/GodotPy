@@ -64,7 +64,7 @@ public:
 };
 
 // 常量区域
-static const char *c_capsule_name = "py_capsule";
+static const char *c_capsule_name = "node_capsule";
 static const char *c_node_name = "node";
 
 /// <summary>

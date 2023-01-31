@@ -7,18 +7,20 @@ Import("env_modules")
 
 print('init GodotPy...')
 
+# 兼容一下路径
 PYTHON_HOME = 'D:/OpenSource/cpython'
 if not os.path.exists(PYTHON_HOME):
     PYTHON_HOME = 'H:/cpython'
 
-# 准备工作
+# 准备工作, 复制python3.lib，因为后缀跟平台环境有关，但是我懒得弄了，复制改名算了
 def GetReady():
-    GodotPyLib = PYTHON_HOME + '/python3.lib'
-    DstName = PYTHON_HOME + '/python3' + env["LIBSUFFIX"]
-    if os.path.exists(GodotPyLib) and not os.path.exists(DstName):
-        print('copy python3.lib')
-        shutil.copyfile(GodotPyLib, DstName)
-
+    Python3SrcPath = PYTHON_HOME + '/python3.lib'
+    Python3DstPath = PYTHON_HOME + '/python3' + env["LIBSUFFIX"]
+    if os.path.exists(Python3SrcPath):
+        if not os.path.exists(Python3DstPath) or\
+            os.path.getmtime(Python3SrcPath) > os.path.getmtime(Python3DstPath):
+            print('copy', Python3DstPath)
+            shutil.copyfile(Python3SrcPath, Python3DstPath)
 
 GetReady()
 

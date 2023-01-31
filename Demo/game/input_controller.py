@@ -3,28 +3,23 @@
 #
 
 from game.core import *
-
-instance = None
-
-def get_input():
-    return instance
+from game.game_mgr import GameMgr
 
 # handle input events
 class InputController(NodeObject):
     def __init__(self):
-        global instance
-
         super().__init__()
-        instance = self
-
-        print_line('create InputController')
+        GameMgr.get_instance().input = self
+        
         self.x = self.y = 0
         self.mouse_pressed = [False, False, False, False, False, False, False, False, False]
         self.key_dict = {}
 
     def _create(self):
-        set_process(self.py_capsule, process=False, input=True)
-        connect(self.py_capsule, "ready", self._ready)
+        set_process(self._get_node(), process=False, input=True)
+        connect(self._get_node(), "ready", self._ready)
+
+        print_line('create InputController ok')
 
     def _ready(self):
         print_line(f"input controller ready")
