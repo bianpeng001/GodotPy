@@ -111,7 +111,7 @@ class CameraController(NodeObject):
         pass
 
     def _ready(self):
-        print_line("camera controller ready")
+        print_line("CameraController ready")
         
         
 

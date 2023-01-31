@@ -15,6 +15,9 @@ class GroudMgr(NodeObject):
         
         print_line('create GroundMgr ok')
 
+    def _ready(self):
+        print_line('GroundMgr ready')
+
     def _process(self):
         delta_time = get_delta_time()
         pass

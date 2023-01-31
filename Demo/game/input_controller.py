@@ -22,7 +22,7 @@ class InputController(NodeObject):
         print_line('create InputController ok')
 
     def _ready(self):
-        print_line(f"input controller ready")
+        print_line(f"InputController ready")
 
     def on_key_pressed(self, keycode, pressed):
         is_pressed = pressed != 0
