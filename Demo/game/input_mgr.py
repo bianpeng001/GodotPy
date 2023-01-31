@@ -3,7 +3,7 @@
 #
 
 from game.core import *
-from game.game_mgr import GameMgr
+from game.game_mgr import game_mgr
 
 # 输入管理器
 class InputMgr(NodeObject):
@@ -14,7 +14,6 @@ class InputMgr(NodeObject):
         self.mouse_pressed = [False, False, False, False, False, False, False, False, False]
         self.key_dict = {}
 
-        game_mgr = GameMgr.get_instance()
         game_mgr.input_mgr = self
 
     def _create(self):

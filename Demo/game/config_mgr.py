@@ -10,3 +10,5 @@ class ConfigMgr(Singleton)
         pass
 
 
+config_mgr = ConfigMgr.get_instance()
+

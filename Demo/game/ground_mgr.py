@@ -2,7 +2,7 @@
 # 2023年1月31日 bianpeng
 #
 from game.core import *
-
+from game.game_mgr import game_mgr
 
 # 地面
 class GroundMgr(NodeObject):
