@@ -352,8 +352,7 @@ static PyObject *f_instantiate(PyObject *module, PyObject *args) {
 		Ref<PackedScene> res = ResourceLoader::load(path);
 		if (!res.is_null()) {
 			auto node = Object::cast_to<Node3D>(res->instantiate(PackedScene::GEN_EDIT_STATE_DISABLED));
-			//node->set_position(Vector3(2, 2, 2));
-
+			
 			auto st = SceneTree::get_singleton();
 			auto scene = st->get_current_scene();
 			scene->add_child(node);
