@@ -10,6 +10,7 @@ class GameMgr(Singleton):
 
         self.input_mgr = None
         self.camera_mgr = None
+        self.ground_mgr = None
 
     def hello(self):
         pass

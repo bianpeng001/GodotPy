@@ -27,7 +27,7 @@ class CameraMgr(NodeObject):
         game_mgr.camera_mgr = self
 
     def _create(self):
-        set_process(self._get_node(), process=True, input=False)
+        set_process(self._get_node(), process=False, input=False)
         #gp.set_process(self._get_node(), True)
         #gp.set_process_input(self._get_node(), True)
         #gp.connect(self._get_node(), "ready", test_callback)
@@ -35,10 +35,12 @@ class CameraMgr(NodeObject):
         connect(self._get_node(), "ready", self._ready)
         self.main_camera = find_node(self._get_node(), 'MainCamera')
 
-        self.update_camera()
         print_line('create CameraMgr ok')
 
-    def _process(self):
+    def _ready(self):
+        print_line("CameraMgr ready")
+
+    def update(self):
         #print_safe(str(self._get_node()))
         self.handle_input()
 
@@ -81,10 +83,10 @@ class CameraMgr(NodeObject):
         self.center.z -= dz
 
         self.update_camera()
-        
+
     # 刷新camera位置和朝向
     def update_camera(self):
-        set_position(self.main_camera, 
+        set_position(self.main_camera,
             self.center.x + self.offset.x,
             self.center.y + self.offset.y,
             self.center.z + self.offset.z)
@@ -104,12 +106,7 @@ class CameraMgr(NodeObject):
             a = gp.instantiate('res://models/City01.tscn')
             x,y,z = screen_to_world(self.main_camera, input.x, input.y)
             set_position(a, x, y, z)
-        pass
-
-    def _ready(self):
-        print_line("CameraMgr ready")
-        
         
 
-
-
+    
+        

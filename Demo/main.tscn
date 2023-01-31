@@ -3,7 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://je36l1jcis70" path="res://models/City01.tscn" id="1_8bby1"]
 [ext_resource type="PackedScene" uid="uid://b6kjnaugcynxl" path="res://models/Square.tscn" id="2_h26w8"]
 
-[node name="Node3D" type="Node3D"]
+[node name="RootNode" type="FPyObject"]
+python_module = "game.mainloop"
+python_class = "MainLoop"
 
 [node name="CameraController" type="FPyObject" parent="."]
 python_module = "game.camera_mgr"
