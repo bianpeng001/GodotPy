@@ -576,8 +576,8 @@ void FPyObject::_ready() {
 		if (py_path.is_empty()) {
 			break;
 		}
-		//print_line(vformat("load module: %s", py_path));
-		auto &path_utf8 = py_path.utf8();
+		print_line(vformat("load module: %s", py_path));
+		const auto &path_utf8 = py_path.utf8();
 
 		PyObject *p_path = PyUnicode_FromString(path_utf8.get_data());
 		p_module = PyImport_Import(p_path);
@@ -597,7 +597,7 @@ void FPyObject::_ready() {
 			break;
 		}
 		
-		auto &class_utf8 = py_class.utf8();
+		const auto &class_utf8 = py_class.utf8();
 		auto p_class_info = PyDict_GetItemString(dict, class_utf8.get_data());
 		if (!p_class_info) {
 			PyErr_Print();
@@ -609,7 +609,7 @@ void FPyObject::_ready() {
 			break;
 		}
 
-		//print_line(vformat("create class: %s", py_class));
+		print_line(vformat("create class: %s", py_class));
 		p_object = PyObject_CallObject(p_class_info, NULL);
 		if (!p_object) {
 			PyErr_Print();

@@ -6,23 +6,27 @@ from game.core import *
 from game.game_mgr import GameMgr
 
 # handle input events
-class InputController(NodeObject):
+class InputMgr(NodeObject):
     def __init__(self):
         super().__init__()
-        GameMgr.get_instance().input = self
         
         self.x = self.y = 0
         self.mouse_pressed = [False, False, False, False, False, False, False, False, False]
         self.key_dict = {}
 
+        GameMgr.get_instance().input_mgr = self
+
     def _create(self):
         set_process(self._get_node(), process=False, input=True)
         connect(self._get_node(), "ready", self._ready)
 
-        print_line('create InputController ok')
+        print_line('create InputMgr ok')
 
     def _ready(self):
-        print_line(f"InputController ready")
+        print_line(f"InputMgr ready")
+
+    def is_mouse_pressed(self, button):
+        return self.mouse_pressed[button]
 
     def on_key_pressed(self, keycode, pressed):
         is_pressed = pressed != 0
@@ -38,19 +42,7 @@ class InputController(NodeObject):
 
         self.mouse_pressed[button] = is_pressed
 
-    def is_mouse_pressed(self, button):
-        return self.mouse_pressed[button]
-
     def on_mouse_move(self, x, y):
         self.x = x
         self.y = y
-
-        # if self.is_mouse_pressed(1):
-        #     print_line(f'mouse move: x={x} y={y}')
-        #     pass
-        # else:
-        #     pass
-
-
-
 
