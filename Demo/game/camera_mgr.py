@@ -13,7 +13,7 @@ def test_callback():
 game_mgr = GameMgr.get_instance()
 
 # 镜头管理
-class CameraController(NodeObject):
+class CameraMgr(NodeObject):
     def __init__(self):
         super().__init__()
 
@@ -39,7 +39,7 @@ class CameraController(NodeObject):
         self.main_camera = find_node(self._get_node(), 'MainCamera')
 
         self.update_camera()
-        print_line('create CameraController ok')
+        print_line('create CameraMgr ok')
 
     def _process(self):
         #print_safe(str(self._get_node()))
@@ -111,7 +111,7 @@ class CameraController(NodeObject):
         pass
 
     def _ready(self):
-        print_line("CameraController ready")
+        print_line("CameraMgr ready")
         
         
 

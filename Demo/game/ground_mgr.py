@@ -5,7 +5,7 @@ from game.core import *
 
 
 # 地面
-class GroudMgr(NodeObject):
+class GroundMgr(NodeObject):
     def __init__(self):
         super().__init__()
     

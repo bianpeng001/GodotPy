@@ -656,9 +656,9 @@ void FPyObject::_exit_tree() {
 	}
 }
 void FPyObject::_bind_methods() {
-	ClassDB::bind_method(D_METHOD("set_python_path", "python_path"), &FPyObject::set_python_path);
+	ClassDB::bind_method(D_METHOD("set_python_path", "python_module"), &FPyObject::set_python_path);
 	ClassDB::bind_method(D_METHOD("get_python_path"), &FPyObject::get_python_path);
-	ADD_PROPERTY(PropertyInfo(Variant::STRING, "python_path"), "set_python_path", "get_python_path");
+	ADD_PROPERTY(PropertyInfo(Variant::STRING, "python_module"), "set_python_path", "get_python_path");
 
 	ClassDB::bind_method(D_METHOD("set_python_class", "py_class"), &FPyObject::set_python_class);
 	ClassDB::bind_method(D_METHOD("get_python_class"), &FPyObject::get_python_class);
