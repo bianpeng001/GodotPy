@@ -66,13 +66,17 @@ class NodeObject:
     def _create(self):
         pass
 
-def print_line(a):
-    if isinstance(a, str):
-        gp.print_line(a)
-        #print(a)
-    else:
+def print_line(*args, **kwargs):
+    if not args:
+        return
+    
+    if len(args) == 1:
+        a = args[0]
         gp.print_line(str(a))
-        #print(a)
+    else:
+        s = ' '.join([str(x) for x in args])
+        gp.print_line(s)
+            
 
 def find_node(node, path):
     return gp.find_node(node, path)

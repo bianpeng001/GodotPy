@@ -2,8 +2,6 @@
 # 2023年1月31日 bianpeng
 #
 
-from game.troop_mgr import TroopMgr
-
 class GameMgr():
     _instance = None
 
@@ -19,8 +17,12 @@ class GameMgr():
         self.input_mgr = None
         self.camera_mgr = None
         self.ground_mgr = None
+        self._event_mgr = None
+        self._troop_mgr = None
 
-        self._troop_mgr = TroopMgr()
+    @property
+    def event_mgr(self):
+        return self._event_mgr
 
     @property
     def troop_mgr(self):

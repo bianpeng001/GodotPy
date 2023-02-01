@@ -14,6 +14,8 @@ class CameraMgr(NodeObject):
     def __init__(self):
         super().__init__()
 
+        game_mgr.camera_mgr = self
+
         self.is_left_button_pressed = False
 
         self.offset = Vector3()
@@ -22,8 +24,6 @@ class CameraMgr(NodeObject):
         self.drag_start = Vector3()
 
         self.press_time = 0
-
-        game_mgr.camera_mgr = self
 
     def _create(self):
         set_process(self._get_node(), process=False, input=False)
@@ -42,9 +42,7 @@ class CameraMgr(NodeObject):
         self.handle_input()
 
     def handle_input(self):
-        input = game_mgr.input_mgr
-        
-        if input.is_mouse_pressed(1):
+        if game_mgr.input_mgr.is_mouse_pressed(1):
             if not self.is_left_button_pressed:
                 self.is_left_button_pressed = True
                 self.on_mouse_button_down()
@@ -86,7 +84,6 @@ class CameraMgr(NodeObject):
             self.center.x + self.offset.x,
             self.center.y + self.offset.y,
             self.center.z + self.offset.z)
-            
         lookat(self.main_camera,
             self.center.x,
             self.center.y,

@@ -9,6 +9,7 @@ from game.game_mgr import game_mgr
 
 TILE_SIZE = 30
 
+#
 class Tile:
     def __init__(self, x, z):
         # 坐标

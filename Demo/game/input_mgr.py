@@ -5,16 +5,38 @@
 from game.core import *
 from game.game_mgr import game_mgr
 
+LEFT_BUTTON = 1
+RIGHT_BUTTON = 2
+MIDDLE_BUTTON = 3
+
+LEFT_BUTTON_PRESS = 'left_button_press'
+LEFT_BUTTON_RELEASE = 'left_button_release'
+
+LEFT_BUTTON_BEGIN_DRAG = 'left_button_begin_drag'
+LEFT_BUTTON_DRAG = 'left_button_drag'
+LEFT_BUTTON_END_DRAG = 'left_button_end_drag'
+
+#
+class MouseButtonData:
+    def __init__(self):
+        self.pressed = False
+        self.press_x = self.press_y = 0
+        self.press_time = 0
+        self.drag = False
+
 # 输入管理器
 class InputMgr(NodeObject):
     def __init__(self):
         super().__init__()
         
+        game_mgr.input_mgr = self
+
         self.x = self.y = 0
         self.mouse_pressed = [False, False, False, False, False, False, False, False, False]
         self.key_dict = {}
 
-        game_mgr.input_mgr = self
+        # handle left button
+        self.left_button = MouseButtonData()
 
     def _create(self):
         set_process(self._get_node(), process=False, input=True)
@@ -43,4 +65,29 @@ class InputMgr(NodeObject):
     def on_mouse_move(self, x, y):
         self.x = x
         self.y = y
+
+    def update(self, delta_time):
+        self.process_input_events()
+
+    def process_input_events(self):
+        if self.is_mouse_pressed(LEFT_BUTTON):
+            if not self.left_button.pressed:
+                self.left_button.pressed = True
+                self.left_button.press_x = self.x
+                self.left_button.press_y = self.y
+
+                game_mgr.event_mgr.emit(LEFT_BUTTON_PRESS, self.x, self.y)
+            else:
+                self.process_drag()
+        else:
+            if self.left_button.pressed:
+                self.left_button.pressed = False
+
+                game_mgr.event_mgr.emit(LEFT_BUTTON_RELEASE)
+
+
+    def process_drag(self):
+        pass
+
+
 

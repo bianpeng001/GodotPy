@@ -2,8 +2,8 @@
 # 2023年1月31日 bianpeng
 #
 
-def print_line(a):
-    pass
+def print_line(*args, **kwargs):
+    print(*args, **kwargs)
 
 def connect(node, signal, callback):
     pass
