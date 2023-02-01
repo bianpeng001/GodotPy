@@ -74,8 +74,9 @@ def print_text(*args, **kwargs):
         a = args[0]
         gp.print_line(str(a))
     else:
-        s = ' '.join([str(x) for x in args])
-        gp.print_line(s)
+        for a in args:
+            gp.print_line(str(a))
+            gp.print_line(' ')
 
 def print_line(*args, **kwargs):
     print_text(*args, **kwargs)

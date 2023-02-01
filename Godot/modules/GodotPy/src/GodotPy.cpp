@@ -535,6 +535,10 @@ void FPyObject::input(const Ref<InputEvent> &p_event) {
 		if (ret) {
 			GP_DECREF(ret);
 		}
+		else {
+			PyErr_Print();
+		}
+		return;
 	}
 
 	Ref<InputEventMouseButton> mb = p_event;
@@ -549,6 +553,10 @@ void FPyObject::input(const Ref<InputEvent> &p_event) {
 		if (ret) {
 			GP_DECREF(ret);
 		}
+		else {
+			PyErr_Print();
+		}
+		return;
 	}
 
 	Ref<InputEventKey> k = p_event;
@@ -561,6 +569,10 @@ void FPyObject::input(const Ref<InputEvent> &p_event) {
 		if (ret) {
 			GP_DECREF(ret);
 		}
+		else {
+			PyErr_Print();
+		}
+		return;
 	}
 
 	//if (p_event->is_action("LeftButton")) {
@@ -659,6 +671,9 @@ void FPyObject::_ready() {
 		if (ret) {
 			GP_DECREF(ret);
 		}
+		else {
+			PyErr_Print();
+		}
 		print_line(vformat("create %s ok", py_class));
 
 	} while (0);
@@ -673,6 +688,9 @@ void FPyObject::_process() {
 		auto ret = PyObject_CallMethod(p_object, "_process", NULL);
 		if (ret) {
 			GP_DECREF(ret);
+		}
+		else {
+			PyErr_Print();
 		}
 	} while (0);
 }
