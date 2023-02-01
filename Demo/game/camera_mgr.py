@@ -6,8 +6,8 @@ import math
 from game.core import *
 from game.game_mgr import game_mgr
 
-def test_callback():
-    print_line("test_callback")
+# def test_callback():
+#     print_line("test_callback")
 
 # 镜头管理
 class CameraMgr(NodeObject):
@@ -27,10 +27,10 @@ class CameraMgr(NodeObject):
 
     def _create(self):
         set_process(self._get_node(), process=False, input=False)
-        #gp.set_process(self._get_node(), True)
-        #gp.set_process_input(self._get_node(), True)
-        #gp.connect(self._get_node(), "ready", test_callback)
-        #gp.connect(self._get_node(), "ready", self._ready)
+        # gp.set_process(self._get_node(), True)
+        # gp.set_process_input(self._get_node(), True)
+        # gp.connect(self._get_node(), "ready", test_callback)
+        # gp.connect(self._get_node(), "ready", self._ready)
         connect(self._get_node(), "ready", self._ready)
         self.main_camera = find_node(self._get_node(), 'MainCamera')
 
@@ -57,7 +57,7 @@ class CameraMgr(NodeObject):
         
     def on_mouse_button_down(self):
         input = game_mgr.input_mgr
-        
+
         x,y,z = screen_to_world(self.main_camera, input.x, input.y)
         self.drag_start.set(x, y, z)
 

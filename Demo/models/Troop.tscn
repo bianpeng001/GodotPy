@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3 uid="uid://dawipyjkutuqd"]
+
+[ext_resource type="ArrayMesh" uid="uid://dguedkgif00lx" path="res://models/SoldierMesh.res" id="1_3d5og"]
+
+[node name="Troop" type="Node3D"]
+
+[node name="Soldier" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = ExtResource("1_3d5og")
+
+[node name="Soldier2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1, 0, 0)
+mesh = ExtResource("1_3d5og")
+
+[node name="Soldier3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -1, 0, 0)
+mesh = ExtResource("1_3d5og")
+
+[node name="Soldier4" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -1, 0, 1)
+mesh = ExtResource("1_3d5og")
+
+[node name="Soldier5" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 1)
+mesh = ExtResource("1_3d5og")
+
+[node name="Soldier6" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1, 0, 1)
+mesh = ExtResource("1_3d5og")
+
+[node name="Soldier7" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, -1)
+mesh = ExtResource("1_3d5og")
+
+[node name="Soldier8" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 1, 0, -1)
+mesh = ExtResource("1_3d5og")
+
+[node name="Soldier9" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -1, 0, -1)
+mesh = ExtResource("1_3d5og")
+
+[node name="Controller" type="FPyObject" parent="."]
+python_module = "game.troop_controller"
+python_class = "TroopController"

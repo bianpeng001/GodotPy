@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cipun2g0qp50n"]
+[gd_scene load_steps=4 format=3 uid="uid://cipun2g0qp50n"]
 
 [ext_resource type="PackedScene" uid="uid://je36l1jcis70" path="res://models/City01.tscn" id="1_8bby1"]
+[ext_resource type="PackedScene" uid="uid://dawipyjkutuqd" path="res://models/Troop.tscn" id="2_82hma"]
+[ext_resource type="PackedScene" uid="uid://b6kjnaugcynxl" path="res://models/Square.tscn" id="3_f3ppd"]
 
 [node name="RootNode" type="FPyObject"]
 python_module = "game.mainloop"
@@ -25,7 +27,9 @@ python_module = "game.ground_mgr"
 python_class = "GroundMgr"
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.833577, -0.490839, 0.253428, 0, 0.458774, 0.888553, -0.552403, -0.740677, 0.382423, 0, 14.6445, 0)
+transform = Transform3D(0.906308, -0.365998, 0.211309, 0, 0.5, 0.866025, -0.422618, -0.784885, 0.453154, 0, 20, 0)
+shadow_enabled = true
+shadow_opacity = 0.5
 
 [node name="City01" parent="." instance=ExtResource("1_8bby1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.236233, 0, 0)
@@ -38,3 +42,9 @@ offset_top = 3.0
 offset_right = 103.0
 offset_bottom = 43.0
 text = "Hello"
+
+[node name="Troop" parent="." instance=ExtResource("2_82hma")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.17615, 0, 6.72731)
+
+[node name="Square" parent="." instance=ExtResource("3_f3ppd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.73395, 0, 7.77928)
