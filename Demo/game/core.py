@@ -66,7 +66,7 @@ class NodeObject:
     def _create(self):
         pass
 
-def print_text(*args, **kwargs):
+def print_line(*args, **kwargs):
     if not args:
         return
     
@@ -74,13 +74,8 @@ def print_text(*args, **kwargs):
         a = args[0]
         gp.print_line(str(a))
     else:
-        for a in args:
-            gp.print_line(str(a))
-            gp.print_line(' ')
-
-def print_line(*args, **kwargs):
-    print_text(*args, **kwargs)
-    gp.print_line('\n')
+        a = ' '.join([str(x) for x in args])
+        gp.print_line(a)
 
 def find_node(node, path):
     return gp.find_node(node, path)

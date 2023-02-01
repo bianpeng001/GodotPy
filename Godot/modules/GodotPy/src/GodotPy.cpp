@@ -135,8 +135,9 @@ static PyObject *f_print_line(PyObject *module, PyObject *args) {
 	if (!PyArg_ParseTuple(args, "s", &str)) {
 		Py_RETURN_NONE;
 	}
-	OS::get_singleton()->print("%s", str);
-	//print_line(str);
+	//OS::get_singleton()->print("%s", str);
+	print_line(str);
+
 	Py_RETURN_NONE;
 }
 static PyObject *f_set_process_input(PyObject *module, PyObject *args) {

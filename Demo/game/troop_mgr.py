@@ -26,9 +26,9 @@ class TroopMgr():
         #game_mgr.event_mgr.add(LEFT_BUTTON_DRAG, self.on_left_button_drag)
 
     def on_left_button_press(self, x, y, *args):
-        print('on_left_button_press', x, y)
+        print_line('on_left_button_press', x, y)
         #game_mgr.event_mgr.remove(LEFT_BUTTON_PRESS, self.on_left_button_press)
 
     def on_left_button_drag(self, *args):
-        print('on_left_button_drag')
+        print_line('on_left_button_drag')
         pass

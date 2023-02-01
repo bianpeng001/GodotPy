@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cipun2g0qp50n"]
 
 [ext_resource type="PackedScene" path="res://models/City01.tscn" id="1_8bby1"]
-[ext_resource type="PackedScene" uid="uid://7drk8uiknmut" path="res://models/Troop.tscn" id="2_82hma"]
+[ext_resource type="PackedScene" uid="uid://7drk8uiknmut" path="res://models/Wall.glb" id="2_82hma"]
 [ext_resource type="PackedScene" uid="uid://bok6l8i3vigk5" path="res://models/Wall01.tscn" id="3_tjp5w"]
 
 [node name="RootNode" type="FPyObject"]
