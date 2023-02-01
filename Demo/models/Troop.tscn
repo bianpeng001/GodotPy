@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://dawipyjkutuqd"]
+[gd_scene load_steps=3 format=3 uid="uid://7drk8uiknmut"]
 
 [ext_resource type="ArrayMesh" uid="uid://dguedkgif00lx" path="res://models/SoldierMesh.res" id="1_3d5og"]
 [ext_resource type="Material" uid="uid://dybr177skwuv5" path="res://models/SoldierMat.tres" id="2_vs4oj"]

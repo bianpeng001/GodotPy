@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bok6l8i3vigk5"]
+
+[ext_resource type="ArrayMesh" uid="uid://bk828bvlg2bfx" path="res://models/WallMesh.res" id="1_qg7vf"]
+
+[node name="Wall01" type="Node3D"]
+
+[node name="WallMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
+mesh = ExtResource("1_qg7vf")
+skeleton = NodePath("../..")

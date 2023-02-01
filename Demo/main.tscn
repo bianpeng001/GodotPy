@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cipun2g0qp50n"]
+[gd_scene load_steps=4 format=3 uid="uid://cipun2g0qp50n"]
 
 [ext_resource type="PackedScene" path="res://models/City01.tscn" id="1_8bby1"]
-[ext_resource type="PackedScene" uid="uid://dawipyjkutuqd" path="res://models/Troop.tscn" id="2_82hma"]
+[ext_resource type="PackedScene" uid="uid://7drk8uiknmut" path="res://models/Troop.tscn" id="2_82hma"]
+[ext_resource type="PackedScene" uid="uid://bok6l8i3vigk5" path="res://models/Wall01.tscn" id="3_tjp5w"]
 
 [node name="RootNode" type="FPyObject"]
 python_module = "game.mainloop"
@@ -44,3 +45,9 @@ text = "Hello"
 
 [node name="Troop" parent="." instance=ExtResource("2_82hma")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.17615, 0, 6.72731)
+
+[node name="Wall01" parent="." instance=ExtResource("3_tjp5w")]
+transform = Transform3D(0.481172, 0, 0.876626, 0, 1, 0, -0.876626, 0, 0.481172, -23.8412, 0, 13.3439)
+
+[node name="Wall02" parent="." instance=ExtResource("3_tjp5w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.4525, 0, -6.79465)
