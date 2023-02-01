@@ -75,6 +75,13 @@ public:
 static const char *c_capsule_name = "node_capsule";
 static const char *c_node_name = "node";
 
+// 从capsule里面取数据
+template <typename T>
+static T *GetCapsulePointer(PyObject *capsule) {
+	auto node = reinterpret_cast<Node *>(PyCapsule_GetPointer(capsule, c_node_name));
+	return Object::cast_to<T>(node);
+}
+
 /// <summary>
 /// 用来存一个PyCapsule指针, 在离开场景时要清空
 /// </summary>
@@ -101,11 +108,9 @@ public:
 };
 List<FCapsuleObject *> FCapsuleObject::instance_list;
 
-template<typename T>
-static T *GetCapsulePointer(PyObject *capsule) {
-	auto node = reinterpret_cast<Node *>(PyCapsule_GetPointer(capsule, c_node_name));
-	return Object::cast_to<T>(node);
-}
+// 创建一个FCapsuleObject，用来存放PyCapsule*，记录了Node，对应的PyObject
+// 并存在Node里面，以供后用，
+// TODO: 记得销毁
 static PyObject* get_or_create_capsule(Node* a_node) {
 	auto v = a_node->get(c_capsule_name);
 	

@@ -43,8 +43,6 @@ class CameraMgr(NodeObject):
 
     def handle_input(self):
         input = game_mgr.input_mgr
-        if not input:
-            return
         
         if input.is_mouse_pressed(1):
             if not self.is_left_button_pressed:
@@ -59,6 +57,7 @@ class CameraMgr(NodeObject):
         
     def on_mouse_button_down(self):
         input = game_mgr.input_mgr
+        
         x,y,z = screen_to_world(self.main_camera, input.x, input.y)
         self.drag_start.set(x, y, z)
 

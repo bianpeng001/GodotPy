@@ -61,5 +61,6 @@ gltb格式在导入后，最好把mesh单独保存，这样才能被单独读取
 
 UI开发
 
-
+Python的Py_INCREF, Py_DECREF，这两项的使用，有一些注意点。目前从容器中Get出来的值是borrowed reference，即，不需要修改引用计数。
+但是，PyObject_CallMethod返回值，如果不需要保留，则必须减掉引用计数。
 

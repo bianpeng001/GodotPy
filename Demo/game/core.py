@@ -57,7 +57,7 @@ class NodeObject:
         pass
 
     def _ready(self):
-        print_line(f'{type(self)} ready')
+        print_line(f'{type(self).__name__} ready')
 
     def _process(self):
         pass
