@@ -11,26 +11,37 @@ TILE_SIZE = 30
 
 class Tile:
     def __init__(self, x, z):
-        self.x = x*TILE_SIZE
-        self.z = z*TILE_SIZE
+        # 坐标
+        self.x = x
+        self.z = z
         self.model_node = None
+        self.trees = []
 
     def load(self):
         print_line(f'load tile: x={self.x} z={self.z}')
         
+        pos_x = self.x*TILE_SIZE
+        pos_z = self.z*TILE_SIZE
+
         self.model_node = instantiate('res://models/Square.tscn')
-        set_position(self.model_node, self.x, 0, self.z)
+        set_position(self.model_node, pos_x, 0, pos_z)
 
-        self.tree_node = instantiate('res://models/Tree01.tscn')
+        # 随机几颗树
+        for i in range(random.randrange(1, 10)):
+            tree_node = instantiate('res://models/Tree01.tscn')
+            self.trees.append(tree_node) 
 
-        set_position(self.tree_node, 
-            self.x + (random.random()-0.5)*20,
-            0,
-            self.z + (random.random()-0.5)*20
-        )
+            set_position(tree_node, 
+                pos_x + (random.random()-0.5)*20,
+                0,
+                pos_z + (random.random()-0.5)*20
+            )
 
-        s = 0.5 + random.random()
-        set_scale(self.tree_node, s, s, s)
+            s = 0.5 + random.random()
+            set_scale(tree_node, s, s, s)
+
+    def unload(self):
+        pass
 
 # 地面
 class GroundMgr(NodeObject):

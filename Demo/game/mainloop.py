@@ -22,8 +22,12 @@ class MainLoop(NodeObject):
         game_mgr.ground_mgr.update()
 
     def _process(self):
+        delta_time = get_delta_time()
+
         game_mgr.camera_mgr.update()
         game_mgr.ground_mgr.update()
+        game_mgr.troop_mgr.update(delta_time)
+
 
 
 

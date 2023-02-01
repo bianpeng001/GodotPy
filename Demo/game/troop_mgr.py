@@ -7,7 +7,7 @@ class TroopMgr():
     def __init__(self):
         self.troops = {}
 
-    def update(self):
+    def update(self, delta_time):
         pass
     
 
