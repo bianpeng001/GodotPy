@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cipun2g0qp50n"]
 
-[ext_resource type="PackedScene" uid="uid://je36l1jcis70" path="res://models/City01.tscn" id="1_8bby1"]
+[ext_resource type="PackedScene" path="res://models/City01.tscn" id="1_8bby1"]
 [ext_resource type="PackedScene" uid="uid://dawipyjkutuqd" path="res://models/Troop.tscn" id="2_82hma"]
 [ext_resource type="PackedScene" uid="uid://b6kjnaugcynxl" path="res://models/Square.tscn" id="3_f3ppd"]
 

@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://je36l1jcis70"]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="ArrayMesh" uid="uid://dmsqjes4gdq2x" path="res://models/City01Mesh.res" id="1_vo51y"]
-[ext_resource type="Material" uid="uid://bft44cxmukfxl" path="res://models/MatCity01.tres" id="2_ce25a"]
+[ext_resource type="Material" uid="uid://bft44cxmukfxl" path="res://models/City01Mat.tres" id="2_ce25a"]
 [ext_resource type="ArrayMesh" uid="uid://b08g3fgs0s3ae" path="res://models/Flag01Mesh.res" id="3_vg770"]
 [ext_resource type="FontFile" uid="uid://cfhxpqexrydct" path="res://FZKT.ttf" id="4_7s6ej"]
 
