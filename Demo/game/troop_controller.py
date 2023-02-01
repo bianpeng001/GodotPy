@@ -11,7 +11,7 @@ class TroopController(NodeObject):
         super().__init__()
     
     def _create(self):
-        print_line('xxx')
+        print_line('troop ok')
 
     def update(self):
         pass

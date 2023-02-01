@@ -164,11 +164,7 @@ static PyObject *f_set_process(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
-static PyObject *f_connect_callback(PyObject *callback) {
-	Py_RETURN_NONE;
-}
 static PyObject *f_connect(PyObject *module, PyObject *args) {
-
 	do {
 		PyObject *a_node;
 		const char *signal;
@@ -184,6 +180,26 @@ static PyObject *f_connect(PyObject *module, PyObject *args) {
 
 	} while (0);
 	
+	Py_RETURN_NONE;
+}
+static PyObject *f_get_parent(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
+
+		if (!PyArg_ParseTuple(args, "O", &a_node)) {
+			break;
+		}
+
+		auto node = GetCapsulePointer<Node>(a_node);
+		auto parent_node = node->get_parent();
+		if (!parent_node) {
+			break;
+		}
+
+		return get_or_create_capsule(parent_node);
+
+	} while (0);
+
 	Py_RETURN_NONE;
 }
 static PyObject* f_find_node(PyObject* module, PyObject* args) {
@@ -317,6 +333,26 @@ static PyObject *f_get_rotation(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_set_scale(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
+		float x, y, z;
+
+		if (!PyArg_ParseTuple(args, "Offf", &a_node, &x, &y, &z)) {
+			break;
+		}
+
+		auto node = GetCapsulePointer<Node3D>(a_node);
+		if (!node) {
+			break;
+		}
+
+		node->set_scale(Vector3(x, y, z));
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_screen_to_world(PyObject *module, PyObject *args) {
 
 	do {
@@ -386,6 +422,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "set_process", f_set_process, METH_VARARGS, NULL },
 	{ "set_process_input", f_set_process_input, METH_VARARGS, NULL },
 	{ "connect", f_connect, METH_VARARGS, NULL },
+	{ "get_parent", f_get_parent, METH_VARARGS, NULL },
 
 	// node3d
 	{ "set_position", f_set_position, METH_VARARGS, NULL },
@@ -393,6 +430,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "set_rotation", f_set_rotation, METH_VARARGS, NULL },
 	{ "lookat", f_lookat, METH_VARARGS, NULL },
 	{ "get_rotation", f_get_rotation, METH_VARARGS, NULL },
+	{ "set_scale", f_set_scale, METH_VARARGS, NULL },
 
 	// camera3d
 	{ "screen_to_world", f_screen_to_world, METH_VARARGS, NULL },

@@ -93,6 +93,9 @@ def get_position(node):
 def set_position(node, x, y, z):
     gp.set_position(node, x, y, z)
 
+def set_scale(node, x, y, z):
+    gp.set_scale(node, x, y, z)
+
 def lookat(node, x, y, z):
     gp.lookat(node, x, y, z)
 

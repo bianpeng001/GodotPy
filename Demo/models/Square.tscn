@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b6kjnaugcynxl"]
 
-[ext_resource type="ArrayMesh" uid="uid://cchucvyhq8a21" path="res://models/SquareMesh.res" id="1_wbwe0"]
+[ext_resource type="ArrayMesh" uid="uid://0qaxwupoajb4" path="res://models/SquareMesh.res" id="1_wbwe0"]
 [ext_resource type="Material" uid="uid://ja5ppqqjwbs7" path="res://models/SquareMat.tres" id="2_r1uai"]
 
 [node name="Square" type="Node3D"]

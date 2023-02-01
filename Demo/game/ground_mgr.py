@@ -2,6 +2,7 @@
 # 2023年1月31日 bianpeng
 #
 import math
+import random
 
 from game.core import *
 from game.game_mgr import game_mgr
@@ -16,8 +17,20 @@ class Tile:
 
     def load(self):
         print_line(f'load tile: x={self.x} z={self.z}')
+        
         self.model_node = instantiate('res://models/Square.tscn')
         set_position(self.model_node, self.x, 0, self.z)
+
+        self.tree_node = instantiate('res://models/Tree01.tscn')
+
+        set_position(self.tree_node, 
+            self.x + (random.random()-0.5)*20,
+            0,
+            self.z + (random.random()-0.5)*20
+        )
+
+        s = 0.5 + random.random()
+        set_scale(self.tree_node, s, s, s)
 
 # 地面
 class GroundMgr(NodeObject):
