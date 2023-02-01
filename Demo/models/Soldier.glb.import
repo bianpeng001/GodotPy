@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dguedkgif00lx"
+uid="uid://c7ar05xlkpe4p"
 path="res://.godot/imported/Soldier.glb-71129188576dd5aea5feb2f32f5031e2.scn"
 
 [deps]
@@ -42,4 +42,4 @@ _subresources={
 }
 }
 }
-meshes/handle_gltf_embedded_images=1
+gltf/embedded_image_handling=1

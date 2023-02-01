@@ -5,6 +5,7 @@
 #include "GodotPy.h"
 
 // godot
+#include "core/os/os.h"
 #include "core/os/memory.h"
 #include "core/os/time.h"
 
@@ -134,7 +135,8 @@ static PyObject *f_print_line(PyObject *module, PyObject *args) {
 	if (!PyArg_ParseTuple(args, "s", &str)) {
 		Py_RETURN_NONE;
 	}
-	print_line(str);
+	OS::get_singleton()->print("%s", str);
+	//print_line(str);
 	Py_RETURN_NONE;
 }
 static PyObject *f_set_process_input(PyObject *module, PyObject *args) {
@@ -512,7 +514,7 @@ void FLibPy::Init() {
 		InitPython();
 		//Py_Initialize();
 		
-		PyRun_SimpleString("from GodotPy import print_line;print_line('hello godot')\n");
+		PyRun_SimpleString("import game.boot;print('hello godot')\n");
 		print_line("init python ok");
 	}
 }

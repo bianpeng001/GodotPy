@@ -9,12 +9,6 @@ from game.game_mgr import game_mgr
 from game.troop_mgr import TroopMgr
 from game.event_mgr import EventMgr
 
-saved_stderr = sys.stderr
-class FakeStdOut:
-    def write(self, s):
-        print_line(s)
-sys.stderr = FakeStdOut()
-
 # 主循环
 class MainLoop(NodeObject):
     def __init__(self):
