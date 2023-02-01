@@ -2,11 +2,18 @@
 # 2023年1月31日 bianpeng
 #
 
-from game.core import *
+import sys
 
+from game.core import *
 from game.game_mgr import game_mgr
 from game.troop_mgr import TroopMgr
 from game.event_mgr import EventMgr
+
+saved_stderr = sys.stderr
+class FakeStdOut:
+    def write(self, s):
+        print_line(s)
+sys.stderr = FakeStdOut()
 
 # 主循环
 class MainLoop(NodeObject):
@@ -18,14 +25,13 @@ class MainLoop(NodeObject):
         connect(self._get_node(), "ready", self._ready)
 
     def _ready(self):
-        print_line('init GameMgr')
         game_mgr._troop_mgr = TroopMgr()
         game_mgr._event_mgr = EventMgr()
+        print_line('MainLoop ready')
         
         game_mgr.camera_mgr.update_camera()
         game_mgr.ground_mgr.update()
-        print_line('MainLoop ready')
-
+        
         game_mgr._troop_mgr.test()
 
     def _process(self):
@@ -35,5 +41,7 @@ class MainLoop(NodeObject):
         game_mgr.camera_mgr.update()
         game_mgr.ground_mgr.update()
         game_mgr.troop_mgr.update(delta_time)
+
+
 
 
