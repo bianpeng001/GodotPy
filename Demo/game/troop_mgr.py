@@ -9,14 +9,14 @@ from game.input_mgr import LEFT_BUTTON_DRAG, LEFT_BUTTON_PRESS
 #
 class TroopMgr():
     def __init__(self):
-        self.troop_map = {}
+        self.troop_dict = {}
         self.troop_id_seed = 100
 
     def add(self, troop):
         troop.troop_id = self.troop_id_seed
         self.troop_id_seed += 1
 
-        self.troop_map[troop.troop_id] = troop
+        self.troop_dict[troop.troop_id] = troop
 
     def update(self, delta_time):
         pass

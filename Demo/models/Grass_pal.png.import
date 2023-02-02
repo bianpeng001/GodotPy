@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3us160efdy6q"
-path.s3tc="res://.godot/imported/pal.png-f5fe10ee8ec20894916186a33629c8b9.s3tc.ctex"
+uid="uid://csv4hx4mtpnwi"
+path.s3tc="res://.godot/imported/Grass_pal.png-c7e9b493f16460e46cfd81782440a911.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://models/pal.png"
-dest_files=["res://.godot/imported/pal.png-f5fe10ee8ec20894916186a33629c8b9.s3tc.ctex"]
+source_file="res://models/Grass_pal.png"
+dest_files=["res://.godot/imported/Grass_pal.png-c7e9b493f16460e46cfd81782440a911.s3tc.ctex"]
 
 [params]
 

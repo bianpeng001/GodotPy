@@ -6,7 +6,9 @@ import sys
 
 from game.core import *
 from game.game_mgr import game_mgr
+
 from game.troop_mgr import TroopMgr
+from game.city_mgr import CityMgr
 from game.event_mgr import EventMgr
 
 # 主循环
@@ -18,9 +20,13 @@ class MainLoop(NodeObject):
         set_process(self._get_node(), process=True, input=False)
         connect(self._get_node(), "ready", self._ready)
 
-    def _ready(self):
+    def init(self):
         game_mgr._troop_mgr = TroopMgr()
+        game_mgr._city_mgr = CityMgr()
         game_mgr._event_mgr = EventMgr()
+
+    def _ready(self):
+        self.init()
         print_line('MainLoop ready')
         
         game_mgr.camera_mgr.update_camera()

@@ -28,18 +28,23 @@ class Tile:
         set_position(self.model_node, pos_x, 0, pos_z)
 
         # 随机几颗树
+
         for i in range(random.randrange(1, 10)):
-            tree_node = instantiate('res://models/Tree01.tscn')
-            self.trees.append(tree_node) 
+            self.load_res('res://models/Tree01.tscn',
+            pos_x + (random.random()-0.5)*20,
+            pos_z + (random.random()-0.5)*20,
+            0.6 + random.random())
+        self.load_res('res://models/Grass01.tscn', 
+            pos_x + (random.random()-0.5)*20,
+            pos_z + (random.random()-0.5)*20,
+            0.8 + random.random())
 
-            set_position(tree_node, 
-                pos_x + (random.random()-0.5)*20,
-                0,
-                pos_z + (random.random()-0.5)*20
-            )
+    def load_res(self, path, x, z, s):
+        item = instantiate(path)
+        self.trees.append(item) 
 
-            s = 0.5 + random.random()
-            set_scale(tree_node, s, s, s)
+        set_position(item, x, 0, z)
+        set_scale(item, s, s, s)
 
     def unload(self):
         pass
