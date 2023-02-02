@@ -5,9 +5,19 @@ import math
 
 from game.core import *
 from game.game_mgr import game_mgr
+from game.input_mgr import *
 
 # def test_callback():
 #     print_line("test_callback")
+
+def clamp(x, delta):
+    v = x + delta
+    if v < 0:
+        return 0.0
+    elif v > 1.0:
+        return 1.0
+    else:
+        return v
 
 # 镜头管理
 class CameraMgr(NodeObject):
@@ -17,9 +27,17 @@ class CameraMgr(NodeObject):
         game_mgr.camera_mgr = self
 
         self.is_left_button_pressed = False
+        self.is_wheel_up = False
+        self.is_wheel_down = False
+
+        self.arm_length = 55
+        self.arm_norm = 1.0
 
         self.offset = Vector3()
         self.offset.set(30, 35, 30)
+        self.offset.normlize()
+        self.offset.scale1(self.arm_length)
+
         self.center = Vector3()
         self.drag_start = Vector3()
 
@@ -42,7 +60,8 @@ class CameraMgr(NodeObject):
         self.handle_input()
 
     def handle_input(self):
-        if game_mgr.input_mgr.is_mouse_pressed(1):
+        # left button
+        if game_mgr.input_mgr.is_mouse_pressed(LEFT_BUTTON):
             if not self.is_left_button_pressed:
                 self.is_left_button_pressed = True
                 self.on_mouse_button_down()
@@ -52,6 +71,24 @@ class CameraMgr(NodeObject):
             if self.is_left_button_pressed:
                 self.is_left_button_pressed = False
                 self.on_mouse_button_up()
+
+        # wheel up
+        # if game_mgr.input_mgr.is_mouse_pressed(WHEEL_UP):
+        #     if not self.is_wheel_up:
+        #         self.is_wheel_up = True
+        #         self.on_wheel(True)
+        # else:
+        #     if self.is_wheel_up:
+        #         self.is_wheel_up = False
+
+        # # wheel down
+        # if game_mgr.input_mgr.is_mouse_pressed(WHEEL_DOWN):
+        #     if not self.is_wheel_down:
+        #         self.is_wheel_down = True
+        #         self.on_wheel(False)
+        # else:
+        #     if self.is_wheel_down:
+        #         self.is_wheel_down = False
         
     def on_mouse_button_down(self):
         input = game_mgr.input_mgr
@@ -100,6 +137,10 @@ class CameraMgr(NodeObject):
         #     x,y,z = screen_to_world(self.main_camera, input.x, input.y)
         #     set_position(a, x, y, z)
         
-
     
-        
+    def on_wheel(self, up):
+        self.arm_norm = clamp(self.arm_norm, 0.05 if up else -0.05)
+        print_line(f'on_wheel: {self.arm_norm} {up}')
+        self.offset.normlize()
+        self.offset.scale1(self.arm_length * (0.5 + self.arm_norm * 0.5))
+

@@ -77,6 +77,7 @@ class GroundMgr(NodeObject):
         cx = math.floor((x / TILE_SIZE) + 0.5)
         cz = math.floor((z / TILE_SIZE) + 0.5)
 
+        # 中心九宫格
         self.update_tile(cx    , cz    )
         self.update_tile(cx - 1, cz    )
         self.update_tile(cx + 1, cz    )
@@ -89,7 +90,7 @@ class GroundMgr(NodeObject):
         self.update_tile(cx - 1, cz + 1)
         self.update_tile(cx + 1, cz + 1)
 
-        # 补两个远角
+        # 左右远角，视觉上面有坑
         self.update_tile(cx    , cz - 2)
         self.update_tile(cx + 1, cz - 2)
 

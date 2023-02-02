@@ -8,6 +8,8 @@ from game.game_mgr import game_mgr
 LEFT_BUTTON = 1
 RIGHT_BUTTON = 2
 MIDDLE_BUTTON = 3
+WHEEL_UP = 4
+WHEEL_DOWN = 5
 
 LEFT_BUTTON_PRESS = 'left_button_press'
 LEFT_BUTTON_RELEASE = 'left_button_release'
@@ -60,6 +62,10 @@ class InputMgr(NodeObject):
         is_pressed = pressed != 0
         #print_line(f'mouse button: button={button} pressed={is_pressed} x={x} y={y}')
 
+        # if is_pressed and (button == WHEEL_UP or button == WHEEL_DOWN):
+        #     self.mouse_pressed[button] = is_pressed
+        # else:
+        #     self.mouse_pressed[button] = is_pressed
         self.mouse_pressed[button] = is_pressed
 
     def on_mouse_move(self, x, y):

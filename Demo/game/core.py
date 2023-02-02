@@ -2,6 +2,8 @@
 # 2023年1月30日 bianpeng
 #
 
+import math
+
 import GodotPy as gp
 
 # Vector3
@@ -23,6 +25,21 @@ class Vector3:
         self.x += x
         self.y += y
         self.z += z
+
+    def scale(self, sx, sy, sz):
+        self.x *= sx
+        self.y *= sy
+        self.z *= sz
+
+    def scale1(self, s):
+        self.x *= s
+        self.y *= s
+        self.z *= s
+
+    def normlize(self):
+        len = math.sqrt(self.x*self.x+self.y*self.y+self.z*self.z)
+        if len > 0:
+            self.scale1(1 / len)
 
 
 # 单例
