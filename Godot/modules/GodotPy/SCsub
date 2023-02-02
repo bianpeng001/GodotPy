@@ -14,13 +14,21 @@ if not os.path.exists(PYTHON_HOME):
 
 # 准备工作, 复制python3.lib，因为后缀跟平台环境有关，但是我懒得弄了，复制改名算了
 def GetReady():
-    Python3SrcPath = PYTHON_HOME + '/python3.lib'
-    Python3DstPath = PYTHON_HOME + '/python3' + env["LIBSUFFIX"]
-    if os.path.exists(Python3SrcPath):
-        if not os.path.exists(Python3DstPath) or\
-            os.path.getmtime(Python3SrcPath) > os.path.getmtime(Python3DstPath):
-            print('copy', Python3DstPath)
-            shutil.copyfile(Python3SrcPath, Python3DstPath)
+    Python3Lib = PYTHON_HOME + '/python3.lib'
+    Python3LibDst = PYTHON_HOME + '/python3' + env["LIBSUFFIX"]
+    if os.path.exists(Python3Lib):
+        if not os.path.exists(Python3LibDst) or\
+                os.path.getmtime(Python3LibDst) < os.path.getmtime(Python3Lib):
+            print('copy', Python3LibDst)
+            shutil.copyfile(Python3Lib, Python3LibDst)
+
+    Python3Dll = PYTHON_HOME + '/python3.dll'
+    Python3DllDst = '../../bin/python3.dll'
+    if os.path.exists(Python3Dll):
+        if not os.path.exists(Python3DllDst) or\
+                os.path.getmtime(Python3DllDst) < os.path.getmtime(Python3Dll):
+            print('copy', Python3DllDst)
+            shutil.copyfile(Python3Dll, Python3DllDst)
 
 GetReady()
 
