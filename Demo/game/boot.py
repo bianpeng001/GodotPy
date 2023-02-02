@@ -15,6 +15,9 @@ sys.stderr = PrintLine()
 saved_stdout = sys.stdout
 sys.stdout = PrintLine()
 
+from game.game_mgr import game_mgr
+from game.event_mgr import EventMgr
+game_mgr._event_mgr = EventMgr()
 
 print('boot ok')
 

@@ -52,6 +52,9 @@ class CameraMgr(NodeObject):
         connect(self._get_node(), "ready", self._ready)
         self.main_camera = find_node(self._get_node(), 'MainCamera')
 
+        game_mgr.event_mgr.add(WHEEL_UP_PRESS, self.on_wheel_up)
+        game_mgr.event_mgr.add(WHEEL_DOWN_PRESS, self.on_wheel_down)
+
     def _ready(self):
         print_line("CameraMgr ready")
 
@@ -71,24 +74,6 @@ class CameraMgr(NodeObject):
             if self.is_left_button_pressed:
                 self.is_left_button_pressed = False
                 self.on_mouse_button_up()
-
-        # wheel up
-        # if game_mgr.input_mgr.is_mouse_pressed(WHEEL_UP):
-        #     if not self.is_wheel_up:
-        #         self.is_wheel_up = True
-        #         self.on_wheel(True)
-        # else:
-        #     if self.is_wheel_up:
-        #         self.is_wheel_up = False
-
-        # # wheel down
-        # if game_mgr.input_mgr.is_mouse_pressed(WHEEL_DOWN):
-        #     if not self.is_wheel_down:
-        #         self.is_wheel_down = True
-        #         self.on_wheel(False)
-        # else:
-        #     if self.is_wheel_down:
-        #         self.is_wheel_down = False
         
     def on_mouse_button_down(self):
         input = game_mgr.input_mgr
@@ -138,9 +123,19 @@ class CameraMgr(NodeObject):
         #     set_position(a, x, y, z)
         
     
-    def on_wheel(self, up):
-        self.arm_norm = clamp(self.arm_norm, 0.05 if up else -0.05)
-        print_line(f'on_wheel: {self.arm_norm} {up}')
+    def process_zoom(self, dir):
+        self.arm_norm = clamp(self.arm_norm, dir * 0.05)
         self.offset.normlize()
         self.offset.scale1(self.arm_length * (0.5 + self.arm_norm * 0.5))
+        
+        self.update_camera()
 
+    def on_wheel_up(self):
+        #print_line('wheel_up')
+        self.process_zoom(-1)
+        pass
+
+    def on_wheel_down(self):
+        #print_line('wheel_down')
+        self.process_zoom(1)
+        pass
