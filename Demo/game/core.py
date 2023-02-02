@@ -6,6 +6,39 @@ import math
 
 import GodotPy as gp
 
+class Plane:
+    def __init__(self, x0, y0 ,z0, n_x, n_y, n_z):
+        self.x0 = x0
+        self.y0 = y0
+        self.z0 = z0
+
+        self.n_x = n_x
+        self.n_y = n_y
+        self.n_z = n_z
+
+def Ray:
+    def __init__(self, x0, y0, z0, n_x, n_y, n_z)
+        self.x0 = x0
+        self.y0 = y0
+        self.z0 = z0
+
+        self.n_x = n_x
+        self.n_y = n_y
+        self.n_z = n_z
+
+    def raycast(self, plane):
+        ray = self
+        x1 = plane.x0 - ray.x0
+        y1 = plane.y0 - ray.y0
+        z1 = plane.z0 - ray.z0
+
+        d = (x1*plane.n_x + y1*plane.n_y + z1*plane.n_z) /\
+            (ray.n_x*plane.n_x + ray.n_y*plane.n_y + ray.n_z*plane.n_z)
+        return d
+
+    def get_point(self, d):
+        return self.x0+self.n_x*d, self.y0+self.n_y*d, self.z0+self.n_z*d
+
 # Vector3
 class Vector3:
     def __init__(self):

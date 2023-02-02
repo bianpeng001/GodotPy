@@ -372,6 +372,7 @@ static PyObject *f_set_scale(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+// 屏幕点，投影到地面上的交点，的世界坐标
 static PyObject *f_screen_to_world(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_node;
