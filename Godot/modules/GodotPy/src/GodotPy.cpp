@@ -205,6 +205,23 @@ static PyObject *f_get_parent(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_load_scene(PyObject *module, PyObject *args) {
+	do {
+		char *a_path;
+
+		if (!PyArg_ParseTuple(args, "s", &a_path)) {
+			break;
+		}
+
+		String path(a_path);
+		auto st = SceneTree::get_singleton();
+		st->change_scene_to_file(path);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+
 static PyObject* f_find_node(PyObject* module, PyObject* args) {
 	const char *path;
 	PyObject *node;
@@ -418,6 +435,7 @@ static PyObject *f_get_delta_time(PyObject *module, PyObject *args) {
 	return Py_BuildValue("f", delta);
 }
 static PyMethodDef GodotPy_methods[] = {
+	// os
 	{ "print_line", f_print_line, METH_VARARGS, NULL },
 
 	// node
@@ -426,6 +444,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "set_process_input", f_set_process_input, METH_VARARGS, NULL },
 	{ "connect", f_connect, METH_VARARGS, NULL },
 	{ "get_parent", f_get_parent, METH_VARARGS, NULL },
+	{ "load_scene", f_load_scene, METH_VARARGS, NULL },
 
 	// node3d
 	{ "set_position", f_set_position, METH_VARARGS, NULL },

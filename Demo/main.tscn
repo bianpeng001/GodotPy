@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://7drk8uiknmut" path="res://models/Troop01.tscn" id="2_82hma"]
 [ext_resource type="PackedScene" uid="uid://bok6l8i3vigk5" path="res://models/Wall01.tscn" id="3_tjp5w"]
 
-[node name="RootNode" type="FPyObject"]
+[node name="MainScene" type="FPyObject"]
 python_module = "game.mainloop"
 python_class = "MainLoop"
 

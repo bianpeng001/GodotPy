@@ -52,7 +52,7 @@ scenetree任意一个子树，可以存成tscn(scn表示scene，t表示text)文�
 
 对node，set_process，才能收到process信号。set_process_input，才能收到input事件。
 
-godot editor, 有一定的remote功能，即在编辑器里面启动后，能对scenetree里面的内容，在编辑器和运行时之间有一些反馈。
+godot editor, 有一定的remote调试功能，即在编辑器里面启动后，能对scenetree里面的内容，在编辑器和运行时之间有一些反馈。在monitor里面，有详细的fps,drawcall,memory,object count...信息
 
 node, 只提供了基础功能。node3d才有transform的信息。
 
@@ -67,3 +67,7 @@ UI开发
 Python的Py_INCREF, Py_DECREF，这两项的使用，有一些注意点。目前从容器中Get出来的值是borrowed reference，即，不需要修改引用计数。
 但是，PyObject_CallMethod返回值，如果不需要保留，则必须减掉引用计数。
 
+场景文件，tscn格式。用parent字段来维护一个树结构。头部声明 ext_resource，用到的依赖资源。然后在节点里面指定关联。
+节点定义后，紧接着属性修改。资源用uid来确定。
+
+出现uid重复的处理。
