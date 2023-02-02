@@ -292,20 +292,19 @@ static PyObject *f_get_position(PyObject *module, PyObject *args) {
 static PyObject *f_set_rotation(PyObject *module, PyObject *args) {
 	
 	do {
-		PyObject *node;
+		PyObject *a_node;
 		float x, y, z;
 
-		if (!PyArg_ParseTuple(args, "Offf", &node, &x, &y, &z)) {
+		if (!PyArg_ParseTuple(args, "Offf", &a_node, &x, &y, &z)) {
 			break;
 		}
 
-		auto p_node = reinterpret_cast<Node *>(PyCapsule_GetPointer(node, c_node_name));
-		auto p_node3d = dynamic_cast<Node3D *>(p_node);
-		if (!p_node3d) {
+		auto node = GetCapsulePointer<Node3D>(a_node);
+		if (!node) {
 			break;
 		}
 
-		p_node3d->set_rotation_degrees(Vector3(x, y, z));
+		node->set_rotation_degrees(Vector3(x, y, z));
 
 	} while (0);
 	
@@ -374,7 +373,6 @@ static PyObject *f_set_scale(PyObject *module, PyObject *args) {
 	Py_RETURN_NONE;
 }
 static PyObject *f_screen_to_world(PyObject *module, PyObject *args) {
-
 	do {
 		PyObject *a_node;
 		float x, y;
@@ -437,6 +435,8 @@ static PyObject *f_get_delta_time(PyObject *module, PyObject *args) {
 static PyMethodDef GodotPy_methods[] = {
 	// os
 	{ "print_line", f_print_line, METH_VARARGS, NULL },
+	{ "get_time", f_get_time, METH_VARARGS, NULL },
+	{ "get_delta_time", f_get_delta_time, METH_VARARGS, NULL },
 
 	// node
 	{ "find_node", f_find_node, METH_VARARGS, NULL },
@@ -460,10 +460,6 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// resource
 	{ "instantiate", f_instantiate, METH_VARARGS, NULL },
-
-	// os
-	{ "get_time", f_get_time, METH_VARARGS, NULL },
-	{ "get_delta_time", f_get_delta_time, METH_VARARGS, NULL },
 
 	// over
 	{ NULL, NULL, 0, NULL }

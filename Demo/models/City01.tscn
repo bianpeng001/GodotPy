@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://dps4u7ofsxa1b"]
 
 [ext_resource type="ArrayMesh" uid="uid://dmsqjes4gdq2x" path="res://models/City01Mesh.res" id="1_vo51y"]
 [ext_resource type="Material" uid="uid://bft44cxmukfxl" path="res://models/City01Mat.tres" id="2_ce25a"]
@@ -22,3 +22,7 @@ text = "刘"
 font = ExtResource("4_7s6ej")
 font_size = 48
 outline_size = 8
+
+[node name="Controller" type="FPyObject" parent="."]
+python_module = "game.city_controller"
+python_class = "CityController"
