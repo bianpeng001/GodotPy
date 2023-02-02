@@ -9,7 +9,9 @@ from game.game_mgr import game_mgr
 
 TILE_SIZE = 30
 
-#
+# tile内部，a*寻路
+# tile外部，大a*寻路
+# 打仗过程里面，走直线
 class Tile:
     def __init__(self, x, z):
         # 坐标
@@ -28,13 +30,12 @@ class Tile:
         set_position(self.model_node, pos_x, 0, pos_z)
 
         # 随机几颗树
-
         for i in range(random.randrange(1, 10)):
             self.load_res('res://models/Tree01.tscn',
                 pos_x + (random.random()-0.5)*20,
                 pos_z + (random.random()-0.5)*20,
-                0.6 + random.random())
-
+                0.5 + random.random())
+        # 一个草
         self.load_res('res://models/Grass01.tscn', 
             pos_x + (random.random()-0.5)*20,
             pos_z + (random.random()-0.5)*20,
