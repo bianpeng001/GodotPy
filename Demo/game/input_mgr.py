@@ -103,7 +103,7 @@ class InputMgr(NodeObject):
                         self.left_button.drag = True
                         game_mgr.event_mgr.emit(LEFT_BUTTON_BEGIN_DRAG)
                     else:
-                        game_mgr.event_mgr.emit(LEFT_BUTTON_DRAG)
+                        game_mgr.event_mgr.emit(LEFT_BUTTON_DRAG, self.x, self.y)
 
 
     # def process_input_events(self):

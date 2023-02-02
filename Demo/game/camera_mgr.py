@@ -10,8 +10,7 @@ from game.input_mgr import *
 # def test_callback():
 #     print_line("test_callback")
 
-def clamp(x, delta):
-    v = x + delta
+def clamp(v):
     if v < 0:
         return 0.0
     elif v > 1.0:
@@ -26,16 +25,16 @@ class CameraMgr(NodeObject):
 
         game_mgr.camera_mgr = self
 
-        self.is_left_button_pressed = False
-        self.is_wheel_up = False
-        self.is_wheel_down = False
+        #self.is_left_button_pressed = False
 
         self.arm_length = 55
-        self.arm_norm = 1.0
+        self.arm_scale = 1.0
+        self.arm_dir = Vector3()
+        self.arm_dir.set(30, 35, 30)
+        self.arm_dir.normlize()
 
         self.offset = Vector3()
-        self.offset.set(30, 35, 30)
-        self.offset.normlize()
+        self.offset.set(self.arm_dir.x, self.arm_dir.y, self.arm_dir.z)
         self.offset.scale1(self.arm_length)
 
         self.center = Vector3()
@@ -55,40 +54,23 @@ class CameraMgr(NodeObject):
         game_mgr.event_mgr.add(WHEEL_UP_PRESS, self.on_wheel_up)
         game_mgr.event_mgr.add(WHEEL_DOWN_PRESS, self.on_wheel_down)
 
+        game_mgr.event_mgr.add(LEFT_BUTTON_PRESS, self.on_mouse_button_down)
+        #game_mgr.event_mgr.add(LEFT_BUTTON_RELEASE, self.on_mouse_button_up)
+        game_mgr.event_mgr.add(LEFT_BUTTON_DRAG, self.on_mouse_drag)
+
     def _ready(self):
         print_line("CameraMgr ready")
 
-    def update(self):
-        #print_safe(str(self._get_node()))
-        self.handle_input()
-
-    def handle_input(self):
-        # left button
-        if game_mgr.input_mgr.is_mouse_pressed(LEFT_BUTTON):
-            if not self.is_left_button_pressed:
-                self.is_left_button_pressed = True
-                self.on_mouse_button_down()
-            else:
-                self.on_mouse_drag()
-        else:
-            if self.is_left_button_pressed:
-                self.is_left_button_pressed = False
-                self.on_mouse_button_up()
-        
-    def on_mouse_button_down(self):
-        input = game_mgr.input_mgr
-
-        x,y,z = screen_to_world(self.main_camera, input.x, input.y)
+    def on_mouse_button_down(self, x, y):
+        x,y,z = screen_to_world(self.main_camera, x, y)
         self.drag_start.set(x, y, z)
 
         self.press_time = get_time()
     
     # TODO： begin_drag(), end_drag(), drag()
-    def on_mouse_drag(self):
-        input = game_mgr.input_mgr
-
+    def on_mouse_drag(self, x, y):
         # 拖拽场景，用移动摄像头来实现
-        x,y,z = screen_to_world(self.main_camera, input.x, input.y)
+        x,y,z = screen_to_world(self.main_camera, x, y)
         #print_line((x,y,z))
         dx = x - self.drag_start.x
         dy = y - self.drag_start.y
@@ -112,30 +94,33 @@ class CameraMgr(NodeObject):
             self.center.z)
 
     def on_mouse_button_up(self):
-        input = game_mgr.input_mgr
+        pass
 
-        #print_line(get_delta_time())
+    def process_zoom(self, delta):
+        input_mgr = game_mgr.input_mgr
 
-        # t = get_time()
-        # if t - self.press_time < 80:
-        #     a = instantiate('res://models/City01.tscn')
-        #     x,y,z = screen_to_world(self.main_camera, input.x, input.y)
-        #     set_position(a, x, y, z)
+        prev_norm = 1 + self.arm_scale
+        self.arm_scale = clamp(self.arm_scale + delta)
         
-    
-    def process_zoom(self, dir):
-        self.arm_norm = clamp(self.arm_norm, dir * 0.05)
-        self.offset.normlize()
-        self.offset.scale1(self.arm_length * (0.5 + self.arm_norm * 0.5))
+        x1,y1,z1 = screen_to_world(self.main_camera, input_mgr.x, input_mgr.y)
+
+        f = (1 + self.arm_scale) / prev_norm
+        dx = (self.center.x - x1) * f
+        dy = (self.center.y - y1) * f
+        dz = (self.center.z - z1) * f
+
+        self.center.set(x1+dx, y1+dy, z1+dz)
+
+        self.offset.set(self.arm_dir.x, self.arm_dir.y, self.arm_dir.z)
+        self.offset.scale1(self.arm_length * (1 + self.arm_scale) * 0.5)
         
         self.update_camera()
 
     def on_wheel_up(self):
-        #print_line('wheel_up')
-        self.process_zoom(-1)
-        pass
+        self.process_zoom(-0.05)
 
     def on_wheel_down(self):
-        #print_line('wheel_down')
-        self.process_zoom(1)
-        pass
+        self.process_zoom(0.05)
+
+
+
