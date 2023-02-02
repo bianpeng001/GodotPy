@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0t2w0002k0rb"]
+
+[ext_resource type="FontFile" uid="uid://cfhxpqexrydct" path="res://FZKT.ttf" id="1_id32y"]
+[ext_resource type="Script" path="res://start.gd" id="1_skqoa"]
+
+[node name="StartScene" type="Node2D"]
+script = ExtResource("1_skqoa")
+
+[node name="EnterGame" type="Button" parent="."]
+offset_left = 366.0
+offset_top = 231.0
+offset_right = 486.0
+offset_bottom = 281.0
+theme_override_fonts/font = ExtResource("1_id32y")
+text = "开始游戏"
