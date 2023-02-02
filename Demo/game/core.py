@@ -16,8 +16,8 @@ class Plane:
         self.n_y = n_y
         self.n_z = n_z
 
-def Ray:
-    def __init__(self, x0, y0, z0, n_x, n_y, n_z)
+class Ray:
+    def __init__(self, x0, y0, z0, n_x, n_y, n_z):
         self.x0 = x0
         self.y0 = y0
         self.z0 = z0
