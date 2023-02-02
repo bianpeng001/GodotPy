@@ -21,6 +21,11 @@ config/icon="res://icon.png"
 
 file_logging/enable_file_logging=true
 
+[display]
+
+window/size/resizable=false
+mouse_cursor/custom_image="res://Cursor.png"
+
 [input]
 
 LeftButton={

@@ -7,9 +7,10 @@
 script = ExtResource("1_skqoa")
 
 [node name="EnterGame" type="Button" parent="."]
-offset_left = 366.0
+offset_left = 496.0
 offset_top = 231.0
-offset_right = 486.0
-offset_bottom = 281.0
+offset_right = 656.0
+offset_bottom = 291.0
 theme_override_fonts/font = ExtResource("1_id32y")
+theme_override_font_sizes/font_size = 28
 text = "开始游戏"

@@ -16,7 +16,7 @@ class Tile:
         self.x = x
         self.z = z
         self.model_node = None
-        self.trees = []
+        self.item_nodes = []
 
     def load(self):
         print_line(f'load tile: x={self.x} z={self.z}')
@@ -31,9 +31,10 @@ class Tile:
 
         for i in range(random.randrange(1, 10)):
             self.load_res('res://models/Tree01.tscn',
-            pos_x + (random.random()-0.5)*20,
-            pos_z + (random.random()-0.5)*20,
-            0.6 + random.random())
+                pos_x + (random.random()-0.5)*20,
+                pos_z + (random.random()-0.5)*20,
+                0.6 + random.random())
+
         self.load_res('res://models/Grass01.tscn', 
             pos_x + (random.random()-0.5)*20,
             pos_z + (random.random()-0.5)*20,
@@ -41,7 +42,7 @@ class Tile:
 
     def load_res(self, path, x, z, s):
         item = instantiate(path)
-        self.trees.append(item) 
+        self.item_nodes.append(item) 
 
         set_position(item, x, 0, z)
         set_scale(item, s, s, s)
@@ -54,7 +55,7 @@ class GroundMgr(NodeObject):
     def __init__(self):
         super().__init__()
 
-        self.tile_map = {}
+        self.tile_dict = {}
 
         game_mgr.ground_mgr = self
     
@@ -90,14 +91,15 @@ class GroundMgr(NodeObject):
         # 补两个远角
         self.update_tile(cx    , cz - 2)
         self.update_tile(cx + 1, cz - 2)
+
         self.update_tile(cx - 2, cz    )
         self.update_tile(cx - 2, cz + 1)
 
     def update_tile(self, cx, cz):
         key = (cx, cz)
-        if key not in self.tile_map:
+        if key not in self.tile_dict:
             t = Tile(*key)
-            self.tile_map[key] = t
+            self.tile_dict[key] = t
             t.load()
                 
         
