@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bsvoe0djveqkv"
+uid="uid://dexucct4svpo0"
 path="res://.godot/imported/Tree01.glb-bfcf12d11c979d01503757675278bf02.scn"
 
 [deps]
@@ -29,6 +29,12 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 import_script/path=""
 _subresources={
+"materials": {
+"Material": {
+"use_external/enabled": true,
+"use_external/path": "res://models/Tree01Mat.tres"
+}
+},
 "meshes": {
 "Tree01_Tree01": {
 "generate/lightmap_uv": 0,
