@@ -39,8 +39,10 @@ GameFormula: 一个公式的实现，旧代码保留
 _ready 是子节点先收到，最后是根节点。_enter_tree顺序相反。所以在根节点做了一个MainLoop，用于控制初始化顺序。
 
 scenetree任意一个子树，可以存成tscn(scn表示scene，t表示text)文件，然后复用。类似于prefab。感觉godot更舒服一些，有种面向xml的感觉。
+场景文件，tscn格式。用parent字段来维护一个树结构。头部声明 ext_resource，用到的依赖资源。然后在节点里面指定关联。节点定义后，紧接着属性修改。资源用uid来确定。
+出现uid重复的处理。把引用错误的资源，reimport，目前遇到的几次是glb里面导入的mesh。
 ```c++
-    // 加载
+    // 加载一个场景文件
     Ref<PackedScene> res = ResourceLoader::load(path);
     // 实例化
     auto node = Object::cast_to<Node3D>(res->instantiate(PackedScene::GEN_EDIT_STATE_DISABLED));
@@ -54,20 +56,43 @@ scenetree任意一个子树，可以存成tscn(scn表示scene，t表示text)文�
 
 godot editor, 有一定的remote调试功能，即在编辑器里面启动后，能对scenetree里面的内容，在编辑器和运行时之间有一些反馈。在monitor里面，有详细的fps,drawcall,memory,object count...信息
 
-node, 只提供了基础功能。node3d才有transform的信息。
+node只提供了基础功能。node3d才有transform的信息。
 
-没有提供组件的开发模式。所以都是用节点来完成的。比如这个python的脚本，我是放了一个FPyObject的节点来提供脚本运行。
+没有提供基于组件的开发模式。所以都是用节点来完成的。比如这个python的脚本，我是放了一个FPyObject的节点来提供脚本运行。
 
-ProjectSetting里面有很多宝藏
+ProjectSetting里面有很多宝藏，Cursor，icon...。
 
-gltb格式在导入后，最好把mesh单独保存，这样才能被单独读取。
+gltb格式在导入后，最好把mesh单独保存，这样才能被单独读取。材质也要设置为外部的，不然会从gltb里面把贴图带过来(疑似如此)
 
 UI开发
 
 Python的Py_INCREF, Py_DECREF，这两项的使用，有一些注意点。目前从容器中Get出来的值是borrowed reference，即，不需要修改引用计数。
-但是，PyObject_CallMethod返回值，如果不需要保留，则必须减掉引用计数。
+注意，PyObject_CallMethod返回值，如果不需要保留，则必须减掉引用计数。如果返回NULL，则说明有错误。需要自行打印错误信息。
 
-场景文件，tscn格式。用parent字段来维护一个树结构。头部声明 ext_resource，用到的依赖资源。然后在节点里面指定关联。
-节点定义后，紧接着属性修改。资源用uid来确定。
+由于godot对stdout,stderr有自己的处理。为了接收python的报错信息，需要做一些额外的处理。看Python的PyErr_Print,最后会调用到python的sys.stdout, sys.stderr的PyObject对象上去write。所以，我的做法是，在boot.py里面，一开始，就把Python的sys.stdout, sys.stderr,换成一个假的IO对象。
+```Python
+class PrintLine:
+    def write(self, s):
+        if s and s != '\n':
+            print_line(s)
 
-出现uid重复的处理。
+saved_stderr = sys.stderr
+sys.stderr = PrintLine()
+
+saved_stdout = sys.stdout
+sys.stdout = PrintLine()
+
+```
+
+windows desktop下面的发布。
+1. 构造scons p=windows tools=no bits=64 -j6 target=template_release，发布版本。命名为Demo.exe
+2. 导出数据包，godot.windows.editor.dev.x86_64.console.exe --path h:\GodotPy\Demo -w --export-pack "Windows Desktop" .\Output\Demo.pck
+3. 复制其他依赖的文件，比如Lib, python3.dll，**/*.py
+4. 完毕
+
+直接打开工程运行
+bin\godot.windows.editor.dev.x86_64.console.exe -w --path d:\OpenSource\GodotPy\Demo
+
+直接打开工程编辑
+bin\godot.windows.editor.dev.x86_64.console.exe -w --path d:\OpenSource\GodotPy\Demo -e
+
