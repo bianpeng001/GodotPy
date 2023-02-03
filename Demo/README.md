@@ -86,7 +86,7 @@ sys.stdout = PrintLine()
 
 windows desktop下面的发布。
 1. 构造scons p=windows tools=no bits=64 -j6 target=template_release，发布版本。命名为Demo.exe
-2. 导出数据包，godot.windows.editor.dev.x86_64.console.exe --path h:\GodotPy\Demo -w --export-pack "Windows Desktop" .\Output\Demo.pck
+2. 导出数据包，godot.windows.editor.dev.x86_64.console.exe --path h:\GodotPy\Demo -w --export-pack "Windows Desktop" ..\Build\Demo.pck
 3. 复制其他依赖的文件，比如Lib, python3.dll，**/*.py
 4. 完毕
 
