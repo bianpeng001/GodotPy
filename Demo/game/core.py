@@ -116,6 +116,7 @@ class NodeObject:
     def _create(self):
         pass
 
+
 def print_line(*args, **kwargs):
     if not args:
         return

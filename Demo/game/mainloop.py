@@ -20,8 +20,8 @@ class MainLoop(NodeObject):
         connect(self._get_node(), "ready", self._ready)
 
     def init(self):
-        game_mgr._troop_mgr = TroopMgr()
-        game_mgr._city_mgr = CityMgr()
+        game_mgr.troop_mgr = TroopMgr()
+        game_mgr.city_mgr = CityMgr()
 
     def _ready(self):
         self.init()
@@ -30,7 +30,7 @@ class MainLoop(NodeObject):
         game_mgr.camera_mgr.update_camera()
         game_mgr.ground_mgr.update()
         
-        game_mgr._troop_mgr.test()
+        game_mgr.troop_mgr.test()
 
     def _process(self):
         delta_time = get_delta_time()

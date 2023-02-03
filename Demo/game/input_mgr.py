@@ -23,6 +23,15 @@ LEFT_BUTTON_END_DRAG = 'left_button_end_drag'
 WHEEL_UP_PRESS = 'wheel_up_press'
 WHEEL_DOWN_PRESS = 'wheel_down_press'
 
+wheel_events = (
+    None,
+    LEFT_BUTTON_PRESS,
+    None,
+    None,
+    WHEEL_UP_PRESS,
+    WHEEL_DOWN_PRESS,
+)
+
 #
 class MouseButtonData:
     def __init__(self):
@@ -36,7 +45,7 @@ class InputMgr(NodeObject):
     def __init__(self):
         super().__init__()
         
-        game_mgr.input_mgr = self
+        game_mgr._input_mgr = self
 
         self.x = self.y = 0
         self.mouse_pressed = [False, False, False, False]
@@ -70,10 +79,7 @@ class InputMgr(NodeObject):
         if button <= MIDDLE_BUTTON:
             self.mouse_pressed[button] = is_pressed
         elif is_pressed:
-            if button == WHEEL_UP_BUTTON:
-                game_mgr.event_mgr.emit(WHEEL_UP_PRESS)
-            elif button == WHEEL_DOWN_BUTTON:
-                game_mgr.event_mgr.emit(WHEEL_DOWN_PRESS)
+            game_mgr.event_mgr.emit(wheel_events[button])
 
     def on_mouse_move(self, x, y):
         self.x = x

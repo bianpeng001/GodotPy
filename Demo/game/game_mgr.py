@@ -14,19 +14,21 @@ class GameMgr():
     def __init__(self):
         super().__init__()
 
-        self.input_mgr = None
+        self._event_mgr = None
+        self._input_mgr = None
+        
         self.camera_mgr = None
         self.ground_mgr = None
-        self._event_mgr = None
-        self._troop_mgr = None
+        self.troop_mgr = None
+        self.city_mgr = None
 
     @property
     def event_mgr(self):
         return self._event_mgr
 
     @property
-    def troop_mgr(self):
-        return self._troop_mgr
+    def input_mgr(self):
+        return self._input_mgr
 
 game_mgr = GameMgr.get_instance()
 

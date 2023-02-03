@@ -547,7 +547,7 @@ void FPyObject::input(const Ref<InputEvent> &p_event) {
 	if (mm.is_valid()) {
 		auto pressure = mm->get_pressure();
 		auto pos = mm->get_position();
-		//print_line(vformat("MouseMotion: %f,%f", pos.x, pos.y));
+		//print_line(vformat("MouseMotion: %d %f,%f", (int)(this->p_object != 0), pos.x, pos.y));
 		auto ret = PyObject_CallMethod(this->p_object, "on_mouse_move", "ff", pos.x, pos.y);
 		if (ret) {
 			GP_DECREF(ret);
