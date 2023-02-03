@@ -10,5 +10,5 @@ class CityMgr:
     def add(self, city):
         pass
 
-    def update(self):
+    def update(self, delta_time):
         pass

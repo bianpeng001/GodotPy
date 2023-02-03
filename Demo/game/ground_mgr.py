@@ -67,9 +67,7 @@ class GroundMgr(NodeObject):
     def _ready(self):
         print_line('GroundMgr ready')
 
-    def update(self):
-        #delta_time = get_delta_time()
-
+    def update(self, delta_time):
         center = game_mgr.camera_mgr.center
         x = center.x
         z = center.z
@@ -78,26 +76,26 @@ class GroundMgr(NodeObject):
         cz = math.floor((z / TILE_SIZE) + 0.5)
 
         # 中心九宫格
-        self.update_tile(cx    , cz    )
-        self.update_tile(cx - 1, cz    )
-        self.update_tile(cx + 1, cz    )
+        self.refresh_tile(cx    , cz    )
+        self.refresh_tile(cx - 1, cz    )
+        self.refresh_tile(cx + 1, cz    )
 
-        self.update_tile(cx    , cz - 1)
-        self.update_tile(cx - 1, cz - 1)
-        self.update_tile(cx + 1, cz - 1)
+        self.refresh_tile(cx    , cz - 1)
+        self.refresh_tile(cx - 1, cz - 1)
+        self.refresh_tile(cx + 1, cz - 1)
         
-        self.update_tile(cx    , cz + 1)
-        self.update_tile(cx - 1, cz + 1)
-        self.update_tile(cx + 1, cz + 1)
+        self.refresh_tile(cx    , cz + 1)
+        self.refresh_tile(cx - 1, cz + 1)
+        self.refresh_tile(cx + 1, cz + 1)
 
         # 左右远角，视觉上面有坑
-        self.update_tile(cx    , cz - 2)
-        self.update_tile(cx + 1, cz - 2)
+        self.refresh_tile(cx    , cz - 2)
+        self.refresh_tile(cx + 1, cz - 2)
 
-        self.update_tile(cx - 2, cz    )
-        self.update_tile(cx - 2, cz + 1)
+        self.refresh_tile(cx - 2, cz    )
+        self.refresh_tile(cx - 2, cz + 1)
 
-    def update_tile(self, cx, cz):
+    def refresh_tile(self, cx, cz):
         key = (cx, cz)
         if key not in self.tile_dict:
             t = Tile(*key)

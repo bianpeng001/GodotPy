@@ -28,7 +28,7 @@ class MainLoop(NodeObject):
         print_line('MainLoop ready')
         
         game_mgr.camera_mgr.update_camera()
-        game_mgr.ground_mgr.update()
+        game_mgr.ground_mgr.update(0)
         
         game_mgr.troop_mgr.test()
 
@@ -36,9 +36,9 @@ class MainLoop(NodeObject):
         delta_time = get_delta_time()
 
         game_mgr.input_mgr.update(delta_time)
-        #game_mgr.camera_mgr.update()
-        game_mgr.ground_mgr.update()
+        game_mgr.ground_mgr.update(delta_time)
         game_mgr.troop_mgr.update(delta_time)
+        #game_mgr.city_mgr.update(delta_time)
 
 
 

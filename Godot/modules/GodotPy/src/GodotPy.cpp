@@ -1,5 +1,5 @@
 //
-// 2023-1-17
+// 2023年1月17日
 //
 
 #include "GodotPy.h"
@@ -97,7 +97,7 @@ public:
 	PyObject *p_node_capsule;
 
 	FCapsuleObject(PyObject *a_capsule) :
-			p_node_capsule(a_capsule) {
+		p_node_capsule(a_capsule) {
 		
 	}
 	virtual ~FCapsuleObject() {
