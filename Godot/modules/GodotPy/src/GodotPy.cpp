@@ -67,7 +67,13 @@ public:
 	virtual void call(const Variant **p_arguments, int p_argcount, Variant &r_return_value, Callable::CallError &r_call_error) const override {
 		// TODO: 这里要解决一下参数，目前没有传入参数
 		auto args = PyTuple_New(0);
-		PyObject_Call(data.py_func, args, NULL);
+		auto ret = PyObject_Call(data.py_func, args, NULL);
+		if (ret) {
+			GP_DECREF(ret);
+		}
+		else {
+			PyErr_Print();
+		}
 		GP_DECREF(args);
 	};
 };
