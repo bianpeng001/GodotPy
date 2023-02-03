@@ -22,7 +22,6 @@ private:
 
 	PyObject *p_module;
 	PyObject *p_object;
-	PyObject *p_capsule;
 
 protected:
 	virtual void input(const Ref<InputEvent> &p_event) override;
@@ -30,6 +29,10 @@ protected:
 public:
 	FPyObject();
 	virtual ~FPyObject();
+
+	PyObject* get_py_object() {
+		return p_object;
+	}
 
 private:
 	void _notification(int p_what);

@@ -165,5 +165,6 @@ def get_delta_time():
 def instantiate(path):
     return gp.instantiate(path)
 
-
+def get_py_object(node):
+    return gp.get_py_object(node)
 

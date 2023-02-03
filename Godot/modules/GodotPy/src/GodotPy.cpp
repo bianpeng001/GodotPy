@@ -439,6 +439,24 @@ static PyObject *f_get_delta_time(PyObject *module, PyObject *args) {
 	float delta = (float)SceneTree::get_singleton()->get_process_time();
 	return Py_BuildValue("f", delta);
 }
+static PyObject *f_get_py_object(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
+		if (!PyArg_ParseTuple(args, "O", &a_node)) {
+			break;
+		}
+
+		auto node = GetCapsulePointer<FPyObject>(a_node);
+		if (node) {
+			auto obj = node->get_py_object();
+			// TODO: 这里是否应该+1???
+			Py_INCREF(obj);
+			return obj;
+		}
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyMethodDef GodotPy_methods[] = {
 	// os
 	{ "print_line", f_print_line, METH_VARARGS, NULL },
@@ -467,6 +485,9 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// resource
 	{ "instantiate", f_instantiate, METH_VARARGS, NULL },
+
+	// godotpy
+	{ "get_py_object", f_get_py_object, METH_VARARGS, NULL },
 
 	// over
 	{ NULL, NULL, 0, NULL }
@@ -606,7 +627,9 @@ void FPyObject::input(const Ref<InputEvent> &p_event) {
 //
 //------------------------------------------------------------------------------
 FPyObject::FPyObject() :
-		p_module(nullptr), p_object(nullptr), p_capsule(nullptr) {
+	p_module(nullptr),
+	p_object(nullptr) {
+
 }
 FPyObject::~FPyObject() {
 	if (p_module) {
@@ -617,9 +640,6 @@ FPyObject::~FPyObject() {
 		GP_DECREF(p_object);
 	}
 
-	if (p_capsule) {
-		GP_DECREF(p_capsule);
-	}
 }
 void FPyObject::_notification(int p_what) {
 	if (Engine::get_singleton()->is_editor_hint()) {
@@ -686,8 +706,8 @@ void FPyObject::_ready() {
 			break;
 		}
 
-		p_capsule = get_or_create_capsule(this);
-		PyObject_SetAttrString(p_object, c_capsule_name, p_capsule);
+		auto capsule = get_or_create_capsule(this);
+		PyObject_SetAttrString(p_object, c_capsule_name, capsule);
 
 		// post create object
 		auto ret = PyObject_CallMethod(p_object, "_create", NULL);
