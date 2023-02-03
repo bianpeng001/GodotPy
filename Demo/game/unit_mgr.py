@@ -31,12 +31,12 @@ class Unit:
     def update(self):
         pass
 
-#
+# 部队
 class TroopUnit(Unit):
     def __init__(self):
         super().__init__()
 
-#
+# 城池
 class CityUnit(Unit):
     def __init__(self):
         super().__init__()
@@ -48,7 +48,7 @@ class CityUnit(Unit):
         print_line(f'controller: {self.controller}')
 
 ###############################
-# Units
+# UnitMgr
 ###############################
 class UnitMgr:
     def __init__(self):
