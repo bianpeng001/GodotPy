@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cuaqchn3t53ur"
+uid="uid://dgwrfg1nwthno"
 path="res://.godot/imported/City01.glb-aea451d29e151210829e1063bed2cbfe.scn"
 
 [deps]
@@ -29,8 +29,14 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 import_script/path=""
 _subresources={
+"materials": {
+"Material": {
+"use_external/enabled": true,
+"use_external/path": "res://models/City01Mat.tres"
+}
+},
 "meshes": {
-"City01_City01": {
+"City01_City": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,
 "generate/shadow_meshes": 0,
@@ -42,4 +48,4 @@ _subresources={
 }
 }
 }
-meshes/handle_gltf_embedded_images=1
+gltf/embedded_image_handling=1

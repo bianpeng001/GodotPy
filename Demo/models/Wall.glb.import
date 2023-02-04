@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dnib6x05fxu1a"
+uid="uid://ckt1hnpgnew87"
 path="res://.godot/imported/Wall.glb-19147ea9cf076b0aa0d13741a13b0521.scn"
 
 [deps]
@@ -29,6 +29,12 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 import_script/path=""
 _subresources={
+"materials": {
+"Material": {
+"use_external/enabled": true,
+"use_external/path": "res://models/Wall01Mat.tres"
+}
+},
 "meshes": {
 "Wall_Cube001": {
 "generate/lightmap_uv": 0,

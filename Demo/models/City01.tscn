@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dps4u7ofsxa1b"]
+[gd_scene load_steps=5 format=3 uid="uid://dps4u7ofsxa1b"]
 
 [ext_resource type="ArrayMesh" uid="uid://dmsqjes4gdq2x" path="res://models/City01Mesh.res" id="1_vo51y"]
-[ext_resource type="Material" uid="uid://bft44cxmukfxl" path="res://models/City01Mat.tres" id="2_ce25a"]
 [ext_resource type="ArrayMesh" uid="uid://b08g3fgs0s3ae" path="res://models/Flag01Mesh.res" id="3_vg770"]
 [ext_resource type="FontFile" uid="uid://cfhxpqexrydct" path="res://FZKT.ttf" id="4_7s6ej"]
 
@@ -12,7 +11,6 @@
 [node name="Wall" type="MeshInstance3D" parent="."]
 transform = Transform3D(3, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0)
 mesh = ExtResource("1_vo51y")
-surface_material_override/0 = ExtResource("2_ce25a")
 
 [node name="Flag" type="MeshInstance3D" parent="."]
 mesh = ExtResource("3_vg770")

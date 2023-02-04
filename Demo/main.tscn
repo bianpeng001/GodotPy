@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cipun2g0qp50n"]
 
 [ext_resource type="PackedScene" uid="uid://7drk8uiknmut" path="res://models/Troop01.tscn" id="2_82hma"]
-[ext_resource type="PackedScene" uid="uid://bok6l8i3vigk5" path="res://models/Wall01.tscn" id="3_tjp5w"]
+[ext_resource type="PackedScene" uid="uid://c64oxbejarbpj" path="res://models/Wall01.tscn" id="3_tjp5w"]
 
 [node name="MainScene" type="FPyObject"]
 python_module = "game.mainloop"
