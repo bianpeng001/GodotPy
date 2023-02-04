@@ -71,8 +71,7 @@ public:
 		auto ret = PyObject_Call(data.py_func, args, NULL);
 		if (ret) {
 			GP_DECREF(ret);
-		}
-		else {
+		} else {
 			PyErr_Print();
 		}
 		GP_DECREF(args);
@@ -157,6 +156,19 @@ static PyObject *f_set_process_input(PyObject *module, PyObject *args) {
 
 	auto node = (Node *)PyCapsule_GetPointer(a_node, c_node_name);
 	node->set_process_input(value != 0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_set_physics_process(PyObject *module, PyObject *args) {
+	PyObject *a_node;
+	int value;
+
+	if (!PyArg_ParseTuple(args, "Oi", &a_node, &value)) {
+		Py_RETURN_NONE;
+	}
+
+	auto node = (Node *)PyCapsule_GetPointer(a_node, c_node_name);
+	node->set_physics_process(value != 0);
 
 	Py_RETURN_NONE;
 }
@@ -270,7 +282,6 @@ static PyObject *f_set_position(PyObject *module, PyObject *args) {
 	Py_RETURN_NONE;
 }
 static PyObject *f_get_position(PyObject *module, PyObject *args) {
-	
 	do {
 		PyObject *a_node;
 
@@ -297,7 +308,6 @@ static PyObject *f_get_position(PyObject *module, PyObject *args) {
 	Py_RETURN_NONE;
 }
 static PyObject *f_set_rotation(PyObject *module, PyObject *args) {
-	
 	do {
 		PyObject *a_node;
 		float x, y, z;
@@ -314,7 +324,7 @@ static PyObject *f_set_rotation(PyObject *module, PyObject *args) {
 		node->set_rotation_degrees(Vector3(x, y, z));
 
 	} while (0);
-	
+
 	Py_RETURN_NONE;
 }
 static PyObject *f_lookat(PyObject *module, PyObject *args) {
@@ -408,6 +418,33 @@ static PyObject *f_screen_to_world(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_raycast_shape(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
+		float x, y, z;
+		float x1, y1, z1;
+
+		if (!PyArg_ParseTuple(args, "Offf", &a_node,
+					&x, &y, &z, &x1, &y1, &z1)) {
+			break;
+		}
+
+		auto node = GetCapsulePointer<Node3D>(a_node);
+		Ref<World3D> world = node->get_world_3d();
+		auto space_state = world->get_direct_space_state();
+
+		PhysicsDirectSpaceState3D::RayParameters param;
+		param.from = Vector3(x, y, z);
+		param.to = Vector3(x1, y1, z1);
+		PhysicsDirectSpaceState3D::RayResult result;
+		if (space_state->intersect_ray(param, result)) {
+			// TODO:
+			
+		}
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_instantiate(PyObject *module, PyObject *args) {
 	do {
 		const char *a_path;
@@ -468,7 +505,8 @@ static PyObject *f_set_text(PyObject *module, PyObject *args) {
 
 		auto label = GetCapsulePointer<Label3D>(a_node);
 		if (label) {
-			label->set_text(s);
+			auto text = String::utf8(s);
+			label->set_text(text);
 		}
 	} while (0);
 
@@ -484,6 +522,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "find_node", f_find_node, METH_VARARGS, NULL },
 	{ "set_process", f_set_process, METH_VARARGS, NULL },
 	{ "set_process_input", f_set_process_input, METH_VARARGS, NULL },
+	{ "set_physics_process", f_set_physics_process, METH_VARARGS, NULL },
 	{ "connect", f_connect, METH_VARARGS, NULL },
 	{ "get_parent", f_get_parent, METH_VARARGS, NULL },
 	{ "load_scene", f_load_scene, METH_VARARGS, NULL },
@@ -499,6 +538,7 @@ static PyMethodDef GodotPy_methods[] = {
 	// camera3d
 	{ "screen_to_world", f_screen_to_world, METH_VARARGS, NULL },
 	{ "world_to_screen", f_screen_to_world, METH_VARARGS, NULL },
+	{ "raycast_shape", f_raycast_shape, METH_VARARGS, NULL },
 
 	// text node
 	{ "set_text", f_set_text, METH_VARARGS, NULL },
@@ -659,7 +699,6 @@ FPyObject::~FPyObject() {
 	if (p_object) {
 		GP_DECREF(p_object);
 	}
-
 }
 void FPyObject::_notification(int p_what) {
 	if (Engine::get_singleton()->is_editor_hint()) {
@@ -669,6 +708,10 @@ void FPyObject::_notification(int p_what) {
 	switch (p_what) {
 		case NOTIFICATION_READY:
 			_ready();
+			break;
+
+		case NOTIFICATION_PHYSICS_PROCESS:
+			_physics_process();
 			break;
 
 		case NOTIFICATION_PROCESS:
@@ -708,7 +751,7 @@ void FPyObject::_ready() {
 			PyErr_Print();
 			break;
 		}
-		
+
 		const auto &class_utf8 = py_class.utf8();
 		auto p_class_info = PyDict_GetItemString(dict, class_utf8.get_data());
 		if (!p_class_info) {
@@ -733,14 +776,25 @@ void FPyObject::_ready() {
 		auto ret = PyObject_CallMethod(p_object, "_create", NULL);
 		if (ret) {
 			GP_DECREF(ret);
-		}
-		else {
+		} else {
 			PyErr_Print();
 		}
 		print_line(vformat("create %s ok", py_class));
-
 	} while (0);
-		
+}
+void FPyObject::_physics_process() {
+	do {
+		if (!p_object) {
+			break;
+		}
+
+		auto ret = PyObject_CallMethod(p_object, "_physics_process", NULL);
+		if (ret) {
+			GP_DECREF(ret);
+		} else {
+			PyErr_Print();
+		}
+	} while (0);
 }
 void FPyObject::_process() {
 	do {
@@ -751,8 +805,7 @@ void FPyObject::_process() {
 		auto ret = PyObject_CallMethod(p_object, "_process", NULL);
 		if (ret) {
 			GP_DECREF(ret);
-		}
-		else {
+		} else {
 			PyErr_Print();
 		}
 	} while (0);

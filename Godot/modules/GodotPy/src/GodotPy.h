@@ -37,6 +37,7 @@ public:
 private:
 	void _notification(int p_what);
 	void _ready();
+	void _physics_process();
 	void _process();
 	void _exit_tree();
 

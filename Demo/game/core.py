@@ -115,6 +115,9 @@ class NodeObject:
     def _process(self):
         pass
 
+    def _physics_process(self):
+        pass
+
     # 构造函数之后回调
     def _create(self):
         pass
@@ -134,12 +137,15 @@ def print_line(*args, **kwargs):
 def find_node(node, path):
     return gp.find_node(node, path)
 
-def set_process(node, process=False, input=False):
+def set_process(node, process=False, input=False, Physics=False):
     if process:
         gp.set_process(node, True)
     
     if input:
         gp.set_process_input(node, True)
+
+    if Physics:
+        gp.set_physics_process(node, True)
 
 def connect(node, signal, callback):
     gp.connect(node, signal, callback)

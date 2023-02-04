@@ -41,7 +41,7 @@ class Tile:
             pos_z + (random.random()-0.5)*20,
             0.8 + random.random())
 
-        if random.random() < 0.2:
+        if random.random() < 0.5:
             city = game_mgr.unit_mgr.create_city()
             city.set_location(pos_x, 0, pos_z)
 
