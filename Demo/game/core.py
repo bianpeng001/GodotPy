@@ -96,6 +96,9 @@ class NodeObject:
 
     def _get_node(self):
         return self.node_capsule
+
+    def get_node(self):
+        return self.node_capsule
     
     def on_mouse_button(self, button, pressed, x, y):
         pass
@@ -167,4 +170,10 @@ def instantiate(path):
 
 def get_py_object(node):
     return gp.get_py_object(node)
+
+def get_parent(node):
+    return gp.get_parent(node)
+
+def set_text(node, text):
+    gp.set_text(node, text)
 

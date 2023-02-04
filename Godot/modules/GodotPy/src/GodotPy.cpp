@@ -13,6 +13,7 @@
 
 #include "scene/3d/node_3d.h"
 #include "scene/3d/camera_3d.h"
+#include "scene/3d/label_3d.h"
 
 #include "scene/resources/packed_scene.h"
 
@@ -457,6 +458,22 @@ static PyObject *f_get_py_object(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_set_text(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
+		const char *s;
+		if (!PyArg_ParseTuple(args, "Os", &a_node, &s)) {
+			break;
+		}
+
+		auto label = GetCapsulePointer<Label3D>(a_node);
+		if (label) {
+			label->set_text(s);
+		}
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyMethodDef GodotPy_methods[] = {
 	// os
 	{ "print_line", f_print_line, METH_VARARGS, NULL },
@@ -482,6 +499,9 @@ static PyMethodDef GodotPy_methods[] = {
 	// camera3d
 	{ "screen_to_world", f_screen_to_world, METH_VARARGS, NULL },
 	{ "world_to_screen", f_screen_to_world, METH_VARARGS, NULL },
+
+	// text node
+	{ "set_text", f_set_text, METH_VARARGS, NULL },
 
 	// resource
 	{ "instantiate", f_instantiate, METH_VARARGS, NULL },

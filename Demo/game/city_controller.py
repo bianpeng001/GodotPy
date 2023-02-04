@@ -13,6 +13,11 @@ class CityController(NodeObject):
     def _create(self):
         pass
 
+    def set_title(self, text):
+        p = get_parent(self.get_node())
+        title_node = find_node(p, 'Title')
+        set_text(title_node, text)
+
     def update(self):
         pass
 

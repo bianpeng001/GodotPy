@@ -3,6 +3,7 @@
 #
 
 from game.core import *
+from game.config_mgr import new_city_name
 
 ###############################
 # Units
@@ -10,16 +11,15 @@ from game.core import *
 class Unit:
     def __init__(self):
         self.unit_id = None
-        self.unit_name = '桐乡渔叟'
+        self.unit_name = ''
 
         # 所属君主
         self.owner_player_id = None
-        # 所属城
-        self.owner_city_id = None
 
         # 战斗属性
         self.hp = self.maxhp = 100
-        self.pos = Vector3()
+        self.location = Vector3()
+        self.rotation = Vector3()
 
         # 模型
         self.model_node = None
@@ -31,20 +31,33 @@ class Unit:
     def update(self):
         pass
 
+    def set_location(self, x, y, z):
+        self.location.set(x, y, z)
+
+        if self.model_node:
+            set_position(self.model_node, x, y, z)
+
 # 部队
 class TroopUnit(Unit):
     def __init__(self):
         super().__init__()
 
+        # 所属城
+        self.owner_city_id = None
+
 # 城池
+
 class CityUnit(Unit):
     def __init__(self):
         super().__init__()
 
     def load_model(self):
         self.model_node = instantiate('res://models/City01.tscn')
-        set_position(self.model_node, 5, 0, 5)
+        set_position(self.model_node, 0, 0, 0)
         self.controller = get_py_object(find_node(self.model_node, 'Controller'))
+
+        self.unit_name = new_city_name()
+        self.controller.set_title(self.unit_name)
         print_line(f'controller: {self.controller}')
 
 ###############################
@@ -69,6 +82,8 @@ class UnitMgr:
         unit.unit_id = self.get_next_unit_id()
         self.unit_dict[unit.unit_id] = unit
         unit.load_model()
+
+        return unit
 
     def create_city(self):
         return self.create_unit(CityUnit)

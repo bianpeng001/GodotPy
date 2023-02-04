@@ -27,8 +27,6 @@ class MainLoop(NodeObject):
         game_mgr.camera_mgr.update_camera()
         game_mgr.ground_mgr.update(0)
 
-        game_mgr.unit_mgr.create_city()
-
     def _process(self):
         delta_time = get_delta_time()
 

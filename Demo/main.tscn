@@ -1,6 +1,5 @@
-[gd_scene load_steps=4 format=3 uid="uid://cipun2g0qp50n"]
+[gd_scene load_steps=3 format=3 uid="uid://cipun2g0qp50n"]
 
-[ext_resource type="PackedScene" uid="uid://dps4u7ofsxa1b" path="res://models/City01.tscn" id="1_8bby1"]
 [ext_resource type="PackedScene" uid="uid://7drk8uiknmut" path="res://models/Troop01.tscn" id="2_82hma"]
 [ext_resource type="PackedScene" uid="uid://bok6l8i3vigk5" path="res://models/Wall01.tscn" id="3_tjp5w"]
 
@@ -31,9 +30,6 @@ python_class = "GroundMgr"
 transform = Transform3D(0.906308, -0.365998, 0.211309, 0, 0.5, 0.866025, -0.422618, -0.784885, 0.453154, 0, 20, 0)
 shadow_enabled = true
 shadow_opacity = 0.5
-
-[node name="City01" parent="." instance=ExtResource("1_8bby1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.236233, 0, 0)
 
 [node name="MainUI" type="Node2D" parent="."]
 
