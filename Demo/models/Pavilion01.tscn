@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvd7717buch1o"]
+
+[ext_resource type="ArrayMesh" uid="uid://ber24s26fpqg3" path="res://models/PavilionMesh.tres" id="1_wrrfi"]
+[ext_resource type="Material" uid="uid://cudorsiulimwx" path="res://models/PavilionMat.tres" id="2_s6wls"]
+
+[node name="Pavilion01" type="Node3D"]
+
+[node name="Model" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = ExtResource("1_wrrfi")
+surface_material_override/0 = ExtResource("2_s6wls")
