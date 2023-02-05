@@ -28,9 +28,10 @@ class RaycastMgr(NodeObject):
 
     def _physics_process(self):
         camera = game_mgr.camera_mgr.main_camera
+        
         for a in self.reqs:
-            shape = raycast_shape(camera, *a)
             print_line(f'raycast:{a}')
+            shape = raycast_shape(camera, *a)
         
         self.reqs.clear()
 

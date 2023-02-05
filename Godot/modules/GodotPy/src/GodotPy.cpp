@@ -433,16 +433,23 @@ static PyObject *f_raycast_shape(PyObject *module, PyObject *args) {
 		Ref<World3D> world = camera->get_world_3d();
 		auto space_state = world->get_direct_space_state();
 
-		PhysicsDirectSpaceState3D::RayParameters param;
-		param.from = camera->get_position();
-		param.to = Vector3(x, y, z);
-		param.exclude.insert(camera->get_pyramid_shape_rid());
+		PhysicsDirectSpaceState3D::RayParameters rp;
+		rp.from = camera->get_position();
+		rp.to = Vector3(x, y, z);
+		rp.exclude.insert(camera->get_pyramid_shape_rid());
+		rp.collide_with_areas = true;
+		rp.collide_with_bodies = true;
+		rp.pick_ray = true;
+		rp.collision_mask = 1;
 		
-		PhysicsDirectSpaceState3D::RayResult result;
-		if (space_state->intersect_ray(param, result)) {
+		PhysicsDirectSpaceState3D::RayResult rr;
+		if (space_state->intersect_ray(rp, rr)) {
 			// TODO:
-			print_line(vformat("hit shape:%d", result.shape));
+			print_line(vformat("hit shape:%d", rr.shape));
+		} else {
+			print_line("hit nothing");
 		}
+		
 	} while (0);
 
 	Py_RETURN_NONE;
