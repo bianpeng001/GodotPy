@@ -20,7 +20,7 @@ class GameMgr():
         self.camera_mgr = None
         self.ground_mgr = None
         self.troop_mgr = None
-        self.city_mgr = None
+        self.unit_mgr = None
 
     @property
     def event_mgr(self):

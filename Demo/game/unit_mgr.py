@@ -3,11 +3,12 @@
 #
 
 from game.core import *
+from game.game_mgr import game_mgr
 from game.config_mgr import new_city_name
 
-###############################
+##############################################################
 # Units
-###############################
+##############################################################
 class Unit:
     def __init__(self):
         self.unit_id = None
@@ -46,23 +47,24 @@ class TroopUnit(Unit):
         self.owner_city_id = None
 
 # 城池
-
 class CityUnit(Unit):
     def __init__(self):
         super().__init__()
 
     def load_model(self):
         self.model_node = instantiate('res://models/City01.tscn')
-        set_position(self.model_node, 0, 0, 0)
         self.controller = get_py_object(find_node(self.model_node, 'Controller'))
+
+        loc = self.location
+        set_position(self.model_node, loc.x, loc.y, loc.z)
 
         self.unit_name = new_city_name()
         self.controller.set_title(self.unit_name)
-        print_line(f'controller: {self.controller}')
+        print_line(f'Controller: {self.controller}')
 
-###############################
+##############################################################
 # UnitMgr
-###############################
+##############################################################
 class UnitMgr:
     def __init__(self):
         self.unit_dict = {}

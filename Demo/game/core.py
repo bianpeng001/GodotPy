@@ -137,14 +137,14 @@ def print_line(*args, **kwargs):
 def find_node(node, path):
     return gp.find_node(node, path)
 
-def set_process(node, process=False, input=False, Physics=False):
+def set_process(node, process=False, input=False, physics=False):
     if process:
         gp.set_process(node, True)
     
     if input:
         gp.set_process_input(node, True)
 
-    if Physics:
+    if physics:
         gp.set_physics_process(node, True)
 
 def connect(node, signal, callback):
@@ -182,4 +182,7 @@ def get_parent(node):
 
 def set_text(node, text):
     gp.set_text(node, text)
+
+def raycast_shape(camera, x,y,z):
+    return gp.raycast_shape(camera, x,y,z)
 

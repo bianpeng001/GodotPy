@@ -418,28 +418,30 @@ static PyObject *f_screen_to_world(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+// raycast一个物体
 static PyObject *f_raycast_shape(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_node;
 		float x, y, z;
-		float x1, y1, z1;
 
 		if (!PyArg_ParseTuple(args, "Offf", &a_node,
-					&x, &y, &z, &x1, &y1, &z1)) {
+					&x, &y, &z)) {
 			break;
 		}
 
-		auto node = GetCapsulePointer<Node3D>(a_node);
-		Ref<World3D> world = node->get_world_3d();
+		auto camera = GetCapsulePointer<Camera3D>(a_node);
+		Ref<World3D> world = camera->get_world_3d();
 		auto space_state = world->get_direct_space_state();
 
 		PhysicsDirectSpaceState3D::RayParameters param;
-		param.from = Vector3(x, y, z);
-		param.to = Vector3(x1, y1, z1);
+		param.from = camera->get_position();
+		param.to = Vector3(x, y, z);
+		param.exclude.insert(camera->get_pyramid_shape_rid());
+		
 		PhysicsDirectSpaceState3D::RayResult result;
 		if (space_state->intersect_ray(param, result)) {
 			// TODO:
-			
+			print_line(vformat("hit shape:%d", result.shape));
 		}
 	} while (0);
 
