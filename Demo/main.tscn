@@ -32,6 +32,14 @@ python_class = "GroundMgr"
 python_module = "game.raycast_mgr"
 python_class = "RaycastMgr"
 
+[node name="UIMgr" type="FPyObject" parent="."]
+python_module = "game.ui_mgr"
+python_class = "UIMgr"
+
+[node name="ContextMenu" parent="UIMgr" instance=ExtResource("4_13hgr")]
+visible = false
+position = Vector2(261, 214)
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.906308, -0.365998, 0.211309, 0, 0.5, 0.866025, -0.422618, -0.784885, 0.453154, 0, 20, 0)
 shadow_enabled = true
@@ -60,7 +68,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
 
 [node name="Pavilion02" parent="." instance=ExtResource("3_3hdl4")]
 transform = Transform3D(0.730794, 0, 0.682598, 0, 1, 0, -0.682598, 0, 0.730794, -28.6084, 0, 36.1177)
-
-[node name="ContextMenu" parent="." instance=ExtResource("4_13hgr")]
-visible = false
-position = Vector2(261, 214)

@@ -9,6 +9,7 @@ offset_right = 100.0
 offset_bottom = 200.0
 
 [node name="MenuButton1" type="Button" parent="Panel"]
+layout_mode = 0
 offset_right = 100.0
 offset_bottom = 30.0
 theme_override_fonts/font = ExtResource("1_fpg8h")
@@ -16,6 +17,7 @@ theme_override_font_sizes/font_size = 18
 text = "出兵"
 
 [node name="MenuButton2" type="Button" parent="Panel"]
+layout_mode = 0
 offset_top = 32.0
 offset_right = 100.0
 offset_bottom = 62.0
@@ -24,6 +26,7 @@ theme_override_font_sizes/font_size = 18
 text = "出兵"
 
 [node name="MenuButton3" type="Button" parent="Panel"]
+layout_mode = 0
 offset_top = 64.0
 offset_right = 100.0
 offset_bottom = 94.0

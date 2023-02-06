@@ -170,6 +170,9 @@ def lookat(node, x, y, z):
 def screen_to_world(camera, x, y):
     return gp.screen_to_world(camera, x, y)
 
+def world_to_screen(camera, x, y, z):
+    return gp.world_to_screen(camera, x, y, z)
+
 def get_time():
     return gp.get_time()
 
@@ -190,4 +193,10 @@ def set_text(node, text):
 
 def raycast_shape(camera, x,y,z):
     return gp.raycast_shape(camera, x,y,z)
+
+def set_position_2d(node, x, y):
+    gp.set_position_2d(node, x, y)
+
+def set_visible_2d(node, v):
+    gp.set_visible_2d(node, v)
 

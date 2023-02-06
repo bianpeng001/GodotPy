@@ -15,6 +15,8 @@
 #include "scene/3d/camera_3d.h"
 #include "scene/3d/label_3d.h"
 
+#include "scene/2d/node_2d.h"
+
 #include "scene/resources/packed_scene.h"
 
 // python
@@ -420,6 +422,68 @@ static PyObject *f_screen_to_world(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_world_to_screen(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
+		float x, y, z;
+
+		if (!PyArg_ParseTuple(args, "Offf", &a_node, &x, &y, &z)) {
+			break;
+		}
+
+		auto camera = GetCapsulePointer<Camera3D>(a_node);
+		if (!camera) {
+			break;
+		}
+		const Vector3 world_pos(x, y, z);
+		const auto screen_pos = camera->unproject_position(world_pos);
+		
+		return Py_BuildValue("(ff)", screen_pos.x, screen_pos.y);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject* f_set_visible_2d(PyObject* module, PyObject* args) {
+	do {
+		PyObject *a_node;
+		int v;
+
+		if (!PyArg_ParseTuple(args, "Oi", &a_node,
+					&v)) {
+			break;
+		}
+
+		auto node = GetCapsulePointer<CanvasItem>(a_node);
+		if (!node) {
+			break;
+		}
+
+		node->set_visible(v != 0);
+
+	} while (0);
+	Py_RETURN_NONE;
+}
+static PyObject *f_set_position_2d(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
+		float x, y;
+
+		if (!PyArg_ParseTuple(args, "Off", &a_node,
+					&x, &y)) {
+			break;
+		}
+
+		auto node = GetCapsulePointer<Node2D>(a_node);
+		if (!node) {
+			break;
+		}
+
+		node->set_position(Point2(x, y));
+
+	} while (0);
+	Py_RETURN_NONE;
+}
 // raycast一个物体
 static PyObject *f_raycast_shape(PyObject *module, PyObject *args) {
 	do {
@@ -552,9 +616,13 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "get_rotation", f_get_rotation, METH_VARARGS, NULL },
 	{ "set_scale", f_set_scale, METH_VARARGS, NULL },
 
+	// node2d
+	{ "set_position_2d", f_set_position_2d, METH_VARARGS, NULL },
+	{ "set_visible_2d", f_set_visible_2d, METH_VARARGS, NULL },
+
 	// camera3d
 	{ "screen_to_world", f_screen_to_world, METH_VARARGS, NULL },
-	{ "world_to_screen", f_screen_to_world, METH_VARARGS, NULL },
+	{ "world_to_screen", f_world_to_screen, METH_VARARGS, NULL },
 
 	// physics
 	{ "raycast_shape", f_raycast_shape, METH_VARARGS, NULL },

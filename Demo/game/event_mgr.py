@@ -20,7 +20,7 @@ class EventMgr:
         if name in self.map:
             for handler in self.map[name]:
                 handler.__call__(*args, **kwargs)
-                pass
+                #pass
 
 
 # class Test:
