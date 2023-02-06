@@ -19,6 +19,7 @@ class Tile:
         self.z = z
         self.model_node = None
         self.item_nodes = []
+        self.units = []
 
     def load(self):
         print_line(f'load tile: x={self.x} z={self.z}')
@@ -44,6 +45,7 @@ class Tile:
         if random.random() < 0.5:
             city = game_mgr.unit_mgr.create_city()
             city.set_location(pos_x, 0, pos_z)
+            self.units.append(city)
 
     def load_res(self, path, x, z, s):
         item = instantiate(path)
@@ -70,6 +72,11 @@ class GroundMgr(NodeObject):
 
     def _ready(self):
         print_line('GroundMgr ready')
+
+    def get_tile(self, x, z):
+        cx = math.floor((x / TILE_SIZE) + 0.5)
+        cz = math.floor((z / TILE_SIZE) + 0.5)
+        return self.tile_dict.get((cx, cz), None)
 
     def update(self, delta_time):
         center = game_mgr.camera_mgr.center

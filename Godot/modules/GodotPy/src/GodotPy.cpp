@@ -137,11 +137,12 @@ static PyObject* get_or_create_capsule(Node* a_node) {
 // module function implementation
 //------------------------------------------------------------------------------
 static PyObject *f_print_line(PyObject *module, PyObject *args) {
-	const char *str;
-	if (!PyArg_ParseTuple(args, "s", &str)) {
+	const char *s;
+	if (!PyArg_ParseTuple(args, "s", &s)) {
 		Py_RETURN_NONE;
 	}
 	//OS::get_singleton()->print("%s", str);
+	auto str = String::utf8(s);
 	print_line(str);
 
 	Py_RETURN_NONE;

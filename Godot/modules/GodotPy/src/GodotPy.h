@@ -12,7 +12,7 @@
 typedef struct _object PyObject;
 
 /// <summary>
-/// 
+/// Python脚本的执行入口，放一个节点
 /// </summary>
 class FPyObject : public Node {
 	GDCLASS(FPyObject, Node)
