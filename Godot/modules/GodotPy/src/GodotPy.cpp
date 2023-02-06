@@ -190,16 +190,16 @@ static PyObject *f_set_process(PyObject *module, PyObject *args) {
 static PyObject *f_connect(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_node;
-		const char *signal;
+		const char *a_signal;
 		PyObject *callback;
 
-		if (!PyArg_ParseTuple(args, "OsO", &a_node, &signal, &callback)) {
+		if (!PyArg_ParseTuple(args, "OsO", &a_node, &a_signal, &callback)) {
 			break;
 		}
 
 		auto node = GetCapsulePointer<Node>(a_node);
 		auto ccb = memnew(CallableCustomCallback(node, callback, NULL));
-		node->connect(signal, Callable(ccb));
+		node->connect(String::utf8(a_signal), Callable(ccb));
 
 	} while (0);
 	
@@ -243,19 +243,20 @@ static PyObject *f_load_scene(PyObject *module, PyObject *args) {
 }
 
 static PyObject* f_find_node(PyObject* module, PyObject* args) {
-	const char *path;
-	PyObject *node;
+	const char *a_path;
+	PyObject *a_node;
 
-	if (!PyArg_ParseTuple(args, "Os", &node, &path)) {
+	if (!PyArg_ParseTuple(args, "Os", &a_node, &a_path)) {
 		goto end;
 	}
 
-	Node *result = GetCapsulePointer<Node>(node)->get_node(NodePath(path));
-	if (!result) {
+	Node *node = GetCapsulePointer<Node>(a_node)->get_node(
+			NodePath(String::utf8(a_path)));
+	if (!node) {
 		goto end;
 	}
 
-	PyObject *capsule = get_or_create_capsule(result);
+	PyObject *capsule = get_or_create_capsule(node);
 	return capsule;
 
 end:
@@ -442,14 +443,20 @@ static PyObject *f_raycast_shape(PyObject *module, PyObject *args) {
 		rp.collide_with_bodies = true;
 		rp.pick_ray = true;
 		rp.collision_mask = 1;
-		
+
+		// TODO: 这个的用法可能有点特殊姿势
 		PhysicsDirectSpaceState3D::RayResult rr;
 		if (space_state->intersect_ray(rp, rr)) {
-			// TODO:
 			print_line(vformat("hit shape:%d", rr.shape));
 		} else {
 			print_line("hit nothing");
 		}
+
+		// TODO: 还有一个shapecast3d，是用一个shape去碰撞别人
+		// space_state->intersect_shape
+		
+		// 这里的raycast，使用ray去碰撞，能被碰撞的有,area和body
+		// (space_state->intersect_ray
 		
 	} while (0);
 
@@ -548,6 +555,8 @@ static PyMethodDef GodotPy_methods[] = {
 	// camera3d
 	{ "screen_to_world", f_screen_to_world, METH_VARARGS, NULL },
 	{ "world_to_screen", f_screen_to_world, METH_VARARGS, NULL },
+
+	// physics
 	{ "raycast_shape", f_raycast_shape, METH_VARARGS, NULL },
 
 	// text node
