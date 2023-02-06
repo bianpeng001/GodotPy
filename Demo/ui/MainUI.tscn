@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c1jjhatf1hdpn"]
+[gd_scene load_steps=3 format=3 uid="uid://c1jjhatf1hdpn"]
 
 [ext_resource type="StyleBox" uid="uid://b8lsbpj8aalo2" path="res://ui/MainUIStyle.tres" id="1_cigy1"]
+[ext_resource type="Texture2D" uid="uid://c2ukb6too07qg" path="res://ui/img/SysBtn.png" id="2_mohf0"]
 
 [node name="MainUI" type="Node2D"]
 
@@ -13,7 +14,15 @@ offset_bottom = 50.0
 grow_horizontal = 2
 theme_override_styles/panel = ExtResource("1_cigy1")
 
-[node name="Button" type="Button" parent="."]
+[node name="SysBtn" type="TextureButton" parent="Panel"]
+layout_mode = 0
+offset_left = 1105.0
+offset_top = 5.0
+offset_right = 1145.0
+offset_bottom = 45.0
+texture_normal = ExtResource("2_mohf0")
+
+[node name="Button" type="Button" parent="Panel"]
 offset_left = 2.0
 offset_top = 5.0
 offset_right = 102.0
