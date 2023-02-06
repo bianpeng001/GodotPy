@@ -14,6 +14,7 @@ MIDDLE_BUTTON = 3
 WHEEL_UP_BUTTON = 4
 WHEEL_DOWN_BUTTON = 5
 
+# 滚轮的事件表 [button] = event_name
 wheel_events = (
     None,
     LEFT_BUTTON_PRESS,
@@ -23,12 +24,16 @@ wheel_events = (
     WHEEL_DOWN_PRESS,
 )
 
-#
+# 鼠标操作的几个状态
 class MouseButtonData:
     def __init__(self):
+        # 是否按下
         self.pressed = False
+        # 按下的初始位置
         self.press_x = self.press_y = 0
+        # 按下的初始时间
         self.press_time = 0
+        # 是否有drag行为
         self.drag = False
 
 # 输入管理器
@@ -87,15 +92,22 @@ class InputMgr(NodeObject):
         if last != curr:
             if curr:
                 game_mgr.event_mgr.emit(LEFT_BUTTON_PRESS, self.x, self.y)
+                self.left_button.press_x = self.x
+                self.left_button.press_y = self.y
+                self.left_button.press_time = get_time()
             else:
                 if self.left_button.drag:
                     self.left_button.drag = False
                     game_mgr.event_mgr.emit(LEFT_BUTTON_END_DRAG)
-                game_mgr.event_mgr.emit(LEFT_BUTTON_RELEASE)
+                    game_mgr.event_mgr.emit(LEFT_BUTTON_RELEASE)
+                else:
+                    # 从按下后，从没有进行过drag，则当做click事件
+                    game_mgr.event_mgr.emit(LEFT_BUTTON_RELEASE)
+                    game_mgr.event_mgr.emit(LEFT_BUTTON_CLICK)
         else:
             if curr:
                 dx = self.x - self.left_button.press_x
-                if dx*dx > 0:
+                if dx*dx > 4:
                     if not self.left_button.drag:
                         self.left_button.drag = True
                         game_mgr.event_mgr.emit(LEFT_BUTTON_BEGIN_DRAG)

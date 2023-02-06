@@ -6,30 +6,30 @@
 
 [node name="Panel" type="Panel" parent="."]
 offset_right = 100.0
-offset_bottom = 200.0
+offset_bottom = 86.0
 
-[node name="MenuButton1" type="Button" parent="Panel"]
+[node name="Button1" type="Button" parent="Panel"]
 layout_mode = 0
 offset_right = 100.0
 offset_bottom = 26.0
 theme_override_fonts/font = ExtResource("1_fpg8h")
 theme_override_font_sizes/font_size = 16
-text = "出兵"
+text = "内政"
 
-[node name="MenuButton2" type="Button" parent="Panel"]
+[node name="Button2" type="Button" parent="Panel"]
 layout_mode = 0
 offset_top = 30.0
 offset_right = 100.0
 offset_bottom = 56.0
 theme_override_fonts/font = ExtResource("1_fpg8h")
 theme_override_font_sizes/font_size = 16
-text = "出兵"
+text = "出战"
 
-[node name="MenuButton3" type="Button" parent="Panel"]
+[node name="Button3" type="Button" parent="Panel"]
 layout_mode = 0
 offset_top = 60.0
 offset_right = 100.0
 offset_bottom = 86.0
 theme_override_fonts/font = ExtResource("1_fpg8h")
 theme_override_font_sizes/font_size = 16
-text = "出兵"
+text = "探索"

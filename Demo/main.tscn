@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://72m7te3rs2q3"]
+[gd_scene load_steps=6 format=3 uid="uid://72m7te3rs2q3"]
 
 [ext_resource type="PackedScene" uid="uid://7drk8uiknmut" path="res://models/Troop01.tscn" id="2_82hma"]
+[ext_resource type="PackedScene" uid="uid://c1jjhatf1hdpn" path="res://ui/MainUI.tscn" id="2_ljo2c"]
 [ext_resource type="PackedScene" uid="uid://bvd7717buch1o" path="res://models/Pavilion01.tscn" id="3_3hdl4"]
 [ext_resource type="PackedScene" uid="uid://c64oxbejarbpj" path="res://models/Wall01.tscn" id="3_tjp5w"]
 [ext_resource type="PackedScene" uid="uid://dsesf56wyyvc" path="res://ui/ContextMenu.tscn" id="4_13hgr"]
@@ -40,19 +41,12 @@ python_class = "UIMgr"
 visible = false
 position = Vector2(261, 214)
 
+[node name="MainUI" parent="UIMgr" instance=ExtResource("2_ljo2c")]
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.906308, -0.365998, 0.211309, 0, 0.5, 0.866025, -0.422618, -0.784885, 0.453154, 0, 20, 0)
 shadow_enabled = true
 shadow_opacity = 0.5
-
-[node name="MainUI" type="Node2D" parent="."]
-
-[node name="Button" type="Button" parent="MainUI"]
-offset_left = 3.0
-offset_top = 3.0
-offset_right = 103.0
-offset_bottom = 43.0
-text = "Hello"
 
 [node name="Troop" parent="." instance=ExtResource("2_82hma")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.17615, 0, 6.72731)

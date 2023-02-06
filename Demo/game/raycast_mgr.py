@@ -4,25 +4,27 @@
 
 from game.core import *
 from game.game_mgr import game_mgr
-from game.event_name import LEFT_BUTTON_PRESS, SCENE_UNIT_PRESS
+from game.event_name import LEFT_BUTTON_CLICK, SCENE_UNIT_CLICK
 
-#
+# raycast场景中的物体的操作，并发事件
 class RaycastMgr(NodeObject):
     def __init__(self):
         super().__init__()
 
-        game_mgr.event_mgr.add(LEFT_BUTTON_PRESS, self.on_mouse_press)
+        game_mgr.event_mgr.add(LEFT_BUTTON_CLICK, self.on_mouse_click)
         self.reqs = []
     
     def _create(self):
         set_process(self.get_node(), physics=False)
         pass
 
-    def on_mouse_press(self, x, y):
+    def on_mouse_click(self):
         camera = game_mgr.camera_mgr.main_camera
+        x = game_mgr.input_mgr.x
+        y = game_mgr.input_mgr.y
 
         if find_control(camera, x, y):
-            print_line(f'on control {x} {y}')
+            print_line('click on control, ui event system take over')
             return
         
         wx,wy,wz = screen_to_world(camera, x, y)
@@ -37,7 +39,7 @@ class RaycastMgr(NodeObject):
                 dz = unit.location.z - wz
                 if dx*dx+dz*dz < 3*3*2:
                     #print_line(f'click: {unit.unit_name} {unit.unit_id}')
-                    game_mgr.event_mgr.emit(SCENE_UNIT_PRESS, unit)
+                    game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, unit)
 
     def _physics_process(self):
         camera = game_mgr.camera_mgr.main_camera

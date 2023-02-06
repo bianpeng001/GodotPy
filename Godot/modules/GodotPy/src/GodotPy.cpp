@@ -263,6 +263,7 @@ static PyObject* f_find_node(PyObject* module, PyObject* args) {
 	}
 
 	PyObject *capsule = get_or_create_capsule(node);
+	Py_INCREF(capsule);
 	return capsule;
 
 end:

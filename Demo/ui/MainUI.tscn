@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://c1jjhatf1hdpn"]
+
+[ext_resource type="StyleBox" uid="uid://b8lsbpj8aalo2" path="res://ui/MainUIStyle.tres" id="1_cigy1"]
+
+[node name="MainUI" type="Node2D"]
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_right = 1152.0
+offset_bottom = 50.0
+grow_horizontal = 2
+theme_override_styles/panel = ExtResource("1_cigy1")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 2.0
+offset_top = 5.0
+offset_right = 102.0
+offset_bottom = 45.0
+text = "Hello"
