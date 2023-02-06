@@ -31,7 +31,7 @@ class RaycastMgr(NodeObject):
             for unit in tile.units:
                 dx = unit.location.x - wx
                 dz = unit.location.z - wz
-                if dx*dx+dz*dz < 3:
+                if dx*dx+dz*dz < 3*3:
                     print_line(f'click: {unit.unit_name} {unit.unit_id}')
                     break
 

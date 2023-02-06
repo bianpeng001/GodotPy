@@ -3,6 +3,7 @@
 #
 
 import math
+import random
 
 import GodotPy as gp
 
@@ -122,6 +123,10 @@ class NodeObject:
     def _create(self):
         pass
 
+def random_x():
+    return 2*(random.random()-0.5)
+def random_vector3(x, y, z):
+    return random_x()*x, random_x()*y, random_x()*z
 
 def print_line(*args, **kwargs):
     if not args:

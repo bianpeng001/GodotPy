@@ -33,18 +33,20 @@ class Tile:
         # 随机几颗树
         for i in range(random.randrange(1, 10)):
             self.load_res('res://models/Tree01.tscn',
-                pos_x + (random.random()-0.5)*20,
-                pos_z + (random.random()-0.5)*20,
+                pos_x + random_x()*20,
+                pos_z + random_x()*20,
                 0.5 + random.random())
         # 一个草
-        self.load_res('res://models/Grass01.tscn', 
-            pos_x + (random.random()-0.5)*20,
-            pos_z + (random.random()-0.5)*20,
-            0.8 + random.random())
+        for i in range(random.randrange(1, 5)):
+            self.load_res('res://models/Grass01.tscn', 
+                pos_x + random_x()*20,
+                pos_z + random_x()*20,
+                0.8 + random.random())
 
         if random.random() < 0.5:
             city = game_mgr.unit_mgr.create_city()
-            city.set_location(pos_x, 0, pos_z)
+            dx,dy,dz = random_vector3(1, 0, 1)
+            city.set_location(pos_x+dx, 0, pos_z+dz)
             self.units.append(city)
 
     def load_res(self, path, x, z, s):

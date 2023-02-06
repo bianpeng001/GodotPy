@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c64oxbejarbpj"]
+[gd_scene load_steps=3 format=3 uid="uid://c64oxbejarbpj"]
 
 [ext_resource type="ArrayMesh" uid="uid://bk828bvlg2bfx" path="res://models/WallMesh.res" id="1_qg7vf"]
+[ext_resource type="Material" uid="uid://d2c1slbpfmw5s" path="res://models/Wall01Mat.tres" id="2_iee1v"]
 
 [node name="Wall01" type="Node3D"]
 
@@ -8,3 +9,4 @@
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
 mesh = ExtResource("1_qg7vf")
 skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("2_iee1v")
