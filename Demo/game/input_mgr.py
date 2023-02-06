@@ -5,23 +5,14 @@
 from game.core import *
 from game.game_mgr import game_mgr
 
+from game.event_name import *
+
 # 定义按钮
 LEFT_BUTTON = 1
 RIGHT_BUTTON = 2
 MIDDLE_BUTTON = 3
 WHEEL_UP_BUTTON = 4
 WHEEL_DOWN_BUTTON = 5
-
-# 定义事件
-LEFT_BUTTON_PRESS = 'left_button_press'
-LEFT_BUTTON_RELEASE = 'left_button_release'
-
-LEFT_BUTTON_BEGIN_DRAG = 'left_button_begin_drag'
-LEFT_BUTTON_DRAG = 'left_button_drag'
-LEFT_BUTTON_END_DRAG = 'left_button_end_drag'
-
-WHEEL_UP_PRESS = 'wheel_up_press'
-WHEEL_DOWN_PRESS = 'wheel_down_press'
 
 wheel_events = (
     None,

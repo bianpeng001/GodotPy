@@ -4,7 +4,7 @@
 
 from game.core import *
 from game.game_mgr import game_mgr
-from game.input_mgr import LEFT_BUTTON_PRESS
+from game.event_name import LEFT_BUTTON_PRESS, SCENE_UNIT_PRESS
 
 #
 class RaycastMgr(NodeObject):
@@ -31,11 +31,9 @@ class RaycastMgr(NodeObject):
             for unit in tile.units:
                 dx = unit.location.x - wx
                 dz = unit.location.z - wz
-                if dx*dx+dz*dz < 3*3:
+                if dx*dx+dz*dz < 3*3*2:
                     print_line(f'click: {unit.unit_name} {unit.unit_id}')
-                    break
-
-        
+                    game_mgr.event_mgr.emit(SCENE_UNIT_PRESS, unit)
 
     def _physics_process(self):
         camera = game_mgr.camera_mgr.main_camera

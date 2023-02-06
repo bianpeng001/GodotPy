@@ -7,8 +7,9 @@ import sys
 class PrintLine:
     def write(self, s):
         if s and s != '\n' and s != ' ' and s != '^':
-            #print_line(s)
-            print_line(repr(s))
+            print_line(s)
+            #print_line(repr(s))
+            pass
 
 saved_stderr = sys.stderr
 sys.stderr = PrintLine()

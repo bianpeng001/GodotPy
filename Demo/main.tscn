@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cipun2g0qp50n"]
+[gd_scene load_steps=5 format=3 uid="uid://72m7te3rs2q3"]
 
 [ext_resource type="PackedScene" uid="uid://7drk8uiknmut" path="res://models/Troop01.tscn" id="2_82hma"]
 [ext_resource type="PackedScene" uid="uid://bvd7717buch1o" path="res://models/Pavilion01.tscn" id="3_3hdl4"]
 [ext_resource type="PackedScene" uid="uid://c64oxbejarbpj" path="res://models/Wall01.tscn" id="3_tjp5w"]
+[ext_resource type="PackedScene" uid="uid://dsesf56wyyvc" path="res://ui/ContextMenu.tscn" id="4_13hgr"]
 
 [node name="MainScene" type="FPyObject"]
 python_module = "game.mainloop"
@@ -59,3 +60,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, 0)
 
 [node name="Pavilion02" parent="." instance=ExtResource("3_3hdl4")]
 transform = Transform3D(0.730794, 0, 0.682598, 0, 1, 0, -0.682598, 0, 0.730794, -28.6084, 0, 36.1177)
+
+[node name="ContextMenu" parent="." instance=ExtResource("4_13hgr")]
+visible = false
+position = Vector2(261, 214)
