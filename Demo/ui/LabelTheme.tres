@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bc7nibep0aax1"]
+
+[ext_resource type="FontFile" uid="uid://cfhxpqexrydct" path="res://FZKT.ttf" id="1_e23v0"]
+
+[resource]
+default_font = ExtResource("1_e23v0")
+default_font_size = 18

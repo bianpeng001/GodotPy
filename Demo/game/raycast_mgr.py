@@ -15,7 +15,7 @@ class RaycastMgr(NodeObject):
         self.reqs = []
     
     def _create(self):
-        set_process(self.get_node(), physics=False)
+        set_process(self.get_node(), physics=True)
         pass
 
     def on_mouse_click(self):
@@ -40,6 +40,7 @@ class RaycastMgr(NodeObject):
                 if dx*dx+dz*dz < 3*3*2:
                     #print_line(f'click: {unit.unit_name} {unit.unit_id}')
                     game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, unit)
+                    break
 
     def _physics_process(self):
         camera = game_mgr.camera_mgr.main_camera
