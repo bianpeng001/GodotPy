@@ -200,3 +200,7 @@ def set_position_2d(node, x, y):
 def set_visible_2d(node, v):
     gp.set_visible_2d(node, v)
 
+def find_control(camera, x, y):
+    return gp.find_control(camera, x, y)
+
+    

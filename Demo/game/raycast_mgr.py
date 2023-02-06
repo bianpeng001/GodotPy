@@ -20,6 +20,10 @@ class RaycastMgr(NodeObject):
 
     def on_mouse_press(self, x, y):
         camera = game_mgr.camera_mgr.main_camera
+
+        if find_control(camera, x, y):
+            print_line(f'on control {x} {y}')
+            return
         
         wx,wy,wz = screen_to_world(camera, x, y)
         #self.reqs.append((wx, wy, wz))
@@ -32,7 +36,7 @@ class RaycastMgr(NodeObject):
                 dx = unit.location.x - wx
                 dz = unit.location.z - wz
                 if dx*dx+dz*dz < 3*3*2:
-                    print_line(f'click: {unit.unit_name} {unit.unit_id}')
+                    #print_line(f'click: {unit.unit_name} {unit.unit_id}')
                     game_mgr.event_mgr.emit(SCENE_UNIT_PRESS, unit)
 
     def _physics_process(self):

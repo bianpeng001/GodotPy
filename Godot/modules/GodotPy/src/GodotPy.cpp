@@ -11,11 +11,15 @@
 
 #include "core/math/plane.h"
 
+#include "scene/main/viewport.h"
+
 #include "scene/3d/node_3d.h"
 #include "scene/3d/camera_3d.h"
 #include "scene/3d/label_3d.h"
 
 #include "scene/2d/node_2d.h"
+
+#include "scene/gui/control.h"
 
 #include "scene/resources/packed_scene.h"
 
@@ -449,8 +453,7 @@ static PyObject* f_set_visible_2d(PyObject* module, PyObject* args) {
 		PyObject *a_node;
 		int v;
 
-		if (!PyArg_ParseTuple(args, "Oi", &a_node,
-					&v)) {
+		if (!PyArg_ParseTuple(args, "Oi", &a_node, &v)) {
 			break;
 		}
 
@@ -462,6 +465,32 @@ static PyObject* f_set_visible_2d(PyObject* module, PyObject* args) {
 		node->set_visible(v != 0);
 
 	} while (0);
+	Py_RETURN_NONE;
+}
+static PyObject *f_find_control(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
+		float x, y;
+
+		if (!PyArg_ParseTuple(args, "Off", &a_node, &x, &y)) {
+			break;
+		}
+
+		auto node = GetCapsulePointer<Node>(a_node);
+		if (!node) {
+			break;
+		}
+		auto control = node->get_viewport()->gui_find_control(Point2(x, y));
+		if (!control) {
+			break;
+		}
+
+		auto capsule = get_or_create_capsule(control);
+		Py_INCREF(capsule);
+		return capsule;
+
+	} while (0);
+
 	Py_RETURN_NONE;
 }
 static PyObject *f_set_position_2d(PyObject *module, PyObject *args) {
@@ -619,6 +648,7 @@ static PyMethodDef GodotPy_methods[] = {
 	// node2d
 	{ "set_position_2d", f_set_position_2d, METH_VARARGS, NULL },
 	{ "set_visible_2d", f_set_visible_2d, METH_VARARGS, NULL },
+	{ "find_control", f_find_control, METH_VARARGS, NULL },
 
 	// camera3d
 	{ "screen_to_world", f_screen_to_world, METH_VARARGS, NULL },
