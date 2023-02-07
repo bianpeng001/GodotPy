@@ -119,32 +119,5 @@ class InputMgr(NodeObject):
                         game_mgr.event_mgr.emit(LEFT_BUTTON_DRAG, self.x, self.y)
 
 
-    # def process_input_events(self):
-    #     if self.is_mouse_pressed(LEFT_BUTTON):
-    #         if not self.left_button.pressed:
-    #             self.left_button.pressed = True
-    #             self.left_button.press_x = self.x
-    #             self.left_button.press_y = self.y
-
-    #             game_mgr.event_mgr.emit(LEFT_BUTTON_PRESS, self.x, self.y)
-    #         else:
-    #             dx = self.x - self.left_button.press_x
-    #             if dx*dx > 0:
-    #                 if not self.left_button.drag:
-    #                     self.left_button.drag = True
-    #                     game_mgr.event_mgr.emit(LEFT_BUTTON_BEGIN_DRAG)
-    #                 else:
-    #                     game_mgr.event_mgr.emit(LEFT_BUTTON_DRAG)
-    #     else:
-    #         if self.left_button.pressed:
-    #             self.left_button.pressed = False
-
-    #             if self.left_button.drag:
-    #                 self.left_button.drag = False
-    #                 game_mgr.event_mgr.emit(LEFT_BUTTON_END_DRAG)
-    #             game_mgr.event_mgr.emit(LEFT_BUTTON_RELEASE)
-
-      
-
 
 

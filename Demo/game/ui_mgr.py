@@ -76,6 +76,7 @@ class UIMgr(NodeObject):
         
         troop = game_mgr.unit_mgr.create_troop()
         troop.set_location(x,y,z)
+        troop.owner_city_id = self.context_unit.unit_id
 
         tile = game_mgr.ground_mgr.get_tile(x, z)
         if tile:

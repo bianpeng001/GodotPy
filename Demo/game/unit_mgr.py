@@ -87,14 +87,14 @@ class CityUnit(Unit):
 ##############################################################
 class UnitMgr:
     def __init__(self):
-        self.unit_id_seed = 100
+        self._unit_id_seed = 1000
         self.unit_dict = {}
         self.update_list = []
         self.dead_list = []
 
     def get_next_unit_id(self):
-        self.unit_id_seed += 1
-        return self.unit_id_seed
+        self._unit_id_seed += 1
+        return self._unit_id_seed
 
     def update(self, delta_time):
         i = 0
