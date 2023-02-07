@@ -11,6 +11,9 @@ class PrintLine:
             #print_line(repr(s))
             pass
 
+    def flush(self):
+        pass
+
 saved_stderr = sys.stderr
 sys.stderr = PrintLine()
 

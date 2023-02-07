@@ -229,7 +229,9 @@ static PyObject *f_get_parent(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		return get_or_create_capsule(parent_node);
+		auto obj = get_or_create_capsule(parent_node);
+		Py_INCREF(obj);
+		return obj;
 
 	} while (0);
 
@@ -266,9 +268,9 @@ static PyObject* f_find_node(PyObject* module, PyObject* args) {
 		goto end;
 	}
 
-	PyObject *capsule = get_or_create_capsule(node);
-	Py_INCREF(capsule);
-	return capsule;
+	PyObject *obj = get_or_create_capsule(node);
+	Py_INCREF(obj);
+	return obj;
 
 end:
 	Py_RETURN_NONE;
@@ -490,9 +492,9 @@ static PyObject *f_find_control(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		auto capsule = get_or_create_capsule(control);
-		Py_INCREF(capsule);
-		return capsule;
+		auto obj = get_or_create_capsule(control);
+		Py_INCREF(obj);
+		return obj;
 
 	} while (0);
 
@@ -577,6 +579,7 @@ static PyObject *f_instantiate(PyObject *module, PyObject *args) {
 			scene->add_child(node);
 
 			PyObject *obj = get_or_create_capsule(node);
+			Py_INCREF(obj);
 			return obj;
 		}
 

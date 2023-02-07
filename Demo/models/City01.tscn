@@ -27,7 +27,3 @@ debug_shape_custom_color = Color(0, 1, 0, 1)
 
 [node name="HUD" parent="." instance=ExtResource("5_mrtwl")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 2.8, 0)
-
-[node name="Controller" type="FPyObject" parent="."]
-python_module = "game.city_controller"
-python_class = "CityController"

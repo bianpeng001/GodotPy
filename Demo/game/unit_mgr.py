@@ -6,6 +6,9 @@ from game.core import *
 from game.game_mgr import game_mgr
 from game.config_mgr import new_city_name
 
+from game.troop_controller import TroopController
+from game.city_controller import CityController
+
 ##############################################################
 # Units
 ##############################################################
@@ -57,10 +60,11 @@ class TroopUnit(Unit):
         self.unit_name = f'部队_{self.unit_id}'
 
         self.model_node = instantiate('res://models/Troop01.tscn')
-        self.controller = get_py_object(find_node(self.model_node, 'Controller'))
+        self.controller.root_node = self.model_node
+        self.controller.unit_id = self.unit_id
 
-        loc = self.location
-        set_position(self.model_node, loc.x,loc.y,loc.z)
+        x,y,z = self.get_location()
+        node3d.set_position(self.model_node,x,y,z)
 
         print_line(f'Controller: {self.controller}')
 
@@ -74,10 +78,11 @@ class CityUnit(Unit):
 
     def load_model(self):
         self.model_node = instantiate('res://models/City01.tscn')
-        self.controller = get_py_object(find_node(self.model_node, 'Controller'))
+        self.controller.unit_id = self.unit_id
+        self.controller.root_node = self.model_node
 
-        loc = self.location
-        set_position(self.model_node, loc.x, loc.y, loc.z)
+        x,y,z = self.get_location()
+        node3d.set_position(self.model_node, x,y,z)
         
         self.controller.set_title(self.unit_name)
         print_line(f'Controller: {self.controller}')
@@ -116,22 +121,23 @@ class UnitMgr:
             self.unit_dict.pop(unit.unit_id)
             pass
 
-    def create_unit(self, unit_class_):
+    def create_unit(self, unit_class_, controller_class_):
         unit = unit_class_()
 
         unit.unit_id = self.get_next_unit_id()
         self.unit_dict[unit.unit_id] = unit
         self.update_list.append(unit)
 
+        unit.controller = controller_class_()
         unit.load_model()
 
         return unit
 
     def create_city(self):
-        return self.create_unit(CityUnit)
+        return self.create_unit(CityUnit, CityController)
 
     def create_troop(self):
-        return self.create_unit(TroopUnit)
+        return self.create_unit(TroopUnit, TroopController)
 
 
 

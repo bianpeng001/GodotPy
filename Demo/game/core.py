@@ -213,6 +213,9 @@ class Node3D:
     def __init__(self):
         pass
 
+    def set_position(self,node,x,y,z):
+        gp.set_position(node,x,y,z)
+
 class OS:
     def __init__(self):
         pass
@@ -229,3 +232,7 @@ node3d = Node3D()
 os = OS()
 
 
+class BaseController:
+    def __init__(self):
+        self.unit_id = 0
+        self.root_node = None
