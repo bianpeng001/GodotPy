@@ -23,6 +23,8 @@ class GameMgr():
         self.unit_mgr = None
         self.ui_mgr = None
 
+        self.time = 0
+
     @property
     def event_mgr(self):
         return self._event_mgr

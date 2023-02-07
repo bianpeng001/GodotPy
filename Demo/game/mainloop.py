@@ -30,6 +30,9 @@ class MainLoop(NodeObject):
     def _process(self):
         delta_time = get_delta_time()
 
+        game_mgr.time = get_time()
+        game_mgr.delta_time = delta_time
+
         game_mgr.input_mgr.update(delta_time)
         game_mgr.ground_mgr.update(delta_time)
         game_mgr.unit_mgr.update(delta_time)

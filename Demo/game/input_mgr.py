@@ -30,7 +30,8 @@ class MouseButtonData:
         # 是否按下
         self.pressed = False
         # 按下的初始位置
-        self.press_x = self.press_y = 0
+        self.press_x = 0
+        self.press_y = 0
         # 按下的初始时间
         self.press_time = 0
         # 是否有drag行为
@@ -97,7 +98,7 @@ class InputMgr(NodeObject):
                 game_mgr.event_mgr.emit(LEFT_BUTTON_PRESS, self.x, self.y)
                 self.left_button.press_x = self.x
                 self.left_button.press_y = self.y
-                self.left_button.press_time = get_time()
+                self.left_button.press_time = game_mgr.time
             else:
                 if self.left_button.drag:
                     self.left_button.drag = False
