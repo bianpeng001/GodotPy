@@ -32,6 +32,17 @@ class UIMgr(NodeObject):
         connect(find_node(cm, 'Panel/Button3'), 'pressed', self.on_cm_button3)
         pass
 
+    
+    def update(self, delta_time):
+        for a in self.hide_reqs:
+            set_visible_2d(a, False)
+        self.hide_reqs.clear()
+
+    def close(self, item):
+        self.hide_reqs.append(item)
+
+    # events handlers
+
     def on_begin_drag(self):
         self.close(self.context_menu_node)
         self.context_unit = None
@@ -46,7 +57,7 @@ class UIMgr(NodeObject):
 
         camera = game_mgr.camera_mgr.main_camera
         #x, y = world_to_screen(camera , unit.location.x, unit.location.y, unit.location.z)
-        x, y = game_mgr.input_mgr.x, game_mgr.input_mgr.y
+        x, y = game_mgr.input_mgr.get_mouse_pos()
         set_position_2d(self.context_menu_node, x, y)
         set_visible_2d(self.context_menu_node, True)
 
@@ -74,13 +85,6 @@ class UIMgr(NodeObject):
     def on_cm_button3(self):
         self.close(self.context_menu_node)
         print_line(f'{self.context_unit.unit_name} tansuo')
-    
-    def update(self, delta_time):
-        for a in self.hide_reqs:
-            set_visible_2d(a, False)
-        self.hide_reqs.clear()
 
-    def close(self, item):
-        self.hide_reqs.append(item)
 
 

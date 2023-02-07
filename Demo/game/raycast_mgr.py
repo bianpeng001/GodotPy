@@ -20,8 +20,7 @@ class RaycastMgr(NodeObject):
 
     def on_mouse_click(self):
         camera = game_mgr.camera_mgr.main_camera
-        x = game_mgr.input_mgr.x
-        y = game_mgr.input_mgr.y
+        x, y = game_mgr.input_mgr.get_mouse_pos()
 
         if find_control(camera, x, y):
             print_line('click on control, ui event system take over')

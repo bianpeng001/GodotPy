@@ -22,6 +22,7 @@ class Unit:
         self.location = Vector3()
         self.rotation = Vector3()
         self.radius = 1
+        self.dead = False
 
         # 模型
         self.model_node = None
@@ -51,9 +52,10 @@ class TroopUnit(Unit):
         # 所属城
         self.owner_city_id = None
         self.radius = 2
-        self.unit_name = '部队'
 
     def load_model(self):
+        self.unit_name = f'部队_{self.unit_id}'
+
         self.model_node = instantiate('res://models/Troop01.tscn')
         self.controller = get_py_object(find_node(self.model_node, 'Controller'))
 
@@ -85,22 +87,42 @@ class CityUnit(Unit):
 ##############################################################
 class UnitMgr:
     def __init__(self):
-        self.unit_dict = {}
         self.unit_id_seed = 100
+        self.unit_dict = {}
+        self.update_list = []
+        self.dead_list = []
 
     def get_next_unit_id(self):
         self.unit_id_seed += 1
         return self.unit_id_seed
 
     def update(self, delta_time):
-        for v in self.unit_dict.values():
-            v.update()
+        i = 0
+        count = len(self.update_list)
+
+        while i < count:
+            unit = self.update_list[i]
+            unit.update()
+            if unit.dead:
+                count -= 1
+                self.update_list[i] = self.update_list[count]
+                self.update_list.pop()
+
+                self.dead_list.append(unit)
+            else:
+                i += 1
+
+        for unit in self.dead_list:
+            self.unit_dict.pop(unit.unit_id)
+            pass
 
     def create_unit(self, unit_class_):
         unit = unit_class_()
 
         unit.unit_id = self.get_next_unit_id()
         self.unit_dict[unit.unit_id] = unit
+        self.update_list.append(unit)
+
         unit.load_model()
 
         return unit

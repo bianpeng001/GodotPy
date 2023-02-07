@@ -81,6 +81,9 @@ class InputMgr(NodeObject):
         self.x = x
         self.y = y
 
+    def get_mouse_pos(self):
+        return self.x, self.y
+
     def update(self, delta_time):
         #self.process_input_events()
         self.process_left_button()
