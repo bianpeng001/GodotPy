@@ -129,6 +129,7 @@ class UnitMgr:
         self.update_list.append(unit)
 
         unit.controller = controller_class_()
+        unit.controller.unit = unit
         unit.load_model()
 
         return unit

@@ -226,7 +226,7 @@ class OS:
     def get_delta_time(self):
         return gp.get_delta_time()
 
-
+#
 class Camera3D:
     def world_to_screen(self, camera, x, y, z):
         return gp.world_to_screen(camera, x,y,z)
@@ -239,7 +239,10 @@ node3d = Node3D()
 os = OS()
 camera3d = Camera3D()
 
+#
 class BaseController:
     def __init__(self):
         self.unit_id = 0
         self.root_node = None
+        self.unit = None
+

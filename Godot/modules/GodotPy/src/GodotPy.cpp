@@ -47,7 +47,6 @@ private:
 	} data;
 public:
 	CallableCustomCallback(Node *p_node, PyObject *func, PyObject *args) {
-		Py_INCREF(func);
 		data.p_node = p_node;
 		data.py_func = func;
 		data.py_args = args;
@@ -107,16 +106,17 @@ public:
 		
 	}
 	virtual ~FCapsuleObject() {
-		//auto node = reinterpret_cast<Node *>(PyCapsule_GetPointer(p_capsule, c_node_name));
-		//print_line(vformat("destroy FCapsuleObject: %s(%d) of %s ",
+		//auto node = reinterpret_cast<Node *>(PyCapsule_GetPointer(p_node_capsule, c_node_name));
+		//print_line(vformat("destroy FCapsuleObject: %s(%d) of %s",
 		//		node->get_name(),
 		//		(uint64_t)this->get_instance_id(),
 		//		node->get_class_name()));
 
-		const int refcount = p_node_capsule->ob_refcnt;
-		if (refcount != 1) {
-			print_line(vformat("refcount=%d", refcount));
-		}
+		//const int refcount = p_node_capsule->ob_refcnt;
+		//if (refcount != 1) {
+		//	print_line(vformat("refcount=%d", refcount));
+		//}
+
 		if (p_node_capsule) {
 			GP_DECREF(p_node_capsule);
 		}
