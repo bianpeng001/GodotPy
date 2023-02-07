@@ -18,4 +18,6 @@ WHEEL_DOWN_PRESS = 'wheel_down_press'
 
 # 场景事件
 SCENE_UNIT_CLICK = 'scene_unit_click'
+SCENE_GROUND_CLICK = 'scene_ground_click'
+
 
