@@ -113,6 +113,10 @@ public:
 		//		(uint64_t)this->get_instance_id(),
 		//		node->get_class_name()));
 
+		const int refcount = p_node_capsule->ob_refcnt;
+		if (refcount != 1) {
+			print_line(vformat("refcount=%d", refcount));
+		}
 		if (p_node_capsule) {
 			GP_DECREF(p_node_capsule);
 		}
@@ -606,7 +610,7 @@ static PyObject *f_get_py_object(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
-static PyObject *f_set_text(PyObject *module, PyObject *args) {
+static PyObject *f_label3d_set_text(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_node;
 		const char *s;
@@ -659,7 +663,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "raycast_shape", f_raycast_shape, METH_VARARGS, NULL },
 
 	// text node
-	{ "set_text", f_set_text, METH_VARARGS, NULL },
+	{ "label3d_set_text", f_label3d_set_text, METH_VARARGS, NULL },
 
 	// resource
 	{ "instantiate", f_instantiate, METH_VARARGS, NULL },

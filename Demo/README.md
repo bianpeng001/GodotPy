@@ -73,8 +73,7 @@ Python的Py_INCREF, Py_DECREF，这两项的使用，有一些注意点。目前
 ```Python
 class PrintLine:
     def write(self, s):
-        if s and s != '\n':
-            print_line(s)
+        print_line(s)
 
 saved_stderr = sys.stderr
 sys.stderr = PrintLine()

@@ -16,7 +16,7 @@ class CityController(NodeObject):
     def set_title(self, text):
         p = get_parent(self.get_node())
         title_node = find_node(p, 'HUD/Title')
-        set_text(title_node, text)
+        label3d.set_text(title_node, text)
 
     def update(self):
         pass

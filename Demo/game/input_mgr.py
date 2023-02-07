@@ -60,6 +60,9 @@ class InputMgr(NodeObject):
 
     def is_mouse_pressed(self, button):
         return self.mouse_pressed[button] if button <= MIDDLE_BUTTON else False
+    
+    def get_mouse_pos(self):
+        return self.x, self.y
 
     def on_key_pressed(self, keycode, pressed):
         is_pressed = pressed != 0
@@ -81,9 +84,6 @@ class InputMgr(NodeObject):
     def on_mouse_move(self, x, y):
         self.x = x
         self.y = y
-
-    def get_mouse_pos(self):
-        return self.x, self.y
 
     def update(self, delta_time):
         #self.process_input_events()

@@ -188,9 +188,6 @@ def get_py_object(node):
 def get_parent(node):
     return gp.get_parent(node)
 
-def set_text(node, text):
-    gp.set_text(node, text)
-
 def raycast_shape(camera, x,y,z):
     return gp.raycast_shape(camera, x,y,z)
 
@@ -203,4 +200,32 @@ def set_visible_2d(node, v):
 def find_control(camera, x, y):
     return gp.find_control(camera, x, y)
 
+# label3d
+class Label3D:
+    def __init__(self):
+        pass
+
+    def set_text(self, node, text):
+        gp.label3d_set_text(node, text)
+
+#
+class Node3D:
+    def __init__(self):
+        pass
+
+class OS:
+    def __init__(self):
+        pass
     
+    def get_time(self):
+        return gp.get_time()
+
+    def get_delta_time(self):
+        return gp.get_delta_time()
+
+
+label3d = Label3D()
+node3d = Node3D()
+os = OS()
+
+
