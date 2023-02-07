@@ -90,6 +90,24 @@ scale = Vector2(1.05494, 1)
 texture = ExtResource("8_n434f")
 expand_mode = 1
 
+[node name="Icon7" type="TextureRect" parent="Panel"]
+layout_mode = 0
+offset_left = 300.0
+offset_right = 325.0
+offset_bottom = 25.0
+texture = ExtResource("6_k0gva")
+expand_mode = 1
+
+[node name="Icon8" type="TextureRect" parent="Panel"]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 25.0
+offset_right = 325.0
+offset_bottom = 50.0
+scale = Vector2(1.05494, 1)
+texture = ExtResource("7_t3f31")
+expand_mode = 1
+
 [node name="Label" type="Label" parent="Panel"]
 layout_mode = 0
 offset_left = 214.0
@@ -102,10 +120,10 @@ vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 508.0
-offset_right = 629.0
+offset_left = 340.0
+offset_right = 461.0
 offset_bottom = 50.0
 theme = ExtResource("5_dnccb")
-text = "粮:1000
-铁:1000000"
+text = "1000
+1000000"
 vertical_alignment = 1
