@@ -13,7 +13,7 @@ class UIMgr(NodeObject):
         game_mgr.ui_mgr = self
 
         # 排队等关闭的ui，ui不能马上关闭，需要排队，不然马上就响应ui下面的元素被点击了
-        self.hide_item_queue = []
+        self.hide_reqs = []
         self.context_unit = None
 
     def _create(self):
@@ -50,24 +50,37 @@ class UIMgr(NodeObject):
         set_position_2d(self.context_menu_node, x, y)
         set_visible_2d(self.context_menu_node, True)
 
+    # 内政
     def on_cm_button1(self):
         self.close(self.context_menu_node)
         print_line(f'{self.context_unit.unit_name} neizheng')
     
+    # 出战
     def on_cm_button2(self):
         self.close(self.context_menu_node)
         print_line(f'{self.context_unit.unit_name} chuzhan')
 
+        x,y,z = self.context_unit.get_location()
+        z += 4
+        
+        troop = game_mgr.unit_mgr.create_troop()
+        troop.set_location(x,y,z)
+
+        tile = game_mgr.ground_mgr.get_tile(x, z)
+        if tile:
+            tile.units.append(troop)
+
+    # 探索
     def on_cm_button3(self):
         self.close(self.context_menu_node)
         print_line(f'{self.context_unit.unit_name} tansuo')
     
     def update(self, delta_time):
-        for a in self.hide_item_queue:
+        for a in self.hide_reqs:
             set_visible_2d(a, False)
-        self.hide_item_queue.clear()
+        self.hide_reqs.clear()
 
     def close(self, item):
-        self.hide_item_queue.append(item)
+        self.hide_reqs.append(item)
 
 

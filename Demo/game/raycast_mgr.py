@@ -34,16 +34,17 @@ class RaycastMgr(NodeObject):
         # TODO: 找到点击的单位
         tile = game_mgr.ground_mgr.get_tile(wx, wz)
         if tile:
-            click_unit = False
+            click_on_unit = False
             for unit in tile.units:
                 dx = unit.location.x - wx
                 dz = unit.location.z - wz
-                if dx*dx+dz*dz < 3*3*2:
+                if dx*dx+dz*dz < unit.radius*unit.radius:
                     #print_line(f'click: {unit.unit_name} {unit.unit_id}')
                     game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, unit)
-                    click_unit = True
+                    click_on_unit = True
                     break
-            if not click_unit:
+
+            if not click_on_unit:
                 game_mgr.event_mgr.emit(SCENE_GROUND_CLICK)
 
     def _physics_process(self):
@@ -52,6 +53,8 @@ class RaycastMgr(NodeObject):
         for a in self.reqs:
             print_line(f'raycast:{a}')
             shape = raycast_shape(camera, *a)
-        
         self.reqs.clear()
+
+
+
 

@@ -21,6 +21,7 @@ class Unit:
         self.hp = self.maxhp = 100
         self.location = Vector3()
         self.rotation = Vector3()
+        self.radius = 1
 
         # 模型
         self.model_node = None
@@ -38,6 +39,10 @@ class Unit:
         if self.model_node:
             set_position(self.model_node, x, y, z)
 
+    def get_location(self):
+        loc = self.location
+        return loc.x, loc.y, loc.z
+
 # 部队
 class TroopUnit(Unit):
     def __init__(self):
@@ -45,11 +50,25 @@ class TroopUnit(Unit):
 
         # 所属城
         self.owner_city_id = None
+        self.radius = 2
+        self.unit_name = '部队'
+
+    def load_model(self):
+        self.model_node = instantiate('res://models/Troop01.tscn')
+        self.controller = get_py_object(find_node(self.model_node, 'Controller'))
+
+        loc = self.location
+        set_position(self.model_node, loc.x,loc.y,loc.z)
+
+        print_line(f'Controller: {self.controller}')
 
 # 城池
 class CityUnit(Unit):
     def __init__(self):
         super().__init__()
+
+        self.radius = 3
+        self.unit_name = new_city_name()
 
     def load_model(self):
         self.model_node = instantiate('res://models/City01.tscn')
@@ -57,8 +76,7 @@ class CityUnit(Unit):
 
         loc = self.location
         set_position(self.model_node, loc.x, loc.y, loc.z)
-
-        self.unit_name = new_city_name()
+        
         self.controller.set_title(self.unit_name)
         print_line(f'Controller: {self.controller}')
 
