@@ -16,11 +16,12 @@ class GameMgr():
 
         self._event_mgr = None
         self._input_mgr = None
-        
+
         self.camera_mgr = None
         self.ground_mgr = None
         self.troop_mgr = None
         self.unit_mgr = None
+        self.ui_mgr = None
 
     @property
     def event_mgr(self):

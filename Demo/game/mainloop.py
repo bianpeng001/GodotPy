@@ -33,6 +33,8 @@ class MainLoop(NodeObject):
         game_mgr.input_mgr.update(delta_time)
         game_mgr.ground_mgr.update(delta_time)
         game_mgr.unit_mgr.update(delta_time)
+        game_mgr.ui_mgr.update(delta_time)
+
 
 
 

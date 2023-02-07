@@ -72,14 +72,32 @@ offset_right = 171.0
 offset_bottom = 45.0
 texture = ExtResource("9_h136q")
 
+[node name="Icon5" type="TextureRect" parent="Panel"]
+layout_mode = 0
+offset_left = 180.0
+offset_right = 205.0
+offset_bottom = 25.0
+texture = ExtResource("9_h136q")
+expand_mode = 1
+
+[node name="Icon6" type="TextureRect" parent="Panel"]
+layout_mode = 0
+offset_left = 180.0
+offset_top = 25.0
+offset_right = 205.0
+offset_bottom = 50.0
+scale = Vector2(1.05494, 1)
+texture = ExtResource("8_n434f")
+expand_mode = 1
+
 [node name="Label" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 358.0
-offset_right = 479.0
+offset_left = 214.0
+offset_right = 334.0
 offset_bottom = 50.0
 theme = ExtResource("5_dnccb")
-text = "粮:1000
-铁:1000000"
+text = "1000
+1000000"
 vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="Panel"]

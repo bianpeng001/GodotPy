@@ -10,12 +10,14 @@ from game.game_mgr import game_mgr
 class UIMgr(NodeObject):
     def __init__(self):
         super().__init__()
-        
+        game_mgr.ui_mgr = self
+
         # 排队等关闭的ui，ui不能马上关闭，需要排队，不然马上就响应ui下面的元素被点击了
         self.hide_items = []
+        
 
     def _create(self):
-        set_process(self.get_node(), process=True)
+        set_process(self.get_node(), process=False)
         connect(self.get_node(), 'ready', self._ready)
 
         game_mgr.event_mgr.add(SCENE_UNIT_CLICK, self.on_scene_unit_click)
@@ -49,7 +51,7 @@ class UIMgr(NodeObject):
     def on_cm_button3(self):
         self.hide_items.append(self.context_menu_node)
     
-    def _process(self):
+    def update(self, delta_time):
         for a in self.hide_items:
             set_visible_2d(a, False)
         self.hide_items.clear()
