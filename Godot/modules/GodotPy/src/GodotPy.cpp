@@ -905,6 +905,7 @@ void FPyObject::_ready() {
 			PyErr_Print();
 		}
 		print_line(vformat("create %s ok", py_class));
+
 	} while (0);
 }
 void FPyObject::_physics_process() {
