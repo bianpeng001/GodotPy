@@ -32,7 +32,13 @@ class MoveReq:
         self.stop.set(x,y,z)
         self.delta = self.stop - self.start
 
-        self.time_to_progress = speed / (self.delta.length() - 3)
+        len1 = self.delta.length()
+        len2 = len1 - 3
+        if len2 > 0:
+            self.delta = self.delta.scaled(len2/len1)
+            self.time_to_progress = speed / len2
+        else:
+            self.is_run = False
 
     def move_path(self, path):
         pass
