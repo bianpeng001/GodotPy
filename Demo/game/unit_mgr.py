@@ -82,7 +82,7 @@ class CityUnit(Unit):
         self.model_node = instantiate('res://models/City01.tscn')
 
         x,y,z = self.get_location()
-        node3d.set_position(self.model_node, x,y,z)
+        Node3D.set_position(self.model_node, x,y,z)
         
         self.controller.set_title(self.unit_name)
         print_line(f'Controller: {self.controller}')

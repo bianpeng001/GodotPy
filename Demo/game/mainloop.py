@@ -28,9 +28,9 @@ class MainLoop(NodeObject):
         game_mgr.ground_mgr.update(0)
 
     def _process(self):
-        delta_time = os.get_delta_time()
+        delta_time = OS.get_delta_time()
 
-        game_mgr.time = os.get_time()
+        game_mgr.time = OS.get_time()
         game_mgr.delta_time = delta_time
 
         game_mgr.input_mgr.update(delta_time)

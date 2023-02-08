@@ -202,42 +202,34 @@ def find_control(camera, x, y):
 
 # label3d
 class Label3D:
-    def __init__(self):
-        pass
-
-    def set_text(self, node, text):
+    @classmethod
+    def set_text(cls, node, text):
         gp.label3d_set_text(node, text)
 
 #
 class Node3D:
-    def __init__(self):
-        pass
-
+    @classmethod
     def set_position(self,node,x,y,z):
         gp.set_position(node,x,y,z)
 
 class OS:
-    def __init__(self):
-        pass
-    
+    @classmethod
     def get_time(self):
         return gp.get_time()
 
+    @classmethod
     def get_delta_time(self):
         return gp.get_delta_time()
 
 #
 class Camera3D:
-    def world_to_screen(self, camera, x, y, z):
+    @classmethod
+    def world_to_screen(cls, camera, x, y, z):
         return gp.world_to_screen(camera, x,y,z)
     
-    def screen_to_world(self, camera, x,y):
+    @classmethod
+    def screen_to_world(cls, camera, x,y):
         return gp.screen_to_world(camera, x,y)
-
-label3d = Label3D()
-node3d = Node3D()
-os = OS()
-camera3d = Camera3D()
 
 #
 class BaseController:
@@ -249,6 +241,6 @@ class BaseController:
         return self.unit.unit_id
 
     @property
-    def root_node(self):
+    def model_node(self):
         return self.unit.model_node
 

@@ -13,8 +13,8 @@ class CityController(BaseController):
         self.ai_tick_time = 0
 
     def set_title(self, text):
-        title_node = find_node(self.root_node, 'HUD/Title')
-        label3d.set_text(title_node, text)
+        title_node = find_node(self.model_node, 'HUD/Title')
+        Label3D.set_text(title_node, text)
 
     def process_ai(self):
         self.ai_tick_time += game_mgr.delta_time
