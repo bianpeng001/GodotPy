@@ -14,13 +14,14 @@ class Unit:
         # 所属君主
         self.owner_player_id = None
 
-        # 战斗属性
-        self.hp = self.maxhp = 100
+        # 生死存亡
+        self.dead = False
+
+        # 场景里面的属性
         self.location = Vector3()
         self.rotation = Vector3()
         self.radius = 1
-        self.dead = False
-
+        
         # 模型
         self.model_node = None
         # 控制器
@@ -45,6 +46,8 @@ class Unit:
             Node.destroy(self.model_node)
             self.model_node = None
 
+    def set_dead(self):
+        self.dead = True
 #
 class Controller:
     def __init__(self):

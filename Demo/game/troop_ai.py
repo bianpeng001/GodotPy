@@ -75,6 +75,7 @@ class AIState_MoveToCity(AIState):
 
 class AIState_TroopDie(AIState):
     def enter(self, controller):
+        print_line(f'kill {controller.unit_id}')
         controller.kill()
 
 class AIState_Idle(AIState):

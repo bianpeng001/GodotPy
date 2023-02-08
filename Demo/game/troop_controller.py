@@ -33,7 +33,7 @@ class MoveReq:
         self.delta = self.stop - self.start
 
         len1 = self.delta.length()
-        len2 = len1 - 3
+        len2 = len1 - 5
         if len2 > 0:
             self.delta = self.delta.scaled(len2/len1)
             self.time_to_progress = speed / len2
@@ -100,5 +100,5 @@ class TroopController(Controller):
         Node3D.lookat(self.model_node, x,y,z)
 
     def kill(self):
-        self.unit.dead = True
+        self.unit.set_dead()
 
