@@ -100,10 +100,10 @@ static T *GetCapsulePointer(PyObject *capsule) {
 /// </summary>
 class FCapsuleObject : public Object {
 public:
-	PyObject *p_node_capsule;
+	PyObject *py_capsule;
 
 	FCapsuleObject(PyObject *a_capsule) :
-		p_node_capsule(a_capsule) {
+			py_capsule(a_capsule) {
 		
 	}
 	virtual ~FCapsuleObject() {
@@ -113,13 +113,16 @@ public:
 		//		(uint64_t)this->get_instance_id(),
 		//		node->get_class_name()));
 
-		const int refcount = p_node_capsule->ob_refcnt;
+		const int refcount = py_capsule->ob_refcnt;
 		if (refcount != 1) {
 			print_line(vformat("refcount=%d", refcount));
 		}
-		if (p_node_capsule) {
-			GP_DECREF(p_node_capsule);
+		if (py_capsule) {
+			GP_DECREF(py_capsule);
 		}
+	}
+	PyObject* GetPyObject() {
+		return py_capsule;
 	}
 	static List<FCapsuleObject *> instance_list;
 };
@@ -141,7 +144,7 @@ static PyObject* get_or_create_capsule(Node* a_node) {
 		a_node->set(c_capsule_name, v);
 	}
 	auto obj = static_cast<Object *>(v);
-	return static_cast<FCapsuleObject *>(obj)->p_node_capsule;
+	return static_cast<FCapsuleObject *>(obj)->GetPyObject();
 }
 //------------------------------------------------------------------------------
 // module function implementation
