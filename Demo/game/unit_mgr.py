@@ -38,7 +38,7 @@ class Unit:
         self.location.set(x, y, z)
 
         if self.model_node:
-            set_position(self.model_node, x, y, z)
+            Node3D.set_position(self.model_node, x, y, z)
 
     def get_location(self):
         loc = self.location
@@ -58,14 +58,16 @@ class TroopUnit(Unit):
         self.velocity = Vector3()
         self.velocity.set(1, 0, 0)
 
+        self.army_amount = 0
+
     def load_model(self):
         self.unit_name = f'部队_{self.unit_id}'
 
         self.model_node = instantiate('res://models/Troop01.tscn')
+        Node3D.set_position(self.model_node,*self.get_location())
 
-        x,y,z = self.get_location()
-        node3d.set_position(self.model_node,x,y,z)
-
+    def set_army_amount(self, value):
+        self.army_amount = value
 
 # 城池
 class CityUnit(Unit):
@@ -78,13 +80,13 @@ class CityUnit(Unit):
         self.unit_name = new_city_name()
         
         # 资源
-        self.army_amount = 0
+        self.army_amount = 800
         self.rice_amount = 0
         self.iron_amount = 0
         self.stone_amount = 0
         self.wood_amount = 0
 
-        self.growth_rate = 10
+        self.growth_rate = 20
 
     def load_model(self):
         self.model_node = instantiate('res://models/City01.tscn')

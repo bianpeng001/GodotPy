@@ -16,21 +16,21 @@ class TroopController(BaseController):
         unit = game_mgr.unit_mgr.get_unit(self.unit_id)
         #print_line(unit.unit_name)
 
-    def update_ai(self, tick_time):
+    def update_ai(self):
         self.ai_tick_time += game_mgr.delta_time
         if self.ai_tick_time > 0.1:
             self.on_ai_tick(self.ai_tick_time)
             self.ai_tick_time = 0
 
     def update_move(self):
-        unit = self.unit
+        troop = self.unit
         delta = game_mgr.delta_time
 
-        x,y,z = unit.get_location()
-        x += unit.velocity.x * delta
-        y += unit.velocity.y * delta
-        z += unit.velocity.z * delta
-        unit.set_location(x,y,z)
+        x,y,z = troop.get_location()
+        x += troop.velocity.x * delta
+        y += troop.velocity.y * delta
+        z += troop.velocity.z * delta
+        troop.set_location(x,y,z)
 
     def update(self):
         self.update_ai()

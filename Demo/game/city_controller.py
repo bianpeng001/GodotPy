@@ -2,8 +2,11 @@
 # 2023年2月2日 bianpeng
 #
 
+import random
+
 from game.core import *
 from game.game_mgr import game_mgr
+
 
 # 城池
 class CityController(BaseController):
@@ -24,9 +27,20 @@ class CityController(BaseController):
             self.ai_tick_time = 0
 
     def on_ai_tick(self, tick_time):
-        unit = self.unit
+        city = self.unit
 
-        unit.army_amount += unit.growth_rate * tick_time
+        city.army_amount += city.growth_rate * tick_time
+
+        # create troop for fight
+        if city.army_amount > 1000:
+            city.army_amount -= 1000
+
+            x,y,z = city.get_location()
+
+            troop = game_mgr.unit_mgr.create_troop()
+            troop.set_army_amount(1000)
+            troop.owner_city_id = city.unit_id
+            troop.set_location(x,y,z)
 
     def update(self):
         self.update_ai()

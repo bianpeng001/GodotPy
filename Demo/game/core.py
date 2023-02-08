@@ -123,8 +123,11 @@ class NodeObject:
     def _create(self):
         pass
 
+# [-1, 1]
 def random_x():
     return 2*(random.random()-0.5)
+
+# [(-1,-1,-1), (1,1,1)]
 def random_vector3(x, y, z):
     return random_x()*x, random_x()*y, random_x()*z
 
@@ -200,13 +203,17 @@ def set_visible_2d(node, v):
 def find_control(camera, x, y):
     return gp.find_control(camera, x, y)
 
-# label3d
+#
+class Node:
+    pass
+
+#
 class Label3D:
     @classmethod
     def set_text(cls, node, text):
         gp.label3d_set_text(node, text)
 
-#
+# 
 class Node3D:
     @classmethod
     def set_position(self,node,x,y,z):
@@ -243,4 +250,7 @@ class BaseController:
     @property
     def model_node(self):
         return self.unit.model_node
+
+    def update(self):
+        pass
 
