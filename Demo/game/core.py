@@ -211,7 +211,7 @@ class Node:
     @classmethod
     def find_node(cls, node, path):
         return gp.find_node(node, path)
-        
+
 #
 class Label3D:
     @classmethod
@@ -242,20 +242,4 @@ class Camera3D:
     @classmethod
     def screen_to_world(cls, camera, x,y):
         return gp.screen_to_world(camera, x,y)
-
-#
-class BaseController:
-    def __init__(self):
-        self.unit = None
-
-    @property
-    def unit_id(self):
-        return self.unit.unit_id
-
-    @property
-    def model_node(self):
-        return self.unit.model_node
-
-    def update(self):
-        pass
 

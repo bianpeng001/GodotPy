@@ -4,9 +4,10 @@
 
 from game.core import *
 from game.game_mgr import game_mgr
+from game.base_type import Controller
 
 # 部队
-class TroopController(BaseController):
+class TroopController(Controller):
     def __init__(self):
         super().__init__()
 

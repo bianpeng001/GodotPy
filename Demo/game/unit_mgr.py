@@ -47,6 +47,8 @@ class UnitMgr:
         self.unit_dict[unit.unit_id] = unit
         self.update_list.append(unit)
 
+        unit.owner_player_id = game_mgr.player_mgr.main_player.player_id
+
         unit.load_model()
 
         return unit
@@ -59,6 +61,4 @@ class UnitMgr:
 
     def create_troop(self):
         return self.create_unit(TroopUnit)
-
-
 

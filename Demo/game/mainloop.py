@@ -7,6 +7,7 @@ import sys
 from game.core import *
 from game.game_mgr import game_mgr
 from game.unit_mgr import UnitMgr
+from game.player_mgr import PlayerMgr
 
 # 主循环
 class MainLoop(NodeObject):
@@ -19,6 +20,7 @@ class MainLoop(NodeObject):
 
     def init(self):
         game_mgr.unit_mgr = UnitMgr()
+        game_mgr.player_mgr = PlayerMgr()
 
     def _ready(self):
         self.init()

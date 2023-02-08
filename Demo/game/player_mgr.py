@@ -19,7 +19,7 @@ class PlayerMgr:
         self.player_dict = {}
         self.player_id_seed = 10000
 
-        self.main_player = None
+        self.main_player = self.create_player()
 
     def create_player(self):
         p = Player()

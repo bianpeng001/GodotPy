@@ -4,43 +4,10 @@
 
 from game.core import *
 from game.config_mgr import new_city_name
+from game.base_type import Unit
 
 from game.troop_controller import TroopController
 from game.city_controller import CityController
-
-#
-class Unit:
-    def __init__(self):
-        self.unit_id = None
-        self.unit_name = ''
-
-        # 所属君主
-        self.owner_player_id = None
-
-        # 战斗属性
-        self.hp = self.maxhp = 100
-        self.location = Vector3()
-        self.rotation = Vector3()
-        self.radius = 1
-        self.dead = False
-
-        # 模型
-        self.model_node = None
-        self.controller = None
-
-    def load_model(self):
-        pass
-
-    def set_location(self, x, y, z):
-        self.location.set(x, y, z)
-
-        if self.model_node:
-            Node3D.set_position(self.model_node, x, y, z)
-
-    def get_location(self):
-        loc = self.location
-        return loc.x, loc.y, loc.z
-
 
 # 城池
 class CityUnit(Unit):
