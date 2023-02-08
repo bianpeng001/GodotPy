@@ -127,6 +127,10 @@ class NodeObject:
 def random_x():
     return 2*(random.random()-0.5)
 
+
+def random_max(max):
+    return random.random()*max
+
 # [(-1,-1,-1), (1,1,1)]
 def random_vector3(x, y, z):
     return random_x()*x, random_x()*y, random_x()*z

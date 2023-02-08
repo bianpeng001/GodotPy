@@ -80,13 +80,13 @@ class CityUnit(Unit):
         self.unit_name = new_city_name()
         
         # 资源
-        self.army_amount = 800
+        self.army_amount = 800+random_max(100)
         self.rice_amount = 0
         self.iron_amount = 0
         self.stone_amount = 0
         self.wood_amount = 0
 
-        self.growth_rate = 20
+        self.growth_rate = 5 + random_max(5)
 
     def load_model(self):
         self.model_node = instantiate('res://models/City01.tscn')
