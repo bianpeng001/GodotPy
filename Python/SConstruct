@@ -152,6 +152,7 @@ Modules = [
     'Modules/md5module.c',
     'Modules/sha1module.c',
     'Modules/sha256module.c',
+    'Modules/_hacl/Hacl_Streaming_SHA2.c',
     'Modules/sha512module.c',
     'Modules/_sha3/sha3module.c',
     'Modules/_statisticsmodule.c',
@@ -225,6 +226,7 @@ incs = [
     '.',
     './Include',
     './Include/internal',
+    './Modules/_hacl/include',
     './Godot',
     ZLIB,
 ]

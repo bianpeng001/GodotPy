@@ -35,7 +35,7 @@ class Unit:
         pass
 
     def update(self):
-        pass
+        self.controller.update()
 
     def set_location(self, x, y, z):
         self.location.set(x, y, z)
@@ -129,9 +129,13 @@ class UnitMgr:
         self.update_list.append(unit)
 
         unit.controller = controller_class_()
+        unit.controller.unit = unit
         unit.load_model()
 
         return unit
+
+    def get_unit(self, unit_id):
+        return self.unit_dict.get(unit_id, None)
 
     def create_city(self):
         return self.create_unit(CityUnit, CityController)

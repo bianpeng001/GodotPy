@@ -47,7 +47,6 @@ private:
 	} data;
 public:
 	CallableCustomCallback(Node *p_node, PyObject *func, PyObject *args) {
-		Py_INCREF(func);
 		data.p_node = p_node;
 		data.py_func = func;
 		data.py_args = args;
@@ -107,8 +106,8 @@ public:
 		
 	}
 	virtual ~FCapsuleObject() {
-		//auto node = reinterpret_cast<Node *>(PyCapsule_GetPointer(p_capsule, c_node_name));
-		//print_line(vformat("destroy FCapsuleObject: %s(%d) of %s ",
+		//auto node = reinterpret_cast<Node *>(PyCapsule_GetPointer(p_node_capsule, c_node_name));
+		//print_line(vformat("destroy FCapsuleObject: %s(%d) of %s",
 		//		node->get_name(),
 		//		(uint64_t)this->get_instance_id(),
 		//		node->get_class_name()));
@@ -908,6 +907,7 @@ void FPyObject::_ready() {
 			PyErr_Print();
 		}
 		print_line(vformat("create %s ok", py_class));
+
 	} while (0);
 }
 void FPyObject::_physics_process() {
