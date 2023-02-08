@@ -127,13 +127,12 @@ class NodeObject:
 def random_x():
     return 2*(random.random()-0.5)
 
+# [(-1,-1,-1), (1,1,1)]
+def random_x_vector3(x, y, z):
+    return random_x()*x, random_x()*y, random_x()*z
 
 def random_max(max):
     return random.random()*max
-
-# [(-1,-1,-1), (1,1,1)]
-def random_vector3(x, y, z):
-    return random_x()*x, random_x()*y, random_x()*z
 
 def print_line(*args, **kwargs):
     if not args:
@@ -209,8 +208,10 @@ def find_control(camera, x, y):
 
 #
 class Node:
-    pass
-
+    @classmethod
+    def find_node(cls, node, path):
+        return gp.find_node(node, path)
+        
 #
 class Label3D:
     @classmethod

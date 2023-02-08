@@ -45,7 +45,7 @@ class Tile:
 
         if random.random() < 0.5:
             city = game_mgr.unit_mgr.create_city()
-            dx,dy,dz = random_vector3(3, 0, 3)
+            dx,dy,dz = random_x_vector3(3, 0, 3)
             city.set_location(pos_x+dx, 0, pos_z+dz)
             self.units.append(city)
 
