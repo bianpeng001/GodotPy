@@ -9,6 +9,7 @@ class Unit:
     def __init__(self):
         self.unit_id = None
         self.unit_name = ''
+        self.unit_type = None
 
         # 所属君主
         self.owner_player_id = None
@@ -43,6 +44,9 @@ class Controller:
     def __init__(self):
         self.unit = None
 
+        self.ai_state = None
+        self.ai_bb = None
+
     @property
     def unit_id(self):
         return self.unit.unit_id
@@ -66,4 +70,4 @@ class AIState:
         pass
 
 
-        
+

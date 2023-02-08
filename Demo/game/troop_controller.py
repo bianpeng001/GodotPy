@@ -4,42 +4,47 @@
 
 from game.core import *
 from game.game_mgr import game_mgr
-from game.base_type import Controller, AIState
+from game.base_type import Controller
+from game.troop_ai import *
 
 # 定义一下移动需要的信息
 class MoveReq:
     def __init__(self):
-        self.is_done = True
+        self.is_run = False
         self.start = Vector3()
-        
-        self.target_pos = Vector3()
-        self.target_unit_id = 0
+        self.stop = Vector3()
 
-        self.v = Vector3()
-        self.time = 0
+        #self.target_unit_id = 0
 
-        self.path = None
+        #self.v = Vector3()
+        self.progress = 0
+        self.time_scale = 1
+        self.delta = Vector3()
+
+        #self.path = None
 
     # 请求走直线
-    def move_line(self, x,y,z):
-        pass
+    def line_to(self, x0,y0,z0,x,y,z,speed):
+        self.is_run = True
+        self.progress = 0
+
+        self.start.set(x0,y0,z0)
+        self.stop.set(x,y,z)
+        self.delta = self.stop - self.start
+
+        self.time_to_progress = speed / self.delta.length()
 
     def move_path(self, path):
         pass
 
-# 攻击信息
-class AttackReq:
-    def __init__(self):
-        self.target_unit_id = 0
-
-# 寻找一个目标城池
-class AIState_FindCity(AIState):
-    def update(self, controller):
-        pass
-
-class AIState_AttackCity(AIState):
-    def update(self, controller):
-        pass
+    def update(self, troop, delta_time):
+        self.progress += delta_time * self.time_to_progress
+        if self.progress < 1.0:
+            p = self.start + self.delta.scaled(self.progress)
+        else:
+            p = self.start + self.delta
+            self.is_run = False
+        troop.set_location(p.x,p.y,p.z)
 
 # 部队
 class TroopController(Controller):
@@ -47,8 +52,10 @@ class TroopController(Controller):
         super().__init__()
 
         self.ai_tick_time = 0
-        self.ai_enter_state(AIState_FindCity())
 
+        self.ai_bb = TroopBlackboard()
+        self.ai_enter_state(AIState_FindCity())
+        
         self.move_req = MoveReq()
 
     def ai_enter_state(self, new_state):
@@ -74,17 +81,10 @@ class TroopController(Controller):
 
     def update_move(self):
         req = self.move_req
-        if req.is_done:
-            return
-
-        troop = self.unit
-        delta = game_mgr.delta_time
-
-        x,y,z = troop.get_location()
-        x += troop.velocity.x * delta
-        y += troop.velocity.y * delta
-        z += troop.velocity.z * delta
-        troop.set_location(x,y,z)
+        if req.is_run:
+            troop = self.unit
+            delta = game_mgr.delta_time
+            req.update(troop, delta)
 
     def update(self):
         self.update_ai()

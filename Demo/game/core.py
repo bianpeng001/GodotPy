@@ -72,12 +72,19 @@ class Vector3:
         self.y *= s
         self.z *= s
 
+    def scaled(self, s):
+        v = Vector3()
+        v.x = self.x*s
+        v.y = self.y*s
+        v.z = self.z*s
+        return v
+
     def normlize(self):
         len = math.sqrt(self.dot(self))
         if len > 0:
             self.scale1(1 / len)
     
-    def __add___(self, right):
+    def __add__(self, right):
         v = Vector3()
         v.x = self.x + right.x
         v.y = self.y + right.y
@@ -90,6 +97,16 @@ class Vector3:
         v.y = self.y - right.y
         v.z = self.z - right.z
         return v
+
+    def __mul__(self, right):
+        v = Vector3()
+        v.x *= right.x
+        v.y *= right.y
+        v.z *= right.z
+        return v
+
+    def length(self):
+        return math.sqrt(self.dot(self))
 
     def dot(self, right):
         return self.x*right.x + self.y*right.y + self.z*right.z
@@ -253,8 +270,12 @@ class Label3D:
 # 
 class Node3D:
     @classmethod
-    def set_position(self,node,x,y,z):
+    def set_position(cls,node,x,y,z):
         gp.set_position(node,x,y,z)
+
+    @classmethod
+    def lookat(cls, node,x,y,z):
+        gp.lookat(node,x,y,z)
 
 class OS:
     @classmethod

@@ -13,11 +13,14 @@ from game.city_controller import CityController
 class CityUnit(Unit):
     def __init__(self):
         super().__init__()
+        self.unit_type = 1
+
         self.controller = CityController()
         self.controller.unit = self
 
         self.radius = 3
         self.unit_name = new_city_name()
+        
         
         # 资源
         self.army_amount = 800+random_max(100)
@@ -41,17 +44,17 @@ class CityUnit(Unit):
 class TroopUnit(Unit):
     def __init__(self):
         super().__init__()
+        self.unit_type = 2
+
         self.controller = TroopController()
         self.controller.unit = self
 
         # 所属城
         self.owner_city_id = None
         self.radius = 2
-
+        # 行军速度
         self.speed = 0.6
-        self.velocity = Vector3()
-        self.velocity.set(1, 0, 0)
-
+        
         self.army_amount = 0
 
     def load_model(self):

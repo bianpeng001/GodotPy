@@ -76,9 +76,17 @@ class GroundMgr(NodeObject):
         print_line('GroundMgr ready')
 
     def get_tile(self, x, z):
-        cx = math.floor((x / TILE_SIZE) + 0.5)
-        cz = math.floor((z / TILE_SIZE) + 0.5)
-        return self.tile_dict.get((cx, cz), None)
+        col = math.floor((x / TILE_SIZE) + 0.5)
+        row = math.floor((z / TILE_SIZE) + 0.5)
+        return self.tile_dict.get((col, row), None)
+
+    def get_colrow(self, x, z):
+        col = math.floor((x / TILE_SIZE) + 0.5)
+        row = math.floor((z / TILE_SIZE) + 0.5)
+        return col, row
+
+    def get_tile_at_colrow(self, col, row):
+        return self.tile_dict.get((col, row), None)
 
     def update(self, delta_time):
         center = game_mgr.camera_mgr.center
