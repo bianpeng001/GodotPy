@@ -25,13 +25,13 @@ class MainLoop(NodeObject):
         print_line('MainLoop ready')
         
         game_mgr.camera_mgr.update_camera()
-        game_mgr.ground_mgr.update(0)
 
     def _process(self):
-        delta_time = OS.get_delta_time()
-
         game_mgr.time = OS.get_time()
-        game_mgr.delta_time = delta_time
+        game_mgr.delta_time = OS.get_delta_time()
+
+        # update all system
+        delta_time = game_mgr.delta_time
 
         game_mgr.input_mgr.update(delta_time)
         game_mgr.ui_mgr.update(delta_time)

@@ -34,9 +34,6 @@ class Unit:
     def load_model(self):
         pass
 
-    def update(self):
-        self.controller.update()
-
     def set_location(self, x, y, z):
         self.location.set(x, y, z)
 
@@ -58,6 +55,9 @@ class TroopUnit(Unit):
         self.owner_city_id = None
         self.radius = 2
 
+        self.velocity = Vector3()
+        self.velocity.set(1, 0, 0)
+
     def load_model(self):
         self.unit_name = f'部队_{self.unit_id}'
 
@@ -66,7 +66,6 @@ class TroopUnit(Unit):
         x,y,z = self.get_location()
         node3d.set_position(self.model_node,x,y,z)
 
-        print_line(f'Controller: {self.controller}')
 
 # 城池
 class CityUnit(Unit):
@@ -77,6 +76,15 @@ class CityUnit(Unit):
 
         self.radius = 3
         self.unit_name = new_city_name()
+        
+        # 资源
+        self.army_amount = 0
+        self.rice_amount = 0
+        self.iron_amount = 0
+        self.stone_amount = 0
+        self.wood_amount = 0
+
+        self.growth_rate = 10
 
     def load_model(self):
         self.model_node = instantiate('res://models/City01.tscn')
@@ -85,7 +93,6 @@ class CityUnit(Unit):
         Node3D.set_position(self.model_node, x,y,z)
         
         self.controller.set_title(self.unit_name)
-        print_line(f'Controller: {self.controller}')
 
 ##############################################################
 # UnitMgr
@@ -107,7 +114,7 @@ class UnitMgr:
 
         while i < count:
             unit = self.update_list[i]
-            unit.update()
+            unit.controller.update()
             if unit.dead:
                 count -= 1
                 self.update_list[i] = self.update_list[count]

@@ -71,16 +71,16 @@ class UIMgr(NodeObject):
         self.close(self.context_menu_node)
         print_line(f'{self.context_unit.unit_name} chuzhan')
 
-        x,y,z = self.context_unit.get_location()
-        z += 4
+        # x,y,z = self.context_unit.get_location()
+        # z += 4
         
-        troop = game_mgr.unit_mgr.create_troop()
-        troop.set_location(x,y,z)
-        troop.owner_city_id = self.context_unit.unit_id
+        # troop = game_mgr.unit_mgr.create_troop()
+        # troop.set_location(x,y,z)
+        # troop.owner_city_id = self.context_unit.unit_id
 
-        tile = game_mgr.ground_mgr.get_tile(x, z)
-        if tile:
-            tile.units.append(troop)
+        # tile = game_mgr.ground_mgr.get_tile(x, z)
+        # if tile:
+        #     tile.units.append(troop)
 
     # 探索
     def on_cm_button3(self):
