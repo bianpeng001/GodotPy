@@ -113,9 +113,8 @@ public:
 		//		node->get_class_name()));
 
 		const int refcount = py_capsule->ob_refcnt;
-		if (refcount != 1) {
-			print_line(vformat("refcount=%d", refcount));
-		}
+		print_line(vformat("refcount=%d", refcount));
+
 		if (py_capsule) {
 			GP_DECREF(py_capsule);
 		}

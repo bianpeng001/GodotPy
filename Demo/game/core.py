@@ -242,7 +242,13 @@ camera3d = Camera3D()
 #
 class BaseController:
     def __init__(self):
-        self.unit_id = 0
-        self.root_node = None
         self.unit = None
+
+    @property
+    def unit_id(self):
+        return self.unit.unit_id
+
+    @property
+    def root_node(self):
+        return self.unit.model_node
 

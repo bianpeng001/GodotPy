@@ -51,6 +51,8 @@ class Unit:
 class TroopUnit(Unit):
     def __init__(self):
         super().__init__()
+        self.controller = TroopController()
+        self.controller.unit = self
 
         # 所属城
         self.owner_city_id = None
@@ -60,8 +62,6 @@ class TroopUnit(Unit):
         self.unit_name = f'部队_{self.unit_id}'
 
         self.model_node = instantiate('res://models/Troop01.tscn')
-        self.controller.root_node = self.model_node
-        self.controller.unit_id = self.unit_id
 
         x,y,z = self.get_location()
         node3d.set_position(self.model_node,x,y,z)
@@ -72,14 +72,14 @@ class TroopUnit(Unit):
 class CityUnit(Unit):
     def __init__(self):
         super().__init__()
+        self.controller = CityController()
+        self.controller.unit = self
 
         self.radius = 3
         self.unit_name = new_city_name()
 
     def load_model(self):
         self.model_node = instantiate('res://models/City01.tscn')
-        self.controller.unit_id = self.unit_id
-        self.controller.root_node = self.model_node
 
         x,y,z = self.get_location()
         node3d.set_position(self.model_node, x,y,z)
@@ -121,15 +121,13 @@ class UnitMgr:
             self.unit_dict.pop(unit.unit_id)
             pass
 
-    def create_unit(self, unit_class_, controller_class_):
+    def create_unit(self, unit_class_):
         unit = unit_class_()
 
         unit.unit_id = self.get_next_unit_id()
         self.unit_dict[unit.unit_id] = unit
         self.update_list.append(unit)
 
-        unit.controller = controller_class_()
-        unit.controller.unit = unit
         unit.load_model()
 
         return unit
@@ -138,10 +136,10 @@ class UnitMgr:
         return self.unit_dict.get(unit_id, None)
 
     def create_city(self):
-        return self.create_unit(CityUnit, CityController)
+        return self.create_unit(CityUnit)
 
     def create_troop(self):
-        return self.create_unit(TroopUnit, TroopController)
+        return self.create_unit(TroopUnit)
 
 
 
