@@ -14,6 +14,7 @@ class UnitMgr:
         self._unit_id_seed = 1000
         self.unit_dict = {}
         self.update_list = []
+        self.back_update_list = []
         self.dead_list = []
 
     def get_next_unit_id(self):
@@ -21,24 +22,30 @@ class UnitMgr:
         return self._unit_id_seed
 
     def update(self, delta_time):
-        i = 0
-        count = len(self.update_list)
+        self._call_update()
+        self._exec_dead_list()
 
-        while i < count:
-            unit = self.update_list[i]
-            unit.controller.update()
-            if unit.dead:
-                count -= 1
-                self.update_list[i] = self.update_list[count]
-                self.update_list.pop()
+    def _call_update(self):
+        # update every unit
+        tmp = self.back_update_list
+        self.back_update_list = self.update_list
+        self.update_list = tmp
 
-                self.dead_list.append(unit)
-            else:
-                i += 1
+        if len(self.back_update_list) > 0:
+            for unit in self.back_update_list:
+                unit.controller.update()
+                if unit.dead:
+                    self.dead_list.append(unit)
+                else:
+                    self.update_list.append(unit)
+            self.back_update_list.clear()
 
+    def _exec_dead_list(self):
+        # destroy dead list
         if len(self.dead_list) > 0:
             for unit in self.dead_list:
                 unit.on_dead()
+                #print_line(f'remove unit: {unit.unit_id}')
                 self.unit_dict.pop(unit.unit_id)
             self.dead_list.clear()
 
@@ -48,6 +55,7 @@ class UnitMgr:
         unit.unit_id = self.get_next_unit_id()
         self.unit_dict[unit.unit_id] = unit
         self.update_list.append(unit)
+        #print_line(f'add unit: {unit.unit_id}')
 
         unit.owner_player_id = game_mgr.player_mgr.main_player_id
 

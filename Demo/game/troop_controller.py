@@ -16,12 +16,9 @@ class MoveReq:
 
         #self.target_unit_id = 0
 
-        #self.v = Vector3()
         self.progress = 0
         self.time_scale = 1
         self.delta = Vector3()
-
-        #self.path = None
 
     # 请求走直线
     def line_to(self, x0,y0,z0,x,y,z,speed):

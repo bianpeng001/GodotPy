@@ -30,7 +30,7 @@ class CityUnit(Unit):
         self.money_amount = 0
 
         # 资源增长率
-        self.growth_rate = 15 + random_max(15)
+        self.growth_rate = 35 + random_max(35)
 
     def load_model(self):
         self.model_node = instantiate('res://models/City01.tscn')
@@ -54,7 +54,7 @@ class TroopUnit(Unit):
         self.owner_city_id = None
         self.radius = 2
         # 行军速度
-        self.speed = 1.2
+        self.speed = 2.4
 
         self.army_amount = 0
 
