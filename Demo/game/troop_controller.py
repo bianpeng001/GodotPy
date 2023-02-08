@@ -99,4 +99,6 @@ class TroopController(Controller):
     def lookat(self,x,y,z):
         Node3D.lookat(self.model_node, x,y,z)
 
+    def kill(self):
+        self.unit.dead = True
 

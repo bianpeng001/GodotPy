@@ -100,9 +100,14 @@ class Vector3:
 
     def __mul__(self, right):
         v = Vector3()
-        v.x *= right.x
-        v.y *= right.y
-        v.z *= right.z
+        if isinstance(right, Vector3):
+            v.x *= right.x
+            v.y *= right.y
+            v.z *= right.z
+        elif isinstance(right, float):
+            v.x *= right
+            v.y *= right
+            v.z *= right
         return v
 
     def length(self):
@@ -261,6 +266,9 @@ class Node:
     def find_node(cls, node, path):
         return gp.find_node(node, path)
 
+    @classmethod
+    def destroy(cls, node):
+        gp.destroy(node)
 #
 class Label3D:
     @classmethod

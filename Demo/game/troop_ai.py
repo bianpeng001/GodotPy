@@ -70,7 +70,12 @@ class AIState_MoveToCity(AIState):
 
         #print_line(f'enter state: {controller.unit_id}')
     def update(self, controller):
-        pass
+        if not controller.move_req.is_run:
+            controller.ai_enter_state(AIState_TroopDie())
+
+class AIState_TroopDie(AIState):
+    def enter(self, controller):
+        controller.kill()
 
 class AIState_Idle(AIState):
     def update(self, controller):

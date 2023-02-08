@@ -36,9 +36,11 @@ class UnitMgr:
             else:
                 i += 1
 
-        for unit in self.dead_list:
-            self.unit_dict.pop(unit.unit_id)
-            pass
+        if len(self.dead_list) > 0:
+            for unit in self.dead_list:
+                unit.on_dead()
+                self.unit_dict.pop(unit.unit_id)
+            self.dead_list.clear()
 
     def create_unit(self, unit_class_):
         unit = unit_class_()

@@ -254,7 +254,21 @@ static PyObject *f_load_scene(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_destroy(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
 
+		if (!PyArg_ParseTuple(args, "O", &a_node)) {
+			break;
+		}
+
+		auto node = GetCapsulePointer<Node>(a_node);
+		node->queue_free();
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject* f_find_node(PyObject* module, PyObject* args) {
 	const char *a_path;
 	PyObject *a_node;
@@ -645,6 +659,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "connect", f_connect, METH_VARARGS, NULL },
 	{ "get_parent", f_get_parent, METH_VARARGS, NULL },
 	{ "load_scene", f_load_scene, METH_VARARGS, NULL },
+	{ "destroy", f_destroy, METH_VARARGS, NULL },
 
 	// node3d
 	{ "set_position", f_set_position, METH_VARARGS, NULL },
