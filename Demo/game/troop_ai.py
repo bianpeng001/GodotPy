@@ -66,8 +66,8 @@ class AIState_MoveToCity(AIState):
             x,y,z,
             troop.speed)
         
-        Node3D.lookat(troop.get_node(), x,y,z)
-        
+        controller.lookat(x,y,z)
+
         #print_line(f'enter state: {controller.unit_id}')
     def update(self, controller):
         pass

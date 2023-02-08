@@ -32,7 +32,7 @@ class MoveReq:
         self.stop.set(x,y,z)
         self.delta = self.stop - self.start
 
-        self.time_to_progress = speed / self.delta.length()
+        self.time_to_progress = speed / (self.delta.length() - 3)
 
     def move_path(self, path):
         pass
@@ -89,5 +89,8 @@ class TroopController(Controller):
     def update(self):
         self.update_ai()
         self.update_move()
+
+    def lookat(self,x,y,z):
+        Node3D.lookat(self.model_node, x,y,z)
 
 

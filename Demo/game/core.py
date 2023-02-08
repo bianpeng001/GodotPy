@@ -80,7 +80,7 @@ class Vector3:
         return v
 
     def normlize(self):
-        len = math.sqrt(self.dot(self))
+        len = self.length()
         if len > 0:
             self.scale1(1 / len)
     
