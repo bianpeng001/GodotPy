@@ -16,6 +16,8 @@ class Unit:
 
         # 生死存亡
         self.dead = False
+        # 控制器
+        self.controller = None
 
         # 场景里面的属性
         self.location = Vector3()
@@ -24,8 +26,6 @@ class Unit:
         
         # 模型
         self.model_node = None
-        # 控制器
-        self.controller = None
 
     def load_model(self):
         pass

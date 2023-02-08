@@ -828,8 +828,9 @@ void FPyObject::input(const Ref<InputEvent> &p_event) {
 //
 //------------------------------------------------------------------------------
 FPyObject::FPyObject() :
-	p_module(nullptr),
-	p_object(nullptr) {
+		p_module(nullptr),
+		p_object(nullptr),
+		error_last_process (false) {
 
 }
 FPyObject::~FPyObject() {
@@ -943,12 +944,16 @@ void FPyObject::_process() {
 		if (!p_object) {
 			break;
 		}
+		if (error_last_process) {
+			break;
+		}
 
 		auto ret = PyObject_CallMethod(p_object, "_process", NULL);
 		if (ret) {
 			GP_DECREF(ret);
 		} else {
 			PyErr_Print();
+			error_last_process = true;
 		}
 	} while (0);
 }

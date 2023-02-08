@@ -23,6 +23,8 @@ private:
 	PyObject *p_module;
 	PyObject *p_object;
 
+	bool error_last_process;
+
 protected:
 	virtual void input(const Ref<InputEvent> &p_event) override;
 

@@ -60,7 +60,7 @@ class AIState_MoveToCity(AIState):
         troop = controller.unit
        
         req = controller.move_req
-        x,y,z = city.get_location();
+        x,y,z = city.get_location()
         req.line_to(
             *troop.get_location(),
             x,y,z,
