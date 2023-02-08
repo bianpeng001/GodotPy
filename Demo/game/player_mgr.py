@@ -21,6 +21,10 @@ class PlayerMgr:
 
         self.main_player = self.create_player()
 
+    @property
+    def main_player_id(self):
+        return self.main_player.player_id
+
     def create_player(self):
         p = Player()
 

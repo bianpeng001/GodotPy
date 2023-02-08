@@ -7,6 +7,7 @@ import random
 
 import GodotPy as gp
 
+#
 class Plane:
     def __init__(self, x0, y0 ,z0, n_x, n_y, n_z):
         self.x0 = x0
@@ -17,6 +18,7 @@ class Plane:
         self.n_y = n_y
         self.n_z = n_z
 
+#
 class Ray:
     def __init__(self, x0, y0, z0, n_x, n_y, n_z):
         self.x0 = x0
@@ -55,7 +57,7 @@ class Vector3:
         self.y = left.y + right.y
         self.z = left.z + right.z
 
-    def inc(self, x, y, z):
+    def offset(self, x, y, z):
         self.x += x
         self.y += y
         self.z += z
@@ -71,10 +73,40 @@ class Vector3:
         self.z *= s
 
     def normlize(self):
-        len = math.sqrt(self.x*self.x+self.y*self.y+self.z*self.z)
+        len = math.sqrt(self.dot(self))
         if len > 0:
             self.scale1(1 / len)
+    
+    def __add___(self, right):
+        v = Vector3()
+        v.x = self.x + right.x
+        v.y = self.y + right.y
+        v.z = self.z + right.z
+        return v
 
+    def __sub__(self, right):
+        v = Vector3()
+        v.x = self.x - right.x
+        v.y = self.y - right.y
+        v.z = self.z - right.z
+        return v
+
+    def dot(self, right):
+        return self.x*right.x + self.y*right.y + self.z*right.z
+
+    def dot3(self, x, y, z):
+        return self.x*x + self.y*y + self.z*z
+
+    def cross(self, right):
+        pass
+
+    def clone(self):
+        v = Vector3()
+        v.set(self.x, self.y, self.z)
+        return v
+
+    def get_xyz(self):
+        return self.x, self.y, self.z
 
 # 单例
 class Singleton:
@@ -226,11 +258,11 @@ class Node3D:
 
 class OS:
     @classmethod
-    def get_time(self):
+    def get_time(cls):
         return gp.get_time()
 
     @classmethod
-    def get_delta_time(self):
+    def get_delta_time(cls):
         return gp.get_delta_time()
 
 #

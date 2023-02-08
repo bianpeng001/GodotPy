@@ -54,7 +54,16 @@ class Controller:
     def update(self):
         pass
 
+#
+class AIState:
+    def enter(self, controller):
+        pass
+
+    def update(self, controller):
+        pass
+
+    def leave(self, controller):
+        pass
 
 
-
-
+        

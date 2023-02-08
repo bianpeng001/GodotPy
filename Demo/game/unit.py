@@ -48,6 +48,7 @@ class TroopUnit(Unit):
         self.owner_city_id = None
         self.radius = 2
 
+        self.speed = 0.6
         self.velocity = Vector3()
         self.velocity.set(1, 0, 0)
 

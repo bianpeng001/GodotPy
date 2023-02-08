@@ -47,7 +47,7 @@ class UnitMgr:
         self.unit_dict[unit.unit_id] = unit
         self.update_list.append(unit)
 
-        unit.owner_player_id = game_mgr.player_mgr.main_player.player_id
+        unit.owner_player_id = game_mgr.player_mgr.main_player_id
 
         unit.load_model()
 
