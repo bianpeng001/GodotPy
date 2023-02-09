@@ -61,16 +61,6 @@ class TroopController(Controller):
         
         self.move_req = MoveReq()
 
-    def ai_enter_state(self, new_state):
-        if self.ai_state:
-            self.ai_state.leave(self)
-            self.ai_state = None
-
-        self.ai_state = new_state
-
-        if self.ai_state:
-            self.ai_state.enter(self)
-
     def on_ai_tick(self, tick_time):
         #unit = game_mgr.unit_mgr.get_unit(self.unit_id)
         #print_line(unit.unit_name)

@@ -15,7 +15,7 @@ class Unit:
         self.owner_player_id = None
 
         # 生死存亡
-        self.dead = False
+        self.is_dead = False
         # 控制器
         self.controller = None
 
@@ -47,14 +47,33 @@ class Unit:
             self.model_node = None
 
     def set_dead(self):
-        self.dead = True
-#
-class Controller:
-    def __init__(self):
-        self.unit = None
+        self.is_dead = True
 
+
+#
+class AIMachine:
+    def __init__(self):
+        # ai state machine
         self.ai_state = None
+        # blackboard
         self.ai_bb = None
+
+    def ai_enter_state(self, new_state):
+        if self.ai_state:
+            self.ai_state.leave(self)
+            self.ai_state = None
+
+        self.ai_state = new_state
+
+        if self.ai_state:
+            self.ai_state.enter(self)
+
+#
+class Controller(AIMachine):
+    def __init__(self):
+        super().__init__()
+        
+        self.unit = None
 
     @property
     def unit_id(self):
@@ -66,6 +85,8 @@ class Controller:
 
     def update(self):
         pass
+
+
 
 #
 class AIState:

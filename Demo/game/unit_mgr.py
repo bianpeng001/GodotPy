@@ -26,15 +26,16 @@ class UnitMgr:
         self._exec_dead_list()
 
     def _call_update(self):
-        # update every unit
+        # swap 2 update list
         tmp = self.back_update_list
         self.back_update_list = self.update_list
         self.update_list = tmp
 
+        # call update on every unit
         if len(self.back_update_list) > 0:
             for unit in self.back_update_list:
                 unit.controller.update()
-                if unit.dead:
+                if unit.is_dead:
                     self.dead_list.append(unit)
                 else:
                     self.update_list.append(unit)
