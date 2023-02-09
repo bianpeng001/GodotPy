@@ -6,10 +6,6 @@ import sys
 
 from game.core import *
 from game.game_mgr import game_mgr
-from game.unit_mgr import UnitMgr
-from game.player_mgr import PlayerMgr
-from game.hero_mgr import HeroMgr
-from game.coroutine_mgr import CoroutineMgr
 
 # 主循环, 控制主游戏生命周期
 # enter_tree, up to down
@@ -19,10 +15,15 @@ class MainLoop(NodeObject):
         super().__init__()
 
     def _create(self):
-        set_process(self._get_node(), process=True, input=False)
-        connect(self._get_node(), "ready", self._ready)
+        set_process(self.get_node(), process=True, input=False)
+        connect(self.get_node(), "ready", self._ready)
 
     def init(self):
+        from game.unit_mgr import UnitMgr
+        from game.player_mgr import PlayerMgr
+        from game.hero_mgr import HeroMgr
+        from game.coroutine_mgr import CoroutineMgr
+
         game_mgr.co_mgr = CoroutineMgr()
 
         game_mgr.unit_mgr = UnitMgr()
@@ -34,6 +35,7 @@ class MainLoop(NodeObject):
         print_line('MainLoop ready')
         game_mgr.camera_mgr.update_camera()
 
+        # test
         from game.wait import test1
         test1()
 
@@ -49,7 +51,7 @@ class MainLoop(NodeObject):
 
         # coroutine first
         game_mgr.co_mgr.execute()
-        
+
         # update all system
         game_mgr.input_mgr.update(delta_time)
         game_mgr.ui_mgr.update(delta_time)

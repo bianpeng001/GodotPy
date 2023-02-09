@@ -14,18 +14,22 @@ TILE_SIZE = 30
 # 打仗过程里面，走直线
 class Tile:
     def __init__(self, x, z):
-        # 坐标
-        self.x = x
-        self.z = z
+        # 区块的ID，坐标/TILE_SIZE, 取证
+        self.col = x
+        self.row = z
         self.model_node = None
         self.item_nodes = []
         self.units = []
 
+    def get_center_pos(self):
+        return self.col*TILE_SIZE,self.row*TILE_SIZE
+
     def load(self):
-        print_line(f'load tile: x={self.x} z={self.z}')
+        print_line(f'load tile: col={self.col} row={self.row}')
         
-        pos_x = self.x*TILE_SIZE
-        pos_z = self.z*TILE_SIZE
+        #pos_x = self.col*TILE_SIZE
+        #pos_z = self.row*TILE_SIZE
+        pos_x, pos_z = self.get_center_pos()
 
         self.model_node = instantiate('res://models/Square.tscn')
         set_position(self.model_node, pos_x, 0, pos_z)
@@ -64,26 +68,27 @@ class Tile:
 class GroundMgr(NodeObject):
     def __init__(self):
         super().__init__()
+        game_mgr.ground_mgr = self
 
         self.tile_dict = {}
-
-        game_mgr.ground_mgr = self
     
     def _create(self):
         #set_process(self._get_node(), process=False, input=False)
-        connect(self._get_node(), "ready", self._ready)
+        connect(self.get_node(), "ready", self._ready)
 
     def _ready(self):
         print_line('GroundMgr ready')
 
     def get_tile(self, x, z):
-        col = math.floor((x / TILE_SIZE) + 0.5)
-        row = math.floor((z / TILE_SIZE) + 0.5)
+        #col = math.floor((x / TILE_SIZE) + 0.5)
+        #row = math.floor((z / TILE_SIZE) + 0.5)
+        col,row = self.get_colrow(x, z)
         return self.tile_dict.get((col, row), None)
 
     def get_colrow(self, x, z):
-        col = math.floor((x / TILE_SIZE) + 0.5)
-        row = math.floor((z / TILE_SIZE) + 0.5)
+        #col = math.floor((x / TILE_SIZE) + 0.5)
+        #row = math.floor((z / TILE_SIZE) + 0.5)
+        col, row = int(round(x / TILE_SIZE)), int(round(z / TILE_SIZE))
         return col, row
 
     def get_tile_at_colrow(self, col, row):
@@ -117,10 +122,10 @@ class GroundMgr(NodeObject):
         self.refresh_tile(cx - 2, cz    )
         self.refresh_tile(cx - 2, cz + 1)
 
-    def refresh_tile(self, cx, cz):
-        key = (cx, cz)
+    def refresh_tile(self, col, row):
+        key = (col, row)
         if key not in self.tile_dict:
-            t = Tile(*key)
+            t = Tile(col, row)
             self.tile_dict[key] = t
             t.load()
                 

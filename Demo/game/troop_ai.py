@@ -6,6 +6,7 @@ from game.core import *
 from game.base_type import *
 from game.game_mgr import game_mgr
 
+# 遍历一周，顺序如下
 # 012
 # 7X3
 # 654
