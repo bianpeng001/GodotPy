@@ -32,11 +32,12 @@ class AIState_FindCity(AIState):
         for i in range(3):
             for dx,dy in ring_range(i):
                 tile = game_mgr.ground_mgr.get_tile_at_colrow(col+dx, row+dy)
-                if tile:
-                    for unit in tile.units:
-                        if unit.unit_id != controller.unit.owner_city_id \
-                                and unit.unit_type == 1:
-                            return unit
+                if not tile:
+                    continue
+                for unit in tile.units:
+                    if unit.unit_id != controller.unit.owner_city_id \
+                            and unit.unit_type == 1:
+                        return unit
         return None
 
     def update(self, controller):
@@ -44,7 +45,7 @@ class AIState_FindCity(AIState):
         col,row = game_mgr.ground_mgr.get_colrow(x, z)
         city = self.find_enemy_city(controller,col,row)
         if city:
-            print_line(f'find emeny: {controller.unit_id} -> {city.unit_name}')
+            logutil.debug(f'find emeny: {controller.unit_id} -> {city.unit_name}')
             controller.ai_bb.target_unit_id = city.unit_id
             controller.ai_enter_state(AIState_MoveToCity())
         else:
@@ -76,11 +77,11 @@ class AIState_MoveToCity(AIState):
 
 class AIState_TroopDie(AIState):
     def enter(self, controller):
-        print_line(f'kill {controller.unit_id}')
+        logutil.debug(f'kill {controller.unit_id}')
         controller.kill()
 
 class AIState_Idle(AIState):
     def update(self, controller):
         if random_max(100) < 10:
-            print_line(f'idle {controller.unit_id}')
+            logutil.debug(f'idle {controller.unit_id}')
 

@@ -20,6 +20,9 @@ class CityUnit(Unit):
 
         self.radius = 3
         self.unit_name = new_city_name()
+
+        # 城内武将
+        self.hero_list = []
         
         # 资源
         self.army_amount = 800+random_max(100)
@@ -39,7 +42,6 @@ class CityUnit(Unit):
         Node3D.set_position(self.model_node, x,y,z)
         
         self.controller.set_title(self.unit_name)
-
 
 # 部队
 class TroopUnit(Unit):

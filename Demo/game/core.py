@@ -304,3 +304,17 @@ class Camera3D:
     def screen_to_world(cls, camera, x,y):
         return gp.screen_to_world(camera, x,y)
 
+
+
+class LogUtil:
+    def __init__(self):
+        pass
+
+    def debug(self, *args):
+        print_line('DEBUG', *args)
+
+    def print(self, msg):
+        print_line(msg)
+
+logutil = LogUtil()
+

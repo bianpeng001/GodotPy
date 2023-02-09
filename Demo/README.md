@@ -115,5 +115,7 @@ def co_print_number():
 
 game_mgr.co_mgr.start(co_print_number())
 ```
-coroutine是用Unity3D的时候，非常喜欢的一个机制，很多小的任务，用timer太麻烦也精确的任务，都可以用coroutine来做。比如等一帧，等几帧，或者等到某个前置条件成立。
+coroutine是用Unity3D的时候，非常喜欢的一个机制，很多小的任务，用timer太麻烦，还有一些精确到帧的任务，都可以用coroutine来做。比如等一帧，等几帧，或者等到某个前置条件成立。
+
+
 
