@@ -5,14 +5,15 @@
 import math
 import random
 
-def select_one(item_list):
+def select_one(item_list, delete=False):
     count = len(item_list)
 
     index = math.floor(random.random()*count)
     item = item_list[index]
 
-    item_list[index] = item_list[count - 1]
-    item_list.pop()
+    if delete:
+        item_list[index] = item_list[count - 1]
+        item_list.pop()
 
     return item
 
@@ -53,7 +54,7 @@ _city_name_data.reverse()
 
 def new_city_name():
     if len(_city_name_data) > 0:
-        return _city_name_data.pop()
+        return select_one(_city_name_data, delete=True)
     else:
         return '新城'
 
@@ -200,7 +201,7 @@ _name_data = [
 '娄圭','慕容烈','濮阳兴','单子春','邯郸淳',    
 ]
 def new_hero_name():
-    if len() > 0:
+    if len(_name_data) > 0:
         return select_one(_name_data)
     else:
         return '李狗儿'

@@ -27,6 +27,9 @@ class Unit:
         # 模型
         self.model_node = None
 
+    def init(self):
+        pass
+
     def load_model(self):
         pass
 

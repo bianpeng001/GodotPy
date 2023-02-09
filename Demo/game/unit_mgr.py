@@ -62,7 +62,7 @@ class UnitMgr:
         #print_line(f'add unit: {unit.unit_id}')
 
         unit.owner_player_id = game_mgr.player_mgr.main_player_id
-
+        unit.init()
         unit.load_model()
 
         return unit
@@ -81,4 +81,3 @@ class UnitMgr:
         pass
 
 
-        

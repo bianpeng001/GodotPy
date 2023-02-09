@@ -3,7 +3,8 @@
 #
 
 from game.core import *
-from game.config_mgr import new_city_name
+from game.game_mgr import game_mgr
+from game.config_mgr import new_city_name, new_hero_name
 from game.base_type import Unit
 
 from game.troop_controller import TroopController
@@ -35,6 +36,15 @@ class CityUnit(Unit):
         # 资源增长率
         self.growth_rate = 35 + random_max(35)
 
+    def init(self):
+        for i in range(5):
+            hero = game_mgr.hero_mgr.new_hero()
+            hero.city_id = self.unit_id
+            hero.hero_name = new_hero_name()
+            logutil.debug('new hero', self.unit_name, hero.hero_name)
+            
+            self.hero_list.append(hero.hero_id)
+
     def load_model(self):
         self.model_node = instantiate('res://models/City01.tscn')
 
@@ -57,6 +67,11 @@ class TroopUnit(Unit):
         self.radius = 2
         # 行军速度
         self.speed = 2.4
+
+        # 武将
+        self.hero_list = []
+        # 主将
+        self.leader_hero_id = 0
 
         self.army_amount = 0
 
