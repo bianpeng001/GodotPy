@@ -39,8 +39,10 @@ class CityController(Controller):
             x,y,z = city.get_location()
 
             troop = game_mgr.unit_mgr.create_troop()
-            troop.set_army_amount(1000)
             troop.owner_city_id = city.unit_id
+            troop.owner_player_id = city.owner_player_id
+
+            troop.set_army_amount(1000)
             troop.set_location(x,y,z)
 
     def update(self):

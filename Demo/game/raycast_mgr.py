@@ -23,7 +23,7 @@ class RaycastMgr(NodeObject):
         x, y = game_mgr.input_mgr.get_mouse_pos()
 
         if find_control(camera, x, y):
-            print_line('click on control, ui event system take over')
+            logutil.debug('click on control, ui event system take over')
             return
         
         wx,wy,wz = screen_to_world(camera, x, y)
@@ -50,7 +50,7 @@ class RaycastMgr(NodeObject):
         camera = game_mgr.camera_mgr.main_camera
         
         for a in self.reqs:
-            print_line(f'raycast:{a}')
+            logutil.debug(f'raycast:{a}')
             shape = raycast_shape(camera, *a)
         self.reqs.clear()
 

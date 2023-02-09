@@ -25,7 +25,7 @@ class Tile:
         return self.col*TILE_SIZE,self.row*TILE_SIZE
 
     def load(self):
-        print_line(f'load tile: col={self.col} row={self.row}')
+        logutil.debug(f'load tile: ({self.col},{self.row})')
         
         #pos_x = self.col*TILE_SIZE
         #pos_z = self.row*TILE_SIZE
@@ -49,6 +49,7 @@ class Tile:
 
         if random.random() < 0.5:
             city = game_mgr.unit_mgr.create_city()
+            city.owner_player_id = 0
             city.set_location(pos_x + random_x()*5,
                 0,
                 pos_z + random_x()*5)
@@ -77,7 +78,7 @@ class GroundMgr(NodeObject):
         connect(self.get_node(), "ready", self._ready)
 
     def _ready(self):
-        print_line('GroundMgr ready')
+        logutil.debug('GroundMgr ready')
 
     def get_tile(self, x, z):
         #col = math.floor((x / TILE_SIZE) + 0.5)

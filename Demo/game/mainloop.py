@@ -32,7 +32,7 @@ class MainLoop(NodeObject):
 
     def _ready(self):
         self.init()
-        print_line('MainLoop ready')
+        logutil.debug('MainLoop ready')
         game_mgr.camera_mgr.update_camera()
 
         # test

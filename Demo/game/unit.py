@@ -34,7 +34,7 @@ class CityUnit(Unit):
         self.money_amount = 0
 
         # 资源增长率
-        self.growth_rate = 35 + random_max(35)
+        self.growth_rate = 20 + random_max(30)
 
     def init(self):
         for i in range(5):

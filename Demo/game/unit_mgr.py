@@ -11,7 +11,7 @@ from game.unit import CityUnit, TroopUnit
 ##############################################################
 class UnitMgr:
     def __init__(self):
-        self._unit_id_seed = 1000
+        self._unit_id_seed = 10000
 
         self.unit_dict = {}
         
@@ -29,7 +29,7 @@ class UnitMgr:
         self._exec_dead_list()
 
     def _call_update(self):
-        # swap 2 update list
+        # swap update list
         tmp = self.back_update_list
         self.back_update_list = self.update_list
         self.update_list = tmp
@@ -61,7 +61,7 @@ class UnitMgr:
         self.update_list.append(unit)
         #print_line(f'add unit: {unit.unit_id}')
 
-        unit.owner_player_id = game_mgr.player_mgr.main_player_id
+        #unit.owner_player_id = game_mgr.player_mgr.main_player_id
         unit.init()
         unit.load_model()
 

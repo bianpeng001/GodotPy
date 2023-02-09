@@ -25,6 +25,7 @@ def ring_range(n):
 class TroopBlackboard:
     def __init__(self):
         self.target_unit_id = 0
+        self.attack_time = 0
 
 # 寻找一个目标城池
 class AIState_FindCity(AIState):
@@ -51,10 +52,6 @@ class AIState_FindCity(AIState):
         else:
             controller.ai_enter_state(AIState_Idle())
 
-class AIState_AttackCity(AIState):
-    def update(self, controller):
-        pass
-
 class AIState_MoveToCity(AIState):
     def enter(self, controller):
         bb = controller.ai_bb
@@ -73,6 +70,13 @@ class AIState_MoveToCity(AIState):
         #print_line(f'enter state: {controller.unit_id}')
     def update(self, controller):
         if not controller.move_req.is_run:
+            controller.ai_enter_state(AIState_AttackCity())
+
+class AIState_AttackCity(AIState):
+    def update(self, controller):
+        bb = controller.ai_bb
+        bb.attack_time += 1
+        if bb.attack_time > 100:
             controller.ai_enter_state(AIState_TroopDie())
 
 class AIState_TroopDie(AIState):

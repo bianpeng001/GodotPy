@@ -59,7 +59,7 @@ class CameraMgr(NodeObject):
         game_mgr.event_mgr.add(LEFT_BUTTON_DRAG, self.on_mouse_drag)
 
     def _ready(self):
-        print_line("CameraMgr ready")
+        logutil.debug("CameraMgr ready")
 
     def on_mouse_button_down(self, x, y):
         x,y,z = screen_to_world(self.main_camera, x, y)
