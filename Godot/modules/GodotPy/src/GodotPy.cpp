@@ -31,7 +31,7 @@
 //------------------------------------------------------------------------------
 
 /// <summary>
-/// 用来处理python的callback
+/// 用来处理python的callback, 这个算是一个扩展点
 /// </summary>
 class CallableCustomCallback : public CallableCustomMethodPointerBase {
 private:
@@ -69,6 +69,7 @@ public:
 		// TODO: 这里要解决一下参数，目前没有传入参数
 		auto args = PyTuple_New(0);
 		auto ret = PyObject_Call(data.py_func, args, NULL);
+
 		if (ret) {
 			GP_DECREF(ret);
 		} else {
@@ -878,6 +879,7 @@ void FPyObject::_ready() {
 		if (py_path.is_empty()) {
 			break;
 		}
+
 		print_line(vformat("load module: %s", py_path));
 		const auto &path_utf8 = py_path.utf8();
 

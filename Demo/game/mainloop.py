@@ -9,30 +9,8 @@ from game.game_mgr import game_mgr
 from game.unit_mgr import UnitMgr
 from game.player_mgr import PlayerMgr
 from game.hero_mgr import HeroMgr
-from game.coroutine_mgr import CoroutineMgr, Waitable
-
-class WaitForSeconds(Waitable):
-    def __init__(self, sec):
-        self.stop = sec*1000 + game_mgr.time
-
-    def is_done(self):
-        return game_mgr.time >= self.stop
-
-def co_print_number():
-    print_line(game_mgr.frame_number)
-    yield None
-    print_line(game_mgr.frame_number)
-    yield None
-    print_line(game_mgr.frame_number)
-    yield None
-    print_line(game_mgr.frame_number)
-    yield None
-    print_line(game_mgr.frame_number)
-
-    print_line(OS.get_time())
-    yield WaitForSeconds(3)
-    print_line(OS.get_time())
-
+from game.coroutine_mgr import CoroutineMgr
+#from game.wait import test1
 
 # 主循环, 控制主游戏生命周期
 # enter_tree, up to down
@@ -55,10 +33,9 @@ class MainLoop(NodeObject):
     def _ready(self):
         self.init()
         print_line('MainLoop ready')
-        
         game_mgr.camera_mgr.update_camera()
 
-        game_mgr.co_mgr.start(co_print_number())
+        #test1()
 
     def _process(self):
         game_mgr.frame_number += 1
