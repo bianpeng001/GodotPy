@@ -4,26 +4,21 @@
 
 #include "GodotPy.h"
 
-// godot
+// godot headers
 #include "core/os/os.h"
 #include "core/os/memory.h"
 #include "core/os/time.h"
-
 #include "core/math/plane.h"
 
 #include "scene/main/viewport.h"
-
 #include "scene/3d/node_3d.h"
 #include "scene/3d/camera_3d.h"
 #include "scene/3d/label_3d.h"
-
 #include "scene/2d/node_2d.h"
-
 #include "scene/gui/control.h"
-
 #include "scene/resources/packed_scene.h"
 
-// python
+// python headers
 #include <Windows.h>
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
@@ -106,14 +101,16 @@ public:
 		
 	}
 	virtual ~FCapsuleObject() {
-		//auto node = reinterpret_cast<Node *>(PyCapsule_GetPointer(p_node_capsule, c_node_name));
-		//print_line(vformat("destroy FCapsuleObject: %s(%d) of %s",
-		//		node->get_name(),
-		//		(uint64_t)this->get_instance_id(),
-		//		node->get_class_name()));
+#ifdef XXX
+		auto node = reinterpret_cast<Node *>(PyCapsule_GetPointer(py_capsule, c_node_name));
+		print_line(vformat("destroy FCapsuleObject: %s(%d) of %s",
+				node->get_name(),
+				(uint64_t)this->get_instance_id(),
+				node->get_class_name()));
 
-		//const int refcount = py_capsule->ob_refcnt;
-		//print_line(vformat("refcount=%d", refcount));
+		const int refcount = py_capsule->ob_refcnt;
+		print_line(vformat("refcount=%d", refcount));
+#endif
 
 		if (py_capsule) {
 			GP_DECREF(py_capsule);
@@ -133,9 +130,9 @@ static PyObject* get_or_create_capsule(Node* a_node) {
 	auto v = a_node->get(c_capsule_name);
 	
 	if (v.is_null()) {
-		PyObject *node_capsule = PyCapsule_New(a_node, c_node_name, NULL);
+		PyObject *py_capsule = PyCapsule_New(a_node, c_node_name, NULL);
 
-		auto ptr = memnew(FCapsuleObject(node_capsule));
+		auto ptr = memnew(FCapsuleObject(py_capsule));
 		FCapsuleObject::instance_list.push_back(ptr);
 
 		v = ptr;
@@ -584,19 +581,20 @@ static PyObject *f_instantiate(PyObject *module, PyObject *args) {
 		if (!PyArg_ParseTuple(args, "s", &a_path)) {
 			break;
 		}
-		const String path(a_path);
+		const String &path = String::utf8(a_path);
 		Ref<PackedScene> res = ResourceLoader::load(path);
-		if (!res.is_null()) {
-			auto node = Object::cast_to<Node3D>(res->instantiate(PackedScene::GEN_EDIT_STATE_DISABLED));
-			
-			auto st = SceneTree::get_singleton();
-			auto scene = st->get_current_scene();
-			scene->add_child(node);
-
-			PyObject *obj = get_or_create_capsule(node);
-			Py_INCREF(obj);
-			return obj;
+		if (res.is_null()) {
+			break;
 		}
+		auto node = Object::cast_to<Node3D>(res->instantiate(PackedScene::GEN_EDIT_STATE_DISABLED));
+			
+		auto st = SceneTree::get_singleton();
+		auto scene = st->get_current_scene();
+		scene->add_child(node);
+
+		PyObject *obj = get_or_create_capsule(node);
+		Py_INCREF(obj);
+		return obj;
 
 	} while (0);
 
@@ -610,6 +608,7 @@ static PyObject *f_get_delta_time(PyObject *module, PyObject *args) {
 	float delta = (float)SceneTree::get_singleton()->get_process_time();
 	return Py_BuildValue("f", delta);
 }
+// FPyObject节点，获得对应的PyObject对象
 static PyObject *f_get_py_object(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_node;
@@ -618,12 +617,15 @@ static PyObject *f_get_py_object(PyObject *module, PyObject *args) {
 		}
 
 		auto node = GetCapsulePointer<FPyObject>(a_node);
-		if (node) {
-			auto obj = node->get_py_object();
-			// TODO: 这里是否应该+1???
-			Py_INCREF(obj);
-			return obj;
+		if (!node) {
+			break;
 		}
+
+		auto obj = node->get_py_object();
+		// 这里需要返回，所以得+1
+		Py_INCREF(obj);
+		return obj;
+		
 	} while (0);
 
 	Py_RETURN_NONE;
@@ -637,10 +639,13 @@ static PyObject *f_label3d_set_text(PyObject *module, PyObject *args) {
 		}
 
 		auto label = GetCapsulePointer<Label3D>(a_node);
-		if (label) {
-			auto text = String::utf8(s);
-			label->set_text(text);
+		if (!label) {
+			break;
 		}
+
+		auto text = String::utf8(s);
+		label->set_text(text);
+		
 	} while (0);
 
 	Py_RETURN_NONE;
@@ -930,13 +935,19 @@ void FPyObject::_physics_process() {
 		if (!p_object) {
 			break;
 		}
+		if (error_last_process) {
+			break;
+		}
 
 		auto ret = PyObject_CallMethod(p_object, "_physics_process", NULL);
 		if (ret) {
 			GP_DECREF(ret);
 		} else {
+			error_last_process = true;
 			PyErr_Print();
+			
 		}
+
 	} while (0);
 }
 void FPyObject::_process() {
@@ -952,8 +963,8 @@ void FPyObject::_process() {
 		if (ret) {
 			GP_DECREF(ret);
 		} else {
-			PyErr_Print();
 			error_last_process = true;
+			PyErr_Print();
 		}
 	} while (0);
 }
