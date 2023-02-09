@@ -14,6 +14,7 @@ class GameMgr():
     def __init__(self):
         super().__init__()
 
+        # init in boot.py
         self._event_mgr = None
         self._input_mgr = None
 
@@ -22,8 +23,13 @@ class GameMgr():
         self.troop_mgr = None
         self.unit_mgr = None
         self.ui_mgr = None
+        self.hero_mgr = None
 
+        self.game_data = None
+
+        # cached time/delta_time
         self.time = 0
+        self.delta_time = 0
 
     @property
     def event_mgr(self):

@@ -2,10 +2,18 @@
 # 2023年2月4日 bianpeng
 #
 
+from game.hero_mgr import HeroMgr
+
+#
 class Player:
     def __init__(self):
         self.player_id = None
+        
         self.name = '刘备'
+
+        self.city_list = []
+        self.troop_list = []
+        self.capital_city = 0
 
     def load(self):
         pass
@@ -36,8 +44,5 @@ class PlayerMgr:
 
     def get_player(self, player_id):
         return self.player_dict[player_id]
-
-
-
 
 

@@ -8,8 +8,11 @@ from game.core import *
 from game.game_mgr import game_mgr
 from game.unit_mgr import UnitMgr
 from game.player_mgr import PlayerMgr
+from game.hero_mgr import HeroMgr
 
-# 主循环
+# 主循环, 控制主游戏生命周期
+# enter_tree, up to down
+# ready, down to up
 class MainLoop(NodeObject):
     def __init__(self):
         super().__init__()
@@ -21,6 +24,7 @@ class MainLoop(NodeObject):
     def init(self):
         game_mgr.unit_mgr = UnitMgr()
         game_mgr.player_mgr = PlayerMgr()
+        game_mgr.hero_mgr = HeroMgr()
 
     def _ready(self):
         self.init()
