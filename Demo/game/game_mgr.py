@@ -33,6 +33,8 @@ class GameMgr():
         self.delta_time = 0
         self.frame_number = 0
 
+        self.paused = False
+
     @property
     def event_mgr(self):
         return self._event_mgr

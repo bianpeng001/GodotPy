@@ -8,6 +8,11 @@
 # 虽然Python有await, async关键字，用于Python的协程，但是awaitable的类型，不太方便。
 #
 
+
+# TODO: 还是要把父子coroutine的机制加进来，减少等待
+# 即，子co先执行，父co后执行，这样当子co都已经完成的话，则父co可以本帧判断完成
+# 否则，需要下一帧判断完毕。
+
 #
 class Waitable:
     def __init__(self):
@@ -61,10 +66,12 @@ class CoroutineMgr:
         self.back_list = []
 
     def start_coroutine(self, co):
-        self.co_list.append(_Coroutine(co))
+        w = _Coroutine(co)
+        self.co_list.append(w)
+        return w
 
     def start(self, co):
-        self.start_coroutine(co)
+        return self.start_coroutine(co)
 
     def execute(self):
         tmp = self.co_list

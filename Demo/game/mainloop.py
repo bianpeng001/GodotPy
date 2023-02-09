@@ -10,7 +10,6 @@ from game.unit_mgr import UnitMgr
 from game.player_mgr import PlayerMgr
 from game.hero_mgr import HeroMgr
 from game.coroutine_mgr import CoroutineMgr
-#from game.wait import test1
 
 # 主循环, 控制主游戏生命周期
 # enter_tree, up to down
@@ -35,17 +34,23 @@ class MainLoop(NodeObject):
         print_line('MainLoop ready')
         game_mgr.camera_mgr.update_camera()
 
-        #test1()
+        from game.wait import test1
+        test1()
 
     def _process(self):
+        if game_mgr.paused:
+            return
+
         game_mgr.frame_number += 1
         game_mgr.time = OS.get_time()
         game_mgr.delta_time = OS.get_delta_time()
 
-        # update all system
         delta_time = game_mgr.delta_time
 
+        # coroutine first
         game_mgr.co_mgr.execute()
+        
+        # update all system
         game_mgr.input_mgr.update(delta_time)
         game_mgr.ui_mgr.update(delta_time)
         game_mgr.ground_mgr.update(delta_time)

@@ -67,7 +67,7 @@ gltb格式在导入后，最好把mesh单独保存，这样才能被单独读取
 UI开发
 
 Python的Py_INCREF, Py_DECREF，这两项的使用，有一些注意点。目前从容器中Get出来的值是borrowed reference，即，不需要修改引用计数。
-注意，PyObject_CallMethod返回值，如果不需要保留，则必须减掉引用计数。如果返回NULL，则说明有错误。需要自行打印错误信息。
+注意，PyObject_CallMethod返回值，如果不需要保留，则必须减掉引用计数。如果返回NULL，则说明有运行异常。需要自行打印错误信息。
 
 由于godot对stdout,stderr有自己的处理。为了接收python的报错信息，需要做一些额外的处理。看Python的PyErr_Print,最后会调用到python的sys.stdout, sys.stderr的PyObject对象上去write。所以，我的做法是，在boot.py里面，一开始，就把Python的sys.stdout, sys.stderr,换成一个假的IO对象。
 ```Python
@@ -94,4 +94,26 @@ bin\godot.windows.editor.dev.x86_64.console.exe -w --path d:\OpenSource\GodotPy\
 
 直接打开工程编辑
 bin\godot.windows.editor.dev.x86_64.console.exe -w --path d:\OpenSource\GodotPy\Demo -e
+
+
+实现coroutine，先看用例
+```python
+def co_print_number():
+    print(game_mgr.frame_number)
+    yield None
+    print(game_mgr.frame_number)
+    yield None
+    print(game_mgr.frame_number)
+    yield None
+    print(game_mgr.frame_number)
+    yield None
+    print(game_mgr.frame_number)
+
+    print(OS.get_time())
+    yield WaitForSeconds(3)
+    print(OS.get_time())
+
+game_mgr.co_mgr.start(co_print_number())
+```
+coroutine是用Unity3D的时候，非常喜欢的一个机制，很多小的任务，用timer太麻烦也精确的任务，都可以用coroutine来做。比如等一帧，等几帧，或者等到某个前置条件成立。
 
