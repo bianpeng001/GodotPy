@@ -17,6 +17,7 @@ class GameMgr():
         # init in boot.py
         self._event_mgr = None
         self._input_mgr = None
+        self.co_mgr = None
 
         self.camera_mgr = None
         self.ground_mgr = None
@@ -30,6 +31,7 @@ class GameMgr():
         # cached time/delta_time
         self.time = 0
         self.delta_time = 0
+        self.frame_number = 0
 
     @property
     def event_mgr(self):

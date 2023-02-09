@@ -63,10 +63,10 @@ class CoroutineMgr:
     def start_coroutine(self, co):
         self.co_list.append(_Coroutine(co))
 
-    def add(self, co):
+    def start(self, co):
         self.start_coroutine(co)
 
-    def advance(self):
+    def execute(self):
         tmp = self.co_list
         self.co_list = self.back_list
         self.back_list = tmp
@@ -78,28 +78,29 @@ class CoroutineMgr:
         self.back_list.clear()
     
 
-def test01():
-    def test_iter(start):
-        print(start+1)
-        yield 1
-        print(start+2)
-        yield 2
-        print(start+3)
-        yield 3
-        print(start+4)
+if __name__ == '__main__':
+    def test01():
+        def test_iter(start):
+            print(start+1)
+            yield 1
+            print(start+2)
+            yield 2
+            print(start+3)
+            yield 3
+            print(start+4)
 
-    mgr = CoroutineMgr()
-    mgr.add(test_iter(10))
-    mgr.add(test_iter(20))
+        mgr = CoroutineMgr()
+        mgr.start(test_iter(10))
+        mgr.start(test_iter(20))
 
-    mgr.advance()
-    mgr.advance()
-    mgr.advance()
-    mgr.advance()
+        mgr.execute()
+        mgr.execute()
+        mgr.execute()
+        mgr.execute()
 
-    mgr.advance()
-    mgr.advance()
+        mgr.execute()
+        mgr.execute()
 
-test01()
+    test01()
 
 

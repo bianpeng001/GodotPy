@@ -52,7 +52,7 @@ class Tile:
 
     def load_res(self, path, x, z, s):
         item = instantiate(path)
-        self.item_nodes.append(item) 
+        self.item_nodes.append(item)
 
         set_position(item, x, 0, z)
         set_scale(item, s, s, s)

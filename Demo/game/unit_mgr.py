@@ -12,9 +12,12 @@ from game.unit import CityUnit, TroopUnit
 class UnitMgr:
     def __init__(self):
         self._unit_id_seed = 1000
+
         self.unit_dict = {}
+        
         self.update_list = []
         self.back_update_list = []
+
         self.dead_list = []
 
     def get_next_unit_id(self):
@@ -73,3 +76,6 @@ class UnitMgr:
     def create_troop(self):
         return self.create_unit(TroopUnit)
 
+    def find_unit(self, predicate):
+        #self.update_list()
+        pass

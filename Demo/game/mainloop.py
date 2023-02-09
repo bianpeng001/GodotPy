@@ -9,6 +9,19 @@ from game.game_mgr import game_mgr
 from game.unit_mgr import UnitMgr
 from game.player_mgr import PlayerMgr
 from game.hero_mgr import HeroMgr
+from game.coroutine_mgr import CoroutineMgr
+
+def co_print_number():
+    print_line(game_mgr.frame_number)
+    yield None
+    print_line(game_mgr.frame_number)
+    yield None
+    print_line(game_mgr.frame_number)
+    yield None
+    print_line(game_mgr.frame_number)
+    yield None
+    print_line(game_mgr.frame_number)
+
 
 # 主循环, 控制主游戏生命周期
 # enter_tree, up to down
@@ -22,6 +35,8 @@ class MainLoop(NodeObject):
         connect(self._get_node(), "ready", self._ready)
 
     def init(self):
+        game_mgr.co_mgr = CoroutineMgr()
+
         game_mgr.unit_mgr = UnitMgr()
         game_mgr.player_mgr = PlayerMgr()
         game_mgr.hero_mgr = HeroMgr()
@@ -32,17 +47,22 @@ class MainLoop(NodeObject):
         
         game_mgr.camera_mgr.update_camera()
 
+        game_mgr.co_mgr.start(co_print_number())
+
     def _process(self):
+        game_mgr.frame_number += 1
         game_mgr.time = OS.get_time()
         game_mgr.delta_time = OS.get_delta_time()
 
         # update all system
         delta_time = game_mgr.delta_time
 
+        game_mgr.co_mgr.execute()
         game_mgr.input_mgr.update(delta_time)
         game_mgr.ui_mgr.update(delta_time)
         game_mgr.ground_mgr.update(delta_time)
         game_mgr.unit_mgr.update(delta_time)
+        
         
 
 
