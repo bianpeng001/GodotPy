@@ -27,8 +27,6 @@ class MainLoop(NodeObject):
 
     def _ready(self):
         log_util.debug('MainLoop ready')
-        game_mgr.camera_mgr.update_camera()
-
         # start game
         game_mgr.event_mgr.emit(START_GAME)
 
@@ -36,16 +34,16 @@ class MainLoop(NodeObject):
         if game_mgr.paused:
             return
 
+        # cache time/frame_number
         game_mgr.frame_number += 1
         game_mgr.time = OS.get_time()
         game_mgr.delta_time = OS.get_delta_time()
-
-        delta_time = game_mgr.delta_time
 
         # coroutine first
         game_mgr.co_mgr.execute()
 
         # update all system
+        delta_time = game_mgr.delta_time
         game_mgr.input_mgr.update(delta_time)
         game_mgr.ui_mgr.update(delta_time)
         game_mgr.ground_mgr.update(delta_time)

@@ -27,18 +27,19 @@ class GamePlay:
                 obj = json.load(f)
                 OS.set_window_size(*obj['window'])
 
-        from game.unit_mgr import UnitMgr
         from game.player_mgr import PlayerMgr
         from game.hero_mgr import HeroMgr
+        from game.unit_mgr import UnitMgr
         
-        game_mgr.unit_mgr = UnitMgr()
         game_mgr.player_mgr = PlayerMgr()
         game_mgr.hero_mgr = HeroMgr()
+        game_mgr.unit_mgr = UnitMgr()
 
     # create main player
     def on_start_game(self):
         pm = game_mgr.player_mgr
         cm = game_mgr.camera_mgr
+        cm.update_camera()
 
         def co_bind_to_base_city():
             while True:
@@ -54,7 +55,7 @@ class GamePlay:
                 yield None
 
             game_mgr.event_mgr.emit(MAIN_PLAYER_READY)
-                
+
         log_util.debug('create main player')
         pm.main_player = pm.create_player()
         game_mgr.co_mgr.start(co_bind_to_base_city())
