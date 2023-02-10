@@ -4,7 +4,8 @@
 
 from game.core import *
 from game.game_mgr import game_mgr
-from game.unit import CityUnit, TroopUnit
+from game.city_unit import CityUnit
+from game.troop_unit import TroopUnit
 
 ##############################################################
 # UnitMgr

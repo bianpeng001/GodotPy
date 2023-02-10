@@ -310,6 +310,10 @@ class OS:
     def get_delta_time(cls):
         return gp.get_delta_time()
 
+    @classmethod
+    def set_window_size(cls, width, height, x, y):
+        gp.set_window_size(width, height, x, y)
+
 #
 class Camera3D:
     @classmethod

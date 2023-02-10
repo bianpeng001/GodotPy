@@ -53,7 +53,7 @@ class AIState_FindCity(AIState):
         else:
             controller.ai_enter_state(AIState_TroopDie())
 
-# 行军
+# 行军, 先寻路，然后监控周围的敌人
 class AIState_MatchToCity(AIState):
     def enter(self, controller):
         bb = controller.ai_bb

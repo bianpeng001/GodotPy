@@ -18,6 +18,8 @@ class MainLoop(NodeObject):
         set_process(self.get_node(), process=True, input=False)
         connect(self.get_node(), "ready", self._ready)
 
+        #OS.set_window_size(608, 342, 900, 1000)
+
     def init(self):
         from game.unit_mgr import UnitMgr
         from game.player_mgr import PlayerMgr

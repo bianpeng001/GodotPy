@@ -18,6 +18,8 @@
 #include "scene/gui/control.h"
 #include "scene/resources/packed_scene.h"
 
+#include "servers/display_server.h"
+
 // python headers
 #include <Windows.h>
 #define PY_SSIZE_T_CLEAN
@@ -153,6 +155,21 @@ static PyObject *f_print_line(PyObject *module, PyObject *args) {
 	//OS::get_singleton()->print("%s", str);
 	auto str = String::utf8(s);
 	print_line(str);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_set_window_size(PyObject *module, PyObject *args) {
+	int width, height;
+	int x, y;
+	if (!PyArg_ParseTuple(args, "iiii", &width, &height, &x, &y)) {
+		Py_RETURN_NONE;
+	}
+
+	auto server = DisplayServer::get_singleton();
+	if (server) {
+		server->window_set_size(Size2(width, height));
+		server->window_set_position(Point2i(x, y));
+	}
 
 	Py_RETURN_NONE;
 }
@@ -656,6 +673,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "print_line", f_print_line, METH_VARARGS, NULL },
 	{ "get_time", f_get_time, METH_VARARGS, NULL },
 	{ "get_delta_time", f_get_delta_time, METH_VARARGS, NULL },
+	{ "set_window_size", f_set_window_size, METH_VARARGS, NULL },
 
 	// node
 	{ "find_node", f_find_node, METH_VARARGS, NULL },

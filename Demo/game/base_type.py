@@ -4,13 +4,56 @@
 
 from game.core import *
 
+#------------------------------------------------------------
 #
+#------------------------------------------------------------
+
+# AI状态机
+class AIMachine:
+    def __init__(self):
+        # ai state machine
+        self.ai_state = None
+        # blackboard
+        self.ai_bb = None
+
+    def ai_enter_state(self, new_state):
+        if self.ai_state:
+            self.ai_state.leave(self)
+            self.ai_state = None
+
+        self.ai_state = new_state
+
+        if self.ai_state:
+            self.ai_state.enter(self)
+
+
+# AI状态机的单独状态, 生命周期
+class AIState:
+    def enter(self, controller):
+        pass
+
+    def update(self, controller):
+        pass
+
+    def leave(self, controller):
+        pass
+
+#------------------------------------------------------------
+#
+#------------------------------------------------------------
+
+# 单位类型
+UT_CITY = 1
+UT_TROOP = 2
+
+# 场景中的单位
 class Unit:
     def __init__(self):
-        self.unit_id = None
-        self.unit_name = ''
         self.unit_type = None
 
+        # 身份
+        self.unit_id = 0
+        self.unit_name = ''
         # 所属君主
         self.owner_player_id = None
 
@@ -27,6 +70,7 @@ class Unit:
         # 模型
         self.model_node = None
 
+    # 创建之后，初始化，这里身份信息已经确定了
     def init(self):
         pass
 
@@ -53,25 +97,7 @@ class Unit:
         self.is_dead = True
 
 
-#
-class AIMachine:
-    def __init__(self):
-        # ai state machine
-        self.ai_state = None
-        # blackboard
-        self.ai_bb = None
-
-    def ai_enter_state(self, new_state):
-        if self.ai_state:
-            self.ai_state.leave(self)
-            self.ai_state = None
-
-        self.ai_state = new_state
-
-        if self.ai_state:
-            self.ai_state.enter(self)
-
-#
+# 单位的控制器
 class Controller(AIMachine):
     def __init__(self):
         super().__init__()
@@ -88,19 +114,4 @@ class Controller(AIMachine):
 
     def update(self):
         pass
-
-
-
-#
-class AIState:
-    def enter(self, controller):
-        pass
-
-    def update(self, controller):
-        pass
-
-    def leave(self, controller):
-        pass
-
-
 
