@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bgtgw0kthulwj"]
+
+[ext_resource type="Material" uid="uid://c4ikm6qcfa1wx" path="res://effect/Dust01Mat.tres" id="1_x6pkj"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1rcvs"]
+
+[sub_resource type="Curve" id="Curve_ihpss"]
+_data = [Vector2(0, 0), 0.0, 1.0, 0, 1, Vector2(1, 1), 1.0, 0.0, 1, 0]
+point_count = 2
+
+[node name="Dust01" type="Node3D"]
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+material_override = ExtResource("1_x6pkj")
+mesh = SubResource("BoxMesh_1rcvs")
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+scale_amount_min = 0.1
+scale_amount_curve = SubResource("Curve_ihpss")
