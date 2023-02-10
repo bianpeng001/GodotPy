@@ -19,6 +19,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_qc3pa")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 pixel_size = 0.03
 double_sided = false
-text = "杭州"
+text = "新野"
 font = ExtResource("2_gnw0s")
 outline_size = 11
