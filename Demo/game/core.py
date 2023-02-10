@@ -100,6 +100,7 @@ class Vector3:
 
     def __mul__(self, right):
         v = Vector3()
+        v.set(self.x,self.y,self.z)
         if isinstance(right, Vector3):
             v.x *= right.x
             v.y *= right.y

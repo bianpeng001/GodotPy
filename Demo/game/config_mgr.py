@@ -8,7 +8,7 @@ import random
 def select_one(item_list, delete=False):
     count = len(item_list)
 
-    index = round(random.random()*count)
+    index = math.floor(random.random()*count)
     item = item_list[index]
 
     if delete:

@@ -21,7 +21,7 @@ def ring_range(n):
     for i in range(s):
         yield -n, n - i
 
-# troop ai 信息
+# 黑板，用于读写信息，状态之间传递数据
 class TroopBlackboard:
     def __init__(self):
         self.target_unit_id = 0
@@ -30,14 +30,15 @@ class TroopBlackboard:
 # 寻找一个目标城池
 class AIState_FindCity(AIState):
     def find_enemy_city(self,controller,col,row):
+        owner_city_id = controller.unit.owner_city_id
         for i in range(3):
             for dx,dy in ring_range(i):
                 tile = game_mgr.ground_mgr.get_tile_at_colrow(col+dx, row+dy)
                 if not tile:
                     continue
                 for unit in tile.units:
-                    if unit.unit_id != controller.unit.owner_city_id \
-                            and unit.unit_type == 1:
+                    if unit.unit_type == 1 and\
+                            unit.unit_id != owner_city_id:
                         return unit
         return None
 
@@ -48,11 +49,12 @@ class AIState_FindCity(AIState):
         if city:
             logutil.debug(f'find emeny: {controller.unit_id} -> {city.unit_name}')
             controller.ai_bb.target_unit_id = city.unit_id
-            controller.ai_enter_state(AIState_MoveToCity())
+            controller.ai_enter_state(AIState_MatchToCity())
         else:
-            controller.ai_enter_state(AIState_Idle())
+            controller.ai_enter_state(AIState_TroopDie())
 
-class AIState_MoveToCity(AIState):
+# 行军
+class AIState_MatchToCity(AIState):
     def enter(self, controller):
         bb = controller.ai_bb
         city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
@@ -72,18 +74,21 @@ class AIState_MoveToCity(AIState):
         if not controller.move_req.is_run:
             controller.ai_enter_state(AIState_AttackCity())
 
+# 攻城
 class AIState_AttackCity(AIState):
     def update(self, controller):
         bb = controller.ai_bb
         bb.attack_time += 1
-        if bb.attack_time > 100:
+        if bb.attack_time > 80:
             controller.ai_enter_state(AIState_TroopDie())
 
+# 解散
 class AIState_TroopDie(AIState):
     def enter(self, controller):
         logutil.debug(f'kill {controller.unit_id}')
         controller.kill()
 
+# 空闲
 class AIState_Idle(AIState):
     def update(self, controller):
         if random_max(100) < 10:
