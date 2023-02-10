@@ -35,7 +35,7 @@ class CameraMgr(NodeObject):
 
         self.offset = Vector3()
         self.offset.set(self.arm_dir.x, self.arm_dir.y, self.arm_dir.z)
-        self.offset.scale1(self.arm_length)
+        self.offset.scale(self.arm_length)
 
         self.center = Vector3()
         self.drag_start = Vector3()
@@ -112,7 +112,7 @@ class CameraMgr(NodeObject):
         self.center.set(x1+dx, y1+dy, z1+dz)
 
         self.offset.set(self.arm_dir.x, self.arm_dir.y, self.arm_dir.z)
-        self.offset.scale1(self.arm_length * (1 + self.arm_scale) * 0.5)
+        self.offset.scale(self.arm_length * (1 + self.arm_scale) * 0.5)
         
         self.update_camera()
 

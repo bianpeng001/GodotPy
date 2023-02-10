@@ -20,8 +20,11 @@ class MoveReq:
         self.time_scale = 1
         self.delta = Vector3()
 
+        self.line_type = 0
+
     # 请求走直线
-    def line_to(self, x0,y0,z0,x,y,z,speed):
+    def line_to(self, x0,y0,z0, x,y,z, speed):
+        self.line_type = 1
         self.is_run = True
         self.progress = 0
 
@@ -36,6 +39,11 @@ class MoveReq:
             self.time_to_progress = speed / len2
         else:
             self.is_run = False
+
+    # 走一个弧线
+    def arc_to(self, x0,y0,z0, x,y,z, speed):
+        self.line_type = 2
+        pass
 
     def move_path(self, path):
         pass

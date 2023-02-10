@@ -62,12 +62,12 @@ class Vector3:
         self.y += y
         self.z += z
 
-    def scale(self, sx, sy, sz):
+    def scale3(self, sx, sy, sz):
         self.x *= sx
         self.y *= sy
         self.z *= sz
 
-    def scale1(self, s):
+    def scale(self, s):
         self.x *= s
         self.y *= s
         self.z *= s
@@ -82,7 +82,7 @@ class Vector3:
     def normlize(self):
         len = self.length()
         if len > 0:
-            self.scale1(1 / len)
+            self.scale(1 / len)
     
     def __add__(self, right):
         v = Vector3()
@@ -101,18 +101,14 @@ class Vector3:
     def __mul__(self, right):
         v = Vector3()
         v.set(self.x,self.y,self.z)
-        if isinstance(right, Vector3):
-            v.x *= right.x
-            v.y *= right.y
-            v.z *= right.z
-        elif isinstance(right, float):
-            v.x *= right
-            v.y *= right
-            v.z *= right
+        v.scale(right)
         return v
 
     def length(self):
         return math.sqrt(self.dot(self))
+
+    def magnitude(self):
+        return self.length()
 
     def dot(self, right):
         return self.x*right.x + self.y*right.y + self.z*right.z
@@ -120,8 +116,13 @@ class Vector3:
     def dot3(self, x, y, z):
         return self.x*x + self.y*y + self.z*z
 
-    def cross(self, right):
-        pass
+    def cross(self, b):
+        a = self
+        v = Vector3()
+        v.x = a.y*b.z - a.z*b.y
+        v.y = a.z*b.x - a.x*b.z
+        v.z = a.x*b.y - a.y*b.x
+        return v
 
     def clone(self):
         v = Vector3()
