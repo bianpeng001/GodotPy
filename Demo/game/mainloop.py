@@ -6,6 +6,7 @@ import sys
 
 from game.core import *
 from game.game_mgr import game_mgr
+from game.event_name import APP_LAUNCH, START_GAME
 
 # 主循环, 控制主游戏生命周期
 # enter_tree, up to down
@@ -18,21 +19,21 @@ class MainLoop(NodeObject):
         set_process(self.get_node(), process=True, input=False)
         connect(self.get_node(), "ready", self._ready)
 
-        OS.set_window_size(608, 342, 3700, 1050)
-
-    def init(self):
         from game.coroutine_mgr import CoroutineMgr
+        game_mgr.co_mgr = CoroutineMgr()
+
+        from game.game_play import GamePlay
+        game_mgr.game_play = GamePlay()
+        game_mgr.event_mgr.emit(APP_LAUNCH)
+        
+    def init(self):
         from game.unit_mgr import UnitMgr
         from game.player_mgr import PlayerMgr
         from game.hero_mgr import HeroMgr
-        from game.game_play import GamePlay
-
-        game_mgr.co_mgr = CoroutineMgr()
-
+        
         game_mgr.unit_mgr = UnitMgr()
         game_mgr.player_mgr = PlayerMgr()
         game_mgr.hero_mgr = HeroMgr()
-        game_mgr.game_play = GamePlay()
 
     def _ready(self):
         self.init()
@@ -44,7 +45,6 @@ class MainLoop(NodeObject):
         test1()
 
         # start game
-        from game.event_name import START_GAME
         game_mgr.event_mgr.emit(START_GAME)
 
     def _process(self):

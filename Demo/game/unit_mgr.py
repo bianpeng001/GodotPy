@@ -7,9 +7,9 @@ from game.game_mgr import game_mgr
 from game.city_unit import CityUnit
 from game.troop_unit import TroopUnit
 
-##############################################################
+#------------------------------------------------------------
 # UnitMgr
-##############################################################
+#------------------------------------------------------------
 class UnitMgr:
     def __init__(self):
         self._unit_id_seed = 10000

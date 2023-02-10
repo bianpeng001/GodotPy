@@ -7,7 +7,11 @@ import random
 
 import GodotPy as gp
 
+#------------------------------------------------------------
 #
+#------------------------------------------------------------
+
+# Plane
 class Plane:
     def __init__(self, x0, y0 ,z0, n_x, n_y, n_z):
         self.x0 = x0
@@ -18,7 +22,7 @@ class Plane:
         self.n_y = n_y
         self.n_z = n_z
 
-#
+# Ray
 class Ray:
     def __init__(self, x0, y0, z0, n_x, n_y, n_z):
         self.x0 = x0
@@ -148,6 +152,9 @@ class Vector3:
 
 Vector3.up = Vector3(0, 1, 0)
 
+#------------------------------------------------------------
+# pattern
+#------------------------------------------------------------
 
 # 单例
 class Singleton:
@@ -161,6 +168,9 @@ class Singleton:
     def __init__(self):
         pass
    
+#------------------------------------------------------------
+#
+#------------------------------------------------------------
 
 # 对应于godot场景树的节点，的容器
 class NodeObject:
@@ -195,6 +205,10 @@ class NodeObject:
     # 构造函数之后回调
     def _create(self):
         pass
+
+#------------------------------------------------------------
+# api
+#------------------------------------------------------------
 
 # [-1, 1]
 def random_x():
@@ -279,6 +293,10 @@ def set_visible_2d(node, v):
 def find_control(camera, x, y):
     return gp.find_control(camera, x, y)
 
+#------------------------------------------------------------
+# api
+#------------------------------------------------------------
+
 #
 class Node:
     @classmethod
@@ -327,7 +345,10 @@ class Camera3D:
     def screen_to_world(cls, camera, x,y):
         return gp.screen_to_world(camera, x,y)
 
-#
+#------------------------------------------------------------
+# log util
+#------------------------------------------------------------
+
 class LogUtil:
     def __init__(self):
         self.enable_debug = True
@@ -347,7 +368,10 @@ class LogUtil:
 log_util = LogUtil() 
 logutil = log_util
 
-#
+#------------------------------------------------------------
+# event mgr
+#------------------------------------------------------------
+
 class EventMgr:
     def __init__(self):
         self.map = {}

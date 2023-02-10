@@ -59,7 +59,7 @@ class CameraMgr(NodeObject):
         game_mgr.event_mgr.add(LEFT_BUTTON_DRAG, self.on_mouse_drag)
 
     def _ready(self):
-        logutil.debug("CameraMgr ready")
+        log_util.debug("CameraMgr ready")
 
     def on_mouse_button_down(self, x, y):
         x,y,z = screen_to_world(self.main_camera, x, y)
@@ -101,10 +101,9 @@ class CameraMgr(NodeObject):
 
         prev_norm = 1 + self.arm_scale
         self.arm_scale = clamp(self.arm_scale + delta)
+        f = (1 + self.arm_scale) / prev_norm
         
         x1,y1,z1 = screen_to_world(self.main_camera, input_mgr.x, input_mgr.y)
-
-        f = (1 + self.arm_scale) / prev_norm
         dx = (self.center.x - x1) * f
         dy = (self.center.y - y1) * f
         dz = (self.center.z - z1) * f

@@ -13,6 +13,12 @@ class Player:
         # 主城
         self.base_city_id = 0
 
+        # 资源总数
+        self.total_rice_amount = 0
+        self.total_iron_amount = 0
+        self.total_stone_amount = 0
+        self.total_wood_amount = 0
+
     def load(self):
         pass
 

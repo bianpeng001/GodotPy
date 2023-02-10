@@ -22,6 +22,7 @@ SCENE_GROUND_CLICK = 'scene_ground_click'
 
 
 # 开始游戏
+APP_LAUNCH = 'app_launch'
 START_GAME = 'start_game'
 MAIN_PLAYER_READY = 'main_player_ready'
 
