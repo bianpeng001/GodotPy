@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://d0t2w0002k0rb"]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="FontFile" uid="uid://cfhxpqexrydct" path="res://FZKT.ttf" id="1_id32y"]
+[ext_resource type="FontFile" uid="uid://cfhxpqexrydct" path="res://font/FZKT.ttf" id="1_id32y"]
 [ext_resource type="Script" path="res://start.gd" id="1_skqoa"]
 
 [node name="StartScene" type="Node2D"]

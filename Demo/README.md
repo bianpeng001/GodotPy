@@ -36,6 +36,7 @@ GameFormula: 一个公式的实现，旧代码保留
 
 ## 开发笔记
 
+### 遇到的问题和解决方案
 _ready 是子节点先收到，最后是根节点。_enter_tree顺序相反。所以在根节点做了一个MainLoop，用于控制初始化顺序。
 
 scenetree任意一个子树，可以存成tscn(scn表示scene，t表示text)文件，然后复用。类似于prefab。感觉godot更舒服一些，有种面向xml的感觉。
@@ -63,8 +64,6 @@ node只提供了基础功能。node3d才有transform的信息。
 ProjectSetting里面有很多宝藏，Cursor，icon...。
 
 gltb格式在导入后，最好把mesh单独保存，这样才能被单独读取。材质也要设置为外部的，不然会从gltb里面把贴图带过来(疑似如此)
-
-UI开发
 
 Python的Py_INCREF, Py_DECREF，这两项的使用，有一些注意点。目前从容器中Get出来的值是borrowed reference，即，不需要修改引用计数。
 注意，PyObject_CallMethod返回值，如果不需要保留，则必须减掉引用计数。如果返回NULL，则说明有运行异常。需要自行打印错误信息。
@@ -117,5 +116,6 @@ game_mgr.co_mgr.start(co_print_number())
 ```
 coroutine是用Unity3D的时候，非常喜欢的一个机制，很多小的任务，用timer太麻烦，还有一些精确到帧的任务，都可以用coroutine来做。比如等一帧，等几帧，或者等到某个前置条件成立。
 
-
+### UI开发
+ui自动适配屏幕大小，在Project Settings > Window > Stretch。Mode:canvas_items, Aspect=keep。
 

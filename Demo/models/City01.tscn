@@ -3,7 +3,7 @@
 [ext_resource type="ArrayMesh" uid="uid://dmsqjes4gdq2x" path="res://models/City01Mesh.res" id="1_vo51y"]
 [ext_resource type="ArrayMesh" uid="uid://d1jhh58nbwfs3" path="res://models/Flag01Mesh.res" id="3_vg770"]
 [ext_resource type="Material" uid="uid://dxdlggp10kr1q" path="res://models/Flag01Mat.tres" id="3_ykjcv"]
-[ext_resource type="PackedScene" uid="uid://dl7f5bdqtq6ak" path="res://models/HUD.tscn" id="5_mrtwl"]
+[ext_resource type="PackedScene" uid="uid://d2nu6r6jvu0ch" path="res://models/HUD.tscn" id="5_mrtwl"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_u6e0h"]
 

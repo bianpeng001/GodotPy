@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dl7f5bdqtq6ak"]
+[gd_scene load_steps=4 format=3 uid="uid://d2nu6r6jvu0ch"]
 
 [ext_resource type="ArrayMesh" uid="uid://b5msid7cnjqho" path="res://models/Plane.obj" id="1_guniw"]
-[ext_resource type="FontFile" uid="uid://cfhxpqexrydct" path="res://FZKT.ttf" id="2_gnw0s"]
+[ext_resource type="FontFile" uid="uid://cfhxpqexrydct" path="res://font/FZKT.ttf" id="2_gnw0s"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qc3pa"]
 albedo_color = Color(0, 1, 0, 1)
@@ -21,4 +21,4 @@ pixel_size = 0.03
 double_sided = false
 text = "杭州"
 font = ExtResource("2_gnw0s")
-outline_size = 8
+outline_size = 11

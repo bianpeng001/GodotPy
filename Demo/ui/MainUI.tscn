@@ -2,7 +2,7 @@
 
 [ext_resource type="StyleBox" uid="uid://b8lsbpj8aalo2" path="res://ui/MainUIStyle.tres" id="1_cigy1"]
 [ext_resource type="Texture2D" uid="uid://b0t2s22exxwve" path="res://ui/img/SysLabel_hover.png" id="3_0wd0s"]
-[ext_resource type="Theme" uid="uid://bc7nibep0aax1" path="res://ui/LabelTheme.tres" id="5_dnccb"]
+[ext_resource type="Theme" path="res://ui/LabelTheme.tres" id="5_dnccb"]
 [ext_resource type="Texture2D" uid="uid://dbq8y2ou4np5t" path="res://ui/img/SysLabel.png" id="5_wnfx1"]
 [ext_resource type="Texture2D" uid="uid://ds8t5yxnam6tw" path="res://ui/img/Coin.png" id="6_k0gva"]
 [ext_resource type="Texture2D" uid="uid://b43yxunri7pvf" path="res://ui/img/Iron.png" id="7_t3f31"]
@@ -12,12 +12,8 @@
 [node name="MainUI" type="Node2D"]
 
 [node name="Panel" type="Panel" parent="."]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
 offset_right = 1152.0
 offset_bottom = 50.0
-grow_horizontal = 2
 theme_override_styles/panel = ExtResource("1_cigy1")
 
 [node name="SysBtn" type="TextureButton" parent="Panel"]

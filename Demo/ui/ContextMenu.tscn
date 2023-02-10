@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://dsesf56wyyvc"]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="FontFile" uid="uid://cfhxpqexrydct" path="res://FZKT.ttf" id="1_fpg8h"]
+[ext_resource type="FontFile" uid="uid://cfhxpqexrydct" path="res://font/FZKT.ttf" id="1_fpg8h"]
 
 [node name="ContextMenu" type="Node2D"]
 

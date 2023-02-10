@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://c1jjhatf1hdpn" path="res://ui/MainUI.tscn" id="2_ljo2c"]
 [ext_resource type="PackedScene" uid="uid://bvd7717buch1o" path="res://models/Pavilion01.tscn" id="3_3hdl4"]
 [ext_resource type="PackedScene" uid="uid://c64oxbejarbpj" path="res://models/Wall01.tscn" id="3_tjp5w"]
-[ext_resource type="PackedScene" uid="uid://dsesf56wyyvc" path="res://ui/ContextMenu.tscn" id="4_13hgr"]
+[ext_resource type="PackedScene" path="res://ui/ContextMenu.tscn" id="4_13hgr"]
 
 [node name="MainScene" type="FPyObject"]
 python_module = "game.mainloop"
