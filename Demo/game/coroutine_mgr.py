@@ -2,6 +2,7 @@
 # 2023年2月1日 bianpeng
 #
 
+import traceback
 
 #
 # 既然用了python，还是要做一下协程。发现用Iterator来做比较方便。
@@ -54,9 +55,12 @@ class _Coroutine(Waitable):
             
         except StopIteration:
             self.done = True
-        except:
+        except Exception as err:
             self.done = True
             self.error = True
+            print(err)
+            traceback.print_exc()
+
 
 
 # 用Iterator来做Coroutine

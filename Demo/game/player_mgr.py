@@ -2,18 +2,16 @@
 # 2023年2月4日 bianpeng
 #
 
-from game.hero_mgr import HeroMgr
-
-#
+# 一个玩家
 class Player:
     def __init__(self):
-        self.player_id = None
-        
-        self.name = '刘备'
+        self.player_id = 0
+        self.player_name = '刘备'
 
         self.city_list = []
         self.troop_list = []
-        self.capital_city = 0
+        # 主城
+        self.base_city_id = 0
 
     def load(self):
         pass
@@ -21,13 +19,13 @@ class Player:
     def save(self):
         pass
 
-#
+# 玩家管理器
 class PlayerMgr:
     def __init__(self):
         self.player_dict = {}
-        self.player_id_seed = 10000
+        self.player_id_seed = 100
 
-        self.main_player = self.create_player()
+        self.main_player = None
 
     @property
     def main_player_id(self):

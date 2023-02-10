@@ -18,28 +18,34 @@ class MainLoop(NodeObject):
         set_process(self.get_node(), process=True, input=False)
         connect(self.get_node(), "ready", self._ready)
 
-        #OS.set_window_size(608, 342, 900, 1000)
+        OS.set_window_size(608, 342, 3700, 1050)
 
     def init(self):
+        from game.coroutine_mgr import CoroutineMgr
         from game.unit_mgr import UnitMgr
         from game.player_mgr import PlayerMgr
         from game.hero_mgr import HeroMgr
-        from game.coroutine_mgr import CoroutineMgr
+        from game.game_play import GamePlay
 
         game_mgr.co_mgr = CoroutineMgr()
 
         game_mgr.unit_mgr = UnitMgr()
         game_mgr.player_mgr = PlayerMgr()
         game_mgr.hero_mgr = HeroMgr()
+        game_mgr.game_play = GamePlay()
 
     def _ready(self):
         self.init()
-        logutil.debug('MainLoop ready')
+        log_util.debug('MainLoop ready')
         game_mgr.camera_mgr.update_camera()
 
         # test
         from game.wait import test1
         test1()
+
+        # start game
+        from game.event_name import START_GAME
+        game_mgr.event_mgr.emit(START_GAME)
 
     def _process(self):
         if game_mgr.paused:

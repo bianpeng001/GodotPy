@@ -112,6 +112,9 @@ class Vector3:
         v.scale(b)
         return v
 
+    def __str__(self):
+        return f'({self.x},{self.y},{self.z})'
+
     def length(self):
         return self.magnitude()
 
@@ -324,17 +327,43 @@ class Camera3D:
     def screen_to_world(cls, camera, x,y):
         return gp.screen_to_world(camera, x,y)
 
-
-
+#
 class LogUtil:
     def __init__(self):
-        pass
+        self.enable_debug = True
+        self.enable_error = True
 
     def debug(self, *args):
-        print_line('DEBUG', *args)
+        if self.enable_debug:
+            print_line('DEBUG', *args)
+
+    def error(self, *args):
+        if self.enable_error:
+            print_line('ERROR', *args)
 
     def print(self, msg):
         print_line(msg)
 
-logutil = LogUtil()
+log_util = LogUtil() 
+logutil = log_util
+
+#
+class EventMgr:
+    def __init__(self):
+        self.map = {}
+
+    def add(self, name, handler):
+        if not name in self.map:
+            self.map[name] = [handler]
+        else:
+            self.map[name].append(handler)
+
+    def remove(self, name, handler):
+        if name in self.map:
+            self.map[name].remove(handler)
+
+    def emit(self, name, *args, **kwargs):
+        if name in self.map:
+            for handler in self.map[name]:
+                handler.__call__(*args, **kwargs)
 

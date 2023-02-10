@@ -4,6 +4,7 @@
 from game.core import print_line
 import sys
 
+# init stdout, stderr
 class PrintLine:
     def write(self, s):
         if s and s != '\n' and s != ' ' and s != '^':
@@ -19,10 +20,6 @@ sys.stderr = PrintLine()
 
 saved_stdout = sys.stdout
 sys.stdout = PrintLine()
-
-from game.game_mgr import game_mgr
-from game.event_mgr import EventMgr
-game_mgr._event_mgr = EventMgr()
 
 print('boot ok')
 

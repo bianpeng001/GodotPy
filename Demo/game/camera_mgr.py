@@ -122,5 +122,9 @@ class CameraMgr(NodeObject):
     def on_wheel_down(self):
         self.process_zoom(0.05)
 
+    def set_center(self,x,y,z):
+        self.center.set(x,y,z)
+    
+
 
 

@@ -62,7 +62,6 @@ class UnitMgr:
         self.update_list.append(unit)
         #print_line(f'add unit: {unit.unit_id}')
 
-        #unit.owner_player_id = game_mgr.player_mgr.main_player_id
         unit.init()
         unit.load_model()
 
@@ -77,8 +76,12 @@ class UnitMgr:
     def create_troop(self):
         return self.create_unit(TroopUnit)
 
-    def find_unit(self, predicate):
-        #self.update_list()
-        pass
+    # find first match requirements unit
+    def find_unit(self, cb):
+        for unit in self.update_list:
+            if cb(unit):
+                return unit
+        return None
+
 
 
