@@ -1,15 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://dps4u7ofsxa1b"]
+[gd_scene load_steps=5 format=3 uid="uid://dps4u7ofsxa1b"]
 
 [ext_resource type="ArrayMesh" uid="uid://dmsqjes4gdq2x" path="res://models/City01Mesh.res" id="1_vo51y"]
 [ext_resource type="ArrayMesh" uid="uid://d1jhh58nbwfs3" path="res://models/Flag01Mesh.res" id="3_vg770"]
 [ext_resource type="Material" uid="uid://dxdlggp10kr1q" path="res://models/Flag01Mat.tres" id="3_ykjcv"]
 [ext_resource type="PackedScene" uid="uid://d2nu6r6jvu0ch" path="res://models/HUD.tscn" id="5_mrtwl"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_u6e0h"]
-
 [node name="City01" type="Node3D"]
 
-[node name="Wall" type="MeshInstance3D" parent="."]
+[node name="Model" type="MeshInstance3D" parent="."]
 transform = Transform3D(3, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0)
 mesh = ExtResource("1_vo51y")
 
@@ -17,13 +15,6 @@ mesh = ExtResource("1_vo51y")
 mesh = ExtResource("3_vg770")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("3_ykjcv")
-
-[node name="Box" type="ShapeCast3D" parent="."]
-transform = Transform3D(7, 0, 0, 0, 1.6, 0, 0, 0, 7, 0, 0.8, 0)
-shape = SubResource("BoxShape3D_u6e0h")
-target_position = Vector3(0, 0, 0)
-collide_with_bodies = false
-debug_shape_custom_color = Color(0, 1, 0, 1)
 
 [node name="HUD" parent="." instance=ExtResource("5_mrtwl")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 2.8, 0)

@@ -45,12 +45,10 @@ _city_name_data = [
 '湖州','富春','官渡','中牟','箕谷','博望','野王','钜鹿',
 '上庸','昌黎','涪陵','衡阳','郁林','桂林','兴古','汶山',
 
-'虎牢关','散关','大胜关','函谷关','雁门关','葭萌关',
-'武关','玉门关','武关','铁门关','居庸关','剑门关','娄山关',
+'虎牢关','散关','大胜关','函谷关','雁门关','葭萌关','武关',
+'玉门关','武关','铁门关','居庸关','剑门关','娄山关',
 '瞿塘关','仙霞关',
-
 ]
-_city_name_data.reverse()
 
 def new_city_name():
     if len(_city_name_data) > 0:
@@ -202,7 +200,7 @@ _name_data = [
 ]
 def new_hero_name():
     if len(_name_data) > 0:
-        return select_one(_name_data)
+        return select_one(_name_data, delete=False)
     else:
         return '李狗儿'
 

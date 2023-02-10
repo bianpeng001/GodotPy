@@ -13,7 +13,7 @@ class WaitForSeconds(Waitable):
     def is_done(self):
         return game_mgr.time >= self.stop
 
-def test1():
+def test_wait_1():
     def co_print_number():
         print(game_mgr.frame_number)
         yield None

@@ -45,7 +45,13 @@ class CityUnit(Unit):
             self.hero_list.append(hero.hero_id)
 
     def load_model(self):
-        self.model_node = instantiate('res://models/City01.tscn')
+        is_gate = self.unit_name.endswith('关')
+
+        path = 'res://models/City01.tscn'
+        if is_gate:
+            path = 'res://models/Wall01.tscn'
+        
+        self.model_node = instantiate(path)
 
         x,y,z = self.get_location()
         Node3D.set_position(self.model_node, x,y,z)

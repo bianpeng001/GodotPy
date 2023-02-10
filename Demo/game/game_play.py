@@ -9,6 +9,7 @@ from game.core import *
 from game.game_mgr import game_mgr
 from game.event_name import *
 from game.base_type import UT_CITY
+from game.wait import *
 
 # 游戏的控制逻辑, 事件响应啥的，集中到这里来
 class GamePlay:
@@ -49,6 +50,7 @@ class GamePlay:
         log_util.debug('create main player')
         pm.main_player = pm.create_player()
         game_mgr.co_mgr.start(co_bind_to_base_city())
+        test_wait_1()
 
     def on_player_ready(self):
         mp = game_mgr.player_mgr.main_player

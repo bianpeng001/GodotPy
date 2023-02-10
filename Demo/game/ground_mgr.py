@@ -13,10 +13,10 @@ TILE_SIZE = 30
 # tile外部，大a*寻路
 # 打仗过程里面，走直线
 class Tile:
-    def __init__(self, x, z):
+    def __init__(self, col, row):
         # 区块的ID，坐标/TILE_SIZE, 取证
-        self.col = x
-        self.row = z
+        self.col = col
+        self.row = row
         self.model_node = None
         self.item_nodes = []
         self.units = []

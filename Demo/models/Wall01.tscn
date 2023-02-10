@@ -1,10 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://c64oxbejarbpj"]
+[gd_scene load_steps=3 format=3 uid="uid://c64oxbejarbpj"]
 
 [ext_resource type="ArrayMesh" uid="uid://bk828bvlg2bfx" path="res://models/WallMesh.res" id="1_qg7vf"]
+[ext_resource type="PackedScene" uid="uid://d2nu6r6jvu0ch" path="res://models/HUD.tscn" id="2_wv6lm"]
 
 [node name="Wall01" type="Node3D"]
 
-[node name="WallMesh" type="MeshInstance3D" parent="."]
+[node name="Model" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
 mesh = ExtResource("1_qg7vf")
 skeleton = NodePath("../..")
+
+[node name="HUD" parent="." instance=ExtResource("2_wv6lm")]
+transform = Transform3D(0.424264, 0, 0.424264, 0, 0.6, 0, -0.424264, 0, 0.424264, 0, 1.68, 0)

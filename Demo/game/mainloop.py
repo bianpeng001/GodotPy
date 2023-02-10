@@ -24,7 +24,7 @@ class MainLoop(NodeObject):
 
         from game.game_play import GamePlay
         game_mgr.game_play = GamePlay()
-        
+
         game_mgr.event_mgr.emit(APP_LAUNCH)
         
     def init(self):
@@ -40,10 +40,6 @@ class MainLoop(NodeObject):
         self.init()
         log_util.debug('MainLoop ready')
         game_mgr.camera_mgr.update_camera()
-
-        # test
-        from game.wait import test1
-        test1()
 
         # start game
         game_mgr.event_mgr.emit(START_GAME)
