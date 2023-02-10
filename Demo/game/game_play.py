@@ -27,6 +27,14 @@ class GamePlay:
                 obj = json.load(f)
                 OS.set_window_size(*obj['window'])
 
+        from game.unit_mgr import UnitMgr
+        from game.player_mgr import PlayerMgr
+        from game.hero_mgr import HeroMgr
+        
+        game_mgr.unit_mgr = UnitMgr()
+        game_mgr.player_mgr = PlayerMgr()
+        game_mgr.hero_mgr = HeroMgr()
+
     # create main player
     def on_start_game(self):
         pm = game_mgr.player_mgr

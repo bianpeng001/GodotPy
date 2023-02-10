@@ -2,8 +2,6 @@
 # 2023年1月31日 bianpeng
 #
 
-import sys
-
 from game.core import *
 from game.game_mgr import game_mgr
 from game.event_name import APP_LAUNCH, START_GAME
@@ -26,18 +24,8 @@ class MainLoop(NodeObject):
         game_mgr.game_play = GamePlay()
 
         game_mgr.event_mgr.emit(APP_LAUNCH)
-        
-    def init(self):
-        from game.unit_mgr import UnitMgr
-        from game.player_mgr import PlayerMgr
-        from game.hero_mgr import HeroMgr
-        
-        game_mgr.unit_mgr = UnitMgr()
-        game_mgr.player_mgr = PlayerMgr()
-        game_mgr.hero_mgr = HeroMgr()
 
     def _ready(self):
-        self.init()
         log_util.debug('MainLoop ready')
         game_mgr.camera_mgr.update_camera()
 
