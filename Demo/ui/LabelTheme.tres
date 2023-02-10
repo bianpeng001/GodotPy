@@ -1,7 +1,6 @@
-[gd_resource type="Theme" load_steps=2 format=3]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cxdn407m8jo4q"]
 
 [ext_resource type="FontFile" uid="uid://cfhxpqexrydct" path="res://font/FZKT.ttf" id="1_e23v0"]
-
 
 [resource]
 default_font = ExtResource("1_e23v0")
