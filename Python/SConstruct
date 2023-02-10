@@ -197,6 +197,8 @@ LIBRARY_OBJS_OMIT_FROZEN = [
 
 ZLIB = 'd:/OpenSource/zlib'
 
+is_release = ARGUMENTS.get('release', True)
+
 # module
 ModuleName = 'python3'
 cppdefines = [
@@ -205,7 +207,7 @@ cppdefines = [
     'Py_ENABLE_SHARED',
     '_Py_HAVE_ZLIB',
 
-    '_DEBUG',
+    #'_DEBUG',
 
     ('VPATH', f'\\"{ModuleName}\\"'),
     ('PY3_DLLNAME', f'\\"{ModuleName}\\"'),
@@ -215,6 +217,9 @@ cppdefines = [
     ('VERSION', f'\\"3.12\\"'),
     ('PLATLIBDIR', f'\\"GodotPyLib\\"'),
     ]
+if not is_release:
+    cppdefines.append('_DEBUG')
+
 libs = [
     'Bcrypt',
     'Version',
@@ -248,13 +253,13 @@ env = Environment()
 env.Execute('echo begin frozen...')
 env.Append(CPPDEFINES = cppdefines)
 env.Append(CPPPATH = incs)
-env.Append(CCFLAGS = [
-    #'/O2',
-    '/Zi',
-])
-env.Append(LINKFLAGS = [
-    '/debug:full',
-])
+
+if is_release:
+    env.Append(CCFLAGS = ['/O2',])
+else:
+    env.Append(CCFLAGS = ['/Zi',])
+    env.Append(LINKFLAGS = ['/DEBUG:FULL',])
+
 env.Append(LIBPATH = [
     
 ])
