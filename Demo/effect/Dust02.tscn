@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://drhw5wejlyep1"]
+
+[ext_resource type="Material" uid="uid://b3bkrrkn8mhsx" path="res://effect/Dust02Mat.tres" id="1_0xu2w"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_mqk67"]
+
+[node name="Dust02" type="Node3D"]
+
+[node name="Particle" type="GPUParticles3D" parent="."]
+process_material = ExtResource("1_0xu2w")
+draw_pass_1 = SubResource("BoxMesh_mqk67")
