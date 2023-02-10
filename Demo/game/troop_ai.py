@@ -62,7 +62,8 @@ class AIState_MatchToCity(AIState):
        
         req = controller.move_req
         x,y,z = city.get_location()
-        req.line_to(
+        #req.line_to(
+        req.arc_to(
             *troop.get_location(),
             x,y,z,
             troop.speed)

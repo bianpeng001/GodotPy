@@ -35,18 +35,31 @@ class MoveReq:
         len1 = self.delta.length()
         len2 = len1 - 5
         if len2 > 0:
-            self.delta = self.delta.scaled(len2/len1)
+            self.delta = self.delta * (len2/len1)
             self.time_to_progress = speed / len2
         else:
             self.is_run = False
 
     # 走一个弧线
-    def arc_to(self, x0,y0,z0, x,y,z, speed):
+    def arc_to(self, x0,y0,z0, x1,y1,z1, speed):
         self.line_type = 2
         self.is_run = True
         self.progress = 0
+
+        self.start.set(x0,y0,z0)
+        self.stop.set(x1,y1,z1)
+        self.delta = self.stop - self.start
+
+        len1 = self.delta.length()
+        len2 = len1 - 5
+        if len2 > 0:
+            self.delta = self.delta * (len2/len1)
+            self.time_to_progress = speed / len2
+        else:
+            self.is_run = False
         
-        pass
+        self.right = self.delta.cross(Vector3.up).normlized()
+        
 
     def move_path(self, path):
         pass
@@ -54,10 +67,13 @@ class MoveReq:
     def update(self, troop, delta_time):
         self.progress += delta_time * self.time_to_progress
         if self.progress < 1.0:
-            p = self.start + self.delta.scaled(self.progress)
+            p = self.start + self.delta * self.progress
         else:
             p = self.start + self.delta
             self.is_run = False
+
+        if self.line_type == 2:
+            p += self.right * math.sin(math.pi*self.progress) * 1
         troop.set_location(p.x,p.y,p.z)
 
 # 部队

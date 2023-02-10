@@ -44,6 +44,10 @@ class Ray:
 
 # Vector3
 class Vector3:
+    up = None
+    right = None
+    forward = None
+
     def __init__(self):
         self.x = self.y = self.z = 0
 
@@ -81,6 +85,11 @@ class Vector3:
         len = self.length()
         if len > 0:
             self.scale(1 / len)
+
+    def normlized(self):
+        v = self.clone()
+        v.normlize()
+        return v
     
     def __add__(self, right):
         v = self.clone()
@@ -131,6 +140,10 @@ class Vector3:
 
     def get_xyz(self):
         return self.x, self.y, self.z
+
+Vector3.up = Vector3()
+Vector3.up.set(0, 1, 0)
+
 
 # 单例
 class Singleton:
