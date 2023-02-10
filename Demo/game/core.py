@@ -73,10 +73,8 @@ class Vector3:
         self.z *= s
 
     def scaled(self, s):
-        v = Vector3()
-        v.x = self.x*s
-        v.y = self.y*s
-        v.z = self.z*s
+        v = self.clone()
+        v.scale(s)
         return v
 
     def normlize(self):
@@ -85,30 +83,32 @@ class Vector3:
             self.scale(1 / len)
     
     def __add__(self, right):
-        v = Vector3()
-        v.x = self.x + right.x
-        v.y = self.y + right.y
-        v.z = self.z + right.z
+        v = self.clone()
+        v.x += right.x
+        v.y += right.y
+        v.z += right.z
         return v
 
     def __sub__(self, right):
-        v = Vector3()
-        v.x = self.x - right.x
-        v.y = self.y - right.y
-        v.z = self.z - right.z
+        v = self.clone()
+        v.x -= right.x
+        v.y -= right.y
+        v.z -= right.z
         return v
 
     def __mul__(self, right):
-        v = Vector3()
-        v.set(self.x,self.y,self.z)
+        v = self.clone()
         v.scale(right)
         return v
 
     def length(self):
-        return math.sqrt(self.dot(self))
+        return self.magnitude()
 
     def magnitude(self):
-        return self.length()
+        return math.sqrt(self.sqr_magnitude())
+
+    def sqr_magnitude(self):
+        return self.dot(self)
 
     def dot(self, right):
         return self.x*right.x + self.y*right.y + self.z*right.z

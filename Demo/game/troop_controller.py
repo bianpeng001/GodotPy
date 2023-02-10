@@ -43,6 +43,9 @@ class MoveReq:
     # 走一个弧线
     def arc_to(self, x0,y0,z0, x,y,z, speed):
         self.line_type = 2
+        self.is_run = True
+        self.progress = 0
+        
         pass
 
     def move_path(self, path):
