@@ -45,9 +45,12 @@ class _Coroutine(Waitable):
             while(True):
                 self.yield_value = next(self.iterator)
                 
-                if self.yield_value and\
-                        isinstance(self.yield_value, Waitable):
-                    if not self.yield_value.is_done():
+                if self.yield_value:
+                    if isinstance(self.yield_value, Waitable):
+                        if not self.yield_value.is_done():
+                            break
+                    else:
+                        # TODO: 加一个自动把浮点转成waitforseconds
                         break
                 else:
                     self.yield_value = None

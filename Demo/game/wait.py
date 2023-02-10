@@ -13,21 +13,20 @@ class WaitForSeconds(Waitable):
     def is_done(self):
         return game_mgr.time >= self.stop
 
-def co_print_number():
-    print(game_mgr.frame_number)
-    yield None
-    print(game_mgr.frame_number)
-    yield None
-    print(game_mgr.frame_number)
-    yield None
-    print(game_mgr.frame_number)
-    yield None
-    print(game_mgr.frame_number)
-
-    print(OS.get_time())
-    yield WaitForSeconds(3)
-    print(OS.get_time())
-
 def test1():
+    def co_print_number():
+        print(game_mgr.frame_number)
+        yield None
+        print(game_mgr.frame_number)
+        yield None
+        print(game_mgr.frame_number)
+        yield None
+        print(game_mgr.frame_number)
+        yield None
+        print(game_mgr.frame_number)
+
+        print(OS.get_time())
+        yield WaitForSeconds(3)
+        print(OS.get_time())
     game_mgr.co_mgr.start(co_print_number())
 

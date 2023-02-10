@@ -24,6 +24,7 @@ class MainLoop(NodeObject):
 
         from game.game_play import GamePlay
         game_mgr.game_play = GamePlay()
+        
         game_mgr.event_mgr.emit(APP_LAUNCH)
         
     def init(self):
