@@ -48,18 +48,20 @@ class Vector3:
     right = None
     forward = None
 
-    def __init__(self):
-        self.x = self.y = self.z = 0
+    def __init__(self, x=0, y=0, z=0):
+        self.x = x
+        self.y = y
+        self.z = z
 
     def set(self, x, y, z):
         self.x = x
         self.y = y
         self.z = z
 
-    def add(self, left, right):
-        self.x = left.x + right.x
-        self.y = left.y + right.y
-        self.z = left.z + right.z
+    def add(self, b):
+        self.x += b.x
+        self.y += b.y
+        self.z += b.z
 
     def offset(self, x, y, z):
         self.x += x
@@ -84,30 +86,30 @@ class Vector3:
     def normlize(self):
         len = self.length()
         if len > 0:
-            self.scale(1 / len)
+            self.scale(1.0 / len)
 
     def normlized(self):
         v = self.clone()
         v.normlize()
         return v
     
-    def __add__(self, right):
+    def __add__(self, b):
         v = self.clone()
-        v.x += right.x
-        v.y += right.y
-        v.z += right.z
+        v.x += b.x
+        v.y += b.y
+        v.z += b.z
         return v
 
-    def __sub__(self, right):
+    def __sub__(self, b):
         v = self.clone()
-        v.x -= right.x
-        v.y -= right.y
-        v.z -= right.z
+        v.x -= b.x
+        v.y -= b.y
+        v.z -= b.z
         return v
 
-    def __mul__(self, right):
+    def __mul__(self, b):
         v = self.clone()
-        v.scale(right)
+        v.scale(b)
         return v
 
     def length(self):
@@ -119,8 +121,8 @@ class Vector3:
     def sqr_magnitude(self):
         return self.dot(self)
 
-    def dot(self, right):
-        return self.x*right.x + self.y*right.y + self.z*right.z
+    def dot(self, b):
+        return self.x*b.x + self.y*b.y + self.z*b.z
 
     def dot3(self, x, y, z):
         return self.x*x + self.y*y + self.z*z
@@ -141,8 +143,7 @@ class Vector3:
     def get_xyz(self):
         return self.x, self.y, self.z
 
-Vector3.up = Vector3()
-Vector3.up.set(0, 1, 0)
+Vector3.up = Vector3(0, 1, 0)
 
 
 # 单例

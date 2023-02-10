@@ -73,7 +73,7 @@ class MoveReq:
             self.is_run = False
 
         if self.line_type == 2:
-            p += self.right * math.sin(math.pi*self.progress) * 1
+            p += self.right * math.sin(math.pi*self.progress) * 2
         troop.set_location(p.x,p.y,p.z)
 
 # 部队
