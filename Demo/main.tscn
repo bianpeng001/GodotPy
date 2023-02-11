@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://c64oxbejarbpj" path="res://models/Wall01.tscn" id="3_tjp5w"]
 [ext_resource type="PackedScene" path="res://ui/ContextMenu.tscn" id="4_13hgr"]
 [ext_resource type="PackedScene" uid="uid://bgtgw0kthulwj" path="res://effect/Dust01.tscn" id="5_0n56o"]
-[ext_resource type="PackedScene" uid="uid://drhw5wejlyep1" path="res://effect/Dust02.tscn" id="6_15t6s"]
+[ext_resource type="PackedScene" uid="uid://bccj1sc0y4dd1" path="res://effect/Dust02.tscn" id="6_15t6s"]
 
 [node name="MainScene" type="FPyObject"]
 python_module = "game.mainloop"
@@ -65,4 +65,4 @@ transform = Transform3D(0.730794, 0, 0.682598, 0, 1, 0, -0.682598, 0, 0.730794, 
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.9271, 4.25017, -7.08244)
 
 [node name="Dust02" parent="." instance=ExtResource("6_15t6s")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.69237, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16.849, 0, -5.76152)

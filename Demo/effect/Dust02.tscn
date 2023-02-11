@@ -1,11 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://drhw5wejlyep1"]
+[gd_scene load_steps=4 format=3 uid="uid://bccj1sc0y4dd1"]
 
-[ext_resource type="Material" uid="uid://b3bkrrkn8mhsx" path="res://effect/Dust02Mat.tres" id="1_0xu2w"]
+[ext_resource type="Material" uid="uid://cwhw8gnfjyai4" path="res://effect/Dust02Mat.tres" id="1_0xu2w"]
+[ext_resource type="Material" uid="uid://b3bkrrkn8mhsx" path="res://effect/Dust02Particle.tres" id="2_w26yx"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_mqk67"]
+[sub_resource type="QuadMesh" id="QuadMesh_jqnq7"]
 
 [node name="Dust02" type="Node3D"]
 
 [node name="Particle" type="GPUParticles3D" parent="."]
-process_material = ExtResource("1_0xu2w")
-draw_pass_1 = SubResource("BoxMesh_mqk67")
+material_override = ExtResource("1_0xu2w")
+transparency = 0.48
+gi_mode = 0
+process_material = ExtResource("2_w26yx")
+draw_pass_1 = SubResource("QuadMesh_jqnq7")
