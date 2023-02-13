@@ -435,6 +435,49 @@ static PyObject *f_set_scale(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_world_to_local(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
+		float x, y, z;
+
+		if (!PyArg_ParseTuple(args, "Offf", &a_node, &x, &y, &z)) {
+			break;
+		}
+
+		auto node = GetCapsulePointer<Node3D>(a_node);
+		if (!node) {
+			break;
+		}
+
+		auto p = node->to_local(Vector3(x, y, z));
+		return Py_BuildValue("(fff)", p.x, p.y, p.z);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+
+static PyObject *f_local_to_world(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
+		float x, y, z;
+
+		if (!PyArg_ParseTuple(args, "Offf", &a_node, &x, &y, &z)) {
+			break;
+		}
+
+		auto node = GetCapsulePointer<Node3D>(a_node);
+		if (!node) {
+			break;
+		}
+
+		auto p = node->to_global(Vector3(x, y, z));
+		return Py_BuildValue("(fff)", p.x, p.y, p.z);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 // animation play
 static PyObject *f_animation_player_play(PyObject *module, PyObject *args) {
 	do {
@@ -735,6 +778,8 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "lookat", f_lookat, METH_VARARGS, NULL },
 	{ "get_rotation", f_get_rotation, METH_VARARGS, NULL },
 	{ "set_scale", f_set_scale, METH_VARARGS, NULL },
+	{ "local_to_world", f_local_to_world, METH_VARARGS, NULL },
+	{ "world_to_local", f_world_to_local, METH_VARARGS, NULL },
 
 	// animation player
 	{ "animation_player_play", f_animation_player_play, METH_VARARGS, NULL },
