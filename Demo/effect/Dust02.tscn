@@ -11,5 +11,6 @@
 material_override = ExtResource("1_0xu2w")
 transparency = 0.48
 gi_mode = 0
+amount = 16
 process_material = ExtResource("2_w26yx")
 draw_pass_1 = SubResource("QuadMesh_jqnq7")

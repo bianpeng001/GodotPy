@@ -107,7 +107,7 @@ class AIState_Idle(AIState_Troop):
 class AIState_AttackCity(AIState_Troop):
     def update(self, controller):
         bb = controller.get_blackboard()
-        if bb.get_state_time() > 3000:
+        if bb.get_state_time() > 10000:
             controller.ai_enter_state(AIState_TroopDie())
 
 
