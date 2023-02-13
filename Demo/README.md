@@ -37,6 +37,7 @@ GameFormula: 一个公式的实现，旧代码保留
 ## 开发笔记
 
 ### 遇到的问题和解决方案
+
 _ready 是子节点先收到，最后是根节点。_enter_tree顺序相反。所以在根节点做了一个MainLoop，用于控制初始化顺序。
 
 scenetree任意一个子树，可以存成tscn(scn表示scene，t表示text)文件，然后复用。类似于prefab。感觉godot更舒服一些，有种面向xml的感觉。
@@ -68,6 +69,8 @@ gltb格式在导入后，最好把mesh单独保存，这样才能被单独读取
 Python的Py_INCREF, Py_DECREF，这两项的使用，有一些注意点。目前从容器中Get出来的值是borrowed reference，即，不需要修改引用计数。
 注意，PyObject_CallMethod返回值，如果不需要保留，则必须减掉引用计数。如果返回NULL，则说明有运行异常。需要自行打印错误信息。
 
+### 异常输出
+
 由于godot对stdout,stderr有自己的处理。为了接收python的报错信息，需要做一些额外的处理。看Python的PyErr_Print,最后会调用到python的sys.stdout, sys.stderr的PyObject对象上去write。所以，我的做法是，在boot.py里面，一开始，就把Python的sys.stdout, sys.stderr,换成一个假的IO对象。
 ```Python
 class PrintLine:
@@ -81,6 +84,7 @@ saved_stdout = sys.stdout
 sys.stdout = PrintLine()
 
 ```
+### 构造发布
 
 windows desktop下面的发布。
 1. 构造，scons p=windows tools=no bits=64 -j6 target=template_release，发布版本。命名为Demo.exe
@@ -95,7 +99,9 @@ bin\godot.windows.editor.dev.x86_64.console.exe -w --path d:\OpenSource\GodotPy\
 bin\godot.windows.editor.dev.x86_64.console.exe -w --path d:\OpenSource\GodotPy\Demo -e
 
 
-实现coroutine，先看用例
+### 实现coroutine
+
+先看用例
 ```python
 def co_print_number():
     print(game_mgr.frame_number)
