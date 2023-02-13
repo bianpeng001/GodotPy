@@ -49,7 +49,7 @@ class Tile:
         # 亭
         if random.random() < 0.5:
             rad = random_x()*math.pi
-            dis = 3 + random_x()*10
+            dis = 3 + random.random()*10
             self.load_res('res://models/Pavilion01.tscn',
                 pos_x + math.cos(rad)*dis,
                 pos_z + math.sin(rad)*dis,
