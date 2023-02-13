@@ -257,8 +257,8 @@ def set_position(node, x, y, z):
 def set_scale(node, x, y, z):
     gp.set_scale(node, x, y, z)
 
-def lookat(node, x, y, z):
-    gp.lookat(node, x, y, z)
+def look_at(node, x, y, z):
+    gp.look_at(node, x, y, z)
 
 def screen_to_world(camera, x, y):
     return gp.screen_to_world(camera, x, y)
@@ -323,8 +323,8 @@ class Node3D:
         gp.set_position(node,x,y,z)
 
     @classmethod
-    def lookat(cls, node,x,y,z):
-        gp.lookat(node,x,y,z)
+    def look_at(cls, node,x,y,z):
+        gp.look_at(node,x,y,z)
 
 class OS:
     @classmethod

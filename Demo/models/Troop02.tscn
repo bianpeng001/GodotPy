@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://cw0rvc3hxfk0b"]
+[gd_scene load_steps=5 format=3 uid="uid://cw0rvc3hxfk0b"]
 
 [ext_resource type="PackedScene" uid="uid://bccj1sc0y4dd1" path="res://effect/Dust02.tscn" id="1_gfsoq"]
 [ext_resource type="PackedScene" uid="uid://dq7t5y8go8fcq" path="res://models/Soldier02/Soildier02.tscn" id="2_34k06"]
 [ext_resource type="ArrayMesh" uid="uid://b7idplm5u8qyl" path="res://models/Arrow.obj" id="3_hb6po"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fx3jg"]
+albedo_color = Color(0, 1, 0, 1)
 
 [node name="Troop02" type="Node3D"]
 
@@ -36,5 +39,5 @@ transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 
 transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 1, 0, 1)
 
 [node name="Arrow" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.353, 0, 0)
 mesh = ExtResource("3_hb6po")
+surface_material_override/0 = SubResource("StandardMaterial3D_fx3jg")

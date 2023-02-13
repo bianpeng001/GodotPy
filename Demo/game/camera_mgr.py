@@ -84,11 +84,11 @@ class CameraMgr(NodeObject):
 
     # 刷新camera位置和朝向
     def update_camera(self):
-        set_position(self.main_camera,
+        Node3D.set_position(self.main_camera,
             self.center.x + self.offset.x,
             self.center.y + self.offset.y,
             self.center.z + self.offset.z)
-        lookat(self.main_camera,
+        Node3D.look_at(self.main_camera,
             self.center.x,
             self.center.y,
             self.center.z)

@@ -306,6 +306,52 @@ static PyObject* f_find_node(PyObject* module, PyObject* args) {
 end:
 	Py_RETURN_NONE;
 }
+static PyObject *f_get_child_count(PyObject *module, PyObject *args) {
+	while (true) {
+		PyObject *a_node;
+
+		if (!PyArg_ParseTuple(args, "O", &a_node)) {
+			break;
+		}
+
+		Node *node = GetCapsulePointer<Node>(a_node);
+		if (!node) {
+			break;
+		}
+
+		int child_count = node->get_child_count();
+		return Py_BuildValue("i", child_count);
+	}
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_get_child_at(PyObject *module, PyObject *args) {
+	while (true) {
+		PyObject *a_node;
+		int a_index;
+
+		if (!PyArg_ParseTuple(args, "Oi", &a_node, &a_index)) {
+			break;
+		}
+
+		Node *node = GetCapsulePointer<Node>(a_node);
+		if (!node) {
+			break;
+		}
+
+		if (a_index >= node->get_child_count()) {
+			break;
+		}
+
+		auto child_node = node->get_child(a_index);
+
+		PyObject *obj = get_or_create_capsule(child_node);
+		Py_INCREF(obj);
+		return obj;
+	}
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_set_position(PyObject *module, PyObject *args) {
 	
 	do {
@@ -373,7 +419,7 @@ static PyObject *f_set_rotation(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
-static PyObject *f_lookat(PyObject *module, PyObject *args) {
+static PyObject *f_look_at(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_node;
 		float x, y, z;
@@ -513,8 +559,28 @@ static PyObject *f_animation_player_stop(PyObject *module, PyObject *args) {
 		if (!player) {
 			break;
 		}
-
+		
 		player->stop(a_keep_state != 0);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_animation_player_set_speed_scale(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
+		float a_speed;
+
+		if (!PyArg_ParseTuple(args, "Of", &a_node, &a_speed)) {
+			break;
+		}
+
+		auto player = GetCapsulePointer<AnimationPlayer>(a_node);
+		if (!player) {
+			break;
+		}
+
+		player->set_speed_scale(a_speed);
 
 	} while (0);
 
@@ -763,6 +829,8 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// node
 	{ "find_node", f_find_node, METH_VARARGS, NULL },
+	{ "get_child_count", f_get_child_count, METH_VARARGS, NULL },
+	{ "get_child_at", f_get_child_at, METH_VARARGS, NULL },
 	{ "set_process", f_set_process, METH_VARARGS, NULL },
 	{ "set_process_input", f_set_process_input, METH_VARARGS, NULL },
 	{ "set_physics_process", f_set_physics_process, METH_VARARGS, NULL },
@@ -775,7 +843,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "set_position", f_set_position, METH_VARARGS, NULL },
 	{ "get_position", f_get_position, METH_VARARGS, NULL },
 	{ "set_rotation", f_set_rotation, METH_VARARGS, NULL },
-	{ "lookat", f_lookat, METH_VARARGS, NULL },
+	{ "look_at", f_look_at, METH_VARARGS, NULL },
 	{ "get_rotation", f_get_rotation, METH_VARARGS, NULL },
 	{ "set_scale", f_set_scale, METH_VARARGS, NULL },
 	{ "local_to_world", f_local_to_world, METH_VARARGS, NULL },
@@ -784,6 +852,7 @@ static PyMethodDef GodotPy_methods[] = {
 	// animation player
 	{ "animation_player_play", f_animation_player_play, METH_VARARGS, NULL },
 	{ "animation_player_stop", f_animation_player_stop, METH_VARARGS, NULL },
+	{ "animation_player_set_speed_scale", f_animation_player_set_speed_scale, METH_VARARGS, NULL },
 
 	// node2d
 	{ "set_position_2d", f_set_position_2d, METH_VARARGS, NULL },

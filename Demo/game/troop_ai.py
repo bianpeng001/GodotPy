@@ -68,7 +68,7 @@ class AIState_MatchToCity(AIState):
             x,y,z,
             troop.speed)
         
-        controller.lookat(x,y,z)
+        controller.look_at(x,y,z)
 
         #print_line(f'enter state: {controller.unit_id}')
     def update(self, controller):

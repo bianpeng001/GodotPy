@@ -110,8 +110,8 @@ class TroopController(Controller):
         self.update_ai()
         self.update_move()
 
-    def lookat(self,x,y,z):
-        Node3D.lookat(self.model_node, x,y,z)
+    def look_at(self,x,y,z):
+        Node3D.look_at(self.model_node, x,y,z)
 
     def kill(self):
         self.unit.set_dead()
