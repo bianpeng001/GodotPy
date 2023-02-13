@@ -310,6 +310,10 @@ class Node:
     @classmethod
     def destroy(cls, node):
         gp.destroy(node)
+
+    @classmethod
+    def connect(cls, node, signal, cb):
+        gp.connect(node, signal, cb)
 #
 class Label3D:
     @classmethod
@@ -321,6 +325,10 @@ class Node3D:
     @classmethod
     def set_position(cls,node,x,y,z):
         gp.set_position(node,x,y,z)
+
+    @classmethod
+    def get_position(cls, node):
+        return gp.get_position(node)
 
     @classmethod
     def look_at(cls, node,x,y,z):
@@ -354,6 +362,10 @@ class AnimationPlayer:
     @classmethod
     def play(cls, node, anim_name):
         gp.animation_player_play(node, anim_name)
+
+    @classmethod
+    def set_speed_scale(cls, node, speed):
+        gp.animation_player_set_speed_scale(node, speed)
 
 #------------------------------------------------------------
 # log util

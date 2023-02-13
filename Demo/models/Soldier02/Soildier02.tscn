@@ -32,8 +32,4 @@ libraries = {
 "NewAnimLib": ExtResource("3_r5qb2")
 }
 
-[node name="FPyObject" type="FPyObject" parent="."]
-python_module = "game.anim_test"
-python_class = "AnimTest"
-
 [editable path="Model"]

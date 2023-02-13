@@ -254,6 +254,7 @@ static PyObject *f_get_parent(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+// 切场景
 static PyObject *f_load_scene(PyObject *module, PyObject *args) {
 	do {
 		char *a_path;
@@ -279,6 +280,9 @@ static PyObject *f_destroy(PyObject *module, PyObject *args) {
 		}
 
 		auto node = GetCapsulePointer<Node>(a_node);
+		if (!node) {
+			break;
+		}
 		node->queue_free();
 
 	} while (0);
@@ -293,13 +297,17 @@ static PyObject* f_find_node(PyObject* module, PyObject* args) {
 		goto end;
 	}
 
-	Node *node = GetCapsulePointer<Node>(a_node)->get_node(
-			NodePath(String::utf8(a_path)));
+	Node *node = GetCapsulePointer<Node>(a_node);
 	if (!node) {
 		goto end;
 	}
 
-	PyObject *obj = get_or_create_capsule(node);
+	auto result = node->get_node(NodePath(String::utf8(a_path)));
+	if (!result) {
+		goto end;
+	}
+
+	PyObject *obj = get_or_create_capsule(result);
 	Py_INCREF(obj);
 	return obj;
 
@@ -820,6 +828,7 @@ static PyObject *f_label3d_set_text(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+// define godot api
 static PyMethodDef GodotPy_methods[] = {
 	// os
 	{ "print_line", f_print_line, METH_VARARGS, NULL },
