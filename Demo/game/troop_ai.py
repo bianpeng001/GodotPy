@@ -22,13 +22,23 @@ def ring_range(n):
         yield -n, n - i
 
 # 黑板，用于读写信息，状态之间传递数据
-class TroopBlackboard:
+class TroopBlackboard(AIBlackboard):
     def __init__(self):
         self.target_unit_id = 0
-        self.attack_time = 0
+        self.state_start_time = 0
+
+    # 状态持续时间
+    def get_state_time(self):
+        return game_mgr.time - self.state_start_time
+
+# troop的state的基类
+class AIState_Troop(AIState):
+    def enter(self, controller):
+        bb = controller.get_blackboard()
+        bb.state_start_time = game_mgr.time
 
 # 寻找一个目标城池
-class AIState_FindCity(AIState):
+class AIState_FindCity(AIState_Troop):
     def find_enemy_city(self,controller,col,row):
         owner_city_id = controller.unit.owner_city_id
         for i in range(3):
@@ -54,9 +64,11 @@ class AIState_FindCity(AIState):
             controller.ai_enter_state(AIState_TroopDie())
 
 # 行军, 先寻路，然后监控周围的敌人
-class AIState_MatchToCity(AIState):
+class AIState_MatchToCity(AIState_Troop):
     def enter(self, controller):
-        bb = controller.ai_bb
+        super().enter(controller)
+
+        bb = controller.get_blackboard()
         city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
         troop = controller.unit
        
@@ -75,23 +87,27 @@ class AIState_MatchToCity(AIState):
         if not controller.move_req.is_run:
             controller.ai_enter_state(AIState_AttackCity())
 
-# 攻城
-class AIState_AttackCity(AIState):
-    def update(self, controller):
-        bb = controller.ai_bb
-        bb.attack_time += 1
-        if bb.attack_time > 80:
-            controller.ai_enter_state(AIState_TroopDie())
-
 # 解散
-class AIState_TroopDie(AIState):
+class AIState_TroopDie(AIState_Troop):
     def enter(self, controller):
+        super().enter(controller)
+
         logutil.debug(f'kill {controller.unit_id}')
         controller.kill()
 
 # 空闲
-class AIState_Idle(AIState):
+class AIState_Idle(AIState_Troop):
     def update(self, controller):
         if random_max(100) < 10:
             logutil.debug(f'idle {controller.unit_id}')
+
+#------------------------------------------------------------
+# 攻城战
+#------------------------------------------------------------
+class AIState_AttackCity(AIState_Troop):
+    def update(self, controller):
+        bb = controller.get_blackboard()
+        if bb.get_state_time() > 3000:
+            controller.ai_enter_state(AIState_TroopDie())
+
 

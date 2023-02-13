@@ -88,6 +88,9 @@ class TroopController(Controller):
         
         self.move_req = MoveReq()
 
+    def get_blackboard(self):
+        return self.ai_bb
+
     def on_ai_tick(self, tick_time):
         #unit = game_mgr.unit_mgr.get_unit(self.unit_id)
         #print_line(unit.unit_name)

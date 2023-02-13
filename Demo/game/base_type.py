@@ -26,6 +26,9 @@ class AIMachine:
         if self.ai_state:
             self.ai_state.enter(self)
 
+#
+class AIBlackboard:
+    pass
 
 # AI状态机的单独状态, 生命周期
 class AIState:
@@ -114,4 +117,7 @@ class Controller(AIMachine):
 
     def update(self):
         pass
+
+    def get_blackboard(self):
+        return None
 
