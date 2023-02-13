@@ -1,0 +1,8 @@
+[gd_resource type="AnimationLibrary" load_steps=2 format=3 uid="uid://se17iwtxiphw"]
+
+[ext_resource type="Animation" uid="uid://bssetjru4t45r" path="res://models/Soldier02/Run.res" id="1_a0upg"]
+
+[resource]
+_data = {
+"Run": ExtResource("1_a0upg")
+}

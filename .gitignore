@@ -37,4 +37,5 @@
 .godot
 __pycache__
 Build
+Demo/launch.json
 

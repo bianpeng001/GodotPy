@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://dq7t5y8go8fcq"]
+
+[ext_resource type="PackedScene" uid="uid://dyya6ttgmgglq" path="res://models/Soldier02/Soldier02.glb" id="1_eba87"]
+[ext_resource type="Animation" uid="uid://bssetjru4t45r" path="res://models/Soldier02/Run.res" id="2_gowd8"]
+[ext_resource type="AnimationLibrary" uid="uid://se17iwtxiphw" path="res://models/Soldier02/NewAnimLib.tres" id="3_r5qb2"]
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gmico"]
+_data = {
+"Run": ExtResource("2_gowd8")
+}
+
+[node name="Soldier02" type="Node3D"]
+
+[node name="Model" parent="." instance=ExtResource("1_eba87")]
+
+[node name="Skeleton3D" parent="Model/Armature" index="0"]
+bones/0/position = Vector3(6.61744e-24, -0.0506168, -6.80082e-09)
+bones/2/rotation = Quaternion(-0.122044, -0.122044, 0.696495, 0.696495)
+bones/3/rotation = Quaternion(-0.147334, -7.96359e-09, 2.12897e-09, 0.989087)
+bones/6/rotation = Quaternion(0.231586, -0.231586, -0.668108, 0.668108)
+bones/7/rotation = Quaternion(-0.147334, 1.10309e-08, 2.77728e-08, 0.989087)
+bones/11/rotation = Quaternion(-0.161249, 0.192168, -0.622234, 0.741549)
+bones/12/rotation = Quaternion(0.0858316, -0.0151345, 1.31468e-08, 0.996195)
+bones/13/rotation = Quaternion(5.52695e-08, 0.707107, 1.86583e-08, 0.707107)
+bones/15/rotation = Quaternion(0.161248, 0.192168, 0.622234, 0.741549)
+bones/16/rotation = Quaternion(0.0858317, 0.0151345, -2.7579e-08, 0.996195)
+bones/17/rotation = Quaternion(7.1671e-08, -0.707107, 1.84553e-09, 0.707107)
+
+[node name="AnimationPlayer" parent="Model" index="1"]
+libraries = {
+"": SubResource("AnimationLibrary_gmico"),
+"NewAnimLib": ExtResource("3_r5qb2")
+}
+
+[editable path="Model"]

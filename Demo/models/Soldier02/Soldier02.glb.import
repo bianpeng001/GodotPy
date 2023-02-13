@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dmej8dhhs72jd"
-path="res://.godot/imported/Soldier2.glb-b69d60d257317acea2267a03b5dd1118.scn"
+uid="uid://dyya6ttgmgglq"
+path="res://.godot/imported/Soldier02.glb-53877afb061d984bc29e566d4eaa48ce.scn"
 
 [deps]
 
-source_file="res://models/Soldier02/Soldier2.glb"
-dest_files=["res://.godot/imported/Soldier2.glb-b69d60d257317acea2267a03b5dd1118.scn"]
+source_file="res://models/Soldier02/Soldier02.glb"
+dest_files=["res://.godot/imported/Soldier02.glb-53877afb061d984bc29e566d4eaa48ce.scn"]
 
 [params]
 
@@ -34,7 +34,7 @@ _subresources={
 "save_to_file/enabled": true,
 "save_to_file/keep_custom_tracks": "",
 "save_to_file/path": "res://models/Soldier02/Run.res",
-"settings/loop_mode": 0,
+"settings/loop_mode": 1,
 "slice_1/end_frame": 0,
 "slice_1/loop_mode": 0,
 "slice_1/name": "",
@@ -1831,13 +1831,13 @@ _subresources={
 }
 },
 "materials": {
-"Material": {
+"Material.001": {
 "use_external/enabled": true,
 "use_external/path": "res://models/Soldier02/Soldier02Mat.tres"
 }
 },
 "meshes": {
-"Soldier2_Soldier2": {
+"Soldier02_Soldier2": {
 "generate/lightmap_uv": 0,
 "generate/lods": 0,
 "generate/shadow_meshes": 0,
