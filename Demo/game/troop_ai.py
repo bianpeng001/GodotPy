@@ -31,11 +31,16 @@ class TroopBlackboard(AIBlackboard):
     def get_state_time(self):
         return game_mgr.time - self.state_start_time
 
-# troop的state的基类
+# troop的state的基类，在enter里面记录开始时间
 class AIState_Troop(AIState):
     def enter(self, controller):
         bb = controller.get_blackboard()
         bb.state_start_time = game_mgr.time
+
+        self.do_enter(controller, bb)
+
+    def do_enter(self, controller, bb):
+        pass
 
 # 寻找一个目标城池
 class AIState_FindCity(AIState_Troop):
@@ -65,10 +70,7 @@ class AIState_FindCity(AIState_Troop):
 
 # 行军, 先寻路，然后监控周围的敌人
 class AIState_MatchToCity(AIState_Troop):
-    def enter(self, controller):
-        super().enter(controller)
-
-        bb = controller.get_blackboard()
+    def do_enter(self, controller, bb):
         city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
         troop = controller.unit
        
@@ -89,9 +91,7 @@ class AIState_MatchToCity(AIState_Troop):
 
 # 解散
 class AIState_TroopDie(AIState_Troop):
-    def enter(self, controller):
-        super().enter(controller)
-
+    def do_enter(self, controller, bb):
         logutil.debug(f'kill {controller.unit_id}')
         controller.kill()
 

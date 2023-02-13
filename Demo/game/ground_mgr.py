@@ -34,26 +34,37 @@ class Tile:
         self.model_node = instantiate('res://models/Square.tscn')
         set_position(self.model_node, pos_x, 0, pos_z)
 
-        # 随机几颗树
+        # 树
         for i in range(random.randrange(1, 10)):
             self.load_res('res://models/Tree01.tscn',
                 pos_x + random_x()*15,
                 pos_z + random_x()*15,
-                0.5 + random.random())
-        # 一个草
+                0.5 + random.random()*1.0)
+        # 草
         for i in range(random.randrange(1, 5)):
             self.load_res('res://models/Grass01.tscn', 
                 pos_x + random_x()*15,
                 pos_z + random_x()*15,
-                0.8 + random.random())
-
+                0.8 + random.random()*0.7)
+        # 亭
         if random.random() < 0.5:
+            rad = random_x()*math.pi
+            dis = 3 + random_x()*10
+            self.load_res('res://models/Pavilion01.tscn',
+                pos_x + math.cos(rad)*dis,
+                pos_z + math.sin(rad)*dis,
+                1.0)
+
+        # 城
+        if random.random() < 0.3:
             city = game_mgr.unit_mgr.create_city()
             city.owner_player_id = 0
             city.set_location(pos_x + random_x()*5,
                 0,
                 pos_z + random_x()*5)
             self.units.append(city)
+
+        
 
     def load_res(self, path, x, z, s):
         item = instantiate(path)
