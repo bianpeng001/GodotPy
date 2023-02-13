@@ -114,8 +114,35 @@ def co_print_number():
 
 game_mgr.co_mgr.start(co_print_number())
 ```
-coroutine是用Unity3D的时候，非常喜欢的一个机制，很多小的任务，用timer太麻烦，还有一些精确到帧的任务，都可以用coroutine来做。比如等一帧，等几帧，或者等到某个前置条件成立。
+coroutine，在用Unity3D的时候，非常喜欢的一个机制，很多小的任务，用timer太麻烦，还有一些精确到帧的任务，都可以用coroutine来做。比如等一帧，等几帧，或者等到某个前置条件成立。Python已经有了异步的机制，async/await关键字的task机制，不过我没有成功。跟unity一样，最后也是利用iterator的yield语句，实现了coroutine。
+
+
+### 动作系统
+从glb里面导出来，包含主要的几个节点:
+
+Skeleton:
+    看资源信息，肯定是骨骼的绑定数据。
+
+MeshInstance:
+    指定Mesh信息，Skin信息
+
+AnimationPlayer
+    从AnimationLibrary里面播放动画
+
+相关的资源有:
+Animation: 可以导入时选择单独保存。
+
+AnimationLibrary: Animation的集合，必须在AnimationLibrary才能被使用。
+
+Skin:
+
+Mesh: 可以导入时选择单独保存。
+
 
 ### UI开发
 ui自动适配屏幕大小，在Project Settings > Window > Stretch。Mode:canvas_items, Aspect=keep。
+
+### 内存管理
+TODO：现在是放在一个列表，出场景统一清理。以后要做成跟着python的GC走, 可能要给Python一个弱引用。目前是用Capsule上面做的，后面自己做一个容器。
+
 

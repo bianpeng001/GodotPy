@@ -10,6 +10,7 @@
 #include "core/os/time.h"
 #include "core/math/plane.h"
 
+#include "scene/animation/animation_player.h"
 #include "scene/main/viewport.h"
 #include "scene/3d/node_3d.h"
 #include "scene/3d/camera_3d.h"
@@ -434,6 +435,27 @@ static PyObject *f_set_scale(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_animation_player_play(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
+		const char *a_anim_name;
+
+		if (!PyArg_ParseTuple(args, "Os", &a_node, &a_anim_name)) {
+			break;
+		}
+
+		auto player = GetCapsulePointer<AnimationPlayer>(a_node);
+		if (!player) {
+			break;
+		}
+
+		StringName anim_name(a_anim_name);
+		player->play(anim_name);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 // 屏幕点，投影到地面上的交点，的世界坐标
 static PyObject *f_screen_to_world(PyObject *module, PyObject *args) {
 	do {
@@ -692,6 +714,9 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "lookat", f_lookat, METH_VARARGS, NULL },
 	{ "get_rotation", f_get_rotation, METH_VARARGS, NULL },
 	{ "set_scale", f_set_scale, METH_VARARGS, NULL },
+
+	// animation player
+	{ "animation_player_play", f_animation_player_play, METH_VARARGS, NULL },
 
 	// node2d
 	{ "set_position_2d", f_set_position_2d, METH_VARARGS, NULL },

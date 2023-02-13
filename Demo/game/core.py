@@ -304,6 +304,10 @@ class Node:
         return gp.find_node(node, path)
 
     @classmethod
+    def get_parent(cls, node):
+        return gp.get_parent(node)
+
+    @classmethod
     def destroy(cls, node):
         gp.destroy(node)
 #
@@ -344,6 +348,12 @@ class Camera3D:
     @classmethod
     def screen_to_world(cls, camera, x,y):
         return gp.screen_to_world(camera, x,y)
+
+# 
+class AnimationPlayer:
+    @classmethod
+    def play(cls, node, anim_name):
+        gp.animation_player_play(node, anim_name)
 
 #------------------------------------------------------------
 # log util
