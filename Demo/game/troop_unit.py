@@ -31,7 +31,9 @@ class TroopUnit(Unit):
     def load_model(self):
         self.unit_name = f'部队_{self.unit_id}'
 
-        self.model_node = instantiate('res://models/Troop01.tscn')
+        #path = 'res://models/Troop01.tscn'
+        path = 'res://models/Troop02.tscn'
+        self.model_node = instantiate(path)
         Node3D.set_position(self.model_node,*self.get_location())
 
     def set_army_amount(self, value):

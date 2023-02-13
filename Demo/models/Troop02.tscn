@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://cw0rvc3hxfk0b"]
+
+[ext_resource type="PackedScene" uid="uid://bccj1sc0y4dd1" path="res://effect/Dust02.tscn" id="1_gfsoq"]
+[ext_resource type="PackedScene" uid="uid://dq7t5y8go8fcq" path="res://models/Soldier02/Soildier02.tscn" id="2_34k06"]
+[ext_resource type="ArrayMesh" uid="uid://b7idplm5u8qyl" path="res://models/Arrow.obj" id="3_hb6po"]
+
+[node name="Troop02" type="Node3D"]
+
+[node name="Dust02" parent="." instance=ExtResource("1_gfsoq")]
+
+[node name="Soldier02" parent="." instance=ExtResource("2_34k06")]
+transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 0, 0, 0)
+
+[node name="Soldier03" parent="." instance=ExtResource("2_34k06")]
+transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, -1, 0, 0)
+
+[node name="Soldier04" parent="." instance=ExtResource("2_34k06")]
+transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 1, 0, 0)
+
+[node name="Soldier08" parent="." instance=ExtResource("2_34k06")]
+transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 0, 0, -1)
+
+[node name="Soldier09" parent="." instance=ExtResource("2_34k06")]
+transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, -1, 0, -1)
+
+[node name="Soldier10" parent="." instance=ExtResource("2_34k06")]
+transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 1, 0, -1)
+
+[node name="Soldier05" parent="." instance=ExtResource("2_34k06")]
+transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 0, 0, 1)
+
+[node name="Soldier06" parent="." instance=ExtResource("2_34k06")]
+transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, -1, 0, 1)
+
+[node name="Soldier07" parent="." instance=ExtResource("2_34k06")]
+transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 1, 0, 1)
+
+[node name="Arrow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.353, 0, 0)
+mesh = ExtResource("3_hb6po")

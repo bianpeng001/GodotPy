@@ -435,6 +435,7 @@ static PyObject *f_set_scale(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+// animation play
 static PyObject *f_animation_player_play(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_node;
@@ -451,6 +452,26 @@ static PyObject *f_animation_player_play(PyObject *module, PyObject *args) {
 
 		StringName anim_name(a_anim_name);
 		player->play(anim_name);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_animation_player_stop(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
+		int a_keep_state;
+
+		if (!PyArg_ParseTuple(args, "Os", &a_node, &a_keep_state)) {
+			break;
+		}
+
+		auto player = GetCapsulePointer<AnimationPlayer>(a_node);
+		if (!player) {
+			break;
+		}
+
+		player->stop(a_keep_state != 0);
 
 	} while (0);
 
@@ -717,6 +738,7 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// animation player
 	{ "animation_player_play", f_animation_player_play, METH_VARARGS, NULL },
+	{ "animation_player_stop", f_animation_player_stop, METH_VARARGS, NULL },
 
 	// node2d
 	{ "set_position_2d", f_set_position_2d, METH_VARARGS, NULL },
