@@ -132,7 +132,7 @@ AnimationPlayer
 相关的资源有:
 Animation: 可以导入时选择单独保存。
 
-AnimationLibrary: Animation的集合，必须在AnimationLibrary才能被使用。
+AnimationLibrary: Animation的集合，Animation必须在AnimationLibrary才能被使用。
 
 Skin:
 
@@ -145,4 +145,16 @@ ui自动适配屏幕大小，在Project Settings > Window > Stretch。Mode:canva
 ### 内存管理
 TODO：现在是放在一个列表，出场景统一清理。以后要做成跟着python的GC走, 可能要给Python一个弱引用。目前是用Capsule上面做的，后面自己做一个容器。
 
+
+### 玩法设计
+
+内政：管理城池的武将，生产，物资。一个单独的UI来实现。
+
+出战：战斗模块，战斗在大地图上完成。
+
+探索：社会事件，获得物品。
+
+san9，回合制
+
+san11，回合制 + 行动力
 
