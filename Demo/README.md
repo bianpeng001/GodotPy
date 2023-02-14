@@ -151,6 +151,34 @@ ui自动适配屏幕大小，在Project Settings > Window > Stretch。Mode:canva
 ### 内存管理
 TODO：现在是放在一个列表，出场景统一清理。以后要做成跟着python的GC走, 可能要给Python一个弱引用。目前是用Capsule上面做的，后面自己做一个容器。
 
+Python的内存用计数器来实现的，一个好处就是内存释放及时。
+```Python
+class A:
+    def __del__(self):
+        print(f'delete {self}')
+
+a = A()
+a = None 
+
+a = [1,2,A(),3,4]
+a = None
+```
+除非有循环引用，存在环结构，需要通过触发GC，算法里面解环来判断闭合，自动释放。所以，严格的说Python大部分还是可以及时释放的，少部分情况下，会需要GC，会导致卡顿。但相比于mark and sweep，大部分的对象及时释放，所以那个卡顿没那么明显。长久来看，存在的开销有计数+扫描，代价比mark and sweep大，但是导致的卡顿小这个特点，非常适合游戏，用户感知到的卡顿也小。
+
+而且，有必要的话，还可以关闭GC，自己手动解环。
+
+有一些系统会推荐这种用法，临时关闭GC，内存操作，开启GC，减少扫描的开销，达到提升性能的目的。
+
+```Python
+import gc
+
+gc.isenabled = False
+
+# business code...
+
+gc.isenabled = True
+
+```
 
 ### 玩法设计
 

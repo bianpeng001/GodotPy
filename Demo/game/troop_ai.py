@@ -18,6 +18,7 @@ class BaseMoveReq:
         self.progress = 0
         self.time_to_progress = 1
 
+# 直线
 class LineMoveReq(BaseMoveReq):
     def update(self, troop, delta_time):
         pass
@@ -39,6 +40,7 @@ class LineMoveReq(BaseMoveReq):
         self.is_move = True
 
 
+# 模拟弧线
 class ArcMoveReq(BaseMoveReq):
     def __init__(self):
         super().__init__()
@@ -56,28 +58,33 @@ class ArcMoveReq(BaseMoveReq):
             self.is_move = False
             return
 
+        duration = mag1 / speed
         self.delta = self.delta * (mag1 / mag)
-        self.time_to_progress = speed / mag1
-        self.right = self.delta.cross(Vector3.up).normlized()
+        self.time_to_progress = 1.0 / duration
+        self.right = self.delta.cross(Vector3.up).normlized() * 2
 
         self.is_move = True
 
     def update(self, troop, delta_time):
         self.progress += delta_time * self.time_to_progress
         if self.progress < 1.0:
-            p = self.start + self.delta * self.progress +\
-                self.right * math.sin(math.pi*self.progress) * 2
+            x = 2*self.progress - 1
+            #y = math.sqrt(1 - x*x)
+            y = 1 - x*x
+
+            p = self.start + \
+                self.delta * self.progress + \
+                self.right * y
+            troop.set_location(p.x,p.y,p.z)
         else:
             p = self.start + self.delta
+            troop.set_location(p.x,p.y,p.z)
             self.is_move = False
 
-        troop.set_location(p.x,p.y,p.z)
 
 # 左右移动
 class LeftRightMoveReq(BaseMoveReq):
-    def __init__(self):
-        super().__init__()
-        
+    def setup(self, x0,y0,z0,x1,yz,z1):
         self.is_left = True
 
     def update(self, troop, delta_time):
