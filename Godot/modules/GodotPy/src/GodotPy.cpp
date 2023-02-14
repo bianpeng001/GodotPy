@@ -670,12 +670,12 @@ static PyObject *f_animation_player_set_speed_scale(PyObject *module, PyObject *
 			break;
 		}
 
-		auto player = GetCapsulePointer<AnimationPlayer>(a_node);
-		if (!player) {
+		auto anim_player = GetCapsulePointer<AnimationPlayer>(a_node);
+		if (!anim_player) {
 			break;
 		}
 
-		player->set_speed_scale(a_speed);
+		anim_player->set_speed_scale(a_speed);
 
 	} while (0);
 
