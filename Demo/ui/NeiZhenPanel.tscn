@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://csvbr8jlvrect"]
+
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_vn1ox"]
+
+[node name="NeiZhenPanel" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 336.0
+offset_top = 168.0
+offset_right = 485.0
+offset_bottom = 224.0
+theme = ExtResource("1_vn1ox")
+text = "臧柯"
+
+[node name="Button" type="Button" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 84.0
+offset_bottom = 34.0
+theme = ExtResource("1_vn1ox")
+text = "武将"
+
+[node name="Button2" type="Button" parent="."]
+offset_left = 4.0
+offset_top = 38.0
+offset_right = 84.0
+offset_bottom = 68.0
+theme = ExtResource("1_vn1ox")
+text = "农业"
+
+[node name="Button3" type="Button" parent="."]
+offset_left = 4.0
+offset_top = 72.0
+offset_right = 84.0
+offset_bottom = 102.0
+theme = ExtResource("1_vn1ox")
+text = "商业"
