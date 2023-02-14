@@ -40,13 +40,15 @@ typedef struct {
 	PyObject_HEAD Object *obj;
 	ObjectID instance_id;
 } PyGDObj;
-
+static void PyGDObj_dealloc(PyObject* o) {
+	PyObject_Free(o);
+}
 PyTypeObject PyGDObj_Type = {
 	PyVarObject_HEAD_INIT(&PyType_Type, 0) "PyGDObj", /*tp_name*/
 	sizeof(PyGDObj), /*tp_basicsize*/
 	0, /*tp_itemsize*/
 	/* methods */
-	NULL, /*tp_dealloc*/
+	&PyGDObj_dealloc, /*tp_dealloc*/
 	0, /*tp_vectorcall_offset*/
 	0, /*tp_getattr*/
 	0, /*tp_setattr*/
@@ -64,7 +66,21 @@ PyTypeObject PyGDObj_Type = {
 	0, /*tp_flags*/
 	NULL/*tp_doc*/
 };
+// 创建一个对obj的弱引用，在python side持有，如果obj在godot里面已经销毁
+// 则需要在python这边有能力安全的判断是否 is_null, is_valid, has_data啥的
+PyObject *PyGDObj_New(Object *obj) {
+	PyGDObj *o;
 
+	o = PyObject_New(PyGDObj, &PyGDObj_Type);
+	if (o == NULL) {
+		return NULL;
+	}
+
+	o->obj = obj;
+	o->instance_id = obj->get_instance_id();
+
+	return (PyObject *)o;
+}
 
 //------------------------------------------------------------------------------
 //
