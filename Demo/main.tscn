@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://b76cwpgvw5b0s"]
 
 [ext_resource type="PackedScene" uid="uid://c1jjhatf1hdpn" path="res://ui/MainUI.tscn" id="2_ljo2c"]
-[ext_resource type="PackedScene" path="res://ui/ContextMenu.tscn" id="4_13hgr"]
+[ext_resource type="PackedScene" uid="uid://dd4s66q0b1ug8" path="res://ui/ContextMenu.tscn" id="4_13hgr"]
 [ext_resource type="PackedScene" uid="uid://bgtgw0kthulwj" path="res://effect/Dust01.tscn" id="5_0n56o"]
 [ext_resource type="PackedScene" uid="uid://chu55hfup7kgf" path="res://effect/Shoot01.tscn" id="5_nlq2y"]
 [ext_resource type="PackedScene" uid="uid://dq7t5y8go8fcq" path="res://models/Soldier02/Soildier02.tscn" id="7_tycvo"]

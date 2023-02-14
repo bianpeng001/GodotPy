@@ -12,12 +12,18 @@ offset_bottom = 224.0
 theme = ExtResource("1_vn1ox")
 text = "臧柯"
 
+[node name="Panel" type="Panel" parent="."]
+offset_left = 88.0
+offset_right = 588.0
+offset_bottom = 400.0
+
 [node name="Button" type="Button" parent="."]
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 84.0
 offset_bottom = 34.0
 theme = ExtResource("1_vn1ox")
+toggle_mode = true
 text = "武将"
 
 [node name="Button2" type="Button" parent="."]
@@ -26,6 +32,7 @@ offset_top = 38.0
 offset_right = 84.0
 offset_bottom = 68.0
 theme = ExtResource("1_vn1ox")
+toggle_mode = true
 text = "农业"
 
 [node name="Button3" type="Button" parent="."]
@@ -34,4 +41,5 @@ offset_top = 72.0
 offset_right = 84.0
 offset_bottom = 102.0
 theme = ExtResource("1_vn1ox")
+toggle_mode = true
 text = "商业"
