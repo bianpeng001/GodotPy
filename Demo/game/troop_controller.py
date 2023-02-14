@@ -76,7 +76,7 @@ class MoveReq:
             p += self.right * math.sin(math.pi*self.progress) * 2
         troop.set_location(p.x,p.y,p.z)
 
-# 部队
+# 部队控制，包括特效，动作，位置，朝向...
 class TroopController(Controller):
     def __init__(self):
         super().__init__()
@@ -114,7 +114,12 @@ class TroopController(Controller):
         self.update_move()
 
     def look_at(self,x,y,z):
-        Node3D.look_at(self.model_node, x,y,z)
+        if self.model_node:
+            Node3D.look_at(self.model_node, x,y,z)
+
+    def look_at_unit(self, unit):
+        x,y,z = unit.get_location()
+        self.lookat(x,y,z)
 
     def kill(self):
         self.unit.set_dead()

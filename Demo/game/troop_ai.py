@@ -90,6 +90,10 @@ class AIState_MatchToCity(AIState_Troop):
         if not controller.move_req.is_run:
             controller.ai_enter_state(AIState_AttackCity())
 
+        bb = controller.get_blackboard()
+        city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
+        controller.look_at_unit(city)
+
 # 解散
 class AIState_TroopDie(AIState_Troop):
     def do_enter(self, controller, bb):
@@ -109,11 +113,15 @@ class AIState_AttackCity(AIState_Troop):
     def update(self, controller):
         bb = controller.get_blackboard()
 
+        # 射箭
         if not bb.shoot_effect:
             bb.shoot_effect = instantiate('res://effect/Shoot01.tscn')
             Node.reparent(bb.shoot_effect, controller.model_node)
 
-        if bb.get_state_time() > 10000:
+        # 左右横移
+
+        # 结束战斗
+        if bb.get_state_time() > 12000:
             controller.ai_enter_state(AIState_TroopDie())
 
 
