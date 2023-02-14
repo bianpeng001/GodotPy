@@ -91,8 +91,6 @@ class LeftRightMoveReq(BaseMoveReq):
         v1 = Vector3(x1,y1,z1)
         delta = v1 - v0
 
-        normal = None
-
         proj_z = delta.dot(Vector3(0, 0, 1))
         proj_x = delta.dot(Vector3(1, 0, 0))
 
@@ -103,15 +101,25 @@ class LeftRightMoveReq(BaseMoveReq):
         
         right = normal.cross(Vector3.up)
 
-        self.start = v1 + normal * 6 + right * 3
-        self.stop = self.start - right * 6
-        self.delta = self.stop - self.start
-
-        duration = self.delta.magnitude() / speed
-        self.time_to_progress = 1.0 / duration
-
+        center = v1 + normal * 6
+        self.stops = [center + right*2, center - right*2]
+        self.stop_index = 0
+        self.speed = speed
+        self.reset(v0)
         self.target = v1
         self.is_move = True
+
+    def reset(self, v0):
+        self.stop_index = (self.stop_index + 1) % 2
+
+        self.start = v0
+        self.stop = self.stops[self.stop_index]
+        self.delta = self.stop - self.start
+
+        duration = self.delta.magnitude() / self.speed
+        self.time_to_progress = 1.0 / duration
+        self.progress = 0
+
 
     def update(self, troop, delta_time):
         self.progress += delta_time * self.time_to_progress
@@ -122,11 +130,7 @@ class LeftRightMoveReq(BaseMoveReq):
             t = self.target
             troop.get_controller().look_at(t.x,t.y,t.z)
         else:
-            tmp = self.start
-            self.start = self.stop
-            self.stop = tmp
-            self.delta.scale(-1)
-            self.progress = 0
+            self.reset(self.stop)
 
 
 # 遍历一周，顺序如下
