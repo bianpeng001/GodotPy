@@ -40,14 +40,16 @@ class Tile:
                 pos_x + random_x()*15,
                 pos_z + random_x()*15,
                 0.5 + random.random()*1.0)
+
         # 草
         for i in range(random.randrange(1, 5)):
             self.load_res('res://models/Grass01.tscn', 
                 pos_x + random_x()*15,
                 pos_z + random_x()*15,
                 0.8 + random.random()*0.7)
+
         # 亭
-        if random.random() < 0.5:
+        if random.random() < 0.3:
             rad = random_x()*math.pi
             dis = 3 + random.random()*10
             self.load_res('res://models/Pavilion01.tscn',
@@ -56,7 +58,7 @@ class Tile:
                 1.0)
 
         # 城
-        if random.random() < 0.3:
+        if random.random() < 0.5:
             city = game_mgr.unit_mgr.create_city()
             city.owner_player_id = 0
             city.set_location(pos_x + random_x()*5,

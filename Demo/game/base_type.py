@@ -99,6 +99,9 @@ class Unit:
     def set_dead(self):
         self.is_dead = True
 
+    def get_controller(self):
+        return self.controller
+
 
 # 单位的控制器
 class Controller(AIMachine):

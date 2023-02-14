@@ -84,11 +84,50 @@ class ArcMoveReq(BaseMoveReq):
 
 # 左右移动
 class LeftRightMoveReq(BaseMoveReq):
-    def setup(self, x0,y0,z0,x1,yz,z1):
+    def setup(self, x0,y0,z0, x1,y1,z1, speed):
         self.is_left = True
 
+        v0 = Vector3(x0,y0,z0)
+        v1 = Vector3(x1,y1,z1)
+        delta = v1 - v0
+
+        normal = None
+
+        proj_z = delta.dot(Vector3(0, 0, 1))
+        proj_x = delta.dot(Vector3(1, 0, 0))
+
+        if abs(proj_z) > abs(proj_x):
+            normal = Vector3(0, 0, -1 if proj_z > 0 else 1)
+        else:
+            normal = Vector3(-1 if proj_x > 0 else 1, 0, 0)
+        
+        right = normal.cross(Vector3.up)
+
+        self.start = v1 + normal * 6 + right * 3
+        self.stop = self.start - right * 6
+        self.delta = self.stop - self.start
+
+        duration = self.delta.magnitude() / speed
+        self.time_to_progress = 1.0 / duration
+
+        self.target = v1
+        self.is_move = True
+
     def update(self, troop, delta_time):
-        pass
+        self.progress += delta_time * self.time_to_progress
+        if self.progress < 1.0:
+            p = self.start + self.delta * self.progress
+            troop.set_location(p.x,p.y,p.z)
+            
+            t = self.target
+            troop.get_controller().look_at(t.x,t.y,t.z)
+        else:
+            tmp = self.start
+            self.start = self.stop
+            self.stop = tmp
+            self.delta.scale(-1)
+            self.progress = 0
+
 
 # 遍历一周，顺序如下
 # 012
@@ -159,15 +198,13 @@ class AIState_MatchToCity(AIState_Troop):
         city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
         troop = controller.unit
        
-        x,y,z = city.get_location()
-
         req = ArcMoveReq()
         req.setup(*troop.get_location(),
-            x,y,z,
+            *city.get_location(),
             troop.speed)
 
         controller.move_req = req
-        controller.look_at(x,y,z)
+        controller.look_at_unit(city)
 
         #print_line(f'enter state: {controller.unit_id}')
     def update(self, controller):
@@ -203,9 +240,21 @@ class AIState_AttackCity(AIState_Troop):
             Node.reparent(bb.shoot_effect, controller.model_node)
 
         # 左右横移
+        if not controller.move_req or \
+                not controller.move_req.is_move:
+            city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
+            troop = controller.unit
+
+            req = LeftRightMoveReq()
+            req.setup(*troop.get_location(),
+                *city.get_location(),
+                troop.speed*0.25)
+
+            controller.move_req = req
+            controller.look_at_unit(city)
 
         # 结束战斗
-        if bb.get_state_time() > 12000:
+        if bb.get_state_time() > 30000:
             controller.ai_enter_state(AIState_TroopDie())
 
 
