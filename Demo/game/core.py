@@ -314,15 +314,16 @@ class Node:
     @classmethod
     def connect(cls, node, signal, cb):
         gp.connect(node, signal, cb)
+
+    @classmethod
+    def reparent(cls, node, new_parent):
+        gp.reparent(node, new_parent)
+
 #
 class Label3D:
     @classmethod
     def set_text(cls, node, text):
         gp.label3d_set_text(node, text)
-
-    @classmethod
-    def reparent(cls, node, new_parent):
-        gp.reparent(node, new_parent)
 
 # 
 class Node3D:

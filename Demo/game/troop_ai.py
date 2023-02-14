@@ -110,9 +110,8 @@ class AIState_AttackCity(AIState_Troop):
         bb = controller.get_blackboard()
 
         if not bb.shoot_effect:
-            controller.get_node()
             bb.shoot_effect = instantiate('res://effect/Shoot01.tscn')
-            Node.reparent(bb.shoot_effect, bb.model_node)
+            Node.reparent(bb.shoot_effect, controller.model_node)
 
         if bb.get_state_time() > 10000:
             controller.ai_enter_state(AIState_TroopDie())
