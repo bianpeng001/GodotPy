@@ -254,6 +254,27 @@ static PyObject *f_get_parent(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_reparent(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
+		PyObject *a_new_parent;
+
+		if (!PyArg_ParseTuple(args, "OO", &a_node, &a_new_parent)) {
+			break;
+		}
+
+		auto node = GetCapsulePointer<Node>(a_node);
+		auto new_parent = GetCapsulePointer<Node>(a_new_parent);
+		node->reparent(new_parent);
+
+		auto node1 = static_cast<Node3D *>(node);
+		node1->set_position(Vector3(0, 0, 0));
+		node1->set_rotation(Vector3(0, 0, 0));
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 // 切场景
 static PyObject *f_load_scene(PyObject *module, PyObject *args) {
 	do {
@@ -845,6 +866,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "set_physics_process", f_set_physics_process, METH_VARARGS, NULL },
 	{ "connect", f_connect, METH_VARARGS, NULL },
 	{ "get_parent", f_get_parent, METH_VARARGS, NULL },
+	{ "reparent", f_reparent, METH_VARARGS, NULL },
 	{ "load_scene", f_load_scene, METH_VARARGS, NULL },
 	{ "destroy", f_destroy, METH_VARARGS, NULL },
 

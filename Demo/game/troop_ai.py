@@ -26,6 +26,7 @@ class TroopBlackboard(AIBlackboard):
     def __init__(self):
         self.target_unit_id = 0
         self.state_start_time = 0
+        self.shoot_effect = None
 
     # 状态持续时间
     def get_state_time(self):
@@ -107,6 +108,12 @@ class AIState_Idle(AIState_Troop):
 class AIState_AttackCity(AIState_Troop):
     def update(self, controller):
         bb = controller.get_blackboard()
+
+        if not bb.shoot_effect:
+            controller.get_node()
+            bb.shoot_effect = instantiate('res://effect/Shoot01.tscn')
+            Node.reparent(bb.shoot_effect, bb.model_node)
+
         if bb.get_state_time() > 10000:
             controller.ai_enter_state(AIState_TroopDie())
 
