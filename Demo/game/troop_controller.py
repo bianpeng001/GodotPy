@@ -7,75 +7,6 @@ from game.game_mgr import game_mgr
 from game.base_type import Controller
 from game.troop_ai import *
 
-# 定义一下移动需要的信息
-class MoveReq:
-    def __init__(self):
-        self.is_run = False
-        self.start = Vector3()
-        self.stop = Vector3()
-
-        #self.target_unit_id = 0
-
-        self.progress = 0
-        self.time_scale = 1
-        self.delta = Vector3()
-
-        self.line_type = 0
-
-    # 请求走直线
-    def line_to(self, x0,y0,z0, x,y,z, speed):
-        self.line_type = 1
-        self.is_run = True
-        self.progress = 0
-
-        self.start.set(x0,y0,z0)
-        self.stop.set(x,y,z)
-        self.delta = self.stop - self.start
-
-        len1 = self.delta.length()
-        len2 = len1 - 5
-        if len2 > 0:
-            self.delta = self.delta * (len2/len1)
-            self.time_to_progress = speed / len2
-        else:
-            self.is_run = False
-
-    # 走一个弧线
-    def arc_to(self, x0,y0,z0, x1,y1,z1, speed):
-        self.line_type = 2
-        self.is_run = True
-        self.progress = 0
-
-        self.start.set(x0,y0,z0)
-        self.stop.set(x1,y1,z1)
-        self.delta = self.stop - self.start
-
-        len1 = self.delta.length()
-        len2 = len1 - 5
-        if len2 > 0:
-            self.delta = self.delta * (len2/len1)
-            self.time_to_progress = speed / len2
-        else:
-            self.is_run = False
-        
-        self.right = self.delta.cross(Vector3.up).normlized()
-        
-
-    def move_path(self, path):
-        pass
-
-    def update(self, troop, delta_time):
-        self.progress += delta_time * self.time_to_progress
-        if self.progress < 1.0:
-            p = self.start + self.delta * self.progress
-        else:
-            p = self.start + self.delta
-            self.is_run = False
-
-        if self.line_type == 2:
-            p += self.right * math.sin(math.pi*self.progress) * 2
-        troop.set_location(p.x,p.y,p.z)
-
 # 部队控制，包括特效，动作，位置，朝向...
 class TroopController(Controller):
     def __init__(self):
@@ -86,7 +17,7 @@ class TroopController(Controller):
         self.ai_bb = TroopBlackboard()
         self.ai_enter_state(AIState_FindCity())
         
-        self.move_req = MoveReq()
+        self.move_req = None
 
     def get_blackboard(self):
         return self.ai_bb
@@ -104,7 +35,7 @@ class TroopController(Controller):
 
     def update_move(self):
         req = self.move_req
-        if req.is_run:
+        if req and req.is_move:
             troop = self.unit
             delta = game_mgr.delta_time
             req.update(troop, delta)
@@ -119,7 +50,7 @@ class TroopController(Controller):
 
     def look_at_unit(self, unit):
         x,y,z = unit.get_location()
-        self.lookat(x,y,z)
+        self.look_at(x,y,z)
 
     def kill(self):
         self.unit.set_dead()

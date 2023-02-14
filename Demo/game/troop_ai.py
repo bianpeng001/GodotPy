@@ -6,6 +6,83 @@ from game.core import *
 from game.base_type import *
 from game.game_mgr import game_mgr
 
+# 移动方式
+class BaseMoveReq:
+    def __init__(self):
+        self.is_move = True
+
+        self.start = None
+        self.stop = None
+        self.delta = None
+
+        self.progress = 0
+        self.time_to_progress = 1
+
+class LineMoveReq(BaseMoveReq):
+    def update(self, troop, delta_time):
+        pass
+
+    def setup(self, x0,y0,z0,x1,y1,z1, speed):
+        self.start = Vector3(x0,y0,z0)
+        self.stop = Vector3(x1,y1,z1)
+        self.delta = self.stop - self.start
+
+        mag = self.delta.magnitude()
+        mag1 = mag - 6
+        if mag1 < 0:
+            self.is_move = False
+            return
+
+        self.delta = self.delta * (mag1 / mag)
+        self.time_to_progress = speed / mag1
+
+        self.is_move = True
+
+
+class ArcMoveReq(BaseMoveReq):
+    def __init__(self):
+        super().__init__()
+        
+        self.right = None
+
+    def setup(self,x0,y0,z0,x1,y1,z1, speed):
+        self.start = Vector3(x0,y0,z0)
+        self.stop = Vector3(x1,y1,z1)
+        self.delta = self.stop - self.start
+
+        mag = self.delta.magnitude()
+        mag1 = mag - 6
+        if mag1 < 0:
+            self.is_move = False
+            return
+
+        self.delta = self.delta * (mag1 / mag)
+        self.time_to_progress = speed / mag1
+        self.right = self.delta.cross(Vector3.up).normlized()
+
+        self.is_move = True
+
+    def update(self, troop, delta_time):
+        self.progress += delta_time * self.time_to_progress
+        if self.progress < 1.0:
+            p = self.start + self.delta * self.progress +\
+                self.right * math.sin(math.pi*self.progress) * 2
+        else:
+            p = self.start + self.delta
+            self.is_move = False
+
+        troop.set_location(p.x,p.y,p.z)
+
+# 左右移动
+class LeftRightMoveReq(BaseMoveReq):
+    def __init__(self):
+        super().__init__()
+        
+        self.is_left = True
+
+    def update(self, troop, delta_time):
+        pass
+
 # 遍历一周，顺序如下
 # 012
 # 7X3
@@ -75,19 +152,19 @@ class AIState_MatchToCity(AIState_Troop):
         city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
         troop = controller.unit
        
-        req = controller.move_req
         x,y,z = city.get_location()
-        #req.line_to(
-        req.arc_to(
-            *troop.get_location(),
+
+        req = ArcMoveReq()
+        req.setup(*troop.get_location(),
             x,y,z,
             troop.speed)
-        
+
+        controller.move_req = req
         controller.look_at(x,y,z)
 
         #print_line(f'enter state: {controller.unit_id}')
     def update(self, controller):
-        if not controller.move_req.is_run:
+        if not controller.move_req.is_move:
             controller.ai_enter_state(AIState_AttackCity())
 
         bb = controller.get_blackboard()

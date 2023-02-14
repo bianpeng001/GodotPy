@@ -265,11 +265,21 @@ static PyObject *f_reparent(PyObject *module, PyObject *args) {
 
 		auto node = GetCapsulePointer<Node>(a_node);
 		auto new_parent = GetCapsulePointer<Node>(a_new_parent);
+
+		if (!node || !new_parent) {
+			break;
+		}
 		node->reparent(new_parent);
 
-		auto node1 = static_cast<Node3D *>(node);
-		node1->set_position(Vector3(0, 0, 0));
-		node1->set_rotation(Vector3(0, 0, 0));
+		auto node3d = Object::cast_to<Node3D>(node);
+		if (!node3d) {
+			break;
+		}
+		node3d->set_position(Vector3(0, 0, 0));
+		node3d->set_rotation(Vector3(0, 0, 0));
+
+		//Transform3D tr;
+		//node3d->set_transform(tr);
 
 	} while (0);
 
@@ -292,6 +302,7 @@ static PyObject *f_load_scene(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+// 销毁节点
 static PyObject *f_destroy(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_node;
@@ -336,7 +347,8 @@ end:
 	Py_RETURN_NONE;
 }
 static PyObject *f_get_child_count(PyObject *module, PyObject *args) {
-	while (true) {
+	do
+	{
 		PyObject *a_node;
 
 		if (!PyArg_ParseTuple(args, "O", &a_node)) {
@@ -350,12 +362,13 @@ static PyObject *f_get_child_count(PyObject *module, PyObject *args) {
 
 		int child_count = node->get_child_count();
 		return Py_BuildValue("i", child_count);
-	}
+
+	} while (false);
 
 	Py_RETURN_NONE;
 }
 static PyObject *f_get_child_at(PyObject *module, PyObject *args) {
-	while (true) {
+	do {
 		PyObject *a_node;
 		int a_index;
 
@@ -377,12 +390,12 @@ static PyObject *f_get_child_at(PyObject *module, PyObject *args) {
 		PyObject *obj = get_or_create_capsule(child_node);
 		Py_INCREF(obj);
 		return obj;
-	}
+
+	} while (0);
 
 	Py_RETURN_NONE;
 }
 static PyObject *f_set_position(PyObject *module, PyObject *args) {
-	
 	do {
 		PyObject *a_node;
 		float x, y, z;
