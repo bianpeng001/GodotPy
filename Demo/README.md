@@ -180,6 +180,8 @@ gc.isenabled = True
 
 ```
 
+Godot里面Object和ObjectId，ObjectId应该是一个不会重复的值。如果重复了，那只能说明太变态了。
+
 ### 玩法设计
 
 内政：管理城池的武将，生产，物资。一个单独的UI来实现。

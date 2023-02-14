@@ -4,21 +4,25 @@
 
 #include "GodotPy.h"
 
-// godot headers
+// core headers
 #include "core/os/os.h"
 #include "core/os/memory.h"
 #include "core/os/time.h"
 #include "core/math/plane.h"
 
+// scene headers
 #include "scene/animation/animation_player.h"
 #include "scene/main/viewport.h"
+
 #include "scene/3d/node_3d.h"
 #include "scene/3d/camera_3d.h"
 #include "scene/3d/label_3d.h"
+
 #include "scene/2d/node_2d.h"
 #include "scene/gui/control.h"
 #include "scene/resources/packed_scene.h"
 
+// servers
 #include "servers/display_server.h"
 
 // python headers
@@ -28,6 +32,39 @@
 
 #define GP_DECREF(X) Py_DECREF(X); \
 	X = NULL
+
+//------------------------------------------------------------------------------
+// 定义一个object的容器，用来表示object，应该是一个弱引用
+//------------------------------------------------------------------------------
+typedef struct {
+	PyObject_HEAD Object *obj;
+	ObjectID instance_id;
+} PyGDObj;
+
+PyTypeObject PyGDObj_Type = {
+	PyVarObject_HEAD_INIT(&PyType_Type, 0) "PyGDObj", /*tp_name*/
+	sizeof(PyGDObj), /*tp_basicsize*/
+	0, /*tp_itemsize*/
+	/* methods */
+	NULL, /*tp_dealloc*/
+	0, /*tp_vectorcall_offset*/
+	0, /*tp_getattr*/
+	0, /*tp_setattr*/
+	0, /*tp_as_async*/
+	NULL, /*tp_repr*/
+	0, /*tp_as_number*/
+	0, /*tp_as_sequence*/
+	0, /*tp_as_mapping*/
+	0, /*tp_hash*/
+	0, /*tp_call*/
+	0, /*tp_str*/
+	0, /*tp_getattro*/
+	0, /*tp_setattro*/
+	0, /*tp_as_buffer*/
+	0, /*tp_flags*/
+	NULL/*tp_doc*/
+};
+
 
 //------------------------------------------------------------------------------
 //
@@ -576,13 +613,13 @@ static PyObject *f_animation_player_play(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		auto player = GetCapsulePointer<AnimationPlayer>(a_node);
-		if (!player) {
+		auto anim_player = GetCapsulePointer<AnimationPlayer>(a_node);
+		if (!anim_player) {
 			break;
 		}
-
-		StringName anim_name(a_anim_name);
-		player->play(anim_name);
+		
+		StringName anim_name(String::utf8(a_anim_name));
+		anim_player->play(anim_name);
 
 	} while (0);
 
