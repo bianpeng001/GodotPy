@@ -258,7 +258,7 @@ class AIState_AttackCity(AIState_Troop):
             controller.look_at_unit(city)
 
         # 结束战斗
-        if bb.get_state_time() > 30000:
+        if bb.get_state_time() > 50000:
             controller.ai_enter_state(AIState_TroopDie())
 
 
