@@ -180,7 +180,7 @@ class AIState_FindCity(AIState_Troop):
                 if not tile:
                     continue
                 for unit in tile.units:
-                    if unit.unit_type == 1 and\
+                    if unit.unit_type == UT_CITY and\
                             (unit.owner_player_id == 0 or \
                             unit.owner_player_id != owner_player_id):
                         return unit
@@ -258,7 +258,7 @@ class AIState_AttackCity(AIState_Troop):
             controller.move_req = req
             controller.look_at_unit(city)
 
-        goto_die = False
+        troop_dismiss = False
 
         if game_mgr.time - bb.attack_time > 1000:
             bb.attack_time = game_mgr.time
@@ -268,13 +268,13 @@ class AIState_AttackCity(AIState_Troop):
 
             game_mgr.game_play.troop_attack_city(troop, city)
             if city.army_amount <= 0:
-                goto_die = True
+                troop_dismiss = True
 
         # 结束战斗
         if bb.get_state_time() > 50000:
-            goto_die = True
+            troop_dismiss = True
 
-        if goto_die:
+        if troop_dismiss:
             controller.ai_enter_state(AIState_TroopDie())
 
 
