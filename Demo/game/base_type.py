@@ -118,6 +118,10 @@ class Controller(AIMachine):
     def model_node(self):
         return self.unit.model_node
 
+    # 首次update之前
+    def start(self):
+        pass
+
     def update(self):
         pass
 

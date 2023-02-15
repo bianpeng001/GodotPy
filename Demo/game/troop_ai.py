@@ -173,7 +173,7 @@ class AIState_Troop(AIState):
 # 寻找一个目标城池
 class AIState_FindCity(AIState_Troop):
     def find_enemy_city(self,controller,col,row):
-        owner_city_id = controller.unit.owner_city_id
+        owner_player_id = controller.unit.owner_player_id
         for i in range(3):
             for dx,dy in ring_range(i):
                 tile = game_mgr.ground_mgr.get_tile_at_colrow(col+dx, row+dy)
@@ -181,7 +181,8 @@ class AIState_FindCity(AIState_Troop):
                     continue
                 for unit in tile.units:
                     if unit.unit_type == 1 and\
-                            unit.unit_id != owner_city_id:
+                            (unit.owner_player_id == 0 or \
+                            unit.owner_player_id != owner_player_id):
                         return unit
         return None
 
@@ -257,15 +258,23 @@ class AIState_AttackCity(AIState_Troop):
             controller.move_req = req
             controller.look_at_unit(city)
 
+        goto_die = False
+
         if game_mgr.time - bb.attack_time > 1000:
             bb.attack_time = game_mgr.time
-            city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
+
             troop = controller.unit
+            city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
+
             game_mgr.game_play.troop_attack_city(troop, city)
-        
+            if city.army_amount <= 0:
+                goto_die = True
 
         # 结束战斗
         if bb.get_state_time() > 50000:
+            goto_die = True
+
+        if goto_die:
             controller.ai_enter_state(AIState_TroopDie())
 
 

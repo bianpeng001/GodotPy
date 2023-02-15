@@ -96,8 +96,9 @@ class GamePlay:
             city.army_amount = 0
             log_util.debug(f'city is occupied {city.unit_name} by {troop.unit_id}')
 
-            player = game_mgr.player_mgr.get_player(troop.owner_player_id)
-            if player:
+            if troop.owner_player_id != 0:
+                player = game_mgr.player_mgr.get_player(troop.owner_player_id)
                 self.set_city_owner(city, player)
                 city.get_controller().set_flag_color()
+
 

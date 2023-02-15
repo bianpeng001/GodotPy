@@ -16,9 +16,15 @@ class UnitMgr:
 
         self.unit_dict = {}
         
+        # update
         self.update_list = []
         self.back_update_list = []
 
+        # start
+        self.start_list = []
+        self.back_start_list = []
+
+        # dead
         self.dead_list = []
 
     def get_next_unit_id(self):
@@ -26,8 +32,22 @@ class UnitMgr:
         return self._unit_id_seed
 
     def update(self, delta_time):
+        self._call_start()
         self._call_update()
         self._exec_dead_list()
+
+    def _call_start(self):
+        tmp = self.start_list
+        self.start_list = self.back_start_list
+        self.back_start_list = tmp
+
+        if len(self.back_start_list) > 0:
+            try:
+                for unit in self.back_start_list:
+                    unit.get_controller().start()
+            finally:
+                self.back_start_list.clear()
+
 
     def _call_update(self):
         # swap update list
@@ -37,13 +57,16 @@ class UnitMgr:
 
         # call update on every unit
         if len(self.back_update_list) > 0:
-            for unit in self.back_update_list:
-                unit.controller.update()
-                if unit.is_dead:
-                    self.dead_list.append(unit)
-                else:
-                    self.update_list.append(unit)
-            self.back_update_list.clear()
+            try:
+                for unit in self.back_update_list:
+                    unit.get_controller.update()
+                    
+                    if unit.is_dead:
+                        self.dead_list.append(unit)
+                    else:
+                        self.update_list.append(unit)
+            finally:
+                self.back_update_list.clear()
 
     def _exec_dead_list(self):
         # destroy dead list
@@ -60,6 +83,7 @@ class UnitMgr:
         unit.unit_id = self.get_next_unit_id()
         self.unit_dict[unit.unit_id] = unit
         self.update_list.append(unit)
+        self.start_list.append(unit)
         #print_line(f'add unit: {unit.unit_id}')
 
         unit.init()
