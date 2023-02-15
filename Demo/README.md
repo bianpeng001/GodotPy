@@ -145,6 +145,10 @@ Skin:
 Mesh: 可以导入时选择单独保存。
 
 
+### post processing
+Camera上新建一个Enviroment，里面配置内置的后处理效果。
+
+
 ### UI开发
 ui自动适配屏幕大小，在Project Settings > Window > Stretch。Mode:canvas_items, Aspect=keep。
 

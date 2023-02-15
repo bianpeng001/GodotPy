@@ -14,7 +14,7 @@ import traceback
 # 即，子co先执行，父co后执行，这样当子co都已经完成的话，则父co可以本帧判断完成
 # 否则，需要下一帧判断完毕。
 
-#
+# 可以等待的，用来yield的
 class Waitable:
     def __init__(self):
         pass
@@ -22,7 +22,7 @@ class Waitable:
     def is_done(self):
         return True
 
-#
+# 协程
 class _Coroutine(Waitable):
     def __init__(self, iterator):
         self.done = False

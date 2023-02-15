@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://b76cwpgvw5b0s"]
+[gd_scene load_steps=5 format=3 uid="uid://b76cwpgvw5b0s"]
 
+[ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="1_53tvn"]
 [ext_resource type="PackedScene" uid="uid://c1jjhatf1hdpn" path="res://ui/MainUI.tscn" id="2_ljo2c"]
 [ext_resource type="PackedScene" uid="uid://dd4s66q0b1ug8" path="res://ui/ContextMenu.tscn" id="4_13hgr"]
 [ext_resource type="PackedScene" uid="uid://bgtgw0kthulwj" path="res://effect/Dust01.tscn" id="5_0n56o"]
-[ext_resource type="PackedScene" uid="uid://chu55hfup7kgf" path="res://effect/Shoot01.tscn" id="5_nlq2y"]
-[ext_resource type="PackedScene" uid="uid://dq7t5y8go8fcq" path="res://models/Soldier02/Soildier02.tscn" id="7_tycvo"]
 
 [node name="MainScene" type="FPyObject"]
 python_module = "game.mainloop"
@@ -16,6 +15,7 @@ python_class = "CameraMgr"
 
 [node name="MainCamera" type="Camera3D" parent="CameraMgr"]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 15, 20, 15)
+environment = ExtResource("1_53tvn")
 current = true
 fov = 28.0
 near = 5.0
@@ -50,9 +50,3 @@ shadow_opacity = 0.5
 
 [node name="Dust01" parent="." instance=ExtResource("5_0n56o")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.9271, 4.25017, -7.08244)
-
-[node name="Soldier02" parent="." instance=ExtResource("7_tycvo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 3)
-
-[node name="Shoot01" parent="." instance=ExtResource("5_nlq2y")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.47969, 0, 6.15355)

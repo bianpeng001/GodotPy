@@ -120,7 +120,6 @@ class LeftRightMoveReq(BaseMoveReq):
         self.time_to_progress = 1.0 / duration
         self.progress = 0
 
-
     def update(self, troop, delta_time):
         self.progress += delta_time * self.time_to_progress
         if self.progress < 1.0:
