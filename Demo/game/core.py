@@ -427,3 +427,38 @@ class EventMgr:
             for handler in self.map[name]:
                 handler.__call__(*args, **kwargs)
 
+
+#------------------------------------------------------------
+# oop 封装
+#------------------------------------------------------------
+class FObject:
+    def __init__(self):
+        self._node = None
+
+    def get_node(self):
+        return self._node
+
+class FNode(FObject):
+    def __init__(self):
+        super().__init__()
+
+    def queue_free(self):
+        pass
+
+class FNode3D(FNode):
+    def __init__(self):
+        super().__init__()
+
+    def set_position(self, x,y,z):
+        pass
+
+    def get_position(self):
+        return (0,0,0)
+
+class FMeshInstance3D(FNode3D):
+    def __init__(self):
+        super().__init__()
+    
+def CreateFObject(type):
+    pass
+
