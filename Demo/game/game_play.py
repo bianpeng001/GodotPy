@@ -49,6 +49,7 @@ class GamePlay:
                     and x.owner_player_id == 0)
                 if city:
                     self.set_city_owner(city, pm.main_player)
+                    city.get_controller().set_flag_color()
 
                     x,y,z = city.get_location()
                     cm.set_center(x,y,z)

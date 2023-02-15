@@ -21,6 +21,12 @@ class CityController(Controller):
         title_node = find_node(self.model_node, 'HUD/Title')
         Label3D.set_text(title_node, text)
 
+    def set_flag_color(self):
+        flag_node = find_node(self.model_node, 'Flag')
+        if flag_node:
+            print(flag_node)
+            set_surface_color(flag_node, 0, 0, 1, 0)
+
     def update_ai(self):
         self.ai_tick_time += game_mgr.delta_time
         if self.ai_tick_time > 0.3:

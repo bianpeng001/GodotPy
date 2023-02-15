@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dps4u7ofsxa1b"]
+[gd_scene load_steps=6 format=3 uid="uid://dps4u7ofsxa1b"]
 
 [ext_resource type="ArrayMesh" uid="uid://dmsqjes4gdq2x" path="res://models/City01Mesh.res" id="1_vo51y"]
-[ext_resource type="ArrayMesh" uid="uid://d1jhh58nbwfs3" path="res://models/Flag01Mesh.res" id="3_vg770"]
-[ext_resource type="Material" uid="uid://dxdlggp10kr1q" path="res://models/Flag01Mat.tres" id="3_ykjcv"]
+[ext_resource type="ArrayMesh" uid="uid://7ljbpgjyaxoj" path="res://models/Flag02Mesh.res" id="3_gvqsa"]
+[ext_resource type="Material" uid="uid://bdetdioj4pmra" path="res://models/Flag02FlagMat.tres" id="4_0x7hf"]
+[ext_resource type="Material" uid="uid://cg0k0xjsg64c" path="res://models/Flag02PoleMat.tres" id="5_ckr3k"]
 [ext_resource type="PackedScene" uid="uid://d2nu6r6jvu0ch" path="res://models/HUD.tscn" id="5_mrtwl"]
 
 [node name="City01" type="Node3D"]
@@ -11,10 +12,11 @@
 transform = Transform3D(3, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0)
 mesh = ExtResource("1_vo51y")
 
-[node name="Flag" type="MeshInstance3D" parent="."]
-mesh = ExtResource("3_vg770")
-skeleton = NodePath("")
-surface_material_override/0 = ExtResource("3_ykjcv")
-
 [node name="HUD" parent="." instance=ExtResource("5_mrtwl")]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 2.8, 0)
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 5, 0)
+
+[node name="Flag" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+mesh = ExtResource("3_gvqsa")
+surface_material_override/0 = ExtResource("4_0x7hf")
+surface_material_override/1 = ExtResource("5_ckr3k")

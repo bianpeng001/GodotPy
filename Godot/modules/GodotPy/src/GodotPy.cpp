@@ -375,28 +375,30 @@ static PyObject *f_destroy(PyObject *module, PyObject *args) {
 	Py_RETURN_NONE;
 }
 static PyObject* f_find_node(PyObject* module, PyObject* args) {
-	const char *a_path;
-	PyObject *a_node;
+	do {
+		const char *a_path;
+		PyObject *a_node;
 
-	if (!PyArg_ParseTuple(args, "Os", &a_node, &a_path)) {
-		goto end;
-	}
+		if (!PyArg_ParseTuple(args, "Os", &a_node, &a_path)) {
+			break;
+		}
 
-	Node *node = GetCapsulePointer<Node>(a_node);
-	if (!node) {
-		goto end;
-	}
+		Node *node = GetCapsulePointer<Node>(a_node);
+		if (!node) {
+			break;
+		}
 
-	auto result = node->get_node(NodePath(String::utf8(a_path)));
-	if (!result) {
-		goto end;
-	}
+		auto result = node->get_node(NodePath(String::utf8(a_path)));
+		if (!result) {
+			break;
+		}
 
-	PyObject *obj = get_or_create_capsule(result);
-	Py_INCREF(obj);
-	return obj;
+		PyObject *obj = get_or_create_capsule(result);
+		Py_INCREF(obj);
+		return obj;
 
-end:
+	} while (0);
+	
 	Py_RETURN_NONE;
 }
 static PyObject *f_get_child_count(PyObject *module, PyObject *args) {
@@ -915,6 +917,40 @@ static PyObject *f_label3d_set_text(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_material_set_albedo_color(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
+		float index;
+		float r, g, b;
+
+		if (!PyArg_ParseTuple(args, "Oifff", &a_node, &index, &r, &g, &b)) {
+			break;
+		}
+
+		auto mesh_instance = GetCapsulePointer<MeshInstance3D>(a_node);
+		if (!mesh_instance) {
+			break;
+		}
+
+		int count = mesh_instance->get_surface_override_material_count();
+		print_line(vformat("material count=%d", count));
+
+		if (index >= count) {
+			break;
+		}
+		Ref<StandardMaterial3D> material = mesh_instance->get_surface_override_material(index);
+		if (material.is_null()) {
+			break;
+		}
+
+		Ref<StandardMaterial3D> new_material = material->duplicate();
+		new_material->set_albedo(Color(r, g, b));
+		mesh_instance->set_surface_override_material(index, new_material);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 // define godot api
 static PyMethodDef GodotPy_methods[] = {
 	// os
@@ -965,6 +1001,11 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// text node
 	{ "label3d_set_text", f_label3d_set_text, METH_VARARGS, NULL },
+
+	// mesh instance
+
+	// material
+	{ "material_set_albedo_color", f_material_set_albedo_color, METH_VARARGS, NULL },
 
 	// resource
 	{ "instantiate", f_instantiate, METH_VARARGS, NULL },

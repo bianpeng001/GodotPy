@@ -293,6 +293,9 @@ def set_visible_2d(node, v):
 def find_control(camera, x, y):
     return gp.find_control(camera, x, y)
 
+def set_surface_color(node, index, r, g, b):
+    gp.material_set_albedo_color(node, index, r, g, b)
+
 #------------------------------------------------------------
 # api
 #------------------------------------------------------------
