@@ -2,6 +2,8 @@
 # 2023年2月4日 bianpeng
 #
 
+from game.core import *
+
 # 一个玩家
 class Player:
     def __init__(self):
@@ -47,6 +49,9 @@ class PlayerMgr:
         return p
 
     def get_player(self, player_id):
-        return self.player_dict[player_id]
+        player = self.player_dict.get(player_id, None)
+        if not player:
+            log_util.error(f'player not found: {player_id}')
+        return player
 
 

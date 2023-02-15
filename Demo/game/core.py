@@ -221,6 +221,9 @@ def random_x_vector3(x, y, z):
 def random_max(max):
     return random.random()*max
 
+def random_range(min, max):
+    return min + random.random() * (max - min)
+
 def print_line(*args, **kwargs):
     if not args:
         return

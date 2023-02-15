@@ -12,6 +12,8 @@ from game.base_type import UT_CITY
 from game.wait import *
 
 # 游戏的控制逻辑, 事件响应啥的，集中到这里来
+# 业务逻辑也放到这里来，脏活累活都放这
+# 有一些业务逻辑是好几个单位相互作用的
 class GamePlay:
     def __init__(self):
         game_mgr.event_mgr.add(APP_LAUNCH, self.on_app_launch)
@@ -72,6 +74,8 @@ class GamePlay:
 
 
     # API方法，业务代码
+
+    # 修改城城池归属
     def set_city_owner(self, city, player):
         if city.owner_player_id == player.player_id:
             log_util.error('player already own city')
@@ -85,5 +89,15 @@ class GamePlay:
         city.owner_player_id = player.player_id
         player.city_list.append(city.unit_id)        
 
+    # 队伍攻城
+    def troop_attack_city(self, troop, city):
+        city.army_amount -= 300
+        if city.army_amount < 0:
+            city.army_amount = 0
+            log_util.debug(f'city is occupied {city.unit_name} by {troop.unit_id}')
 
+            player = game_mgr.player_mgr.get_player(troop.owner_player_id)
+            if player:
+                self.set_city_owner(city, player)
+                city.get_controller().set_flag_color()
 

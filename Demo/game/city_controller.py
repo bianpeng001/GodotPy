@@ -8,7 +8,6 @@ from game.core import *
 from game.game_mgr import game_mgr
 from game.base_type import Controller
 
-
 # 城池
 class CityController(Controller):
     def __init__(self):
@@ -19,12 +18,12 @@ class CityController(Controller):
 
     def set_title(self, text):
         title_node = find_node(self.model_node, 'HUD/Title')
-        Label3D.set_text(title_node, text)
+        if title_node:
+            Label3D.set_text(title_node, text)
 
     def set_flag_color(self):
         flag_node = find_node(self.model_node, 'Flag')
         if flag_node:
-            print(flag_node)
             set_surface_color(flag_node, 0, 0, 1, 0)
 
     def update_ai(self):

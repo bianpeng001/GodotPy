@@ -153,6 +153,7 @@ class TroopBlackboard(AIBlackboard):
         self.target_unit_id = 0
         self.state_start_time = 0
         self.shoot_effect = None
+        self.attack_time = 0
 
     # 状态持续时间
     def get_state_time(self):
@@ -255,6 +256,13 @@ class AIState_AttackCity(AIState_Troop):
 
             controller.move_req = req
             controller.look_at_unit(city)
+
+        if game_mgr.time - bb.attack_time > 1000:
+            bb.attack_time = game_mgr.time
+            city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
+            troop = controller.unit
+            game_mgr.game_play.troop_attack_city(troop, city)
+        
 
         # 结束战斗
         if bb.get_state_time() > 50000:

@@ -25,7 +25,7 @@ class CityUnit(Unit):
         self.hero_list = []
         
         # 资源
-        self.army_amount = 800+random_max(100)
+        self.army_amount = random_range(100, 1000)
         self.rice_amount = 0
         self.iron_amount = 0
         self.stone_amount = 0
@@ -33,7 +33,7 @@ class CityUnit(Unit):
         self.money_amount = 0
 
         # 资源增长率
-        self.growth_rate = 20 + random_max(30)
+        self.growth_rate = random_range(20, 50)
 
     def init(self):
         for i in range(5):

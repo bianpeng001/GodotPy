@@ -22,7 +22,7 @@
 #include "scene/gui/control.h"
 #include "scene/resources/packed_scene.h"
 
-// servers
+// server headers
 #include "servers/display_server.h"
 
 // python headers
@@ -933,7 +933,7 @@ static PyObject *f_material_set_albedo_color(PyObject *module, PyObject *args) {
 		}
 
 		int count = mesh_instance->get_surface_override_material_count();
-		print_line(vformat("material count=%d", count));
+		//print_line(vformat("material count=%d", count));
 
 		if (index >= count) {
 			break;
