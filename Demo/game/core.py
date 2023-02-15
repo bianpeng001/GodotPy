@@ -39,7 +39,7 @@ class Ray:
         y1 = plane.y0 - ray.y0
         z1 = plane.z0 - ray.z0
 
-        d = (x1*plane.n_x + y1*plane.n_y + z1*plane.n_z) /\
+        d = (x1*plane.n_x + y1*plane.n_y + z1*plane.n_z) / \
             (ray.n_x*plane.n_x + ray.n_y*plane.n_y + ray.n_z*plane.n_z)
         return d
 
@@ -455,7 +455,22 @@ class FNode3D(FNode):
     def get_position(self):
         return (0,0,0)
 
+    def look_at(self, x,y,z):
+        pass
+
+class FCamera3D(FNode3D):
+    def __init__(self):
+        super().__init__()
+
 class FMeshInstance3D(FNode3D):
+    def __init__(self):
+        super().__init__()
+
+class FAnimationPlayer(FNode3D):
+    def __init__(self):
+        super().__init__()
+
+class FLabel3D(FNode3D):
     def __init__(self):
         super().__init__()
     

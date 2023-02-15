@@ -27,6 +27,7 @@ class TroopUnit(Unit):
         self.leader_hero_id = 0
 
         self.army_amount = 0
+        self.army_moral = 100
 
     def load_model(self):
         self.unit_name = f'部队_{self.unit_id}'

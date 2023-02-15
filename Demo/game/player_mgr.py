@@ -12,6 +12,7 @@ class Player:
 
         self.city_list = []
         self.troop_list = []
+        self.hero_list = []
         # 主城, 先去掉，不搞主城
         # self.base_city_id = 0
 

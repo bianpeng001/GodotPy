@@ -32,6 +32,8 @@ class CityUnit(Unit):
         self.wood_amount = 0
         self.money_amount = 0
 
+        self.army_moral = 100
+
         # 资源增长率
         self.growth_rate = random_range(20, 50)
 
