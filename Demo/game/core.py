@@ -299,6 +299,9 @@ def find_control(camera, x, y):
 def set_surface_color(node, index, r, g, b):
     gp.material_set_albedo_color(node, index, r, g, b)
 
+def mesh_instance3d_load_material(node, index, path):
+    gp.mesh_instance3d_load_material(node, index, path)
+
 #------------------------------------------------------------
 # api
 #------------------------------------------------------------

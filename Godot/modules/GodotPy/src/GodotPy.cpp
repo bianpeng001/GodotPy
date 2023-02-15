@@ -938,17 +938,50 @@ static PyObject *f_material_set_albedo_color(PyObject *module, PyObject *args) {
 		if (index >= count) {
 			break;
 		}
-		//Ref<StandardMaterial3D> material = mesh_instance->get_surface_override_material(index);
-		//if (material.is_null()) {
-		//	break;
-		//}
+		Ref<StandardMaterial3D> mat0 = mesh_instance->get_surface_override_material(index);
+		if (mat0.is_null()) {
+			break;
+		}
 
-		Ref<StandardMaterial3D> mat(memnew(StandardMaterial3D));
-		mat->set_albedo(Color(r, g, b));
-		mat->set_transparency(StandardMaterial3D::TRANSPARENCY_DISABLED);
-		
+		//mat0->set_albedo(Color(r, g, b));
+		Ref<Material> mat = ResourceLoader::load(String("res://models/Flag02FlagGreenMat.tres"));
 		mesh_instance->set_surface_override_material(index, mat);
 		
+		//Ref<StandardMaterial3D> mat(memnew(StandardMaterial3D));
+		//mat->set_albedo(Color(r, g, b));
+		//mat->set_transparency(StandardMaterial3D::TRANSPARENCY_DISABLED);
+		//mesh_instance->set_surface_override_material(index, mat);
+		
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_mesh_instance3d_load_material(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
+		float index;
+		const char *a_path;
+
+		if (!PyArg_ParseTuple(args, "Ois", &a_node, &index, &a_path)) {
+			break;
+		}
+
+		auto mesh_instance = GetCapsulePointer<MeshInstance3D>(a_node);
+		if (!mesh_instance) {
+			break;
+		}
+
+		int count = mesh_instance->get_surface_override_material_count();
+		//print_line(vformat("material count=%d", count));
+
+		if (index >= count) {
+			break;
+		}
+
+		String path(a_path);
+		Ref<Material> mat = ResourceLoader::load(path);
+		mesh_instance->set_surface_override_material(index, mat);
+
 	} while (0);
 
 	Py_RETURN_NONE;
@@ -1011,6 +1044,7 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// resource
 	{ "instantiate", f_instantiate, METH_VARARGS, NULL },
+	{ "mesh_instance3d_load_material", f_mesh_instance3d_load_material, METH_VARARGS, NULL }, 
 
 	// godotpy
 	{ "get_py_object", f_get_py_object, METH_VARARGS, NULL },

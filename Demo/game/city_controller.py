@@ -24,7 +24,7 @@ class CityController(Controller):
     def set_flag_color(self):
         flag_node = find_node(self.model_node, 'Flag')
         if flag_node:
-            set_surface_color(flag_node, 0, 0, 1, 0)
+            mesh_instance3d_load_material(flag_node, 0, 'res://models/Flag02FlagGreenMat.tres')
 
     def update_ai(self):
         self.ai_tick_time += game_mgr.delta_time
