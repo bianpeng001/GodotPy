@@ -20,16 +20,7 @@ class GamePlay:
 
         pass
 
-    # api
-    def set_city_owner(self, city, player):
-        if city.owner_player_id > 0:
-            owner = game_mgr.player_mgr.get_player(city.owner_player_id)
-            owner.city_list.remove(city.unit_id)
-            city.owner_player_id = 0
-
-        city.owner_player_id = player.player_id
-        player.city_list.append(city.unit_id)
-
+    # 事件
     def on_app_launch(self):
         # read window
         if os.path.exists('launch.json'):
@@ -79,5 +70,19 @@ class GamePlay:
         log_util.debug('on_player_ready', game_mgr.camera_mgr.center)
 
 
-        
+    # API方法，业务代码
+    def set_city_owner(self, city, player):
+        if city.owner_player_id == player.player_id:
+            log_util.error('player already own city')
+            return
+
+        if city.owner_player_id > 0:
+            owner = game_mgr.player_mgr.get_player(city.owner_player_id)
+            owner.city_list.remove(city.unit_id)
+            city.owner_player_id = 0
+
+        city.owner_player_id = player.player_id
+        player.city_list.append(city.unit_id)        
+
+
 

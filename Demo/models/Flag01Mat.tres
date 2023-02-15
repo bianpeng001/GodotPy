@@ -3,4 +3,5 @@
 [ext_resource type="Texture2D" uid="uid://c3us160efdy6q" path="res://models/pal.png" id="1_xwbwi"]
 
 [resource]
+albedo_color = Color(0.894118, 1, 1, 1)
 albedo_texture = ExtResource("1_xwbwi")
