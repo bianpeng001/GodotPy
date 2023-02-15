@@ -147,7 +147,8 @@ Mesh: 可以导入时选择单独保存。
 
 ### post processing
 Camera上新建一个Enviroment，里面配置内置的后处理效果。
-
+glow,fog,volume fog...[详细看这里](https://docs.godotengine.org/en/stable/tutorials/3d/environment_and_post_processing.html)，还有[自定义的后处理](
+https://docs.godotengine.org/en/stable/tutorials/shaders/custom_postprocessing.html)
 
 ### UI开发
 ui自动适配屏幕大小，在Project Settings > Window > Stretch。Mode:canvas_items, Aspect=keep。
@@ -155,7 +156,7 @@ ui自动适配屏幕大小，在Project Settings > Window > Stretch。Mode:canva
 ### 内存管理
 TODO：现在是放在一个列表，出场景统一清理。以后要做成跟着python的GC走, 可能要给Python一个弱引用。目前是用Capsule上面做的，后面自己做一个容器。
 
-Python的内存用计数器来实现的，一个好处就是内存释放及时。
+Python的内存用计数器来实现的，一个好处就是内存释放及时，引用计数到0则立即释放。
 ```Python
 class A:
     def __del__(self):
@@ -171,7 +172,7 @@ a = None
 
 而且，有必要的话，还可以关闭GC，自己手动解环。
 
-有一些系统会推荐这种用法，临时关闭GC，内存操作，开启GC，减少扫描的开销，达到提升性能的目的。
+有一些系统会推荐这种用法，临时关闭GC，内存操作，开启GC，暂时规避扫描开销，达到提升性能的目的。
 
 ```Python
 import gc

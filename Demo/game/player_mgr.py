@@ -37,7 +37,7 @@ class PlayerMgr:
     def main_player_id(self):
         return self.main_player.player_id
 
-    def create_player(self):
+    def new_player(self):
         p = Player()
 
         self.player_id_seed += 1

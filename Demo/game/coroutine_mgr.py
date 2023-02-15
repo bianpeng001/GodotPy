@@ -58,6 +58,7 @@ class _Coroutine(Waitable):
             
         except StopIteration:
             self.done = True
+            self.error = False
         except Exception as err:
             self.done = True
             self.error = True

@@ -15,8 +15,12 @@ ZHI = 1
 WU = 2
 MEI = 3
 ZHENG = 4
-# 打tag，比如大志，单挑...，以应对一些特殊的行为
+# 大志
+DA_ZHI = 5
+# 冷静，反义词是莽撞
+LENG_JING = 6
 
+MAX = 10
 
 #
 class Hero:
@@ -30,14 +34,8 @@ class Hero:
         self.dead_year = 0
 
         # 人物属性: 德智武
-        self.attr = [
-            80,
-            80,
-            80,
-            80,
-            80,
-        ]
-        self.tag = []
+        self.attr = [ 80 for i in range(MAX) ]
+        self.tags = []
 
         # 所在城市id
         self.city_id = 0
@@ -45,7 +43,6 @@ class Hero:
         # 主公
         self.owner_player_id = 0
         
-
     def get_age(self):
         return game_mgr.game_data.cur_year - self.born_year + 1
 
@@ -69,8 +66,6 @@ class HeroMgr:
 
     def get_hero(self, hero_id):
         return self.hero_dict.get(hero_id, None)
-
-    
 
 if __name__ == '__main__':
     import json

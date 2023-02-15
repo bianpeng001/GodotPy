@@ -41,15 +41,20 @@ class GamePlay:
         cm = game_mgr.camera_mgr
         cm.update_camera()
 
+        # 默认创建一个空城
         def co_bind_to_base_city():
             while True:
-                unit = game_mgr.unit_mgr.find_unit(lambda x: x.unit_type == UT_CITY \
+                city = game_mgr.unit_mgr.find_unit(lambda x: x.unit_type == UT_CITY \
                     and x.owner_player_id == 0)
-                if unit:
-                    pm.main_player.base_city_id = unit.unit_id
-                    x,y,z = unit.get_location()
+                if city:
+                    city.owner_player_id = pm.main_player_id
+                    pm.main_player.city_list.append(city.unit_id)
+                    pm.main_player.base_city_id = city.unit_id
+
+                    x,y,z = city.get_location()
                     cm.set_center(x,y,z)
                     cm.update_camera()
+
                     break
 
                 yield None
@@ -57,7 +62,7 @@ class GamePlay:
             game_mgr.event_mgr.emit(MAIN_PLAYER_READY)
 
         log_util.debug('create main player')
-        pm.main_player = pm.create_player()
+        pm.main_player = pm.new_player()
         game_mgr.co_mgr.start(co_bind_to_base_city())
         test_wait_1()
 
