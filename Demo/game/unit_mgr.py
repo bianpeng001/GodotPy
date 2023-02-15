@@ -59,8 +59,8 @@ class UnitMgr:
         if len(self.back_update_list) > 0:
             try:
                 for unit in self.back_update_list:
-                    unit.get_controller.update()
-                    
+                    unit.get_controller().update()
+
                     if unit.is_dead:
                         self.dead_list.append(unit)
                     else:

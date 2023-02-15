@@ -91,7 +91,7 @@ class GamePlay:
 
     # 队伍攻城
     def troop_attack_city(self, troop, city):
-        city.army_amount -= 300
+        city.army_amount -= 60
         if city.army_amount < 0:
             city.army_amount = 0
             log_util.debug(f'city is occupied {city.unit_name} by {troop.unit_id}')

@@ -938,15 +938,17 @@ static PyObject *f_material_set_albedo_color(PyObject *module, PyObject *args) {
 		if (index >= count) {
 			break;
 		}
-		Ref<StandardMaterial3D> material = mesh_instance->get_surface_override_material(index);
-		if (material.is_null()) {
-			break;
-		}
+		//Ref<StandardMaterial3D> material = mesh_instance->get_surface_override_material(index);
+		//if (material.is_null()) {
+		//	break;
+		//}
 
-		Ref<StandardMaterial3D> new_material = material->duplicate();
-		new_material->set_albedo(Color(r, g, b));
-		mesh_instance->set_surface_override_material(index, new_material);
-
+		Ref<StandardMaterial3D> mat(memnew(StandardMaterial3D));
+		mat->set_albedo(Color(r, g, b));
+		mat->set_transparency(StandardMaterial3D::TRANSPARENCY_DISABLED);
+		
+		mesh_instance->set_surface_override_material(index, mat);
+		
 	} while (0);
 
 	Py_RETURN_NONE;
