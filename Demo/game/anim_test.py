@@ -13,7 +13,7 @@ class AnimTest(NodeObject):
 
     def _ready(self):
         anim_player = Node.find_node(Node.get_parent(self.get_node()), "Model/AnimationPlayer")
-        AnimationPlayer.play(anim_player, "NewAnimLib/Run")
+        AnimationPlayer.play(anim_player, "SoldierAnimLib/Run")
 
 
 class TroopAnimTest(NodeObject):
@@ -25,6 +25,6 @@ class TroopAnimTest(NodeObject):
         for i in range(2, 11):
             anim_player = Node.find_node(node, f"Soldier{i:02}/Model/AnimationPlayer")
             if anim_player:
-                AnimationPlayer.play(anim_player, "NewAnimLib/Run")
+                AnimationPlayer.play(anim_player, "SoldierAnimLib/Run")
                 AnimationPlayer.set_speed_scale(anim_player, 2.6)
 

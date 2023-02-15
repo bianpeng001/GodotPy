@@ -20,6 +20,16 @@ class GamePlay:
 
         pass
 
+    # api
+    def set_city_owner(self, city, player):
+        if city.owner_player_id > 0:
+            owner = game_mgr.player_mgr.get_player(city.owner_player_id)
+            owner.city_list.remove(city.unit_id)
+            city.owner_player_id = 0
+
+        city.owner_player_id = player.player_id
+        player.city_list.append(city.unit_id)
+
     def on_app_launch(self):
         # read window
         if os.path.exists('launch.json'):
@@ -47,9 +57,7 @@ class GamePlay:
                 city = game_mgr.unit_mgr.find_unit(lambda x: x.unit_type == UT_CITY \
                     and x.owner_player_id == 0)
                 if city:
-                    city.owner_player_id = pm.main_player_id
-                    pm.main_player.city_list.append(city.unit_id)
-                    pm.main_player.base_city_id = city.unit_id
+                    self.set_city_owner(city, pm.main_player)
 
                     x,y,z = city.get_location()
                     cm.set_center(x,y,z)
@@ -68,9 +76,7 @@ class GamePlay:
 
     def on_player_ready(self):
         mp = game_mgr.player_mgr.main_player
-        log_util.debug('on_player_ready', 
-            game_mgr.camera_mgr.center,
-            mp.base_city_id)
+        log_util.debug('on_player_ready', game_mgr.camera_mgr.center)
 
 
         
