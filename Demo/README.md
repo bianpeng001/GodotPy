@@ -144,22 +144,26 @@ Skin:
 
 Mesh: 可以导入时选择单独保存。
 
-### shader
+### shader编程
 简单的定点动画，旗帜摇摆。[Shader文档](https://docs.godotengine.org/en/latest/tutorials/shaders/shader_reference/shading_language.html)
 ```c
 shader_type spatial;
 render_mode skip_vertex_transform;
 
 void vertex() {
+	// speed = 0.7
 	float rad = fract(TIME*0.7);
 	rad = abs(rad - 0.5)*2.0 - 0.5;
-	rad = rad * sin(radians(10));
+	// rad = linear [-1, 1]
+	rad = radians(rad*10.0);
+	float c = cos(rad)
+	float s = sin(rad)
 	
 	mat4 mat_rot_y = mat4(1.0);
-	mat_rot_y[0][0] = cos(rad);
-	mat_rot_y[0][2] = sin(rad);
-	mat_rot_y[2][0] = -sin(rad);
-	mat_rot_y[2][2] = cos(rad);
+	mat_rot_y[0][0] = c;
+	mat_rot_y[0][2] = s;
+	mat_rot_y[2][0] = -s;
+	mat_rot_y[2][2] = c;
 	
 	VERTEX = (MODELVIEW_MATRIX * mat_rot_y * vec4(VERTEX, 1.0)).xyz;
 	NORMAL = normalize((MODELVIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);

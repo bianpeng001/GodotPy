@@ -48,8 +48,8 @@ class TroopController(Controller):
                 AnimationPlayer.set_speed_scale(anim_player, 2.6)
 
     def update(self):
-        self.update_ai()
         self.update_move()
+        self.update_ai()
 
     def look_at(self,x,y,z):
         if self.model_node:
