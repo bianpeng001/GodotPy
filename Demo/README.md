@@ -144,6 +144,33 @@ Skin:
 
 Mesh: 可以导入时选择单独保存。
 
+### shader
+简单的定点动画，旗帜摇摆
+```c
+shader_type spatial;
+render_mode skip_vertex_transform;
+
+void vertex() {
+	float rad = fract(TIME*0.7);
+	rad = abs(rad - 0.5)*2.0 - 0.5;
+	rad = rad * sin(radians(10));
+	
+	mat4 mat_rot_y = mat4(1.0);
+	mat_rot_y[0][0] = cos(rad);
+	mat_rot_y[0][2] = sin(rad);
+	mat_rot_y[2][0] = -sin(rad);
+	mat_rot_y[2][2] = cos(rad);
+	
+	VERTEX = (MODELVIEW_MATRIX * mat_rot_y * vec4(VERTEX, 1.0)).xyz;
+	NORMAL = normalize((MODELVIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
+}
+
+uniform vec3 _color : source_color;
+
+void fragment() {
+	ALBEDO = _color;
+}
+```
 
 ### post processing
 Camera上新建一个Enviroment，里面配置内置的后处理效果。
