@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://b76cwpgvw5b0s"]
+[gd_scene load_steps=10 format=3 uid="uid://b76cwpgvw5b0s"]
 
 [ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="1_53tvn"]
 [ext_resource type="PackedScene" uid="uid://c1jjhatf1hdpn" path="res://ui/MainUI.tscn" id="2_ljo2c"]
+[ext_resource type="PackedScene" uid="uid://drvm8b8tc7850" path="res://ui/HUD.tscn" id="4_1yjob"]
 [ext_resource type="PackedScene" uid="uid://dd4s66q0b1ug8" path="res://ui/ContextMenu.tscn" id="4_13hgr"]
 [ext_resource type="PackedScene" uid="uid://bgtgw0kthulwj" path="res://effect/Dust01.tscn" id="5_0n56o"]
 [ext_resource type="Material" uid="uid://bidwmr472e0a6" path="res://models/SmallroadMat.tres" id="5_kys8c"]
@@ -48,6 +49,9 @@ visible = false
 position = Vector2(261, 214)
 
 [node name="MainUI" parent="UIMgr" instance=ExtResource("2_ljo2c")]
+
+[node name="HUD2d" parent="UIMgr" instance=ExtResource("4_1yjob")]
+position = Vector2(123, 162)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.906308, -0.365998, 0.211309, 0, 0.5, 0.866025, -0.422618, -0.784885, 0.453154, 0, 20, 0)
