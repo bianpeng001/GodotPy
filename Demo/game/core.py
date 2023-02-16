@@ -431,24 +431,24 @@ class EventMgr:
 #------------------------------------------------------------
 # oop 封装
 #------------------------------------------------------------
+def find_node2(node, path):
+    node = gp.find_node2(node, path)
+    print(node)
+    print(node.get_type())
+    return CreateObj(node)
+
 class FObject:
     def __init__(self):
-        self._node = None
+        self.pygd_obj = None
 
-    def get_node(self):
-        return self._node
+    def get_pygd_obj(self):
+        return self.pygd_obj
 
 class FNode(FObject):
-    def __init__(self):
-        super().__init__()
-
     def queue_free(self):
         pass
 
 class FNode3D(FNode):
-    def __init__(self):
-        super().__init__()
-
     def set_position(self, x,y,z):
         pass
 
@@ -458,22 +458,36 @@ class FNode3D(FNode):
     def look_at(self, x,y,z):
         pass
 
+class FNode2D(FNode):
+    pass
+
 class FCamera3D(FNode3D):
-    def __init__(self):
-        super().__init__()
+    pass
 
 class FMeshInstance3D(FNode3D):
-    def __init__(self):
-        super().__init__()
+    pass
 
 class FAnimationPlayer(FNode3D):
-    def __init__(self):
-        super().__init__()
+    pass
 
 class FLabel3D(FNode3D):
-    def __init__(self):
-        super().__init__()
-    
-def CreateFObject(type):
     pass
+
+class FCanvasItem(Node):
+    pass
+
+class FLabel(FCanvasItem):
+    def set_text(self, text):
+        pass
+    
+FClassDict = [None for x in range(20)]
+FClassDict[1] = FLabel
+
+def CreateObj(node):
+    type_id = node.get_type()
+    cls_ = FClassDict[type_id]
+    if cls_:
+        obj = cls_()
+        obj.pygd_obj = node
+        return obj
 

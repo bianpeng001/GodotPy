@@ -20,6 +20,8 @@
 
 #include "scene/2d/node_2d.h"
 #include "scene/gui/control.h"
+#include "scene/gui/label.h"
+
 #include "scene/resources/packed_scene.h"
 
 // server headers
@@ -40,9 +42,56 @@ typedef struct {
 	PyObject_HEAD Object *obj;
 	ObjectID instance_id;
 } PyGDObj;
-static void PyGDObj_dealloc(PyObject* o) {
+extern bool Is_PyGDObj(PyObject *o);
+
+static void PyGDObj_dealloc(PyObject *o) {
+	if (Is_PyGDObj(o)) {
+		// TODO: 这里要清空数据
+		print_line("destroy PyGDObj");
+	}
+	
 	PyObject_Free(o);
 }
+static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
+	int type = 0;
+
+	do {
+		PyGDObj *self;
+		Object *obj;
+
+		self = (PyGDObj *)a_self;
+		if (!self->obj) {
+			break;
+		}
+
+		if (!ObjectDB::get_instance(self->instance_id)) {
+			self->obj = NULL;
+			break;
+		}
+
+		obj = self->obj;
+		auto& class_name = obj->get_class_name();
+		print_line(vformat("class_name=%s", class_name));
+
+		static Dictionary ClassTypeDict;
+		if (ClassTypeDict.size() == 0) {
+			ClassTypeDict[StringName("Label")] = 1;
+		}
+
+		auto& value = ClassTypeDict.get(class_name, Variant(0));
+		type = (int)value;
+
+	} while (false);
+
+	return PyLong_FromLong((long)type);
+}
+static PyObject * PyGDObj_repr(PyGDObj *o) {
+	return PyUnicode_FromString("<PyGDObj>");
+}
+static PyMethodDef PyGDObj_methods[] = {
+	{ "get_type", &f_get_type, METH_VARARGS, NULL },
+	{ NULL, NULL } /* sentinel */
+};
 PyTypeObject PyGDObj_Type = {
 	PyVarObject_HEAD_INIT(&PyType_Type, 0) "PyGDObj", /*tp_name*/
 	sizeof(PyGDObj), /*tp_basicsize*/
@@ -53,7 +102,7 @@ PyTypeObject PyGDObj_Type = {
 	0, /*tp_getattr*/
 	0, /*tp_setattr*/
 	0, /*tp_as_async*/
-	NULL, /*tp_repr*/
+	(reprfunc)&PyGDObj_repr, /*tp_repr*/
 	0, /*tp_as_number*/
 	0, /*tp_as_sequence*/
 	0, /*tp_as_mapping*/
@@ -64,24 +113,35 @@ PyTypeObject PyGDObj_Type = {
 	0, /*tp_setattro*/
 	0, /*tp_as_buffer*/
 	0, /*tp_flags*/
-	NULL/*tp_doc*/
+	NULL, /*tp_doc*/
+
+    NULL, /* tp_traverse */
+	0, /* tp_clear */
+	NULL, /* tp_richcompare */
+	0, /* tp_weaklistoffset */
+	NULL, /* tp_iter */
+	0, /* tp_iternext */
+	PyGDObj_methods, /* tp_methods */
+	NULL, /* tp_members */
 };
 // 创建一个对obj的弱引用，在python side持有，如果obj在godot里面已经销毁
 // 则需要在python这边有能力安全的判断是否 is_null, is_valid, has_data啥的
-PyObject *PyGDObj_New(Object *obj) {
-	PyGDObj *o;
+PyObject *PyGDObj_New(Object *a_obj) {
+	PyGDObj *obj;
 
-	o = PyObject_New(PyGDObj, &PyGDObj_Type);
-	if (o == NULL) {
+	obj = PyObject_New(PyGDObj, &PyGDObj_Type);
+	if (obj == NULL) {
 		return NULL;
 	}
 
-	o->obj = obj;
-	o->instance_id = obj->get_instance_id();
+	obj->obj = a_obj;
+	obj->instance_id = a_obj->get_instance_id();
 
-	return (PyObject *)o;
+	return (PyObject *)obj;
 }
-
+bool Is_PyGDObj(PyObject *o) {
+	return Py_IS_TYPE(o, &PyGDObj_Type);
+}
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
@@ -197,6 +257,33 @@ static PyObject* get_or_create_capsule(Node* a_node) {
 	}
 	auto obj = static_cast<Object *>(v);
 	return static_cast<FCapsuleObject *>(obj)->GetPyObject();
+}
+// 作为属性，存在对象上面
+class FPyGDObjProperty : public Object {
+public:
+	PyObject *obj;
+	FPyGDObjProperty() :
+			obj (NULL) {
+	}
+	virtual ~FPyGDObjProperty() {
+		if (obj) {
+			GP_DECREF(obj);
+		}
+	}
+};
+static PyObject *GetPyGDObj(Object *a_obj) {
+	static StringName PropName("_PyGDObj_");
+	auto value = a_obj->get(PropName);
+
+	if (value.is_null()) {
+		auto ptr = memnew(FPyGDObjProperty);
+		ptr->obj = PyGDObj_New(a_obj);
+
+		value = ptr;
+		a_obj->set(PropName, value);
+	}
+	auto ptr = (Object *)value;
+	return static_cast<FPyGDObjProperty *>(ptr)->obj;
 }
 //------------------------------------------------------------------------------
 // module function implementation
@@ -388,17 +475,45 @@ static PyObject* f_find_node(PyObject* module, PyObject* args) {
 			break;
 		}
 
-		auto result = node->get_node(NodePath(String::utf8(a_path)));
-		if (!result) {
+		auto result_node = node->get_node(NodePath(String::utf8(a_path)));
+		if (!result_node) {
 			break;
 		}
 
-		PyObject *obj = get_or_create_capsule(result);
+		PyObject *obj = get_or_create_capsule(result_node);
+		Py_INCREF(obj);
+		return obj;
+	} while (0);
+	
+	Py_RETURN_NONE;
+}
+// 这个版本是返回我需要的东西，是版本的升级，
+// 原先的只是简单把Capsule返回
+static PyObject *f_find_node2(PyObject *module, PyObject *args) {
+	do {
+		const char *a_path;
+		PyObject *a_node;
+
+		if (!PyArg_ParseTuple(args, "Os", &a_node, &a_path)) {
+			break;
+		}
+
+		Node *node = GetCapsulePointer<Node>(a_node);
+		if (!node) {
+			break;
+		}
+
+		auto result_node = node->get_node(NodePath(String::utf8(a_path)));
+		if (!result_node) {
+			break;
+		}
+
+		PyObject *obj = GetPyGDObj(result_node);
 		Py_INCREF(obj);
 		return obj;
 
 	} while (0);
-	
+
 	Py_RETURN_NONE;
 }
 static PyObject *f_get_child_count(PyObject *module, PyObject *args) {
@@ -996,6 +1111,7 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// node
 	{ "find_node", f_find_node, METH_VARARGS, NULL },
+	{ "find_node2", f_find_node2, METH_VARARGS, NULL },
 	{ "get_child_count", f_get_child_count, METH_VARARGS, NULL },
 	{ "get_child_at", f_get_child_at, METH_VARARGS, NULL },
 	{ "set_process", f_set_process, METH_VARARGS, NULL },
