@@ -78,7 +78,7 @@ class GamePlay:
     # 修改城城池归属
     def set_city_owner(self, city, player):
         if city.owner_player_id == player.player_id:
-            log_util.error('player already own city')
+            log_util.error(f'player already own the city {player.player_id} -> {city.unit_name}')
             return
 
         if city.owner_player_id > 0:
@@ -87,18 +87,23 @@ class GamePlay:
             city.owner_player_id = 0
 
         city.owner_player_id = player.player_id
-        player.city_list.append(city.unit_id)        
+        player.city_list.append(city.unit_id)
+
+        # TODO: handle the heros in city
 
     # 队伍攻城
     def troop_attack_city(self, troop, city):
+        if troop.owner_player_id == 0:
+            return
+
         city.army_amount -= 60
         if city.army_amount < 0:
             city.army_amount = 0
-            log_util.debug(f'city is occupied {city.unit_name} by {troop.unit_id}')
+            log_util.debug(f'city is occupied {troop.unit_id} -> {city.unit_name}')
 
-            if troop.owner_player_id != 0:
-                player = game_mgr.player_mgr.get_player(troop.owner_player_id)
-                self.set_city_owner(city, player)
-                city.get_controller().set_flag_color()
+            player = game_mgr.player_mgr.get_player(troop.owner_player_id)
+            self.set_city_owner(city, player)
+            city.get_controller().set_flag_color()
+
 
 
