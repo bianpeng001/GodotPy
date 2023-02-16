@@ -105,8 +105,8 @@ struct _inittab _PyImport_Inittab[] = {
     {"_typing", PyInit__typing},
     {"_statistics", PyInit__statistics},
 #ifdef WIN32
-    {"msvcrt", PyInit_msvcrt},
-    {"_locale", PyInit__locale},
+    //{"msvcrt", PyInit_msvcrt},
+    //{"_locale", PyInit__locale},
 #endif
     {"_tracemalloc", PyInit__tracemalloc},
     /* XXX Should _winapi go in a WIN32 block?  not WIN64? */
