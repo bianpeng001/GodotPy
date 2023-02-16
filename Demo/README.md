@@ -150,20 +150,22 @@ Mesh: 可以导入时选择单独保存。
 shader_type spatial;
 render_mode skip_vertex_transform;
 
+uniform float _speed = 0.7;
+uniform float _angle = 10;
+
 void vertex() {
-	// speed = 0.7
-	float rad = fract(TIME*0.7);
+	float rad = fract(TIME * _speed);
 	rad = abs(rad - 0.5)*2.0 - 0.5;
-	// rad = linear [-1, 1]
-	rad = radians(rad*10.0);
-	float c = cos(rad)
-	float s = sin(rad)
+	rad = radians(rad * _angle);
+	
+	float x = cos(rad);
+	float z = sin(rad);
 	
 	mat4 mat_rot_y = mat4(1.0);
-	mat_rot_y[0][0] = c;
-	mat_rot_y[0][2] = s;
-	mat_rot_y[2][0] = -s;
-	mat_rot_y[2][2] = c;
+	mat_rot_y[0][0] = x;
+	mat_rot_y[0][2] = z;
+	mat_rot_y[2][0] = -z;
+	mat_rot_y[2][2] = x;
 	
 	VERTEX = (MODELVIEW_MATRIX * mat_rot_y * vec4(VERTEX, 1.0)).xyz;
 	NORMAL = normalize((MODELVIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
@@ -228,9 +230,21 @@ Godot里面Object和ObjectId，ObjectId应该是一个不会重复的值。如�
 
 探索：社会事件，获得物品。
 
-san9，回合制
+#### san9，回合制
 
-san11，回合制 + 行动力
+和前几代没有太大的变化，仍然是一款以三国历史为背景的策略游戏。
+
+游戏的玩法主要分为三个部分：战斗、经营和政治。
+
+战斗是游戏的核心，玩家可以控制自己的军队，发动攻击，抵抗敌军，攻占城池，完成任务，以及参与各种战役。玩家可以根据自己的战术，指挥士兵，使用各种武器，把握战机，取得胜利。
+
+经营方面，玩家可以管理自己的城池，收集资源，建设农田，建造工厂，招募士兵，发展经济，提高城池的实力。
+
+政治方面，玩家可以参与各种政治活动，如签订条约，结盟，联合攻击，调和纷争，维护社会秩序，以及参与各种政治宣传活动。
+
+总之，《三国志9》是一款综合性的策略游戏，玩家可以根据自己的战略，在战斗、经营和政治三个方面发挥自己的智慧，取得胜利。
+
+#### san11，回合制 + 行动力
 
 本质上来看，是一个抽卡收集类的。然后剩下的事情，就是看运气。太搞笑了。得把史书弄得好看些。
 
