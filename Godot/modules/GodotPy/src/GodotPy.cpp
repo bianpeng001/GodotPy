@@ -44,11 +44,19 @@ typedef struct {
 } PyGDObj;
 extern bool Is_PyGDObj(PyObject *o);
 
+template<typename T>
+static T* PyGDObjGet(PyObject* a_obj) {
+	ERR_FAIL_COND_V(!Is_PyGDObj(a_obj), NULL);
+
+	auto obj = (PyGDObj *)a_obj;
+	return Object::cast_to<T>(obj->obj);
+}
+
 static void PyGDObj_dealloc(PyObject *o) {
-	if (Is_PyGDObj(o)) {
-		// TODO: 这里要清空数据
-		print_line("destroy PyGDObj");
-	}
+	ERR_FAIL_COND(!Is_PyGDObj(o));
+	
+	// TODO: 这里要清空数据
+	print_line("destroy PyGDObj");
 	
 	PyObject_Free(o);
 }
@@ -1032,6 +1040,30 @@ static PyObject *f_label3d_set_text(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_label_set_text(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		const char *s;
+		if (!PyArg_ParseTuple(args, "Os", &a_obj, &s)) {
+			break;
+		}
+
+		if (!Is_PyGDObj(a_obj)) {
+			break;
+		}
+
+		auto label = PyGDObjGet<Label>(a_obj);
+		if (!label) {
+			break;
+		}
+
+		auto text = String::utf8(s);
+		label->set_text(text);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_material_set_albedo_color(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_node;
@@ -1150,8 +1182,11 @@ static PyMethodDef GodotPy_methods[] = {
 	// physics
 	{ "raycast_shape", f_raycast_shape, METH_VARARGS, NULL },
 
-	// text node
+	// label3d
 	{ "label3d_set_text", f_label3d_set_text, METH_VARARGS, NULL },
+
+	// label
+	{ "label_set_text", f_label_set_text, METH_VARARGS, NULL },
 
 	// mesh instance
 

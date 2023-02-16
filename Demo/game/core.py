@@ -433,8 +433,8 @@ class EventMgr:
 #------------------------------------------------------------
 def find_node2(node, path):
     node = gp.find_node2(node, path)
-    print(node)
-    print(node.get_type())
+    #print(node)
+    #print(node.get_type())
     return CreateObj(node)
 
 class FObject:
@@ -473,15 +473,16 @@ class FAnimationPlayer(FNode3D):
 class FLabel3D(FNode3D):
     pass
 
-class FCanvasItem(Node):
+class FCanvasItem(FNode):
     pass
 
 class FLabel(FCanvasItem):
     def set_text(self, text):
-        pass
+        gp.label_set_text(self.get_pygd_obj(), text)
     
 FClassDict = [None for x in range(20)]
-FClassDict[1] = FLabel
+FClassDict[1
+] = FLabel
 
 def CreateObj(node):
     type_id = node.get_type()

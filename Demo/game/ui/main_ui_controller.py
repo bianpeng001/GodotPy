@@ -15,6 +15,7 @@ class MainUIController:
         #print(self.money_label)
 
         a = find_node2(self.ui_node, 'MoneyLabel')
+        a.set_text('1111')
         
 
 
