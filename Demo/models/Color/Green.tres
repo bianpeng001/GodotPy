@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://tb4rdi6kem6k"]
+
+[ext_resource type="Shader" path="res://models/Color/Unlite.gdshader" id="1_ktedl"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_ktedl")
+shader_parameter/_color = Color(0, 1, 0, 1)

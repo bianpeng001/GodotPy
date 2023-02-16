@@ -41,18 +41,19 @@ class PlayerMgr:
         return self.main_player.player_id
 
     def new_player(self):
-        p = Player()
+        player = Player()
 
         self.player_id_seed += 1
-        p.player_id = self.player_id_seed
+        player.player_id = self.player_id_seed
 
-        self.player_dict[p.player_id] = p
-        return p
+        self.player_dict[player.player_id] = player
+        return player
 
     def get_player(self, player_id):
         player = self.player_dict.get(player_id, None)
         if not player:
             log_util.error(f'player not found: {player_id}')
+            return None
         return player
 
 
