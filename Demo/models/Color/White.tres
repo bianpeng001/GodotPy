@@ -1,6 +1,6 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dl0e8qmpaprm"]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
 
-[ext_resource type="Shader" path="res://models/Color/Unlite.gdshader" id="1_kdlqh"]
+[ext_resource type="Shader" path="res://models/Color/FlagColor.gdshader" id="1_kdlqh"]
 
 [resource]
 render_priority = 0
