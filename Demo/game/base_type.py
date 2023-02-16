@@ -60,6 +60,11 @@ class Unit:
         # 所属君主
         self.owner_player_id = None
 
+        # 伤害，防御
+        self.damage = 0
+        self.defense = 0
+        self.maxhp = self.hp = 100
+
         # 生死存亡
         self.is_dead = False
         # 控制器

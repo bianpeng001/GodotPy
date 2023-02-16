@@ -40,6 +40,13 @@ class TroopController(Controller):
             delta = game_mgr.delta_time
             req.update(troop, delta)
 
+    def start(self):
+        for i in range(2, 11):
+            anim_player = Node.find_node(self.model_node, f"Soldier{i:02}/Model/AnimationPlayer")
+            if anim_player:
+                AnimationPlayer.play(anim_player, "SoldierAnimLib/Run")
+                AnimationPlayer.set_speed_scale(anim_player, 2.6)
+
     def update(self):
         self.update_ai()
         self.update_move()

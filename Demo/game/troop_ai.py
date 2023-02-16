@@ -113,7 +113,8 @@ class LeftRightMoveReq(BaseMoveReq):
         self.stop_index = (self.stop_index + 1) % 2
 
         self.start = v0
-        self.stop = self.stops[self.stop_index]
+        self.stop = self.stops[self.stop_index] + \
+                Vector3(random_x()*0.5, 0, random_x()*0.5)
         self.delta = self.stop - self.start
 
         duration = self.delta.magnitude() / self.speed
