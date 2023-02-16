@@ -213,6 +213,6 @@ def new_hero_name():
     if len(_name_data) > 0:
         return select_one(_name_data, delete=False)
     else:
-        return '李狗儿'
+        return '李哪吒'
 
 

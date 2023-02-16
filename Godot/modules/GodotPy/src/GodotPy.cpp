@@ -920,10 +920,10 @@ static PyObject *f_label3d_set_text(PyObject *module, PyObject *args) {
 static PyObject *f_material_set_albedo_color(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_node;
-		float index;
+		int surface;
 		float r, g, b;
 
-		if (!PyArg_ParseTuple(args, "Oifff", &a_node, &index, &r, &g, &b)) {
+		if (!PyArg_ParseTuple(args, "Oifff", &a_node, &surface, &r, &g, &b)) {
 			break;
 		}
 
@@ -935,17 +935,17 @@ static PyObject *f_material_set_albedo_color(PyObject *module, PyObject *args) {
 		int count = mesh_instance->get_surface_override_material_count();
 		//print_line(vformat("material count=%d", count));
 
-		if (index >= count) {
+		if (surface >= count) {
 			break;
 		}
-		Ref<StandardMaterial3D> mat0 = mesh_instance->get_surface_override_material(index);
+		Ref<StandardMaterial3D> mat0 = mesh_instance->get_surface_override_material(surface);
 		if (mat0.is_null()) {
 			break;
 		}
 
 		//mat0->set_albedo(Color(r, g, b));
 		Ref<Material> mat = ResourceLoader::load(String("res://models/Flag02FlagGreenMat.tres"));
-		mesh_instance->set_surface_override_material(index, mat);
+		mesh_instance->set_surface_override_material(surface, mat);
 		
 		//Ref<StandardMaterial3D> mat(memnew(StandardMaterial3D));
 		//mat->set_albedo(Color(r, g, b));
@@ -959,10 +959,10 @@ static PyObject *f_material_set_albedo_color(PyObject *module, PyObject *args) {
 static PyObject *f_mesh_instance3d_load_material(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_node;
-		float index;
+		int surface;
 		const char *a_path;
 
-		if (!PyArg_ParseTuple(args, "Ois", &a_node, &index, &a_path)) {
+		if (!PyArg_ParseTuple(args, "Ois", &a_node, &surface, &a_path)) {
 			break;
 		}
 
@@ -974,13 +974,13 @@ static PyObject *f_mesh_instance3d_load_material(PyObject *module, PyObject *arg
 		int count = mesh_instance->get_surface_override_material_count();
 		//print_line(vformat("material count=%d", count));
 
-		if (index >= count) {
+		if (surface >= count) {
 			break;
 		}
 
 		String path(a_path);
 		Ref<Material> mat = ResourceLoader::load(path);
-		mesh_instance->set_surface_override_material(index, mat);
+		mesh_instance->set_surface_override_material(surface, mat);
 
 	} while (0);
 
