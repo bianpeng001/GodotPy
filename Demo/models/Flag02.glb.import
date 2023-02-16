@@ -32,7 +32,7 @@ _subresources={
 "materials": {
 "MatFlag": {
 "use_external/enabled": true,
-"use_external/path": "res://models/Flag02FlagMat.tres"
+"use_external/path": "res://models/Color/White.tres"
 },
 "MatPole": {
 "use_external/enabled": true,
