@@ -6,6 +6,7 @@ from game.core import *
 from game.event_name import SCENE_UNIT_CLICK, LEFT_BUTTON_BEGIN_DRAG, SCENE_GROUND_CLICK
 from game.game_mgr import game_mgr
 
+from game.ui.main_ui_controller import MainUIController
 #
 class UIMgr(NodeObject):
     def __init__(self):
@@ -23,6 +24,10 @@ class UIMgr(NodeObject):
         game_mgr.event_mgr.add(SCENE_UNIT_CLICK, self.on_scene_unit_click)
         game_mgr.event_mgr.add(SCENE_GROUND_CLICK, self.on_scene_ground_click)
         game_mgr.event_mgr.add(LEFT_BUTTON_BEGIN_DRAG, self.on_begin_drag)
+
+        main_ui_node = Node.find_node(self.get_node(), 'MainUI')
+        self.main_ui_controller = MainUIController()
+        self.main_ui_controller.init(main_ui_node)
 
     def _ready(self):
         cm = find_node(self.get_node(), 'ContextMenu')

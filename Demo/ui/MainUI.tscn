@@ -1,23 +1,19 @@
-[gd_scene load_steps=9 format=3 uid="uid://c1jjhatf1hdpn"]
+[gd_scene load_steps=6 format=3 uid="uid://c1jjhatf1hdpn"]
 
-[ext_resource type="StyleBox" uid="uid://b8lsbpj8aalo2" path="res://ui/MainUIStyle.tres" id="1_cigy1"]
 [ext_resource type="Texture2D" uid="uid://b0t2s22exxwve" path="res://ui/img/SysLabel_hover.png" id="3_0wd0s"]
-[ext_resource type="Theme" path="res://ui/LabelTheme.tres" id="5_dnccb"]
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="5_dnccb"]
 [ext_resource type="Texture2D" uid="uid://dbq8y2ou4np5t" path="res://ui/img/SysLabel.png" id="5_wnfx1"]
 [ext_resource type="Texture2D" uid="uid://ds8t5yxnam6tw" path="res://ui/img/Coin.png" id="6_k0gva"]
-[ext_resource type="Texture2D" uid="uid://b43yxunri7pvf" path="res://ui/img/Iron.png" id="7_t3f31"]
 [ext_resource type="Texture2D" uid="uid://dbiioiqpsaq0u" path="res://ui/img/Rice.png" id="8_n434f"]
-[ext_resource type="Texture2D" uid="uid://bb2dv7s5yo7n8" path="res://ui/img/Stone.png" id="9_h136q"]
 
 [node name="MainUI" type="Node2D"]
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Bg" type="ColorRect" parent="."]
 offset_right = 1152.0
 offset_bottom = 50.0
-theme_override_styles/panel = ExtResource("1_cigy1")
+color = Color(0.188235, 0.188235, 0.188235, 0.941176)
 
-[node name="SysBtn" type="TextureButton" parent="Panel"]
-layout_mode = 0
+[node name="SysBtn" type="TextureButton" parent="."]
 offset_left = 1115.0
 offset_top = 5.0
 offset_right = 1145.0
@@ -26,90 +22,34 @@ texture_normal = ExtResource("5_wnfx1")
 texture_pressed = ExtResource("5_wnfx1")
 texture_hover = ExtResource("3_0wd0s")
 
-[node name="Icon" type="TextureRect" parent="Panel"]
-layout_mode = 0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = 45.0
-offset_bottom = 45.0
-texture = ExtResource("6_k0gva")
-
-[node name="Icon2" type="TextureRect" parent="Panel"]
-layout_mode = 0
-offset_left = 47.0
-offset_top = 5.0
-offset_right = 87.0
-offset_bottom = 45.0
-texture = ExtResource("7_t3f31")
-
-[node name="Icon3" type="TextureRect" parent="Panel"]
-layout_mode = 0
-offset_left = 89.0
-offset_top = 5.0
-offset_right = 129.0
-offset_bottom = 45.0
-texture = ExtResource("8_n434f")
-
-[node name="Icon4" type="TextureRect" parent="Panel"]
-layout_mode = 0
-offset_left = 131.0
-offset_top = 5.0
-offset_right = 171.0
-offset_bottom = 45.0
-texture = ExtResource("9_h136q")
-
-[node name="Icon5" type="TextureRect" parent="Panel"]
-layout_mode = 0
-offset_left = 180.0
-offset_right = 205.0
-offset_bottom = 25.0
-texture = ExtResource("9_h136q")
-expand_mode = 1
-
-[node name="Icon6" type="TextureRect" parent="Panel"]
-layout_mode = 0
-offset_left = 180.0
-offset_top = 25.0
-offset_right = 205.0
-offset_bottom = 50.0
-scale = Vector2(1.05494, 1)
+[node name="RiceIcon" type="TextureRect" parent="."]
+offset_left = 220.0
+offset_top = 10.0
+offset_right = 250.0
+offset_bottom = 40.0
 texture = ExtResource("8_n434f")
 expand_mode = 1
 
-[node name="Icon7" type="TextureRect" parent="Panel"]
-layout_mode = 0
-offset_left = 300.0
-offset_right = 325.0
-offset_bottom = 25.0
+[node name="RiceLabel" type="Label" parent="."]
+offset_left = 260.0
+offset_top = 12.0
+offset_right = 319.0
+offset_bottom = 38.0
+theme = ExtResource("5_dnccb")
+text = "1000万"
+
+[node name="MoneyIcon" type="TextureRect" parent="."]
+offset_left = 100.0
+offset_top = 10.0
+offset_right = 130.0
+offset_bottom = 40.0
 texture = ExtResource("6_k0gva")
 expand_mode = 1
 
-[node name="Icon8" type="TextureRect" parent="Panel"]
-layout_mode = 0
-offset_left = 300.0
-offset_top = 25.0
-offset_right = 325.0
-offset_bottom = 50.0
-scale = Vector2(1.05494, 1)
-texture = ExtResource("7_t3f31")
-expand_mode = 1
-
-[node name="Label" type="Label" parent="Panel"]
-layout_mode = 0
-offset_left = 214.0
-offset_right = 334.0
-offset_bottom = 50.0
+[node name="MoneyLabel" type="Label" parent="."]
+offset_left = 140.0
+offset_top = 12.0
+offset_right = 199.0
+offset_bottom = 38.0
 theme = ExtResource("5_dnccb")
-text = "1000
-1000000"
-vertical_alignment = 1
-
-[node name="Label2" type="Label" parent="Panel"]
-layout_mode = 0
-offset_left = 340.0
-offset_right = 461.0
-offset_bottom = 50.0
-theme = ExtResource("5_dnccb")
-text = "1000
-1000000"
-vertical_alignment = 1
+text = "1000万"
