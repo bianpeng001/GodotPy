@@ -481,8 +481,7 @@ class FLabel(FCanvasItem):
         gp.label_set_text(self.get_pygd_obj(), text)
     
 FClassDict = [None for x in range(20)]
-FClassDict[1
-] = FLabel
+FClassDict[1] = FLabel
 
 def CreateObj(node):
     type_id = node.get_type()

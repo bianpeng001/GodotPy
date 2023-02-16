@@ -1,8 +1,10 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b0eifmnip3tre"]
 
 [ext_resource type="Shader" path="res://models/Color/FlagColor.gdshader" id="1_kdlqh"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_kdlqh")
+shader_parameter/_speed = 0.7
+shader_parameter/_angle = 10.0
 shader_parameter/_color = Color(0.94902, 0.94902, 0.94902, 1)
