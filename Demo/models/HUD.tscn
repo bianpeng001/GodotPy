@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://d2nu6r6jvu0ch"]
 
 [ext_resource type="ArrayMesh" uid="uid://b5msid7cnjqho" path="res://models/Plane.obj" id="1_guniw"]
-[ext_resource type="FontFile" uid="uid://cfhxpqexrydct" path="res://font/FZKT.ttf" id="2_gnw0s"]
+[ext_resource type="FontFile" uid="uid://cf05mbfvcu2ux" path="res://font/FZLS.TTF" id="2_4pkwf"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qc3pa"]
 albedo_color = Color(0, 1, 0, 1)
@@ -16,9 +16,10 @@ mesh = ExtResource("1_guniw")
 surface_material_override/0 = SubResource("StandardMaterial3D_qc3pa")
 
 [node name="Title" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 1, 0)
 pixel_size = 0.03
 double_sided = false
 text = "新野"
-font = ExtResource("2_gnw0s")
-outline_size = 11
+font = ExtResource("2_4pkwf")
+font_size = 26
+outline_size = 6

@@ -72,6 +72,6 @@ mesh = SubResource("PlaneMesh_g86ea")
 surface_material_override/0 = ExtResource("5_kys8c")
 
 [node name="TianYuan" type="MeshInstance3D" parent="."]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 1, 0)
 mesh = SubResource("BoxMesh_tucpu")
 surface_material_override/0 = ExtResource("6_ivn3e")

@@ -1,7 +1,7 @@
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://cxdn407m8jo4q"]
 
-[ext_resource type="FontFile" uid="uid://cfhxpqexrydct" path="res://font/FZKT.ttf" id="1_e23v0"]
+[ext_resource type="FontFile" uid="uid://cf05mbfvcu2ux" path="res://font/FZLS.TTF" id="1_q2cok"]
 
 [resource]
-default_font = ExtResource("1_e23v0")
+default_font = ExtResource("1_q2cok")
 default_font_size = 20
