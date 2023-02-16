@@ -4,7 +4,7 @@ render_mode skip_vertex_transform;
 void vertex() {
 	float rad = fract(TIME*0.7);
 	rad = abs(rad - 0.5)*2.0 - 0.5;
-	rad = radians(45.0 + rad*10.0);
+	rad = radians(rad*10.0);
 	
 	mat4 mat_rot_y = mat4(1.0);
 	mat_rot_y[0][0] = cos(rad);
