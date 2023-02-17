@@ -47,7 +47,8 @@ typedef struct {
 
 namespace gdobj {
 
-extern bool Is_PyGDObj(PyObject *o);
+bool Is_PyGDObj(PyObject *o);
+PyGDObj *Cast_PyGDObj(PyObject *o);
 
 template <typename T>
 static T *GDObjGetPtr(PyObject *a_obj) {
@@ -161,24 +162,7 @@ static PyObject *f_is_valid(PyObject *a_self, PyObject *args) {
 	Py_RETURN_NONE;
 }
 
-// 创建一个对obj的弱引用，在python side持有，如果obj在godot里面已经销毁
-// 则需要在python这边有能力安全的判断是否 is_null, is_valid, has_data啥的
-PyObject *PyGDObj_New(Object *a_obj) {
-	extern PyTypeObject PyGDObj_Type;
 
-	PyGDObj *obj;
-
-	obj = PyObject_New(PyGDObj, &PyGDObj_Type);
-	if (obj == NULL) {
-		return NULL;
-	}
-
-	obj->obj = a_obj;
-	obj->instance_id = a_obj->get_instance_id();
-	obj->wrapped_object = NULL;
-
-	return (PyObject *)obj;
-}
 static PyObject *PyGDObj_repr(PyGDObj *o) {
 	auto str = vformat("<GDObj id=%x>", (int64_t)o->instance_id);
 	return PyUnicode_FromString(str.utf8());
@@ -223,6 +207,22 @@ PyTypeObject PyGDObj_Type = {
 	gdobj::PyGDObj_methods, /* tp_methods */
 	NULL, /* tp_members */
 };
+// 创建一个对obj的弱引用，在python side持有，如果obj在godot里面已经销毁
+// 则需要在python这边有能力安全的判断是否 is_null, is_valid, has_data啥的
+PyObject *PyGDObj_New(Object *a_obj) {
+	PyGDObj *obj;
+
+	obj = PyObject_New(PyGDObj, &PyGDObj_Type);
+	if (obj == NULL) {
+		return NULL;
+	}
+
+	obj->obj = a_obj;
+	obj->instance_id = a_obj->get_instance_id();
+	obj->wrapped_object = NULL;
+
+	return (PyObject *)obj;
+}
 static bool Is_PyGDObj(PyObject *o) {
 	return Py_IS_TYPE(o, &PyGDObj_Type);
 }
