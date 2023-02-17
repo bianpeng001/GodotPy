@@ -102,12 +102,8 @@ static PyObject *f_get_wrapped_object(PyObject *a_self, PyObject *args) {
 	do {
 		PyGDObj *self;
 
-		if (!Is_PyGDObj(a_self)) {
-			break;
-		}
-
-		self = (PyGDObj *)a_self;
-		if (!self->wrapped_object) {
+		self = Cast_PyGDObj(a_self);
+		if (!self || !self->wrapped_object) {
 			break;
 		}
 
@@ -124,14 +120,14 @@ static PyObject *f_set_wrapped_object(PyObject *a_self, PyObject *args) {
 		PyGDObj *self;
 		PyObject *wrapped_object;
 
-		if (!Is_PyGDObj(a_self)) {
+		self = Cast_PyGDObj(a_self);
+		if (!self) {
 			break;
 		}
 		if (!PyArg_ParseTuple(args, "O", &wrapped_object)) {
 			break;
 		}
 
-		self = (PyGDObj *)a_self;
 		if (self->wrapped_object) {
 			GP_DECREF(self->wrapped_object);
 		}
@@ -229,6 +225,12 @@ PyTypeObject PyGDObj_Type = {
 };
 static bool Is_PyGDObj(PyObject *o) {
 	return Py_IS_TYPE(o, &PyGDObj_Type);
+}
+static PyGDObj* Cast_PyGDObj(PyObject *o) {
+	if (!Py_IS_TYPE(o, &PyGDObj_Type)) {
+		return NULL;
+	}
+	return reinterpret_cast<PyGDObj *>(o);
 }
 } //namespace gdobj
 
