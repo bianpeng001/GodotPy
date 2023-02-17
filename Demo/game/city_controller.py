@@ -45,6 +45,8 @@ class CityController(Controller):
                 city.growth_rate, delta_time, city.max_amount_limit)
         city.money_amount = self._calc_resource(city.money_amount, 
                 city.growth_rate, delta_time, city.max_amount_limit)
+        city.rice_amount = self._calc_resource(city.rice_amount, 
+                city.growth_rate, delta_time, city.max_amount_limit)
 
     def on_ai_tick(self, tick_time):
         city = self.unit

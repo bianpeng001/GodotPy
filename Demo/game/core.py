@@ -482,7 +482,14 @@ class FCanvasItem(FNode):
     pass
 
 class FLabel(FCanvasItem):
+    def __init__(self):
+        super().__init__()
+        self.text = None
+
     def set_text(self, text):
+        if self.text == text:
+            return
+        self.text = text
         gp.label_set_text(self.get_gdobj(), text)
     
 # 类型到wrap类的映射

@@ -30,16 +30,16 @@ class CityUnit(Unit):
         
         # 资源
         self.army_amount = random_range(100, 1000)
-        self.rice_amount = 0
-        self.iron_amount = 0
-        self.stone_amount = 0
-        self.wood_amount = 0
-        self.money_amount = 0
+        self.rice_amount = random_range(100, 1000)
+        self.iron_amount = random_range(100, 1000)
+        self.stone_amount = random_range(100, 1000)
+        self.wood_amount = random_range(100, 1000)
+        self.money_amount = random_range(100, 1000)
 
         self.army_moral = 100
 
         # 资源增长率
-        self.growth_rate = random_range(100, 200)
+        self.growth_rate = random_range(20, 90)
 
     def init(self):
         for i in range(5):

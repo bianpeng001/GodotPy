@@ -73,6 +73,8 @@ class GamePlay:
         mp = game_mgr.player_mgr.main_player
         log_util.debug('on_player_ready', game_mgr.camera_mgr.center)
 
+        self.refresh_resource_grow(0)
+
 
     # API方法，业务代码
 
@@ -120,9 +122,12 @@ class GamePlay:
         
         for player in game_mgr.player_mgr.each_player():
             player.total_money_amount = 0
+            player.total_rice_amount = 0
+
             for city_id in player.city_list:
                 city = game_mgr.unit_mgr.get_unit(city_id)
                 player.total_money_amount += city.money_amount
+                player.total_rice_amount += city.rice_amount
         
         # 完成，刷新界面
         game_mgr.event_mgr.emit(MAINUI_REFRESH)
