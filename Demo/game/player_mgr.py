@@ -21,6 +21,7 @@ class Player:
         self.total_iron_amount = 0
         self.total_stone_amount = 0
         self.total_wood_amount = 0
+        self.total_money_amount = 0
 
     def load(self):
         pass
@@ -56,4 +57,7 @@ class PlayerMgr:
             return None
         return player
 
+    def each_player(self):
+        return self.player_dict.values()
+            
 

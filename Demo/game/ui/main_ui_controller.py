@@ -1,7 +1,6 @@
 #
 # 2023年2月16日 bianpeng
 #
-
 from game.core import *
 from game.game_mgr import game_mgr
 from game.event_name import MAINUI_REFRESH
@@ -23,5 +22,6 @@ class MainUIController:
         game_mgr.event_mgr.add(MAINUI_REFRESH, self.on_refresh)
 
     def on_refresh(self):
-        self.money_label.set_text('1111')
+        player = game_mgr.player_mgr.main_player
+        self.money_label.set_text(str(player.total_money_amount))
 

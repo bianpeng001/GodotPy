@@ -20,7 +20,8 @@ class GamePlay:
         game_mgr.event_mgr.add(START_GAME, self.on_start_game)
         game_mgr.event_mgr.add(MAIN_PLAYER_READY, self.on_player_ready)
 
-        pass
+        # 资源刷新tick
+        self.resource_grow_time = 0
 
     # 事件
     def on_app_launch(self):
@@ -106,4 +107,25 @@ class GamePlay:
             city.get_controller().set_flag_color()
 
     def update(self, delta_time):
-        pass
+        self.resource_grow_time += delta_time
+        if self.resource_grow_time > 1.1:
+            self.refresh_resource_grow(self.resource_grow_time)
+            self.resource_grow_time = 0
+
+    # 刷新所有的资源增长, 这个开销也不大
+    # delta_time：间隔时长，单位秒
+    def refresh_resource_grow(self, delta_time):
+        for city in game_mgr.unit_mgr.each_city():
+            city.get_controller().grow_resource(delta_time)
+        
+        for player in game_mgr.player_mgr.each_player():
+            player.total_money_amount = 0
+            for city_id in player.city_list:
+                city = game_mgr.unit_mgr.get_unit(city_id)
+                player.total_money_amount += city.money_amount
+        
+        # 完成，刷新界面
+        game_mgr.event_mgr.emit(MAINUI_REFRESH)
+
+
+

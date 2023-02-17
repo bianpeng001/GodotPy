@@ -6,6 +6,7 @@ from game.core import *
 from game.game_mgr import game_mgr
 from game.city_unit import CityUnit
 from game.troop_unit import TroopUnit
+from game.base_type import UT_CITY, UT_TROOP
 
 #------------------------------------------------------------
 # UnitMgr
@@ -107,5 +108,8 @@ class UnitMgr:
                 return unit
         return None
 
-
+    def each_city(self):
+        for unit in self.update_list:
+            if unit.unit_type == UT_CITY:
+                yield unit
 

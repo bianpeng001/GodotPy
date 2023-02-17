@@ -1,6 +1,7 @@
 #
 # 2023年2月8日 bianpeng
 #
+import random
 
 from game.core import *
 from game.game_mgr import game_mgr
@@ -23,6 +24,9 @@ class CityUnit(Unit):
 
         # 城内武将
         self.hero_list = []
+
+        # 资源上限
+        self.max_amount_limit = 1000000 + random.randint(0, 10)*20000
         
         # 资源
         self.army_amount = random_range(100, 1000)
@@ -35,7 +39,7 @@ class CityUnit(Unit):
         self.army_moral = 100
 
         # 资源增长率
-        self.growth_rate = random_range(20, 50)
+        self.growth_rate = random_range(100, 200)
 
     def init(self):
         for i in range(5):
