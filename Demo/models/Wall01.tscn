@@ -15,5 +15,5 @@ skeleton = NodePath("../..")
 transform = Transform3D(0.424264, 0, 0.424264, 0, 0.6, 0, -0.424264, 0, 0.424264, 0, 4, 0)
 
 [node name="Flag" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.433013, 0, -0.25, 0, 0.5, 0, 0.25, 0, 0.433013, 0, 1, 0)
+transform = Transform3D(0.606218, 0, -0.35, 0, 0.7, 0, 0.35, 0, 0.606218, 0, 1.18753, 0)
 mesh = ExtResource("3_bf4ff")

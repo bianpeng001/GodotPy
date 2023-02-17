@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cw0rvc3hxfk0b"]
+[gd_scene load_steps=6 format=3 uid="uid://cw0rvc3hxfk0b"]
 
 [ext_resource type="PackedScene" uid="uid://bccj1sc0y4dd1" path="res://effect/Dust02.tscn" id="1_gfsoq"]
 [ext_resource type="PackedScene" uid="uid://vbou24n37anl" path="res://models/Soldier02/Soildier02.tscn" id="2_34k06"]
 [ext_resource type="ArrayMesh" uid="uid://b7idplm5u8qyl" path="res://models/Arrow.obj" id="3_hb6po"]
 [ext_resource type="Material" uid="uid://b0eifmnip3tre" path="res://models/Color/White.tres" id="4_8dh6w"]
+[ext_resource type="ArrayMesh" uid="uid://7ljbpgjyaxoj" path="res://models/Flag02Mesh.res" id="5_2v2u3"]
 
 [node name="Troop02" type="Node3D"]
 
@@ -37,5 +38,10 @@ transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 
 transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 0.5, 0, 0.5)
 
 [node name="Arrow" type="MeshInstance3D" parent="."]
+visible = false
 mesh = ExtResource("3_hb6po")
 surface_material_override/0 = ExtResource("4_8dh6w")
+
+[node name="Flag" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+mesh = ExtResource("5_2v2u3")
