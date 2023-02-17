@@ -79,3 +79,6 @@ surface_material_override/0 = ExtResource("6_ivn3e")
 
 [node name="Hill01" parent="." instance=ExtResource("8_k8kn3")]
 transform = Transform3D(-4.96934, 0, -0.552835, 0, 5, 0, 0.552835, 0, -4.96934, -0.0819616, -0.0999981, -14.357)
+
+[node name="Hill02" parent="." instance=ExtResource("8_k8kn3")]
+transform = Transform3D(-3.82085, 0, -4.14095, 0, 5, 0, 4.63029, 0, -3.41705, 21.396, -0.0999981, -3.13473)
