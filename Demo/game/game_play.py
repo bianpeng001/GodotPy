@@ -105,5 +105,5 @@ class GamePlay:
             self.set_city_owner(city, player)
             city.get_controller().set_flag_color()
 
-
-
+    def update(self, delta_time):
+        pass

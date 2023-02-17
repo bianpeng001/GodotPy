@@ -146,6 +146,7 @@ Mesh: 可以导入时选择单独保存。
 
 ### shader编程
 简单的定点动画，旗帜摇摆。[Shader文档](https://docs.godotengine.org/en/latest/tutorials/shaders/shader_reference/shading_language.html)
+[Shader举例](https://docs.godotengine.org/en/latest/tutorials/shaders/your_first_shader/index.html)
 ```c
 shader_type spatial;
 render_mode skip_vertex_transform;

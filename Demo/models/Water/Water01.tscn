@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkfnlpovic73g"]
+
+[ext_resource type="Material" uid="uid://cwbugjtamrrs7" path="res://models/Water/Water01Mat.tres" id="1_46btg"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_prsuu"]
+size = Vector2(10, 10)
+subdivide_width = 40
+subdivide_depth = 40
+
+[node name="Water01" type="Node3D"]
+
+[node name="Model" type="MeshInstance3D" parent="."]
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_prsuu")
+surface_material_override/0 = ExtResource("1_46btg")

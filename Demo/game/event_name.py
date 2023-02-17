@@ -26,3 +26,4 @@ APP_LAUNCH = 'app_launch'
 START_GAME = 'start_game'
 MAIN_PLAYER_READY = 'main_player_ready'
 
+MAINUI_REFRESH = 'mainui_refresh'

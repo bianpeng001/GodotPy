@@ -3,7 +3,8 @@
 #
 
 from game.core import *
-from game.event_name import SCENE_UNIT_CLICK, LEFT_BUTTON_BEGIN_DRAG, SCENE_GROUND_CLICK
+from game.event_name import SCENE_UNIT_CLICK, LEFT_BUTTON_BEGIN_DRAG, \
+        SCENE_GROUND_CLICK, MAINUI_REFRESH
 from game.game_mgr import game_mgr
 
 from game.ui.main_ui_controller import MainUIController
@@ -16,6 +17,8 @@ class UIMgr(NodeObject):
         # 排队等关闭的ui，ui不能马上关闭，需要排队，不然马上就响应ui下面的元素被点击了
         self.hide_reqs = []
         self.context_unit = None
+
+        self.tick_time = 0
 
     def _create(self):
         set_process(self.get_node(), process=False)
@@ -43,6 +46,12 @@ class UIMgr(NodeObject):
         for a in self.hide_reqs:
             set_visible_2d(a, False)
         self.hide_reqs.clear()
+
+        # refresh tick
+        self.tick_time += delta_time
+        if self.tick_time > 0.5:
+            self.tick_time = 0
+            game_mgr.event_mgr.emit(MAINUI_REFRESH)
 
     def close(self, item):
         self.hide_reqs.append(item)

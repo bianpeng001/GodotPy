@@ -35,6 +35,7 @@ class CityController(Controller):
     def on_ai_tick(self, tick_time):
         city = self.unit
 
+        # 结算资源增长，并通知ui更新
         city.army_amount += city.growth_rate * tick_time
 
         # create troop for fight
