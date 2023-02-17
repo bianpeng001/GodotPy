@@ -12,9 +12,9 @@ void vertex() {
 	VERTEX = (MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
 
 	vec3 x_axis = vec3(1, cos(x), 0);
-	vec3 z_axis = vec3(0, 0, -1);
+	vec3 z_axis = vec3(0, 0, 1);
 	//vec3 z_axis = vec3(0, cos(z), 1);
-	NORMAL = normalize(cross(x_axis, z_axis));
+	NORMAL = normalize(cross(z_axis, x_axis));
 }
 
 void fragment() {
