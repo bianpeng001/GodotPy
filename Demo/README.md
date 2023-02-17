@@ -185,6 +185,16 @@ https://docs.godotengine.org/en/stable/tutorials/shaders/custom_postprocessing.h
 
 ![CameraEnv.res](../docs/img/CameraEnv.png "Camera Enviroment")
 
+
+
+### object上get，set数据
+```c++
+bool Control::_set(const StringName &p_name, const Variant &p_value) {
+    // ...
+}
+```
+发现Control上面对这个方法override了，导致有数据存不进去。所以，目前企图godot里面的Object*跟Python中的对象一一对应的目的没有实现。
+
 ### UI开发
 ui自动适配屏幕大小，在Project Settings > Window > Stretch。Mode:canvas_items, Aspect=keep。
 

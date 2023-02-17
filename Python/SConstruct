@@ -152,8 +152,8 @@ Modules = [
     'Modules/md5module.c',
     'Modules/sha1module.c',
     'Modules/sha2module.c',
-    'Modules/_hacl/Hacl_Streaming_SHA2.c',
     'Modules/_sha3/sha3module.c',
+    'Modules/_hacl/Hacl_Streaming_SHA2.c',
     'Modules/_statisticsmodule.c',
     'Modules/_typingmodule.c',
     'Modules/mathmodule.c',
@@ -180,13 +180,14 @@ Modules = [
     
     'Modules/cjkcodecs/multibytecodec.c',
     'Modules/cjkcodecs/_codecs_cn.c',
-
     'Modules/posixmodule.c',
+
     'Modules/_io/winconsoleio.c',
     'PC/invalid_parameter_handler.c',
-    'PC/winreg.c',
+    
     'Python/dynload_win.c',
     'PC/dl_nt.c',
+    'PC/winreg.c',
 ]
 
 LIBRARY_OBJS_OMIT_FROZEN = [
@@ -264,7 +265,7 @@ env.Append(LIBPATH = [
 ])
 Frozen = 'Programs/_frozen.exe'
 Program1 = env.Program(Frozen,
-    source = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + Modules + IOModules + [
+    source = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + IOModules + Modules + [
         'Programs/_freeze_module.c',
         'Modules/getpath_noop.c',
         'Godot/config.c',
@@ -276,7 +277,7 @@ Program1 = env.Program(Frozen,
 
 BootstrapPython = './_bootstrap_python.exe'
 Program2 = env.Program(BootstrapPython,
-    source = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + Modules + IOModules + [
+    source = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + IOModules + Modules + [
         'Programs/_bootstrap_python.c',
         'Modules/getpath.c',
         'Godot/config.c',
@@ -367,11 +368,10 @@ Gen2 = env.Command(
 env.Requires(Gen2, Program2)
 
 # python library
-srcs = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + Modules + IOModules + [
+srcs = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + IOModules + Modules + [
         'Python/frozen.c',
         'Python/deepfreeze/deepfreeze.c',
         'Modules/getpath.c',
-        'Godot/config.c',
 
         'Modules/zlibmodule.c',
         ZLIB + '/adler32.c',
@@ -382,6 +382,8 @@ srcs = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + Modules + IOModules + [
         ZLIB + '/inftrees.c',
         ZLIB + '/inffast.c',
         ZLIB + '/zutil.c',
+
+        'Godot/config.c',
     ]
 Lib1 = env.SharedLibrary(ModuleName,
     source = srcs,

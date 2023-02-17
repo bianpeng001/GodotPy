@@ -41,6 +41,8 @@
 typedef struct {
 	PyObject_HEAD Object *obj;
 	ObjectID instance_id;
+	// 在python那边实际使用的python对象
+	PyObject *wrapped_object;
 } PyGDObj;
 extern bool Is_PyGDObj(PyObject *o);
 
@@ -93,15 +95,61 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 
 	return PyLong_FromLong((long)type);
 }
-static PyObject * PyGDObj_repr(PyGDObj *o) {
-	return PyUnicode_FromString("<PyGDObj>");
+static PyObject *f_get_wrapped_object(PyObject *a_self, PyObject *args) {
+	do {
+		PyGDObj *self;
+
+		if (!Is_PyGDObj(a_self)) {
+			break;
+		}
+
+		self = (PyGDObj *)a_self;
+		if (!self->wrapped_object) {
+			break;
+		}
+
+		auto obj = self->wrapped_object;
+		Py_INCREF(obj);
+		return obj;
+
+	} while (0);
+	Py_RETURN_NONE;
+}
+static PyObject *f_set_wrapped_object(PyObject *a_self, PyObject *args) {
+	do {
+		PyGDObj *self;
+		PyObject *wrapped_object;
+
+		if (!Is_PyGDObj(a_self)) {
+			break;
+		}
+		if (!PyArg_ParseTuple(args, "O", &wrapped_object)) {
+			break;
+		}
+
+		self = (PyGDObj *)a_self;
+		if (self->wrapped_object) {
+			GP_DECREF(self->wrapped_object);
+		}
+
+		self->wrapped_object = wrapped_object;
+		Py_INCREF(self->wrapped_object);
+
+	} while (0);
+	Py_RETURN_NONE;
 }
 static PyMethodDef PyGDObj_methods[] = {
 	{ "get_type", &f_get_type, METH_VARARGS, NULL },
+	{ "get_wrapped_object", &f_get_wrapped_object, METH_VARARGS, NULL },
+	{ "set_wrapped_object", &f_set_wrapped_object, METH_VARARGS, NULL },
 	{ NULL, NULL } /* sentinel */
 };
+static PyObject * PyGDObj_repr(PyGDObj *o) {
+	auto str = vformat("<GDObj id=%x>", (int64_t)o->instance_id);
+	return PyUnicode_FromString(str.utf8());
+}
 PyTypeObject PyGDObj_Type = {
-	PyVarObject_HEAD_INIT(&PyType_Type, 0) "PyGDObj", /*tp_name*/
+	PyVarObject_HEAD_INIT(&PyType_Type, 0) "GDObj", /*tp_name*/
 	sizeof(PyGDObj), /*tp_basicsize*/
 	0, /*tp_itemsize*/
 	/* methods */
@@ -144,6 +192,7 @@ PyObject *PyGDObj_New(Object *a_obj) {
 
 	obj->obj = a_obj;
 	obj->instance_id = a_obj->get_instance_id();
+	obj->wrapped_object = NULL;
 
 	return (PyObject *)obj;
 }
@@ -279,19 +328,17 @@ public:
 		}
 	}
 };
+// 记录在字典里面
+static Dictionary object_id2gd_obj_dict;
 static PyObject *GetPyGDObj(Object *a_obj) {
-	static StringName PropName("_PyGDObj_");
-	auto value = a_obj->get(PropName);
-
-	if (value.is_null()) {
-		auto ptr = memnew(FPyGDObjProperty);
-		ptr->obj = PyGDObj_New(a_obj);
-
-		value = ptr;
-		a_obj->set(PropName, value);
+	auto v = object_id2gd_obj_dict.get(a_obj->get_instance_id(), Variant());
+	if (v.is_null()) {
+		auto prop = memnew(FPyGDObjProperty);
+		prop->obj = PyGDObj_New(a_obj);
+		v = prop;
+		object_id2gd_obj_dict[a_obj->get_instance_id()] = v;
 	}
-	auto ptr = (Object *)value;
-	return static_cast<FPyGDObjProperty *>(ptr)->obj;
+	return Object::cast_to<FPyGDObjProperty>(v.operator Object *())->obj;
 }
 //------------------------------------------------------------------------------
 // module function implementation

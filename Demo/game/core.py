@@ -432,17 +432,16 @@ class EventMgr:
 # oop 封装
 #------------------------------------------------------------
 def find_node2(node, path):
-    node = gp.find_node2(node, path)
-    #print(node)
-    #print(node.get_type())
-    return CreateObj(node)
+    gd_obj = gp.find_node2(node, path)
+    print(gd_obj)
+    return GetWrappedObject(gd_obj)
 
 class FObject:
     def __init__(self):
-        self.pygd_obj = None
+        self._gd_obj = None
 
-    def get_pygd_obj(self):
-        return self.pygd_obj
+    def get_gd_obj(self):
+        return self._gd_obj
 
 class FNode(FObject):
     def queue_free(self):
@@ -478,16 +477,25 @@ class FCanvasItem(FNode):
 
 class FLabel(FCanvasItem):
     def set_text(self, text):
-        gp.label_set_text(self.get_pygd_obj(), text)
+        gp.label_set_text(self.get_gd_obj(), text)
     
-FClassDict = [None for x in range(20)]
-FClassDict[1] = FLabel
+# 类型到wrap类的映射
+# 这个wrap的好处就是，利用oop，使得操作的对象上面只有对应类型能用的方法
+# 不在直接使用node对应的原始的pygd_obj，那个对象只用来当做一个弱引用使用
+FClassMap = [None for x in range(20)]
+FClassMap[1] = FLabel
 
-def CreateObj(node):
-    type_id = node.get_type()
-    cls_ = FClassDict[type_id]
-    if cls_:
-        obj = cls_()
-        obj.pygd_obj = node
+def GetWrappedObject(gd_obj):
+    obj = gd_obj.get_wrapped_object()
+    if obj:
         return obj
+
+    class_type = FClassMap[gd_obj.get_type()] or FObject
+
+    obj = class_type()
+    obj._gd_obj = gd_obj
+    gd_obj.set_wrapped_object(obj)
+
+    return obj
+        
 
