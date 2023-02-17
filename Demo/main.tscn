@@ -78,4 +78,4 @@ mesh = SubResource("BoxMesh_tucpu")
 surface_material_override/0 = ExtResource("6_ivn3e")
 
 [node name="Hill01" parent="." instance=ExtResource("8_k8kn3")]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 6.113, -0.1, -8.064)
+transform = Transform3D(-4.96934, 0, -0.552835, 0, 5, 0, 0.552835, 0, -4.96934, -0.0819616, -0.0999981, -14.357)
