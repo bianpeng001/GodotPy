@@ -443,8 +443,14 @@ class FObject:
     def get_gd_obj(self):
         return self._gd_obj
 
+    def is_valid(self):
+        return self.get_gd_obj().is_valid()
+
 class FNode(FObject):
     def queue_free(self):
+        pass
+
+    def find_node(self, path):
         pass
 
 class FNode3D(FNode):

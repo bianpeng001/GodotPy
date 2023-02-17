@@ -4,6 +4,7 @@
 
 from game.core import *
 
+#
 class MainUIController:
     def __init__(self):
         pass
@@ -20,7 +21,7 @@ class MainUIController:
 
         b = find_node2(self.ui_node, 'MoneyLabel')
         print(b)
-        
+
 
 
         

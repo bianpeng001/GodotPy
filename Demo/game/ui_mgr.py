@@ -25,6 +25,7 @@ class UIMgr(NodeObject):
         game_mgr.event_mgr.add(SCENE_GROUND_CLICK, self.on_scene_ground_click)
         game_mgr.event_mgr.add(LEFT_BUTTON_BEGIN_DRAG, self.on_begin_drag)
 
+        # init ui
         main_ui_node = Node.find_node(self.get_node(), 'MainUI')
         self.main_ui_controller = MainUIController()
         self.main_ui_controller.init(main_ui_node)

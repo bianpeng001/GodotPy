@@ -44,10 +44,13 @@ typedef struct {
 	// 在python那边实际使用的python对象
 	PyObject *wrapped_object;
 } PyGDObj;
+
+namespace gdobj {
+
 extern bool Is_PyGDObj(PyObject *o);
 
-template<typename T>
-static T* PyGDObjGet(PyObject* a_obj) {
+template <typename T>
+static T *GDObjGetPtr(PyObject *a_obj) {
 	ERR_FAIL_COND_V(!Is_PyGDObj(a_obj), NULL);
 
 	auto obj = (PyGDObj *)a_obj;
@@ -56,10 +59,10 @@ static T* PyGDObjGet(PyObject* a_obj) {
 
 static void PyGDObj_dealloc(PyObject *o) {
 	ERR_FAIL_COND(!Is_PyGDObj(o));
-	
+
 	// TODO: 这里要清空数据
 	print_line("destroy PyGDObj");
-	
+
 	PyObject_Free(o);
 }
 static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
@@ -80,7 +83,7 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 		}
 
 		obj = self->obj;
-		auto& class_name = obj->get_class_name();
+		auto &class_name = obj->get_class_name();
 		print_line(vformat("class_name=%s", class_name));
 
 		static Dictionary ClassTypeDict;
@@ -88,7 +91,7 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 			ClassTypeDict[StringName("Label")] = 1;
 		}
 
-		auto& value = ClassTypeDict.get(class_name, Variant(0));
+		auto &value = ClassTypeDict.get(class_name, Variant(0));
 		type = (int)value;
 
 	} while (false);
@@ -113,6 +116,7 @@ static PyObject *f_get_wrapped_object(PyObject *a_self, PyObject *args) {
 		return obj;
 
 	} while (0);
+
 	Py_RETURN_NONE;
 }
 static PyObject *f_set_wrapped_object(PyObject *a_self, PyObject *args) {
@@ -136,53 +140,36 @@ static PyObject *f_set_wrapped_object(PyObject *a_self, PyObject *args) {
 		Py_INCREF(self->wrapped_object);
 
 	} while (0);
+
 	Py_RETURN_NONE;
 }
-static PyMethodDef PyGDObj_methods[] = {
-	{ "get_type", &f_get_type, METH_VARARGS, NULL },
-	{ "get_wrapped_object", &f_get_wrapped_object, METH_VARARGS, NULL },
-	{ "set_wrapped_object", &f_set_wrapped_object, METH_VARARGS, NULL },
-	{ NULL, NULL } /* sentinel */
-};
-static PyObject * PyGDObj_repr(PyGDObj *o) {
-	auto str = vformat("<GDObj id=%x>", (int64_t)o->instance_id);
-	return PyUnicode_FromString(str.utf8());
-}
-PyTypeObject PyGDObj_Type = {
-	PyVarObject_HEAD_INIT(&PyType_Type, 0) "GDObj", /*tp_name*/
-	sizeof(PyGDObj), /*tp_basicsize*/
-	0, /*tp_itemsize*/
-	/* methods */
-	&PyGDObj_dealloc, /*tp_dealloc*/
-	0, /*tp_vectorcall_offset*/
-	0, /*tp_getattr*/
-	0, /*tp_setattr*/
-	0, /*tp_as_async*/
-	(reprfunc)&PyGDObj_repr, /*tp_repr*/
-	0, /*tp_as_number*/
-	0, /*tp_as_sequence*/
-	0, /*tp_as_mapping*/
-	0, /*tp_hash*/
-	0, /*tp_call*/
-	0, /*tp_str*/
-	0, /*tp_getattro*/
-	0, /*tp_setattro*/
-	0, /*tp_as_buffer*/
-	0, /*tp_flags*/
-	NULL, /*tp_doc*/
+static PyObject *f_is_valid(PyObject *a_self, PyObject *args) {
+	do {
+		PyGDObj *self;
 
-    NULL, /* tp_traverse */
-	0, /* tp_clear */
-	NULL, /* tp_richcompare */
-	0, /* tp_weaklistoffset */
-	NULL, /* tp_iter */
-	0, /* tp_iternext */
-	PyGDObj_methods, /* tp_methods */
-	NULL, /* tp_members */
-};
+		if (!Is_PyGDObj(a_self)) {
+			break;
+		}
+
+		self = (PyGDObj *)a_self;
+		auto obj = ObjectDB::get_instance(self->instance_id);
+
+		if (obj) {
+			Py_RETURN_TRUE;
+		} else {
+			Py_RETURN_FALSE;
+		}
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+
 // 创建一个对obj的弱引用，在python side持有，如果obj在godot里面已经销毁
 // 则需要在python这边有能力安全的判断是否 is_null, is_valid, has_data啥的
 PyObject *PyGDObj_New(Object *a_obj) {
+	extern PyTypeObject PyGDObj_Type;
+
 	PyGDObj *obj;
 
 	obj = PyObject_New(PyGDObj, &PyGDObj_Type);
@@ -196,9 +183,55 @@ PyObject *PyGDObj_New(Object *a_obj) {
 
 	return (PyObject *)obj;
 }
-bool Is_PyGDObj(PyObject *o) {
+static PyObject *PyGDObj_repr(PyGDObj *o) {
+	auto str = vformat("<GDObj id=%x>", (int64_t)o->instance_id);
+	return PyUnicode_FromString(str.utf8());
+}
+static PyMethodDef PyGDObj_methods[] = {
+	{ "get_type", &gdobj::f_get_type, METH_VARARGS, NULL },
+	{ "get_wrapped_object", &gdobj::f_get_wrapped_object, METH_VARARGS, NULL },
+	{ "set_wrapped_object", &gdobj::f_set_wrapped_object, METH_VARARGS, NULL },
+	{ "is_valid", &gdobj::f_is_valid, METH_VARARGS, NULL },
+	{ NULL, NULL } /* sentinel */
+};
+
+PyTypeObject PyGDObj_Type = {
+	PyVarObject_HEAD_INIT(&PyType_Type, 0) "GDObj", /*tp_name*/
+	sizeof(PyGDObj), /*tp_basicsize*/
+	0, /*tp_itemsize*/
+	/* methods */
+	&gdobj::PyGDObj_dealloc, /*tp_dealloc*/
+	0, /*tp_vectorcall_offset*/
+	0, /*tp_getattr*/
+	0, /*tp_setattr*/
+	0, /*tp_as_async*/
+	(reprfunc)&gdobj::PyGDObj_repr, /*tp_repr*/
+	0, /*tp_as_number*/
+	0, /*tp_as_sequence*/
+	0, /*tp_as_mapping*/
+	0, /*tp_hash*/
+	0, /*tp_call*/
+	0, /*tp_str*/
+	0, /*tp_getattro*/
+	0, /*tp_setattro*/
+	0, /*tp_as_buffer*/
+	0, /*tp_flags*/
+	NULL, /*tp_doc*/
+
+	NULL, /* tp_traverse */
+	0, /* tp_clear */
+	NULL, /* tp_richcompare */
+	0, /* tp_weaklistoffset */
+	NULL, /* tp_iter */
+	0, /* tp_iternext */
+	gdobj::PyGDObj_methods, /* tp_methods */
+	NULL, /* tp_members */
+};
+static bool Is_PyGDObj(PyObject *o) {
 	return Py_IS_TYPE(o, &PyGDObj_Type);
 }
+} //namespace gdobj
+
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
@@ -316,30 +349,34 @@ static PyObject* get_or_create_capsule(Node* a_node) {
 	return static_cast<FCapsuleObject *>(obj)->GetPyObject();
 }
 // 作为属性，存在对象上面
-class FPyGDObjProperty : public Object {
+class FPyGDObjSlot : public Object {
+private:
+	PyObject *gd_obj;
 public:
-	PyObject *obj;
-	FPyGDObjProperty() :
-			obj (NULL) {
+	FPyGDObjSlot() :
+			gd_obj(NULL) {
 	}
-	virtual ~FPyGDObjProperty() {
-		if (obj) {
-			GP_DECREF(obj);
+	virtual ~FPyGDObjSlot() {
+		if (gd_obj) {
+			GP_DECREF(gd_obj);
 		}
 	}
-};
-// 记录在字典里面
-static Dictionary object_id2gd_obj_dict;
-static PyObject *GetPyGDObj(Object *a_obj) {
-	auto v = object_id2gd_obj_dict.get(a_obj->get_instance_id(), Variant());
-	if (v.is_null()) {
-		auto prop = memnew(FPyGDObjProperty);
-		prop->obj = PyGDObj_New(a_obj);
-		v = prop;
-		object_id2gd_obj_dict[a_obj->get_instance_id()] = v;
+public:
+	// 记录在字典里面, 缓存object_od -> slot，出场景需要清空
+	static Dictionary object_id2gd_obj_dict;
+	static PyObject *GetPyGDObj(Object *a_obj) {
+		auto v = object_id2gd_obj_dict.get(a_obj->get_instance_id(), Variant());
+		if (v.is_null()) {
+			auto prop = memnew(FPyGDObjSlot);
+			prop->gd_obj = gdobj::PyGDObj_New(a_obj);
+			v = prop;
+			object_id2gd_obj_dict[a_obj->get_instance_id()] = v;
+		}
+		return Object::cast_to<FPyGDObjSlot>(v.operator Object *())->gd_obj;
 	}
-	return Object::cast_to<FPyGDObjProperty>(v.operator Object *())->obj;
-}
+};
+Dictionary FPyGDObjSlot::object_id2gd_obj_dict;
+
 //------------------------------------------------------------------------------
 // module function implementation
 //------------------------------------------------------------------------------
@@ -563,7 +600,7 @@ static PyObject *f_find_node2(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		PyObject *obj = GetPyGDObj(result_node);
+		PyObject *obj = FPyGDObjSlot::GetPyGDObj(result_node);
 		Py_INCREF(obj);
 		return obj;
 
@@ -1095,11 +1132,11 @@ static PyObject *f_label_set_text(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		if (!Is_PyGDObj(a_obj)) {
+		if (!gdobj::Is_PyGDObj(a_obj)) {
 			break;
 		}
 
-		auto label = PyGDObjGet<Label>(a_obj);
+		auto label = gdobj::GDObjGetPtr<Label>(a_obj);
 		if (!label) {
 			break;
 		}
