@@ -34,6 +34,8 @@ class Tile:
         self.model_node = instantiate('res://models/Square.tscn')
         set_position(self.model_node, pos_x, 0, pos_z)
 
+    def create_items(self):
+        pos_x, pos_z = self.get_center_pos()
         # 树
         for i in range(random.randrange(1, 10)):
             self.load_res('res://models/Tree01.tscn',
@@ -139,11 +141,9 @@ class GroundMgr(NodeObject):
     def refresh_tile(self, col, row):
         key = (col, row)
         if key not in self.tile_dict:
-            t = Tile(col, row)
-            self.tile_dict[key] = t
-            t.load()
-                
-        
-
+            tile = Tile(col, row)
+            self.tile_dict[key] = tile
+            tile.load()
+            tile.create_items()
 
 

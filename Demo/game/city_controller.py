@@ -32,6 +32,7 @@ class CityController(Controller):
             self.on_ai_tick(self.ai_tick_time)
             self.ai_tick_time = 0
 
+    # 计算资源增长
     def _calc_resource(self, amount, growth_rate, delta_time, max_amount):
         value =  amount + growth_rate * delta_time
         if value > max_amount:

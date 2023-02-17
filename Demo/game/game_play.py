@@ -8,8 +8,9 @@ import json
 from game.core import *
 from game.game_mgr import game_mgr
 from game.event_name import *
-from game.base_type import UT_CITY
+from game.base_type import UT_CITY, UT_TROOP
 from game.wait import *
+from game.ground_mgr import Tile
 
 # 游戏的控制逻辑, 事件响应啥的，集中到这里来
 # 业务逻辑也放到这里来，脏活累活都放这
@@ -39,6 +40,11 @@ class GamePlay:
         game_mgr.hero_mgr = HeroMgr()
         game_mgr.unit_mgr = UnitMgr()
 
+        # 起始块
+        tile = Tile(0, 0)
+        game_mgr.ground_mgr.tile_dict[(0, 0)] = tile
+        tile.load()
+
     # create main player
     def on_start_game(self):
         pm = game_mgr.player_mgr
@@ -49,7 +55,7 @@ class GamePlay:
         def co_bind_to_base_city():
             while True:
                 city = game_mgr.unit_mgr.find_unit(lambda x: x.unit_type == UT_CITY \
-                    and x.owner_player_id == 0)
+                        and x.owner_player_id == 0)
                 if city:
                     self.set_city_owner(city, pm.main_player)
                     city.get_controller().set_flag_color()
@@ -92,7 +98,7 @@ class GamePlay:
         city.owner_player_id = player.player_id
         player.city_list.append(city.unit_id)
 
-        # TODO: handle the heros in city
+        # TODO: 城中的武将
 
     # 队伍攻城
     def troop_attack_city(self, troop, city):
