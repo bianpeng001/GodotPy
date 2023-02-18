@@ -19,7 +19,7 @@ class TroopUnit(Unit):
         self.owner_city_id = None
         self.radius = 2
         # 行军速度
-        self.speed = 2.4
+        self.speed = 1.2
 
         # 武将
         self.hero_list = []

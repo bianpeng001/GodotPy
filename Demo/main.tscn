@@ -63,12 +63,12 @@ shadow_opacity = 0.5
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.9271, 4.25017, -7.08244)
 
 [node name="Smallroad" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 4, 12.5814, 0.02, 0)
+transform = Transform3D(0.878467, 0, -1.91121, 0, 1, 0, 0.477803, 0, 3.51387, 8.24772, 0.02, -13.0551)
 mesh = SubResource("PlaneMesh_g86ea")
 surface_material_override/0 = ExtResource("5_kys8c")
 
 [node name="Smallroad2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 4, 12.5814, 0.02, 8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 4, 5.22526, 0.02, -2.1033)
 mesh = SubResource("PlaneMesh_g86ea")
 surface_material_override/0 = ExtResource("5_kys8c")
 
@@ -81,4 +81,4 @@ surface_material_override/0 = ExtResource("6_ivn3e")
 transform = Transform3D(-4.96934, 0, -0.552835, 0, 5, 0, 0.552835, 0, -4.96934, -0.0819616, -0.0999981, -14.357)
 
 [node name="Hill02" parent="." instance=ExtResource("8_k8kn3")]
-transform = Transform3D(-3.82085, 0, -4.14095, 0, 5, 0, 4.63029, 0, -3.41705, 21.396, -0.0999981, -3.13473)
+transform = Transform3D(-3.82085, 0, -4.14095, 0, 5, 0, 4.63029, 0, -3.41705, 15.5014, -0.1, -4.42321)

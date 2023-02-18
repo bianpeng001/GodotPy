@@ -5,6 +5,27 @@
 import math
 import random
 
+
+class BaseConfig:
+    def __init__(self):
+        self.config_id = 0
+        self.config_name = ''
+
+class AnimConfig(BaseConfig):
+    def __init__(self):
+        super().__init__()
+
+        self.anim_name = ''
+        self.anim_speed_scale = 1.0
+
+
+# 配置信息
+class ConfigMgr:
+    def __init__(self):
+        pass
+
+
+
 def select_one(item_list, delete=False):
     count = len(item_list)
 
@@ -16,11 +37,6 @@ def select_one(item_list, delete=False):
         item_list.pop()
 
     return item
-
-# 配置信息
-class ConfigMgr:
-    def __init__(self):
-        pass
 
 # https://zh.wikipedia.org/wiki/%E4%B8%89%E5%9B%BD%E8%A1%8C%E6%94%BF%E5%8C%BA%E5%88%92
 _city_name_data = [
