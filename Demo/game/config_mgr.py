@@ -5,7 +5,6 @@
 import math
 import random
 
-
 class BaseConfig:
     def __init__(self):
         self.config_id = 0
@@ -18,6 +17,13 @@ class AnimConfig(BaseConfig):
         self.anim_name = ''
         self.anim_speed_scale = 1.0
 
+class CityConfig(BaseConfig):
+    def __init__(self):
+        super().__init__()
+
+class HeroConfig(BaseConfig):
+    def __init__(self):
+        super().__init__()
 
 # 配置信息
 class ConfigMgr:
