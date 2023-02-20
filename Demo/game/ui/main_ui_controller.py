@@ -1,6 +1,8 @@
 #
 # 2023年2月16日 bianpeng
 #
+import math
+
 from game.core import *
 from game.game_mgr import game_mgr
 from game.event_name import MAINUI_REFRESH
@@ -44,10 +46,17 @@ class MainUIController:
         rice_text = self._get_amount_str(player.total_rice_amount)
         self.rice_label.set_text(rice_text)
 
-        # fps
+        self.update_fps()
+
+    def update_fps(self):
         delta_time = 0.001 * (game_mgr.time - self.refresh_time)
         delta_frame_number = game_mgr.frame_number - self.refresh_frame_number
-        self.fps_label.set_text(f'fps:{round(delta_frame_number/delta_time)}')
+        fps = math.floor(delta_frame_number/delta_time)
+
+        self.fps_label.set_text(f'fps:{fps}')
+        
         self.refresh_time = game_mgr.time
         self.refresh_frame_number = game_mgr.frame_number
+
+
 
