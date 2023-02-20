@@ -12,6 +12,7 @@ from game.base_type import UT_CITY, UT_TROOP
 from game.wait import *
 from game.ground_mgr import Tile
 
+
 # 游戏的控制逻辑, 事件响应啥的，集中到这里来
 # 业务逻辑也放到这里来，脏活累活都放这
 # 有一些业务逻辑是好几个单位相互作用的
@@ -35,10 +36,12 @@ class GamePlay:
         from game.player_mgr import PlayerMgr
         from game.hero_mgr import HeroMgr
         from game.unit_mgr import UnitMgr
+        from game.effect_mgr import EffectMgr
         
         game_mgr.player_mgr = PlayerMgr()
         game_mgr.hero_mgr = HeroMgr()
         game_mgr.unit_mgr = UnitMgr()
+        game_mgr.effect_mgr = EffectMgr()
 
         # 起始块
         tile = Tile(0, 0)

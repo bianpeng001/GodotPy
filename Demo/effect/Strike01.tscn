@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://iph3h1igpo6k"]
+
+[ext_resource type="ArrayMesh" uid="uid://dmdewbdmeviy2" path="res://effect/Strike01.obj" id="1_s1r03"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0g57b"]
+emission_shape = 3
+emission_box_extents = Vector3(1, 0.1, 0.1)
+gravity = Vector3(0, 0, -10)
+
+[node name="Strike01" type="Node3D"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+emitting = false
+amount = 3
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_0g57b")
+draw_pass_1 = ExtResource("1_s1r03")

@@ -25,12 +25,15 @@ class HeroConfig(BaseConfig):
     def __init__(self):
         super().__init__()
 
+class EffectConfig(BaseConfig):
+    def __init__(self):
+        self.life_time = 1.0
+        self.res_path = ''
+
 # 配置信息
 class ConfigMgr:
     def __init__(self):
         pass
-
-
 
 def select_one(item_list, delete=False):
     count = len(item_list)

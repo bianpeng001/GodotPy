@@ -15,24 +15,29 @@ class GameMgr():
         super().__init__()
 
         # init in boot.py
+        # 底层管理器
         self._event_mgr = EventMgr()
         self._input_mgr = None
         self.co_mgr = None
 
+        # 上层管理器
         self.camera_mgr = None
         self.ground_mgr = None
         self.troop_mgr = None
         self.unit_mgr = None
         self.ui_mgr = None
         self.hero_mgr = None
+        self.effect_mgr = None
+
+        # 玩法业务逻辑
         self.game_play = None
 
+        # 游戏数据管理
         self.game_data = None
 
-        # cached time/delta_time
+        # 时间和帧数信息
         self.time = 0
         self.delta_time = 0
-
         self.frame_number = 0
         self.paused = False
 
