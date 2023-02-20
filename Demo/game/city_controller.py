@@ -64,7 +64,8 @@ class CityController(Controller):
             troop.owner_player_id = city.owner_player_id
 
             troop.set_army_amount(1000)
-            troop.set_location(x,y,z)
+            troop.set_position(x,y,z)
+
 
     def update(self):
         self.drive_ai_tick()

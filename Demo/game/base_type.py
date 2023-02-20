@@ -85,18 +85,25 @@ class Unit:
     def load_model(self):
         pass
 
+    def get_location(self):
+        return self.get_position()
+
     def set_location(self, x, y, z):
         self.unit_position.set(x, y, z)
 
         if self.model_node:
             Node3D.set_position(self.model_node, x, y, z)
 
-    def get_location(self):
-        return self.get_position()
-
     def get_position(self):
-        loc = self.unit_position
-        return loc.x, loc.y, loc.z
+        pos = self.unit_position
+        return pos.x, pos.y, pos.z
+
+    def set_position(self, x,y,z):
+        self.unit_position.set(x, y, z)
+
+        if self.model_node:
+            Node3D.set_position(self.model_node, x, y, z)
+
 
     # 最后清除的时候，回调
     def on_dead(self):

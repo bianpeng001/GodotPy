@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://4qhhxngmsdx6"]
 
 [ext_resource type="ArrayMesh" uid="uid://b8rp43vj206hq" path="res://effects/Arrow01.obj" id="1_axbgf"]
 

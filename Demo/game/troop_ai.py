@@ -269,10 +269,9 @@ class AIState_AttackCity(AIState_Troop):
             troop = controller.get_unit()
             city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
 
-            print('play effect')
-            # game_mgr.effect_mgr.play1(
-            #     *troop.get_position(),
-            #     *city.get_position())
+            game_mgr.effect_mgr.play_effect1(
+                *troop.get_position(),
+                *city.get_position())
 
             game_mgr.game_play.troop_attack_city(troop, city)
             if city.army_amount <= 0:

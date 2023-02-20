@@ -19,6 +19,7 @@
 #include "scene/3d/node_3d.h"
 #include "scene/3d/camera_3d.h"
 #include "scene/3d/label_3d.h"
+#include "scene/3d/cpu_particles_3d.h"
 
 #include "scene/2d/node_2d.h"
 #include "scene/gui/control.h"
@@ -49,19 +50,19 @@ typedef struct {
 
 namespace gdobj {
 
-bool Is_PyGDObj(PyObject *o);
+bool Is_GDObj(PyObject *o);
 PyGDObj *Cast_PyGDObj(PyObject *o);
 
 template <typename T>
 static T *GDObjGetPtr(PyObject *a_obj) {
-	ERR_FAIL_COND_V(!Is_PyGDObj(a_obj), NULL);
+	ERR_FAIL_COND_V(!Is_GDObj(a_obj), NULL);
 
 	auto obj = (PyGDObj *)a_obj;
 	return Object::cast_to<T>(obj->obj);
 }
 
 static void PyGDObj_dealloc(PyObject *o) {
-	ERR_FAIL_COND(!Is_PyGDObj(o));
+	ERR_FAIL_COND(!Is_GDObj(o));
 
 	// TODO: 这里要清空数据
 	print_line("destroy PyGDObj");
@@ -87,11 +88,12 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 
 		obj = self->obj;
 		auto &class_name = obj->get_class_name();
-		print_line(vformat("class_name=%s", class_name));
+		//print_line(vformat("class_name=%s", class_name));
 
 		static Dictionary ClassTypeDict;
 		if (ClassTypeDict.size() == 0) {
 			ClassTypeDict[StringName("Label")] = 1;
+			ClassTypeDict[StringName("CPUParticles3D")] = 2;
 		}
 
 		auto &value = ClassTypeDict.get(class_name, Variant(0));
@@ -146,7 +148,7 @@ static PyObject *f_is_valid(PyObject *a_self, PyObject *args) {
 	do {
 		PyGDObj *self;
 
-		if (!Is_PyGDObj(a_self)) {
+		if (!Is_GDObj(a_self)) {
 			break;
 		}
 
@@ -225,7 +227,7 @@ PyObject *PyGDObj_New(Object *a_obj) {
 
 	return (PyObject *)obj;
 }
-static bool Is_PyGDObj(PyObject *o) {
+static bool Is_GDObj(PyObject *o) {
 	return Py_IS_TYPE(o, &PyGDObj_Type);
 }
 static PyGDObj* Cast_PyGDObj(PyObject *o) {
@@ -557,6 +559,30 @@ static PyObject *f_destroy(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_set_visible(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
+		int a_value;
+
+		if (!PyArg_ParseTuple(args, "Oi", &a_node, &a_value)) {
+			break;
+		}
+
+		Node3D *node = NULL;
+		if (gdobj::Is_GDObj(a_node)) {
+			node = gdobj::GDObjGetPtr<Node3D>(a_node);
+		} else {
+			node = GetCapsulePointer<Node3D>(a_node);
+		}
+		if (!node) {
+			break;
+		}
+		node->set_visible(a_value != 0);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject* f_find_node(PyObject* module, PyObject* args) {
 	do {
 		const char *a_path;
@@ -736,12 +762,16 @@ static PyObject *f_look_at(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		auto node = GetCapsulePointer<Node3D>(a_node);
+		Node3D *node = NULL;
+		if (gdobj::Is_GDObj(a_node)) {
+			node = gdobj::GDObjGetPtr<Node3D>(a_node);
+		} else {
+			node = GetCapsulePointer<Node3D>(a_node);
+		}
+
 		if (!node) {
 			break;
 		}
-
-		//node->set_rotation_degrees(Vector3(x, y, z));
 		node->look_at(Vector3(x, y, z), Vector3(0, 1, 0));
 
 	} while (0);
@@ -1136,7 +1166,7 @@ static PyObject *f_label_set_text(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		if (!gdobj::Is_PyGDObj(a_obj)) {
+		if (!gdobj::Is_GDObj(a_obj)) {
 			break;
 		}
 
@@ -1221,7 +1251,28 @@ static PyObject *f_mesh_instance3d_load_material(PyObject *module, PyObject *arg
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_cpu_particle_set_emitting(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_node;
+		int a_value;
+		if (!PyArg_ParseTuple(args, "Oi", &a_node, &a_value)) {
+			break;
+		}
 
+		if (!gdobj::Is_GDObj(a_node)) {
+			break;
+		}
+
+		auto ps = gdobj::GDObjGetPtr<CPUParticles3D>(a_node);
+		if (!ps) {
+			break;
+		}
+		ps->set_emitting(a_value != 0);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_debug_get_monitor(PyObject *module, PyObject *args) {
 	do {
 		int a_monitor;
@@ -1260,6 +1311,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "reparent", f_reparent, METH_VARARGS, NULL },
 	{ "load_scene", f_load_scene, METH_VARARGS, NULL },
 	{ "destroy", f_destroy, METH_VARARGS, NULL },
+	{ "set_visible", f_set_visible, METH_VARARGS, NULL },
 
 	// node3d
 	{ "set_position", f_set_position, METH_VARARGS, NULL },
@@ -1293,6 +1345,9 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// label
 	{ "label_set_text", f_label_set_text, METH_VARARGS, NULL },
+
+	// particle
+	{ "cpu_particle_set_emitting", f_cpu_particle_set_emitting, METH_VARARGS, NULL },
 
 	// debug
 	{ "debug_get_monitor", f_debug_get_monitor, METH_VARARGS, NULL },

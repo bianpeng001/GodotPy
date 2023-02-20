@@ -6,11 +6,16 @@ from game.core import *
 
 class Effect:
     def __init__(self):
+        self.effect_id = 0
         self.config_id = 0
         self.node = None
         #self.position = None
         self.time = 0
         self.life_time = 1
+
+    def set_visible(self, value):
+        ps = find_node2(self.node, 'CPUParticles3D')
+        ps.set_visible(value)
 
 #
 # 特效管理，缓存复用特效对象
@@ -21,14 +26,28 @@ class EffectMgr:
         self._back_effect_list = []
 
         self.cache_list = []
+        self.effect_id_seed = 1000
     
-    def play1(self, x,y,z, x1,y1,z1):
-        effect = Effect()
+    def play_effect1(self, x,y,z, x1,y1,z1):
+        self.effect_id_seed += 1
+
+        effect = None
+        if len(self.cache_list) > 0:
+            effect = self.cache_list.pop()
+        else:
+            effect = Effect()
+            effect.node = instantiate('res://effects/Strike01.tscn')
+
+        effect.effect_id = self.effect_id_seed
         effect.time = 0
-        effect.life_time = 1
-        effect.node = instantiate('res://effects/Strike01.tscn')
-        Node3D.set_position(effect.node, x,y,z)
-        Node3D.look_at(effect.node, x1,y1,z1)
+        effect.life_time = 3
+
+        Node3D.set_position(effect.node, x,1,z)
+        effect.set_visible(True)
+        ps = find_node2(effect.node, 'CPUParticles3D')
+        #Node3D.look_at(effect.node, x1,1,z1)
+        ps.look_at(x1,1,z1)
+        ps.set_emitting(True)
 
         self.add(effect)
 
@@ -40,15 +59,18 @@ class EffectMgr:
         self.effect_list = self._back_effect_list
         self._back_effect_list = tmp
 
-        for effect in self._back_effect_list:
-            effect.time += delta_time
-            if effect.time < effect.life_time:
-                self.add(effect)
-            else:
-                #self.cache_list.append(effect)
-                Node.destroy(effect.node)
+        if len(self._back_effect_list) > 0:
+            for effect in self._back_effect_list:
+                effect.time += delta_time
 
+                if effect.time < effect.life_time:
+                    self.add(effect)
+                else:
+                    #self.cache_list.append(effect)
+                    #Node.destroy(effect.node)
+                    effect.set_visible(False)
+                    self.cache_list.append(effect)
 
+            self._back_effect_list.clear()
 
-
-    
+            

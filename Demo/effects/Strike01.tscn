@@ -1,17 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://cqvg4ddsofkjo"]
+[gd_scene load_steps=2 format=3 uid="uid://cqvg4ddsofkjo"]
 
 [ext_resource type="ArrayMesh" uid="uid://dmdewbdmeviy2" path="res://effects/Strike01.obj" id="1_q8erm"]
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_0g57b"]
-emission_shape = 3
-emission_box_extents = Vector3(1, 0.1, 0.1)
-gravity = Vector3(0, 0, -10)
-
 [node name="Strike01" type="Node3D"]
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
 emitting = false
 amount = 3
 one_shot = true
-process_material = SubResource("ParticleProcessMaterial_0g57b")
-draw_pass_1 = ExtResource("1_q8erm")
+explosiveness = 1.0
+mesh = ExtResource("1_q8erm")
+emission_shape = 3
+emission_box_extents = Vector3(1, 0.1, 0.1)
+direction = Vector3(0, 0, -1)
+spread = 5.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 1.0
+linear_accel_min = 5.0
+linear_accel_max = 5.0

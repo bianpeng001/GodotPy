@@ -434,17 +434,22 @@ class FNode(FObject):
         pass
 
     def find_node(self, path):
+        #gdobj = gp.find_node2(self.get_gdobj(), path)
+        #return GetWrappedObject(gdobj)
         pass
 
 class FNode3D(FNode):
     def set_position(self, x,y,z):
-        pass
+        gp.set_position(self.get_gdobj(), x,y,z)
 
     def get_position(self):
-        return (0,0,0)
+        return gd.get_position(self.get_gdobj())
 
     def look_at(self, x,y,z):
-        pass
+        gp.look_at(self.get_gdobj(), x,y,z)
+
+    def set_visible(self, value):
+        gp.set_visible(self.get_gdobj(), value)
 
 class FNode2D(FNode):
     pass
@@ -474,12 +479,17 @@ class FLabel(FCanvasItem):
             return
         self.text = text
         gp.label_set_text(self.get_gdobj(), text)
+
+class FCPUParticles3D(FNode3D):
+    def set_emitting(self, value):
+        gp.cpu_particle_set_emitting(self.get_gdobj(), value)
     
 # 类型到wrap类的映射
 # 这个wrap的好处就是，利用oop，使得操作的对象上面只有对应类型能用的方法
 # 不在直接使用node对应的原始的pygd_obj，那个对象只用来当做一个弱引用使用
 FClassMap = [None for x in range(20)]
 FClassMap[1] = FLabel
+FClassMap[2] = FCPUParticles3D
 
 def GetWrappedObject(gdobj):
     obj = gdobj.get_wrapped_object()
