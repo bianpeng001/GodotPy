@@ -48,11 +48,11 @@ class EffectMgr:
         effect.time = 0
         effect.life_time = 3
 
-        Node3D.set_position(effect.node, x,1,z)
+        Node3D.set_position(effect.node, x,y,z)
         effect.set_visible(True)
         ps = find_node2(effect.node, 'CPUParticles3D')
         #Node3D.look_at(effect.node, x1,1,z1)
-        ps.look_at(x1,1,z1)
+        ps.look_at(x1,y1,z1)
         ps.set_emitting(True)
 
         self.add(effect)
