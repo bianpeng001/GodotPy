@@ -51,12 +51,15 @@ class MainUIController:
     def update_fps(self):
         delta_time = 0.001 * (game_mgr.time - self.refresh_time)
         delta_frame_number = game_mgr.frame_number - self.refresh_frame_number
-        fps = math.floor(delta_frame_number/delta_time)
-
-        self.fps_label.set_text(f'fps:{fps}')
-        
         self.refresh_time = game_mgr.time
         self.refresh_frame_number = game_mgr.frame_number
+
+        fps = math.floor(delta_frame_number/delta_time)
+        draw_call = 0
+        
+        self.fps_label.set_text(f'fps:{fps} dc:{draw_call}')
+        
+        
 
 
 

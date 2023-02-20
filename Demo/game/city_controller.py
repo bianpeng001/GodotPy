@@ -26,7 +26,8 @@ class CityController(Controller):
         if flag_node:
             mesh_instance3d_load_material(flag_node, 0, 'res://models/Color/Green.tres')
 
-    def update_ai(self):
+    # 驱动ai tick
+    def drive_ai_tick(self):
         self.ai_tick_time += game_mgr.delta_time
         if self.ai_tick_time > 0.3:
             self.on_ai_tick(self.ai_tick_time)
@@ -66,5 +67,5 @@ class CityController(Controller):
             troop.set_location(x,y,z)
 
     def update(self):
-        self.update_ai()
+        self.drive_ai_tick()
 
