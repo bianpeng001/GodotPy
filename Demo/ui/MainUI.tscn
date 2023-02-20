@@ -53,3 +53,10 @@ offset_right = 199.0
 offset_bottom = 38.0
 theme = ExtResource("5_dnccb")
 text = "0"
+
+[node name="FPSLabel" type="Label" parent="."]
+offset_left = 4.0
+offset_top = 50.0
+offset_right = 140.0
+offset_bottom = 73.0
+theme = ExtResource("5_dnccb")

@@ -19,7 +19,12 @@ class MainUIController:
         self.money_label = find_node2(self.ui_node, 'MoneyLabel')
         self.rice_label = find_node2(self.ui_node, 'RiceLabel')
         
-        
+        # 刷新点的信息
+        self.fps_label = find_node2(self.ui_node, 'FPSLabel')
+        self.refresh_time = game_mgr.time
+        self.refresh_frame_number = game_mgr.frame_number
+
+        # 事件
         game_mgr.event_mgr.add(MAINUI_REFRESH, self.on_refresh)
 
     def _get_amount_str(self, value):
@@ -30,6 +35,7 @@ class MainUIController:
             return f'{value}万'
 
     def on_refresh(self):
+        # player resource...
         player = game_mgr.player_mgr.main_player
 
         money_text = self._get_amount_str(player.total_money_amount)
@@ -38,5 +44,10 @@ class MainUIController:
         rice_text = self._get_amount_str(player.total_rice_amount)
         self.rice_label.set_text(rice_text)
 
-
+        # fps
+        delta_time = 0.001 * (game_mgr.time - self.refresh_time)
+        delta_frame_number = game_mgr.frame_number - self.refresh_frame_number
+        self.fps_label.set_text(f'fps:{round(delta_frame_number/delta_time)}')
+        self.refresh_time = game_mgr.time
+        self.refresh_frame_number = game_mgr.frame_number
 
