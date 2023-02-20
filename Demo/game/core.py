@@ -302,6 +302,12 @@ def set_surface_color(node, index, r, g, b):
 def mesh_instance3d_load_material(node, index, path):
     gp.mesh_instance3d_load_material(node, index, path)
 
+def get_monitor(monitor):
+    return gp.debug_get_monitor(monitor)
+
+def get_draw_call():
+    return gp.debug_get_monitor(17)
+
 #------------------------------------------------------------
 # api
 #------------------------------------------------------------

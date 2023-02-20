@@ -10,6 +10,8 @@
 #include "core/os/time.h"
 #include "core/math/plane.h"
 
+#include "main/performance.h"
+
 // scene headers
 #include "scene/animation/animation_player.h"
 #include "scene/main/viewport.h"
@@ -1219,6 +1221,24 @@ static PyObject *f_mesh_instance3d_load_material(PyObject *module, PyObject *arg
 
 	Py_RETURN_NONE;
 }
+
+static PyObject *f_debug_get_monitor(PyObject *module, PyObject *args) {
+	do {
+		int a_monitor;
+		if (!PyArg_ParseTuple(args, "i", &a_monitor)) {
+			break;
+		}
+
+		auto monitor = (Performance::Monitor)a_monitor;
+		auto pf = Performance::get_singleton();
+		float value = pf->get_monitor(monitor);
+
+		return PyFloat_FromDouble(value);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 // define godot api
 static PyMethodDef GodotPy_methods[] = {
 	// os
@@ -1273,6 +1293,9 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// label
 	{ "label_set_text", f_label_set_text, METH_VARARGS, NULL },
+
+	// debug
+	{ "debug_get_monitor", f_debug_get_monitor, METH_VARARGS, NULL },
 
 	// mesh instance
 

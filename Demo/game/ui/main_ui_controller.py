@@ -55,7 +55,7 @@ class MainUIController:
         self.refresh_frame_number = game_mgr.frame_number
 
         fps = math.floor(delta_frame_number/delta_time)
-        draw_call = 0
+        draw_call = get_draw_call()
         
         self.fps_label.set_text(f'fps:{fps} dc:{draw_call}')
         
