@@ -306,7 +306,8 @@ def get_monitor(monitor):
     return gp.debug_get_monitor(monitor)
 
 def get_draw_call():
-    return gp.debug_get_monitor(17)
+    value = gp.debug_get_monitor(13)
+    return int(value)
 
 #------------------------------------------------------------
 # api
