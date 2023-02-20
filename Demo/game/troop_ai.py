@@ -173,6 +173,7 @@ class AIState_Troop(AIState):
 
 # 寻找一个目标城池
 class AIState_FindCity(AIState_Troop):
+    # 从内而外的一圈圈的找目标
     def find_enemy_city(self,controller,col,row):
         owner_player_id = controller.unit.owner_player_id
         for i in range(3):
@@ -181,7 +182,7 @@ class AIState_FindCity(AIState_Troop):
                 if not tile:
                     continue
                 for unit in tile.units:
-                    if unit.unit_type == UT_CITY and\
+                    if unit.unit_type == UT_CITY and \
                             (unit.owner_player_id == 0 or \
                             unit.owner_player_id != owner_player_id):
                         return unit

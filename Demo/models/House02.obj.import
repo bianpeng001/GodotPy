@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bt4pdro1e4se5"
+path="res://.godot/imported/House02.obj-29cdb04728f49df2e85e1998187c455c.mesh"
+
+[deps]
+
+files=["res://.godot/imported/House02.obj-29cdb04728f49df2e85e1998187c455c.mesh"]
+
+source_file="res://models/House02.obj"
+dest_files=["res://.godot/imported/House02.obj-29cdb04728f49df2e85e1998187c455c.mesh", "res://.godot/imported/House02.obj-29cdb04728f49df2e85e1998187c455c.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
