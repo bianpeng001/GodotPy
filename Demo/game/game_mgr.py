@@ -2,12 +2,32 @@
 # 2023年1月31日 bianpeng
 #
 
+#------------------------------------------------------------
+# event mgr
+#------------------------------------------------------------
+class EventMgr:
+    def __init__(self):
+        self.map = {}
+
+    def add(self, name, handler):
+        if not name in self.map:
+            self.map[name] = [handler]
+        else:
+            self.map[name].append(handler)
+
+    def remove(self, name, handler):
+        if name in self.map:
+            self.map[name].remove(handler)
+
+    def emit(self, name, *args, **kwargs):
+        if name in self.map:
+            for handler in self.map[name]:
+                handler.__call__(*args, **kwargs)
+
 # 这里尽量保持空依赖，在别的地方往这里塞
 # 这样，game_mgr就能在别的地方被随意引用了
 # 主要是模块这种机制，是不让循环引用的。因为他有toplevel语句
 # 相比之下Delphi的Unit，是可以循环引用的。java，c#的引用的话,两个包是可以互相引用的。
-
-from game.core import EventMgr
 
 # 所有的系统的管理，单例
 class GameMgr():

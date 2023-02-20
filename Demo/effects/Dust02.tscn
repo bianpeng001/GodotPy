@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bccj1sc0y4dd1"]
+[gd_scene load_steps=4 format=3]
 
-[ext_resource type="Material" uid="uid://cwhw8gnfjyai4" path="res://effect/Dust02Mat.tres" id="1_0xu2w"]
-[ext_resource type="Material" uid="uid://b3bkrrkn8mhsx" path="res://effect/Dust02Particle.tres" id="2_w26yx"]
+[ext_resource type="Material" uid="uid://cwhw8gnfjyai4" path="res://effects/Dust02Mat.tres" id="1_0xu2w"]
+[ext_resource type="Material" uid="uid://b3bkrrkn8mhsx" path="res://effects/Dust02Particle.tres" id="2_w26yx"]
+
 
 [sub_resource type="QuadMesh" id="QuadMesh_jqnq7"]
 

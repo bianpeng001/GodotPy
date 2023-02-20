@@ -243,7 +243,7 @@ class AIState_AttackCity(AIState_Troop):
 
         # 射箭
         if not bb.shoot_effect:
-            bb.shoot_effect = instantiate('res://effect/Shoot01.tscn')
+            bb.shoot_effect = instantiate('res://effects/Shoot01.tscn')
             Node.reparent(bb.shoot_effect, controller.model_node)
 
         # 左右横移
@@ -260,13 +260,19 @@ class AIState_AttackCity(AIState_Troop):
             controller.move_req = req
             controller.look_at_unit(city)
 
+        # 是否可以解散了
         troop_dismiss = False
 
-        if game_mgr.time - bb.attack_time > 1000:
+        if game_mgr.time - bb.attack_time > 2000:
             bb.attack_time = game_mgr.time
 
             troop = controller.get_unit()
             city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
+
+            print('play effect')
+            # game_mgr.effect_mgr.play1(
+            #     *troop.get_position(),
+            #     *city.get_position())
 
             game_mgr.game_play.troop_attack_city(troop, city)
             if city.army_amount <= 0:

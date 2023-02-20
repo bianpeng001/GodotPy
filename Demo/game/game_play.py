@@ -108,7 +108,7 @@ class GamePlay:
         if troop.owner_player_id == 0:
             return
 
-        city.army_amount -= 60
+        city.army_amount -= 100
         if city.army_amount < 0:
             city.army_amount = 0
             log_util.debug(f'city is occupied {troop.unit_id} -> {city.unit_name}')

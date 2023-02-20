@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://7drk8uiknmut"]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="ArrayMesh" uid="uid://dguedkgif00lx" path="res://models/SoldierMesh.res" id="1_3d5og"]
-[ext_resource type="PackedScene" uid="uid://bccj1sc0y4dd1" path="res://effect/Dust02.tscn" id="1_fn2ts"]
+[ext_resource type="PackedScene" path="res://effects/Dust02.tscn" id="1_fn2ts"]
 [ext_resource type="Material" uid="uid://dybr177skwuv5" path="res://models/SoldierMat.tres" id="2_vs4oj"]
 
 [node name="Troop" type="Node3D"]

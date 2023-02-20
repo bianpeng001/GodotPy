@@ -344,16 +344,16 @@ class Label3D:
 # 
 class Node3D:
     @classmethod
-    def set_position(cls,node,x,y,z):
-        gp.set_position(node,x,y,z)
+    def set_position(cls,node, x,y,z):
+        gp.set_position(node, x,y,z)
 
     @classmethod
     def get_position(cls, node):
         return gp.get_position(node)
 
     @classmethod
-    def look_at(cls, node,x,y,z):
-        gp.look_at(node,x,y,z)
+    def look_at(cls, node, x,y,z):
+        gp.look_at(node, x,y,z)
 
 class OS:
     @classmethod
@@ -410,30 +410,6 @@ class LogUtil:
 
 log_util = LogUtil() 
 logutil = log_util
-
-#------------------------------------------------------------
-# event mgr
-#------------------------------------------------------------
-
-class EventMgr:
-    def __init__(self):
-        self.map = {}
-
-    def add(self, name, handler):
-        if not name in self.map:
-            self.map[name] = [handler]
-        else:
-            self.map[name].append(handler)
-
-    def remove(self, name, handler):
-        if name in self.map:
-            self.map[name].remove(handler)
-
-    def emit(self, name, *args, **kwargs):
-        if name in self.map:
-            for handler in self.map[name]:
-                handler.__call__(*args, **kwargs)
-
 
 #------------------------------------------------------------
 # oop 封装

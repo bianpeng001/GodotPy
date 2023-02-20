@@ -35,8 +35,9 @@ class RaycastMgr(NodeObject):
         if tile:
             click_on_unit = False
             for unit in tile.units:
-                dx = unit.location.x - wx
-                dz = unit.location.z - wz
+                unit_x, _, unit_z = unit.get_position()
+                dx = unit_x - wx
+                dz = unit_z - wz
                 if dx*dx+dz*dz < unit.radius*unit.radius:
                     #print_line(f'click: {unit.unit_name} {unit.unit_id}')
                     game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, unit)

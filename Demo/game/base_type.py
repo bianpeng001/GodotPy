@@ -71,7 +71,7 @@ class Unit:
         self._controller = None
 
         # 场景里面的属性
-        self.location = Vector3()
+        self.unit_position = Vector3()
         self.rotation = Vector3()
         self.radius = 1
         
@@ -86,13 +86,16 @@ class Unit:
         pass
 
     def set_location(self, x, y, z):
-        self.location.set(x, y, z)
+        self.unit_position.set(x, y, z)
 
         if self.model_node:
             Node3D.set_position(self.model_node, x, y, z)
 
     def get_location(self):
-        loc = self.location
+        return self.get_position()
+
+    def get_position(self):
+        loc = self.unit_position
         return loc.x, loc.y, loc.z
 
     # 最后清除的时候，回调

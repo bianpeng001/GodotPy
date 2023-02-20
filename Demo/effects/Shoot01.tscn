@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://chu55hfup7kgf"]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="ArrayMesh" uid="uid://b8rp43vj206hq" path="res://effect/Arrow01.obj" id="1_axbgf"]
+[ext_resource type="ArrayMesh" uid="uid://b8rp43vj206hq" path="res://effects/Arrow01.obj" id="1_axbgf"]
 
 [node name="Shoot01" type="Node3D"]
 transform = Transform3D(0.92521, 0, 0.379456, 0, 1, 0, -0.379456, 0, 0.92521, 0, 0, 0)

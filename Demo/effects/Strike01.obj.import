@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dmdewbdmeviy2"
+path="res://.godot/imported/Strike01.obj-0af9f0d45b0616e98ee858ad4bc8f421.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Strike01.obj-0af9f0d45b0616e98ee858ad4bc8f421.mesh"]
+
+source_file="res://effects/Strike01.obj"
+dest_files=["res://.godot/imported/Strike01.obj-0af9f0d45b0616e98ee858ad4bc8f421.mesh", "res://.godot/imported/Strike01.obj-0af9f0d45b0616e98ee858ad4bc8f421.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

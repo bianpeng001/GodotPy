@@ -58,9 +58,7 @@ class CityUnit(Unit):
             path = 'res://models/Wall01.tscn'
         
         self.model_node = instantiate(path)
-
-        x,y,z = self.get_location()
-        Node3D.set_position(self.model_node, x,y,z)
+        Node3D.set_position(self.model_node, *self.get_position())
         
         self.get_controller().set_title(self.unit_name)
 

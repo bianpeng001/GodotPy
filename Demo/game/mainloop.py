@@ -46,6 +46,7 @@ class MainLoop(NodeObject):
         delta_time = game_mgr.delta_time
         game_mgr.input_mgr.update(delta_time)
         game_mgr.game_play.update(delta_time)
+        game_mgr.effect_mgr.update(delta_time)
         game_mgr.ui_mgr.update(delta_time)
         game_mgr.ground_mgr.update(delta_time)
         game_mgr.unit_mgr.update(delta_time)

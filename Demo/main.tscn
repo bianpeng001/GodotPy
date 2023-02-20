@@ -1,10 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://b76cwpgvw5b0s"]
+[gd_scene load_steps=11 format=3 uid="uid://bdar35kt5xsbd"]
 
 [ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="1_53tvn"]
 [ext_resource type="PackedScene" uid="uid://c1jjhatf1hdpn" path="res://ui/MainUI.tscn" id="2_ljo2c"]
 [ext_resource type="PackedScene" uid="uid://drvm8b8tc7850" path="res://ui/HUD.tscn" id="4_1yjob"]
 [ext_resource type="PackedScene" uid="uid://dd4s66q0b1ug8" path="res://ui/ContextMenu.tscn" id="4_13hgr"]
-[ext_resource type="PackedScene" uid="uid://bgtgw0kthulwj" path="res://effect/Dust01.tscn" id="5_0n56o"]
+[ext_resource type="PackedScene" path="res://effects/Dust01.tscn" id="5_0n56o"]
 [ext_resource type="Material" uid="uid://bidwmr472e0a6" path="res://models/SmallroadMat.tres" id="5_kys8c"]
 [ext_resource type="Material" uid="uid://b0eifmnip3tre" path="res://models/Color/White.tres" id="6_ivn3e"]
 [ext_resource type="PackedScene" uid="uid://cpyomosvj7tyk" path="res://models/Hill/Hill01.tscn" id="8_k8kn3"]

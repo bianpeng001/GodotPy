@@ -64,7 +64,7 @@ class UIMgr(NodeObject):
         print_line(f'click: {unit.unit_name}')
 
         camera = game_mgr.camera_mgr.main_camera
-        #x, y = world_to_screen(camera , unit.location.x, unit.location.y, unit.location.z)
+        
         x, y = game_mgr.input_mgr.get_mouse_pos()
         set_position_2d(self.context_menu_node, x, y)
         set_visible_2d(self.context_menu_node, True)
