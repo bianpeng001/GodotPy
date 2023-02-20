@@ -3,6 +3,7 @@
 #
 
 from game.core import *
+from game.game_mgr import game_mgr
 
 class Effect:
     def __init__(self):
@@ -27,17 +28,22 @@ class EffectMgr:
 
         self.cache_list = []
         self.effect_id_seed = 1000
+
+    def new_effect(self, config_id):
+        if len(self.cache_list) > 0:
+            effect = self.cache_list.pop()
+            #print(f'reuse effect {effect.effect_id}')
+            return effect
+        else:
+            effect = Effect()
+            effect.config_id = config_id
+            effect.node = instantiate('res://effects/Strike01.tscn')
+            return effect
     
     def play_effect1(self, x,y,z, x1,y1,z1):
         self.effect_id_seed += 1
 
-        effect = None
-        if len(self.cache_list) > 0:
-            effect = self.cache_list.pop()
-        else:
-            effect = Effect()
-            effect.node = instantiate('res://effects/Strike01.tscn')
-
+        effect = self.new_effect(0)
         effect.effect_id = self.effect_id_seed
         effect.time = 0
         effect.life_time = 3
