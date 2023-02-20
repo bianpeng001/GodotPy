@@ -12,8 +12,8 @@ class TroopUnit(Unit):
         super().__init__()
         self.unit_type = UT_TROOP
 
-        self.controller = TroopController()
-        self.controller.unit = self
+        self._controller = TroopController()
+        self._controller._unit = self
 
         # 所属城
         self.owner_city_id = None
@@ -39,5 +39,11 @@ class TroopUnit(Unit):
 
     def set_army_amount(self, value):
         self.army_amount = value
+
+    def add_hero(self, hero_id):
+        self.hero_list.append(hero_id)
+
+    def calc_props(self):
+        pass
 
 

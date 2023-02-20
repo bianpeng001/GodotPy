@@ -16,8 +16,8 @@ class CityUnit(Unit):
         super().__init__()
         self.unit_type = UT_CITY
 
-        self.controller = CityController()
-        self.controller.unit = self
+        self._controller = CityController()
+        self._controller._unit = self
 
         self.radius = 3
         self.unit_name = new_city_name()
@@ -62,4 +62,5 @@ class CityUnit(Unit):
         x,y,z = self.get_location()
         Node3D.set_position(self.model_node, x,y,z)
         
-        self.controller.set_title(self.unit_name)
+        self.get_controller().set_title(self.unit_name)
+

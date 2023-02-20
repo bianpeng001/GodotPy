@@ -40,7 +40,7 @@ class CityController(Controller):
         return round(value)
 
     def grow_resource(self, delta_time):
-        city = self.unit
+        city = self.get_unit()
 
         city.army_amount = self._calc_resource(city.army_amount, 
                 city.growth_rate, delta_time, city.max_amount_limit)
@@ -50,7 +50,7 @@ class CityController(Controller):
                 city.growth_rate, delta_time, city.max_amount_limit)
 
     def on_ai_tick(self, tick_time):
-        city = self.unit
+        city = self.get_unit()
 
         # create troop for fight
         if city.army_amount > 1000:

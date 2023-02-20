@@ -36,7 +36,7 @@ class TroopController(Controller):
     def update_move(self):
         req = self.move_req
         if req and req.is_move:
-            troop = self.unit
+            troop = self.get_unit()
             delta = game_mgr.delta_time
             req.update(troop, delta)
 
@@ -60,5 +60,5 @@ class TroopController(Controller):
         self.look_at(x,y,z)
 
     def kill(self):
-        self.unit.set_dead()
+        self.get_unit().set_dead()
 

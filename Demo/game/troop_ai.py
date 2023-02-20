@@ -175,7 +175,7 @@ class AIState_Troop(AIState):
 class AIState_FindCity(AIState_Troop):
     # 从内而外的一圈圈的找目标
     def find_enemy_city(self,controller,col,row):
-        owner_player_id = controller.unit.owner_player_id
+        owner_player_id = controller.get_unit().owner_player_id
         for i in range(3):
             for dx,dy in ring_range(i):
                 tile = game_mgr.ground_mgr.get_tile_at_colrow(col+dx, row+dy)
@@ -189,21 +189,21 @@ class AIState_FindCity(AIState_Troop):
         return None
 
     def update(self, controller):
-        x,y,z = controller.unit.get_location()
+        x,y,z = controller.get_unit().get_location()
         col,row = game_mgr.ground_mgr.get_colrow(x, z)
         city = self.find_enemy_city(controller,col,row)
         if city:
             logutil.debug(f'find emeny: {controller.unit_id} -> {city.unit_name}')
             controller.ai_bb.target_unit_id = city.unit_id
-            controller.ai_enter_state(AIState_MatchToCity())
+            controller.ai_enter_state(AIState_MarchToCity())
         else:
             controller.ai_enter_state(AIState_TroopDie())
 
 # 行军, 先寻路，然后监控周围的敌人
-class AIState_MatchToCity(AIState_Troop):
+class AIState_MarchToCity(AIState_Troop):
     def do_enter(self, controller, bb):
         city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
-        troop = controller.unit
+        troop = controller.get_unit()
        
         req = ArcMoveReq()
         req.setup(*troop.get_location(),
@@ -250,7 +250,7 @@ class AIState_AttackCity(AIState_Troop):
         if not controller.move_req or \
                 not controller.move_req.is_move:
             city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
-            troop = controller.unit
+            troop = controller.get_unit()
 
             req = LeftRightMoveReq()
             req.setup(*troop.get_location(),
@@ -265,7 +265,7 @@ class AIState_AttackCity(AIState_Troop):
         if game_mgr.time - bb.attack_time > 1000:
             bb.attack_time = game_mgr.time
 
-            troop = controller.unit
+            troop = controller.get_unit()
             city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
 
             game_mgr.game_play.troop_attack_city(troop, city)

@@ -68,7 +68,7 @@ class Unit:
         # 生死存亡
         self.is_dead = False
         # 控制器
-        self.controller = None
+        self._controller = None
 
         # 场景里面的属性
         self.location = Vector3()
@@ -105,7 +105,7 @@ class Unit:
         self.is_dead = True
 
     def get_controller(self):
-        return self.controller
+        return self._controller
 
 
 # 单位的控制器
@@ -113,15 +113,18 @@ class Controller(AIMachine):
     def __init__(self):
         super().__init__()
         
-        self.unit = None
+        self._unit = None
 
     @property
     def unit_id(self):
-        return self.unit.unit_id
+        return self._unit.unit_id
+
+    def get_unit(self):
+        return self._unit
 
     @property
     def model_node(self):
-        return self.unit.model_node
+        return self.get_unit().model_node
 
     # 首次update之前
     def start(self):
