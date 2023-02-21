@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://br1vhvt7knvs2"
+path="res://.godot/imported/Soldier02.obj-27eda5e9d2ec3b31979fb03f89d19e1a.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Soldier02.obj-27eda5e9d2ec3b31979fb03f89d19e1a.mesh"]
+
+source_file="res://models/Soldier02.obj"
+dest_files=["res://.godot/imported/Soldier02.obj-27eda5e9d2ec3b31979fb03f89d19e1a.mesh", "res://.godot/imported/Soldier02.obj-27eda5e9d2ec3b31979fb03f89d19e1a.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
