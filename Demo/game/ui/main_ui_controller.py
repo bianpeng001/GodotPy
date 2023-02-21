@@ -33,7 +33,7 @@ class MainUIController:
         if value < 100000:
             return str(round(value))
         else:
-            value //= 100000
+            value //= 10000
             return f'{value}万'
 
     def on_refresh(self):
