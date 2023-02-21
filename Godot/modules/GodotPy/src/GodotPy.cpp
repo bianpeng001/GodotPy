@@ -54,13 +54,12 @@ bool Is_GDObj(PyObject *o);
 PyGDObj *Cast_PyGDObj(PyObject *o);
 
 template <typename T>
-static T *GDObjGetPtr(PyObject *a_obj) {
+static T *PyGDObj_GetPtr(PyObject *a_obj) {
 	ERR_FAIL_COND_V(!Is_GDObj(a_obj), NULL);
 
 	auto obj = (PyGDObj *)a_obj;
 	return Object::cast_to<T>(obj->obj);
 }
-
 static void PyGDObj_dealloc(PyObject *o) {
 	ERR_FAIL_COND(!Is_GDObj(o));
 
@@ -570,7 +569,7 @@ static PyObject *f_set_visible(PyObject *module, PyObject *args) {
 
 		Node3D *node = NULL;
 		if (gdobj::Is_GDObj(a_node)) {
-			node = gdobj::GDObjGetPtr<Node3D>(a_node);
+			node = gdobj::PyGDObj_GetPtr<Node3D>(a_node);
 		} else {
 			node = GetCapsulePointer<Node3D>(a_node);
 		}
@@ -764,7 +763,7 @@ static PyObject *f_look_at(PyObject *module, PyObject *args) {
 
 		Node3D *node = NULL;
 		if (gdobj::Is_GDObj(a_node)) {
-			node = gdobj::GDObjGetPtr<Node3D>(a_node);
+			node = gdobj::PyGDObj_GetPtr<Node3D>(a_node);
 		} else {
 			node = GetCapsulePointer<Node3D>(a_node);
 		}
@@ -1170,7 +1169,7 @@ static PyObject *f_label_set_text(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		auto label = gdobj::GDObjGetPtr<Label>(a_obj);
+		auto label = gdobj::PyGDObj_GetPtr<Label>(a_obj);
 		if (!label) {
 			break;
 		}
@@ -1263,7 +1262,7 @@ static PyObject *f_cpu_particle_set_emitting(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		auto ps = gdobj::GDObjGetPtr<CPUParticles3D>(a_node);
+		auto ps = gdobj::PyGDObj_GetPtr<CPUParticles3D>(a_node);
 		if (!ps) {
 			break;
 		}

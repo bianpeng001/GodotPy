@@ -388,6 +388,12 @@ class AnimationPlayer:
     def set_speed_scale(cls, node, speed):
         gp.animation_player_set_speed_scale(node, speed)
 
+class Debug:
+    @classmethod
+    def get_monitor(cls, monitor_type):
+        return gp.debug_get_monitor(monitor_type)
+
+
 #------------------------------------------------------------
 # log util
 #------------------------------------------------------------
@@ -461,10 +467,18 @@ class FMeshInstance3D(FNode3D):
     pass
 
 class FAnimationPlayer(FNode3D):
-    pass
+    def play(self, anim_name):
+        pass
+
+    def stop(self):
+        pass
+
+    def pause(self):
+        pass
 
 class FLabel3D(FNode3D):
-    pass
+    def set_text(self, text):
+        pass
 
 class FCanvasItem(FNode):
     pass
@@ -484,11 +498,7 @@ class FCPUParticles3D(FNode3D):
     def set_emitting(self, value):
         gp.cpu_particle_set_emitting(self.get_gdobj(), value)
 
-class FDebug(FObject):
-    @classmethod
-    def get_monitor(cls, monitor_type):
-        return gp.debug_get_monitor(monitor_type)
-    
+   
 # 类型到wrap类的映射
 # 这个wrap的好处就是，利用oop，使得操作的对象上面只有对应类型能用的方法
 # 不在直接使用node对应的原始的pygd_obj，那个对象只用来当做一个弱引用使用

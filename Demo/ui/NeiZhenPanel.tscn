@@ -10,7 +10,7 @@ offset_top = 168.0
 offset_right = 485.0
 offset_bottom = 224.0
 theme = ExtResource("1_vn1ox")
-text = "臧柯,马日谛"
+text = "臧柯,马日谛,张𫖮"
 
 [node name="Panel" type="Panel" parent="."]
 offset_left = 88.0
