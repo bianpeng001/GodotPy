@@ -10,4 +10,4 @@ render_priority = 0
 shader = ExtResource("1_y3teg")
 shader_parameter/heightmap = ExtResource("2_p1xyt")
 shader_parameter/normalmap = ExtResource("3_iwpoa")
-shader_parameter/diffusemap = ExtResource("2_njih6")
+shader_parameter/albedomap = ExtResource("2_njih6")

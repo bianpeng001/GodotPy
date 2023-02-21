@@ -3,7 +3,7 @@ render_mode skip_vertex_transform;
 
 uniform sampler2D heightmap;
 uniform sampler2D normalmap;
-uniform sampler2D diffusemap;
+uniform sampler2D albedomap;
 
 void vertex() {
 	float h = texture(heightmap, UV.xy).x;
@@ -15,6 +15,6 @@ void vertex() {
 }
 void fragment() {
 	NORMAL_MAP = texture(normalmap, UV.xy).xyz;
-	vec3 color = texture(diffusemap, UV).xyz;
+	vec3 color = texture(albedomap, UV).xyz;
 	ALBEDO = color * COLOR.xyz;
 }

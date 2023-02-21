@@ -17,6 +17,8 @@ void vertex() {
 	
 	half_angle *= sin(TIME*2.0);
 	
+	// v1 = qvq'
+	// qq' = 1
 	quat.w = cos(half_angle);
 	quat.xyz = sin(half_angle)*axis;
 	

@@ -6,6 +6,6 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_hxitp")
-shader_parameter/axis = Vector3(1, 0, 1)
+shader_parameter/axis = Vector3(0.717, 0, 0.717)
 shader_parameter/angle = 0.05
 shader_parameter/albedomap = ExtResource("2_628xt")
