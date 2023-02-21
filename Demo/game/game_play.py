@@ -42,6 +42,7 @@ class GamePlay:
         game_mgr.hero_mgr = HeroMgr()
         game_mgr.unit_mgr = UnitMgr()
         game_mgr.effect_mgr = EffectMgr()
+        game_mgr.init_update_list()
 
         # 起始块
         tile = Tile(0, 0)

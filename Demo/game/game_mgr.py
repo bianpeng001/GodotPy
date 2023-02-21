@@ -52,6 +52,8 @@ class GameMgr():
         # 玩法业务逻辑
         self.game_play = None
 
+        self.update_list = []
+
         # 游戏数据管理
         self.game_data = None
 
@@ -61,6 +63,7 @@ class GameMgr():
         self.delta_time = 0
         self.frame_number = 0
         self.paused = False
+        self.game_time = 0
 
     @property
     def event_mgr(self):
@@ -69,6 +72,28 @@ class GameMgr():
     @property
     def input_mgr(self):
         return self._input_mgr
+
+    def on_frame(self):
+        # coroutine first
+        self.co_mgr.execute()
+
+        # update all system
+        delta_time = self.delta_time
+        self.game_time += delta_time
+
+        for cb in self.update_list:
+            cb(delta_time)
+
+    def init_update_list(self):
+        self.update_list = []
+        
+        self.update_list.append(self.input_mgr.update)
+        self.update_list.append(self.game_play.update)
+        self.update_list.append(self.effect_mgr.update)
+        self.update_list.append(self.game_play.update)
+        self.update_list.append(self.ui_mgr.update)
+        self.update_list.append(self.ground_mgr.update)
+        self.update_list.append(self.unit_mgr.update)
 
 game_mgr = GameMgr()
 

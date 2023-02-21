@@ -31,26 +31,15 @@ class MainLoop(NodeObject):
         game_mgr.event_mgr.emit(START_GAME)
 
     def _process(self):
-        if game_mgr.paused:
-            return
+        if not game_mgr.paused:
+            # cache time/frame_number
+            game_mgr.frame_number += 1
+            game_mgr.time = OS.get_time()
+            game_mgr.sec_time = game_mgr.time * 0.001
+            game_mgr.delta_time = OS.get_delta_time()
+            
+            game_mgr.on_frame()
 
-        # cache time/frame_number
-        game_mgr.frame_number += 1
-        game_mgr.time = OS.get_time()
-        game_mgr.sec_time = game_mgr.time * 0.001
-        game_mgr.delta_time = OS.get_delta_time()
-
-        # coroutine first
-        game_mgr.co_mgr.execute()
-
-        # update all system
-        delta_time = game_mgr.delta_time
-        game_mgr.input_mgr.update(delta_time)
-        game_mgr.game_play.update(delta_time)
-        game_mgr.effect_mgr.update(delta_time)
-        game_mgr.ui_mgr.update(delta_time)
-        game_mgr.ground_mgr.update(delta_time)
-        game_mgr.unit_mgr.update(delta_time)
         
 
         
