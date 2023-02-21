@@ -60,4 +60,6 @@ offset_top = 50.0
 offset_right = 636.0
 offset_bottom = 74.0
 theme = ExtResource("5_dnccb")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
 text = "fps:0 dc:0"

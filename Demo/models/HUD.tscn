@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://d2nu6r6jvu0ch"]
 
 [ext_resource type="ArrayMesh" uid="uid://b5msid7cnjqho" path="res://models/Plane.obj" id="1_guniw"]
-[ext_resource type="FontFile" uid="uid://cf05mbfvcu2ux" path="res://font/FZLS.TTF" id="2_4pkwf"]
+[ext_resource type="FontFile" uid="uid://ccq8fha74r7nj" path="res://font/LongCang.ttf" id="2_wct3x"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qc3pa"]
 albedo_color = Color(0, 1, 0, 1)
@@ -20,6 +20,6 @@ transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 
 pixel_size = 0.03
 double_sided = false
 text = "新野"
-font = ExtResource("2_4pkwf")
+font = ExtResource("2_wct3x")
 font_size = 26
 outline_size = 6

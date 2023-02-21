@@ -278,7 +278,7 @@ class AIState_AttackCity(AIState_Troop):
                 troop_dismiss = True
 
         # 结束战斗
-        if bb.get_state_time() > 50000:
+        if bb.get_state_time() > 50:
             troop_dismiss = True
 
         if troop_dismiss:
