@@ -22,4 +22,4 @@ double_sided = false
 text = "新野"
 font = ExtResource("2_wct3x")
 font_size = 26
-outline_size = 6
+outline_size = 4
