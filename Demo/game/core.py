@@ -302,7 +302,7 @@ def set_surface_color(node, index, r, g, b):
 def mesh_instance3d_load_material(node, index, path):
     gp.mesh_instance3d_load_material(node, index, path)
 
-def get_monitor(monitor):
+def debug_get_monitor(monitor):
     return gp.debug_get_monitor(monitor)
 
 def get_draw_call():
@@ -483,6 +483,11 @@ class FLabel(FCanvasItem):
 class FCPUParticles3D(FNode3D):
     def set_emitting(self, value):
         gp.cpu_particle_set_emitting(self.get_gdobj(), value)
+
+class FDebug(FObject):
+    @classmethod
+    def get_monitor(cls, monitor_type):
+        return gp.debug_get_monitor(monitor_type)
     
 # 类型到wrap类的映射
 # 这个wrap的好处就是，利用oop，使得操作的对象上面只有对应类型能用的方法

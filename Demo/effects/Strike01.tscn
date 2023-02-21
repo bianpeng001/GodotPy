@@ -1,12 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://cqvg4ddsofkjo"]
+[gd_scene load_steps=3 format=3 uid="uid://cqvg4ddsofkjo"]
 
 [ext_resource type="ArrayMesh" uid="uid://dmdewbdmeviy2" path="res://effects/Strike01.obj" id="1_q8erm"]
+
+[sub_resource type="Curve" id="Curve_75hng"]
+min_value = 1.0
+max_value = 2.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.5), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [node name="Strike01" type="Node3D"]
 
 [node name="CPUParticles3D" type="CPUParticles3D" parent="."]
 emitting = false
-amount = 3
+amount = 1
 one_shot = true
 explosiveness = 1.0
 mesh = ExtResource("1_q8erm")
@@ -18,7 +24,8 @@ spread = 5.0
 gravity = Vector3(0, 0, 0)
 initial_velocity_min = 1.0
 initial_velocity_max = 1.0
-linear_accel_min = 5.0
-linear_accel_max = 5.0
+linear_accel_min = 6.0
+linear_accel_max = 6.0
 angle_min = 180.0
 angle_max = 180.0
+scale_amount_curve = SubResource("Curve_75hng")
