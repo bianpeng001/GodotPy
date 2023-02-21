@@ -158,13 +158,13 @@ class TroopBlackboard(AIBlackboard):
 
     # 状态持续时间
     def get_state_time(self):
-        return game_mgr.time - self.state_start_time
+        return game_mgr.sec_time - self.state_start_time
 
 # troop的state的基类，在enter里面记录开始时间
 class AIState_Troop(AIState):
     def enter(self, controller):
         bb = controller.get_blackboard()
-        bb.state_start_time = game_mgr.time
+        bb.state_start_time = game_mgr.sec_time
 
         self.do_enter(controller, bb)
 
@@ -263,8 +263,8 @@ class AIState_AttackCity(AIState_Troop):
         # 是否可以解散了
         troop_dismiss = False
 
-        if game_mgr.time - bb.attack_time > 2000:
-            bb.attack_time = game_mgr.time
+        if game_mgr.sec_time - bb.attack_time > 2.4:
+            bb.attack_time = game_mgr.sec_time
 
             troop = controller.get_unit()
             city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)

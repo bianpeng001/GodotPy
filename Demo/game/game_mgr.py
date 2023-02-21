@@ -55,8 +55,9 @@ class GameMgr():
         # 游戏数据管理
         self.game_data = None
 
-        # 时间和帧数信息
+        # 时间和帧数信息, time -> ms, sec_time -> s
         self.time = 0
+        self.sec_time = 0
         self.delta_time = 0
         self.frame_number = 0
         self.paused = False

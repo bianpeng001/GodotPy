@@ -23,7 +23,7 @@ class MainUIController:
         
         # 刷新点的信息
         self.fps_label = find_node2(self.ui_node, 'FPSLabel')
-        self.refresh_time = game_mgr.time
+        self.refresh_time = game_mgr.sec_time
         self.refresh_frame_number = game_mgr.frame_number
 
         # 事件
@@ -49,9 +49,9 @@ class MainUIController:
         self.update_fps()
 
     def update_fps(self):
-        delta_time = 0.001 * (game_mgr.time - self.refresh_time)
+        delta_time = game_mgr.sec_time - self.refresh_time
         delta_frame_number = game_mgr.frame_number - self.refresh_frame_number
-        self.refresh_time = game_mgr.time
+        self.refresh_time = game_mgr.sec_time
         self.refresh_frame_number = game_mgr.frame_number
 
         fps = math.floor(delta_frame_number/delta_time)

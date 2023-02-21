@@ -37,6 +37,7 @@ class MainLoop(NodeObject):
         # cache time/frame_number
         game_mgr.frame_number += 1
         game_mgr.time = OS.get_time()
+        game_mgr.sec_time = game_mgr.time * 0.001
         game_mgr.delta_time = OS.get_delta_time()
 
         # coroutine first

@@ -8,10 +8,10 @@ from game.coroutine_mgr import Waitable
 # wait for seconds
 class WaitForSeconds(Waitable):
     def __init__(self, sec):
-        self.stop = sec*1000 + game_mgr.time
+        self.stop = sec + game_mgr.sec_time
 
     def is_done(self):
-        return game_mgr.time >= self.stop
+        return game_mgr.sec_time >= self.stop
 
 def test_wait_1():
     def co_print_number():
@@ -25,8 +25,9 @@ def test_wait_1():
         yield None
         print(game_mgr.frame_number)
 
-        print(OS.get_time())
+        print(f'{OS.get_time()} {game_mgr.sec_time}')
         yield WaitForSeconds(3)
-        print(OS.get_time())
+        print(f'{OS.get_time()} {game_mgr.sec_time}')
+        
     game_mgr.co_mgr.start(co_print_number())
 
