@@ -43,7 +43,7 @@ class GameMgr():
         self.delta_time = 0
         self.frame_number = 0
         self.paused = False
-        self.game_time = 0
+        self.play_time = 0
 
     @property
     def event_mgr(self):
@@ -63,7 +63,7 @@ class GameMgr():
 
         # update all system
         delta_time = self.delta_time
-        self.game_time += delta_time
+        self.play_time += delta_time
 
         for cb in self.update_list:
             cb(delta_time)
