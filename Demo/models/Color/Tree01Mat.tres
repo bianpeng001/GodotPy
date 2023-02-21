@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://bu088k6tlu2sn"]
+
+[ext_resource type="Shader" path="res://models/Color/Tree01.gdshader" id="1_hxitp"]
+[ext_resource type="Texture2D" uid="uid://c3us160efdy6q" path="res://models/pal.png" id="2_628xt"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_hxitp")
+shader_parameter/axis = Vector3(1, 0, 1)
+shader_parameter/angle = 0.05
+shader_parameter/albedomap = ExtResource("2_628xt")
