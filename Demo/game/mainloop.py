@@ -16,13 +16,10 @@ class MainLoop(NodeObject):
     def _create(self):
         set_process(self.get_node(), process=True, input=False)
         connect(self.get_node(), "ready", self._ready)
-
-        from game.coroutine_mgr import CoroutineMgr
-        game_mgr.co_mgr = CoroutineMgr()
-
+        
         from game.game_play import GamePlay
         game_mgr.game_play = GamePlay()
-
+        
         game_mgr.event_mgr.emit(APP_LAUNCH)
 
     def _ready(self):

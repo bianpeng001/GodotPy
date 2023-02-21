@@ -2,28 +2,6 @@
 # 2023年1月31日 bianpeng
 #
 
-#------------------------------------------------------------
-# event mgr
-#------------------------------------------------------------
-class EventMgr:
-    def __init__(self):
-        self.map = {}
-
-    def add(self, name, handler):
-        if not name in self.map:
-            self.map[name] = [handler]
-        else:
-            self.map[name].append(handler)
-
-    def remove(self, name, handler):
-        if name in self.map:
-            self.map[name].remove(handler)
-
-    def emit(self, name, *args, **kwargs):
-        if name in self.map:
-            for handler in self.map[name]:
-                handler.__call__(*args, **kwargs)
-
 # 这里尽量保持空依赖，在别的地方往这里塞
 # 这样，game_mgr就能在别的地方被随意引用了
 # 主要是模块这种机制，是不让循环引用的。因为他有toplevel语句
@@ -36,11 +14,13 @@ class GameMgr():
 
         # init in boot.py
         # 底层管理器
+        from game.event_mgr import EventMgr
         self._event_mgr = EventMgr()
-        self._input_mgr = None
-        self.co_mgr = None
+        from game.coroutine_mgr import CoroutineMgr
+        self._coroutine_mgr = CoroutineMgr()
 
         # 上层管理器
+        self._input_mgr = None
         self.camera_mgr = None
         self.ground_mgr = None
         self.troop_mgr = None
@@ -73,9 +53,13 @@ class GameMgr():
     def input_mgr(self):
         return self._input_mgr
 
+    @property
+    def co_mgr(self):
+        return self._coroutine_mgr
+
     def on_frame(self):
         # coroutine first
-        self.co_mgr.execute()
+        self._coroutine_mgr.execute()
 
         # update all system
         delta_time = self.delta_time

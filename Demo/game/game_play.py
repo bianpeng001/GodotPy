@@ -12,7 +12,6 @@ from game.base_type import UT_CITY, UT_TROOP
 from game.wait import *
 from game.ground_mgr import Tile
 
-
 # 游戏的控制逻辑, 事件响应啥的，集中到这里来
 # 业务逻辑也放到这里来，脏活累活都放这
 # 有一些业务逻辑是好几个单位相互作用的
@@ -32,6 +31,7 @@ class GamePlay:
             with open('launch.json', 'r') as f:
                 obj = json.load(f)
                 OS.set_window_size(*obj['window'])
+        print('on_app_launch')
 
         from game.player_mgr import PlayerMgr
         from game.hero_mgr import HeroMgr

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bdar35kt5xsbd"]
+[gd_scene load_steps=9 format=3 uid="uid://bdar35kt5xsbd"]
 
 [ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="1_53tvn"]
 [ext_resource type="PackedScene" uid="uid://c1jjhatf1hdpn" path="res://ui/MainUI.tscn" id="2_ljo2c"]
@@ -6,12 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://dd4s66q0b1ug8" path="res://ui/ContextMenu.tscn" id="4_13hgr"]
 [ext_resource type="PackedScene" path="res://effects/Dust01.tscn" id="5_0n56o"]
 [ext_resource type="Material" uid="uid://bidwmr472e0a6" path="res://models/SmallroadMat.tres" id="5_kys8c"]
-[ext_resource type="Material" uid="uid://b0eifmnip3tre" path="res://models/Color/White.tres" id="6_ivn3e"]
 [ext_resource type="PackedScene" uid="uid://cpyomosvj7tyk" path="res://models/Hill/Hill01.tscn" id="8_k8kn3"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_g86ea"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_tucpu"]
 
 [node name="MainScene" type="FPyObject"]
 python_module = "game.mainloop"
@@ -67,18 +64,5 @@ transform = Transform3D(0.878467, 0, -1.91121, 0, 1, 0, 0.477803, 0, 3.51387, 8.
 mesh = SubResource("PlaneMesh_g86ea")
 surface_material_override/0 = ExtResource("5_kys8c")
 
-[node name="Smallroad2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 4, 5.22526, 0.02, -2.1033)
-mesh = SubResource("PlaneMesh_g86ea")
-surface_material_override/0 = ExtResource("5_kys8c")
-
-[node name="TianYuan" type="MeshInstance3D" parent="."]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 1, 0)
-mesh = SubResource("BoxMesh_tucpu")
-surface_material_override/0 = ExtResource("6_ivn3e")
-
 [node name="Hill01" parent="." instance=ExtResource("8_k8kn3")]
-transform = Transform3D(-4.96934, 0, -0.552835, 0, 5, 0, 0.552835, 0, -4.96934, -0.0819616, -0.0999981, -14.357)
-
-[node name="Hill02" parent="." instance=ExtResource("8_k8kn3")]
-transform = Transform3D(-3.82085, 0, -4.14095, 0, 5, 0, 4.63029, 0, -3.41705, 15.5014, -0.1, -4.42321)
+transform = Transform3D(-4.96934, 0, -0.552835, 0, 5, 0, 0.552835, 0, -4.96934, 0, -0.1, 0)

@@ -39,7 +39,7 @@ class CityUnit(Unit):
         self.army_moral = 100
 
         # 资源增长率
-        self.growth_rate = random_range(20, 90)
+        self.growth_rate = random_range(10, 30)
 
     def init(self):
         for i in range(5):
