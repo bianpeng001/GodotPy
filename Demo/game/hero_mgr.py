@@ -12,37 +12,38 @@ MALE = 1
 FEMAIL = 0
 
 [0, 100]
-# 忠诚，智力，武力，魅力，政治
-ZHONG = 0
-ZHI = 1
-WU = 2
-MEI = 3
-ZHENG = 4
+# 忠义，智力，武力，魅力，政治
+ATTR_ZHONG = 0
+ATTR_ZHI = 1
+ATTR_WU = 2
+ATTR_MEI = 3
+ATTR_ZHENG = 4
 
+MAX = 8
+
+# tags
 # 雄心壮志（决定称帝）
-ZHUANG_ZHI = 5
-# 冷静 - 莽撞(单挑)
-LENG_JING = 6
-# 坚毅,勇敢 - 犹豫，懦弱
-JIAN_YI = 7
-# 残暴 - 和平
-CAN_BAO = 8
-# 贪财好色
-CAI_SE = 9
+TAG_DAZHI = 1
+# 酒色财气
+TAG_JIU = 2
+TAG_SE = 3
+TAG_CAI = 4
+TAG_QI = 5
+TAG_MANGZHUANG = 6
 
-
-MAX = 16
-
-#
+# 英雄(逻辑单位)
 class Hero:
     def __init__(self):
         self.hero_id = 0
-
         self.hero_name = ''
         self.gender = MALE
 
+        # 生卒年份
         self.born_year = 0
         self.dead_year = 0
+
+        # 头像
+        self.avatar = 0
 
         # 父母
         self.father_id = 0
