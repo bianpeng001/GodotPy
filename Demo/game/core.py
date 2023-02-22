@@ -239,8 +239,8 @@ def print_line(*args, **kwargs):
         a = ' '.join([str(x) for x in args])
         gp.print_line(a)
 
-def find_node(node, path):
-    return gp.find_node(node, path)
+# def find_node(node, path):
+#     return gp.find_node(node, path)
 
 def set_process(node, process=False, input=False, physics=False):
     if process:
@@ -288,13 +288,6 @@ def set_surface_color(node, index, r, g, b):
 def mesh_instance3d_load_material(node, index, path):
     gp.mesh_instance3d_load_material(node, index, path)
 
-def debug_get_monitor(monitor):
-    return gp.debug_get_monitor(monitor)
-
-def get_draw_call():
-    value = gp.debug_get_monitor(13)
-    return int(value)
-
 #------------------------------------------------------------
 # api
 #------------------------------------------------------------
@@ -316,19 +309,6 @@ class Node:
     @classmethod
     def connect(cls, node, signal, cb):
         gp.connect(node, signal, cb)
-# 
-class Node3D:
-    @classmethod
-    def set_position(cls,node, x,y,z):
-        gp.set_position(node, x,y,z)
-
-    @classmethod
-    def get_position(cls, node):
-        return gp.get_position(node)
-
-    @classmethod
-    def look_at(cls, node, x,y,z):
-        gp.look_at(node, x,y,z)
 
 class OS:
     @classmethod
@@ -344,21 +324,14 @@ class OS:
         gp.set_window_size(width, height, x, y)
 
 #
-class Camera3D:
-    @classmethod
-    def world_to_screen(cls, camera, x, y, z):
-        return gp.world_to_screen(camera, x,y,z)
-    
-    @classmethod
-    def screen_to_world(cls, camera, x,y):
-        return gp.screen_to_world(camera, x,y)
-
-
 class Debug:
     @classmethod
     def get_monitor(cls, monitor_type):
         return gp.debug_get_monitor(monitor_type)
 
+    @classmethod
+    def get_drawcall(cls):
+        return int(cls.get_monitor(13))
 
 #------------------------------------------------------------
 # log util
@@ -414,6 +387,9 @@ class FNode(FObject):
 
     def reparent(self, new_parent_obj):
         gp.reparent(self.get_gdobj(), new_parent_obj.get_gdobj())
+
+    def get_parent(self):
+        pass
 
     def set_process(self, value):
         gp.set_process(self.get_gdobj(), value)
@@ -519,7 +495,7 @@ FClassMap = [None for x in range(20)]
 def GetWrappedObject(gdobj):
     if not gdobj:
         return None
-        
+
     obj = gdobj.get_wrapped_object()
     if obj:
         return obj

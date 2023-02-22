@@ -56,7 +56,7 @@ class MainUIController:
 
         fps = int(delta_frame_number/delta_time)
         fps0 = int(Debug.get_monitor(0))
-        draw_call = get_draw_call()
+        draw_call = Debug.get_drawcall()
         
         self.fps_label.set_text(f'fps:{fps},{fps0} dc:{draw_call}')
         

@@ -56,7 +56,6 @@ class TroopController(Controller):
     def look_at(self,x,y,z):
         node = self.get_model_node()
         if node:
-            #Node3D.look_at(self.model_node, x,y,z)
             node.look_at(x,y,z)
 
 
