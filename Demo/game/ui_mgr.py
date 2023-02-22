@@ -8,6 +8,10 @@ from game.event_name import SCENE_UNIT_CLICK, LEFT_BUTTON_BEGIN_DRAG, \
 from game.game_mgr import game_mgr
 
 from game.ui.main_ui_controller import MainUIController
+
+#
+# ui 管理器
+# 一个ui面板对应一个controller
 #
 class UIMgr(NodeObject):
     def __init__(self):
@@ -34,8 +38,8 @@ class UIMgr(NodeObject):
         self.main_ui_controller.init(main_ui_node)
 
     def _ready(self):
-        cm = find_node2(self.get_node(), 'ContextMenu')
-        self.context_menu_node = cm
+        self.context_menu_node = find_node2(self.get_node(), 'ContextMenu')
+        cm = self.context_menu_node
         cm.find_node('Panel/Button1').connect('pressed', self.on_cm_button1)
         cm.find_node('Panel/Button2').connect('pressed', self.on_cm_button2)
         cm.find_node('Panel/Button3').connect('pressed', self.on_cm_button3)

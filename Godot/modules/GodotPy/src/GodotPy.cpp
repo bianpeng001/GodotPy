@@ -346,7 +346,7 @@ public:
 };
 List<FCapsuleObject *> FCapsuleObject::instance_list;
 
-
+// 这是一个兼容的写法
 template<typename T>
 inline T *GetObjPtr(PyObject *o) {
 	if (gdobj::Is_GDObj(o)) {
@@ -355,6 +355,7 @@ inline T *GetObjPtr(PyObject *o) {
 		return GetCapsulePointer<T>(o);
 	}
 
+	print_line("GetObjPtr: input obj is not supported");
 	return nullptr;
 }
 
