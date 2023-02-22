@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bdar35kt5xsbd"]
+[gd_scene load_steps=15 format=3 uid="uid://bdar35kt5xsbd"]
 
 [ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="1_53tvn"]
 [ext_resource type="PackedScene" uid="uid://c1jjhatf1hdpn" path="res://ui/MainUI.tscn" id="2_ljo2c"]
@@ -12,6 +12,7 @@
 [ext_resource type="ArrayMesh" uid="uid://n617e3sfwjwb" path="res://models/Pool01.obj" id="10_hirsr"]
 [ext_resource type="ArrayMesh" uid="uid://br1vhvt7knvs2" path="res://models/Soldier02.obj" id="11_8uuom"]
 [ext_resource type="ArrayMesh" uid="uid://cnt8jx4bsf3fv" path="res://models/Tree02.obj" id="12_76nnm"]
+[ext_resource type="Material" uid="uid://bu088k6tlu2sn" path="res://models/Color/Tree01Mat.tres" id="13_5ky25"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_g86ea"]
 
@@ -107,3 +108,4 @@ mesh = ExtResource("11_8uuom")
 [node name="Tree02" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.99399, 0, -1.79894)
 mesh = ExtResource("12_76nnm")
+surface_material_override/0 = ExtResource("13_5ky25")
