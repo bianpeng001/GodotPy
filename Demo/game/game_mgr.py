@@ -57,14 +57,14 @@ class GameMgr():
     def co_mgr(self):
         return self._coroutine_mgr
 
-    def on_frame(self):
+    def update(self):
         # coroutine first
-        self._coroutine_mgr.execute()
+        self._coroutine_mgr.update()
 
-        # update all system
         delta_time = self.delta_time
         self.play_time += delta_time
 
+        # update all system
         for cb in self.update_list:
             cb(delta_time)
 

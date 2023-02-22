@@ -71,7 +71,7 @@ class _Coroutine(Waitable):
 class CoroutineMgr:
     def __init__(self):
         self.co_list = []
-        self.back_list = []
+        self.back_co_list = []
 
     def start_coroutine(self, co):
         w = _Coroutine(co)
@@ -81,16 +81,16 @@ class CoroutineMgr:
     def start(self, co):
         return self.start_coroutine(co)
 
-    def execute(self):
+    def update(self):
         tmp = self.co_list
-        self.co_list = self.back_list
-        self.back_list = tmp
+        self.co_list = self.back_co_list
+        self.back_co_list = tmp
 
-        for a in self.back_list:
+        for a in self.back_co_list:
             a.next()
             if not a.is_done():
                 self.co_list.append(a)
-        self.back_list.clear()
+        self.back_co_list.clear()
     
 
 if __name__ == '__main__':

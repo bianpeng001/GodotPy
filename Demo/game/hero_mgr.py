@@ -67,6 +67,12 @@ class Hero:
     def get_age(self):
         return game_mgr.game_data.cur_year - self.born_year + 1
 
+    def get_attr(self, attr_type):
+        return self.attr[attr_type]
+
+    def has_tag(self, tag_type):
+        return tag_type in self.tags
+
 #
 class HeroMgr:
     def __init__(self):
