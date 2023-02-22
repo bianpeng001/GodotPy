@@ -21,6 +21,5 @@ class PrintLine:
 sys.stderr = PrintLine()
 sys.stdout = PrintLine()
 
-
 log_util.debug('boot ok')
 

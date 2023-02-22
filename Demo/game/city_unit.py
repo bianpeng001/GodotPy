@@ -57,8 +57,7 @@ class CityUnit(Unit):
         if is_gate:
             path = 'res://models/Wall01.tscn'
         
-        self.model_node = instantiate(path)
-        Node3D.set_position(self.model_node, *self.get_position())
-        
+        self.model_node = FNode3D.instantiate(path)
+        self.get_controller().apply_position()
         self.get_controller().set_title(self.unit_name)
 

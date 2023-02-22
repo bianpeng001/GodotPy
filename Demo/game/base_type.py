@@ -90,9 +90,7 @@ class Unit:
 
     def set_location(self, x, y, z):
         self.unit_position.set(x, y, z)
-
-        if self.model_node:
-            Node3D.set_position(self.model_node, x, y, z)
+        self.get_controller().apply_position()
 
     def get_position(self):
         pos = self.unit_position
@@ -100,15 +98,13 @@ class Unit:
 
     def set_position(self, x,y,z):
         self.unit_position.set(x, y, z)
-
-        if self.model_node:
-            Node3D.set_position(self.model_node, x, y, z)
-
+        self.get_controller().apply_position()
 
     # 最后清除的时候，回调
     def on_dead(self):
         if self.model_node:
-            Node.destroy(self.model_node)
+            #Node.destroy(self.model_node)
+            self.model_node.destroy()
             self.model_node = None
 
     def set_dead(self):
@@ -131,10 +127,13 @@ class Controller(AIMachine):
 
     def get_unit(self):
         return self._unit
+    
+    def get_model_node(self):
+        return self.get_unit().model_node
 
     @property
     def model_node(self):
-        return self.get_unit().model_node
+        return self.get_model_node()
 
     # 首次update之前
     def start(self):
@@ -145,4 +144,10 @@ class Controller(AIMachine):
 
     def get_blackboard(self):
         return None
+
+    def apply_position(self):
+        node = self.get_model_node()
+        if node:
+            node.set_position(*self.get_unit().get_position())
+
 

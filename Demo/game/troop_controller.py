@@ -41,19 +41,24 @@ class TroopController(Controller):
             req.update(troop, delta)
 
     def start(self):
-        for i in range(2, 11):
-            anim_player = Node.find_node(self.model_node, f"Soldier{i:02}/Model/AnimationPlayer")
-            if anim_player:
-                AnimationPlayer.play(anim_player, "SoldierAnimLib/Run")
-                AnimationPlayer.set_speed_scale(anim_player, 2.6)
+        node = self.get_model_node()
+        if node:
+            for i in range(2, 11):
+                anim_player = node.find_node(f"Soldier{i:02}/Model/AnimationPlayer")
+                if anim_player:
+                    anim_player.play("SoldierAnimLib/Run")
+                    anim_player.set_speed_scale(2.6)
 
     def update(self):
         self.update_move()
         self.update_ai()
 
     def look_at(self,x,y,z):
-        if self.model_node:
-            Node3D.look_at(self.model_node, x,y,z)
+        node = self.get_model_node()
+        if node:
+            #Node3D.look_at(self.model_node, x,y,z)
+            node.look_at(x,y,z)
+
 
     def look_at_unit(self, unit):
         x,y,z = unit.get_location()

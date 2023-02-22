@@ -17,14 +17,20 @@ class CityController(Controller):
         self.ai_tick_time = 0
 
     def set_title(self, text):
-        title_node = find_node(self.model_node, 'HUD/Title')
-        if title_node:
-            Label3D.set_text(title_node, text)
+        node = self.get_model_node()
+        if node:
+            title_node = node.find_node('HUD/Title')
+            if title_node:
+                #Label3D.set_text(title_node, text)
+                title_node.set_text(text)
 
     def set_flag_color(self):
-        flag_node = find_node(self.model_node, 'Flag')
-        if flag_node:
-            mesh_instance3d_load_material(flag_node, 0, 'res://models/Color/Green.tres')
+        node = self.get_model_node()
+        if node:
+            flag_node = node.find_node('Flag')
+            if flag_node:
+                #mesh_instance3d_load_material(flag_node, 0, 'res://models/Color/Green.tres')
+                flag_node.load_material(0, 'res://models/Color/Green.tres')
 
     # 驱动ai tick
     def drive_ai_tick(self):
@@ -66,7 +72,9 @@ class CityController(Controller):
             troop.set_army_amount(1000)
             troop.set_position(x,y,z)
 
-
     def update(self):
         self.drive_ai_tick()
+
+
+        
 

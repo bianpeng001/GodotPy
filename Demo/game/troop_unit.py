@@ -34,8 +34,8 @@ class TroopUnit(Unit):
 
         #path = 'res://models/Troop01.tscn'
         path = 'res://models/Troop02.tscn'
-        self.model_node = instantiate(path)
-        Node3D.set_position(self.model_node,*self.get_location())
+        self.model_node = FNode3D.instantiate(path)
+        self.get_controller().apply_position()
 
     def set_army_amount(self, value):
         self.army_amount = value

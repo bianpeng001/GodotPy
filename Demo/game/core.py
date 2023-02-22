@@ -334,17 +334,6 @@ class Node:
     @classmethod
     def connect(cls, node, signal, cb):
         gp.connect(node, signal, cb)
-
-    @classmethod
-    def reparent(cls, node, new_parent):
-        gp.reparent(node, new_parent)
-
-#
-class Label3D:
-    @classmethod
-    def set_text(cls, node, text):
-        gp.label3d_set_text(node, text)
-
 # 
 class Node3D:
     @classmethod
@@ -382,15 +371,6 @@ class Camera3D:
     def screen_to_world(cls, camera, x,y):
         return gp.screen_to_world(camera, x,y)
 
-# 
-class AnimationPlayer:
-    @classmethod
-    def play(cls, node, anim_name):
-        gp.animation_player_play(node, anim_name)
-
-    @classmethod
-    def set_speed_scale(cls, node, speed):
-        gp.animation_player_set_speed_scale(node, speed)
 
 class Debug:
     @classmethod
@@ -440,13 +420,15 @@ class FObject:
         return self.get_gdobj().is_valid()
 
 class FNode(FObject):
-    def queue_free(self):
-        pass
+    def destroy(self):
+        gp.destroy(self.get_gdobj())
 
     def find_node(self, path):
-        #gdobj = gp.find_node2(self.get_gdobj(), path)
-        #return GetWrappedObject(gdobj)
-        pass
+        gdobj = gp.find_node2(self.get_gdobj(), path)
+        return GetWrappedObject(gdobj)
+
+    def reparent(self, new_parent_obj):
+        gp.reparent(self.get_gdobj(), new_parent_obj.get_gdobj())
 
 class FNode3D(FNode):
     def set_position(self, x,y,z):
@@ -461,6 +443,11 @@ class FNode3D(FNode):
     def set_visible(self, value):
         gp.set_visible(self.get_gdobj(), value)
 
+    @classmethod
+    def instantiate(cls, path):
+        gdobj = gp.instantiate2(path)
+        return GetWrappedObject(gdobj)
+
 class FNode2D(FNode):
     pass
 
@@ -468,11 +455,12 @@ class FCamera3D(FNode3D):
     pass
 
 class FMeshInstance3D(FNode3D):
-    pass
+    def load_material(self, index, path):
+        gp.mesh_instance3d_load_material(self.get_gdobj(), index, path)
 
 class FAnimationPlayer(FNode3D):
     def play(self, anim_name):
-        pass
+        gp.animation_player_play(self.get_gdobj(), anim_name)
 
     def stop(self):
         pass
@@ -480,9 +468,13 @@ class FAnimationPlayer(FNode3D):
     def pause(self):
         pass
 
+    def set_speed_scale(self, speed):
+        gp.animation_player_set_speed_scale(self.get_gdobj(), speed)
+    
+
 class FLabel3D(FNode3D):
     def set_text(self, text):
-        pass
+        gp.label3d_set_text(self.get_gdobj(), text)
 
 class FCanvasItem(FNode):
     pass
@@ -507,8 +499,15 @@ class FCPUParticles3D(FNode3D):
 # 这个wrap的好处就是，利用oop，使得操作的对象上面只有对应类型能用的方法
 # 不在直接使用node对应的原始的pygd_obj，那个对象只用来当做一个弱引用使用
 FClassMap = [None for x in range(20)]
-FClassMap[1] = FLabel
-FClassMap[2] = FCPUParticles3D
+FClassMap[1] = FNode
+FClassMap[2] = FNode3D
+FClassMap[3] = FMeshInstance3D
+FClassMap[4] = FCPUParticles3D
+FClassMap[5] = FAnimationPlayer
+
+FClassMap[11] = FNode2D
+FClassMap[12] = FLabel
+FClassMap[13] = FLabel3D
 
 def GetWrappedObject(gdobj):
     obj = gdobj.get_wrapped_object()
