@@ -273,15 +273,6 @@ def screen_to_world(camera, x, y):
 def world_to_screen(camera, x, y, z):
     return gp.world_to_screen(camera, x, y, z)
 
-def get_time():
-    return gp.get_time()
-
-def get_delta_time():
-    return gp.get_delta_time()
-
-def instantiate(path):
-    return gp.instantiate(path)
-
 def get_py_object(node):
     return gp.get_py_object(node)
 
@@ -290,15 +281,6 @@ def get_parent(node):
 
 def raycast_shape(camera, x,y,z):
     return gp.raycast_shape(camera, x,y,z)
-
-def set_position_2d(node, x, y):
-    gp.set_position_2d(node, x, y)
-
-def set_visible_2d(node, v):
-    gp.set_visible_2d(node, v)
-
-def find_control(camera, x, y):
-    return gp.find_control(camera, x, y)
 
 def set_surface_color(node, index, r, g, b):
     gp.material_set_albedo_color(node, index, r, g, b)
@@ -442,6 +424,10 @@ class FNode(FObject):
     def set_physics_process(self, value):
         gp.set_physics_process(self.get_gdobj(), value)
 
+    def find_control(self, x,y):
+        gdobj = gp.find_control(self.get_gdobj(), x, y)
+        return GetWrappedObject(gdobj)
+
 class FNode3D(FNode):
     def set_position(self, x,y,z):
         gp.set_position(self.get_gdobj(), x,y,z)
@@ -455,13 +441,20 @@ class FNode3D(FNode):
     def set_visible(self, value):
         gp.set_visible(self.get_gdobj(), value)
 
+    def set_scale(self, sx,sy,sz):
+        gp.set_scale(self.get_gdobj(), sx, sy, sz)
+
     @classmethod
     def instantiate(cls, path):
         gdobj = gp.instantiate2(path)
         return GetWrappedObject(gdobj)
 
 class FCamera3D(FNode3D):
-    pass
+    def screen_to_world(self, x,y):
+        return gp.screen_to_world(self.get_gdobj(), x, y)
+
+    def world_to_screen(self, x,y,z):
+        return gp.world_to_screen(self.get_gdobj(), x,y,z)
 
 class FMeshInstance3D(FNode3D):
     def load_material(self, index, path):
@@ -479,11 +472,15 @@ class FAnimationPlayer(FNode3D):
 
     def set_speed_scale(self, speed):
         gp.animation_player_set_speed_scale(self.get_gdobj(), speed)
-    
 
 class FLabel3D(FNode3D):
     def set_text(self, text):
         gp.label3d_set_text(self.get_gdobj(), text)
+
+class FCPUParticles3D(FNode3D):
+    def set_emitting(self, value):
+        gp.cpu_particle_set_emitting(self.get_gdobj(), value)
+
 
 class FCanvasItem(FNode):
     def set_visible(self, show):
@@ -504,28 +501,25 @@ class FLabel(FCanvasItem):
         self.text = text
         gp.label_set_text(self.get_gdobj(), text)
 
-class FCPUParticles3D(FNode3D):
-    def set_emitting(self, value):
-        gp.cpu_particle_set_emitting(self.get_gdobj(), value)
+class FButton(FCanvasItem):
+    pass
+
+class FImage(FCanvasItem):
+    pass
+
+class FPanel(FCanvasItem):
+    pass
 
    
 # 类型到wrap类的映射
 # 这个wrap的好处就是，利用oop，使得操作的对象上面只有对应类型能用的方法
 # 不在直接使用node对应的原始的pygd_obj，那个对象只用来当做一个弱引用使用
 FClassMap = [None for x in range(20)]
-FClassMap[1] = FNode
-FClassMap[2] = FNode3D
-FClassMap[3] = FMeshInstance3D
-FClassMap[4] = FCPUParticles3D
-FClassMap[5] = FAnimationPlayer
-FClassMap[6] = FLabel3D
-
-FClassMap[11] = FCanvasItem
-FClassMap[12] = FNode2D
-FClassMap[13] = FLabel
-
 
 def GetWrappedObject(gdobj):
+    if not gdobj:
+        return None
+        
     obj = gdobj.get_wrapped_object()
     if obj:
         return obj
@@ -537,5 +531,17 @@ def GetWrappedObject(gdobj):
     gdobj.set_wrapped_object(obj)
 
     return obj
-        
+
+#
+FClassMap[1] = FNode
+FClassMap[2] = FNode3D
+FClassMap[3] = FMeshInstance3D
+FClassMap[4] = FCPUParticles3D
+FClassMap[5] = FAnimationPlayer
+FClassMap[6] = FLabel3D
+FClassMap[7] = FCamera3D
+
+FClassMap[11] = FCanvasItem
+FClassMap[12] = FNode2D
+FClassMap[13] = FLabel
 

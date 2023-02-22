@@ -49,7 +49,7 @@ class CameraMgr(NodeObject):
         # gp.connect(self._get_node(), "ready", test_callback)
         # gp.connect(self._get_node(), "ready", self._ready)
         connect(self._get_node(), "ready", self._ready)
-        self.main_camera = find_node(self._get_node(), 'MainCamera')
+        self.main_camera = find_node2(self._get_node(), 'MainCamera')
 
         game_mgr.event_mgr.add(WHEEL_UP_PRESS, self.on_wheel_up)
         game_mgr.event_mgr.add(WHEEL_DOWN_PRESS, self.on_wheel_down)
@@ -62,15 +62,15 @@ class CameraMgr(NodeObject):
         log_util.debug("CameraMgr ready")
 
     def on_mouse_button_down(self, x, y):
-        x,y,z = screen_to_world(self.main_camera, x, y)
+        x,y,z = self.main_camera.screen_to_world(x, y)
         self.drag_start.set(x, y, z)
 
-        self.press_time = get_time()
+        self.press_time = game_mgr.time
     
     # TODO： begin_drag(), end_drag(), drag()
     def on_mouse_drag(self, x, y):
         # 拖拽场景，用移动摄像头来实现
-        x,y,z = screen_to_world(self.main_camera, x, y)
+        x,y,z = self.main_camera.screen_to_world(x, y)
         #print_line((x,y,z))
         dx = x - self.drag_start.x
         dy = y - self.drag_start.y
@@ -84,11 +84,11 @@ class CameraMgr(NodeObject):
 
     # 刷新camera位置和朝向
     def update_camera(self):
-        Node3D.set_position(self.main_camera,
+        self.main_camera.set_position(
             self.center.x + self.offset.x,
             self.center.y + self.offset.y,
             self.center.z + self.offset.z)
-        Node3D.look_at(self.main_camera,
+        self.main_camera.look_at(
             self.center.x,
             self.center.y,
             self.center.z)
@@ -103,7 +103,7 @@ class CameraMgr(NodeObject):
         self.arm_scale = clamp(self.arm_scale + delta)
         f = (1 + self.arm_scale) / prev_norm
         
-        x1,y1,z1 = screen_to_world(self.main_camera, input_mgr.x, input_mgr.y)
+        x1,y1,z1 = self.main_camera.screen_to_world(input_mgr.x, input_mgr.y)
         dx = (self.center.x - x1) * f
         dy = (self.center.y - y1) * f
         dz = (self.center.z - z1) * f

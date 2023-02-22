@@ -68,8 +68,8 @@ class UIMgr(NodeObject):
         print_line(f'click: {unit.unit_name}')
 
         camera = game_mgr.camera_mgr.main_camera
-        
         x, y = game_mgr.input_mgr.get_mouse_pos()
+
         self.context_menu_node.set_position(x, y)
         self.context_menu_node.set_visible(True)
 

@@ -31,8 +31,8 @@ class Tile:
         #pos_z = self.row*TILE_SIZE
         pos_x, pos_z = self.get_center_pos()
 
-        self.model_node = instantiate('res://models/Square.tscn')
-        set_position(self.model_node, pos_x, 0, pos_z)
+        self.model_node = FNode3D.instantiate('res://models/Square.tscn')
+        self.model_node.set_position(pos_x, 0, pos_z)
 
     def create_items(self):
         pos_x, pos_z = self.get_center_pos()
@@ -74,11 +74,11 @@ class Tile:
         
 
     def load_res(self, path, x, z, s):
-        item = instantiate(path)
+        item = FNode3D.instantiate(path)
         self.item_nodes.append(item)
 
-        set_position(item, x, 0, z)
-        set_scale(item, s, s, s)
+        item.set_position(x, 0, z)
+        item.set_scale(s, s, s)
 
     def unload(self):
         pass

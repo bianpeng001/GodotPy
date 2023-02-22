@@ -98,6 +98,7 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 			ClassTypeDict[StringName("CPUParticles3D")] = ++id_seed_3d;
 			ClassTypeDict[StringName("AnimationPlayer")] = ++id_seed_3d;
 			ClassTypeDict[StringName("Label3D")] = ++id_seed_3d;
+			ClassTypeDict[StringName("Camera3D")] = ++id_seed_3d;
 
 			int id_seed_2d = 10;
 			ClassTypeDict[StringName("CanvasItem")] = ++id_seed_2d;
@@ -1035,7 +1036,7 @@ static PyObject *f_find_control(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		auto obj = get_or_create_capsule(control);
+		PyObject *obj = FPyGDObjSlot::GetPyGDObj(control);
 		Py_INCREF(obj);
 		return obj;
 

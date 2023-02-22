@@ -15,14 +15,14 @@ class MainUIController:
     def init(self, ui_node):
         self.ui_node = ui_node
 
-        self.money_label = Node.find_node(self.ui_node, 'MoneyLabel')
+        self.money_label = self.ui_node.find_node('MoneyLabel')
         #print(self.money_label)
 
-        self.money_label = find_node2(self.ui_node, 'MoneyLabel')
-        self.rice_label = find_node2(self.ui_node, 'RiceLabel')
+        self.money_label = self.ui_node.find_node('MoneyLabel')
+        self.rice_label = self.ui_node.find_node('RiceLabel')
         
         # 刷新点的信息
-        self.fps_label = find_node2(self.ui_node, 'FPSLabel')
+        self.fps_label = self.ui_node.find_node('FPSLabel')
         self.refresh_time = game_mgr.sec_time
         self.refresh_frame_number = game_mgr.frame_number
 
