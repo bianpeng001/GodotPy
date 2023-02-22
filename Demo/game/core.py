@@ -111,9 +111,9 @@ class Vector3:
         v.z -= b.z
         return v
 
-    def __mul__(self, b):
+    def __mul__(self, s):
         v = self.clone()
-        v.scale(b)
+        v.scale(s)
         return v
 
     def __str__(self):
@@ -333,6 +333,10 @@ class Debug:
     def get_drawcall(cls):
         return int(cls.get_monitor(13))
 
+    @classmethod
+    def get_fps(cls):
+        return int(cls.get_monitor(0))
+
 #------------------------------------------------------------
 # log util
 #------------------------------------------------------------
@@ -353,7 +357,7 @@ class LogUtil:
     def print(self, msg):
         print_line(msg)
 
-log_util = LogUtil() 
+log_util = LogUtil()
 logutil = log_util
 
 #------------------------------------------------------------
