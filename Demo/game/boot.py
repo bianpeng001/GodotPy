@@ -1,7 +1,7 @@
 #
 # 2023年2月1日 bianpeng
 #
-from game.core import print_line
+from game.core import print_line, log_util
 import sys
 
 # saved_stderr = sys.stderr
@@ -22,5 +22,5 @@ sys.stderr = PrintLine()
 sys.stdout = PrintLine()
 
 
-print('boot ok')
+log_util.debug('boot ok')
 

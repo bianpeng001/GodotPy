@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bdar35kt5xsbd"]
+[gd_scene load_steps=14 format=3 uid="uid://bdar35kt5xsbd"]
 
 [ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="1_53tvn"]
 [ext_resource type="PackedScene" uid="uid://c1jjhatf1hdpn" path="res://ui/MainUI.tscn" id="2_ljo2c"]
@@ -11,8 +11,7 @@
 [ext_resource type="ArrayMesh" uid="uid://dg8r7eo7dujtk" path="res://models/Bridge01.obj" id="9_m5xxa"]
 [ext_resource type="ArrayMesh" uid="uid://n617e3sfwjwb" path="res://models/Pool01.obj" id="10_hirsr"]
 [ext_resource type="ArrayMesh" uid="uid://br1vhvt7knvs2" path="res://models/Soldier02.obj" id="11_8uuom"]
-[ext_resource type="ArrayMesh" uid="uid://cnt8jx4bsf3fv" path="res://models/Tree02.obj" id="12_76nnm"]
-[ext_resource type="Material" uid="uid://bu088k6tlu2sn" path="res://models/Color/Tree01Mat.tres" id="13_5ky25"]
+[ext_resource type="PackedScene" uid="uid://7u2tkxjdy314" path="res://models/Tree02.tscn" id="12_u76jh"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_g86ea"]
 
@@ -78,7 +77,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3077, 0, -5.63451)
 mesh = ExtResource("8_is010")
 
 [node name="Bridge01" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5898, 0, -0.829647)
+transform = Transform3D(0.988436, 0, 0.15164, 0, 1, 0, -0.15164, 0, 0.988436, 15.6957, 0, 1.04371)
 mesh = ExtResource("9_m5xxa")
 
 [node name="Pool01" type="MeshInstance3D" parent="."]
@@ -105,7 +104,8 @@ mesh = ExtResource("11_8uuom")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.3613, 0, -3.25995)
 mesh = ExtResource("11_8uuom")
 
-[node name="Tree02" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.99399, 0, -1.79894)
-mesh = ExtResource("12_76nnm")
-surface_material_override/0 = ExtResource("13_5ky25")
+[node name="Tree02" parent="." instance=ExtResource("12_u76jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.0001, 0, -2.24879)
+
+[node name="Tree03" parent="." instance=ExtResource("12_u76jh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5237, 0, 0.936278)

@@ -28,7 +28,6 @@ class GamePlay:
         game_mgr.unit_mgr = UnitMgr()
         game_mgr.effect_mgr = EffectMgr()
         
-
         # 资源刷新tick
         self.resource_grow_time = 0
 
