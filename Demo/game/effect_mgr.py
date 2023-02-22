@@ -15,7 +15,7 @@ class Effect:
         self.life_time = 1
 
     def set_visible(self, value):
-        ps = find_node2(self.node, 'CPUParticles3D')
+        ps = self.node.find_node('CPUParticles3D')
         ps.set_visible(value)
 
 #
@@ -34,7 +34,7 @@ class EffectMgr:
 
         if len(self.cache_list) > 0:
             effect = self.cache_list.pop()
-            #print(f'reuse effect {effect.effect_id}')
+            #log_util.debug(f'reuse effect {effect.effect_id}')
         else:
             effect = Effect()
             effect.config_id = config_id
@@ -51,8 +51,7 @@ class EffectMgr:
 
         effect.node.set_position(x,y,z)
         effect.set_visible(True)
-        ps = find_node2(effect.node, 'CPUParticles3D')
-        #Node3D.look_at(effect.node, x1,1,z1)
+        ps = effect.node.find_node('CPUParticles3D')
         ps.look_at(x1,y1,z1)
         ps.set_emitting(True)
 

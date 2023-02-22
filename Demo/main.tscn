@@ -1,19 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://bdar35kt5xsbd"]
+[gd_scene load_steps=8 format=3 uid="uid://bdar35kt5xsbd"]
 
 [ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="1_53tvn"]
 [ext_resource type="PackedScene" uid="uid://c1jjhatf1hdpn" path="res://ui/MainUI.tscn" id="2_ljo2c"]
 [ext_resource type="PackedScene" uid="uid://drvm8b8tc7850" path="res://ui/HUD.tscn" id="4_1yjob"]
 [ext_resource type="PackedScene" uid="uid://dd4s66q0b1ug8" path="res://ui/ContextMenu.tscn" id="4_13hgr"]
 [ext_resource type="PackedScene" path="res://effects/Dust01.tscn" id="5_0n56o"]
-[ext_resource type="Material" uid="uid://bidwmr472e0a6" path="res://models/SmallroadMat.tres" id="5_kys8c"]
-[ext_resource type="ArrayMesh" uid="uid://428w4am2wcih" path="res://models/Camp01.obj" id="8_is010"]
 [ext_resource type="PackedScene" uid="uid://cpyomosvj7tyk" path="res://models/Hill/Hill01.tscn" id="8_k8kn3"]
-[ext_resource type="ArrayMesh" uid="uid://dg8r7eo7dujtk" path="res://models/Bridge01.obj" id="9_m5xxa"]
-[ext_resource type="ArrayMesh" uid="uid://n617e3sfwjwb" path="res://models/Pool01.obj" id="10_hirsr"]
-[ext_resource type="ArrayMesh" uid="uid://br1vhvt7knvs2" path="res://models/Soldier02.obj" id="11_8uuom"]
-[ext_resource type="PackedScene" uid="uid://7u2tkxjdy314" path="res://models/Tree02.tscn" id="12_u76jh"]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_g86ea"]
+[ext_resource type="PackedScene" uid="uid://eimxflua5ypg" path="res://models/Park01.tscn" id="8_pjijt"]
 
 [node name="MainScene" type="FPyObject"]
 python_module = "game.mainloop"
@@ -62,50 +55,10 @@ shadow_enabled = true
 shadow_opacity = 0.5
 
 [node name="Dust01" parent="." instance=ExtResource("5_0n56o")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.9271, 4.25017, -7.08244)
-
-[node name="Smallroad" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.878467, 0, -1.91121, 0, 1, 0, 0.477803, 0, 3.51387, 8.24772, 0.02, -13.0551)
-mesh = SubResource("PlaneMesh_g86ea")
-surface_material_override/0 = ExtResource("5_kys8c")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.676337, 10.3015, 1.07973)
 
 [node name="Hill01" parent="." instance=ExtResource("8_k8kn3")]
 transform = Transform3D(-4.96934, 0, -0.552835, 0, 5, 0, 0.552835, 0, -4.96934, 0, -0.1, 0)
 
-[node name="Camp01" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3077, 0, -5.63451)
-mesh = ExtResource("8_is010")
-
-[node name="Bridge01" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.988436, 0, 0.15164, 0, 1, 0, -0.15164, 0, 0.988436, 15.7136, -9.53674e-07, 1.0063)
-mesh = ExtResource("9_m5xxa")
-
-[node name="Pool01" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.068, 0, -0.582)
-mesh = ExtResource("10_hirsr")
-
-[node name="Soldier02" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.1755, 0, -0.465617)
-mesh = ExtResource("11_8uuom")
-
-[node name="Soldier03" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2623, 0, -1.69174)
-mesh = ExtResource("11_8uuom")
-
-[node name="Soldier04" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.3435, 0, -2.17536)
-mesh = ExtResource("11_8uuom")
-
-[node name="Soldier05" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2585, 0, -0.916824)
-mesh = ExtResource("11_8uuom")
-
-[node name="Soldier06" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.858414, 0, 0.512957, 0, 1, 0, -0.512957, 0, 0.858414, 16.5513, 4.76837e-07, 1.05211)
-mesh = ExtResource("11_8uuom")
-
-[node name="Tree02" parent="." instance=ExtResource("12_u76jh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.8824, 0, -0.289758)
-
-[node name="Tree03" parent="." instance=ExtResource("12_u76jh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5237, 0, 0.936278)
+[node name="Park01" parent="." instance=ExtResource("8_pjijt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.4791, 0, 4.6021)

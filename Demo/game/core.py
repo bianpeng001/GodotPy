@@ -412,6 +412,12 @@ class FNode3D(FNode):
     def set_position(self, x,y,z):
         gp.set_position(self.get_gdobj(), x,y,z)
 
+    def set_rotation(self, x,y,z):
+        gp.set_rotation(self.get_gdobj(), x,y,z)
+
+    def set_scale(self, sx,sy,sz):
+        gp.set_scale(self.get_gdobj(), sx, sy, sz)
+
     def get_position(self):
         return gd.get_position(self.get_gdobj())
 
@@ -421,13 +427,13 @@ class FNode3D(FNode):
     def set_visible(self, value):
         gp.set_visible(self.get_gdobj(), value)
 
-    def set_scale(self, sx,sy,sz):
-        gp.set_scale(self.get_gdobj(), sx, sy, sz)
-
     @classmethod
     def instantiate(cls, path):
         gdobj = gp.instantiate2(path)
         return GetWrappedObject(gdobj)
+
+class FVisualInstance3D(FNode3D):
+    pass
 
 class FCamera3D(FNode3D):
     def screen_to_world(self, x,y):
@@ -457,10 +463,9 @@ class FLabel3D(FNode3D):
     def set_text(self, text):
         gp.label3d_set_text(self.get_gdobj(), text)
 
-class FCPUParticles3D(FNode3D):
+class FCPUParticles3D(FVisualInstance3D):
     def set_emitting(self, value):
         gp.cpu_particle_set_emitting(self.get_gdobj(), value)
-
 
 class FCanvasItem(FNode):
     def set_visible(self, show):
