@@ -419,6 +419,9 @@ class FObject:
     def is_valid(self):
         return self.get_gdobj().is_valid()
 
+    def connect(self, signal, callback):
+        gp.connect(self.get_gdobj(), signal, callback)
+
 class FNode(FObject):
     def destroy(self):
         gp.destroy(self.get_gdobj())
@@ -429,6 +432,15 @@ class FNode(FObject):
 
     def reparent(self, new_parent_obj):
         gp.reparent(self.get_gdobj(), new_parent_obj.get_gdobj())
+
+    def set_process(self, value):
+        gp.set_process(self.get_gdobj(), value)
+    
+    def set_process_input(self, value):
+        gp.set_process_input(self.get_gdobj(), value)
+    
+    def set_physics_process(self, value):
+        gp.set_physics_process(self.get_gdobj(), value)
 
 class FNode3D(FNode):
     def set_position(self, x,y,z):
@@ -447,9 +459,6 @@ class FNode3D(FNode):
     def instantiate(cls, path):
         gdobj = gp.instantiate2(path)
         return GetWrappedObject(gdobj)
-
-class FNode2D(FNode):
-    pass
 
 class FCamera3D(FNode3D):
     pass
@@ -477,7 +486,12 @@ class FLabel3D(FNode3D):
         gp.label3d_set_text(self.get_gdobj(), text)
 
 class FCanvasItem(FNode):
-    pass
+    def set_visible(self, show):
+        gp.canvas_item_set_visible(self.get_gdobj(), show)
+
+class FNode2D(FCanvasItem):
+    def set_position(self, x,y):
+        gp.node2d_set_position(self.get_gdobj(), x,y)
 
 class FLabel(FCanvasItem):
     def __init__(self):
@@ -504,10 +518,12 @@ FClassMap[2] = FNode3D
 FClassMap[3] = FMeshInstance3D
 FClassMap[4] = FCPUParticles3D
 FClassMap[5] = FAnimationPlayer
+FClassMap[6] = FLabel3D
 
-FClassMap[11] = FNode2D
-FClassMap[12] = FLabel
-FClassMap[13] = FLabel3D
+FClassMap[11] = FCanvasItem
+FClassMap[12] = FNode2D
+FClassMap[13] = FLabel
+
 
 def GetWrappedObject(gdobj):
     obj = gdobj.get_wrapped_object()

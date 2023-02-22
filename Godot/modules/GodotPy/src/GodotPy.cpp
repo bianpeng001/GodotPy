@@ -97,11 +97,13 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 			ClassTypeDict[StringName("MeshInstance3D")] = ++id_seed_3d;
 			ClassTypeDict[StringName("CPUParticles3D")] = ++id_seed_3d;
 			ClassTypeDict[StringName("AnimationPlayer")] = ++id_seed_3d;
+			ClassTypeDict[StringName("Label3D")] = ++id_seed_3d;
 
 			int id_seed_2d = 10;
+			ClassTypeDict[StringName("CanvasItem")] = ++id_seed_2d;
 			ClassTypeDict[StringName("Node2D")] = ++id_seed_2d;
 			ClassTypeDict[StringName("Label")] = ++id_seed_2d;
-			ClassTypeDict[StringName("Label3D")] = ++id_seed_2d;
+			
 		}
 
 		auto &value = ClassTypeDict.get(class_name, Variant(0));
@@ -344,6 +346,18 @@ public:
 };
 List<FCapsuleObject *> FCapsuleObject::instance_list;
 
+
+template<typename T>
+inline T *GetObjPtr(PyObject *o) {
+	if (gdobj::Is_GDObj(o)) {
+		return gdobj::PyGDObj_GetPtr<T>(o);
+	} else if (PyCapsule_CheckExact(o)) {
+		return GetCapsulePointer<T>(o);
+	}
+
+	return nullptr;
+}
+
 // 创建一个FCapsuleObject，用来存放PyCapsule*，记录了Node，对应的PyObject
 // 并存在Node里面，以供后用，
 // TODO: 记得销毁
@@ -421,56 +435,66 @@ static PyObject *f_set_window_size(PyObject *module, PyObject *args) {
 	Py_RETURN_NONE;
 }
 static PyObject *f_set_process_input(PyObject *module, PyObject *args) {
-	PyObject *a_node;
+	PyObject *a_obj;
 	int value;
 
-	if (!PyArg_ParseTuple(args, "Oi", &a_node, &value)) {
+	if (!PyArg_ParseTuple(args, "Oi", &a_obj, &value)) {
 		Py_RETURN_NONE;
 	}
 
-	auto node = (Node *)PyCapsule_GetPointer(a_node, c_node_name);
+	//auto node = (Node *)PyCapsule_GetPointer(a_node, c_node_name);
+	auto node = GetObjPtr<Node>(a_obj);
+	if (!node) {
+		goto end;
+	}
 	node->set_process_input(value != 0);
 
+end:
 	Py_RETURN_NONE;
 }
 static PyObject *f_set_physics_process(PyObject *module, PyObject *args) {
-	PyObject *a_node;
+	PyObject *a_obj;
 	int value;
 
-	if (!PyArg_ParseTuple(args, "Oi", &a_node, &value)) {
+	if (!PyArg_ParseTuple(args, "Oi", &a_obj, &value)) {
 		Py_RETURN_NONE;
 	}
 
-	auto node = (Node *)PyCapsule_GetPointer(a_node, c_node_name);
+	//auto node = (Node *)PyCapsule_GetPointer(a_node, c_node_name);
+	auto node = GetObjPtr<Node>(a_obj);
+	if (!node) {
+		goto end;
+	}
 	node->set_physics_process(value != 0);
 
+end:
 	Py_RETURN_NONE;
 }
 static PyObject *f_set_process(PyObject *module, PyObject *args) {
-	PyObject *a_node;
+	PyObject *a_obj;
 	int value;
 
-	if (!PyArg_ParseTuple(args, "Oi", &a_node, &value)) {
+	if (!PyArg_ParseTuple(args, "Oi", &a_obj, &value)) {
 		Py_RETURN_NONE;
 	}
 
 	//auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
-	auto node = GetCapsulePointer<Node>(a_node);
+	auto node = GetObjPtr<Node>(a_obj);
 	node->set_process(value != 0);
 
 	Py_RETURN_NONE;
 }
 static PyObject *f_connect(PyObject *module, PyObject *args) {
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 		const char *a_signal;
 		PyObject *callback;
 
-		if (!PyArg_ParseTuple(args, "OsO", &a_node, &a_signal, &callback)) {
+		if (!PyArg_ParseTuple(args, "OsO", &a_obj, &a_signal, &callback)) {
 			break;
 		}
 
-		auto node = GetCapsulePointer<Node>(a_node);
+		auto node = GetObjPtr<Node>(a_obj);
 		auto ccb = memnew(CallableCustomCallback(node, callback, NULL));
 		node->connect(String::utf8(a_signal), Callable(ccb));
 
@@ -486,7 +510,7 @@ static PyObject *f_get_parent(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		auto node = GetCapsulePointer<Node>(a_node);
+		auto node = GetObjPtr<Node>(a_node);
 		auto parent_node = node->get_parent();
 		if (!parent_node) {
 			break;
@@ -509,20 +533,9 @@ static PyObject *f_reparent(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		Node *obj = NULL;
-		if (gdobj::Is_GDObj(a_obj)) {
-			obj = gdobj::PyGDObj_GetPtr<Node>(a_obj);
-		} else {
-			obj = GetCapsulePointer<Node>(a_obj);
-		}
+		Node *obj = GetObjPtr<Node>(a_obj);
+		Node *parent_obj = GetObjPtr<Node>(a_new_parent);
 		
-		Node *parent_obj = NULL;
-		if (gdobj::Is_GDObj(a_new_parent)) {
-			parent_obj = gdobj::PyGDObj_GetPtr<Node>(a_new_parent);
-		} else {
-			parent_obj = GetCapsulePointer<Node>(a_new_parent);
-		}
-
 		if (!obj || !parent_obj) {
 			break;
 		}
@@ -568,12 +581,7 @@ static PyObject *f_destroy(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		Node *node = NULL;
-		if (gdobj::Is_GDObj(a_obj)) {
-			node = gdobj::PyGDObj_GetPtr<Node>(a_obj);
-		} else {
-			node = GetCapsulePointer<Node>(a_obj);
-		}
+		Node *node = GetObjPtr<Node>(a_obj);
 		if (!node) {
 			break;
 		}
@@ -586,19 +594,14 @@ static PyObject *f_destroy(PyObject *module, PyObject *args) {
 }
 static PyObject *f_set_visible(PyObject *module, PyObject *args) {
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 		int a_value;
 
-		if (!PyArg_ParseTuple(args, "Oi", &a_node, &a_value)) {
+		if (!PyArg_ParseTuple(args, "Oi", &a_obj, &a_value)) {
 			break;
 		}
 
-		Node3D *node = NULL;
-		if (gdobj::Is_GDObj(a_node)) {
-			node = gdobj::PyGDObj_GetPtr<Node3D>(a_node);
-		} else {
-			node = GetCapsulePointer<Node3D>(a_node);
-		}
+		Node3D *node = GetObjPtr<Node3D>(a_obj);
 		if (!node) {
 			break;
 		}
@@ -617,7 +620,7 @@ static PyObject* f_find_node(PyObject* module, PyObject* args) {
 			break;
 		}
 
-		Node *node = GetCapsulePointer<Node>(a_node);
+		Node *node = GetObjPtr<Node>(a_node);
 		if (!node) {
 			break;
 		}
@@ -638,19 +641,14 @@ static PyObject* f_find_node(PyObject* module, PyObject* args) {
 // 原先的只是简单把Capsule返回
 static PyObject *f_find_node2(PyObject *module, PyObject *args) {
 	do {
+		PyObject *a_obj;
 		const char *a_path;
-		PyObject *a_node;
 
-		if (!PyArg_ParseTuple(args, "Os", &a_node, &a_path)) {
+		if (!PyArg_ParseTuple(args, "Os", &a_obj, &a_path)) {
 			break;
 		}
-		Node *node = NULL;
-		if (gdobj::Is_GDObj(a_node)) {
-			node = gdobj::PyGDObj_GetPtr<Node>(a_node);
-		} else {
-			node = GetCapsulePointer<Node>(a_node);
-		}
 
+		Node *node = GetObjPtr<Node>(a_obj);
 		if (!node) {
 			break;
 		}
@@ -671,13 +669,13 @@ static PyObject *f_find_node2(PyObject *module, PyObject *args) {
 static PyObject *f_get_child_count(PyObject *module, PyObject *args) {
 	do
 	{
-		PyObject *a_node;
+		PyObject *a_obj;
 
-		if (!PyArg_ParseTuple(args, "O", &a_node)) {
+		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
 			break;
 		}
 
-		Node *node = GetCapsulePointer<Node>(a_node);
+		Node *node = GetObjPtr<Node>(a_obj);
 		if (!node) {
 			break;
 		}
@@ -698,7 +696,7 @@ static PyObject *f_get_child_at(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		Node *node = GetCapsulePointer<Node>(a_node);
+		Node *node = GetObjPtr<Node>(a_node);
 		if (!node) {
 			break;
 		}
@@ -726,13 +724,7 @@ static PyObject *f_set_position(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		Node3D *node = NULL;
-		if (gdobj::Is_GDObj(a_obj)) {
-			node = gdobj::PyGDObj_GetPtr<Node3D>(a_obj);
-		} else {
-			node = GetCapsulePointer<Node3D>(a_obj);
-		}
-		
+		Node3D *node = GetObjPtr<Node3D>(a_obj);
 		if (!node) {
 			break;
 		}
@@ -745,19 +737,13 @@ static PyObject *f_set_position(PyObject *module, PyObject *args) {
 }
 static PyObject *f_get_position(PyObject *module, PyObject *args) {
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 
-		if (!PyArg_ParseTuple(args, "O", &a_node)) {
+		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
 			break;
 		}
 
-		Node3D *node = NULL;
-		if (gdobj::Is_GDObj(a_node)) {
-			node = gdobj::PyGDObj_GetPtr<Node3D>(a_node);
-		} else {
-			node = GetCapsulePointer<Node3D>(a_node);
-		}
-
+		Node3D *node = GetObjPtr<Node3D>(a_obj);
 		if (!node) {
 			break;
 		}
@@ -777,19 +763,14 @@ static PyObject *f_get_position(PyObject *module, PyObject *args) {
 }
 static PyObject *f_set_rotation(PyObject *module, PyObject *args) {
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 		float x, y, z;
 
-		if (!PyArg_ParseTuple(args, "Offf", &a_node, &x, &y, &z)) {
+		if (!PyArg_ParseTuple(args, "Offf", &a_obj, &x, &y, &z)) {
 			break;
 		}
 
-		Node3D *node = NULL;
-		if (gdobj::Is_GDObj(a_node)) {
-			node = gdobj::PyGDObj_GetPtr<Node3D>(a_node);
-		} else {
-			node = GetCapsulePointer<Node3D>(a_node);
-		}
+		Node3D *node = GetObjPtr<Node3D>(a_obj);
 		if (!node) {
 			break;
 		}
@@ -809,13 +790,7 @@ static PyObject *f_look_at(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		Node3D *node = NULL;
-		if (gdobj::Is_GDObj(a_obj)) {
-			node = gdobj::PyGDObj_GetPtr<Node3D>(a_obj);
-		} else {
-			node = GetCapsulePointer<Node3D>(a_obj);
-		}
-
+		Node3D *node = GetObjPtr<Node3D>(a_obj);
 		if (!node) {
 			break;
 		}
@@ -828,18 +803,13 @@ static PyObject *f_look_at(PyObject *module, PyObject *args) {
 static PyObject *f_get_rotation(PyObject *module, PyObject *args) {
 	
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 
-		if (!PyArg_ParseTuple(args, "O", &a_node)) {
+		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
 			break;
 		}
 
-		Node3D *node = NULL;
-		if (gdobj::Is_GDObj(a_node)) {
-			node = gdobj::PyGDObj_GetPtr<Node3D>(a_node);
-		} else {
-			node = GetCapsulePointer<Node3D>(a_node);
-		}
+		Node3D *node = GetObjPtr<Node3D>(a_obj);
 		if (!node) {
 			break;
 		}
@@ -853,20 +823,14 @@ static PyObject *f_get_rotation(PyObject *module, PyObject *args) {
 }
 static PyObject *f_set_scale(PyObject *module, PyObject *args) {
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 		float x, y, z;
 
-		if (!PyArg_ParseTuple(args, "Offf", &a_node, &x, &y, &z)) {
+		if (!PyArg_ParseTuple(args, "Offf", &a_obj, &x, &y, &z)) {
 			break;
 		}
 
-		Node3D *node = NULL;
-		if (gdobj::Is_GDObj(a_node)) {
-			node = gdobj::PyGDObj_GetPtr<Node3D>(a_node);
-		} else {
-			node = GetCapsulePointer<Node3D>(a_node);
-		}
-
+		Node3D *node = GetObjPtr<Node3D>(a_obj);
 		if (!node) {
 			break;
 		}
@@ -879,19 +843,14 @@ static PyObject *f_set_scale(PyObject *module, PyObject *args) {
 }
 static PyObject *f_world_to_local(PyObject *module, PyObject *args) {
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 		float x, y, z;
 
-		if (!PyArg_ParseTuple(args, "Offf", &a_node, &x, &y, &z)) {
+		if (!PyArg_ParseTuple(args, "Offf", &a_obj, &x, &y, &z)) {
 			break;
 		}
 
-		Node3D *node = NULL;
-		if (gdobj::Is_GDObj(a_node)) {
-			node = gdobj::PyGDObj_GetPtr<Node3D>(a_node);
-		} else {
-			node = GetCapsulePointer<Node3D>(a_node);
-		}
+		Node3D *node = GetObjPtr<Node3D>(a_obj);
 		if (!node) {
 			break;
 		}
@@ -906,19 +865,14 @@ static PyObject *f_world_to_local(PyObject *module, PyObject *args) {
 
 static PyObject *f_local_to_world(PyObject *module, PyObject *args) {
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 		float x, y, z;
 
-		if (!PyArg_ParseTuple(args, "Offf", &a_node, &x, &y, &z)) {
+		if (!PyArg_ParseTuple(args, "Offf", &a_obj, &x, &y, &z)) {
 			break;
 		}
 
-		Node3D *node = NULL;
-		if (gdobj::Is_GDObj(a_node)) {
-			node = gdobj::PyGDObj_GetPtr<Node3D>(a_node);
-		} else {
-			node = GetCapsulePointer<Node3D>(a_node);
-		}
+		Node3D *node = GetObjPtr<Node3D>(a_obj);
 		if (!node) {
 			break;
 		}
@@ -933,19 +887,14 @@ static PyObject *f_local_to_world(PyObject *module, PyObject *args) {
 // animation play
 static PyObject *f_animation_player_play(PyObject *module, PyObject *args) {
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 		const char *a_anim_name;
 
-		if (!PyArg_ParseTuple(args, "Os", &a_node, &a_anim_name)) {
+		if (!PyArg_ParseTuple(args, "Os", &a_obj, &a_anim_name)) {
 			break;
 		}
 
-		AnimationPlayer *anim_player = NULL;
-		if (gdobj::Is_GDObj(a_node)) {
-			anim_player = gdobj::PyGDObj_GetPtr<AnimationPlayer>(a_node);
-		} else {
-			anim_player = GetCapsulePointer<AnimationPlayer>(a_node);
-		}
+		AnimationPlayer *anim_player = GetObjPtr<AnimationPlayer>(a_obj);
 		if (!anim_player) {
 			break;
 		}
@@ -959,19 +908,14 @@ static PyObject *f_animation_player_play(PyObject *module, PyObject *args) {
 }
 static PyObject *f_animation_player_stop(PyObject *module, PyObject *args) {
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 		int a_keep_state;
 
-		if (!PyArg_ParseTuple(args, "Os", &a_node, &a_keep_state)) {
+		if (!PyArg_ParseTuple(args, "Os", &a_obj, &a_keep_state)) {
 			break;
 		}
 
-		AnimationPlayer *anim_player = NULL;
-		if (gdobj::Is_GDObj(a_node)) {
-			anim_player = gdobj::PyGDObj_GetPtr<AnimationPlayer>(a_node);
-		} else {
-			anim_player = GetCapsulePointer<AnimationPlayer>(a_node);
-		}
+		AnimationPlayer *anim_player = GetObjPtr<AnimationPlayer>(a_obj);
 		if (!anim_player) {
 			break;
 		}
@@ -984,19 +928,14 @@ static PyObject *f_animation_player_stop(PyObject *module, PyObject *args) {
 }
 static PyObject *f_animation_player_set_speed_scale(PyObject *module, PyObject *args) {
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 		float a_speed;
 
-		if (!PyArg_ParseTuple(args, "Of", &a_node, &a_speed)) {
+		if (!PyArg_ParseTuple(args, "Of", &a_obj, &a_speed)) {
 			break;
 		}
 
-		AnimationPlayer *anim_player = NULL;
-		if (gdobj::Is_GDObj(a_node)) {
-			anim_player = gdobj::PyGDObj_GetPtr<AnimationPlayer>(a_node);
-		} else {
-			anim_player = GetCapsulePointer<AnimationPlayer>(a_node);
-		}
+		AnimationPlayer *anim_player = GetObjPtr<AnimationPlayer>(a_obj);
 		if (!anim_player) {
 			break;
 		}
@@ -1010,19 +949,14 @@ static PyObject *f_animation_player_set_speed_scale(PyObject *module, PyObject *
 // 屏幕点，投影到地面上的交点，的世界坐标
 static PyObject *f_screen_to_world(PyObject *module, PyObject *args) {
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 		float x, y;
 
-		if (!PyArg_ParseTuple(args, "Off", &a_node, &x, &y)) {
+		if (!PyArg_ParseTuple(args, "Off", &a_obj, &x, &y)) {
 			break;
 		}
 
-		Camera3D *camera = NULL;
-		if (gdobj::Is_GDObj(a_node)) {
-			camera = gdobj::PyGDObj_GetPtr<Camera3D>(a_node);
-		} else {
-			camera = GetCapsulePointer<Camera3D>(a_node);
-		}
+		Camera3D *camera = GetObjPtr<Camera3D>(a_obj);
 		if (!camera) {
 			break;
 		}
@@ -1043,19 +977,14 @@ static PyObject *f_screen_to_world(PyObject *module, PyObject *args) {
 }
 static PyObject *f_world_to_screen(PyObject *module, PyObject *args) {
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 		float x, y, z;
 
-		if (!PyArg_ParseTuple(args, "Offf", &a_node, &x, &y, &z)) {
+		if (!PyArg_ParseTuple(args, "Offf", &a_obj, &x, &y, &z)) {
 			break;
 		}
 
-		Camera3D *camera = NULL;
-		if (gdobj::Is_GDObj(a_node)) {
-			camera = gdobj::PyGDObj_GetPtr<Camera3D>(a_node);
-		} else {
-			camera = GetCapsulePointer<Camera3D>(a_node);
-		}
+		Camera3D *camera = GetObjPtr<Camera3D>(a_obj);
 		if (!camera) {
 			break;
 		}
@@ -1068,22 +997,16 @@ static PyObject *f_world_to_screen(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
-static PyObject* f_set_visible_2d(PyObject* module, PyObject* args) {
+static PyObject *f_canvas_item_set_visible(PyObject *module, PyObject *args) {
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 		int v;
 
-		if (!PyArg_ParseTuple(args, "Oi", &a_node, &v)) {
+		if (!PyArg_ParseTuple(args, "Oi", &a_obj, &v)) {
 			break;
 		}
 
-		CanvasItem *canvas_item = NULL;
-		if (gdobj::Is_GDObj(a_node)) {
-			canvas_item = gdobj::PyGDObj_GetPtr<CanvasItem>(a_node);
-		} else {
-			canvas_item = GetCapsulePointer<CanvasItem>(a_node);
-		}
-
+		CanvasItem *canvas_item = GetObjPtr<CanvasItem>(a_obj);
 		if (!canvas_item) {
 			break;
 		}
@@ -1095,19 +1018,14 @@ static PyObject* f_set_visible_2d(PyObject* module, PyObject* args) {
 }
 static PyObject *f_find_control(PyObject *module, PyObject *args) {
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 		float x, y;
 
-		if (!PyArg_ParseTuple(args, "Off", &a_node, &x, &y)) {
+		if (!PyArg_ParseTuple(args, "Off", &a_obj, &x, &y)) {
 			break;
 		}
 
-		Node *node = NULL;
-		if (gdobj::Is_GDObj(a_node)) {
-			node = gdobj::PyGDObj_GetPtr<Node>(a_node);
-		} else {
-			node = GetCapsulePointer<Node>(a_node);
-		}
+		Node *node = GetObjPtr<Node>(a_obj);
 		if (!node) {
 			break;
 		}
@@ -1124,23 +1042,17 @@ static PyObject *f_find_control(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
-static PyObject *f_set_position_2d(PyObject *module, PyObject *args) {
+static PyObject *f_node2d_set_position(PyObject *module, PyObject *args) {
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 		float x, y;
 
-		if (!PyArg_ParseTuple(args, "Off", &a_node,
+		if (!PyArg_ParseTuple(args, "Off", &a_obj,
 					&x, &y)) {
 			break;
 		}
 
-		Node2D *node = NULL;
-		if (gdobj::Is_GDObj(a_node)) {
-			node = gdobj::PyGDObj_GetPtr<Node2D>(a_node);
-		} else {
-			node = GetCapsulePointer<Node2D>(a_node);
-		}
-		//auto node = GetCapsulePointer<Node2D>(a_node);
+		Node2D *node = GetObjPtr<Node2D>(a_obj);
 		if (!node) {
 			break;
 		}
@@ -1283,12 +1195,7 @@ static PyObject *f_label3d_set_text(PyObject *module, PyObject *args) {
 		if (!PyArg_ParseTuple(args, "Os", &a_obj, &s)) {
 			break;
 		}
-		Label3D *label = NULL;
-		if (gdobj::Is_GDObj(a_obj)) {
-			label = gdobj::PyGDObj_GetPtr<Label3D>(a_obj);
-		} else {
-			label = GetCapsulePointer<Label3D>(a_obj);
-		}
+		Label3D *label = GetObjPtr<Label3D>(a_obj);
 		if (!label) {
 			break;
 		}
@@ -1308,7 +1215,7 @@ static PyObject *f_label_set_text(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		auto label = gdobj::PyGDObj_GetPtr<Label>(a_obj);
+		auto label = GetObjPtr<Label>(a_obj);
 		if (!label) {
 			break;
 		}
@@ -1322,15 +1229,15 @@ static PyObject *f_label_set_text(PyObject *module, PyObject *args) {
 }
 static PyObject *f_material_set_albedo_color(PyObject *module, PyObject *args) {
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 		int surface;
 		float r, g, b;
 
-		if (!PyArg_ParseTuple(args, "Oifff", &a_node, &surface, &r, &g, &b)) {
+		if (!PyArg_ParseTuple(args, "Oifff", &a_obj, &surface, &r, &g, &b)) {
 			break;
 		}
 
-		auto mesh_instance = GetCapsulePointer<MeshInstance3D>(a_node);
+		auto mesh_instance = GetObjPtr<MeshInstance3D>(a_obj);
 		if (!mesh_instance) {
 			break;
 		}
@@ -1361,22 +1268,15 @@ static PyObject *f_material_set_albedo_color(PyObject *module, PyObject *args) {
 }
 static PyObject *f_mesh_instance3d_load_material(PyObject *module, PyObject *args) {
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 		int surface;
 		const char *a_path;
 
-		if (!PyArg_ParseTuple(args, "Ois", &a_node, &surface, &a_path)) {
+		if (!PyArg_ParseTuple(args, "Ois", &a_obj, &surface, &a_path)) {
 			break;
 		}
 
-		MeshInstance3D *mesh_instance = NULL;
-
-		if (gdobj::Is_GDObj(a_node)) {
-			mesh_instance = gdobj::PyGDObj_GetPtr<MeshInstance3D>(a_node);
-		} else {
-			mesh_instance = GetCapsulePointer<MeshInstance3D>(a_node);
-		}
-
+		MeshInstance3D *mesh_instance = GetObjPtr<MeshInstance3D>(a_obj);
 		if (!mesh_instance) {
 			break;
 		}
@@ -1398,17 +1298,14 @@ static PyObject *f_mesh_instance3d_load_material(PyObject *module, PyObject *arg
 }
 static PyObject *f_cpu_particle_set_emitting(PyObject *module, PyObject *args) {
 	do {
-		PyObject *a_node;
+		PyObject *a_obj;
 		int a_value;
-		if (!PyArg_ParseTuple(args, "Oi", &a_node, &a_value)) {
+
+		if (!PyArg_ParseTuple(args, "Oi", &a_obj, &a_value)) {
 			break;
 		}
 
-		if (!gdobj::Is_GDObj(a_node)) {
-			break;
-		}
-
-		auto ps = gdobj::PyGDObj_GetPtr<CPUParticles3D>(a_node);
+		auto ps = GetObjPtr<CPUParticles3D>(a_obj);
 		if (!ps) {
 			break;
 		}
@@ -1421,6 +1318,7 @@ static PyObject *f_cpu_particle_set_emitting(PyObject *module, PyObject *args) {
 static PyObject *f_debug_get_monitor(PyObject *module, PyObject *args) {
 	do {
 		int a_monitor;
+
 		if (!PyArg_ParseTuple(args, "i", &a_monitor)) {
 			break;
 		}
@@ -1474,8 +1372,8 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "animation_player_set_speed_scale", f_animation_player_set_speed_scale, METH_VARARGS, NULL },
 
 	// node2d
-	{ "set_position_2d", f_set_position_2d, METH_VARARGS, NULL },
-	{ "set_visible_2d", f_set_visible_2d, METH_VARARGS, NULL },
+	{ "node2d_set_position", f_node2d_set_position, METH_VARARGS, NULL },
+	{ "canvas_item_set_visible", f_canvas_item_set_visible, METH_VARARGS, NULL },
 	{ "find_control", f_find_control, METH_VARARGS, NULL },
 
 	// camera3d

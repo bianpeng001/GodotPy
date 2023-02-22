@@ -29,21 +29,21 @@ class UIMgr(NodeObject):
         game_mgr.event_mgr.add(LEFT_BUTTON_BEGIN_DRAG, self.on_begin_drag)
 
         # init ui
-        main_ui_node = Node.find_node(self.get_node(), 'MainUI')
+        main_ui_node = find_node2(self.get_node(), 'MainUI')
         self.main_ui_controller = MainUIController()
         self.main_ui_controller.init(main_ui_node)
 
     def _ready(self):
-        cm = find_node(self.get_node(), 'ContextMenu')
+        cm = find_node2(self.get_node(), 'ContextMenu')
         self.context_menu_node = cm
-        connect(find_node(cm, 'Panel/Button1'), 'pressed', self.on_cm_button1)
-        connect(find_node(cm, 'Panel/Button2'), 'pressed', self.on_cm_button2)
-        connect(find_node(cm, 'Panel/Button3'), 'pressed', self.on_cm_button3)
+        cm.find_node('Panel/Button1').connect('pressed', self.on_cm_button1)
+        cm.find_node('Panel/Button2').connect('pressed', self.on_cm_button2)
+        cm.find_node('Panel/Button3').connect('pressed', self.on_cm_button3)
         pass
 
     def update(self, delta_time):
         for a in self.hide_reqs:
-            set_visible_2d(a, False)
+            a.set_visible(False)
         self.hide_reqs.clear()
 
     def close(self, item):
@@ -66,8 +66,8 @@ class UIMgr(NodeObject):
         camera = game_mgr.camera_mgr.main_camera
         
         x, y = game_mgr.input_mgr.get_mouse_pos()
-        set_position_2d(self.context_menu_node, x, y)
-        set_visible_2d(self.context_menu_node, True)
+        self.context_menu_node.set_position(x, y)
+        self.context_menu_node.set_visible(True)
 
     # 内政
     def on_cm_button1(self):
