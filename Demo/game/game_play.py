@@ -17,22 +17,7 @@ from game.ground_mgr import Tile
 # 有一些业务逻辑是好几个单位相互作用的
 class GamePlay:
     def __init__(self):
-        game_mgr.event_mgr.add(APP_LAUNCH, self.on_app_launch)
-        game_mgr.event_mgr.add(START_GAME, self.on_start_game)
-        game_mgr.event_mgr.add(MAIN_PLAYER_READY, self.on_player_ready)
-
-        # 资源刷新tick
-        self.resource_grow_time = 0
-
-    # 事件
-    def on_app_launch(self):
-        # read window
-        if os.path.exists('launch.json'):
-            with open('launch.json', 'r') as f:
-                obj = json.load(f)
-                OS.set_window_size(*obj['window'])
-        print('on_app_launch')
-
+        # init sub systems
         from game.player_mgr import PlayerMgr
         from game.hero_mgr import HeroMgr
         from game.unit_mgr import UnitMgr
@@ -42,9 +27,29 @@ class GamePlay:
         game_mgr.hero_mgr = HeroMgr()
         game_mgr.unit_mgr = UnitMgr()
         game_mgr.effect_mgr = EffectMgr()
+        
+
+        # 资源刷新tick
+        self.resource_grow_time = 0
+
+        # add event handler
+        game_mgr.event_mgr.add(APP_LAUNCH, self.on_app_launch)
+        game_mgr.event_mgr.add(START_GAME, self.on_start_game)
+        game_mgr.event_mgr.add(MAIN_PLAYER_READY, self.on_player_ready)
+
+    # 事件
+    def on_app_launch(self):
+        log_util.debug('on_app_launch')
+
         game_mgr.init_update_list()
 
-        # 起始块
+        # read window
+        if os.path.exists('launch.json'):
+            with open('launch.json', 'r') as f:
+                obj = json.load(f)
+                OS.set_window_size(*obj['window'])
+
+        # 起始块, 不加载物件
         tile = Tile(0, 0)
         game_mgr.ground_mgr.tile_dict[(0, 0)] = tile
         tile.load()

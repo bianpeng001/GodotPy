@@ -409,11 +409,11 @@ class LogUtil:
 
     def debug(self, *args):
         if self.enable_debug:
-            print_line('DEBUG', *args)
+            print_line('[DEBUG]', *args)
 
     def error(self, *args):
         if self.enable_error:
-            print_line('ERROR', *args)
+            print_line('[ERROR]', *args)
 
     def print(self, msg):
         print_line(msg)
