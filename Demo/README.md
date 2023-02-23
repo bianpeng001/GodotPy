@@ -142,9 +142,8 @@ Skin:
 Mesh: 可以导入时选择单独保存。
 
 ### shader编程
-简单的定点动画，旗帜摇摆。[Shader文档](https://docs.godotengine.org/en/latest/tutorials/shaders/shader_reference/shading_language.html)
-[Shader举例](https://docs.godotengine.org/en/latest/tutorials/shaders/your_first_shader/index.html)
-[Shader展示](https://godotshaders.com)
+简单的定点动画，旗帜摇摆。
+
 ```c
 shader_type spatial;
 render_mode skip_vertex_transform;
@@ -176,13 +175,18 @@ void fragment() {
 	ALBEDO = _color;
 }
 ```
+
+[Shader文档](https://docs.godotengine.org/en/latest/tutorials/shaders/shader_reference/shading_language.html)
+[Shader举例](https://docs.godotengine.org/en/latest/tutorials/shaders/your_first_shader/index.html)
+[Shader案例分享](https://godotshaders.com)
+
 [Perlin Noise Texture](http://kitfox.com/projects/perlinNoiseMaker)
 
 [Toon Water](https://roystan.net/articles/toon-water)
 
 ### post processing
 Camera上新建一个Enviroment，里面配置内置的后处理效果。
-glow,fog,volume fog...[详细看这里](https://docs.godotengine.org/en/stable/tutorials/3d/environment_and_post_processing.html)，还有[自定义的后处理](
+glow,fog,volume fog...[官方例子](https://docs.godotengine.org/en/stable/tutorials/3d/environment_and_post_processing.html)，还有[自定义的后处理](
 https://docs.godotengine.org/en/stable/tutorials/shaders/custom_postprocessing.html)
 
 ![CameraEnv.res](../docs/img/CameraEnv.png "Camera Enviroment")
