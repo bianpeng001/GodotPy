@@ -34,7 +34,7 @@ class Tile:
         self.model_node = FNode3D.instantiate('res://models/Square.tscn')
         self.model_node.set_position(pos_x, 0, pos_z)
 
-    def create_items(self):
+    def load_items(self):
         pos_x, pos_z = self.get_center_pos()
         # 树
         for i in range(random.randrange(1, 10)):
@@ -70,8 +70,6 @@ class Tile:
                 0,
                 pos_z + random_x()*5)
             self.units.append(city)
-
-        
 
     def load_res(self, path, x, z, s):
         item = FNode3D.instantiate(path)
@@ -144,6 +142,6 @@ class GroundMgr(NodeObject):
             tile = Tile(col, row)
             self.tile_dict[key] = tile
             tile.load()
-            tile.create_items()
+            tile.load_items()
 
 
