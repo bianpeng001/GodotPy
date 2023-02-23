@@ -14,9 +14,7 @@ class MainLoop(NodeObject):
         super().__init__()
 
     def _create(self):
-        #set_process(self.get_node(), process=True, input=False)
         self.get_obj().set_process(process=True)
-        #connect(self.get_node(), "ready", self._ready)
         self.get_obj().connect("ready", self._ready)
         
         from game.game_play import GamePlay

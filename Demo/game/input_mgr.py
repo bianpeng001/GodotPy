@@ -52,9 +52,7 @@ class InputMgr(NodeObject):
         self.left_button = MouseButtonData()
 
     def _create(self):
-        #set_process(self.get_node(), process=False, input=True)
         self.get_obj().set_process(input=True)
-        #connect(self.get_node(), "ready", self._ready)
         self.get_obj().connect("ready", self._ready)
 
     def _ready(self):

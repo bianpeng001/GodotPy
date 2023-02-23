@@ -83,7 +83,7 @@ class Tile:
     def unload(self):
         pass
 
-# 地面
+# 地面，管理
 class GroundMgr(NodeObject):
     def __init__(self):
         super().__init__()
@@ -92,8 +92,6 @@ class GroundMgr(NodeObject):
         self.tile_dict = {}
     
     def _create(self):
-        #set_process(self._get_node(), process=False, input=False)
-        #connect(self.get_node(), "ready", self._ready)
         self.get_obj().connect("ready", self._ready)
 
     def _ready(self):
