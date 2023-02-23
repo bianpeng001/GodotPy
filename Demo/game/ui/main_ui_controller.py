@@ -29,24 +29,27 @@ class MainUIController:
         # 事件
         game_mgr.event_mgr.add(MAINUI_REFRESH, self.on_refresh)
 
-    def _get_amount_str(self, value):
+    def format_amount_str(self, value):
         if value < 100000:
             return str(round(value))
-        else:
+        elif value < 100000000:
             value //= 10000
             return f'{value}万'
-
+        else:
+            value //= 100000000
+            return f'{value}亿'
+        
     def on_refresh(self):
-        # player resource...
-        player = game_mgr.player_mgr.main_player
+        self.update_fps()
 
-        money_text = self._get_amount_str(player.total_money_amount)
+        # player resource...
+        mp = game_mgr.player_mgr.main_player
+
+        money_text = self.format_amount_str(mp.total_money_amount)
         self.money_label.set_text(money_text)
 
-        rice_text = self._get_amount_str(player.total_rice_amount)
+        rice_text = self.format_amount_str(mp.total_rice_amount)
         self.rice_label.set_text(rice_text)
-
-        self.update_fps()
 
     def update_fps(self):
         delta_time = game_mgr.sec_time - self.refresh_time
@@ -56,8 +59,8 @@ class MainUIController:
 
         fps = int(delta_frame_number/delta_time)
         fps0 = int(Debug.get_monitor(0))
-        draw_call = Debug.get_drawcall()
+        dc = Debug.get_drawcall()
         
-        self.fps_label.set_text(f'fps:{fps},{fps0} dc:{draw_call}')
+        self.fps_label.set_text(f'fps:{fps},{fps0} dc:{dc}')
         
         
