@@ -25,20 +25,19 @@ class UIMgr(NodeObject):
         self.tick_time = 0
 
     def _create(self):
-        set_process(self.get_node(), process=False)
-        connect(self.get_node(), 'ready', self._ready)
+        self.get_obj().connect("ready", self._ready)
 
         game_mgr.event_mgr.add(SCENE_UNIT_CLICK, self.on_scene_unit_click)
         game_mgr.event_mgr.add(SCENE_GROUND_CLICK, self.on_scene_ground_click)
         game_mgr.event_mgr.add(LEFT_BUTTON_BEGIN_DRAG, self.on_begin_drag)
 
         # init ui
-        main_ui_node = find_node2(self.get_node(), 'MainUI')
+        main_ui_node = self.get_obj().find_node("MainUI")
         self.main_ui_controller = MainUIController()
         self.main_ui_controller.init(main_ui_node)
 
     def _ready(self):
-        self.context_menu_node = find_node2(self.get_node(), 'ContextMenu')
+        self.context_menu_node = self.get_obj().find_node("ContextMenu")
         cm = self.context_menu_node
         cm.find_node('Panel/Button1').connect('pressed', self.on_cm_button1)
         cm.find_node('Panel/Button2').connect('pressed', self.on_cm_button2)

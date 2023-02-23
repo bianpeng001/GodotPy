@@ -93,7 +93,8 @@ class GroundMgr(NodeObject):
     
     def _create(self):
         #set_process(self._get_node(), process=False, input=False)
-        connect(self.get_node(), "ready", self._ready)
+        #connect(self.get_node(), "ready", self._ready)
+        self.get_obj().connect("ready", self._ready)
 
     def _ready(self):
         logutil.debug('GroundMgr ready')

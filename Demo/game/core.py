@@ -181,12 +181,23 @@ class NodeObject:
     def __init__(self):
         # 记录一个node的指针
         self.node_capsule = None
+        self._gdobj = None
 
     def _get_node(self):
         return self.node_capsule
 
     def get_node(self):
         return self.node_capsule
+
+    # start gdobj
+
+    def get_obj(self):
+        return GetWrappedObject(self._gdobj)
+
+    def get_gdobj(self):
+        return self._gdobj
+
+    # end of gdobj
     
     def on_mouse_button(self, button, pressed, x, y):
         pass
@@ -238,9 +249,6 @@ def print_line(*args, **kwargs):
     else:
         a = ' '.join([str(x) for x in args])
         gp.print_line(a)
-
-# def find_node(node, path):
-#     return gp.find_node(node, path)
 
 def set_process(node, process=False, input=False, physics=False):
     if process:
@@ -294,10 +302,6 @@ def mesh_instance3d_load_material(node, index, path):
 
 #
 class Node:
-    @classmethod
-    def find_node(cls, node, path):
-        return gp.find_node(node, path)
-
     @classmethod
     def get_parent(cls, node):
         return gp.get_parent(node)
@@ -363,10 +367,6 @@ logutil = log_util
 #------------------------------------------------------------
 # oop 封装
 #------------------------------------------------------------
-def find_node2(node, path):
-    gdobj = gp.find_node2(node, path)
-    #print(gd_obj)
-    return GetWrappedObject(gdobj)
 
 class FObject:
     def __init__(self):
@@ -386,24 +386,21 @@ class FNode(FObject):
         gp.destroy(self.get_gdobj())
 
     def find_node(self, path):
-        gdobj = gp.find_node2(self.get_gdobj(), path)
+        gdobj = gp.find_node(self.get_gdobj(), path)
         return GetWrappedObject(gdobj)
 
     def reparent(self, new_parent_obj):
         gp.reparent(self.get_gdobj(), new_parent_obj.get_gdobj())
 
     def get_parent(self):
-        pass
+        parent_gdobj = gp.get_parent(self.get_gdobj())
+        return GetWrappedObject(parent_gdobj)
 
-    def set_process(self, value):
-        gp.set_process(self.get_gdobj(), value)
+    def set_process(self, process=False,input=False,physics=False):
+        gp.set_process(self.get_gdobj(), process)
+        gp.set_process_input(self.get_gdobj(), input)
+        gp.set_physics_process(self.get_gdobj(), physics)
     
-    def set_process_input(self, value):
-        gp.set_process_input(self.get_gdobj(), value)
-    
-    def set_physics_process(self, value):
-        gp.set_physics_process(self.get_gdobj(), value)
-
     def find_control(self, x,y):
         gdobj = gp.find_control(self.get_gdobj(), x, y)
         return GetWrappedObject(gdobj)
@@ -504,7 +501,9 @@ def GetWrappedObject(gdobj):
     if obj:
         return obj
 
-    class_type = FClassMap[gdobj.get_type()] or FObject
+    obj_type = gdobj.get_type()
+    #log_util.debug(f'gdobj type={obj_type}')
+    class_type = FClassMap[obj_type] or FObject
 
     obj = class_type()
     obj._gdobj = gdobj
@@ -524,4 +523,7 @@ FClassMap[7] = FCamera3D
 FClassMap[11] = FCanvasItem
 FClassMap[12] = FNode2D
 FClassMap[13] = FLabel
+
+# 大话降龙
+# https://www.mm1316.com/maoxian/dahuajianglong
 

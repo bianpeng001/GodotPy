@@ -15,7 +15,7 @@ class Effect:
         self.life_time = 1
 
     def set_visible(self, value):
-        ps = find_node2(self.node, 'CPUParticles3D')
+        ps = self.node.find_node('CPUParticles3D')
         ps.set_visible(value)
 
 #
@@ -51,7 +51,7 @@ class EffectMgr:
 
         effect.node.set_position(x,y,z)
         effect.set_visible(True)
-        ps = find_node2(effect.node, 'CPUParticles3D')
+        ps = effect.node.find_node('CPUParticles3D')
         #Node3D.look_at(effect.node, x1,1,z1)
         ps.look_at(x1,y1,z1)
         ps.set_emitting(True)

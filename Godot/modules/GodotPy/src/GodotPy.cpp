@@ -91,6 +91,8 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 
 		static Dictionary ClassTypeDict;
 		if (ClassTypeDict.size() == 0) {
+			ClassTypeDict[StringName("FPyObject")] = 1;
+
 			int id_seed_3d = 0;
 			ClassTypeDict[StringName("Node")] = ++id_seed_3d;
 			ClassTypeDict[StringName("Node3D")] = ++id_seed_3d;
@@ -99,12 +101,11 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 			ClassTypeDict[StringName("AnimationPlayer")] = ++id_seed_3d;
 			ClassTypeDict[StringName("Label3D")] = ++id_seed_3d;
 			ClassTypeDict[StringName("Camera3D")] = ++id_seed_3d;
-
+			
 			int id_seed_2d = 10;
 			ClassTypeDict[StringName("CanvasItem")] = ++id_seed_2d;
 			ClassTypeDict[StringName("Node2D")] = ++id_seed_2d;
 			ClassTypeDict[StringName("Label")] = ++id_seed_2d;
-			
 		}
 
 		auto &value = ClassTypeDict.get(class_name, Variant(0));
@@ -304,6 +305,7 @@ public:
 
 // 常量区域
 static const char *c_capsule_name = "node_capsule";
+static const char *c_gdobj_name = "_gdobj";
 static const char *c_node_name = "node";
 
 // 从capsule里面取数据
@@ -356,7 +358,8 @@ inline T *GetObjPtr(PyObject *o) {
 		return GetCapsulePointer<T>(o);
 	}
 
-	print_line("GetObjPtr: input obj is not supported");
+	//print_line("GetObjPtr: input obj is not supported, %s");
+	print_line(vformat("GetObjPtr: %s not supported", o->ob_type->tp_name));
 	return nullptr;
 }
 
@@ -518,7 +521,10 @@ static PyObject *f_get_parent(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		auto obj = get_or_create_capsule(parent_node);
+		//auto obj = get_or_create_capsule(parent_node);
+		//Py_INCREF(obj);
+		//return obj;
+		PyObject *obj = FPyGDObjSlot::GetPyGDObj(parent_node);
 		Py_INCREF(obj);
 		return obj;
 
@@ -613,35 +619,10 @@ static PyObject *f_set_visible(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
-static PyObject* f_find_node(PyObject* module, PyObject* args) {
-	do {
-		const char *a_path;
-		PyObject *a_node;
 
-		if (!PyArg_ParseTuple(args, "Os", &a_node, &a_path)) {
-			break;
-		}
-
-		Node *node = GetObjPtr<Node>(a_node);
-		if (!node) {
-			break;
-		}
-
-		auto result_node = node->get_node(NodePath(String::utf8(a_path)));
-		if (!result_node) {
-			break;
-		}
-
-		PyObject *obj = get_or_create_capsule(result_node);
-		Py_INCREF(obj);
-		return obj;
-	} while (0);
-	
-	Py_RETURN_NONE;
-}
 // 这个版本是返回我需要的东西，是版本的升级，
 // 原先的只是简单把Capsule返回
-static PyObject *f_find_node2(PyObject *module, PyObject *args) {
+static PyObject *f_find_node(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
 		const char *a_path;
@@ -1345,7 +1326,6 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// node
 	{ "find_node", f_find_node, METH_VARARGS, NULL },
-	{ "find_node2", f_find_node2, METH_VARARGS, NULL },
 	{ "get_child_count", f_get_child_count, METH_VARARGS, NULL },
 	{ "get_child_at", f_get_child_at, METH_VARARGS, NULL },
 	{ "set_process", f_set_process, METH_VARARGS, NULL },
@@ -1632,8 +1612,11 @@ void FPyObject::_ready() {
 			break;
 		}
 
-		auto capsule = get_or_create_capsule(this);
-		PyObject_SetAttrString(p_object, c_capsule_name, capsule);
+		//auto capsule = get_or_create_capsule(this);
+		//PyObject_SetAttrString(p_object, c_capsule_name, capsule);
+
+		auto gdobj = FPyGDObjSlot::GetPyGDObj(this);
+		PyObject_SetAttrString(p_object, c_gdobj_name, gdobj);
 
 		// post create object
 		auto ret = PyObject_CallMethod(p_object, "_create", NULL);

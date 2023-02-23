@@ -7,9 +7,6 @@ from game.core import *
 from game.game_mgr import game_mgr
 from game.input_mgr import *
 
-# def test_callback():
-#     print_line("test_callback")
-
 def clamp(v):
     if v < 0:
         return 0.0
@@ -40,13 +37,8 @@ class CameraMgr(NodeObject):
         self.press_time = 0
 
     def _create(self):
-        set_process(self._get_node(), process=False, input=False)
-        # gp.set_process(self._get_node(), True)
-        # gp.set_process_input(self._get_node(), True)
-        # gp.connect(self._get_node(), "ready", test_callback)
-        # gp.connect(self._get_node(), "ready", self._ready)
-        connect(self._get_node(), "ready", self._ready)
-        self.main_camera = find_node2(self._get_node(), 'MainCamera')
+        self.get_obj().connect("ready", self._ready)
+        self.main_camera = self.get_obj().find_node("MainCamera")
 
         game_mgr.event_mgr.add(WHEEL_UP_PRESS, self.on_wheel_up)
         game_mgr.event_mgr.add(WHEEL_DOWN_PRESS, self.on_wheel_down)

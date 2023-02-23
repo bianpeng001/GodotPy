@@ -9,7 +9,8 @@ class AnimTest(NodeObject):
         super().__init__()
 
     def _create(self):
-        connect(self.get_node(), "ready", self._ready)
+        #connect(self.get_node(), "ready", self._ready)
+        self.get_obj().connect("ready", self._ready)
 
     def _ready(self):
         anim_player = find_node2(Node.get_parent(self.get_node()), "Model/AnimationPlayer")
@@ -18,7 +19,8 @@ class AnimTest(NodeObject):
 
 class TroopAnimTest(NodeObject):
     def _create(self):
-        connect(self.get_node(), "ready", self._ready)
+        #connect(self.get_node(), "ready", self._ready)
+        self.get_obj().connect("ready", self._ready)
 
     def _ready(self):
         node = Node.get_parent(self.get_node())

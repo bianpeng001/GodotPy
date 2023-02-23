@@ -15,7 +15,8 @@ class RaycastMgr(NodeObject):
         self.reqs = []
     
     def _create(self):
-        set_process(self.get_node(), physics=True)
+        #set_process(self.get_node(), physics=True)
+        self.get_obj().set_process(physics=True)
         pass
 
     def on_mouse_click(self):
