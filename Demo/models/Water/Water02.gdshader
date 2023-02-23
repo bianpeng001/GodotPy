@@ -2,7 +2,9 @@ shader_type spatial;
 render_mode skip_vertex_transform;
 
 // 这个用来做固定的UV，没有做时间偏移
-// 用来做一点点溶解的效果，波浪破碎感
+// 用来做一点点溶解的效果，波浪破碎感，
+// 破浪的白沫在漂移过程里，形状发生变化，但又是连续
+// 跟例子比较，节省了一个溶解图
 varying vec2 UV0;
 
 void vertex() {
