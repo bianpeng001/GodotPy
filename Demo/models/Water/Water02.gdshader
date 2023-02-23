@@ -6,7 +6,10 @@ void vertex() {
 	VERTEX = (MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	NORMAL = normalize((MODELVIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
 	
-	UV = vec2(VERTEX.x * 0.3, VERTEX.z*0.13 + TIME*0.1 );
+	// tile
+	UV = vec2(VERTEX.x * 0.3, VERTEX.z * 0.05);
+	//# uv move by time
+	UV.y += TIME*0.03;
 }
 
 uniform sampler2D noise_tex;
