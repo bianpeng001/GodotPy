@@ -13,7 +13,7 @@ offset_right = 1152.0
 offset_bottom = 50.0
 color = Color(0.188235, 0.188235, 0.188235, 0.941176)
 
-[node name="SysBtn" type="TextureButton" parent="."]
+[node name="BtnSys" type="TextureButton" parent="."]
 offset_left = 1115.0
 offset_top = 5.0
 offset_right = 1145.0
@@ -64,3 +64,13 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 28
 text = "fps:0 dc:0"
+
+[node name="BtnSys2" type="Button" parent="."]
+offset_left = 1080.0
+offset_top = 4.0
+offset_right = 1110.0
+offset_bottom = 46.0
+theme = ExtResource("5_dnccb")
+theme_override_font_sizes/font_size = 16
+text = "系
+统"

@@ -8,14 +8,14 @@
 
 [node name="Panel" type="Panel" parent="."]
 offset_top = 34.0
-offset_right = 500.0
+offset_right = 680.0
 offset_bottom = 434.0
 
 [node name="BtnClose" type="TextureButton" parent="Panel"]
 layout_mode = 0
-offset_left = 474.0
+offset_left = 655.0
 offset_top = 5.0
-offset_right = 538.0
+offset_right = 719.0
 offset_bottom = 69.0
 scale = Vector2(0.3, 0.3)
 texture_normal = ExtResource("1_2nwp5")
@@ -24,12 +24,36 @@ texture_hover = ExtResource("2_vthb4")
 
 [node name="Label" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 109.0
-offset_top = 230.0
-offset_right = 320.0
-offset_bottom = 286.0
+offset_left = 118.0
+offset_top = 337.0
+offset_right = 329.0
+offset_bottom = 393.0
 theme = ExtResource("3_we820")
 text = "臧柯,马日谛,张𫖮,宇文邕"
+
+[node name="PageNong" type="PanelContainer" parent="Panel"]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = 35.0
+offset_right = 490.0
+offset_bottom = 388.0
+
+[node name="PageShang" type="PanelContainer" parent="Panel"]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = 35.0
+offset_right = 490.0
+offset_bottom = 388.0
+
+[node name="PageJiang" type="PanelContainer" parent="Panel"]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = 35.0
+offset_right = 490.0
+offset_bottom = 388.0
 
 [node name="TabBar" type="TabBar" parent="."]
 offset_right = 300.0

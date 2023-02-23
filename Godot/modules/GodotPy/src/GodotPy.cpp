@@ -24,6 +24,7 @@
 #include "scene/2d/node_2d.h"
 #include "scene/gui/control.h"
 #include "scene/gui/label.h"
+#include "scene/gui/tab_bar.h"
 
 #include "scene/resources/packed_scene.h"
 
@@ -106,6 +107,7 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 			ClassTypeDict[StringName("CanvasItem")] = ++id_seed_2d;
 			ClassTypeDict[StringName("Node2D")] = ++id_seed_2d;
 			ClassTypeDict[StringName("Label")] = ++id_seed_2d;
+			ClassTypeDict[StringName("TabBar")] = ++id_seed_2d;
 		}
 
 		auto &value = ClassTypeDict.get(class_name, Variant(0));
@@ -1138,6 +1140,26 @@ static PyObject *f_label_set_text(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_tabar_get_current_tab(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
+			break;
+		}
+
+		auto tab_bar = GetObjPtr<TabBar>(a_obj);
+		if (!tab_bar) {
+			break;
+		}
+
+		int idx = tab_bar->get_current_tab();
+
+		return PyLong_FromLong((long)idx);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_material_set_albedo_color(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -1299,6 +1321,7 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// label
 	{ "label_set_text", f_label_set_text, METH_VARARGS, NULL },
+	{ "tabbar_get_current_tab", f_tabar_get_current_tab, METH_VARARGS, NULL },
 
 	// particle
 	{ "cpu_particle_set_emitting", f_cpu_particle_set_emitting, METH_VARARGS, NULL },

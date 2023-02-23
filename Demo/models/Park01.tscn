@@ -18,7 +18,7 @@ mesh = ExtResource("1_484tj")
 skeleton = NodePath("../..")
 
 [node name="Bridge01" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.988436, 0, 0.15164, 0, 1, 0, -0.15164, 0, 0.988436, 2.65094, -9.53674e-07, 1.0063)
+transform = Transform3D(0.935882, 0, 0.352315, 0, 1, 0, -0.352315, 0, 0.935882, 2.71008, -9.53674e-07, 1.34333)
 mesh = ExtResource("2_llp2g")
 skeleton = NodePath("../..")
 

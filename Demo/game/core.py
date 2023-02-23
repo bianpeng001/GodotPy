@@ -442,11 +442,11 @@ class FCanvasItem(FNode):
     def set_visible(self, show):
         gp.canvas_item_set_visible(self.get_gdobj(), show)
 
-class FNode2D(FCanvasItem):
-    def set_position(self, x,y):
-        gp.node2d_set_position(self.get_gdobj(), x,y)
+class FControl(FCanvasItem):
+    def get_current_tab(self):
+        return gp.tabbar_get_current_tab(self.get_gdobj())
 
-class FLabel(FCanvasItem):
+class FLabel(FControl):
     def __init__(self):
         super().__init__()
         self.text = None
@@ -457,15 +457,18 @@ class FLabel(FCanvasItem):
         self.text = text
         gp.label_set_text(self.get_gdobj(), text)
 
-class FButton(FCanvasItem):
+class FButton(FControl):
     pass
 
-class FImage(FCanvasItem):
+class FImage(FControl):
     pass
 
-class FPanel(FCanvasItem):
+class FPanel(FControl):
     pass
 
+class FNode2D(FCanvasItem):
+    def set_position(self, x,y):
+        gp.node2d_set_position(self.get_gdobj(), x,y)
    
 # 类型到wrap类的映射
 # 这个wrap的好处就是，利用oop，使得操作的对象上面只有对应类型能用的方法
@@ -502,6 +505,7 @@ FClassMap[7] = FCamera3D
 FClassMap[11] = FCanvasItem
 FClassMap[12] = FNode2D
 FClassMap[13] = FLabel
+FClassMap[14] = FControl
 
 # 大话降龙
 # https://www.mm1316.com/maoxian/dahuajianglong
