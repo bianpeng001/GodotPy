@@ -25,7 +25,7 @@ class Tile:
         return self.col*TILE_SIZE,self.row*TILE_SIZE
 
     def load(self):
-        logutil.debug(f'load tile: ({self.col},{self.row})')
+        log_util.debug(f'load tile: ({self.col},{self.row})')
         
         #pos_x = self.col*TILE_SIZE
         #pos_z = self.row*TILE_SIZE
@@ -95,7 +95,7 @@ class GroundMgr(NodeObject):
         self.get_obj().connect("ready", self._ready)
 
     def _ready(self):
-        logutil.debug('GroundMgr ready')
+        log_util.debug('GroundMgr ready')
 
     def get_tile(self, x, z):
         #col = math.floor((x / TILE_SIZE) + 0.5)
@@ -113,9 +113,7 @@ class GroundMgr(NodeObject):
         return self.tile_dict.get((col, row), None)
 
     def update(self, delta_time):
-        center = game_mgr.camera_mgr.center
-        x = center.x
-        z = center.z
+        x, z = game_mgr.camera_mgr.center.get_xz()
 
         cx = math.floor((x / TILE_SIZE) + 0.5)
         cz = math.floor((z / TILE_SIZE) + 0.5)

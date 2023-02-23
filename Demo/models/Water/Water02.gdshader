@@ -3,7 +3,7 @@ render_mode skip_vertex_transform;
 
 // 这个用来做固定的UV，没有做时间偏移
 // 用来做一点点溶解的效果，波浪破碎感，
-// 破浪的白沫在漂移过程里，形状发生变化，但又是连续
+// 波浪的反光白块在漂移过程里，形状发生变化，但又是连续
 // 跟例子比较，节省了一个溶解图
 varying vec2 UV0;
 
@@ -26,6 +26,7 @@ uniform float surface_cutoff = 0.65;
 void fragment() {
 	vec2 uv2 = UV;
 	uv2.x += texture(noise_tex, UV0).x * 0.05;
+	
 	float noise_sample = texture(noise_tex, uv2).x;
 	float surface_noise = noise_sample > surface_cutoff ? 1.0 : 0.0;
 	

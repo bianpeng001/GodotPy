@@ -144,12 +144,16 @@ class Vector3:
         return v
 
     def clone(self):
-        v = Vector3()
-        v.set(self.x, self.y, self.z)
-        return v
+        return Vector3(self.x, self.y, self.z)
 
     def get_xyz(self):
         return self.x, self.y, self.z
+
+    def get_xy(self):
+        return self.x, self.y
+
+    def get_xz(self):
+        return self.x, self.z
 
 
 Vector3.x_axis = Vector3(1, 0, 0)
