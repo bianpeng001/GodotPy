@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://vnh10gues45c"]
+
+[ext_resource type="Shader" path="res://models/Water/Water02.gdshader" id="1_r6d46"]
+[ext_resource type="Texture2D" uid="uid://blgwi34xg3pfq" path="res://effects/PerlinNoise.png" id="2_caw6s"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_r6d46")
+shader_parameter/base_color = Vector3(0, 0.576, 0.836)
+shader_parameter/surface_cutoff = 0.65
+shader_parameter/noise_tex = ExtResource("2_caw6s")

@@ -1,8 +1,10 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://ceumarsrls14p"]
 
 [ext_resource type="Shader" path="res://models/Color/FlagColor.gdshader" id="1_m2byx"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_m2byx")
+shader_parameter/_speed = 0.7
+shader_parameter/_angle = 10.0
 shader_parameter/_color = Color(1, 0, 0, 1)

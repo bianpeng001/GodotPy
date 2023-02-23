@@ -178,6 +178,8 @@ void fragment() {
 ```
 [Perlin Noise Texture](http://kitfox.com/projects/perlinNoiseMaker)
 
+[Toon Water](https://roystan.net/articles/toon-water)
+
 ### post processing
 Camera上新建一个Enviroment，里面配置内置的后处理效果。
 glow,fog,volume fog...[详细看这里](https://docs.godotengine.org/en/stable/tutorials/3d/environment_and_post_processing.html)，还有[自定义的后处理](
