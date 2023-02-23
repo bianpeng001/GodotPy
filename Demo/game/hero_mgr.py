@@ -2,8 +2,7 @@
 # 2023年2月9日 bianpeng
 #
 
-import random
-
+from game.core import *
 from game.game_mgr import game_mgr
 
 # Hero在都是纯数据，不存在实体
@@ -88,7 +87,7 @@ class HeroMgr:
         self.hero_dict[hero.hero_id] = hero
 
         for i in range(len(hero.attr)):
-            hero.attr[i] = random.randint(10, 100)
+            hero.attr[i] = random_int(10, 100)
 
         hero.hero_name = f'武将_{hero.hero_id}'
 
@@ -117,7 +116,7 @@ if __name__ == '__main__':
     def decode_hero(data):
         obj = Hero()
         (obj.hero_id, obj.name, obj.gender,\
-                obj.born_year) = data
+            obj.born_year) = data
         return obj
 
     b = decode_hero(json.loads(s))

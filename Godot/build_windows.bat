@@ -20,18 +20,19 @@ goto :end
 
 :gd
 @rem scons p=windows vsproj=yes bits=64 -j6 target=editor
-scons p=windows vsproj=yes bits=64 -j6 target=editor dev_build=true
 @rem scons p=windows tools=no bits=64 -j6 target=template_release
+scons p=windows vsproj=yes bits=64 -j6 target=editor dev_build=true
 goto :end
 
 
 :publish
-set WORK_DIR=d:\OpenSource\GodotPy
-scons p=windows tools=no bits=64 -j6 target=template_release
-bin\godot.windows.editor.dev.x86_64.console.exe --path %WORK_DIR%\Demo -w --export-pack "Windows Desktop" %WORK_DIR%\Build\Demo.pck
-copy /Y bin\python3.dll %WORK_DIR%\Build\python3.dll
-copy /Y bin\godot.windows.template_release.x86_64.exe %WORK_DIR%\Build\Demo.exe
+set DEMO_DIR=d:\OpenSource\GodotPy\Demo
+set BUILD_DIR=d:\OpenSource\GodotPy\Build
 
+scons p=windows tools=no bits=64 -j6 target=template_release
+bin\godot.windows.editor.dev.x86_64.console.exe --path %DEMO_DIR% -w --export-pack "Windows Desktop" %BUILD_DIR%\Demo.pck
+copy /Y bin\python3.dll %BUILD_DIR%\python3.dll
+copy /Y bin\godot.windows.template_release.x86_64.exe %BUILD_DIR%\Demo.exe
 goto :end
 
 :end

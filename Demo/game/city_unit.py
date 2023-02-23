@@ -22,31 +22,34 @@ class CityUnit(Unit):
         self.radius = 3
         self.unit_name = new_city_name()
 
+        # 军团，城市组合，某个城作为首府，控制周围的其他城
+        self.group_main_city_id = 0
+
         # 城内武将
         self.hero_list = []
 
-        # 资源上限
-        self.max_amount_limit = 1000000 + random.randint(0, 10)*20000
+        # 单个资源上限
+        self.max_amount_limit = 1000000 + random_int(0, 50)*10000
         
         # 资源
-        self.army_amount = random_range(100, 1000)
-        self.rice_amount = random_range(100, 1000)
-        self.iron_amount = random_range(100, 1000)
-        self.stone_amount = random_range(100, 1000)
-        self.wood_amount = random_range(100, 1000)
-        self.money_amount = random_range(100, 1000)
+        self.army_amount = random_int(100, 1000)
+        self.rice_amount = random_int(100, 1000)
+        self.iron_amount = random_int(100, 1000)
+        self.stone_amount = random_int(100, 1000)
+        self.wood_amount = random_int(100, 1000)
+        self.money_amount = random_int(100, 1000)
 
         self.army_moral = 100
 
         # 资源增长率
-        self.growth_rate = random_range(10, 30)
+        self.growth_rate = random_int(10, 30)
 
     def init(self):
         for i in range(5):
             hero = game_mgr.hero_mgr.new_hero()
             hero.city_id = self.unit_id
             hero.hero_name = new_hero_name()
-            logutil.debug('new hero', self.unit_name, hero.hero_name)
+            log_util.debug('new hero', self.unit_name, hero.hero_name)
             
             self.hero_list.append(hero.hero_id)
 

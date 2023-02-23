@@ -241,6 +241,9 @@ def random_max(max):
 def random_range(min, max):
     return min + random.random() * (max - min)
 
+def random_int(min, max):
+    return random.randint(min, max)
+
 def print_line(*args, **kwargs):
     if not args:
         return
