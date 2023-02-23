@@ -176,6 +176,7 @@ void fragment() {
 	ALBEDO = _color;
 }
 ```
+[Perlin Noise Texture](http://kitfox.com/projects/perlinNoiseMaker)
 
 ### post processing
 Camera上新建一个Enviroment，里面配置内置的后处理效果。
@@ -196,6 +197,8 @@ bool Control::_set(const StringName &p_name, const Variant &p_value) {
 
 ### UI开发
 ui自动适配屏幕大小，在Project Settings > Window > Stretch。Mode:canvas_items, Aspect=keep。
+
+[中文字体](https://fonts.google.com/?subset=chinese-simplified&noto.script=Hans)
 
 ### 内存管理
 TODO：现在是放在一个列表，出场景统一清理。以后要做成跟着python的GC走, 可能要给Python一个弱引用。目前是用Capsule上面做的，后面自己做一个容器。
@@ -259,4 +262,5 @@ Godot里面Object和ObjectId，ObjectId应该是一个不会重复的值。如�
 
 ###
 为了代码清晰，后面还是需要做一下类型映射。c++对象扔到python这边的时候，创建一个对应的类型，方便定义方法。这块最好是自动生成。
+
 
