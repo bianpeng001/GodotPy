@@ -1,5 +1,10 @@
 @rem scons -j6 platform=windows vsproj=yes bits=64 target=editor
 
+set cmd=%1
+
+echo %cmd%
+IF "%cmd%" == "publish" ( goto :publish )
+
 goto :gd
 @rem goto :mono
 @rem goto :publish
