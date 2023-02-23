@@ -154,6 +154,8 @@ Modules = [
     'Modules/sha2module.c',
     'Modules/_sha3/sha3module.c',
     'Modules/_hacl/Hacl_Streaming_SHA2.c',
+    'Modules/_hacl/Hacl_Hash_MD5.c',
+    'Modules/_hacl/Hacl_Hash_SHA1.c',
     'Modules/_statisticsmodule.c',
     'Modules/_typingmodule.c',
     'Modules/mathmodule.c',
