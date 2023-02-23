@@ -180,14 +180,14 @@ class BaseMgr:
 class NodeObject:
     def __init__(self):
         # 记录一个node的指针
-        self.node_capsule = None
+        #self.node_capsule = None
         self._gdobj = None
 
-    def _get_node(self):
-        return self.node_capsule
+    # def _get_node(self):
+    #     return self.node_capsule
 
-    def get_node(self):
-        return self.node_capsule
+    # def get_node(self):
+    #     return self.node_capsule
 
     # start gdobj
 
@@ -250,42 +250,42 @@ def print_line(*args, **kwargs):
         a = ' '.join([str(x) for x in args])
         gp.print_line(a)
 
-def set_process(node, process=False, input=False, physics=False):
-    if process:
-        gp.set_process(node, True)
+# def set_process(node, process=False, input=False, physics=False):
+#     if process:
+#         gp.set_process(node, True)
     
-    if input:
-        gp.set_process_input(node, True)
+#     if input:
+#         gp.set_process_input(node, True)
 
-    if physics:
-        gp.set_physics_process(node, True)
+#     if physics:
+#         gp.set_physics_process(node, True)
 
-def connect(node, signal, callback):
-    gp.connect(node, signal, callback)
+# def connect(node, signal, callback):
+#     gp.connect(node, signal, callback)
 
-def get_position(node):
-    return gp.get_position(node)
+# def get_position(node):
+#     return gp.get_position(node)
 
-def set_position(node, x, y, z):
-    gp.set_position(node, x, y, z)
+# def set_position(node, x, y, z):
+#     gp.set_position(node, x, y, z)
 
-def set_scale(node, x, y, z):
-    gp.set_scale(node, x, y, z)
+# def set_scale(node, x, y, z):
+#     gp.set_scale(node, x, y, z)
 
-def look_at(node, x, y, z):
-    gp.look_at(node, x, y, z)
+# def look_at(node, x, y, z):
+#     gp.look_at(node, x, y, z)
 
-def screen_to_world(camera, x, y):
-    return gp.screen_to_world(camera, x, y)
+# def screen_to_world(camera, x, y):
+#     return gp.screen_to_world(camera, x, y)
 
-def world_to_screen(camera, x, y, z):
-    return gp.world_to_screen(camera, x, y, z)
+# def world_to_screen(camera, x, y, z):
+#     return gp.world_to_screen(camera, x, y, z)
 
 def get_py_object(node):
     return gp.get_py_object(node)
 
-def get_parent(node):
-    return gp.get_parent(node)
+# def get_parent(node):
+#     return gp.get_parent(node)
 
 def raycast_shape(camera, x,y,z):
     return gp.raycast_shape(camera, x,y,z)
@@ -293,8 +293,6 @@ def raycast_shape(camera, x,y,z):
 def set_surface_color(node, index, r, g, b):
     gp.material_set_albedo_color(node, index, r, g, b)
 
-def mesh_instance3d_load_material(node, index, path):
-    gp.mesh_instance3d_load_material(node, index, path)
 
 #------------------------------------------------------------
 # api
@@ -426,7 +424,7 @@ class FNode3D(FNode):
 
     @classmethod
     def instantiate(cls, path):
-        gdobj = gp.instantiate2(path)
+        gdobj = gp.instantiate(path)
         return GetWrappedObject(gdobj)
 
 class FVisualInstance3D(FNode3D):

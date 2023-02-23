@@ -304,7 +304,7 @@ public:
 };
 
 // 常量区域
-static const char *c_capsule_name = "node_capsule";
+//static const char *c_capsule_name = "node_capsule";
 static const char *c_gdobj_name = "_gdobj";
 static const char *c_node_name = "node";
 
@@ -366,21 +366,21 @@ inline T *GetObjPtr(PyObject *o) {
 // 创建一个FCapsuleObject，用来存放PyCapsule*，记录了Node，对应的PyObject
 // 并存在Node里面，以供后用，
 // TODO: 记得销毁
-static PyObject* get_or_create_capsule(Node* a_node) {
-	auto v = a_node->get(c_capsule_name);
-	
-	if (v.is_null()) {
-		PyObject *py_capsule = PyCapsule_New(a_node, c_node_name, NULL);
-
-		auto ptr = memnew(FCapsuleObject(py_capsule));
-		FCapsuleObject::instance_list.push_back(ptr);
-
-		v = ptr;
-		a_node->set(c_capsule_name, v);
-	}
-	auto obj = static_cast<Object *>(v);
-	return static_cast<FCapsuleObject *>(obj)->GetPyObject();
-}
+//static PyObject* get_or_create_capsule(Node* a_node) {
+//	auto v = a_node->get(c_capsule_name);
+//	
+//	if (v.is_null()) {
+//		PyObject *py_capsule = PyCapsule_New(a_node, c_node_name, NULL);
+//
+//		auto ptr = memnew(FCapsuleObject(py_capsule));
+//		FCapsuleObject::instance_list.push_back(ptr);
+//
+//		v = ptr;
+//		a_node->set(c_capsule_name, v);
+//	}
+//	auto obj = static_cast<Object *>(v);
+//	return static_cast<FCapsuleObject *>(obj)->GetPyObject();
+//}
 // 作为属性，存在对象上面
 class FPyGDObjSlot : public Object {
 private:
@@ -689,8 +689,14 @@ static PyObject *f_get_child_at(PyObject *module, PyObject *args) {
 		}
 
 		auto child_node = node->get_child(a_index);
+		if (!child_node) {
+			break;
+		}
 
-		PyObject *obj = get_or_create_capsule(child_node);
+		//PyObject *obj = get_or_create_capsule(child_node);
+		//Py_INCREF(obj);
+		//return obj;
+		PyObject *obj = FPyGDObjSlot::GetPyGDObj(child_node);
 		Py_INCREF(obj);
 		return obj;
 
@@ -1087,33 +1093,33 @@ static PyObject *f_raycast_shape(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+//static PyObject *f_instantiate(PyObject *module, PyObject *args) {
+//	do {
+//		const char *a_path;
+//
+//		if (!PyArg_ParseTuple(args, "s", &a_path)) {
+//			break;
+//		}
+//		const String &path = String::utf8(a_path);
+//		Ref<PackedScene> res = ResourceLoader::load(path);
+//		if (res.is_null()) {
+//			break;
+//		}
+//		auto node = Object::cast_to<Node3D>(res->instantiate(PackedScene::GEN_EDIT_STATE_DISABLED));
+//			
+//		auto st = SceneTree::get_singleton();
+//		auto scene = st->get_current_scene();
+//		scene->add_child(node);
+//
+//		PyObject *obj = get_or_create_capsule(node);
+//		Py_INCREF(obj);
+//		return obj;
+//
+//	} while (0);
+//
+//	Py_RETURN_NONE;
+//}
 static PyObject *f_instantiate(PyObject *module, PyObject *args) {
-	do {
-		const char *a_path;
-
-		if (!PyArg_ParseTuple(args, "s", &a_path)) {
-			break;
-		}
-		const String &path = String::utf8(a_path);
-		Ref<PackedScene> res = ResourceLoader::load(path);
-		if (res.is_null()) {
-			break;
-		}
-		auto node = Object::cast_to<Node3D>(res->instantiate(PackedScene::GEN_EDIT_STATE_DISABLED));
-			
-		auto st = SceneTree::get_singleton();
-		auto scene = st->get_current_scene();
-		scene->add_child(node);
-
-		PyObject *obj = get_or_create_capsule(node);
-		Py_INCREF(obj);
-		return obj;
-
-	} while (0);
-
-	Py_RETURN_NONE;
-}
-static PyObject *f_instantiate2(PyObject *module, PyObject *args) {
 	do {
 		const char *a_path;
 
@@ -1150,27 +1156,27 @@ static PyObject *f_get_delta_time(PyObject *module, PyObject *args) {
 	return Py_BuildValue("f", delta);
 }
 // FPyObject节点，获得对应的PyObject对象
-static PyObject *f_get_py_object(PyObject *module, PyObject *args) {
-	do {
-		PyObject *a_node;
-		if (!PyArg_ParseTuple(args, "O", &a_node)) {
-			break;
-		}
-
-		auto node = GetCapsulePointer<FPyObject>(a_node);
-		if (!node) {
-			break;
-		}
-
-		auto obj = node->get_py_object();
-		// 这里需要返回，所以得+1
-		Py_INCREF(obj);
-		return obj;
-		
-	} while (0);
-
-	Py_RETURN_NONE;
-}
+//static PyObject *f_get_py_object(PyObject *module, PyObject *args) {
+//	do {
+//		PyObject *a_node;
+//		if (!PyArg_ParseTuple(args, "O", &a_node)) {
+//			break;
+//		}
+//
+//		auto node = GetCapsulePointer<FPyObject>(a_node);
+//		if (!node) {
+//			break;
+//		}
+//
+//		auto obj = node->get_py_object();
+//		// 这里需要返回，所以得+1
+//		Py_INCREF(obj);
+//		return obj;
+//		
+//	} while (0);
+//
+//	Py_RETURN_NONE;
+//}
 static PyObject *f_label3d_set_text(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -1384,11 +1390,10 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// resource
 	{ "instantiate", f_instantiate, METH_VARARGS, NULL },
-	{ "instantiate2", f_instantiate2, METH_VARARGS, NULL },
 	{ "mesh_instance3d_load_material", f_mesh_instance3d_load_material, METH_VARARGS, NULL }, 
 
 	// godotpy
-	{ "get_py_object", f_get_py_object, METH_VARARGS, NULL },
+	//{ "get_py_object", f_get_py_object, METH_VARARGS, NULL },
 
 	// over
 	{ NULL, NULL, 0, NULL }
