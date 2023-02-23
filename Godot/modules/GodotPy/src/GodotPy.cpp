@@ -315,40 +315,6 @@ static T *GetCapsulePointer(PyObject *capsule) {
 	return Object::cast_to<T>(node);
 }
 
-/// <summary>
-/// 用来存一个PyCapsule指针, 在离开场景时要清空
-/// </summary>
-class FCapsuleObject : public Object {
-public:
-	PyObject *py_capsule;
-
-	FCapsuleObject(PyObject *a_capsule) :
-			py_capsule(a_capsule) {
-		
-	}
-	virtual ~FCapsuleObject() {
-#ifdef XXX
-		auto node = reinterpret_cast<Node *>(PyCapsule_GetPointer(py_capsule, c_node_name));
-		print_line(vformat("destroy FCapsuleObject: %s(%d) of %s",
-				node->get_name(),
-				(uint64_t)this->get_instance_id(),
-				node->get_class_name()));
-
-		const int refcount = py_capsule->ob_refcnt;
-		print_line(vformat("refcount=%d", refcount));
-#endif
-
-		if (py_capsule) {
-			GP_DECREF(py_capsule);
-		}
-	}
-	PyObject* GetPyObject() {
-		return py_capsule;
-	}
-	static List<FCapsuleObject *> instance_list;
-};
-List<FCapsuleObject *> FCapsuleObject::instance_list;
-
 // 这是一个兼容的写法
 template<typename T>
 inline T *GetObjPtr(PyObject *o) {
@@ -363,24 +329,6 @@ inline T *GetObjPtr(PyObject *o) {
 	return nullptr;
 }
 
-// 创建一个FCapsuleObject，用来存放PyCapsule*，记录了Node，对应的PyObject
-// 并存在Node里面，以供后用，
-// TODO: 记得销毁
-//static PyObject* get_or_create_capsule(Node* a_node) {
-//	auto v = a_node->get(c_capsule_name);
-//	
-//	if (v.is_null()) {
-//		PyObject *py_capsule = PyCapsule_New(a_node, c_node_name, NULL);
-//
-//		auto ptr = memnew(FCapsuleObject(py_capsule));
-//		FCapsuleObject::instance_list.push_back(ptr);
-//
-//		v = ptr;
-//		a_node->set(c_capsule_name, v);
-//	}
-//	auto obj = static_cast<Object *>(v);
-//	return static_cast<FCapsuleObject *>(obj)->GetPyObject();
-//}
 // 作为属性，存在对象上面
 class FPyGDObjSlot : public Object {
 private:
@@ -1093,32 +1041,6 @@ static PyObject *f_raycast_shape(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
-//static PyObject *f_instantiate(PyObject *module, PyObject *args) {
-//	do {
-//		const char *a_path;
-//
-//		if (!PyArg_ParseTuple(args, "s", &a_path)) {
-//			break;
-//		}
-//		const String &path = String::utf8(a_path);
-//		Ref<PackedScene> res = ResourceLoader::load(path);
-//		if (res.is_null()) {
-//			break;
-//		}
-//		auto node = Object::cast_to<Node3D>(res->instantiate(PackedScene::GEN_EDIT_STATE_DISABLED));
-//			
-//		auto st = SceneTree::get_singleton();
-//		auto scene = st->get_current_scene();
-//		scene->add_child(node);
-//
-//		PyObject *obj = get_or_create_capsule(node);
-//		Py_INCREF(obj);
-//		return obj;
-//
-//	} while (0);
-//
-//	Py_RETURN_NONE;
-//}
 static PyObject *f_instantiate(PyObject *module, PyObject *args) {
 	do {
 		const char *a_path;
@@ -1331,26 +1253,27 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "set_window_size", f_set_window_size, METH_VARARGS, NULL },
 
 	// node
-	{ "find_node", f_find_node, METH_VARARGS, NULL },
-	{ "get_child_count", f_get_child_count, METH_VARARGS, NULL },
-	{ "get_child_at", f_get_child_at, METH_VARARGS, NULL },
 	{ "set_process", f_set_process, METH_VARARGS, NULL },
 	{ "set_process_input", f_set_process_input, METH_VARARGS, NULL },
 	{ "set_physics_process", f_set_physics_process, METH_VARARGS, NULL },
-	{ "connect", f_connect, METH_VARARGS, NULL },
+	{ "destroy", f_destroy, METH_VARARGS, NULL },
+
+	{ "find_node", f_find_node, METH_VARARGS, NULL },
+	{ "get_child_count", f_get_child_count, METH_VARARGS, NULL },
+	{ "get_child_at", f_get_child_at, METH_VARARGS, NULL },
 	{ "get_parent", f_get_parent, METH_VARARGS, NULL },
 	{ "reparent", f_reparent, METH_VARARGS, NULL },
-	{ "load_scene", f_load_scene, METH_VARARGS, NULL },
-	{ "destroy", f_destroy, METH_VARARGS, NULL },
-	{ "set_visible", f_set_visible, METH_VARARGS, NULL },
 
+	{ "connect", f_connect, METH_VARARGS, NULL },
+	{ "set_visible", f_set_visible, METH_VARARGS, NULL },
+	
 	// node3d
 	{ "set_position", f_set_position, METH_VARARGS, NULL },
 	{ "get_position", f_get_position, METH_VARARGS, NULL },
 	{ "set_rotation", f_set_rotation, METH_VARARGS, NULL },
-	{ "look_at", f_look_at, METH_VARARGS, NULL },
 	{ "get_rotation", f_get_rotation, METH_VARARGS, NULL },
 	{ "set_scale", f_set_scale, METH_VARARGS, NULL },
+	{ "look_at", f_look_at, METH_VARARGS, NULL },
 	{ "local_to_world", f_local_to_world, METH_VARARGS, NULL },
 	{ "world_to_local", f_world_to_local, METH_VARARGS, NULL },
 
@@ -1384,13 +1307,14 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "debug_get_monitor", f_debug_get_monitor, METH_VARARGS, NULL },
 
 	// mesh instance
+	{ "mesh_instance3d_load_material", f_mesh_instance3d_load_material, METH_VARARGS, NULL },
 
 	// material
 	{ "material_set_albedo_color", f_material_set_albedo_color, METH_VARARGS, NULL },
 
 	// resource
 	{ "instantiate", f_instantiate, METH_VARARGS, NULL },
-	{ "mesh_instance3d_load_material", f_mesh_instance3d_load_material, METH_VARARGS, NULL }, 
+	{ "load_scene", f_load_scene, METH_VARARGS, NULL },
 
 	// godotpy
 	//{ "get_py_object", f_get_py_object, METH_VARARGS, NULL },
@@ -1673,14 +1597,7 @@ void FPyObject::_process() {
 	} while (0);
 }
 void FPyObject::_exit_tree() {
-	// TODO: 暂时放在这里清空
-	auto& list = FCapsuleObject::instance_list;
-	if (list.size() > 0) {
-		for (auto it : list) {
-			memdelete(it);
-		}
-		list.clear();
-	}
+	// TODO:
 }
 void FPyObject::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_python_path", "python_module"), &FPyObject::set_python_path);
