@@ -51,8 +51,8 @@ class EffectMgr:
 
         effect.node.set_position(x,y,z)
         effect.set_visible(True)
+        effect.node.look_at(x1,y1,z1)
         ps = effect.node.find_node('CPUParticles3D')
-        ps.look_at(x1,y1,z1)
         ps.set_emitting(True)
 
         self.add(effect)

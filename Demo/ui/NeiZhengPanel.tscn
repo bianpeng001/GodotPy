@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://csvbr8jlvrect"]
+
+[ext_resource type="Texture2D" uid="uid://c4hqyefqdw1o" path="res://ui/img/Close.png" id="1_2nwp5"]
+[ext_resource type="Texture2D" uid="uid://dojr4gpmt4yed" path="res://ui/img/Close_hover.png" id="2_vthb4"]
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="3_we820"]
+
+[node name="NeiZhenPanel" type="Node2D"]
+
+[node name="Panel" type="Panel" parent="."]
+offset_top = 34.0
+offset_right = 500.0
+offset_bottom = 434.0
+
+[node name="BtnClose" type="TextureButton" parent="Panel"]
+layout_mode = 0
+offset_left = 474.0
+offset_top = 5.0
+offset_right = 538.0
+offset_bottom = 69.0
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("1_2nwp5")
+texture_pressed = ExtResource("1_2nwp5")
+texture_hover = ExtResource("2_vthb4")
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 109.0
+offset_top = 230.0
+offset_right = 320.0
+offset_bottom = 286.0
+theme = ExtResource("3_we820")
+text = "臧柯,马日谛,张𫖮,宇文邕"
+
+[node name="TabBar" type="TabBar" parent="."]
+offset_right = 300.0
+offset_bottom = 34.0
+theme = ExtResource("3_we820")
+tab_count = 3
+tab_0/title = "农业"
+tab_1/title = "商业"
+tab_2/title = "武将"

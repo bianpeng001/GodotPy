@@ -1053,7 +1053,7 @@ static PyObject *f_instantiate(PyObject *module, PyObject *args) {
 		if (res.is_null()) {
 			break;
 		}
-		auto node = Object::cast_to<Node3D>(res->instantiate(PackedScene::GEN_EDIT_STATE_DISABLED));
+		auto node = Object::cast_to<Node>(res->instantiate(PackedScene::GEN_EDIT_STATE_DISABLED));
 
 		// 添加到场景的根节点下面
 		auto st = SceneTree::get_singleton();

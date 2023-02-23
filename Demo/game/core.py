@@ -401,6 +401,8 @@ class FNode3D(FNode):
         gdobj = gp.instantiate(path)
         return GetWrappedObject(gdobj)
 
+Node3D = FNode3D
+
 class FVisualInstance3D(FNode3D):
     pass
 

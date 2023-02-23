@@ -7,7 +7,8 @@ from game.event_name import SCENE_UNIT_CLICK, LEFT_BUTTON_BEGIN_DRAG, \
         SCENE_GROUND_CLICK
 from game.game_mgr import game_mgr
 
-from game.ui.main_ui_controller import MainUIController
+from game.ui.mainui_controller import MainUIController
+from game.ui.neizheng_controller import NeiZhengController
 
 #
 # ui 管理器
@@ -24,6 +25,16 @@ class UIMgr(NodeObject):
 
         self.tick_time = 0
 
+        self.mainui_panel = None
+        self.mainui_controller = None
+        
+        self.neizheng_panel = None
+        self.neizheng_controller = None
+        
+        self.chuzhan_panel = None
+        
+        self.tansuo_panel = None
+
     def _create(self):
         self.get_obj().connect("ready", self._ready)
 
@@ -32,16 +43,16 @@ class UIMgr(NodeObject):
         game_mgr.event_mgr.add(LEFT_BUTTON_BEGIN_DRAG, self.on_begin_drag)
 
         # init ui
-        main_ui_node = self.get_obj().find_node("MainUI")
-        self.main_ui_controller = MainUIController()
-        self.main_ui_controller.init(main_ui_node)
+        self.mainui_panel = self.get_obj().find_node("MainUI")
+        self.mainui_controller = MainUIController()
+        self.mainui_controller.init(self.mainui_panel)
 
     def _ready(self):
         self.context_menu_node = self.get_obj().find_node("ContextMenu")
         cm = self.context_menu_node
-        cm.find_node('Panel/Button1').connect('pressed', self.on_cm_button1)
-        cm.find_node('Panel/Button2').connect('pressed', self.on_cm_button2)
-        cm.find_node('Panel/Button3').connect('pressed', self.on_cm_button3)
+        cm.find_node('Panel/BtnNeiZheng').connect('pressed', self.on_cm_button1)
+        cm.find_node('Panel/BtnChuZhan').connect('pressed', self.on_cm_button2)
+        cm.find_node('Panel/BtnTanSuo').connect('pressed', self.on_cm_button3)
         pass
 
     def update(self, delta_time):
@@ -76,7 +87,17 @@ class UIMgr(NodeObject):
     def on_cm_button1(self):
         self.close(self.context_menu_node)
         print_line(f'{self.context_unit.unit_name} neizheng')
-    
+
+        if not self.neizheng_panel:
+            self.neizheng_panel = Node3D.instantiate('res://ui/NeiZhengPanel.tscn')
+            self.neizheng_panel.reparent(self.get_obj())
+
+            self.neizheng_controller = NeiZhengController()
+            self.neizheng_controller.setup(self.neizheng_panel)
+
+        self.neizheng_panel.set_visible(True)
+        self.neizheng_panel.set_position(250, 100)
+
     # 出战
     def on_cm_button2(self):
         self.close(self.context_menu_node)
