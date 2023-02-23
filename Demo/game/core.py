@@ -49,8 +49,9 @@ class Ray:
 # Vector3
 class Vector3:
     up = None
-    right = None
-    forward = None
+    x_ais = None
+    y_ais = None
+    z_ais = None
 
     def __init__(self, x=0, y=0, z=0):
         self.x = x
@@ -150,7 +151,12 @@ class Vector3:
     def get_xyz(self):
         return self.x, self.y, self.z
 
-Vector3.up = Vector3(0, 1, 0)
+
+Vector3.x_axis = Vector3(1, 0, 0)
+Vector3.y_axis = Vector3(0, 1, 0)
+Vector3.z_axis = Vector3(0, 0, 1)
+
+Vector3.up = Vector3.y_axis
 
 #------------------------------------------------------------
 # pattern
@@ -179,15 +185,7 @@ class BaseMgr:
 # 对应于godot场景树的节点，的容器
 class NodeObject:
     def __init__(self):
-        # 记录一个node的指针
-        #self.node_capsule = None
         self._gdobj = None
-
-    # def _get_node(self):
-    #     return self.node_capsule
-
-    # def get_node(self):
-    #     return self.node_capsule
 
     # start gdobj
 
@@ -250,39 +248,8 @@ def print_line(*args, **kwargs):
         a = ' '.join([str(x) for x in args])
         gp.print_line(a)
 
-# def set_process(node, process=False, input=False, physics=False):
-#     if process:
-#         gp.set_process(node, True)
-    
-#     if input:
-#         gp.set_process_input(node, True)
-
-#     if physics:
-#         gp.set_physics_process(node, True)
-
-# def connect(node, signal, callback):
-#     gp.connect(node, signal, callback)
-
-# def get_position(node):
-#     return gp.get_position(node)
-
-# def set_position(node, x, y, z):
-#     gp.set_position(node, x, y, z)
-
-# def set_scale(node, x, y, z):
-#     gp.set_scale(node, x, y, z)
-
-# def look_at(node, x, y, z):
-#     gp.look_at(node, x, y, z)
-
-# def screen_to_world(camera, x, y):
-#     return gp.screen_to_world(camera, x, y)
-
-# def world_to_screen(camera, x, y, z):
-#     return gp.world_to_screen(camera, x, y, z)
-
-def get_py_object(node):
-    return gp.get_py_object(node)
+# def get_py_object(node):
+#     return gp.get_py_object(node)
 
 # def get_parent(node):
 #     return gp.get_parent(node)
