@@ -11,11 +11,13 @@ class CityMenuController:
         pass
 
     def setup(self, ui_obj):
+        from game.event_name import PRESSED
+
         self.ui_obj = ui_obj
 
-        self.ui_obj.find_node('Panel/BtnNeiZheng').connect('pressed', self.on_neizheng)
-        self.ui_obj.find_node('Panel/BtnChuZhan').connect('pressed', self.on_chuzhan)
-        self.ui_obj.find_node('Panel/BtnTanSuo').connect('pressed', self.on_tansuo)
+        self.ui_obj.find_node('Panel/BtnNeiZheng').connect(PRESSED, self.on_neizheng)
+        self.ui_obj.find_node('Panel/BtnChuZhan').connect(PRESSED, self.on_chuzhan)
+        self.ui_obj.find_node('Panel/BtnTanSuo').connect(PRESSED, self.on_tansuo)
 
     # 内政
     def on_neizheng(self):
