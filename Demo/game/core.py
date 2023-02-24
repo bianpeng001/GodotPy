@@ -467,8 +467,14 @@ class FCanvasItem(FNode):
         gp.canvas_item_set_visible(self.get_gdobj(), visible)
 
 class FControl(FCanvasItem):
+    pass
+
+class FTabBar(FControl):
     def get_current_tab(self):
         return gp.tabbar_get_current_tab(self.get_gdobj())
+
+    def set_current_tab(self, index):
+        gp.tabbar_set_current_tab(self.get_gdobj(), index)
 
 class FLabel(FControl):
     def __init__(self):
@@ -532,6 +538,7 @@ FClassMap[11] = FCanvasItem
 FClassMap[12] = FNode2D
 FClassMap[13] = FLabel
 FClassMap[14] = FControl
+FClassMap[15] = FTabBar
 
 # 大话降龙
 # https://www.mm1316.com/maoxian/dahuajianglong

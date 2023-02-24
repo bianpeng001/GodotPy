@@ -22,38 +22,56 @@ texture_normal = ExtResource("1_2nwp5")
 texture_pressed = ExtResource("1_2nwp5")
 texture_hover = ExtResource("2_vthb4")
 
-[node name="Label" type="Label" parent="Panel"]
+[node name="TabNong" type="Control" parent="Panel"]
+visible = false
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 40.0
+offset_right = 670.0
+offset_bottom = 390.0
+
+[node name="Button" type="Button" parent="Panel/TabNong"]
 layout_mode = 0
-offset_left = 118.0
-offset_top = 337.0
-offset_right = 329.0
-offset_bottom = 393.0
+offset_left = 52.0
+offset_top = 27.0
+offset_right = 200.0
+offset_bottom = 90.0
 theme = ExtResource("3_we820")
-text = "臧柯,马日谛,张𫖮,宇文邕"
+text = "1"
 
-[node name="PageNong" type="PanelContainer" parent="Panel"]
+[node name="TabShang" type="Control" parent="Panel"]
 visible = false
-layout_mode = 0
+anchors_preset = 0
 offset_left = 10.0
-offset_top = 35.0
-offset_right = 490.0
-offset_bottom = 388.0
+offset_top = 40.0
+offset_right = 670.0
+offset_bottom = 390.0
 
-[node name="PageShang" type="PanelContainer" parent="Panel"]
-visible = false
+[node name="Button" type="Button" parent="Panel/TabShang"]
 layout_mode = 0
-offset_left = 10.0
-offset_top = 35.0
-offset_right = 490.0
-offset_bottom = 388.0
+offset_left = 52.0
+offset_top = 27.0
+offset_right = 200.0
+offset_bottom = 90.0
+theme = ExtResource("3_we820")
+text = "2"
 
-[node name="PageJiang" type="PanelContainer" parent="Panel"]
+[node name="TabJiang" type="Control" parent="Panel"]
 visible = false
-layout_mode = 0
+anchors_preset = 0
 offset_left = 10.0
-offset_top = 35.0
-offset_right = 490.0
-offset_bottom = 388.0
+offset_top = 40.0
+offset_right = 670.0
+offset_bottom = 390.0
+
+[node name="Button" type="Button" parent="Panel/TabJiang"]
+layout_mode = 0
+offset_left = 52.0
+offset_top = 27.0
+offset_right = 200.0
+offset_bottom = 90.0
+theme = ExtResource("3_we820")
+text = "3"
 
 [node name="TabBar" type="TabBar" parent="."]
 offset_right = 300.0
