@@ -338,14 +338,15 @@ logutil = log_util
 # gdobj 封装
 #------------------------------------------------------------
 
+# 提供一些基础的服务
 class FObject:
     def __init__(self):
         self._gdobj = None
 
-    def __del__(self):
-        # TODO: 可以在这里关联，但似乎又过于频繁了，这样做的话
-        log_util.debug(f'__del__ {self.get_gdobj().get_type_name()}')
-        pass
+    # def __del__(self):
+    #     # TODO: 可以在这里关联，但似乎又过于频繁了，这样做的话
+    #     log_util.debug(f'__del__ {self.get_gdobj().get_type_name()}')
+    #     pass
 
     def get_gdobj(self):
         return self._gdobj
@@ -356,15 +357,19 @@ class FObject:
     def connect(self, signal, callback):
         gp.connect(self.get_gdobj(), signal, callback)
 
+# 对应Node
 class FNode(FObject):
     def destroy(self):
         gdobj = self._gdobj
         if gdobj:
             self._gdobj = None
+
             #print(f'destroy step1 refcnt={sys.getrefcount(gdobj)}')
+            # 输出: 3
             gp.destroy(gdobj)
             #print(f'destroy step2 refcnt={sys.getrefcount(gdobj)}')
-            # 这里输出2，因为最后两个引用来自gdobj和getrefcount传参数
+            # 输出: 2
+            # 最后两个引用来自gdobj和getrefcount传参数
             
             # 实际到这里引用计数应该是1
             gdobj = None
