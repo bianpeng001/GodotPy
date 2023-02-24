@@ -2,6 +2,7 @@
 # 2023年1月30日 bianpeng
 #
 
+import sys
 import math
 import random
 
@@ -46,7 +47,13 @@ class Ray:
     def get_point(self, d):
         return self.x0+self.n_x*d, self.y0+self.n_y*d, self.z0+self.n_z*d
 
-# Vector3
+# 四元组
+class Quaternion:
+    def __init__(self):
+        self.s = 0
+        self.v = Vector3(1, 0, 0)
+
+# 向量
 class Vector3:
     up = None
     x_ais = None
@@ -178,9 +185,11 @@ class Singleton:
     def __init__(self):
         pass
 
-#
+# 管理器的基类，提供一个空的update
 class BaseMgr:
-    pass
+    def update(self):
+        pass
+
    
 #------------------------------------------------------------
 #
@@ -326,7 +335,7 @@ log_util = LogUtil()
 logutil = log_util
 
 #------------------------------------------------------------
-# oop 封装
+# gdobj 封装
 #------------------------------------------------------------
 
 class FObject:
@@ -335,8 +344,7 @@ class FObject:
 
     def __del__(self):
         # TODO: 可以在这里关联，但似乎又过于频繁了，这样做的话
-        # self.get_gdobj().on_delete()
-        log_util.debug(f'delete {self.get_gdobj().get_type_name()}')
+        log_util.debug(f'__del__ {self.get_gdobj().get_type_name()}')
         pass
 
     def get_gdobj(self):
@@ -350,7 +358,15 @@ class FObject:
 
 class FNode(FObject):
     def destroy(self):
-        gp.destroy(self.get_gdobj())
+        gdobj = self._gdobj
+        if gdobj:
+            self._gdobj = None
+
+            print(f'destroy step1 refcnt={sys.getrefcount(gdobj)}')
+            gp.destroy(gdobj)
+
+            print(f'destroy step2 refcnt={sys.getrefcount(gdobj)}')
+            gdobj = None
 
     def find_node(self, path):
         gdobj = gp.find_node(self.get_gdobj(), path)
@@ -482,10 +498,10 @@ def GetWrappedObject(gdobj):
         return obj
 
     obj_type = gdobj.get_type()
-    type_name = gdobj.get_type_name()
-    log_util.debug(f'gdobj type_id={obj_type} type={type_name}')
-
     class_type = FClassMap[obj_type] or FObject
+
+    #type_name = gdobj.get_type_name()
+    #log_util.debug(f'gdobj type_id={obj_type} type={type_name}')
 
     obj = class_type()
     obj._gdobj = gdobj
