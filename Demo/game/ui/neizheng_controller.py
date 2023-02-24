@@ -2,6 +2,8 @@
 # 2023年2月23日 bianpeng
 #
 
+from game.game_mgr import game_mgr
+
 #
 class NeiZhengController:
     def __init__(self):
@@ -17,7 +19,7 @@ class NeiZhengController:
         self.tab_bar.connect('tab_changed', self.on_tab_changed)
 
     def on_close(self):
-        self.ui_obj.set_visible(False)
+        game_mgr.ui_mgr.defer_close(self.ui_obj)
 
     def on_tab_changed(self):
         idx = self.tab_bar.get_current_tab()

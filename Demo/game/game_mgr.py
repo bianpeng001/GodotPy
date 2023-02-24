@@ -79,9 +79,7 @@ class GameMgr():
         self.update_list.append(self.ground_mgr.update)
         self.update_list.append(self.unit_mgr.update)
 
+    def get_main_player_id(self):
+        return self.player_mgr.main_player_id
+
 game_mgr = GameMgr()
-
-def get_game_mgr():
-    return game_mgr
-
-

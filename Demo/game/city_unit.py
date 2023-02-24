@@ -64,3 +64,6 @@ class CityUnit(Unit):
         self.get_controller().apply_position()
         self.get_controller().set_title(self.unit_name)
 
+    def belong_to_main_player(self):
+        return self.owner_player_id == game_mgr.get_main_player_id()
+

@@ -112,6 +112,9 @@ class Unit:
     def get_controller(self):
         return self._controller
 
+    def belong_to_main_player(self):
+        return False
+
 
 # 单位的控制器
 class Controller(AIMachine):

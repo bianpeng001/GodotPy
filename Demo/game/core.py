@@ -462,9 +462,9 @@ class FCPUParticles3D(FVisualInstance3D):
         gp.cpu_particle_set_emitting(self.get_gdobj(), value)
 
 class FCanvasItem(FNode):
-    def set_visible(self, show):
-        self.is_show = show
-        gp.canvas_item_set_visible(self.get_gdobj(), show)
+    def set_visible(self, visible):
+        self.visible = visible
+        gp.canvas_item_set_visible(self.get_gdobj(), visible)
 
 class FControl(FCanvasItem):
     def get_current_tab(self):
@@ -473,13 +473,13 @@ class FControl(FCanvasItem):
 class FLabel(FControl):
     def __init__(self):
         super().__init__()
+
         self.text = None
 
     def set_text(self, text):
-        if self.text == text:
-            return
-        self.text = text
-        gp.label_set_text(self.get_gdobj(), text)
+        if self.text != text:
+            self.text = text
+            gp.label_set_text(self.get_gdobj(), text)
 
 class FButton(FControl):
     pass

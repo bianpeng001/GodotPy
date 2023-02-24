@@ -1,7 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://b235vl1f12uk8"]
+[gd_scene load_steps=9 format=3 uid="uid://b235vl1f12uk8"]
 
 [ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="1_53tvn"]
-[ext_resource type="PackedScene" uid="uid://c1jjhatf1hdpn" path="res://ui/MainUI.tscn" id="2_ljo2c"]
 [ext_resource type="PackedScene" uid="uid://drvm8b8tc7850" path="res://ui/HUD.tscn" id="4_1yjob"]
 [ext_resource type="PackedScene" path="res://effects/Dust01.tscn" id="5_0n56o"]
 [ext_resource type="PackedScene" uid="uid://cpyomosvj7tyk" path="res://models/Hill/Hill01.tscn" id="8_k8kn3"]
@@ -41,8 +40,6 @@ python_class = "RaycastMgr"
 [node name="UIMgr" type="FPyObject" parent="."]
 python_module = "game.ui_mgr"
 python_class = "UIMgr"
-
-[node name="MainUI" parent="UIMgr" instance=ExtResource("2_ljo2c")]
 
 [node name="HUD2d" parent="UIMgr" instance=ExtResource("4_1yjob")]
 visible = false

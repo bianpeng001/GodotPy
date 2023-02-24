@@ -43,7 +43,7 @@ class TroopUnit(Unit):
     def add_hero(self, hero_id):
         self.hero_list.append(hero_id)
 
-    def calc_props(self):
-        pass
+    def belong_to_main_player(self):
+        return self.owner_player_id == game_mgr.get_main_player_id()
 
 
