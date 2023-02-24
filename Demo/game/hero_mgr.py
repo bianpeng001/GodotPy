@@ -31,7 +31,10 @@ TAG_CAI = 4
 TAG_QI = 5
 TAG_MANGZHUANG = 6
 
-# 英雄(逻辑单位)
+#
+# 英雄(逻辑单位，没有实体)
+# TODO: 还要搞一个3D的捏脸数据，用来区分一下形象
+#
 class Hero:
     def __init__(self):
         self.hero_id = 0
@@ -48,6 +51,9 @@ class Hero:
         # 父母
         self.father_id = 0
         self.mother_id = 0
+
+        # 配偶
+        self.spouse = 0
 
         # 人物属性: 德智武
         self.attr = [ 0 for i in range(MAX) ]
@@ -73,6 +79,8 @@ class Hero:
     def has_tag(self, tag_type):
         return tag_type in self.tags
 
+#
+# 武将管理器，所有的武将都在这里，就像一个数据库
 #
 class HeroMgr:
     def __init__(self):
