@@ -232,7 +232,7 @@ def random_x():
     return 2*(random.random()-0.5)
 
 # [(-1,-1,-1), (1,1,1)]
-def random_x_vector3(x, y, z):
+def random_x3(x, y, z):
     return random_x()*x, random_x()*y, random_x()*z
 
 def random_max(max):
@@ -274,20 +274,6 @@ def set_surface_color(node, index, r, g, b):
 #------------------------------------------------------------
 # api
 #------------------------------------------------------------
-
-#
-class Node:
-    @classmethod
-    def get_parent(cls, node):
-        return gp.get_parent(node)
-
-    @classmethod
-    def destroy(cls, node):
-        gp.destroy(node)
-
-    @classmethod
-    def connect(cls, node, signal, cb):
-        gp.connect(node, signal, cb)
 
 class OS:
     @classmethod
@@ -389,6 +375,9 @@ class FNode3D(FNode):
 
     def set_scale(self, sx,sy,sz):
         gp.set_scale(self.get_gdobj(), sx, sy, sz)
+
+    def set_scale1(self, s):
+        gp.set_scale(self.get_gdobj(), s, s, s)
 
     def get_position(self):
         return gd.get_position(self.get_gdobj())

@@ -244,7 +244,6 @@ class AIState_AttackCity(AIState_Troop):
         # 射箭
         if not bb.shoot_effect:
             bb.shoot_effect = FNode3D.instantiate('res://effects/Shoot01.tscn')
-            #Node.reparent(bb.shoot_effect, controller.model_node)
             bb.shoot_effect.reparent(controller.get_model_node())
             bb.shoot_effect.set_position(0, 0, 0)
             bb.shoot_effect.set_rotation(0, 0, 0)

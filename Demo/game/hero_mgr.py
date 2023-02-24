@@ -10,7 +10,7 @@ from game.game_mgr import game_mgr
 MALE = 1
 FEMAIL = 0
 
-[0, 100]
+# attrs [0, 100]
 # 忠义，智力，武力，魅力，政治
 ATTR_ZHONG = 0
 ATTR_ZHI = 1
@@ -21,6 +21,7 @@ ATTR_ZHENG = 4
 MAX = 8
 
 # tags
+
 # 雄心壮志（决定称帝）
 TAG_DAZHI = 1
 # 酒色财气

@@ -103,7 +103,6 @@ class Unit:
     # 最后清除的时候，回调
     def on_dead(self):
         if self.model_node:
-            #Node.destroy(self.model_node)
             self.model_node.destroy()
             self.model_node = None
 
