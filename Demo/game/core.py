@@ -463,6 +463,7 @@ class FCPUParticles3D(FVisualInstance3D):
 
 class FCanvasItem(FNode):
     def set_visible(self, show):
+        self.is_show = show
         gp.canvas_item_set_visible(self.get_gdobj(), show)
 
 class FControl(FCanvasItem):

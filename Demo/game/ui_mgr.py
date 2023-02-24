@@ -21,20 +21,13 @@ class UIMgr(NodeObject):
         game_mgr.ui_mgr = self
 
         # 排队等关闭的ui，ui不能马上关闭，需要排队，不然马上就响应ui下面的元素被点击了
-        self.hide_reqs = []
-        self.context_unit = None
+        self.defer_close_queue = []
 
+        self.context_unit = None
         self.tick_time = 0
 
         self.mainui_panel = None
         self.mainui_controller = None
-        
-        self.neizheng_panel = None
-        self.neizheng_controller = None
-        
-        self.chuzhan_panel = None
-        
-        self.tansuo_panel = None
 
     def _create(self):
         self.get_obj().connect("ready", self._ready)
@@ -79,34 +72,41 @@ class UIMgr(NodeObject):
         return ui_obj, controller
 
     def update(self, delta_time):
-        for a in self.hide_reqs:
-            a.set_visible(False)
-        self.hide_reqs.clear()
+        if len(self.defer_close_queue) > 0:
+            for ui_obj in self.defer_close_queue:
+                ui_obj.set_visible(False)
+            self.defer_close_queue.clear()
 
     def close(self, item):
-        self.hide_reqs.append(item)
+        self.defer_close(item)
+
+    def defer_close(self, ui_obj):
+        if ui_obj.is_show:
+            self.defer_close_queue.append(ui_obj)
 
     # events handlers
 
     def on_begin_drag(self):
         self.close(self.city_menu)
         self.close(self.ground_menu)
-        
+
         self.context_unit = None
 
     def on_scene_ground_click(self):
-        self.close(self.city_menu)
-        self.context_unit = None
+        if self.ground_menu.is_show:
+            self.close(self.ground_menu)
+        else:
+            self.close(self.city_menu)
+            self.context_unit = None
 
-        x, y = game_mgr.input_mgr.get_mouse_pos()
-        self.ground_menu.set_position(x, y)
-        self.ground_menu.set_visible(True)
+            x, y = game_mgr.input_mgr.get_mouse_pos()
+            self.ground_menu.set_position(x, y)
+            self.ground_menu.set_visible(True)
 
     def on_scene_unit_click(self, unit):
         self.close(self.ground_menu)
-
         self.context_unit = unit
-        print_line(f'click: {unit.unit_name}')
+        #print_line(f'click: {unit.unit_name}')
 
         if unit.unit_type == UT_CITY and \
                 unit.owner_player_id == game_mgr.player_mgr.main_player_id:
