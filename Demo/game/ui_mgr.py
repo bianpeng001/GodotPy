@@ -4,6 +4,7 @@
 
 from game.core import *
 from game.game_mgr import game_mgr
+from game.base_type import UT_CITY
 from game.event_name import SCENE_UNIT_CLICK, \
         LEFT_BUTTON_BEGIN_DRAG, \
         SCENE_GROUND_CLICK
@@ -49,11 +50,19 @@ class UIMgr(NodeObject):
 
     def co_init_panels(self):
         yield None
-        from game.ui.neizheng_controller import NeiZhengController
+        
         from game.ui.city_menu_controller import CityMenuController
+        self.city_menu, self.city_menu_controller = self.load_panel(
+                'res://ui/CityMenu.tscn', CityMenuController)
 
-        self.city_menu, self.city_menu_controller = self.load_panel('res://ui/CityMenu.tscn', CityMenuController)
-        self.neizheng_panel, self.neizheng_controller = self.load_panel('res://ui/NeiZhengPanel.tscn', NeiZhengController)
+        from game.ui.ground_menu_controller import GroundMenuController
+        self.ground_menu, self.ground_menu_controller = self.load_panel(
+                'res://ui/GroundMenu.tscn', GroundMenuController)
+
+        from game.ui.neizheng_controller import NeiZhengController
+        self.neizheng_panel, self.neizheng_controller = self.load_panel(\
+                'res://ui/NeiZhengPanel.tscn', NeiZhengController)
+        
 
     def _ready(self):
         game_mgr.co_mgr.start(self.co_init_panels())
@@ -81,19 +90,29 @@ class UIMgr(NodeObject):
 
     def on_begin_drag(self):
         self.close(self.city_menu)
+        self.close(self.ground_menu)
+        
         self.context_unit = None
 
     def on_scene_ground_click(self):
         self.close(self.city_menu)
         self.context_unit = None
 
+        x, y = game_mgr.input_mgr.get_mouse_pos()
+        self.ground_menu.set_position(x, y)
+        self.ground_menu.set_visible(True)
+
     def on_scene_unit_click(self, unit):
+        self.close(self.ground_menu)
+
         self.context_unit = unit
         print_line(f'click: {unit.unit_name}')
 
-        camera = game_mgr.camera_mgr.main_camera
-        x, y = game_mgr.input_mgr.get_mouse_pos()
+        if unit.unit_type == UT_CITY and \
+                unit.owner_player_id == game_mgr.player_mgr.main_player_id:
+            
+            x, y = game_mgr.input_mgr.get_mouse_pos()
 
-        self.city_menu.set_position(x, y)
-        self.city_menu.set_visible(True)
+            self.city_menu.set_position(x, y)
+            self.city_menu.set_visible(True)
 
