@@ -203,28 +203,6 @@ static PyObject *f_is_valid(PyObject *a_self, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
-static PyObject *f__del__(PyObject *a_self, PyObject *args) {
-	do {
-		PyGDObj *self;
-
-		self = Cast_PyGDObj(a_self);
-		if (!self) {
-			break;
-		}
-
-		auto obj = ObjectDB::get_instance(self->instance_id);
-		if (!obj) {
-			break;
-		}
-
-		// TODO: delete
-		//FGDObjSlot::DelGDObj(obj);
-		print_line("gdobj __del__");
-
-	} while (0);
-
-	Py_RETURN_NONE;
-}
 static PyObject *PyGDObj_repr(PyGDObj *o) {
 	auto str = vformat("<GDObj id=%x>", (int64_t)o->instance_id);
 	return PyUnicode_FromString(str.utf8());
@@ -235,7 +213,6 @@ static PyMethodDef PyGDObj_methods[] = {
 	{ "get_wrapped_object", &gdobj::f_get_wrapped_object, METH_VARARGS, NULL },
 	{ "set_wrapped_object", &gdobj::f_set_wrapped_object, METH_VARARGS, NULL },
 	{ "is_valid", &f_is_valid, METH_VARARGS, NULL },
-	{ "__del__", &f__del__, METH_VARARGS, NULL },
 
 	{ NULL, NULL } /* sentinel */
 };

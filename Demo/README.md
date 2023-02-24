@@ -181,6 +181,8 @@ void fragment() {
 [Shader案例分享](https://godotshaders.com)
 
 [Perlin Noise Texture](http://kitfox.com/projects/perlinNoiseMaker)
+[柏林噪声介绍](https://zhuanlan.zhihu.com/p/206271895):
+Ken Perlin提出了柏林噪声。柏林噪声基于随机，并在此基础上利用缓动曲线进行平滑插值，使得最终得到噪声效果更加趋于自然
 
 [Toon Water](https://roystan.net/articles/toon-water)
 

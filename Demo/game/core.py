@@ -361,12 +361,15 @@ class FNode(FObject):
         gdobj = self._gdobj
         if gdobj:
             self._gdobj = None
-
-            print(f'destroy step1 refcnt={sys.getrefcount(gdobj)}')
+            #print(f'destroy step1 refcnt={sys.getrefcount(gdobj)}')
             gp.destroy(gdobj)
-
-            print(f'destroy step2 refcnt={sys.getrefcount(gdobj)}')
+            #print(f'destroy step2 refcnt={sys.getrefcount(gdobj)}')
+            # 这里输出2，因为最后两个引用来自gdobj和getrefcount传参数
+            
+            # 实际到这里引用计数应该是1
             gdobj = None
+            # 这里彻底释放，触发PyGDObj_dealloc
+            
 
     def find_node(self, path):
         gdobj = gp.find_node(self.get_gdobj(), path)
