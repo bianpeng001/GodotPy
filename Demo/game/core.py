@@ -238,7 +238,10 @@ def random_x_vector3(x, y, z):
 def random_max(max):
     return random.random()*max
 
-def random_range(min, max):
+def random_range(start, stop, step=1):
+    return random.rand_range(start, stop, step)
+
+def random_num(min, max):
     return min + random.random() * (max - min)
 
 def random_int(min, max):
