@@ -333,6 +333,12 @@ class FObject:
     def __init__(self):
         self._gdobj = None
 
+    def __del__(self):
+        # TODO: 可以在这里关联，但似乎又过于频繁了，这样做的话
+        # self.get_gdobj().on_delete()
+        log_util.debug(f'delete {self.get_gdobj().get_type_name()}')
+        pass
+
     def get_gdobj(self):
         return self._gdobj
 
@@ -476,7 +482,9 @@ def GetWrappedObject(gdobj):
         return obj
 
     obj_type = gdobj.get_type()
-    #log_util.debug(f'gdobj type={obj_type}')
+    type_name = gdobj.get_type_name()
+    log_util.debug(f'gdobj type_id={obj_type} type={type_name}')
+
     class_type = FClassMap[obj_type] or FObject
 
     obj = class_type()

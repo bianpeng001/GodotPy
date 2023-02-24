@@ -53,7 +53,7 @@ class Hero:
         self.mother_id = 0
 
         # 配偶
-        self.spouse = 0
+        self.spouse_id = 0
 
         # 人物属性: 德智武
         self.attr = [ 0 for i in range(MAX) ]
