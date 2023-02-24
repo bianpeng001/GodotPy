@@ -5,11 +5,6 @@
 from game.core import *
 from game.game_mgr import game_mgr
 from game.base_type import UT_CITY
-from game.event_name import SCENE_UNIT_CLICK, \
-        LEFT_BUTTON_BEGIN_DRAG, \
-        SCENE_GROUND_CLICK
-
-
 
 #
 # ui 管理器
@@ -30,6 +25,10 @@ class UIMgr(NodeObject):
     def _create(self):
         #self.get_obj().connect("ready", self._ready)
         game_mgr.co_mgr.start(self.co_init_panels())
+
+        from game.event_name import SCENE_UNIT_CLICK, \
+                LEFT_BUTTON_BEGIN_DRAG, \
+                SCENE_GROUND_CLICK
 
         game_mgr.event_mgr.add(SCENE_UNIT_CLICK, self.on_scene_unit_click)
         game_mgr.event_mgr.add(SCENE_GROUND_CLICK, self.on_scene_ground_click)
@@ -114,9 +113,15 @@ class UIMgr(NodeObject):
         self.context_unit = unit
         #print_line(f'click: {unit.unit_name}')
 
-        if unit.unit_type == UT_CITY and \
-                unit.belong_to_main_player():
-            x, y = game_mgr.input_mgr.get_mouse_pos()
-            self.city_menu.set_position(x, y)
-            self.city_menu.set_visible(True)
+        if unit.unit_type == UT_CITY:
+            if unit.belong_to_main_player():
+                x, y = game_mgr.input_mgr.get_mouse_pos()
+                self.city_menu.set_position(x, y)
+                self.city_menu.set_visible(True)
+            else:
+                # TODO
+                pass
+        else:
+            # TODO
+            pass
 

@@ -5,7 +5,6 @@ import math
 
 from game.core import *
 from game.game_mgr import game_mgr
-from game.event_name import MAINUI_REFRESH
 
 # 头顶主界面逻辑
 class MainUIController:
@@ -27,6 +26,7 @@ class MainUIController:
         self.refresh_frame_number = game_mgr.frame_number
 
         # 事件
+        from game.event_name import MAINUI_REFRESH
         game_mgr.event_mgr.add(MAINUI_REFRESH, self.on_refresh)
 
     def format_amount_str(self, value):
