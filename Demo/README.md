@@ -270,3 +270,9 @@ Godot里面Object和ObjectId，ObjectId应该是一个不会重复的值。如�
 为了代码清晰，后面还是需要做一下类型映射。c++对象扔到python这边的时候，创建一个对应的类型，方便定义方法。这块最好是自动生成。
 
 
+### Blocky
+可视化的工具，准备用来做配置，和关卡。
+[blockly](https://github.com/google/blockly)
+
+
+
