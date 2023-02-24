@@ -59,7 +59,7 @@ class CityController(Controller):
     def on_ai_tick(self, tick_time):
         city = self.get_unit()
 
-        # create troop for fight
+        # 测试行为，不断招兵，军队数量达到1000，就出兵征讨
         if city.army_amount > 1000:
             city.army_amount -= 1000
 

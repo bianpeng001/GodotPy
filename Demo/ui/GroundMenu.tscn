@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://dd4s66q0b1ug8"]
+[gd_scene load_steps=2 format=3 uid="uid://cdfpqq826612u"]
 
-[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_b66dd"]
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_4kkjr"]
 
 [node name="ContextMenu" type="Node2D"]
 
@@ -8,25 +8,25 @@
 offset_right = 64.0
 offset_bottom = 90.0
 
-[node name="BtnNeiZheng" type="Button" parent="Panel"]
+[node name="BtnJianShe" type="Button" parent="Panel"]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 62.0
 offset_bottom = 28.0
-theme = ExtResource("1_b66dd")
+theme = ExtResource("1_4kkjr")
 theme_override_font_sizes/font_size = 16
-text = "内政"
+text = "建设"
 
-[node name="BtnChuZhan" type="Button" parent="Panel"]
+[node name="BtnChaKan" type="Button" parent="Panel"]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 32.0
 offset_right = 62.0
 offset_bottom = 58.0
-theme = ExtResource("1_b66dd")
+theme = ExtResource("1_4kkjr")
 theme_override_font_sizes/font_size = 16
-text = "出战"
+text = "查看"
 
 [node name="BtnTanSuo" type="Button" parent="Panel"]
 layout_mode = 0
@@ -34,6 +34,6 @@ offset_left = 2.0
 offset_top = 62.0
 offset_right = 62.0
 offset_bottom = 88.0
-theme = ExtResource("1_b66dd")
+theme = ExtResource("1_4kkjr")
 theme_override_font_sizes/font_size = 16
 text = "探索"

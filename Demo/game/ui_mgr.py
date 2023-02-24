@@ -3,12 +3,12 @@
 #
 
 from game.core import *
-from game.event_name import SCENE_UNIT_CLICK, LEFT_BUTTON_BEGIN_DRAG, \
-        SCENE_GROUND_CLICK
 from game.game_mgr import game_mgr
+from game.event_name import SCENE_UNIT_CLICK, \
+        LEFT_BUTTON_BEGIN_DRAG, \
+        SCENE_GROUND_CLICK
 
 from game.ui.mainui_controller import MainUIController
-from game.ui.neizheng_controller import NeiZhengController
 
 #
 # ui 管理器
@@ -45,15 +45,29 @@ class UIMgr(NodeObject):
         # init ui
         self.mainui_panel = self.get_obj().find_node("MainUI")
         self.mainui_controller = MainUIController()
-        self.mainui_controller.init(self.mainui_panel)
+        self.mainui_controller.setup(self.mainui_panel)
+
+    def co_init_panels(self):
+        yield None
+        from game.ui.neizheng_controller import NeiZhengController
+        from game.ui.city_menu_controller import CityMenuController
+
+        self.city_menu, self.city_menu_controller = self.load_panel('res://ui/CityMenu.tscn', CityMenuController)
+        self.neizheng_panel, self.neizheng_controller = self.load_panel('res://ui/NeiZhengPanel.tscn', NeiZhengController)
 
     def _ready(self):
-        self.context_menu_node = self.get_obj().find_node("ContextMenu")
-        cm = self.context_menu_node
-        cm.find_node('Panel/BtnNeiZheng').connect('pressed', self.on_cm_button1)
-        cm.find_node('Panel/BtnChuZhan').connect('pressed', self.on_cm_button2)
-        cm.find_node('Panel/BtnTanSuo').connect('pressed', self.on_cm_button3)
+        game_mgr.co_mgr.start(self.co_init_panels())
         pass
+
+    def load_panel(self, path, cls):
+        ui_obj = FNode3D.instantiate(path)
+        ui_obj.reparent(self.get_obj())
+        ui_obj.set_visible(False)
+
+        controller = cls()
+        controller.setup(ui_obj)
+
+        return ui_obj, controller
 
     def update(self, delta_time):
         for a in self.hide_reqs:
@@ -66,11 +80,11 @@ class UIMgr(NodeObject):
     # events handlers
 
     def on_begin_drag(self):
-        self.close(self.context_menu_node)
+        self.close(self.city_menu)
         self.context_unit = None
 
     def on_scene_ground_click(self):
-        self.close(self.context_menu_node)
+        self.close(self.city_menu)
         self.context_unit = None
 
     def on_scene_unit_click(self, unit):
@@ -80,44 +94,6 @@ class UIMgr(NodeObject):
         camera = game_mgr.camera_mgr.main_camera
         x, y = game_mgr.input_mgr.get_mouse_pos()
 
-        self.context_menu_node.set_position(x, y)
-        self.context_menu_node.set_visible(True)
-
-    # 内政
-    def on_cm_button1(self):
-        self.close(self.context_menu_node)
-        print_line(f'{self.context_unit.unit_name} neizheng')
-
-        if not self.neizheng_panel:
-            self.neizheng_panel = Node3D.instantiate('res://ui/NeiZhengPanel.tscn')
-            self.neizheng_panel.reparent(self.get_obj())
-
-            self.neizheng_controller = NeiZhengController()
-            self.neizheng_controller.setup(self.neizheng_panel)
-
-        self.neizheng_panel.set_visible(True)
-        self.neizheng_panel.set_position(250, 100)
-
-    # 出战
-    def on_cm_button2(self):
-        self.close(self.context_menu_node)
-        print_line(f'{self.context_unit.unit_name} chuzhan')
-
-        # x,y,z = self.context_unit.get_location()
-        # z += 4
-        
-        # troop = game_mgr.unit_mgr.create_troop()
-        # troop.set_location(x,y,z)
-        # troop.owner_city_id = self.context_unit.unit_id
-
-        # tile = game_mgr.ground_mgr.get_tile(x, z)
-        # if tile:
-        #     tile.units.append(troop)
-
-    # 探索
-    def on_cm_button3(self):
-        self.close(self.context_menu_node)
-        print_line(f'{self.context_unit.unit_name} tansuo')
-
-
+        self.city_menu.set_position(x, y)
+        self.city_menu.set_visible(True)
 

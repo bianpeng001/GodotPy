@@ -366,7 +366,8 @@ class FNode(FObject):
 
             #print(f'destroy step1 refcnt={sys.getrefcount(gdobj)}')
             # 输出: 3
-            gp.destroy(gdobj)
+            # 在destroy里面看到的是4，也是传参导致+1
+            gp.destroy(gdobj) 
             #print(f'destroy step2 refcnt={sys.getrefcount(gdobj)}')
             # 输出: 2
             # 最后两个引用来自gdobj和getrefcount传参数

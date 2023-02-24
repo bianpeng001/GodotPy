@@ -1,9 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://bdar35kt5xsbd"]
+[gd_scene load_steps=10 format=3 uid="uid://b235vl1f12uk8"]
 
 [ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="1_53tvn"]
 [ext_resource type="PackedScene" uid="uid://c1jjhatf1hdpn" path="res://ui/MainUI.tscn" id="2_ljo2c"]
 [ext_resource type="PackedScene" uid="uid://drvm8b8tc7850" path="res://ui/HUD.tscn" id="4_1yjob"]
-[ext_resource type="PackedScene" uid="uid://dd4s66q0b1ug8" path="res://ui/ContextMenu.tscn" id="4_13hgr"]
 [ext_resource type="PackedScene" path="res://effects/Dust01.tscn" id="5_0n56o"]
 [ext_resource type="PackedScene" uid="uid://cpyomosvj7tyk" path="res://models/Hill/Hill01.tscn" id="8_k8kn3"]
 [ext_resource type="PackedScene" uid="uid://eimxflua5ypg" path="res://models/Park01.tscn" id="8_pjijt"]
@@ -43,13 +42,10 @@ python_class = "RaycastMgr"
 python_module = "game.ui_mgr"
 python_class = "UIMgr"
 
-[node name="ContextMenu" parent="UIMgr" instance=ExtResource("4_13hgr")]
-visible = false
-position = Vector2(261, 214)
-
 [node name="MainUI" parent="UIMgr" instance=ExtResource("2_ljo2c")]
 
 [node name="HUD2d" parent="UIMgr" instance=ExtResource("4_1yjob")]
+visible = false
 position = Vector2(123, 162)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
