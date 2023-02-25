@@ -38,7 +38,10 @@ class EffectMgr:
         else:
             effect = Effect()
             effect.config_id = config_id
-            effect.node = FNode3D.instantiate('res://effects/Strike01.tscn')
+
+            #path = 'res://effects/Strike01.tscn'
+            path = 'res://effects/Strike02.tscn'
+            effect.node = FNode3D.instantiate(path)
 
         effect.effect_id = self.effect_id_seed
         return effect
@@ -77,4 +80,5 @@ class EffectMgr:
 
             self._back_effect_list.clear()
 
+            
             

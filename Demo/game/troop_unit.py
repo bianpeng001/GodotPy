@@ -29,11 +29,14 @@ class TroopUnit(Unit):
         self.army_amount = 0
         self.army_moral = 100
 
+        self.model_type = 3
+
     def load_model(self):
         self.unit_name = f'部队_{self.unit_id}'
 
         #path = 'res://models/Troop01.tscn'
-        path = 'res://models/Troop02.tscn'
+        path = f'res://models/Troop{self.model_type:02}.tscn'
+        
         self.model_node = FNode3D.instantiate(path)
         self.get_controller().apply_position()
 

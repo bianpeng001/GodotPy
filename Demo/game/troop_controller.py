@@ -43,11 +43,14 @@ class TroopController(Controller):
     def start(self):
         node = self.get_model_node()
         if node:
-            for i in range(2, 11):
-                anim_player = node.find_node(f"Soldier{i:02}/Model/AnimationPlayer")
-                if anim_player:
-                    anim_player.play("SoldierAnimLib/Run")
-                    anim_player.set_speed_scale(2.6)
+            if self.get_unit().model_type == 2:
+                for i in range(2, 11):
+                    anim_player = node.find_node(f"Soldier{i:02}/Model/AnimationPlayer")
+                    if anim_player:
+                        anim_player.play("SoldierAnimLib/Run")
+                        anim_player.set_speed_scale(2.6)
+            else:
+                pass
 
     def update(self):
         self.update_move()

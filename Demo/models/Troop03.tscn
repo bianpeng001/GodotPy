@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3 uid="uid://cdqwupt6iijwm"]
+
+[ext_resource type="PackedScene" uid="uid://qrnvnsnnc6el" path="res://effects/Dust02.tscn" id="1_wyng1"]
+[ext_resource type="ArrayMesh" uid="uid://b7idplm5u8qyl" path="res://models/Arrow.obj" id="3_u4g2j"]
+[ext_resource type="Material" uid="uid://b0eifmnip3tre" path="res://models/Color/White.tres" id="4_l1crh"]
+[ext_resource type="ArrayMesh" uid="uid://7ljbpgjyaxoj" path="res://models/Flag02Mesh.res" id="5_det5c"]
+[ext_resource type="ArrayMesh" uid="uid://diq03gmuembok" path="res://models/Soldier03.obj" id="6_0c3mq"]
+
+[node name="Troop02" type="Node3D"]
+
+[node name="Dust02" parent="." instance=ExtResource("1_wyng1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.990564)
+
+[node name="Arrow" type="MeshInstance3D" parent="."]
+visible = false
+mesh = ExtResource("3_u4g2j")
+surface_material_override/0 = ExtResource("4_l1crh")
+
+[node name="Flag" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+mesh = ExtResource("5_det5c")
+
+[node name="Soldier4" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1, 0, 0)
+mesh = ExtResource("6_0c3mq")
+
+[node name="Soldier5" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+mesh = ExtResource("6_0c3mq")
+
+[node name="Soldier6" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1, 0, 0)
+mesh = ExtResource("6_0c3mq")
+
+[node name="Soldier7" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1, 0, 1)
+mesh = ExtResource("6_0c3mq")
+
+[node name="Soldier8" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 1)
+mesh = ExtResource("6_0c3mq")
+
+[node name="Soldier9" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1, 0, 1)
+mesh = ExtResource("6_0c3mq")
+
+[node name="Soldier10" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 1, 0, -1)
+mesh = ExtResource("6_0c3mq")
+
+[node name="Soldier11" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -1)
+mesh = ExtResource("6_0c3mq")
+
+[node name="Soldier12" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1, 0, -1)
+mesh = ExtResource("6_0c3mq")

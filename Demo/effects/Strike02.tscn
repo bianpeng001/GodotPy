@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://crtpi4ayjin02"]
+
+[ext_resource type="ArrayMesh" uid="uid://diq03gmuembok" path="res://models/Soldier03.obj" id="1_gwh0d"]
+
+[sub_resource type="Curve" id="Curve_0x3ll"]
+max_value = 180.0
+bake_resolution = 10
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 93.2727), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Strike01" type="Node3D"]
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+emitting = false
+amount = 3
+one_shot = true
+explosiveness = 1.0
+mesh = ExtResource("1_gwh0d")
+emission_shape = 3
+emission_box_extents = Vector3(1, 0.1, 0.1)
+particle_flag_rotate_y = true
+direction = Vector3(0, 0, 1)
+spread = 5.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 1.0
+linear_accel_min = 6.0
+linear_accel_max = 6.0
+angle_curve = SubResource("Curve_0x3ll")

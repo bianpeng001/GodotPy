@@ -5,7 +5,7 @@
 from game.game_mgr import game_mgr
 
 
-#
+# 内政，农商将
 class NeiZhengController:
     def __init__(self):
         self.tab_index = 0
@@ -18,7 +18,7 @@ class NeiZhengController:
         self.ui_obj = ui_obj
 
         self.btn_close = ui_obj.find_node('Panel/BtnClose')
-        self.btn_close.connect(PRESSED, self.on_close)
+        self.btn_close.connect(PRESSED, self.on_close_click)
 
         self.tab_bar = ui_obj.find_node('TabBar')
         self.tab_bar.connect('tab_changed', self.on_tab_changed)
@@ -32,7 +32,7 @@ class NeiZhengController:
         self.tab_bar.set_current_tab(self.tab_index)
         self.on_tab_changed()
 
-    def on_close(self):
+    def on_close_click(self):
         game_mgr.ui_mgr.defer_close(self.ui_obj)
 
     def on_tab_changed(self):
