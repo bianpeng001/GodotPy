@@ -59,7 +59,7 @@ class MainUIController:
         self.refresh_frame_number = game_mgr.frame_number
 
         fps0 = int(Debug.get_monitor(0))
-        fps = int(delta_frame_number/delta_time) if delta_time != 0 else 0
+        fps = int(delta_frame_number/delta_time)
         dc = Debug.get_drawcall()
         
         self.fps_label.set_text(f'fps:{fps},{fps0} dc:{dc}')

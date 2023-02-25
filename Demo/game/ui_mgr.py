@@ -45,7 +45,6 @@ class UIMgr(NodeObject):
         from game.ui.mainui_controller import MainUIController
         self.mainui_panel, self.mainui_controller = self.load_panel(
             'res://ui/MainUI.tscn', MainUIController)
-        self.mainui_controller.setup(self.mainui_panel)
         self.mainui_panel.set_position(0, 0)
         self.mainui_panel.set_visible(True)
         
