@@ -375,7 +375,10 @@ class FNode(FObject):
             # 实际到这里引用计数应该是1
             gdobj = None
             # 这里彻底释放，触发PyGDObj_dealloc
-            
+    
+    def dup(self):
+        dup_obj = gp.node_dup(self.get_gdobj())
+        return GetWrappedObject(dup_obj)
 
     def find_node(self, path):
         gdobj = gp.find_node(self.get_gdobj(), path)
@@ -487,6 +490,9 @@ class FLabel(FControl):
             self.text = text
             gp.label_set_text(self.get_gdobj(), text)
 
+    def set_minimum_size(self, w, h):
+        gp.label_set_minimum_size(self.get_gdobj(), w, h)
+
 class FButton(FControl):
     pass
 
@@ -494,6 +500,9 @@ class FImage(FControl):
     pass
 
 class FPanel(FControl):
+    pass
+
+class FHBoxContainer(FControl):
     pass
 
 class FNode2D(FCanvasItem):
@@ -539,6 +548,7 @@ FClassMap[12] = FNode2D
 FClassMap[13] = FLabel
 FClassMap[14] = FControl
 FClassMap[15] = FTabBar
+FClassMap[16] = FHBoxContainer
 
 # 大话降龙
 # https://www.mm1316.com/maoxian/dahuajianglong

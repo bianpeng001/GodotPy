@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://csvbr8jlvrect"]
+[gd_scene load_steps=6 format=3 uid="uid://csvbr8jlvrect"]
 
 [ext_resource type="Texture2D" uid="uid://c4hqyefqdw1o" path="res://ui/img/Close.png" id="1_2nwp5"]
+[ext_resource type="StyleBox" uid="uid://cs78tjnu0sn2w" path="res://ui/PanelStyle.tres" id="1_qussa"]
 [ext_resource type="Texture2D" uid="uid://dojr4gpmt4yed" path="res://ui/img/Close_hover.png" id="2_vthb4"]
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="3_we820"]
+[ext_resource type="PackedScene" uid="uid://cnaoeuea0v1ua" path="res://ui/HeroList.tscn" id="4_p1uhh"]
 
 [node name="NeiZhenPanel" type="Node2D"]
 
@@ -10,6 +12,7 @@
 offset_top = 34.0
 offset_right = 680.0
 offset_bottom = 434.0
+theme_override_styles/panel = ExtResource("1_qussa")
 
 [node name="BtnClose" type="TextureButton" parent="Panel"]
 layout_mode = 0
@@ -64,14 +67,8 @@ offset_top = 40.0
 offset_right = 670.0
 offset_bottom = 390.0
 
-[node name="Button" type="Button" parent="Panel/TabJiang"]
-layout_mode = 0
-offset_left = 52.0
-offset_top = 27.0
-offset_right = 200.0
-offset_bottom = 90.0
-theme = ExtResource("3_we820")
-text = "3"
+[node name="HeroList" parent="Panel/TabJiang" instance=ExtResource("4_p1uhh")]
+layout_mode = 1
 
 [node name="TabBar" type="TabBar" parent="."]
 offset_right = 300.0

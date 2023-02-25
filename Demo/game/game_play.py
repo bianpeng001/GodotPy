@@ -22,11 +22,13 @@ class GamePlay:
         from game.hero_mgr import HeroMgr
         from game.unit_mgr import UnitMgr
         from game.effect_mgr import EffectMgr
+        from game.game_data import GameData
         
         game_mgr.player_mgr = PlayerMgr()
         game_mgr.hero_mgr = HeroMgr()
         game_mgr.unit_mgr = UnitMgr()
         game_mgr.effect_mgr = EffectMgr()
+        game_mgr.game_data = GameData()
         
         # 资源刷新tick
         self.resource_grow_time = 0

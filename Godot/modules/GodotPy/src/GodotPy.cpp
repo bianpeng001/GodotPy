@@ -109,6 +109,7 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 			ClassTypeDict[StringName("Label")] = ++id_seed_2d;
 			ClassTypeDict[StringName("Control")] = ++id_seed_2d;
 			ClassTypeDict[StringName("TabBar")] = ++id_seed_2d;
+			ClassTypeDict[StringName("HBoxContainer")] = ++id_seed_2d;
 		}
 
 		auto &value = ClassTypeDict.get(class_name, Variant(0));
@@ -543,15 +544,31 @@ static PyObject *f_reparent(PyObject *module, PyObject *args) {
 		}
 		obj->reparent(parent_obj);
 
-		//auto node3d = Object::cast_to<Node3D>(obj);
-		//if (!node3d) {
-		//	break;
-		//}
-		//node3d->set_position(Vector3(0, 0, 0));
-		//node3d->set_rotation(Vector3(0, 0, 0));
+	} while (0);
 
-		//Transform3D tr;
-		//node3d->set_transform(tr);
+	Py_RETURN_NONE;
+}
+static PyObject *f_node_dup(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+
+		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
+			break;
+		}
+
+		Node *obj = GetObjPtr<Node>(a_obj);
+
+		if (!obj) {
+			break;
+		}
+		auto dup = obj->duplicate();
+		//obj->add_sibling(dup);
+		auto parent = obj->get_parent();
+		parent->add_child(dup);
+
+		PyObject *dup_obj = FGDObjSlot::GetGDObj(dup);
+		Py_INCREF(dup_obj);
+		return dup_obj;
 
 	} while (0);
 
@@ -1184,6 +1201,26 @@ static PyObject *f_label_set_text(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_label_set_minimum_size(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		float w, h;
+
+		if (!PyArg_ParseTuple(args, "Off", &a_obj, &w, &h)) {
+			break;
+		}
+
+		auto label = GetObjPtr<Label>(a_obj);
+		if (!label) {
+			break;
+		}
+
+		label->set_custom_minimum_size(Size2(w, h));
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_tabar_get_current_tab(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -1352,6 +1389,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "get_child_at", f_get_child_at, METH_VARARGS, NULL },
 	{ "get_parent", f_get_parent, METH_VARARGS, NULL },
 	{ "reparent", f_reparent, METH_VARARGS, NULL },
+	{ "node_dup", f_node_dup, METH_VARARGS, NULL }, 
 
 	{ "connect", f_connect, METH_VARARGS, NULL },
 	{ "set_visible", f_set_visible, METH_VARARGS, NULL },
@@ -1388,6 +1426,9 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// label
 	{ "label_set_text", f_label_set_text, METH_VARARGS, NULL },
+	{ "label_set_minimum_size", f_label_set_minimum_size, METH_VARARGS, NULL }, 
+
+	// tabbar
 	{ "tabbar_get_current_tab", f_tabar_get_current_tab, METH_VARARGS, NULL },
 	{ "tabbar_set_current_tab", f_tabar_set_current_tab, METH_VARARGS, NULL }, 
 

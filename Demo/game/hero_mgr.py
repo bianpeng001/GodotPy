@@ -73,6 +73,10 @@ class Hero:
     def get_age(self):
         return game_mgr.game_data.cur_year - self.born_year + 1
 
+    @property
+    def age(self):
+        return self.get_age()
+
     def get_attr(self, attr_type):
         return self.attr[attr_type]
 
@@ -99,6 +103,7 @@ class HeroMgr:
             hero.attr[i] = random_int(10, 100)
 
         hero.hero_name = f'武将_{hero.hero_id}'
+        hero.born_year = game_mgr.game_data.cur_year - random_int(12, 40)
 
         return hero
 

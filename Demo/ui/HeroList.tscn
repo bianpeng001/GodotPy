@@ -21,7 +21,6 @@ offset_bottom = 400.0
 layout_mode = 2
 
 [node name="Header" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
-visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/Header"]
@@ -29,22 +28,6 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme = ExtResource("1_okqno")
 text = "武将"
-label_settings = ExtResource("2_soxr4")
-horizontal_alignment = 1
-
-[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer/Header"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-theme = ExtResource("1_okqno")
-text = "年龄"
-label_settings = ExtResource("2_soxr4")
-horizontal_alignment = 1
-
-[node name="Label3" type="Label" parent="ScrollContainer/VBoxContainer/Header"]
-custom_minimum_size = Vector2(60, 0)
-layout_mode = 2
-theme = ExtResource("1_okqno")
-text = "活动"
 label_settings = ExtResource("2_soxr4")
 horizontal_alignment = 1
 
@@ -57,21 +40,5 @@ custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 theme = ExtResource("1_okqno")
 text = "诸葛亮"
-label_settings = ExtResource("3_01064")
-horizontal_alignment = 1
-
-[node name="Label2" type="Label" parent="ScrollContainer/VBoxContainer/Item"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-theme = ExtResource("1_okqno")
-text = "27"
-label_settings = ExtResource("3_01064")
-horizontal_alignment = 1
-
-[node name="Label3" type="Label" parent="ScrollContainer/VBoxContainer/Item"]
-custom_minimum_size = Vector2(60, 0)
-layout_mode = 2
-theme = ExtResource("1_okqno")
-text = "务农"
 label_settings = ExtResource("3_01064")
 horizontal_alignment = 1

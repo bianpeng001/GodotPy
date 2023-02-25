@@ -3,7 +3,7 @@
 #
 
 from game.game_mgr import game_mgr
-
+from game.config_mgr import new_hero_name
 
 # 内政，农商将
 class NeiZhengController:
@@ -11,6 +11,7 @@ class NeiZhengController:
         self.tab_index = 0
 
         self.tabs = []
+        self.init_hero_list_done = False
 
     def setup(self, ui_obj):
         from game.event_name import PRESSED
@@ -39,5 +40,49 @@ class NeiZhengController:
         self.tab_index = self.tab_bar.get_current_tab()
         for i in range(len(self.tabs)):
             self.tabs[i].set_visible(i == self.tab_index)
+
+        if i == 2 and not self.init_hero_list_done:
+            self.init_hero_list_done = True
+            self.init_hero_list()
+
+    def init_hero_list(self):
+        header = self.tabs[2].find_node('HeroList/ScrollContainer/VBoxContainer/Header')
+        print(header)
+        name_label = header.find_node('Label')
+        name_label.set_minimum_size(80, 0)
+        name_label.set_text('姓名')
+
+        age_label = name_label.dup()
+        age_label.set_minimum_size(40, 0)
+        age_label.set_text('年龄')
+
+        action_label = name_label.dup()
+        action_label.set_minimum_size(60, 0)
+        action_label.set_text('活动')
         
+
+        heros = []
+        for i in range(4):
+            hero = game_mgr.hero_mgr.new_hero()
+            hero.hero_name = new_hero_name()
+            heros.append(hero)
+
+        # items...
+        item = self.tabs[2].find_node('HeroList/ScrollContainer/VBoxContainer/Item')
+        for hero in heros:
+            new_item = item.dup()
+            new_item.set_visible(True)
+            
+            name_label = new_item.find_node('Label')
+            name_label.set_minimum_size(80, 0)
+            name_label.set_text(hero.hero_name)
+
+            age_label = name_label.dup()
+            age_label.set_minimum_size(40, 0)
+            age_label.set_text(f'{hero.age}')
+
+            action_label = name_label.dup()
+            action_label.set_minimum_size(60, 0)
+            action_label.set_text('空闲')
+
 
