@@ -72,10 +72,11 @@ class NeiZhengController:
         for hero in heros:
             new_item = item.dup()
             new_item.set_visible(True)
-            
+
             name_label = new_item.find_node('Label')
             name_label.set_minimum_size(80, 0)
             name_label.set_text(hero.hero_name)
+            name_label.connect('gui_input', self.on_gui_input)
 
             age_label = name_label.dup()
             age_label.set_minimum_size(40, 0)
@@ -84,5 +85,8 @@ class NeiZhengController:
             action_label = name_label.dup()
             action_label.set_minimum_size(60, 0)
             action_label.set_text('空闲')
+
+    def on_gui_input(self):
+        print('click')
 
 

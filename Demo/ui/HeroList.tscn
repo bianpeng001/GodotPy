@@ -23,6 +23,10 @@ layout_mode = 2
 [node name="Header" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
+[node name="Space" type="Label" parent="ScrollContainer/VBoxContainer/Header"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/Header"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
@@ -35,9 +39,19 @@ horizontal_alignment = 1
 visible = false
 layout_mode = 2
 
+[node name="Space" type="Label" parent="ScrollContainer/VBoxContainer/Item"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="ScrollContainer/VBoxContainer/Item"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+disabled = true
+
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/Item"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
+mouse_filter = 0
 theme = ExtResource("1_okqno")
 text = "诸葛亮"
 label_settings = ExtResource("3_01064")
