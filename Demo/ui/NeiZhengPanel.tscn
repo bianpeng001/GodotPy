@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://csvbr8jlvrect"]
+[gd_scene load_steps=8 format=3 uid="uid://csvbr8jlvrect"]
 
 [ext_resource type="Texture2D" uid="uid://c4hqyefqdw1o" path="res://ui/img/Close.png" id="1_2nwp5"]
 [ext_resource type="StyleBox" uid="uid://cs78tjnu0sn2w" path="res://ui/PanelStyle.tres" id="1_qussa"]
 [ext_resource type="Texture2D" uid="uid://dojr4gpmt4yed" path="res://ui/img/Close_hover.png" id="2_vthb4"]
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="3_we820"]
 [ext_resource type="PackedScene" uid="uid://cnaoeuea0v1ua" path="res://ui/HeroList.tscn" id="4_p1uhh"]
+[ext_resource type="Texture2D" uid="uid://djirsmb0now2e" path="res://ui/face/GuoJia.png" id="5_lypwi"]
+[ext_resource type="Texture2D" uid="uid://cu2kol32wfyce" path="res://ui/face/ZhuGeLiang.png" id="6_ig7s3"]
 
 [node name="NeiZhenPanel" type="Node2D"]
 
@@ -26,27 +28,31 @@ texture_pressed = ExtResource("1_2nwp5")
 texture_hover = ExtResource("2_vthb4")
 
 [node name="TabNong" type="Control" parent="Panel"]
+visible = false
 anchors_preset = 0
 offset_left = 10.0
 offset_top = 40.0
 offset_right = 670.0
 offset_bottom = 390.0
 
-[node name="Button" type="Button" parent="Panel/TabNong"]
+[node name="BtnSel" type="Button" parent="Panel/TabNong"]
 layout_mode = 0
-offset_left = 52.0
-offset_top = 27.0
-offset_right = 200.0
-offset_bottom = 90.0
+offset_left = 88.0
+offset_top = 130.0
+offset_right = 168.0
+offset_bottom = 158.0
 theme = ExtResource("3_we820")
-text = "1"
+theme_override_font_sizes/font_size = 18
+text = "选择"
 
 [node name="TextureRect" type="TextureRect" parent="Panel/TabNong"]
 layout_mode = 0
-offset_left = 365.0
-offset_top = 1.0
-offset_right = 621.0
-offset_bottom = 257.0
+offset_left = 77.0
+offset_top = 14.0
+offset_right = 177.0
+offset_bottom = 114.0
+texture = ExtResource("5_lypwi")
+expand_mode = 1
 
 [node name="TabShang" type="Control" parent="Panel"]
 visible = false
@@ -56,14 +62,24 @@ offset_top = 40.0
 offset_right = 670.0
 offset_bottom = 390.0
 
-[node name="Button" type="Button" parent="Panel/TabShang"]
+[node name="BtnSel" type="Button" parent="Panel/TabShang"]
 layout_mode = 0
-offset_left = 52.0
-offset_top = 27.0
-offset_right = 200.0
-offset_bottom = 90.0
+offset_left = 88.0
+offset_top = 130.0
+offset_right = 168.0
+offset_bottom = 158.0
 theme = ExtResource("3_we820")
-text = "2"
+theme_override_font_sizes/font_size = 18
+text = "选择"
+
+[node name="TextureRect" type="TextureRect" parent="Panel/TabShang"]
+layout_mode = 0
+offset_left = 77.0
+offset_top = 14.0
+offset_right = 177.0
+offset_bottom = 114.0
+texture = ExtResource("6_ig7s3")
+expand_mode = 1
 
 [node name="TabJiang" type="Control" parent="Panel"]
 visible = false
