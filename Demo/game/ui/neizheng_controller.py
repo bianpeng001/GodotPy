@@ -11,7 +11,10 @@ class NeiZhengController:
         self.tab_index = 0
 
         self.tabs = []
-        self.init_hero_list_done = False
+
+        self.last_city_id = 0
+        self.item_list = []
+        self.init_header = False
 
     def setup(self, ui_obj):
         from game.event_name import PRESSED
@@ -41,29 +44,35 @@ class NeiZhengController:
         for i in range(len(self.tabs)):
             self.tabs[i].set_visible(i == self.tab_index)
 
-        if self.tab_index == 2 and not self.init_hero_list_done:
-            self.init_hero_list_done = True
+        if self.tab_index == 2:
             self.init_hero_list()
 
     def init_hero_list(self):
-        header = self.tabs[2].find_node('HeroList/ScrollContainer/VBoxContainer/Header')
-        
-        name_label = header.find_node('Label')
-        name_label.set_minimum_size(80, 0)
-        name_label.set_text('姓名')
+        city = game_mgr.ui_mgr.context_unit
+        if city.unit_id == self.last_city_id:
+            return
 
-        age_label = name_label.dup()
-        age_label.set_minimum_size(40, 0)
-        age_label.set_text('年龄')
+        if not self.init_header:
+            self.init_header = True
+            header = self.tabs[2].find_node('HeroList/ScrollContainer/VBoxContainer/Header')
+            
+            name_label = header.find_node('Label')
+            name_label.set_minimum_size(80, 0)
+            name_label.set_text('姓名')
 
-        action_label = name_label.dup()
-        action_label.set_minimum_size(60, 0)
-        action_label.set_text('活动')
-        
-        #print(game_mgr.ui_mgr.context_unit.unit_name)
-        hero_list = game_mgr.ui_mgr.context_unit.hero_list
+            age_label = name_label.dup()
+            age_label.set_minimum_size(40, 0)
+            age_label.set_text('年龄')
+
+            action_label = name_label.dup()
+            action_label.set_minimum_size(60, 0)
+            action_label.set_text('活动')
 
         # items...
+        for item in self.item_list:
+            item.destroy()
+
+        hero_list = city.hero_list
         item = self.tabs[2].find_node('HeroList/ScrollContainer/VBoxContainer/Item')
         for hero_id in hero_list:
             hero = game_mgr.hero_mgr.get_hero(hero_id)
@@ -71,6 +80,7 @@ class NeiZhengController:
 
             new_item = item.dup()
             new_item.set_visible(True)
+            self.item_list.append(new_item)
 
             name_label = new_item.find_node('Label')
             name_label.set_minimum_size(80, 0)

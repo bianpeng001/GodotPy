@@ -28,6 +28,7 @@ class CityMenuController:
 
         ui_mgr.neizheng_panel.set_visible(True)
         ui_mgr.neizheng_panel.set_position(250, 100)
+        ui_mgr.neizheng_controller.on_tab_changed()
 
     # 出战
     def on_chuzhan(self):
