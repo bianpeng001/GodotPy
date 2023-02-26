@@ -68,6 +68,18 @@ class NeiZhengController:
             action_label.set_minimum_size(60, 0)
             action_label.set_text('活动')
 
+            wuli_label = name_label.dup()
+            wuli_label.set_minimum_size(40, 0)
+            wuli_label.set_text('武力')
+
+            zhili_label = name_label.dup()
+            zhili_label.set_minimum_size(40, 0)
+            zhili_label.set_text('智力')
+
+            zhengzhi_label = name_label.dup()
+            zhengzhi_label.set_minimum_size(40, 0)
+            zhengzhi_label.set_text('政治')
+
         # items...
         for item in self.item_list:
             item.destroy()
@@ -94,6 +106,20 @@ class NeiZhengController:
             action_label = name_label.dup()
             action_label.set_minimum_size(60, 0)
             action_label.set_text('空闲')
+
+            zhili_label = name_label.dup()
+            zhili_label.set_minimum_size(40, 0)
+            zhili_label.set_text(f'{hero.zhili}')
+
+            wuli_label = name_label.dup()
+            wuli_label.set_minimum_size(40, 0)
+            wuli_label.set_text(f'{hero.wuli}')
+
+            zhengzhi_label = name_label.dup()
+            zhengzhi_label.set_minimum_size(40, 0)
+            zhengzhi_label.set_text(f'{hero.zhengzhi}')
+
+            
 
     def on_gui_input(self):
         print('click')

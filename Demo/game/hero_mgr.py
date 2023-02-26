@@ -83,6 +83,18 @@ class Hero:
     def has_tag(self, tag_type):
         return tag_type in self.tags
 
+    @property
+    def wuli(self):
+        return self.get_attr(ATTR_WU)
+
+    @property
+    def zhili(self):
+        return self.get_attr(ATTR_ZHI)
+
+    @property
+    def zhengzhi(self):
+        return self.get_attr(ATTR_ZHENG)
+
 #
 # 武将管理器，所有的武将都在这里，就像一个数据库
 #
