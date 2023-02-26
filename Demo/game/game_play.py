@@ -125,6 +125,11 @@ class GamePlay:
             city.get_controller().set_flag_color()
 
     def update(self, delta_time):
+        # 游戏时间
+        game_mgr.game_data.play_time += delta_time*10000
+        game_mgr.game_data.cur_year = game_mgr.game_data.get_cur_year()
+
+        # 资源刷新
         self.resource_grow_time += delta_time
         if self.resource_grow_time > 1.1:
             self.refresh_resource_grow(self.resource_grow_time)

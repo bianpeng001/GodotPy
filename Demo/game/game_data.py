@@ -5,6 +5,9 @@
 # 游戏存档
 class GameData:
     def __init__(self):
+        self.start_year = 160
+        self.play_time = 0
+        
         self.cur_year = 181
         self.cur_month = 1
 
@@ -17,3 +20,6 @@ class GameData:
 
     def save(self, path):
         pass
+
+    def get_cur_year(self):
+        return self.start_year + int(self.play_time / (86400*365))

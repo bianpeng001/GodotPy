@@ -231,7 +231,7 @@ _name_data = [
 # 女性
 '黄月英','孙尚香','甄宓','关银屏','贾南风','糜萍','甘梅','樊倩',
 '邹兰','貂蝉','蔡文姬','大乔','小乔','祝融夫人','步练师','张春华',
-'卑弥呼','马云禄','孙鲁班','孙鲁育','伏寿','辛宪英','孙大虎','孙小虎',
+'马云禄','孙鲁班','孙鲁育','伏寿','辛宪英','孙大虎','孙小虎',
 '诸葛果','曹羡','曹华','曹节','王元姬','张昌蒲','夏侯徽','夏侯兰',
 '郭女王','张曼','张莲','关凤',
 
@@ -241,12 +241,42 @@ _name_data = [
 # 补充姓氏
 '令狐正','公羊龙','第五伦','纳兰光','公冶平','东野泰','南宫杰','新垣虎',
 '岳秀','姬无病','楚师','拓跋圭','宇文护','澹台灭明',
+'宋江','武松','李逵','林冲','李逍遥','林月如',
 
 ]
-def new_hero_name():
+
+fuxing_data = set([
+    '诸葛','令狐','慕容','宇文','澹台','第五','公羊','公孙','公冶',
+    '东野','南宫','新垣','士孙','邯郸','濮阳','淳于','皇甫','夏侯',
+    '拓跋','纳兰','司马','叔孙','欧阳','欧冶','太史','司徒','鲜于',
+    '轩辕','东郭','百里','段干','呼延','端木','独孤','上官','东方',
+    '尉迟','钟离','申屠','长孙','西门','颛孙','主父','谷梁','宰父',
+])
+
+def new_hero_name_v1():
     if len(_name_data) > 0:
         return select_one(_name_data, delete=False)
     else:
         return '李哪吒'
 
 
+def parse_name(name):
+    if len(name) <= 2:
+        return name[:1],name[1:]
+    else:
+        fname = name[:2]
+        if fname not in fuxing_data:
+            return name[:1], name[1:]
+        else:
+            return fname, name[2:]
+
+
+def new_hero_name():
+    if len(_name_data) > 0:
+        name1 = select_one(_name_data, delete=False)
+        f1, _ = parse_name(name1)
+        name2 = select_one(_name_data, delete=False)
+        _, n2 = parse_name(name2)
+        return f1 + n2
+    else:
+        return '李哪吒'

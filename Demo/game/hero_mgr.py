@@ -102,7 +102,10 @@ class HeroMgr:
             hero.attr[i] = random_int(10, 100)
 
         hero.hero_name = f'武将_{hero.hero_id}'
-        hero.born_year = game_mgr.game_data.cur_year - random_int(12, 40)
+
+        cur_year = game_mgr.game_data.cur_year
+        hero.born_year = cur_year - random_int(12, 40)
+        hero.dead_year = hero.born_year + random_int(50, 100)
 
         return hero
 
