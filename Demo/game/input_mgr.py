@@ -111,13 +111,16 @@ class InputMgr(NodeObject):
         else:
             if curr:
                 dx = self.x - self.left_button.press_x
-                if dx*dx > 4:
+                if dx*dx > 4 and self.can_drag():
                     if not self.left_button.drag:
                         self.left_button.drag = True
                         game_mgr.event_mgr.emit(LEFT_BUTTON_BEGIN_DRAG)
                     else:
                         game_mgr.event_mgr.emit(LEFT_BUTTON_DRAG, self.x, self.y)
 
-
-
+    # 判断是否可以drag
+    def can_drag(self):
+        camera = game_mgr.camera_mgr.main_camera
+        control = camera.find_control(self.x, self.y)
+        return control == None
 

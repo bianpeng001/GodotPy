@@ -26,7 +26,6 @@ texture_pressed = ExtResource("1_2nwp5")
 texture_hover = ExtResource("2_vthb4")
 
 [node name="TabNong" type="Control" parent="Panel"]
-visible = false
 anchors_preset = 0
 offset_left = 10.0
 offset_top = 40.0
@@ -41,6 +40,13 @@ offset_right = 200.0
 offset_bottom = 90.0
 theme = ExtResource("3_we820")
 text = "1"
+
+[node name="TextureRect" type="TextureRect" parent="Panel/TabNong"]
+layout_mode = 0
+offset_left = 365.0
+offset_top = 1.0
+offset_right = 621.0
+offset_bottom = 257.0
 
 [node name="TabShang" type="Control" parent="Panel"]
 visible = false
