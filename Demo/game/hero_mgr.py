@@ -92,10 +92,9 @@ class HeroMgr:
         self.hero_id_seed = 1000
 
     def new_hero(self):
-        self.hero_id_seed += 1
-
         hero = Hero()
-        
+
+        self.hero_id_seed += 1
         hero.hero_id = self.hero_id_seed
         self.hero_dict[hero.hero_id] = hero
 

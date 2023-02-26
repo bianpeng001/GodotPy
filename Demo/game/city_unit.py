@@ -49,7 +49,7 @@ class CityUnit(Unit):
             hero = game_mgr.hero_mgr.new_hero()
             hero.city_id = self.unit_id
             hero.hero_name = new_hero_name()
-            log_util.debug('new hero', self.unit_name, hero.hero_name)
+            log_util.debug('new hero', self.unit_name, hero.hero_id, hero.hero_name)
             
             self.hero_list.append(hero.hero_id)
 

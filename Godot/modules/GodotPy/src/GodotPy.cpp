@@ -110,6 +110,8 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 			ClassTypeDict[StringName("Control")] = ++id_seed_2d;
 			ClassTypeDict[StringName("TabBar")] = ++id_seed_2d;
 			ClassTypeDict[StringName("HBoxContainer")] = ++id_seed_2d;
+			ClassTypeDict[StringName("Button")] = ++id_seed_2d;
+			ClassTypeDict[StringName("CheckBox")] = ++id_seed_2d;
 		}
 
 		auto &value = ClassTypeDict.get(class_name, Variant(0));
@@ -292,6 +294,9 @@ private:
 		PyObject *py_func;
 		PyObject *py_args;
 	} data;
+	static void InitArguments(PyObject *p_tuple, const Variant **p_arguments, int p_argcount) {
+		// TODO:
+	}
 public:
 	CallableCustomCallback(Node *p_node, PyObject *func, PyObject *args) {
 		data.p_node = p_node;
@@ -320,6 +325,7 @@ public:
 	virtual void call(const Variant **p_arguments, int p_argcount, Variant &r_return_value, Callable::CallError &r_call_error) const override {
 		// TODO: 这里要解决一下参数，目前没有传入参数
 		auto args = PyTuple_New(0);
+		InitArguments(args, p_arguments, p_argcount);
 		auto ret = PyObject_Call(data.py_func, args, NULL);
 
 		if (ret) {
@@ -332,24 +338,13 @@ public:
 };
 
 // 常量区域
-//static const char *c_capsule_name = "node_capsule";
 static const char *c_gdobj_name = "_gdobj";
-static const char *c_node_name = "node";
-
-// 从capsule里面取数据
-template <typename T>
-static T *GetCapsulePointer(PyObject *capsule) {
-	auto node = reinterpret_cast<Node *>(PyCapsule_GetPointer(capsule, c_node_name));
-	return Object::cast_to<T>(node);
-}
 
 // 这是一个兼容的写法
 template<typename T>
 inline T *GetObjPtr(PyObject *o) {
 	if (gdobj::Is_GDObj(o)) {
 		return gdobj::PyGDObj_GetPtr<T>(o);
-	} else if (PyCapsule_CheckExact(o)) {
-		return GetCapsulePointer<T>(o);
 	}
 
 	//print_line("GetObjPtr: input obj is not supported, %s");
@@ -442,7 +437,6 @@ static PyObject *f_set_process_input(PyObject *module, PyObject *args) {
 		Py_RETURN_NONE;
 	}
 
-	//auto node = (Node *)PyCapsule_GetPointer(a_node, c_node_name);
 	auto node = GetObjPtr<Node>(a_obj);
 	if (!node) {
 		goto end;
@@ -460,7 +454,6 @@ static PyObject *f_set_physics_process(PyObject *module, PyObject *args) {
 		Py_RETURN_NONE;
 	}
 
-	//auto node = (Node *)PyCapsule_GetPointer(a_node, c_node_name);
 	auto node = GetObjPtr<Node>(a_obj);
 	if (!node) {
 		goto end;
@@ -478,7 +471,6 @@ static PyObject *f_set_process(PyObject *module, PyObject *args) {
 		Py_RETURN_NONE;
 	}
 
-	//auto p_node = (Node *)PyCapsule_GetPointer(node, c_node_name);
 	auto node = GetObjPtr<Node>(a_obj);
 	node->set_process(value != 0);
 
@@ -516,9 +508,6 @@ static PyObject *f_get_parent(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		//auto obj = get_or_create_capsule(parent_node);
-		//Py_INCREF(obj);
-		//return obj;
 		PyObject *obj = FGDObjSlot::GetGDObj(parent_node);
 		Py_INCREF(obj);
 		return obj;
@@ -704,9 +693,6 @@ static PyObject *f_get_child_at(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		//PyObject *obj = get_or_create_capsule(child_node);
-		//Py_INCREF(obj);
-		//return obj;
 		PyObject *obj = FGDObjSlot::GetGDObj(child_node);
 		Py_INCREF(obj);
 		return obj;
@@ -1073,7 +1059,8 @@ static PyObject *f_raycast_shape(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		auto camera = GetCapsulePointer<Camera3D>(a_node);
+		Camera3D *camera = NULL;
+		//auto camera = GetCapsulePointer<Camera3D>(a_node);
 		Ref<World3D> world = camera->get_world_3d();
 		auto space_state = world->get_direct_space_state();
 
@@ -1672,9 +1659,6 @@ void FPyObject::_ready() {
 			PyErr_Print();
 			break;
 		}
-
-		//auto capsule = get_or_create_capsule(this);
-		//PyObject_SetAttrString(p_object, c_capsule_name, capsule);
 
 		auto gdobj = FGDObjSlot::GetGDObj(this);
 		PyObject_SetAttrString(p_object, c_gdobj_name, gdobj);

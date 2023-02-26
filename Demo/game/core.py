@@ -496,6 +496,9 @@ class FLabel(FControl):
 class FButton(FControl):
     pass
 
+class FCheckBox(FButton):
+    pass
+
 class FImage(FControl):
     pass
 
@@ -549,6 +552,8 @@ FClassMap[13] = FLabel
 FClassMap[14] = FControl
 FClassMap[15] = FTabBar
 FClassMap[16] = FHBoxContainer
+FClassMap[17] = FButton
+FClassMap[18] = FCheckBox
 
 # 大话降龙
 # https://www.mm1316.com/maoxian/dahuajianglong

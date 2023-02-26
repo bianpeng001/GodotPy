@@ -41,13 +41,13 @@ class NeiZhengController:
         for i in range(len(self.tabs)):
             self.tabs[i].set_visible(i == self.tab_index)
 
-        if i == 2 and not self.init_hero_list_done:
+        if self.tab_index == 2 and not self.init_hero_list_done:
             self.init_hero_list_done = True
             self.init_hero_list()
 
     def init_hero_list(self):
         header = self.tabs[2].find_node('HeroList/ScrollContainer/VBoxContainer/Header')
-        print(header)
+        
         name_label = header.find_node('Label')
         name_label.set_minimum_size(80, 0)
         name_label.set_text('姓名')
@@ -60,16 +60,15 @@ class NeiZhengController:
         action_label.set_minimum_size(60, 0)
         action_label.set_text('活动')
         
-
-        heros = []
-        for i in range(4):
-            hero = game_mgr.hero_mgr.new_hero()
-            hero.hero_name = new_hero_name()
-            heros.append(hero)
+        #print(game_mgr.ui_mgr.context_unit.unit_name)
+        hero_list = game_mgr.ui_mgr.context_unit.hero_list
 
         # items...
         item = self.tabs[2].find_node('HeroList/ScrollContainer/VBoxContainer/Item')
-        for hero in heros:
+        for hero_id in hero_list:
+            hero = game_mgr.hero_mgr.get_hero(hero_id)
+            #print(hero_id, hero)
+
             new_item = item.dup()
             new_item.set_visible(True)
 
