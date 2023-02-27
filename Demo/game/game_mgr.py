@@ -82,4 +82,8 @@ class GameMgr():
     def get_main_player_id(self):
         return self.player_mgr.main_player_id
 
+    @property
+    def main_pid(self):
+        return self.get_main_player_id()
+
 game_mgr = GameMgr()

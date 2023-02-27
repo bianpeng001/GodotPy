@@ -5,6 +5,7 @@
 import sys
 import math
 import random
+import traceback
 
 import GodotPy as gp
 
@@ -319,14 +320,22 @@ class LogUtil:
     def __init__(self):
         self.enable_debug = True
         self.enable_error = True
+        self.skip = 27
+
+    def print_stack(self):
+        s = traceback.extract_stack(limit=4)
+        for it in s[:-2]:
+            print_line(f'\t{it.filename[self.skip:]}:{it.lineno}')
 
     def debug(self, *args):
         if self.enable_debug:
             print_line('[DEBUG]', *args)
+            self.print_stack()
 
     def error(self, *args):
         if self.enable_error:
             print_line('[ERROR]', *args)
+            self.print_stack()
 
     def print(self, msg):
         print_line(msg)

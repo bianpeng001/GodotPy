@@ -2,6 +2,7 @@
 # 2023年2月23日 bianpeng
 #
 
+from game.core import *
 from game.game_mgr import game_mgr
 from game.config_mgr import new_hero_name
 
@@ -95,7 +96,7 @@ class NeiZhengController:
 
                 def _on_gui_input(is_pressed):
                     if is_pressed:
-                        print(f'click {a_hero.hero_id} {a_hero.hero_name}')
+                        log_util.debug(f'click {a_hero.hero_id} {a_hero.hero_name}')
                 
                 return _on_gui_input
 
