@@ -279,85 +279,6 @@ static PyGDObj* Cast_PyGDObj(PyObject *o) {
 //
 //------------------------------------------------------------------------------
 
-/// <summary>
-/// 用来处理python的callback, 这个算是一个扩展点
-/// </summary>
-class CallableCustomCallback : public CallableCustomMethodPointerBase {
-private:
-	struct Data {
-		Node *p_node;
-		PyObject *py_func;
-		PyObject *py_args;
-	} data;
-	static PyObject* InitArguments(const Variant **p_arguments, int p_argcount) {
-		//return PyTuple_New(0);
-		
-		// 这里要把参数，填进去
-		PyObject *obj = PyTuple_New(p_argcount);
-		for (int i = 0; i < p_argcount; ++i) {
-			auto arg = p_arguments[i];
-			PyObject *value = NULL;
-			switch (arg->get_type()) {
-				case Variant::INT:
-					value = PyLong_FromLong((int)*arg);
-					break;
-				case Variant::OBJECT: {
-					auto obj = (Object *)*arg;
-					do {
-						auto input_event = Object::cast_to<InputEvent>(obj);
-						if (input_event) {
-							value = PyBool_FromLong(input_event->is_pressed());
-						}
-					} while (0);
-				}
-			}
-			if (!value) {
-				value = Py_NewRef(Py_None);
-			}
-			PyTuple_SetItem(obj, i, value);
-			GP_DECREF(value);
-		}
-		return obj;
-	}
-public:
-	CallableCustomCallback(Node *p_node, PyObject *func, PyObject *args) {
-		data.p_node = p_node;
-		data.py_func = func;
-		data.py_args = args;
-
-		if (func) {
-			Py_INCREF(func);
-		}
-		if (args) {
-			Py_INCREF(args);
-		}
-		_setup((uint32_t *)&data, sizeof(Data));
-	}
-	virtual ~CallableCustomCallback() {
-		if (data.py_func) {
-			GP_DECREF(data.py_func);
-		}
-		if (data.py_args) {
-			GP_DECREF(data.py_args);
-		}
-	}
-	virtual ObjectID get_object() const override {
-		return data.p_node->get_instance_id();
-	}
-	virtual void call(const Variant **p_arguments, int p_argcount, Variant &r_return_value, Callable::CallError &r_call_error) const override {
-		// TODO: 这里要解决一下参数，目前没有传入参数
-		
-		auto args = InitArguments(p_arguments, p_argcount);
-		auto ret = PyObject_Call(data.py_func, args, NULL);
-
-		if (ret) {
-			GP_DECREF(ret);
-		} else {
-			PyErr_Print();
-		}
-		GP_DECREF(args);
-	};
-};
 
 // 常量区域
 static const char *c_gdobj_name = "_gdobj";
@@ -373,8 +294,9 @@ inline T *GetObjPtr(PyObject *o) {
 	print_line(vformat("GetObjPtr: %s not supported", o->ob_type->tp_name));
 	return nullptr;
 }
-
+//------------------------------------------------------------------------------
 // 作为属性，存在对象上面
+//------------------------------------------------------------------------------
 class FGDObjSlot : public Object {
 private:
 	PyObject *gd_obj;
@@ -421,6 +343,129 @@ public:
 	}
 };
 Dictionary FGDObjSlot::object_id2gd_obj_dict;
+
+//------------------------------------------------------------------------------
+// 用来处理python的callback, 这个算是一个扩展点
+//------------------------------------------------------------------------------
+class CallableCustomCallback : public CallableCustomMethodPointerBase {
+private:
+	struct Data {
+		Node *p_node;
+		PyObject *py_func;
+		PyObject *py_args;
+	} data;
+	static PyObject *InitArguments(const Variant **p_arguments, int p_argcount) {
+		//return PyTuple_New(0);
+
+		// 这里要把参数，填进去
+		PyObject *obj = PyTuple_New(p_argcount);
+		for (int i = 0; i < p_argcount; ++i) {
+			auto &arg = *p_arguments[i];
+			PyObject *value = NULL;
+			switch (arg.get_type()) {
+				case Variant::BOOL:
+					value = PyBool_FromLong((bool)arg);
+					break;
+				case Variant::INT:
+					value = PyLong_FromLong((int)arg);
+					break;
+				case Variant::FLOAT:
+					value = PyFloat_FromDouble((double)arg);
+					break;
+				case Variant::STRING:
+					do {
+						auto &s = (String)arg;
+						value = PyUnicode_FromString(s.utf8());
+					} while (0);
+					break;
+				case Variant::VECTOR3:
+					do {
+						PyObject *f;
+
+						auto v = (Vector3)arg;
+						value = PyTuple_New(3);
+
+						f = PyFloat_FromDouble(v.x);
+						PyTuple_SetItem(value, 0, f);
+						GP_DECREF(f);
+
+						f = PyFloat_FromDouble(v.y);
+						PyTuple_SetItem(value, 1, f);
+						GP_DECREF(f);
+
+						f = PyFloat_FromDouble(v.z);
+						PyTuple_SetItem(value, 2, f);
+						GP_DECREF(f);
+
+					} while (0);
+					break;
+				case Variant::OBJECT: {
+					auto obj = (Object *)arg;
+					do {
+						auto input_event = Object::cast_to<InputEvent>(obj);
+						if (input_event) {
+							value = PyBool_FromLong(input_event->is_pressed());
+							break;
+						}
+
+						auto node = Object::cast_to<Node>(obj);
+						if (node) {
+							value = FGDObjSlot::GetGDObj(node);
+							Py_INCREF(obj);
+							break;
+						}
+					} while (0);
+					break;
+				}
+			}
+			if (!value) {
+				value = Py_NewRef(Py_None);
+			}
+			PyTuple_SetItem(obj, i, value);
+			GP_DECREF(value);
+		}
+		return obj;
+	}
+
+public:
+	CallableCustomCallback(Node *p_node, PyObject *func, PyObject *args) {
+		data.p_node = p_node;
+		data.py_func = func;
+		data.py_args = args;
+
+		if (func) {
+			Py_INCREF(func);
+		}
+		if (args) {
+			Py_INCREF(args);
+		}
+		_setup((uint32_t *)&data, sizeof(Data));
+	}
+	virtual ~CallableCustomCallback() {
+		if (data.py_func) {
+			GP_DECREF(data.py_func);
+		}
+		if (data.py_args) {
+			GP_DECREF(data.py_args);
+		}
+	}
+	virtual ObjectID get_object() const override {
+		return data.p_node->get_instance_id();
+	}
+	virtual void call(const Variant **p_arguments, int p_argcount, Variant &r_return_value, Callable::CallError &r_call_error) const override {
+		// TODO: 这里要解决一下参数，目前没有传入参数
+
+		auto args = InitArguments(p_arguments, p_argcount);
+		auto ret = PyObject_Call(data.py_func, args, NULL);
+
+		if (ret) {
+			GP_DECREF(ret);
+		} else {
+			PyErr_Print();
+		}
+		GP_DECREF(args);
+	};
+};
 
 //------------------------------------------------------------------------------
 // module function implementation
