@@ -197,12 +197,7 @@ static PyObject *f_is_valid(PyObject *a_self, PyObject *args) {
 		self = (PyGDObj *)a_self;
 		auto obj = ObjectDB::get_instance(self->instance_id);
 
-		if (obj) {
-			Py_RETURN_TRUE;
-		} else {
-			Py_RETURN_FALSE;
-		}
-
+		return PyBool_FromLong(obj != NULL);
 	} while (0);
 
 	Py_RETURN_NONE;
@@ -294,8 +289,35 @@ private:
 		PyObject *py_func;
 		PyObject *py_args;
 	} data;
-	static void InitArguments(PyObject *p_tuple, const Variant **p_arguments, int p_argcount) {
-		// TODO:
+	static PyObject* InitArguments(const Variant **p_arguments, int p_argcount) {
+		//return PyTuple_New(0);
+		
+		// 这里要把参数，填进去
+		PyObject *obj = PyTuple_New(p_argcount);
+		for (int i = 0; i < p_argcount; ++i) {
+			auto arg = p_arguments[i];
+			PyObject *value = NULL;
+			switch (arg->get_type()) {
+				case Variant::INT:
+					value = PyLong_FromLong((int)*arg);
+					break;
+				case Variant::OBJECT: {
+					auto obj = (Object *)*arg;
+					do {
+						auto input_event = Object::cast_to<InputEvent>(obj);
+						if (input_event) {
+							value = PyBool_FromLong(input_event->is_pressed());
+						}
+					} while (0);
+				}
+			}
+			if (!value) {
+				value = Py_NewRef(Py_None);
+			}
+			PyTuple_SetItem(obj, i, value);
+			GP_DECREF(value);
+		}
+		return obj;
 	}
 public:
 	CallableCustomCallback(Node *p_node, PyObject *func, PyObject *args) {
@@ -324,8 +346,8 @@ public:
 	}
 	virtual void call(const Variant **p_arguments, int p_argcount, Variant &r_return_value, Callable::CallError &r_call_error) const override {
 		// TODO: 这里要解决一下参数，目前没有传入参数
-		auto args = PyTuple_New(0);
-		InitArguments(args, p_arguments, p_argcount);
+		
+		auto args = InitArguments(p_arguments, p_argcount);
 		auto ret = PyObject_Call(data.py_func, args, NULL);
 
 		if (ret) {

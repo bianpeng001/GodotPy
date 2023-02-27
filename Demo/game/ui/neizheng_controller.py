@@ -39,7 +39,7 @@ class NeiZhengController:
     def on_close_click(self):
         game_mgr.ui_mgr.defer_close(self.ui_obj)
 
-    def on_tab_changed(self):
+    def on_tab_changed(self, *args):
         self.tab_index = self.tab_bar.get_current_tab()
         for i in range(len(self.tabs)):
             self.tabs[i].set_visible(i == self.tab_index)
@@ -119,9 +119,9 @@ class NeiZhengController:
             zhengzhi_label.set_minimum_size(40, 0)
             zhengzhi_label.set_text(f'{hero.zhengzhi}')
 
-            
 
-    def on_gui_input(self):
-        print('click')
+    def on_gui_input(self, is_pressed):
+        if is_pressed:
+            print('click')
 
 
