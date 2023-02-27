@@ -4,7 +4,6 @@
 
 from game.core import *
 from game.game_mgr import game_mgr
-from game.config_mgr import new_hero_name
 from game.event_name import GUI_INPUT, PRESSED
 
 # 内政，农商将
@@ -21,16 +20,16 @@ class NeiZhengController:
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
-        self.btn_close = ui_obj.find_node('Panel/BtnClose')
+        self.btn_close = self.ui_obj.find_node('Panel/BtnClose')
         self.btn_close.connect(PRESSED, self.on_close_click)
 
-        self.tab_bar = ui_obj.find_node('TabBar')
+        self.tab_bar = self.ui_obj.find_node('TabBar')
         self.tab_bar.connect('tab_changed', self.on_tab_changed)
 
         self.tabs = [
-            ui_obj.find_node('Panel/TabNong'),
-            ui_obj.find_node('Panel/TabShang'),
-            ui_obj.find_node('Panel/TabJiang'),
+            self.ui_obj.find_node('Panel/TabNong'),
+            self.ui_obj.find_node('Panel/TabShang'),
+            self.ui_obj.find_node('Panel/TabJiang'),
         ]
         self.tab_index = 0
         self.tab_bar.set_current_tab(self.tab_index)
@@ -71,6 +70,10 @@ class NeiZhengController:
             wuli_label = name_label.dup()
             wuli_label.set_minimum_size(40, 0)
             wuli_label.set_text('武力')
+
+            tongshuai_label = name_label.dup()
+            tongshuai_label.set_minimum_size(40, 0)
+            tongshuai_label.set_text('统率')
 
             zhili_label = name_label.dup()
             zhili_label.set_minimum_size(40, 0)
@@ -119,6 +122,10 @@ class NeiZhengController:
             zhili_label = name_label.dup()
             zhili_label.set_minimum_size(40, 0)
             zhili_label.set_text(f'{hero.zhili}')
+
+            tongshuai_label = name_label.dup()
+            tongshuai_label.set_minimum_size(40, 0)
+            tongshuai_label.set_text(f'{hero.tongshuai}')
 
             wuli_label = name_label.dup()
             wuli_label.set_minimum_size(40, 0)

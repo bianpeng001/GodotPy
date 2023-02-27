@@ -11,12 +11,13 @@ MALE = 1
 FEMAIL = 0
 
 # attrs [0, 100]
-# 忠义，智力，武力，魅力，政治
+# 忠义，智力，武力，统率，政治，魅力
 ATTR_ZHONG = 0
 ATTR_ZHI = 1
 ATTR_WU = 2
-ATTR_MEI = 3
+ATTR_TONG = 3
 ATTR_ZHENG = 4
+ATTR_MEI = 5
 
 MAX = 8
 
@@ -95,6 +96,10 @@ class Hero:
     def zhengzhi(self):
         return self.get_attr(ATTR_ZHENG)
 
+    @property
+    def tongshuai(self):
+        return self.get_attr(ATTR_TONG)
+
 #
 # 武将管理器，所有的武将都在这里，就像一个数据库
 #
@@ -110,8 +115,9 @@ class HeroMgr:
         hero.hero_id = self.hero_id_seed
         self.hero_dict[hero.hero_id] = hero
 
+        # 随机一个属性出来
         for i in range(len(hero.attr)):
-            hero.attr[i] = random_int(10, 100)
+            hero.attr[i] = random_int(10, 99)
 
         hero.hero_name = f'武将_{hero.hero_id}'
 
