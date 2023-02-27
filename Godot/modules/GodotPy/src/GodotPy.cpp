@@ -376,6 +376,7 @@ private:
 					do {
 						auto &s = (String)arg;
 						value = PyUnicode_FromString(s.utf8());
+
 					} while (0);
 					break;
 				case Variant::VECTOR3:
@@ -399,6 +400,27 @@ private:
 
 					} while (0);
 					break;
+				case Variant::COLOR:
+					do {
+						PyObject *f;
+
+						auto v = (Color)arg;
+						value = PyTuple_New(3);
+
+						f = PyFloat_FromDouble(v.r);
+						PyTuple_SetItem(value, 0, f);
+						GP_DECREF(f);
+
+						f = PyFloat_FromDouble(v.g);
+						PyTuple_SetItem(value, 1, f);
+						GP_DECREF(f);
+
+						f = PyFloat_FromDouble(v.b);
+						PyTuple_SetItem(value, 2, f);
+						GP_DECREF(f);
+
+					} while (0);
+					break;
 				case Variant::OBJECT: {
 					auto obj = (Object *)arg;
 					do {
@@ -408,12 +430,15 @@ private:
 							break;
 						}
 
-						auto node = Object::cast_to<Node>(obj);
+						// TODO:
+
+						auto node = Object::cast_to<Object>(obj);
 						if (node) {
 							value = FGDObjSlot::GetGDObj(node);
 							Py_INCREF(obj);
 							break;
 						}
+
 					} while (0);
 					break;
 				}
