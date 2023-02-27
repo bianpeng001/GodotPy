@@ -279,7 +279,6 @@ static PyGDObj* Cast_PyGDObj(PyObject *o) {
 //
 //------------------------------------------------------------------------------
 
-
 // 常量区域
 static const char *c_gdobj_name = "_gdobj";
 
@@ -343,6 +342,19 @@ public:
 	}
 };
 Dictionary FGDObjSlot::object_id2gd_obj_dict;
+
+//------------------------------------------------------------------------------
+// 有些数据做一个类型没必要，仍旧放到capsule里面，挺方便的
+//------------------------------------------------------------------------------
+static const char c_Transform3D[] = "Transform3D";
+static const char c_Quaternion[] = "Quaternion";
+static const char c_InputEvent[] = "InputEvent";
+
+template <const char* pointer_name>
+void _capsule_delete_pointer(PyObject *obj) {
+	auto ptr = PyCapsule_GetPointer(obj, pointer_name);
+	memdelete(ptr);
+}
 
 //------------------------------------------------------------------------------
 // 用来处理python的callback, 这个算是一个扩展点
@@ -420,6 +432,24 @@ private:
 						GP_DECREF(f);
 
 					} while (0);
+					break;
+				case Variant::TRANSFORM3D:
+					do {
+						auto p_transform = memnew(Transform3D((Transform3D)arg));
+
+						value = PyCapsule_New(p_transform, c_Transform3D,
+								&_capsule_delete_pointer<c_Transform3D>);
+					} while (0);
+
+					break;
+				case Variant::QUATERNION:
+					do {
+						auto p_quat = memnew(Quaternion((Quaternion)arg));
+
+						value = PyCapsule_New(p_quat, c_Quaternion,
+								&_capsule_delete_pointer<c_Quaternion>);
+					} while (0);
+
 					break;
 				case Variant::OBJECT: {
 					auto obj = (Object *)arg;
