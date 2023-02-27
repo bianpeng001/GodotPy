@@ -5,6 +5,7 @@
 from game.core import *
 from game.game_mgr import game_mgr
 from game.config_mgr import new_hero_name
+from game.event_name import GUI_INPUT, PRESSED
 
 # 内政，农商将
 class NeiZhengController:
@@ -18,8 +19,6 @@ class NeiZhengController:
         self.init_header = False
 
     def setup(self, ui_obj):
-        from game.event_name import PRESSED
-
         self.ui_obj = ui_obj
 
         self.btn_close = ui_obj.find_node('Panel/BtnClose')
@@ -107,7 +106,7 @@ class NeiZhengController:
             name_label = new_item.find_node('Label')
             name_label.set_minimum_size(80, 0)
             name_label.set_text(hero.hero_name)
-            name_label.connect('gui_input', bind_gui_input())
+            name_label.connect(GUI_INPUT, bind_gui_input())
 
             age_label = name_label.dup()
             age_label.set_minimum_size(40, 0)

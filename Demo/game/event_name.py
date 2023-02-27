@@ -15,7 +15,9 @@ LEFT_BUTTON_CLICK = 'left_button_click'
 WHEEL_UP_PRESS = 'wheel_up_press'
 WHEEL_DOWN_PRESS = 'wheel_down_press'
 
+# signal
 PRESSED = 'pressed'
+GUI_INPUT = 'gui_input'
 
 # 场景事件
 SCENE_UNIT_CLICK = 'scene_unit_click'

@@ -327,15 +327,17 @@ class LogUtil:
         for it in s[:-2]:
             print_line(f'\t{it.filename[self.skip:]}:{it.lineno}')
 
-    def debug(self, *args):
+    def debug(self, *args, st=True):
         if self.enable_debug:
             print_line('[DEBUG]', *args)
-            self.print_stack()
+            if st:
+                self.print_stack()
 
-    def error(self, *args):
+    def error(self, *args, st=True):
         if self.enable_error:
             print_line('[ERROR]', *args)
-            self.print_stack()
+            if st:
+                self.print_stack()
 
     def print(self, msg):
         print_line(msg)
