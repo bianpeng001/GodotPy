@@ -90,6 +90,15 @@ class NeiZhengController:
             hero = game_mgr.hero_mgr.get_hero(hero_id)
             #print(hero_id, hero)
 
+            def bind_gui_input():
+                a_hero = hero
+
+                def _on_gui_input(is_pressed):
+                    if is_pressed:
+                        print(f'click {a_hero.hero_id} {a_hero.hero_name}')
+                
+                return _on_gui_input
+
             new_item = item.dup()
             new_item.set_visible(True)
             self.item_list.append(new_item)
@@ -97,7 +106,7 @@ class NeiZhengController:
             name_label = new_item.find_node('Label')
             name_label.set_minimum_size(80, 0)
             name_label.set_text(hero.hero_name)
-            name_label.connect('gui_input', self.on_gui_input)
+            name_label.connect('gui_input', bind_gui_input())
 
             age_label = name_label.dup()
             age_label.set_minimum_size(40, 0)
@@ -119,9 +128,5 @@ class NeiZhengController:
             zhengzhi_label.set_minimum_size(40, 0)
             zhengzhi_label.set_text(f'{hero.zhengzhi}')
 
-
-    def on_gui_input(self, is_pressed):
-        if is_pressed:
-            print('click')
 
 
