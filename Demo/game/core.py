@@ -6,6 +6,7 @@ import sys
 import math
 import random
 import traceback
+import os
 
 import GodotPy as gp
 
@@ -320,7 +321,9 @@ class LogUtil:
     def __init__(self):
         self.enable_debug = True
         self.enable_error = True
-        self.skip = 27
+        
+        cur_path = os.path.abspath('.')
+        self.skip = len(cur_path) + 1
 
     def print_stack(self):
         s = traceback.extract_stack(limit=4)

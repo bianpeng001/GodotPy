@@ -117,7 +117,17 @@ class HeroMgr:
 
         # 随机一个属性出来
         for i in range(len(hero.attr)):
-            hero.attr[i] = random_int(10, 99)
+            hero.attr[i] = random_int(1, 80)
+        remain_points = 100
+        for i in range(len(hero.attr)):
+            if remain_points <= 0:
+                break
+            else:
+                v = random_int(0, 100 - hero.attr[i])
+                if v > remain_points:
+                    v = remain_points
+                hero.attr[i] += v
+                remain_points -= v
 
         hero.hero_name = f'武将_{hero.hero_id}'
 
