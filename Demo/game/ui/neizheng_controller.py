@@ -52,6 +52,8 @@ class NeiZhengController:
     def on_close_click(self):
         game_mgr.ui_mgr.defer_close(self.ui_obj)
 
+        game_mgr.ui_mgr.npc_dialog_controller.show_dialog('诸葛亮：主公请放心。', 2)
+
     def on_tab_changed(self, *args):
         self.tab_index = self.tab_bar.get_current_tab()
         for i in range(len(self.tabs)):

@@ -6,9 +6,12 @@
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="3_we820"]
 [ext_resource type="PackedScene" uid="uid://cnaoeuea0v1ua" path="res://ui/HeroList.tscn" id="4_p1uhh"]
 
-[node name="NeiZhenPanel" type="Node2D"]
+[node name="NeiZhenPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 
 [node name="Panel" type="Panel" parent="."]
+layout_mode = 0
 offset_top = 34.0
 offset_right = 680.0
 offset_bottom = 434.0
@@ -141,6 +144,7 @@ offset_bottom = 390.0
 layout_mode = 1
 
 [node name="TabBar" type="TabBar" parent="."]
+layout_mode = 0
 offset_right = 300.0
 offset_bottom = 34.0
 theme = ExtResource("3_we820")

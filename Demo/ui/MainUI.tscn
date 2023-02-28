@@ -6,7 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://ds8t5yxnam6tw" path="res://ui/img/Coin.png" id="6_k0gva"]
 [ext_resource type="Texture2D" uid="uid://dbiioiqpsaq0u" path="res://ui/img/Rice.png" id="8_n434f"]
 
-[node name="MainUI" type="Node2D"]
+[node name="MainUI" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 
 [node name="Bg" type="ColorRect" parent="."]
 offset_right = 1152.0

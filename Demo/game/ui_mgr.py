@@ -21,6 +21,8 @@ class UIMgr(NodeObject):
         self.context_unit = None
         self.tick_time = 0
 
+        self.auto_close_queue = []
+
 
     def _create(self):
         #self.get_obj().connect("ready", self._ready)
@@ -59,7 +61,12 @@ class UIMgr(NodeObject):
         from game.ui.neizheng_controller import NeiZhengController
         self.neizheng_panel, self.neizheng_controller = self.load_panel(
                 'res://ui/NeiZhengPanel.tscn', NeiZhengController)
-        
+
+        from game.ui.npc_dialog_controller import NpcDialogController
+        self.npc_dialog, self.npc_dialog_controller = self.load_panel(
+            'res://ui/NpcDialog.tscn', NpcDialogController)
+
+        self.auto_close_queue.append(self.npc_dialog_controller)
 
     # def _ready(self):
     #     game_mgr.co_mgr.start(self.co_init_panels())
@@ -80,6 +87,12 @@ class UIMgr(NodeObject):
             for ui_obj in self.defer_close_queue:
                 ui_obj.set_visible(False)
             self.defer_close_queue.clear()
+
+        for item in self.auto_close_queue:
+            if item.show_time > 0:
+                item.show_time -= delta_time
+                if item.show_time <= 0:
+                    self.defer_close(item.ui_obj)
 
     # 下一帧开头关闭
     # 避免本帧直接关闭，出现点穿的现象。如果立即关闭，则会判定为在空地上点了一下

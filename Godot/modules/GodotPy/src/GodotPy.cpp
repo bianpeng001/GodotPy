@@ -1165,6 +1165,26 @@ static PyObject *f_node2d_set_position(PyObject *module, PyObject *args) {
 	} while (0);
 	Py_RETURN_NONE;
 }
+static PyObject *f_control_set_position(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		float x, y;
+
+		if (!PyArg_ParseTuple(args, "Off", &a_obj,
+					&x, &y)) {
+			break;
+		}
+
+		auto node = GetObjPtr<Control>(a_obj);
+		if (!node) {
+			break;
+		}
+
+		node->set_position(Point2(x, y));
+
+	} while (0);
+	Py_RETURN_NONE;
+}
 // raycast一个物体
 static PyObject *f_raycast_shape(PyObject *module, PyObject *args) {
 	do {
@@ -1513,8 +1533,9 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "animation_player_stop", f_animation_player_stop, METH_VARARGS, NULL },
 	{ "animation_player_set_speed_scale", f_animation_player_set_speed_scale, METH_VARARGS, NULL },
 
-	// node2d
+	// 2d
 	{ "node2d_set_position", f_node2d_set_position, METH_VARARGS, NULL },
+	{ "control_set_position", f_control_set_position, METH_VARARGS, NULL },
 	{ "canvas_item_set_visible", f_canvas_item_set_visible, METH_VARARGS, NULL },
 	{ "find_control", f_find_control, METH_VARARGS, NULL },
 

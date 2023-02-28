@@ -2,7 +2,9 @@
 
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_hl2ab"]
 
-[node name="HUD2d" type="Node2D"]
+[node name="HUD2d" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 
 [node name="Title" type="Label" parent="."]
 offset_right = 80.0

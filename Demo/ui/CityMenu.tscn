@@ -2,7 +2,9 @@
 
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_qa4tx"]
 
-[node name="ContextMenu" type="Node2D"]
+[node name="ContextMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 
 [node name="Panel" type="Panel" parent="."]
 offset_right = 64.0

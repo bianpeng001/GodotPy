@@ -34,9 +34,9 @@ class MainUIController:
         self.ui_obj.find_node('BtnGM').connect(PRESSED, self.on_gm_click)
 
     def on_gm_click(self):
-        with open('gm.py') as f:
+        with open('./gm.py') as f:
             data = f.read()
-            eval(data)
+            exec(data)
             print('gm ok')
 
     def format_amount_str(self, value):

@@ -484,7 +484,8 @@ class FCanvasItem(FNode):
         gp.canvas_item_set_visible(self.get_gdobj(), visible)
 
 class FControl(FCanvasItem):
-    pass
+    def set_position(self, x,y):
+        gp.control_set_position(self.get_gdobj(), x,y)
 
 class FTabBar(FControl):
     def get_current_tab(self):

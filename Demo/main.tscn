@@ -43,7 +43,10 @@ python_class = "UIMgr"
 
 [node name="HUD2d" parent="UIMgr" instance=ExtResource("4_1yjob")]
 visible = false
-position = Vector2(123, 162)
+offset_left = 123.0
+offset_top = 162.0
+offset_right = 123.0
+offset_bottom = 162.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.906308, -0.365998, 0.211309, 0, 0.5, 0.866025, -0.422618, -0.784885, 0.453154, 0, 20, 0)
