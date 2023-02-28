@@ -66,7 +66,12 @@ class UIMgr(NodeObject):
         self.npc_dialog, self.npc_dialog_controller = self.load_panel(
             'res://ui/NpcDialog.tscn', NpcDialogController)
 
+        from game.ui.select_hero_controller import SelectHeroController
+        self.select_hero_dialog, self.select_hero_controller = self.load_panel(
+            'res://ui/SelectHeroDialog.tscn', SelectHeroController)
+        
         self.auto_close_queue.append(self.npc_dialog_controller)
+
 
     # def _ready(self):
     #     game_mgr.co_mgr.start(self.co_init_panels())

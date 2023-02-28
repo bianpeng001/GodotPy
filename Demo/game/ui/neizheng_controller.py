@@ -4,11 +4,14 @@
 
 from game.core import *
 from game.game_mgr import game_mgr
+from game.base_type import UIController
 from game.event_name import GUI_INPUT, PRESSED, VALUE_CHANGED
 
 # 内政，农商将
-class NeiZhengController:
+class NeiZhengController(UIController):
     def __init__(self):
+        super().__init__()
+
         self.tab_index = 0
 
         self.tabs = []
@@ -44,6 +47,13 @@ class NeiZhengController:
         self.farmer_mass_label = zheng_obj.find_node('LblFarmerMass')
         zheng_obj.find_node('SliderTraderMass').connect(VALUE_CHANGED, self.on_trade_slide_change)
         self.trade_mass_label = zheng_obj.find_node('LblTraderMass')
+
+        zheng_obj.find_node('BtnSatrap').connect(PRESSED, self.on_select_satrap)
+
+    def on_select_satrap(self):
+        game_mgr.ui_mgr.select_hero_controller.ui_obj.set_position(250, 100)
+        game_mgr.ui_mgr.select_hero_controller.show()
+        game_mgr.ui_mgr.defer_close(self.ui_obj)
 
     def on_order_slide_change(self, value):
         num = round(value * 100)

@@ -508,10 +508,14 @@ class FLabel(FControl):
     def set_minimum_size(self, w, h):
         gp.label_set_minimum_size(self.get_gdobj(), w, h)
 
-class FButton(FControl):
+class FBaseButton(FControl):
+    def set_disabled(self, value):
+        gp.base_button_set_disabled(self.get_gdobj(), value)
+
+class FButton(FBaseButton):
     pass
 
-class FCheckBox(FButton):
+class FCheckBox(FBaseButton):
     pass
 
 class FImage(FControl):

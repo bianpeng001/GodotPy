@@ -153,3 +153,17 @@ class Controller(AIMachine):
             node.set_position(*self.get_unit().get_position())
 
 
+class UIController:
+    def __self__(self):
+        self.ui_obj = None
+
+    def setup(self, ui_obj):
+        pass
+
+    def show(self):
+        self.ui_obj.set_visible(True)
+
+    def hide(self):
+        self.ui_obj.set_visible(False)
+
+

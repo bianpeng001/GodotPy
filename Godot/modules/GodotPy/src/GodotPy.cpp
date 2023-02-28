@@ -25,6 +25,7 @@
 #include "scene/gui/control.h"
 #include "scene/gui/label.h"
 #include "scene/gui/tab_bar.h"
+#include "scene/gui/check_box.h"
 
 #include "scene/resources/packed_scene.h"
 
@@ -1388,6 +1389,25 @@ static PyObject *f_tabar_set_current_tab(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_base_button_set_disabled(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		int a_value;
+		if (!PyArg_ParseTuple(args, "Oi", &a_obj, &a_value)) {
+			break;
+		}
+
+		auto btn = GetObjPtr<BaseButton>(a_obj);
+		if (!btn) {
+			break;
+		}
+
+		btn->set_disabled(a_value != 0);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_material_set_albedo_color(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -1555,8 +1575,11 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// tabbar
 	{ "tabbar_get_current_tab", f_tabar_get_current_tab, METH_VARARGS, NULL },
-	{ "tabbar_set_current_tab", f_tabar_set_current_tab, METH_VARARGS, NULL }, 
+	{ "tabbar_set_current_tab", f_tabar_set_current_tab, METH_VARARGS, NULL },
 
+	//
+	{ "base_button_set_disabled", f_base_button_set_disabled, METH_VARARGS, NULL },
+	
 	// particle
 	{ "cpu_particle_set_emitting", f_cpu_particle_set_emitting, METH_VARARGS, NULL },
 

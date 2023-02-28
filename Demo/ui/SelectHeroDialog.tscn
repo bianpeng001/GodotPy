@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://5r28swhk31p3"]
+
+[ext_resource type="PackedScene" uid="uid://cnaoeuea0v1ua" path="res://ui/HeroList.tscn" id="1_5h4xd"]
+[ext_resource type="StyleBox" uid="uid://cs78tjnu0sn2w" path="res://ui/PanelStyle.tres" id="1_170bu"]
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="2_y5fyj"]
+
+[node name="SelectHeroDialog" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 680.0
+offset_bottom = 400.0
+theme_override_styles/panel = ExtResource("1_170bu")
+
+[node name="HeroList" parent="Panel" instance=ExtResource("1_5h4xd")]
+layout_mode = 1
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -60.0
+
+[node name="BtnOk" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 595.0
+offset_top = 360.0
+offset_right = 655.0
+offset_bottom = 389.0
+theme = ExtResource("2_y5fyj")
+text = "确定"
+
+[node name="BtnCancel" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 520.0
+offset_top = 360.0
+offset_right = 580.0
+offset_bottom = 389.0
+theme = ExtResource("2_y5fyj")
+text = "取消"

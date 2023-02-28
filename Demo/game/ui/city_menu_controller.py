@@ -26,8 +26,8 @@ class CityMenuController:
 
         print_line(f'{ui_mgr.context_unit.unit_name} neizheng')
 
-        ui_mgr.neizheng_panel.set_visible(True)
         ui_mgr.neizheng_panel.set_position(250, 100)
+        ui_mgr.neizheng_controller.show()
         ui_mgr.neizheng_controller.tab_bar.set_current_tab(0)
 
     # 出战
