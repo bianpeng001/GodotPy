@@ -112,6 +112,7 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 			ClassTypeDict[StringName("HBoxContainer")] = ++id_seed_2d;
 			ClassTypeDict[StringName("Button")] = ++id_seed_2d;
 			ClassTypeDict[StringName("CheckBox")] = ++id_seed_2d;
+			ClassTypeDict[StringName("Slider")] = ++id_seed_2d;
 		}
 
 		auto &value = ClassTypeDict.get(class_name, Variant(0));
@@ -400,15 +401,12 @@ private:
 
 						f = PyFloat_FromDouble(v.x);
 						PyTuple_SetItem(value, 0, f);
-						GP_DECREF(f);
 
 						f = PyFloat_FromDouble(v.y);
 						PyTuple_SetItem(value, 1, f);
-						GP_DECREF(f);
 
 						f = PyFloat_FromDouble(v.z);
 						PyTuple_SetItem(value, 2, f);
-						GP_DECREF(f);
 
 					} while (0);
 					break;
@@ -421,15 +419,12 @@ private:
 
 						f = PyFloat_FromDouble(v.r);
 						PyTuple_SetItem(value, 0, f);
-						GP_DECREF(f);
 
 						f = PyFloat_FromDouble(v.g);
 						PyTuple_SetItem(value, 1, f);
-						GP_DECREF(f);
 
 						f = PyFloat_FromDouble(v.b);
 						PyTuple_SetItem(value, 2, f);
-						GP_DECREF(f);
 
 					} while (0);
 					break;
@@ -477,7 +472,7 @@ private:
 				value = Py_NewRef(Py_None);
 			}
 			PyTuple_SetItem(obj, i, value);
-			GP_DECREF(value);
+			//GP_DECREF(value);
 		}
 		return obj;
 	}

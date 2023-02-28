@@ -18,6 +18,7 @@ WHEEL_DOWN_PRESS = 'wheel_down_press'
 # signal
 PRESSED = 'pressed'
 GUI_INPUT = 'gui_input'
+VALUE_CHANGED = 'value_changed'
 
 # 场景事件
 SCENE_UNIT_CLICK = 'scene_unit_click'

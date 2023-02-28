@@ -4,7 +4,7 @@
 
 from game.core import *
 from game.game_mgr import game_mgr
-from game.event_name import GUI_INPUT, PRESSED
+from game.event_name import GUI_INPUT, PRESSED, VALUE_CHANGED
 
 # 内政，农商将
 class NeiZhengController:
@@ -34,6 +34,20 @@ class NeiZhengController:
         self.tab_index = 0
         self.tab_bar.set_current_tab(self.tab_index)
         self.on_tab_changed()
+
+        # slider
+        self.tabs[0].find_node('HSlider').connect(VALUE_CHANGED, self.on_nong_slide_change)
+        self.nong_num_label = self.tabs[0].find_node('LblCount')
+        self.tabs[1].find_node('HSlider').connect(VALUE_CHANGED, self.on_shang_slide_change)
+        self.shang_num_label = self.tabs[1].find_node('LblCount')
+
+    def on_nong_slide_change(self, value):
+        count = round(value * 100)
+        self.nong_num_label.set_text(f'{count}')
+
+    def on_shang_slide_change(self, value):
+        count = round(value * 100)
+        self.shang_num_label.set_text(f'{count}')
 
     def on_close_click(self):
         game_mgr.ui_mgr.defer_close(self.ui_obj)

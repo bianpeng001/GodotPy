@@ -522,6 +522,9 @@ class FPanel(FControl):
 class FHBoxContainer(FControl):
     pass
 
+class FSlider(FControl):
+    pass
+
 class FNode2D(FCanvasItem):
     def set_position(self, x,y):
         gp.node2d_set_position(self.get_gdobj(), x,y)
@@ -568,6 +571,7 @@ FClassMap[15] = FTabBar
 FClassMap[16] = FHBoxContainer
 FClassMap[17] = FButton
 FClassMap[18] = FCheckBox
+FClassMap[19] = FSlider
 
 # 大话降龙
 # https://www.mm1316.com/maoxian/dahuajianglong
