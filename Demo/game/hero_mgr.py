@@ -7,35 +7,54 @@ from game.game_mgr import game_mgr
 
 # Hero在都是纯数据，不存在实体
 
-MALE = 1
+# 性别
 FEMAIL = 0
+MALE = 1
 
 # attrs [0, 100]
-# 忠义，智力，武力，统率，政治，魅力
+# 忠义，智力，武力，统率，政治，魅力，敏捷
 ATTR_ZHONG = 0
 ATTR_ZHI = 1
 ATTR_WU = 2
 ATTR_TONG = 3
 ATTR_ZHENG = 4
 ATTR_MEI = 5
+ATTR_MIN = 6
 
 MAX = 8
 
 # tags
 
+# 武圣，单挑无敌
+TAG_WU_SHENG = 0
+
 # 雄心壮志（决定称帝）
-TAG_DAZHI = 1
+TAG_DA_ZHI = 1
+
 # 酒色财气
 TAG_JIU = 2
 TAG_SE = 3
 TAG_CAI = 4
 TAG_QI = 5
-TAG_MANGZHUANG = 6
+
+# 莽夫
+TAG_MANG = 6
+# 修真
+TAG_XIU_ZHEN = 7
+# 隐忍
+TAG_YIN_REN = 8
+# 反骨
+TAG_FAN_GU = 9
+
+# 好运
+TAG_LUCKY = 10
+# 好运
+TAG_UNLUCKY = 11
 
 # 健康状态
-JK_HEALTH = 1
-JK_INJURED = 2
-JK_DEAD = 9
+JK_HEALTH = 0
+JK_INJURED = 1
+JK_DEAD = 2
 
 #
 # 英雄(逻辑单位，没有实体)
@@ -73,7 +92,7 @@ class Hero:
         # 所在城市id
         self.city_id = 0
         self.troop_id = 0
-        
+
         # 主公
         self.owner_player_id = 0
         
@@ -139,6 +158,7 @@ class HeroMgr:
 
         cur_year = game_mgr.game_data.cur_year
         hero.born_year = cur_year - random_int(12, 40)
+        # 命中注定的寿命，通过一些事件会发生改变
         hero.dead_year = hero.born_year + random_int(50, 100)
 
         return hero
