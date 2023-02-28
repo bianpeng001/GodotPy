@@ -27,8 +27,7 @@ class NeiZhengController:
         self.tab_bar.connect('tab_changed', self.on_tab_changed)
 
         self.tabs = [
-            self.ui_obj.find_node('Panel/TabNong'),
-            self.ui_obj.find_node('Panel/TabShang'),
+            self.ui_obj.find_node('Panel/TabZheng'),
             self.ui_obj.find_node('Panel/TabJiang'),
         ]
         self.tab_index = 0
@@ -36,18 +35,25 @@ class NeiZhengController:
         self.on_tab_changed()
 
         # slider
-        self.tabs[0].find_node('HSlider').connect(VALUE_CHANGED, self.on_nong_slide_change)
-        self.nong_num_label = self.tabs[0].find_node('WorkerNum')
-        self.tabs[1].find_node('HSlider').connect(VALUE_CHANGED, self.on_shang_slide_change)
-        self.shang_num_label = self.tabs[1].find_node('WorkerNum')
+        zheng_obj = self.tabs[0]
+        zheng_obj.find_node('SliderOrderMass').connect(VALUE_CHANGED, self.on_order_slide_change)
+        self.order_mass_label = zheng_obj.find_node('LblOrderMass')
+        zheng_obj.find_node('SliderFarmerMass').connect(VALUE_CHANGED, self.on_farmer_slide_change)
+        self.farmer_mass_label = zheng_obj.find_node('LblFarmerMass')
+        zheng_obj.find_node('SliderTraderMass').connect(VALUE_CHANGED, self.on_trade_slide_change)
+        self.trade_mass_label = zheng_obj.find_node('LblTraderMass')
 
-    def on_nong_slide_change(self, value):
+    def on_order_slide_change(self, value):
         num = round(value * 100)
-        self.nong_num_label.set_text(f'{num}人')
+        self.order_mass_label.set_text(f'{num}人')
 
-    def on_shang_slide_change(self, value):
+    def on_farmer_slide_change(self, value):
         num = round(value * 100)
-        self.shang_num_label.set_text(f'{num}人')
+        self.farmer_mass_label.set_text(f'{num}人')
+
+    def on_trade_slide_change(self, value):
+        num = round(value * 100)
+        self.trade_mass_label.set_text(f'{num}人')
 
     def on_close_click(self):
         game_mgr.ui_mgr.defer_close(self.ui_obj)

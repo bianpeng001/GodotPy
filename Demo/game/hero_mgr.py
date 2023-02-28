@@ -32,6 +32,11 @@ TAG_CAI = 4
 TAG_QI = 5
 TAG_MANGZHUANG = 6
 
+# 健康状态
+JK_HEALTH = 1
+JK_INJURED = 2
+JK_DEAD = 9
+
 #
 # 英雄(逻辑单位，没有实体)
 # TODO: 还要搞一个3D的捏脸数据，用来区分一下形象
@@ -61,13 +66,14 @@ class Hero:
         self.tags = []
 
         # 老病残孕
-        self.health = 0
+        self.health = JK_HEALTH
         # 军队，内政(政,农,商..)，空闲
-        self.state = 0
+        self.activity = 0
 
         # 所在城市id
         self.city_id = 0
         self.troop_id = 0
+        
         # 主公
         self.owner_player_id = 0
         

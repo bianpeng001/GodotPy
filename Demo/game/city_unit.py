@@ -11,6 +11,10 @@ from game.config_mgr import new_city_name, new_hero_name
 from game.city_controller import CityController
 
 # 城池
+# 内政，治安，农业，商业
+# 战斗状态下，治安越来越差，且毫无收益
+# 影响因素，自然灾害，麻匪，朝廷征收，摊派，督邮的敲诈啥的，神仙显灵
+#
 class CityUnit(Unit):
     def __init__(self):
         super().__init__()
@@ -39,7 +43,25 @@ class CityUnit(Unit):
         self.wood_amount = random_int(100, 1000)
         self.money_amount = random_int(100, 1000)
 
+        # 士气
         self.army_moral = 100
+
+        # 太守(总督)
+        self.satrap = 0
+        # 治安
+        self.public_order = 100
+
+        # 居民人口
+        self.urban_mass = 1000
+
+        # 农业主管
+        self.farmer_incharge = 0
+        # 农民数量
+        self.farmer_mass = 0
+        # 商业主管
+        self.trader_incharge = 0
+        # 商人数量
+        self.trader_mass = 0
 
         # 资源增长率
         self.growth_rate = random_int(10, 30)
