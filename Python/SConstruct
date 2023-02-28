@@ -237,6 +237,7 @@ incs = [
     './Modules/_hacl/include',
     './Godot',
     ZLIB,
+    SQLITE3,
 ]
 
 # frozen modules
@@ -386,7 +387,7 @@ srcs = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + IOModules + Modules + [
         ZLIB + '/inffast.c',
         ZLIB + '/zutil.c',
 
-        SQLITE3 + '/sqlite3.c',
+        #SQLITE3 + '/sqlite3.c',
 
         'Godot/config.c',
     ]
@@ -405,4 +406,40 @@ env.MSVSProject(target = ModuleName + env['MSVSPROJECTSUFFIX'],
     variant = 'Debug|x64'
 )
 
+# build sqlite3
+sqlite3 = env.SharedLibrary('sqlite3',
+    source = [SQLITE3 +'/sqlite3.c'],
+    buildtarget = 'sqlite3.dll',
+    CPPDEFINES = [
+        'SQLITE_ENABLE_MATH_FUNCTIONS',
+        'SQLITE_ENABLE_FTS4',
+        'SQLITE_ENABLE_FTS5',
+        'SQLITE_ENABLE_RTREE',
+        'SQLITE_OMIT_AUTOINIT',
+        ('SQLITE_API', '__declspec(dllexport)'),
+        ]
+)
+
+sqlite3_pyd = env.SharedLibrary('_sqlite3',
+    source = [
+        'Modules/_sqlite/connection.c',
+        'Modules/_sqlite/cursor.c',
+        'Modules/_sqlite/microprotocols.c',
+        'Modules/_sqlite/module.c',
+        'Modules/_sqlite/prepare_protocol.c',
+        'Modules/_sqlite/row.c',
+        'Modules/_sqlite/statement.c',
+        'Modules/_sqlite/util.c',
+        'Modules/_sqlite/blob.c',
+    ],
+    CPPDEFINES = [
+        'PY_SQLITE_HAVE_SERIALIZE',
+        'PY_SQLITE_ENABLE_LOAD_EXTENSION',
+    ],
+    buildtarget = '_sqlite3.dll',
+    LIBS = [
+        'sqlite3.lib', 
+        'python3.lib',
+    ],
+)
 

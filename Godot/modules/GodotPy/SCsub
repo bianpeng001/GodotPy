@@ -12,23 +12,26 @@ PYTHON_HOME = 'D:/OpenSource/cpython'
 if not os.path.exists(PYTHON_HOME):
     PYTHON_HOME = 'H:/cpython'
 
+
+def copy_if_expired(src_path, dst_path):
+    dst_path = os.path.abspath(dst_path)
+    print('copy', dst_path)
+    if not os.path.exists(dst_path) or\
+            os.path.getmtime(dst_path) < os.path.getmtime(src_path):
+        shutil.copyfile(src_path, dst_path)
+
 # 准备工作, 复制python3.lib，因为后缀跟平台环境有关，但是我懒得弄了，复制改名算了
 def GetReady():
     Python3Lib = PYTHON_HOME + '/python3.lib'
     Python3LibDst = PYTHON_HOME + '/python3' + env["LIBSUFFIX"]
-    if os.path.exists(Python3Lib):
-        if not os.path.exists(Python3LibDst) or\
-                os.path.getmtime(Python3LibDst) < os.path.getmtime(Python3Lib):
-            print('copy', Python3LibDst)
-            shutil.copyfile(Python3Lib, Python3LibDst)
+    copy_if_expired(Python3Lib, Python3LibDst)
 
     Python3Dll = PYTHON_HOME + '/python3.dll'
     Python3DllDst = '../../bin/python3.dll'
-    if os.path.exists(Python3Dll):
-        if not os.path.exists(Python3DllDst) or\
-                os.path.getmtime(Python3DllDst) < os.path.getmtime(Python3Dll):
-            print('copy', Python3DllDst)
-            shutil.copyfile(Python3Dll, Python3DllDst)
+    copy_if_expired(Python3Dll, Python3DllDst)
+
+    copy_if_expired(PYTHON_HOME + '/sqlite3.dll', '../../bin/sqlite3.dll')
+    copy_if_expired(PYTHON_HOME + '/_sqlite3.dll', '../../bin/_sqlite3.pyd')
 
 GetReady()
 

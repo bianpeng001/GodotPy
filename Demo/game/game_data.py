@@ -2,6 +2,9 @@
 # 2023年2月9日 bianpeng
 #
 
+import sqlite3
+
+
 # 游戏存档
 class GameData:
     def __init__(self):
@@ -23,3 +26,15 @@ class GameData:
 
     def get_cur_year(self):
         return self.start_year + int(self.play_time / (86400*365))
+
+
+    def test_db(self):
+        con = sqlite3.connect("tutorial.db")
+        cur = con.cursor()
+        cur.execute("CREATE TABLE movie(title, year, score)")
+
+        con.commit()
+        con.close()
+
+
+        
