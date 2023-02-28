@@ -26,16 +26,18 @@ class NeiZhengController:
         self.tab_bar = self.ui_obj.find_node('TabBar')
         self.tab_bar.connect('tab_changed', self.on_tab_changed)
 
+        self.tab_zheng_obj = self.ui_obj.find_node('Panel/TabZheng')
+        self.tab_jiang_obj = self.ui_obj.find_node('Panel/TabJiang')
         self.tabs = [
-            self.ui_obj.find_node('Panel/TabZheng'),
-            self.ui_obj.find_node('Panel/TabJiang'),
+            self.tab_zheng_obj,
+            self.tab_jiang_obj,
         ]
         self.tab_index = 0
         self.tab_bar.set_current_tab(self.tab_index)
         self.on_tab_changed()
 
         # slider
-        zheng_obj = self.tabs[0]
+        zheng_obj = self.tab_zheng_obj
         zheng_obj.find_node('SliderOrderMass').connect(VALUE_CHANGED, self.on_order_slide_change)
         self.order_mass_label = zheng_obj.find_node('LblOrderMass')
         zheng_obj.find_node('SliderFarmerMass').connect(VALUE_CHANGED, self.on_farmer_slide_change)
@@ -65,7 +67,7 @@ class NeiZhengController:
         for i in range(len(self.tabs)):
             self.tabs[i].set_visible(i == self.tab_index)
 
-        if self.tab_index == 2:
+        if self.tab_index == 1:
             self.init_hero_list()
 
     def init_hero_list(self):
@@ -75,7 +77,7 @@ class NeiZhengController:
 
         if not self.init_header:
             self.init_header = True
-            header = self.tabs[2].find_node('HeroList/ScrollContainer/VBoxContainer/Header')
+            header = self.tab_jiang_obj.find_node('HeroList/ScrollContainer/VBoxContainer/Header')
             
             name_label = header.find_node('Label')
             name_label.set_minimum_size(80, 0)
@@ -110,7 +112,7 @@ class NeiZhengController:
             item.destroy()
 
         hero_list = city.hero_list
-        item = self.tabs[2].find_node('HeroList/ScrollContainer/VBoxContainer/Item')
+        item = self.tab_jiang_obj.find_node('HeroList/ScrollContainer/VBoxContainer/Item')
         for hero_id in hero_list:
             hero = game_mgr.hero_mgr.get_hero(hero_id)
             #print(hero_id, hero)
