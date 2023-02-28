@@ -83,15 +83,18 @@ class UIMgr(NodeObject):
         return ui_obj, controller
 
     def update(self, delta_time):
+        # 前一帧关闭的元素
         if len(self.defer_close_queue) > 0:
             for ui_obj in self.defer_close_queue:
                 ui_obj.set_visible(False)
             self.defer_close_queue.clear()
 
+        # 延时关闭的元素
         for item in self.auto_close_queue:
             if item.show_time > 0:
                 item.show_time -= delta_time
                 if item.show_time <= 0:
+                    item.show_time = 0
                     self.defer_close(item.ui_obj)
 
     # 下一帧开头关闭
