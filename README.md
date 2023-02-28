@@ -26,6 +26,8 @@
         print(f'{OS.get_time()} {game_mgr.sec_time}')
 ```
 
+详细情况，见[开发记录](Demo/README.md)
+
 ## 目录
 
 Python: 编译python的scons脚本，和一些平台相关的配置。

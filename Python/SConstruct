@@ -198,6 +198,7 @@ LIBRARY_OBJS_OMIT_FROZEN = [
 
 
 ZLIB = 'd:/OpenSource/zlib'
+SQLITE3 = 'd:/OpenSource/sqlite3'
 
 is_release = ARGUMENTS.get('release', True)
 
@@ -384,6 +385,8 @@ srcs = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + IOModules + Modules + [
         ZLIB + '/inftrees.c',
         ZLIB + '/inffast.c',
         ZLIB + '/zutil.c',
+
+        SQLITE3 + '/sqlite3.c',
 
         'Godot/config.c',
     ]
