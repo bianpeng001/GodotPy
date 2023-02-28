@@ -75,3 +75,14 @@ theme_override_constants/h_separation = 1
 theme_override_font_sizes/font_size = 16
 text = "系
 统"
+
+[node name="BtnGM" type="Button" parent="."]
+offset_left = 1048.0
+offset_top = 4.0
+offset_right = 1078.0
+offset_bottom = 46.0
+theme = ExtResource("5_dnccb")
+theme_override_constants/h_separation = 1
+theme_override_font_sizes/font_size = 16
+text = "执
+行"

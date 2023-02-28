@@ -59,7 +59,7 @@ offset_top = 70.0
 offset_right = 111.0
 offset_bottom = 94.0
 theme = ExtResource("3_we820")
-text = "人数"
+text = "派遣"
 
 [node name="HSlider" type="HSlider" parent="Panel/TabNong"]
 layout_mode = 0
@@ -68,7 +68,7 @@ offset_top = 70.0
 offset_right = 263.0
 offset_bottom = 94.0
 
-[node name="LblCount" type="Label" parent="Panel/TabNong"]
+[node name="WorkerNum" type="Label" parent="Panel/TabNong"]
 layout_mode = 0
 offset_left = 272.0
 offset_top = 70.0
@@ -111,7 +111,7 @@ offset_top = 70.0
 offset_right = 111.0
 offset_bottom = 94.0
 theme = ExtResource("3_we820")
-text = "人数"
+text = "派遣"
 
 [node name="HSlider" type="HSlider" parent="Panel/TabShang"]
 layout_mode = 0
@@ -120,7 +120,7 @@ offset_top = 70.0
 offset_right = 263.0
 offset_bottom = 94.0
 
-[node name="LblCount" type="Label" parent="Panel/TabShang"]
+[node name="WorkerNum" type="Label" parent="Panel/TabShang"]
 layout_mode = 0
 offset_left = 272.0
 offset_top = 70.0

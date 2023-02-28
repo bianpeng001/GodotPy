@@ -37,17 +37,17 @@ class NeiZhengController:
 
         # slider
         self.tabs[0].find_node('HSlider').connect(VALUE_CHANGED, self.on_nong_slide_change)
-        self.nong_num_label = self.tabs[0].find_node('LblCount')
+        self.nong_num_label = self.tabs[0].find_node('WorkerNum')
         self.tabs[1].find_node('HSlider').connect(VALUE_CHANGED, self.on_shang_slide_change)
-        self.shang_num_label = self.tabs[1].find_node('LblCount')
+        self.shang_num_label = self.tabs[1].find_node('WorkerNum')
 
     def on_nong_slide_change(self, value):
-        count = round(value * 100)
-        self.nong_num_label.set_text(f'{count}')
+        num = round(value * 100)
+        self.nong_num_label.set_text(f'{num}人')
 
     def on_shang_slide_change(self, value):
-        count = round(value * 100)
-        self.shang_num_label.set_text(f'{count}')
+        num = round(value * 100)
+        self.shang_num_label.set_text(f'{num}人')
 
     def on_close_click(self):
         game_mgr.ui_mgr.defer_close(self.ui_obj)

@@ -5,6 +5,7 @@ import math
 
 from game.core import *
 from game.game_mgr import game_mgr
+from game.event_name import PRESSED
 
 # 头顶主界面逻辑
 class MainUIController:
@@ -28,6 +29,15 @@ class MainUIController:
         # 事件
         from game.event_name import MAINUI_REFRESH
         game_mgr.event_mgr.add(MAINUI_REFRESH, self.on_refresh)
+
+        # gm
+        self.ui_obj.find_node('BtnGM').connect(PRESSED, self.on_gm_click)
+
+    def on_gm_click(self):
+        with open('gm.py') as f:
+            data = f.read()
+            eval(data)
+            print('gm ok')
 
     def format_amount_str(self, value):
         if value < 100000:
@@ -65,3 +75,4 @@ class MainUIController:
         self.fps_label.set_text(f'fps:{fps},{fps0} dc:{dc}')
         
         
+    
