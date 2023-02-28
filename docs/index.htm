@@ -64,8 +64,10 @@
 				init_blockly();
 
 				$.get('hello.md', data => {
-					console.log(data)
-					$('markdownDiv').html(marked(data))
+					//console.log(data)
+					// marked js, js based markdown viewer
+					// https://github.com/markedjs/marked
+					$('#markdownDiv').html(marked.parse(data))
 				})
 			})
 		</script>
