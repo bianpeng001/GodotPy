@@ -51,6 +51,8 @@ class NeiZhengController(UIController):
         zheng_obj.find_node('BtnSatrap').connect(PRESSED, self.on_select_satrap)
 
     def on_select_satrap(self):
+        hero_list = game_mgr.ui_mgr.context_unit.hero_list
+        game_mgr.ui_mgr.select_hero_controller.init_hero_list(hero_list)
         game_mgr.ui_mgr.select_hero_controller.ui_obj.set_position(250, 100)
         game_mgr.ui_mgr.select_hero_controller.show()
         game_mgr.ui_mgr.defer_close(self.ui_obj)

@@ -53,6 +53,8 @@ class CityUnit(Unit):
 
         # 居民人口
         self.urban_mass = 1000
+        # 人口上限
+        self.urban_mass_limit = 10000 + random_int(0, 50)*1000
 
         # 农业主管
         self.farmer_incharge = 0
@@ -63,7 +65,7 @@ class CityUnit(Unit):
         # 商人数量
         self.trader_mass = 0
 
-        # 资源增长率
+        # 资源增长率, 基础增长率
         self.growth_rate = random_int(10, 30)
 
     def init(self):
