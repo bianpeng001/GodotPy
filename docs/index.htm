@@ -65,7 +65,7 @@
 
 				$.get('hello.md', data => {
 					console.log(data)
-					$('markdownDiv').text(marked(data))
+					$('markdownDiv').html(marked(data))
 				})
 			})
 		</script>
