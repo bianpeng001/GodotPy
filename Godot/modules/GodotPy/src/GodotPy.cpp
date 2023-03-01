@@ -468,6 +468,7 @@ private:
 						}
 
 					} while (0);
+
 					break;
 				}
 			}
@@ -720,7 +721,7 @@ static PyObject *f_destroy(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
-static PyObject *f_set_visible(PyObject *module, PyObject *args) {
+static PyObject *f_node3d_set_visible(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
 		int a_value;
@@ -1348,9 +1349,10 @@ static PyObject *f_label_set_minimum_size(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
-static PyObject *f_tabar_get_current_tab(PyObject *module, PyObject *args) {
+static PyObject *f_tab_bar_get_current_tab(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
+
 		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
 			break;
 		}
@@ -1368,10 +1370,11 @@ static PyObject *f_tabar_get_current_tab(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
-static PyObject *f_tabar_set_current_tab(PyObject *module, PyObject *args) {
+static PyObject *f_tab_bar_set_current_tab(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
 		int a_index;
+
 		if (!PyArg_ParseTuple(args, "Oi", &a_obj, &a_index)) {
 			break;
 		}
@@ -1395,6 +1398,7 @@ static PyObject *f_base_button_set_disabled(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
 		int a_value;
+
 		if (!PyArg_ParseTuple(args, "Oi", &a_obj, &a_value)) {
 			break;
 		}
@@ -1538,7 +1542,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "node_dup", f_node_dup, METH_VARARGS, NULL }, 
 
 	{ "connect", f_connect, METH_VARARGS, NULL },
-	{ "set_visible", f_set_visible, METH_VARARGS, NULL },
+	
 	
 	// node3d
 	{ "set_position", f_set_position, METH_VARARGS, NULL },
@@ -1549,6 +1553,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "look_at", f_look_at, METH_VARARGS, NULL },
 	{ "local_to_world", f_local_to_world, METH_VARARGS, NULL },
 	{ "world_to_local", f_world_to_local, METH_VARARGS, NULL },
+	{ "node3d_set_visible", f_node3d_set_visible, METH_VARARGS, NULL },
 
 	// animation player
 	{ "animation_player_play", f_animation_player_play, METH_VARARGS, NULL },
@@ -1579,8 +1584,8 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "label_set_minimum_size", f_label_set_minimum_size, METH_VARARGS, NULL }, 
 
 	// tabbar
-	{ "tabbar_get_current_tab", f_tabar_get_current_tab, METH_VARARGS, NULL },
-	{ "tabbar_set_current_tab", f_tabar_set_current_tab, METH_VARARGS, NULL },
+	{ "tab_bar_get_current_tab", f_tab_bar_get_current_tab, METH_VARARGS, NULL },
+	{ "tab_bar_set_current_tab", f_tab_bar_set_current_tab, METH_VARARGS, NULL },
 
 	// particle
 	{ "cpu_particle_set_emitting", f_cpu_particle_set_emitting, METH_VARARGS, NULL },

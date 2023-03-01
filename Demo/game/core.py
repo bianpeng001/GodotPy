@@ -371,6 +371,10 @@ class FObject:
     def connect(self, signal, callback):
         gp.connect(self.get_gdobj(), signal, callback)
 
+    # 重载，可以用条件语句， if a: xxx
+    def __bool__(self):
+        return self.is_valid()
+
 # 对应Node
 class FNode(FObject):
     def destroy(self):
@@ -380,7 +384,7 @@ class FNode(FObject):
 
             #print(f'destroy step1 refcnt={sys.getrefcount(gdobj)}')
             # 输出: 3
-            # 在destroy里面看到的是4，也是传参导致+1
+            # 在destroy里面看到的是4，是传参导致+1
             gp.destroy(gdobj) 
             #print(f'destroy step2 refcnt={sys.getrefcount(gdobj)}')
             # 输出: 2
@@ -434,7 +438,7 @@ class FNode3D(FNode):
         gp.look_at(self.get_gdobj(), x,y,z)
 
     def set_visible(self, value):
-        gp.set_visible(self.get_gdobj(), value)
+        gp.node3d_set_visible(self.get_gdobj(), value)
 
     @classmethod
     def instantiate(cls, path):
@@ -489,10 +493,10 @@ class FControl(FCanvasItem):
 
 class FTabBar(FControl):
     def get_current_tab(self):
-        return gp.tabbar_get_current_tab(self.get_gdobj())
+        return gp.tab_bar_get_current_tab(self.get_gdobj())
 
     def set_current_tab(self, index):
-        gp.tabbar_set_current_tab(self.get_gdobj(), index)
+        gp.tab_bar_set_current_tab(self.get_gdobj(), index)
 
 class FLabel(FControl):
     def __init__(self):
