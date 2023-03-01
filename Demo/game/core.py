@@ -519,6 +519,9 @@ class FBaseButton(FControl):
     def is_pressed(self):
         return gp.base_button_is_pressed(self.get_gdobj())
 
+    def set_pressed(self, value):
+        return gp.base_button_set_pressed(self.get_gdobj(), value)
+
 class FButton(FBaseButton):
     pass
 

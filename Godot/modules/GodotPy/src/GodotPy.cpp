@@ -1414,7 +1414,28 @@ static PyObject *f_base_button_set_disabled(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
-static PyObject *f_base_button_is_checked(PyObject *module, PyObject *args) {
+static PyObject *f_base_button_is_pressed(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+
+		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
+			break;
+		}
+
+		auto btn = GetObjPtr<BaseButton>(a_obj);
+		if (!btn) {
+			break;
+		}
+
+		bool pressed = btn->is_pressed();
+		
+		return PyBool_FromLong(pressed);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_base_button_set_pressed(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
 		int a_value;
@@ -1423,13 +1444,12 @@ static PyObject *f_base_button_is_checked(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		auto btn = GetObjPtr<CheckBox>(a_obj);
+		auto btn = GetObjPtr<BaseButton>(a_obj);
 		if (!btn) {
 			break;
 		}
 
-		bool pressed = btn->is_pressed();
-		return PyBool_FromLong(pressed);
+		btn->set_pressed(a_value);
 
 	} while (0);
 
@@ -1598,7 +1618,8 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "canvas_item_set_visible", f_canvas_item_set_visible, METH_VARARGS, NULL },
 	{ "find_control", f_find_control, METH_VARARGS, NULL },
 	{ "base_button_set_disabled", f_base_button_set_disabled, METH_VARARGS, NULL },
-	{ "base_button_is_checked", f_base_button_is_checked, METH_VARARGS, NULL },
+	{ "base_button_is_pressed", f_base_button_is_pressed, METH_VARARGS, NULL },
+	{ "base_button_set_pressed", f_base_button_set_pressed, METH_VARARGS, NULL },
 
 	// label
 	{ "label_set_text", f_label_set_text, METH_VARARGS, NULL },

@@ -29,6 +29,13 @@ class SelectHeroController(UIController, CloseTrait, HeroListTrait):
         self.defer_close()
         game_mgr.ui_mgr.neizheng_controller.show()
 
+        selected = []
+        for item in self.item_list:
+            if item.find_node('CheckBox').is_pressed():
+                selected.append(item)
+
+        print(selected)
+
     def init_hero_list(self):
         city = game_mgr.ui_mgr.context_unit
         
