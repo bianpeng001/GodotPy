@@ -92,3 +92,7 @@ game_mgr = GameMgr()
 class UnitTrait:
     def owner_is_main_player(self):
         return self.owner_player_id == game_mgr.main_pid
+    
+    def get_main_pid(self):
+        return game_mgr.get_main_player_id()
+

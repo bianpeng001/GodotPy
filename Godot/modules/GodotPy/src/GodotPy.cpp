@@ -1455,6 +1455,26 @@ static PyObject *f_base_button_set_pressed(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_button_set_text(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		const char *a_str;
+
+		if (!PyArg_ParseTuple(args, "Os", &a_obj, &a_str)) {
+			break;
+		}
+
+		auto btn = GetObjPtr<Button>(a_obj);
+		if (!btn) {
+			break;
+		}
+
+		btn->set_text(String::utf8(a_str));
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_material_set_albedo_color(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -1620,6 +1640,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "base_button_set_disabled", f_base_button_set_disabled, METH_VARARGS, NULL },
 	{ "base_button_is_pressed", f_base_button_is_pressed, METH_VARARGS, NULL },
 	{ "base_button_set_pressed", f_base_button_set_pressed, METH_VARARGS, NULL },
+	{ "button_set_text", f_button_set_text, METH_VARARGS, NULL },
 
 	// label
 	{ "label_set_text", f_label_set_text, METH_VARARGS, NULL },

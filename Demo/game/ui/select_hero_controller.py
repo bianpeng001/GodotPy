@@ -15,15 +15,20 @@ class SelectHeroController(UIController, CloseTrait, HeroListTrait):
         
         self.item_list = []
         self.init_header_done = False
-        self.selected = []
+        self.on_ok_cb = None
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
         self.ui_obj.find_node('Panel/BtnOk').connect(PRESSED, self.on_ok_click)
         self.ui_obj.find_node('Panel/BtnCancel').connect(PRESSED, self.on_cancel_click)
+        self.ui_obj.find_node('Panel/BtnClose').connect(PRESSED, self.on_cancel_click)
 
-        self.selected.clear()
+    def show_dialog(self, on_ok_cb):
+        self.init_hero_list()
+        self.ui_obj.set_position(250, 100)
+        self.on_ok_cb = on_ok_cb
+        self.show()
 
     def on_cancel_click(self):
         self.defer_close()
@@ -33,13 +38,14 @@ class SelectHeroController(UIController, CloseTrait, HeroListTrait):
         self.defer_close()
         game_mgr.ui_mgr.neizheng_controller.show()
 
-        self.selected.clear()
+        hero_list = []
         for item in self.item_list:
             hero_id, item_obj = item
             if item_obj.find_node('CheckBox').is_pressed():
-                self.selected.append(hero_id)
+                hero_list.append(hero_id)
 
-        log_util.debug(self.selected)
+        if self.on_ok_cb:
+            self.on_ok_cb(hero_list)
 
     def init_hero_list(self):
         city = game_mgr.ui_mgr.context_unit

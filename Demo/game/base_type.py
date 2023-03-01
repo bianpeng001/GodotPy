@@ -148,7 +148,7 @@ class Controller(AIMachine):
         if node:
             node.set_position(*self.get_unit().get_position())
 
-
+#
 class UIController:
     def __self__(self):
         self.ui_obj = None
@@ -164,5 +164,6 @@ class UIController:
     def hide(self):
         self.is_visible = False
         self.ui_obj.set_visible(False)
+
 
 

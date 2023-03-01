@@ -50,13 +50,18 @@ class NeiZhengController(UIController, CloseTrait, HeroListTrait):
         zheng_obj.find_node('SliderTraderMass').connect(VALUE_CHANGED, self.on_trade_slide_change)
         self.trade_mass_label = zheng_obj.find_node('LblTraderMass')
 
-        zheng_obj.find_node('BtnSatrap').connect(PRESSED, self.on_select_satrap)
+        self.btn_satrap_obj = zheng_obj.find_node('BtnSatrap')
+        self.btn_satrap_obj.connect(PRESSED, self.on_select_satrap)
 
     def on_select_satrap(self):
-        game_mgr.ui_mgr.select_hero_controller.init_hero_list()
-        game_mgr.ui_mgr.select_hero_controller.ui_obj.set_position(250, 100)
-        game_mgr.ui_mgr.select_hero_controller.show()
+        game_mgr.ui_mgr.select_hero_controller.show_dialog(self.on_select_hero_cb)
         self.defer_close()
+
+    def on_select_hero_cb(self, hero_list):
+        log_util.debug(hero_list)
+        if len(hero_list) > 0:
+            hero = game_mgr.hero_mgr.get_hero(hero_list[0])
+            self.btn_satrap_obj.set_text(hero.hero_name)
 
     def on_order_slide_change(self, value):
         num = round(value * 100)

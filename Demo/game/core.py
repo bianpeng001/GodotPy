@@ -523,7 +523,8 @@ class FBaseButton(FControl):
         return gp.base_button_set_pressed(self.get_gdobj(), value)
 
 class FButton(FBaseButton):
-    pass
+    def set_text(self, text):
+        gp.button_set_text(self.get_gdobj(), text)
 
 class FCheckBox(FBaseButton):
     pass
