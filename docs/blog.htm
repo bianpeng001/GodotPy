@@ -3,11 +3,35 @@
 	<head>
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="css/github-markdown.css">
+		<style>
+			body {
+				margin: 0px;
+			}
+			div#pageHeader {
+				background-color: #f6f8fa;
+				border-bottom: 1px solid #d0d7de;
+				min-height: 100px;
+			}
+			div#markedDiv {
+				display: block;
+
+				border: 1px solid #d0d7de;
+				border-radius: 4px;
+				
+				min-height: 480px;
+				width: 800px;
+
+				margin-top:50px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+		</style>
 	</head>
 	<body>
-		<img src="img/logo_dark.svg" width="100" height="100"/>
+		<div id="pageHeader"></div>
 
-		<div id="markedDiv" class="markdown-body" style="height: 480px; width: 800px;"></div>
+		<div id="markedDiv" class="markdown-body">
+		</div>
 
 		<script src="js/jquery-3.6.3.min.js"></script>
 
