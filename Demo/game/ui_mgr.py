@@ -134,7 +134,8 @@ class UIMgr(NodeObject):
         #print_line(f'click: {unit.unit_name}')
 
         if unit.unit_type == UT_CITY:
-            if unit.belong_to_main_player():
+            print(unit.owner_is_main_player())
+            if unit.owner_is_main_player():
                 x, y = game_mgr.input_mgr.get_mouse_pos()
                 self.city_menu.set_position(x, y)
                 self.city_menu.set_visible(True)

@@ -87,3 +87,16 @@ class GameMgr():
         return self.get_main_player_id()
 
 game_mgr = GameMgr()
+
+#------------------------------------------------------------
+# traits 功能类，用来复用一些代码
+#------------------------------------------------------------
+
+class UIControllerTrait:
+    def defer_close(self):
+        game_mgr.ui_mgr.defer_close(self.ui_obj)
+
+class UnitTrait:
+    def owner_is_main_player(self):
+        return self.owner_player_id == game_mgr.main_pid
+

@@ -4,7 +4,7 @@
 import random
 
 from game.core import *
-from game.game_mgr import game_mgr
+from game.game_mgr import game_mgr, UnitTrait
 from game.base_type import Unit, UT_CITY
 from game.config_mgr import new_city_name, new_hero_name
 
@@ -15,7 +15,7 @@ from game.city_controller import CityController
 # 战斗状态下，治安越来越差，且毫无收益
 # 影响因素，自然灾害，麻匪，朝廷征收，摊派，督邮的敲诈啥的，神仙显灵
 #
-class CityUnit(Unit):
+class CityUnit(Unit, UnitTrait):
     def __init__(self):
         super().__init__()
         self.unit_type = UT_CITY
@@ -88,6 +88,6 @@ class CityUnit(Unit):
         self.get_controller().apply_position()
         self.get_controller().set_title(self.unit_name)
 
-    def belong_to_main_player(self):
-        return self.owner_player_id == game_mgr.get_main_player_id()
+
+
 

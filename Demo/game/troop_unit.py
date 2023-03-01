@@ -2,12 +2,12 @@
 # 2023年2月10日 bianpeng
 #
 from game.core import *
-from game.game_mgr import game_mgr
+from game.game_mgr import game_mgr, UnitTrait
 from game.base_type import Unit, UT_TROOP
 from game.troop_controller import TroopController
 
 # 部队
-class TroopUnit(Unit):
+class TroopUnit(Unit, UnitTrait):
     def __init__(self):
         super().__init__()
         self.unit_type = UT_TROOP
@@ -45,8 +45,4 @@ class TroopUnit(Unit):
 
     def add_hero(self, hero_id):
         self.hero_list.append(hero_id)
-
-    def belong_to_main_player(self):
-        return self.owner_player_id == game_mgr.get_main_player_id()
-
 

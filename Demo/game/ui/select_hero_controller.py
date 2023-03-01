@@ -4,10 +4,10 @@
 
 from game.base_type import UIController
 from game.event_name import PRESSED
-from game.game_mgr import game_mgr
+from game.game_mgr import game_mgr, UIControllerTrait
 
 #
-class SelectHeroController(UIController):
+class SelectHeroController(UIController, UIControllerTrait):
     def __init__(self):
         super().__init__()
         
@@ -21,14 +21,14 @@ class SelectHeroController(UIController):
         self.ui_obj.find_node('Panel/BtnCancel').connect(PRESSED, self.on_cancel_click)
 
     def on_cancel_click(self):
-        game_mgr.ui_mgr.defer_close(self.ui_obj)
+        self.defer_close()
         game_mgr.ui_mgr.neizheng_controller.show()
 
     def on_ok_click(self):
-        game_mgr.ui_mgr.defer_close(self.ui_obj)
+        self.defer_close()
         game_mgr.ui_mgr.neizheng_controller.show()
 
-    def init_hero_list(self, heros):
+    def init_hero_list(self, hero_list):
         
         for item in self.item_list:
             item.destroy()
@@ -65,6 +65,7 @@ class SelectHeroController(UIController):
             zhengzhi_label.set_minimum_size(40, 0)
             zhengzhi_label.set_text('政治')
 
-
+        for hero in hero_list:
+            pass
 
 
