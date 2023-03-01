@@ -2,7 +2,6 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" href="css/github-markdown.css">
 	</head>
 	<body>
 		<img src="img/logo_dark.svg" width="100" height="100"/>
@@ -10,18 +9,12 @@
 
 		<div id="blocklyDiv" style="height: 480px; width: 800px;"></div>
 
-		<div id="markdownDiv" style="height: 480px; width: 800px;"></div>
-
 		<script src="js/jquery-3.6.3.min.js"></script>
 
 		<script src="js/blockly_compressed.js"></script>
 		<script src="js/blocks_compressed.js"></script>
 		<script src="js/msg/en.js"></script>
 
-
-		<!-- markdown -->
-		<script src="https://cdn.bootcdn.net/ajax/libs/marked/4.2.12/marked.min.js"></script>
-		
 		<script>
 			function init_blockly() {
 				var toolbox = {
@@ -63,13 +56,6 @@
 			$(document).ready(() => {
 				console.log('ready')
 				init_blockly();
-
-				$.get('hello.md', data => {
-					//console.log(data)
-					// marked js, js based markdown viewer
-					// https://github.com/markedjs/marked
-					$('#markdownDiv').html(marked.parse(data))
-				})
 			})
 		</script>
 		

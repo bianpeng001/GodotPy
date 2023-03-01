@@ -28,6 +28,11 @@
 
 详细情况，见[开发记录](Demo/README.md)
 
+## 文档
+文档用markdownjs来从md生成页面，[marked](https://github.com/markedjs/marked)
+[markdown-css](https://github.com/sindresorhus/github-markdown-css)
+
+
 ## 目录
 
 Python: 编译python的scons脚本，和一些平台相关的配置。
@@ -35,6 +40,7 @@ Python: 编译python的scons脚本，和一些平台相关的配置。
 Godot: Godot的一个自定义模块，和构造脚本。目前仅支持 godot 4.0。
 
 Demo: 测试用的工程，写一个小游戏
+
 
 
 ## godot engine
