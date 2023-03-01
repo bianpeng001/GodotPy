@@ -2,6 +2,8 @@
 // 2023年1月17日
 //
 
+// TODO: 还要处理Resource继承下来的对象，是资源，而不是Object
+
 #include "GodotPy.h"
 
 // core headers
@@ -1555,9 +1557,6 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// 2d
 	{ "node2d_set_position", f_node2d_set_position, METH_VARARGS, NULL },
-	{ "control_set_position", f_control_set_position, METH_VARARGS, NULL },
-	{ "canvas_item_set_visible", f_canvas_item_set_visible, METH_VARARGS, NULL },
-	{ "find_control", f_find_control, METH_VARARGS, NULL },
 
 	// camera3d
 	{ "screen_to_world", f_screen_to_world, METH_VARARGS, NULL },
@@ -1569,6 +1568,12 @@ static PyMethodDef GodotPy_methods[] = {
 	// label3d
 	{ "label3d_set_text", f_label3d_set_text, METH_VARARGS, NULL },
 
+	// gui
+	{ "control_set_position", f_control_set_position, METH_VARARGS, NULL },
+	{ "canvas_item_set_visible", f_canvas_item_set_visible, METH_VARARGS, NULL },
+	{ "find_control", f_find_control, METH_VARARGS, NULL },
+	{ "base_button_set_disabled", f_base_button_set_disabled, METH_VARARGS, NULL },
+
 	// label
 	{ "label_set_text", f_label_set_text, METH_VARARGS, NULL },
 	{ "label_set_minimum_size", f_label_set_minimum_size, METH_VARARGS, NULL }, 
@@ -1577,9 +1582,6 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "tabbar_get_current_tab", f_tabar_get_current_tab, METH_VARARGS, NULL },
 	{ "tabbar_set_current_tab", f_tabar_set_current_tab, METH_VARARGS, NULL },
 
-	//
-	{ "base_button_set_disabled", f_base_button_set_disabled, METH_VARARGS, NULL },
-	
 	// particle
 	{ "cpu_particle_set_emitting", f_cpu_particle_set_emitting, METH_VARARGS, NULL },
 
