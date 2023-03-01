@@ -6,9 +6,10 @@ import math
 from game.core import *
 from game.game_mgr import game_mgr
 from game.event_name import PRESSED
+from game.base_type import UIController
 
 # 头顶主界面逻辑
-class MainUIController:
+class MainUIController(UIController):
     def __init__(self):
         pass
 

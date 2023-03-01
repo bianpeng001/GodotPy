@@ -10,7 +10,7 @@ from game.game_mgr import game_mgr
 
 class CloseTrait:
     def defer_close(self):
-        game_mgr.ui_mgr.defer_close(self.ui_obj)
+        game_mgr.ui_mgr.defer_close(self)
 
 class HeroListTrait:
     def init_header(self, header):
@@ -45,15 +45,17 @@ class HeroListTrait:
 
     def init_items(self, item_node, hero_list):
         for item in self.item_list:
-            item.destroy()
+            _, item_obj = item
+            item_obj.destroy()
+        self.item_list.clear()
 
         for hero_id in hero_list:
             hero = game_mgr.hero_mgr.get_hero(hero_id)
 
             new_item = item_node.dup()
             new_item.set_visible(True)
-            self.item_list.append(new_item)
-
+            self.item_list.append((hero_id, new_item))
+            
             name_label = new_item.find_node('Label')
             name_label.set_minimum_size(80, 0)
             name_label.set_text(hero.hero_name)

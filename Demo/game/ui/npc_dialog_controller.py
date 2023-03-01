@@ -3,9 +3,11 @@
 #
 
 from game.game_mgr import game_mgr
+from game.base_type import UIController
+from game.ui.ui_traits import CloseTrait
 
 # npc对话框
-class NpcDialogController:
+class NpcDialogController(UIController, CloseTrait):
     def __init__(self):
         self.show_time = 0
 
@@ -18,7 +20,8 @@ class NpcDialogController:
         self.dialog_label.set_text(text)
 
         self.ui_obj.set_position(350, 480)
-        self.ui_obj.set_visible(True)
+        self.show()
+
 
 
 

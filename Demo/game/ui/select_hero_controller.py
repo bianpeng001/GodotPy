@@ -2,6 +2,7 @@
 # 2023年2月28日 bianpeng
 #
 
+from game.core import log_util
 from game.base_type import UIController
 from game.event_name import PRESSED
 from game.game_mgr import game_mgr
@@ -14,12 +15,15 @@ class SelectHeroController(UIController, CloseTrait, HeroListTrait):
         
         self.item_list = []
         self.init_header_done = False
+        self.selected = []
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
         self.ui_obj.find_node('Panel/BtnOk').connect(PRESSED, self.on_ok_click)
         self.ui_obj.find_node('Panel/BtnCancel').connect(PRESSED, self.on_cancel_click)
+
+        self.selected.clear()
 
     def on_cancel_click(self):
         self.defer_close()
@@ -29,18 +33,16 @@ class SelectHeroController(UIController, CloseTrait, HeroListTrait):
         self.defer_close()
         game_mgr.ui_mgr.neizheng_controller.show()
 
-        selected = []
+        self.selected.clear()
         for item in self.item_list:
-            if item.find_node('CheckBox').is_pressed():
-                selected.append(item)
+            hero_id, item_obj = item
+            if item_obj.find_node('CheckBox').is_pressed():
+                self.selected.append(hero_id)
 
-        print(selected)
+        log_util.debug(self.selected)
 
     def init_hero_list(self):
         city = game_mgr.ui_mgr.context_unit
-        
-        for item in self.item_list:
-            item.destroy()
 
         if not self.init_header_done:
             self.init_header_done = True
@@ -49,6 +51,4 @@ class SelectHeroController(UIController, CloseTrait, HeroListTrait):
 
         item_node = self.ui_obj.find_node('Panel/HeroList/ScrollContainer/VBoxContainer/Item')
         self.init_items(item_node, city.hero_list)
-
-
 

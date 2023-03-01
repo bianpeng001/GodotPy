@@ -84,8 +84,6 @@ class NeiZhengController(UIController, CloseTrait, HeroListTrait):
 
     def init_hero_list(self):
         city = game_mgr.ui_mgr.context_unit
-        if city.unit_id == self.last_city_id:
-            return
 
         if not self.init_header_done:
             self.init_header_done = True

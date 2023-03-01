@@ -4,9 +4,11 @@
 
 from game.core import *
 from game.game_mgr import game_mgr
+from game.base_type import UIController
+from game.ui.ui_traits import CloseTrait
 
 # 
-class GroundMenuController:
+class GroundMenuController(UIController, CloseTrait):
     def __init__(self):
         pass
 

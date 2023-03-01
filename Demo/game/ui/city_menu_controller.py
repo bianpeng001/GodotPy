@@ -4,15 +4,16 @@
 
 from game.core import *
 from game.game_mgr import game_mgr
+from game.base_type import UIController
+from game.ui.ui_traits import CloseTrait
+from game.event_name import PRESSED
 
 # 城池的上下文菜单的控制器
-class CityMenuController:
+class CityMenuController(UIController, CloseTrait):
     def __init__(self):
         pass
 
     def setup(self, ui_obj):
-        from game.event_name import PRESSED
-
         self.ui_obj = ui_obj
 
         self.ui_obj.find_node('Panel/BtnNeiZheng').connect(PRESSED, self.on_neizheng)
@@ -22,7 +23,7 @@ class CityMenuController:
     # 内政
     def on_neizheng(self):
         ui_mgr = game_mgr.ui_mgr
-        ui_mgr.defer_close(self.ui_obj)
+        self.defer_close()
 
         print_line(f'{ui_mgr.context_unit.unit_name} neizheng')
 
@@ -34,13 +35,13 @@ class CityMenuController:
     def on_chuzhan(self):
         ui_mgr = game_mgr.ui_mgr
 
-        ui_mgr.defer_close(self.ui_obj)
+        self.defer_close()
         print_line(f'{ui_mgr.context_unit.unit_name} chuzhan')
 
     # 探索
     def on_tansuo(self):
         ui_mgr = game_mgr.ui_mgr
 
-        ui_mgr.defer_close(self.ui_obj)
+        self.defer_close()
         print_line(f'{ui_mgr.context_unit.unit_name} tansuo')
 

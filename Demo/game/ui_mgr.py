@@ -80,18 +80,19 @@ class UIMgr(NodeObject):
     def load_panel(self, path, cls):
         ui_obj = FNode3D.instantiate(path)
         ui_obj.reparent(self.get_obj())
-        ui_obj.set_visible(False)
+        #ui_obj.set_visible(False)
 
         controller = cls()
         controller.setup(ui_obj)
+        controller.hide()
 
         return ui_obj, controller
 
     def update(self, delta_time):
         # 前一帧关闭的元素
         if len(self.defer_close_queue) > 0:
-            for ui_obj in self.defer_close_queue:
-                ui_obj.set_visible(False)
+            for item in self.defer_close_queue:
+                item.hide()
             self.defer_close_queue.clear()
 
         # 延时关闭的元素
@@ -100,35 +101,35 @@ class UIMgr(NodeObject):
                 item.show_time -= delta_time
                 if item.show_time <= 0:
                     item.show_time = 0
-                    self.defer_close(item.ui_obj)
+                    item.hide()
 
     # 下一帧开头关闭
     # 避免本帧直接关闭，出现点穿的现象。如果立即关闭，则会判定为在空地上点了一下
-    def defer_close(self, ui_obj):
-        if ui_obj.visible:
-            self.defer_close_queue.append(ui_obj)
+    def defer_close(self, ui_controller):
+        if ui_controller.is_visible:
+            self.defer_close_queue.append(ui_controller)
 
     # events handlers
 
     def on_begin_drag(self):
-        self.defer_close(self.city_menu)
-        self.defer_close(self.ground_menu)
+        self.city_menu_controller.defer_close()
+        self.ground_menu_controller.defer_close()
 
         self.context_unit = None
 
     def on_scene_ground_click(self):
-        if self.ground_menu.visible:
-            self.defer_close(self.ground_menu)
+        if self.ground_menu_controller.is_visible:
+            self.ground_menu_controller.defer_close()
         else:
-            self.defer_close(self.city_menu)
+            self.city_menu_controller.defer_close()
 
             self.context_unit = None
             x, y = game_mgr.input_mgr.get_mouse_pos()
             self.ground_menu.set_position(x, y)
-            self.ground_menu.set_visible(True)
+            self.ground_menu_controller.show()
 
     def on_scene_unit_click(self, unit):
-        self.defer_close(self.ground_menu)
+        self.ground_menu_controller.defer_close()
 
         self.context_unit = unit
         #print_line(f'click: {unit.unit_name}')
@@ -137,7 +138,7 @@ class UIMgr(NodeObject):
             if unit.owner_is_main_player():
                 x, y = game_mgr.input_mgr.get_mouse_pos()
                 self.city_menu.set_position(x, y)
-                self.city_menu.set_visible(True)
+                self.city_menu_controller.show()
             else:
                 # TODO
                 pass

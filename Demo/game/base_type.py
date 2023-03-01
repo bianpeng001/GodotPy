@@ -152,14 +152,17 @@ class Controller(AIMachine):
 class UIController:
     def __self__(self):
         self.ui_obj = None
+        self.is_visible = True
 
     def setup(self, ui_obj):
         pass
 
     def show(self):
+        self.is_visible = True
         self.ui_obj.set_visible(True)
 
     def hide(self):
+        self.is_visible = False
         self.ui_obj.set_visible(False)
 
 
