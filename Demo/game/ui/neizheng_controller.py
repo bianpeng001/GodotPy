@@ -50,18 +50,26 @@ class NeiZhengController(UIController, CloseTrait, HeroListTrait):
         zheng_obj.find_node('SliderTraderMass').connect(VALUE_CHANGED, self.on_trade_slide_change)
         self.trade_mass_label = zheng_obj.find_node('LblTraderMass')
 
-        self.btn_satrap_obj = zheng_obj.find_node('BtnSatrap')
-        self.btn_satrap_obj.connect(PRESSED, self.on_select_satrap)
+        self.setup_btn_select_hero('BtnSatrap')
+        self.setup_btn_select_hero('BtnOrderCharge')
+        self.setup_btn_select_hero('BtnFarmerCharge')
+        self.setup_btn_select_hero('BtnTraderCharge')
+        
 
-    def on_select_satrap(self):
-        game_mgr.ui_mgr.select_hero_controller.show_dialog(self.on_select_hero_cb)
-        self.defer_close()
+    def setup_btn_select_hero(self, btn_name):
+        btn_obj = self.tab_zheng_obj.find_node(btn_name)
 
-    def on_select_hero_cb(self, hero_list):
-        log_util.debug(hero_list)
-        if len(hero_list) > 0:
-            hero = game_mgr.hero_mgr.get_hero(hero_list[0])
-            self.btn_satrap_obj.set_text(hero.hero_name)
+        def select_cb(hero_list):
+            log_util.debug(hero_list)
+            if len(hero_list) > 0:
+                hero = game_mgr.hero_mgr.get_hero(hero_list[0])
+                btn_obj.set_text(hero.hero_name)
+
+        def on_btn_click():
+            game_mgr.ui_mgr.select_hero_controller.show_dialog(select_cb)
+            self.defer_close()
+
+        btn_obj.connect(PRESSED, on_btn_click)
 
     def on_order_slide_change(self, value):
         num = round(value * 100)
@@ -98,14 +106,6 @@ class NeiZhengController(UIController, CloseTrait, HeroListTrait):
         item_node = self.tab_jiang_obj.find_node('HeroList/ScrollContainer/VBoxContainer/Item')
         self.init_items(item_node, city.hero_list)
 
-        def bind_gui_input():
-            a_hero = hero
-
-            def _on_gui_input(is_pressed):
-                if is_pressed:
-                    log_util.debug(f'click {a_hero.hero_id} {a_hero.hero_name}')
-            
-            return _on_gui_input
 
 
             
