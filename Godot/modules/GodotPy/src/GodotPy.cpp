@@ -1414,6 +1414,27 @@ static PyObject *f_base_button_set_disabled(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_base_button_is_checked(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		int a_value;
+
+		if (!PyArg_ParseTuple(args, "Oi", &a_obj, &a_value)) {
+			break;
+		}
+
+		auto btn = GetObjPtr<CheckBox>(a_obj);
+		if (!btn) {
+			break;
+		}
+
+		bool pressed = btn->is_pressed();
+		return PyBool_FromLong(pressed);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_material_set_albedo_color(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -1543,7 +1564,6 @@ static PyMethodDef GodotPy_methods[] = {
 
 	{ "connect", f_connect, METH_VARARGS, NULL },
 	
-	
 	// node3d
 	{ "set_position", f_set_position, METH_VARARGS, NULL },
 	{ "get_position", f_get_position, METH_VARARGS, NULL },
@@ -1578,6 +1598,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "canvas_item_set_visible", f_canvas_item_set_visible, METH_VARARGS, NULL },
 	{ "find_control", f_find_control, METH_VARARGS, NULL },
 	{ "base_button_set_disabled", f_base_button_set_disabled, METH_VARARGS, NULL },
+	{ "base_button_is_checked", f_base_button_is_checked, METH_VARARGS, NULL },
 
 	// label
 	{ "label_set_text", f_label_set_text, METH_VARARGS, NULL },

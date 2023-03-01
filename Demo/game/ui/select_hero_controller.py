@@ -4,15 +4,16 @@
 
 from game.base_type import UIController
 from game.event_name import PRESSED
-from game.game_mgr import game_mgr, UIControllerTrait
+from game.game_mgr import game_mgr
+from game.ui.ui_traits import *
 
-#
-class SelectHeroController(UIController, UIControllerTrait):
+# 选择武将
+class SelectHeroController(UIController, CloseTrait, HeroListTrait):
     def __init__(self):
         super().__init__()
         
         self.item_list = []
-        self.init_header = False
+        self.init_header_done = False
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
@@ -28,44 +29,19 @@ class SelectHeroController(UIController, UIControllerTrait):
         self.defer_close()
         game_mgr.ui_mgr.neizheng_controller.show()
 
-    def init_hero_list(self, hero_list):
+    def init_hero_list(self):
+        city = game_mgr.ui_mgr.context_unit
         
         for item in self.item_list:
             item.destroy()
 
-        if not self.init_header:
-            self.init_header = True
+        if not self.init_header_done:
+            self.init_header_done = True
             header = self.ui_obj.find_node('Panel/HeroList/ScrollContainer/VBoxContainer/Header')
-            
-            name_label = header.find_node('Label')
-            name_label.set_minimum_size(80, 0)
-            name_label.set_text('姓名')
+            self.init_header(header)
 
-            age_label = name_label.dup()
-            age_label.set_minimum_size(40, 0)
-            age_label.set_text('年龄')
+        item_node = self.ui_obj.find_node('Panel/HeroList/ScrollContainer/VBoxContainer/Item')
+        self.init_items(item_node, city.hero_list)
 
-            action_label = name_label.dup()
-            action_label.set_minimum_size(60, 0)
-            action_label.set_text('活动')
-
-            wuli_label = name_label.dup()
-            wuli_label.set_minimum_size(40, 0)
-            wuli_label.set_text('武力')
-
-            tongshuai_label = name_label.dup()
-            tongshuai_label.set_minimum_size(40, 0)
-            tongshuai_label.set_text('统率')
-
-            zhili_label = name_label.dup()
-            zhili_label.set_minimum_size(40, 0)
-            zhili_label.set_text('智力')
-
-            zhengzhi_label = name_label.dup()
-            zhengzhi_label.set_minimum_size(40, 0)
-            zhengzhi_label.set_text('政治')
-
-        for hero in hero_list:
-            pass
 
 

@@ -46,7 +46,6 @@ layout_mode = 2
 [node name="CheckBox" type="CheckBox" parent="ScrollContainer/VBoxContainer/Item"]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
-disabled = true
 
 [node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/Item"]
 custom_minimum_size = Vector2(100, 0)

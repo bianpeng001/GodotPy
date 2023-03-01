@@ -516,6 +516,9 @@ class FBaseButton(FControl):
     def set_disabled(self, value):
         gp.base_button_set_disabled(self.get_gdobj(), value)
 
+    def is_pressed(self):
+        return gp.base_button_is_pressed(self.get_gdobj())
+
 class FButton(FBaseButton):
     pass
 
