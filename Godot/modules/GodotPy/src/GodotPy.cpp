@@ -399,34 +399,7 @@ public:
 };
 Dictionary FGDObjSlot::object_id2gd_obj_dict;
 
-// 把下面这个函数声明，放到scene_tree.cpp的, SceneTree::_flush_delete_queue() 之前
-// 里面会实际调用 memdelete(obj), 会进过这个predelete_handler
-
-// 对node.cpp 的PREDELETE，做一点点改造
-// node.cpp:179 void Node::_notification(int p_notification) {
-#ifdef XXX
-case NOTIFICATION_PREDELETE: {
-	if (data.parent) {
-		data.parent->remove_child(this);
-	}
-
-	// bianp+
-	extern void delete_gdobj(Node * p_node);
-
-	// kill children as cleanly as possible
-	while (data.children.size()) {
-		Node *child = data.children[data.children.size() - 1]; //begin from the end because its faster and more consistent with creation
-
-		// bianp+
-		delete_gdobj(child);
-		memdelete(child);
-	}
-	// bianp+
-	delete_gdobj(this);
-
-} break;
-#endif
-
+// 在node.cpp里面调用
 void delete_gdobj(Node* p_node) {
 	FGDObjSlot::DelGDObj(p_node);
 }
