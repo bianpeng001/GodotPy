@@ -16,9 +16,18 @@
 
 "吾意已决，今岁必写三国九!"
 
-<div class="date">2023年3月2日</div>
+markdown example
 
 ------
+
+| Syntax      | Description |
+| ----------- | ----------- |
+| Header      | Title       |
+| Paragraph   | Text        |
+
+:joy:
+
+<div class="date">2023年3月2日</div>
 
 ## 三国志9
 
@@ -40,8 +49,6 @@
 
 <div class="date">2023年3月2日</div>
 
-------
-
 ## 开始
 
 过年期间，心情烦躁。与其把这些宝贵的时间，花在毫无意义的烦躁上面，不如干点啥。于是，有了这个小工程，学习使人快乐。
@@ -50,6 +57,4 @@
 好烦啊烦，烦啊烦。
 
 <div class="date">2023年3月1日</div>
-
-------
 
