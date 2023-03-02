@@ -45,7 +45,8 @@ class CityUnit(Unit, UnitTrait):
 
         # 士气
         self.army_moral = 100
-
+        # 治安
+        self.public_order = 100
         # 居民人口
         self.urban_mass = 1000
         # 人口上限
@@ -56,8 +57,8 @@ class CityUnit(Unit, UnitTrait):
 
         # 治安官
         self.order_incharge = 0
-        # 治安
-        self.public_order = 100
+        # 治安人数
+        self.order_mass = 0
         
         # 农业官
         self.farmer_incharge = 0

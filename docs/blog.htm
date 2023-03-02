@@ -33,7 +33,7 @@
 		<div id="pageHeader"></div>
 
 		<div id="markedDiv" class="markdown-body">
-			这是一个很长的故事
+			loading
 		</div>
 
 		<script src="js/jquery-3.6.3.min.js"></script>
@@ -45,7 +45,7 @@
 			$(document).ready(() => {
 				console.log('ready')
 
-				$.get('md/hello.md', data => {
+				$.get('md/hello.md?_=' + new Date().getTime(), data => {
 					//console.log(data)
 					// marked js, js based markdown viewer
 					// https://github.com/markedjs/marked
