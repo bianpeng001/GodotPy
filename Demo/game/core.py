@@ -202,15 +202,11 @@ class NodeObject:
     def __init__(self):
         self._gdobj = None
 
-    # start gdobj
-
     def get_obj(self):
         return GetWrappedObject(self._gdobj)
 
     def get_gdobj(self):
         return self._gdobj
-
-    # end of gdobj
     
     def on_mouse_button(self, button, pressed, x, y):
         pass
@@ -347,6 +343,7 @@ class LogUtil:
 
 log_util = LogUtil()
 logutil = log_util
+log_util_debug = log_util.debug
 
 #------------------------------------------------------------
 # gdobj 封装

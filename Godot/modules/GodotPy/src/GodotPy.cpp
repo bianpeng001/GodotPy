@@ -4,6 +4,10 @@
 
 // TODO: 还要处理Resource继承下来的对象，是资源，而不是Object
 
+// TODO：最佳的释放的机会在, SceneTree::_flush_delete_queue
+// 这是真正调用memdelete(obj)的地方，因为全部扫描，肯定是不合适的
+// 还有一个机会就是queue_delete的地方
+
 #include "GodotPy.h"
 
 // core headers
@@ -68,7 +72,7 @@ static void PyGDObj_dealloc(PyObject *o) {
 	ERR_FAIL_COND(!Is_GDObj(o));
 
 	// TODO: 这里要清空数据
-	print_line("destroy PyGDObj");
+	//print_line("destroy PyGDObj");
 
 	PyObject_Free(o);
 }
@@ -262,6 +266,8 @@ PyObject *PyGDObj_New(Object *a_obj) {
 		return NULL;
 	}
 
+	//print_line("new PyGDObj");
+
 	obj->obj = a_obj;
 	obj->instance_id = a_obj->get_instance_id();
 	obj->wrapped_object = NULL;
@@ -298,7 +304,9 @@ inline T *GetObjPtr(PyObject *o) {
 	return nullptr;
 }
 //------------------------------------------------------------------------------
-// 作为属性，存在对象上面
+// 作为属性，存在对象上面。
+// TODO: 后面改成std的dict，这里是因为原本想存在Object::set,get里面，只支持Variant，
+// 所以做了一个Slot来接数据
 //------------------------------------------------------------------------------
 class FGDObjSlot : public Object {
 private:
@@ -309,6 +317,32 @@ public:
 	}
 	virtual ~FGDObjSlot() {
 		if (gd_obj) {
+			// 把wrapped_object释放掉，这样wrapped_object对gd_obj的引用就解开了
+			auto o = gdobj::Cast_PyGDObj(gd_obj);
+			if (o->wrapped_object) {
+				// 超过1说明被持有，1的话说明是一个临时变量
+				if (o->wrapped_object->ob_refcnt > 1) {
+					print_line(vformat("FGDObjSlot: wrapped_obj refcnt=%d type=%s",
+							o->wrapped_object->ob_refcnt,
+							o->wrapped_object->ob_type->tp_name));
+
+					// 打印一下节点的路径，确认下是否需要持有
+					auto p_node = Object::cast_to<Node>(o->obj);
+					if (p_node) {
+						// 这时候已经从scene_tree中删除，得不到路径了
+						//auto& path = p_node->get_path();
+
+						print_line(vformat("FGDObjSlot: node_obj name=%s", p_node->get_name()));
+					}
+				}
+				
+				GP_DECREF(o->wrapped_object);
+			}
+
+			// gd_obj->ob_type->tp_name 都是GDObj
+			if (gd_obj->ob_refcnt > 1) {
+				print_line(vformat("FGDObjSlot: gd_obj refcnt=%d", gd_obj->ob_refcnt));
+			}
 			GP_DECREF(gd_obj);
 		}
 	}
@@ -326,12 +360,20 @@ public:
 		return Object::cast_to<FGDObjSlot>(v.operator Object *())->gd_obj;
 	}
 	static void DelGDObj(Object *a_obj) {
-		auto v = object_id2gd_obj_dict.get(a_obj->get_instance_id(), Variant());
-		if (!v.is_null()) {
-			auto slot = Object::cast_to<FGDObjSlot>(v.operator Object *());
-			memdelete(slot);
+		const auto& instance_id = a_obj->get_instance_id();
+		if (object_id2gd_obj_dict.has(instance_id)) {
+			auto v = object_id2gd_obj_dict.get(instance_id, Variant());
+			object_id2gd_obj_dict.erase(instance_id);
+			if (!v.is_null()) {
+				auto slot = Object::cast_to<FGDObjSlot>(v.operator Object *());
+				memdelete(slot);
+			}
+			// 根据这个日志表明，至少这里是清空了的
+			//int slot_count = object_id2gd_obj_dict.size();
+			//if (slot_count < 10) {
+			//	print_line(vformat("gdobj slot_count=%d", slot_count));
+			//}
 		}
-		object_id2gd_obj_dict.erase(a_obj->get_instance_id());
 	}
 	static void Clear() {
 		if (object_id2gd_obj_dict.size() > 0) {
@@ -346,6 +388,38 @@ public:
 	}
 };
 Dictionary FGDObjSlot::object_id2gd_obj_dict;
+
+// 把下面这个函数声明，放到scene_tree.cpp的, SceneTree::_flush_delete_queue() 之前
+// 里面会实际调用 memdelete(obj), 会进过这个predelete_handler
+
+// 对node.cpp 的PREDELETE，做一点点改造
+// node.cpp:179 void Node::_notification(int p_notification) {
+#ifdef XXX
+case NOTIFICATION_PREDELETE: {
+	if (data.parent) {
+		data.parent->remove_child(this);
+	}
+
+	// bianp+
+	extern void delete_gdobj(Node * p_node);
+
+	// kill children as cleanly as possible
+	while (data.children.size()) {
+		Node *child = data.children[data.children.size() - 1]; //begin from the end because its faster and more consistent with creation
+
+		// bianp+
+		delete_gdobj(child);
+		memdelete(child);
+	}
+	// bianp+
+	delete_gdobj(this);
+
+} break;
+#endif
+
+void delete_gdobj(Node* p_node) {
+	FGDObjSlot::DelGDObj(p_node);
+}
 
 //------------------------------------------------------------------------------
 // 有些数据做一个类型没必要，仍旧放到capsule里面，挺方便的
@@ -702,6 +776,7 @@ static PyObject *f_load_scene(PyObject *module, PyObject *args) {
 	Py_RETURN_NONE;
 }
 // 销毁节点
+// 这里是主动调用destroy，则主动在python端解开对gdobj的引用
 static PyObject *f_destroy(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -714,7 +789,9 @@ static PyObject *f_destroy(PyObject *module, PyObject *args) {
 		if (!node) {
 			break;
 		}
-		FGDObjSlot::DelGDObj(node);
+
+		// 移到 predelete_handler(Object *p_object) 里面，保证每一个Node删除的时候，都会走这里
+		//notify_delete_gdobj_if_exists(node);
 		node->queue_free();
 
 	} while (0);
@@ -1945,7 +2022,8 @@ void FPyObject::_process() {
 }
 void FPyObject::_exit_tree() {
 	// TODO:
-	FGDObjSlot::Clear();
+	//FGDObjSlot::Clear();
+	//Py_FinalizeEx();
 }
 void FPyObject::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_python_path", "python_module"), &FPyObject::set_python_path);

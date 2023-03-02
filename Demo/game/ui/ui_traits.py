@@ -1,7 +1,9 @@
 #
 # 2023年3月1日 bianpeng
 #
+import sys
 
+from game.core import log_util_debug
 from game.game_mgr import game_mgr
 
 #------------------------------------------------------------
@@ -57,6 +59,7 @@ class HeroListTrait:
             self.item_list.append((hero_id, new_item))
             
             name_label = new_item.find_node('Label')
+            #log_util_debug(f'refcnt={sys.getrefcount(name_label)}')
             name_label.set_minimum_size(80, 0)
             name_label.set_text(hero.hero_name)
             #name_label.connect(GUI_INPUT, bind_gui_input())
