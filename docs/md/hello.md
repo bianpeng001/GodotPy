@@ -10,7 +10,7 @@
 
 [Godot 4.0 sets sail: All aboard for new horizons](https://godotengine.org/article/godot-4-0-sets-sail)
 
-翻译翻译，什么叫 godot4.0，扬帆，上船往新世界。所以，我正在一条船上，目前的职位应该是水手，拖鞋沙滩裤，头发有点红。文章末尾说，Enjoy Godot！
+翻译翻译，什么叫 godot4.0，扬帆，上船往新世界。所以，我正在一条船上，目前的身份应该是水手，拖鞋沙滩裤，头发有点红。文章末尾说，Enjoy Godot！
 
 那用godot引擎，做一个三国志9好了。弥补一下三国志9里面的一些不够尽兴的地方，三国志9+。
 

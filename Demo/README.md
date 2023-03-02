@@ -27,10 +27,6 @@ Godot: godot的扩展和构造脚本
 
 Python: python的构造脚本和扩展
 
-## 做一个小游戏试试看
-
-进行中
-
 ## 协程
 协程是个好东西，给godot做一个吧。
 
@@ -75,9 +71,8 @@ Python的Py_INCREF, Py_DECREF，这两项的使用，有一些注意点。目前
 以后要做一个呼出的界面
 
 ### 支持sqlite3
-python本来就支持得挺不错了。
-
-不知道是否有必要在引擎这边支持一下。
+python本来就支持得挺不错了。把最新的sqlite和python的sqlite module都编译了一下。以后优先在python处理数据。
+c++那边主要还是接口和高io，高cpu的代码。
 
 
 ### 对象生命周期
@@ -293,6 +288,11 @@ Godot里面Object和ObjectId，ObjectId应该是一个不会重复的值。如�
 ### Blocky
 可视化的工具，准备用来做配置，和关卡。
 [blockly](https://github.com/google/blockly)
+
+### markdown语法
+
+[marked demo](https://marked.js.org/demo)
+[marked](https://github.com/markedjs/marked)
 
 
 
