@@ -517,10 +517,10 @@ private:
 
 						// TODO:
 
-						auto node = Object::cast_to<Object>(obj);
+						auto node = Object::cast_to<Node>(obj);
 						if (node) {
 							value = FGDObjSlot::GetGDObj(node);
-							Py_INCREF(obj);
+							Py_INCREF(value);
 							break;
 						}
 
