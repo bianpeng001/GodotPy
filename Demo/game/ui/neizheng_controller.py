@@ -58,6 +58,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     def init(self, city_unit):
         self.city_unit = city_unit
 
+    # 关联按钮，到英雄选择面板
     def setup_btn_select_hero(self, btn_name):
         btn_obj = self.tab_zheng_obj.find_node(btn_name)
 

@@ -307,7 +307,6 @@ class OS:
     def get_window_size(cls):
         return gp.get_window_size()
 
-
     @classmethod
     def viewport_get_size(cls):
         return gp.viewport_get_size()
@@ -556,7 +555,12 @@ class FHBoxContainer(FControl):
     pass
 
 class FSlider(FControl):
-    pass
+    def get_value(self):
+        return gp.slider_get_value(self.get_gdobj())
+
+    def set_value(self, value):
+        gp.slider_set_value(self.get_gdobj(), value)
+
 
 class FNode2D(FCanvasItem):
     def set_position(self, x,y):

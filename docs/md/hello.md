@@ -7,9 +7,14 @@
 ## godot engine 4.0 released
 
 今天是个好日子，godot 4.0正式发布了。我这也算是49年起义，与有荣焉。
-用godot引擎，做一个三国志9好了。弥补一下三国志9里面的一些不够尽兴的地方。
+
+Enjoy Godot！[Godot 4.0 sets sail: All aboard for new horizons]（https://godotengine.org/article/godot-4-0-sets-sail）扬帆，上船往新世界。应该是这么翻译的吧，所以，我正在一条船上，目前的职位应该是水手，拖鞋沙滩裤，头发有点红。
+
+那用godot引擎，做一个三国志9好了。弥补一下三国志9里面的一些不够尽兴的地方。
 
 "吾意已决，今岁必写三国九!"
+
+可以的话 Enjoy 三国九+1!
 
 <div class="date">2023年3月2日</div>
 

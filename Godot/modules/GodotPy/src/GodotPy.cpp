@@ -35,6 +35,7 @@
 #include "scene/gui/label.h"
 #include "scene/gui/tab_bar.h"
 #include "scene/gui/check_box.h"
+#include "scene/gui/slider.h"
 
 #include "scene/resources/packed_scene.h"
 
@@ -1589,6 +1590,47 @@ static PyObject *f_button_set_text(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_slider_get_value(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+
+		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
+			break;
+		}
+
+		auto slider = GetObjPtr<Slider>(a_obj);
+		if (!slider) {
+			break;
+		}
+
+		auto value = slider->get_value();
+
+		return PyFloat_FromDouble(value);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_slider_set_value(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		float a_value;
+
+		if (!PyArg_ParseTuple(args, "Of", &a_obj, &a_value)) {
+			break;
+		}
+
+		auto slider = GetObjPtr<Slider>(a_obj);
+		if (!slider) {
+			break;
+		}
+
+		slider->set_value(a_value);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_material_set_albedo_color(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -1759,6 +1801,8 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "base_button_is_pressed", f_base_button_is_pressed, METH_VARARGS, NULL },
 	{ "base_button_set_pressed", f_base_button_set_pressed, METH_VARARGS, NULL },
 	{ "button_set_text", f_button_set_text, METH_VARARGS, NULL },
+	{ "slider_get_value", f_slider_get_value, METH_VARARGS, NULL },
+	{ "slider_set_value", f_slider_set_value, METH_VARARGS, NULL },
 
 	// label
 	{ "label_set_text", f_label_set_text, METH_VARARGS, NULL },
