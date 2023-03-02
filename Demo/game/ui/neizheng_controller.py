@@ -69,14 +69,13 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     
     # 根据实际情况初始化
     def init(self, city_unit):
-        self.city_unit = city_unit
-
-
         def get_hero_name(hero_id):
             if hero_id == 0:
                 return ''
             hero = game_mgr.hero_mgr.get_hero(hero_id)
             return hero.hero_name
+
+        self.city_unit = city_unit
 
         self.btn_satrap.set_text(get_hero_name(city_unit.satrap))
         self.btn_order_incharge.set_text(get_hero_name(city_unit.order_incharge))
