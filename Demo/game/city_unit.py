@@ -47,7 +47,7 @@ class CityUnit(Unit, UnitTrait):
         self.army_moral = 100
         # 治安
         self.public_order = 100
-        # 居民人口
+        # 居民人口 = 治安 + 务农 + 经商
         self.urban_mass = 1000
         # 人口上限
         self.urban_mass_limit = 10000 + random_int(0, 50)*1000

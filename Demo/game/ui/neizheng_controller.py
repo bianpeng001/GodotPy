@@ -126,7 +126,12 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
     def on_close_click(self):
         self.defer_close()
-        game_mgr.ui_mgr.npc_dialog_controller.show_dialog('诸葛亮：主公请放心。', 2)
+        if self.city_unit.satrap != 0:
+            hero = game_mgr.hero_mgr.get_hero(self.city_unit.satrap)
+            if hero:
+                s = '为政之道，务于多闻。'
+                msg = f'{hero.hero_name}: {s}'
+                game_mgr.ui_mgr.npc_dialog_controller.show_dialog(msg, 2)
 
     def on_tab_changed(self, *args):
         self.tab_index = self.tab_bar.get_current_tab()

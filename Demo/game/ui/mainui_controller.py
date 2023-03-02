@@ -27,6 +27,9 @@ class MainUIController(UIController):
         self.refresh_time = game_mgr.sec_time
         self.refresh_frame_number = game_mgr.frame_number
 
+        self.ui_obj.find_node('BtnGM').set_text('执\n行')
+        self.ui_obj.find_node('BtnSys2').set_text('系\n统')
+
         # 事件
         from game.event_name import MAINUI_REFRESH
         game_mgr.event_mgr.add(MAINUI_REFRESH, self.on_refresh)

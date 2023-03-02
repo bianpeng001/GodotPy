@@ -26,9 +26,8 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
 
     def show_dialog(self, on_ok_cb):
         self.init_hero_list()
-        self.ui_obj.set_position(250, 100)
         self.on_ok_cb = on_ok_cb
-        self.show()
+        self.popup(250, 100)
 
     def on_cancel_click(self):
         self.defer_close()

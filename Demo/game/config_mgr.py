@@ -30,6 +30,10 @@ class EffectConfig(BaseConfig):
         self.life_time = 1.0
         self.res_path = ''
 
+class DialogConfig(BaseConfig):
+    def __init__(self):
+        pass
+
 # 配置信息
 class ConfigMgr:
     def __init__(self):

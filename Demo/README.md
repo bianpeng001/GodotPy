@@ -1,6 +1,6 @@
 # GodotPy
 
-
+------
 ## 起因
 2023年1月18日，快过年了，有点时间。
 
@@ -21,11 +21,10 @@ python现在越来越好，想继续用，况且长远看python在服务器端�
 
 
 ## 目录
-Demo: 试验工程，测试和完善GodotPy。作为一个测试工程的同时，也许能让它有点好玩。
 
-Godot: godot的扩展和构造脚本
-
-Python: python的构造脚本和扩展
+- Demo: 试验工程，测试和完善GodotPy。作为一个测试工程的同时，也许能让它有点好玩。
+- Godot: godot的扩展和构造脚本
+- Python: python的构造脚本和扩展
 
 ## 协程
 协程是个好东西，给godot做一个吧。
@@ -136,13 +135,11 @@ coroutine，在用Unity3D的时候，非常喜欢的一个机制，很多小的�
 ### 动作系统
 从glb里面导出来，包含主要的几个节点:
 
-Skeleton:
+1. Skeleton:
     看资源信息，肯定是骨骼的绑定数据。
-
-MeshInstance:
+1. MeshInstance:
     指定Mesh信息，Skin信息
-
-AnimationPlayer
+1. AnimationPlayer
     从AnimationLibrary里面播放动画
 
 相关的资源有:
@@ -189,11 +186,10 @@ void fragment() {
 }
 ```
 
-[Shader文档](https://docs.godotengine.org/en/latest/tutorials/shaders/shader_reference/shading_language.html)
-[Shader举例](https://docs.godotengine.org/en/latest/tutorials/shaders/your_first_shader/index.html)
-[Shader案例分享](https://godotshaders.com)
-
-[Perlin Noise Texture](http://kitfox.com/projects/perlinNoiseMaker)
+- [Shader文档](https://docs.godotengine.org/en/latest/tutorials/shaders/shader_reference/=-shading_language.html)
+- [Shader举例](https://docs.godotengine.org/en/latest/tutorials/shaders/your_first_shader/index.html)
+- [Shader案例分享](https://godotshaders.com)
+- [Perlin Noise Texture](http://kitfox.com/projects/perlinNoiseMaker)
 [柏林噪声介绍](https://zhuanlan.zhihu.com/p/206271895):
 Ken Perlin提出了柏林噪声。柏林噪声基于随机，并在此基础上利用缓动曲线进行平滑插值，使得最终得到噪声效果更加趋于自然
 
@@ -220,6 +216,10 @@ bool Control::_set(const StringName &p_name, const Variant &p_value) {
 ui自动适配屏幕大小，在Project Settings > Window > Stretch。Mode:canvas_items, Aspect=keep。
 
 [中文字体](https://fonts.google.com/?subset=chinese-simplified&noto.script=Hans)
+
+九宫格(NinePatchRect)，在这里有个特殊的名字，新建一个资源[StyleBoxTexture](https://docs.godotengine.org/zh_CN/stable/classes/class_styleboxtexture.html)。
+
+
 
 ### 内存管理
 TODO：现在是放在一个列表，出场景统一清理。以后要做成跟着python的GC走, 可能要给Python一个弱引用。目前是用Capsule上面做的，后面自己做一个容器。
