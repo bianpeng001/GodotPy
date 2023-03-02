@@ -84,7 +84,7 @@ python本来就支持得挺不错了。
 最后为了干净整洁的清理，还是不得不对godot做了一点修改。在Node对象释放之前，通知一下清理
 ```sh
 cd godot
-git apply node_cpp.diff
+git apply node_cpp.patch
 ```
 
 ### 异常输出

@@ -325,10 +325,12 @@ public:
 			auto o = gdobj::Cast_PyGDObj(gd_obj);
 			if (o->wrapped_object) {
 				// 超过1说明被持有，1的话说明是一个临时变量
-				if (o->wrapped_object->ob_refcnt > 1 || gd_obj->ob_refcnt > 1) {
-					print_line(vformat("FGDObjSlot: wrapped_obj refcnt=%d type=%s",
+				if (o->wrapped_object->ob_refcnt > 1 || gd_obj->ob_refcnt > 2) {
+					print_line(vformat("FGDObjSlot: wrapped_obj refcnt=%d type=%s, gd_obj refcnt=%d",
 							o->wrapped_object->ob_refcnt,
-							o->wrapped_object->ob_type->tp_name));
+							o->wrapped_object->ob_type->tp_name,
+							gd_obj->ob_refcnt
+						));
 
 					// 打印一下节点的路径，确认下是否需要持有
 					auto p_node = Object::cast_to<Node>(o->obj);
