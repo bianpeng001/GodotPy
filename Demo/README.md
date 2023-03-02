@@ -79,6 +79,14 @@ python本来就支持得挺不错了。
 
 不知道是否有必要在引擎这边支持一下。
 
+
+### 对象生命周期
+最后为了干净整洁的清理，还是不得不对godot做了一点修改。在Node对象释放之前，通知一下清理
+```sh
+cd godot
+git apply node_cpp.diff
+```
+
 ### 异常输出
 
 由于godot对stdout,stderr有自己的处理。为了接收python的报错信息，需要做一些额外的处理。看Python的PyErr_Print,最后会调用到python的sys.stdout, sys.stderr的PyObject对象上去write。所以，我的做法是，在boot.py里面，一开始，就把Python的sys.stdout, sys.stderr,换成一个假的IO对象。

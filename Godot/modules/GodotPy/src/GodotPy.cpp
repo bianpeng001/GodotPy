@@ -203,9 +203,13 @@ static PyObject *f_is_valid(PyObject *a_self, PyObject *args) {
 		}
 
 		self = (PyGDObj *)a_self;
-		auto obj = ObjectDB::get_instance(self->instance_id);
-
+		
+		Object *obj = NULL;
+		if (self->instance_id.is_valid()) {
+			obj = ObjectDB::get_instance(self->instance_id);	
+		}
 		return PyBool_FromLong(obj != NULL);
+
 	} while (0);
 
 	Py_RETURN_NONE;
@@ -343,6 +347,10 @@ public:
 			if (gd_obj->ob_refcnt > 1) {
 				print_line(vformat("FGDObjSlot: gd_obj refcnt=%d", gd_obj->ob_refcnt));
 			}
+
+			o->obj = NULL;
+			o->instance_id = ObjectID();
+
 			GP_DECREF(gd_obj);
 		}
 	}
