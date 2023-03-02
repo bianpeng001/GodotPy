@@ -303,6 +303,15 @@ class OS:
     def set_window_size(cls, width, height, x, y):
         gp.set_window_size(width, height, x, y)
 
+    @classmethod
+    def get_window_size(cls):
+        return gp.get_window_size()
+
+
+    @classmethod
+    def viewport_get_size(cls):
+        return gp.viewport_get_size()
+
 #
 class Debug:
     @classmethod
@@ -495,6 +504,9 @@ class FCanvasItem(FNode):
 class FControl(FCanvasItem):
     def set_position(self, x,y):
         gp.control_set_position(self.get_gdobj(), x,y)
+
+    def get_rect(self):
+        return gp.control_get_rect(self.get_gdobj())
 
 class FTabBar(FControl):
     def get_current_tab(self):

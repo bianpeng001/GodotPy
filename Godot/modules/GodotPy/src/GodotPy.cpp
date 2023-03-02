@@ -28,7 +28,10 @@
 #include "scene/3d/cpu_particles_3d.h"
 
 #include "scene/2d/node_2d.h"
+
 #include "scene/gui/control.h"
+#include "scene/gui/base_button.h"
+#include "scene/gui/button.h"
 #include "scene/gui/label.h"
 #include "scene/gui/tab_bar.h"
 #include "scene/gui/check_box.h"
@@ -614,6 +617,27 @@ static PyObject *f_set_window_size(PyObject *module, PyObject *args) {
 		server->window_set_size(Size2(width, height));
 		server->window_set_position(Point2i(x, y));
 	}
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_get_window_size(PyObject *module, PyObject *args) {
+	auto server = DisplayServer::get_singleton();
+	if (server) {
+		auto size = server->window_get_size();
+		return Py_BuildValue("(ii)", size.width, size.height);
+	}
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_viewport_get_size(PyObject *module, PyObject *args) {
+	do {
+		auto st = SceneTree::get_singleton();
+		auto root = st->get_current_scene();
+		auto viewport = root->get_viewport();
+		auto rect = viewport->get_visible_rect();
+		return Py_BuildValue("(ff)", rect.size.width, rect.size.height);
+
+	} while (0);
 
 	Py_RETURN_NONE;
 }
@@ -1249,12 +1273,32 @@ static PyObject *f_control_set_position(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		auto node = GetObjPtr<Control>(a_obj);
-		if (!node) {
+		auto control = GetObjPtr<Control>(a_obj);
+		if (!control) {
 			break;
 		}
 
-		node->set_position(Point2(x, y));
+		control->set_position(Point2(x, y));
+
+	} while (0);
+	Py_RETURN_NONE;
+}
+static PyObject *f_control_get_rect(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+
+		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
+			break;
+		}
+
+		auto control = GetObjPtr<Control>(a_obj);
+		if (!control) {
+			break;
+		}
+
+		auto rect = control->get_rect();
+		return Py_BuildValue("(ffff)", rect.position.x, rect.position.y,
+			rect.size.width, rect.size.height);
 
 	} while (0);
 	Py_RETURN_NONE;
@@ -1658,6 +1702,8 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "get_time", f_get_time, METH_VARARGS, NULL },
 	{ "get_delta_time", f_get_delta_time, METH_VARARGS, NULL },
 	{ "set_window_size", f_set_window_size, METH_VARARGS, NULL },
+	{ "get_window_size", f_get_window_size, METH_VARARGS, NULL },
+	{ "viewport_get_size", f_viewport_get_size, METH_VARARGS, NULL },
 
 	// node
 	{ "set_process", f_set_process, METH_VARARGS, NULL },
@@ -1705,6 +1751,8 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// gui
 	{ "control_set_position", f_control_set_position, METH_VARARGS, NULL },
+	{ "control_get_rect", f_control_get_rect, METH_VARARGS, NULL },
+
 	{ "canvas_item_set_visible", f_canvas_item_set_visible, METH_VARARGS, NULL },
 	{ "find_control", f_find_control, METH_VARARGS, NULL },
 	{ "base_button_set_disabled", f_base_button_set_disabled, METH_VARARGS, NULL },

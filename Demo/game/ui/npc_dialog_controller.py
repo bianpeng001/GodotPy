@@ -2,6 +2,7 @@
 # 2023年2月28日 bianpeng
 #
 
+from game.core import *
 from game.game_mgr import game_mgr
 from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
@@ -19,7 +20,11 @@ class NpcDialogController(UIController, PopupTrait):
         self.show_time += show_time
         self.dialog_label.set_text(text)
 
-        self.popup(350, 480)
+        w1,h1 = OS.viewport_get_size()
+        _,_,w2,h2 = self.ui_obj.get_rect()
+        log_util.debug(f'size: {w1} {h1}, {w2} {h2}')
+        self.popup((w1-w2)/2, h1-h2)
+        #self.popup((1152-w2)/2, 648-h2)
 
 
 
