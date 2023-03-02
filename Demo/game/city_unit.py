@@ -46,21 +46,25 @@ class CityUnit(Unit, UnitTrait):
         # 士气
         self.army_moral = 100
 
-        # 太守(总督)
-        self.satrap = 0
-        # 治安
-        self.public_order = 100
-
         # 居民人口
         self.urban_mass = 1000
         # 人口上限
         self.urban_mass_limit = 10000 + random_int(0, 50)*1000
 
-        # 农业主管
+        # 太守(总督)
+        self.satrap = 0
+
+        # 治安官
+        self.order_incharge = 0
+        # 治安
+        self.public_order = 100
+        
+        # 农业官
         self.farmer_incharge = 0
         # 农民数量
         self.farmer_mass = 0
-        # 商业主管
+        
+        # 商业官
         self.trader_incharge = 0
         # 商人数量
         self.trader_mass = 0

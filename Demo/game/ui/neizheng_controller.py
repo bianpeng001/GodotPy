@@ -50,29 +50,57 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         zheng_obj.find_node('SliderTraderMass').connect(VALUE_CHANGED, self.on_trade_slide_change)
         self.trade_mass_label = zheng_obj.find_node('LblTraderMass')
 
-        self.setup_btn_select_hero('BtnSatrap')
-        self.setup_btn_select_hero('BtnOrderCharge')
-        self.setup_btn_select_hero('BtnFarmerCharge')
-        self.setup_btn_select_hero('BtnTraderCharge')
-        
+        self.btn_satrap = self.setup_btn_select_hero('BtnSatrap', self.on_set_satrap)
+        self.btn_order_incharge = self.setup_btn_select_hero('BtnOrderCharge', self.on_set_order_incharge)
+        self.btn_farmer_incharge = self.setup_btn_select_hero('BtnFarmerCharge', self.on_set_farmer_incharge)
+        self.btn_trader_incharge = self.setup_btn_select_hero('BtnTraderCharge', self.on_set_trader_incharge)
+
+    def on_set_satrap(self, hero):
+        self.city_unit.satrap = hero.hero_id
+
+    def on_set_order_incharge(self, hero):
+        self.city_unit.order_incharge = hero.hero_id
+
+    def on_set_farmer_incharge(self, hero):
+        self.city_unit.farmer_incharge = hero.hero_id
+    
+    def on_set_trader_incharge(self, hero):
+        self.city_unit.trader_incharge = hero.hero_id
+    
+    # 根据实际情况初始化
     def init(self, city_unit):
         self.city_unit = city_unit
 
+
+        def get_hero_name(hero_id):
+            if hero_id == 0:
+                return ''
+            hero = game_mgr.hero_mgr.get_hero(hero_id)
+            return hero.hero_name
+
+        self.btn_satrap.set_text(get_hero_name(city_unit.satrap))
+        self.btn_order_incharge.set_text(get_hero_name(city_unit.order_incharge))
+        self.btn_farmer_incharge.set_text(get_hero_name(city_unit.farmer_incharge))
+        self.btn_trader_incharge.set_text(get_hero_name(city_unit.trader_incharge))
+
     # 关联按钮，到英雄选择面板
-    def setup_btn_select_hero(self, btn_name):
+    def setup_btn_select_hero(self, btn_name, set_hero_cb):
         btn_obj = self.tab_zheng_obj.find_node(btn_name)
 
         def select_cb(hero_list):
-            log_util.debug(hero_list)
+            #log_util.debug(hero_list)
             if len(hero_list) > 0:
                 hero = game_mgr.hero_mgr.get_hero(hero_list[0])
                 btn_obj.set_text(hero.hero_name)
+                set_hero_cb(hero)
 
         def on_btn_click():
             game_mgr.ui_mgr.select_hero_controller.show_dialog(select_cb)
             self.defer_close()
 
         btn_obj.connect(PRESSED, on_btn_click)
+        
+        return btn_obj
 
     def on_order_slide_change(self, value):
         num = round(value * 100)

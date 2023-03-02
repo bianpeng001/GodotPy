@@ -8,13 +8,13 @@
 
 今天是个好日子，godot 4.0正式发布了。我这也算是49年起义，与有荣焉。
 
-Enjoy Godot！[Godot 4.0 sets sail: All aboard for new horizons]（https://godotengine.org/article/godot-4-0-sets-sail）扬帆，上船往新世界。应该是这么翻译的吧，所以，我正在一条船上，目前的职位应该是水手，拖鞋沙滩裤，头发有点红。
+[Godot 4.0 sets sail: All aboard for new horizons](https://godotengine.org/article/godot-4-0-sets-sail)
 
-那用godot引擎，做一个三国志9好了。弥补一下三国志9里面的一些不够尽兴的地方。
+翻译翻译，什么叫 godot4.0，扬帆，上船往新世界。所以，我正在一条船上，目前的职位应该是水手，拖鞋沙滩裤，头发有点红。文章末尾说，Enjoy Godot！
+
+那用godot引擎，做一个三国志9好了。弥补一下三国志9里面的一些不够尽兴的地方，三国志9+。
 
 "吾意已决，今岁必写三国九!"
-
-可以的话 Enjoy 三国九+1!
 
 <div class="date">2023年3月2日</div>
 
@@ -29,7 +29,7 @@ Enjoy Godot！[Godot 4.0 sets sail: All aboard for new horizons]（https://godot
 郭嘉尚在，孔明未出，徐庶还叫单福，是从花果山路砍到南天门街最靓的仔。
 诸葛亮14岁，处在青春叛逆期，在荆州依附刘表读书种地，还没有自比管乐，也没准备好光复汉室鞠躬尽瘁。
 
-选择这个剧本的，一看就知道是奔着把天下英雄尽收囊中去的。然后就是忠义堂排座次，众好汉在替天行道的旗下磕头，"大哥！"，"三弟！"，"哈哈哈哈哈哈哈哈"，"风风火火闯九州啊"。
+之所以选择这个时间，就是为了招揽全部英雄。
 
 <div class="date">2023年3月2日</div>
 

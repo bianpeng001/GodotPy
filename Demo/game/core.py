@@ -569,7 +569,7 @@ class FNode2D(FCanvasItem):
 # 类型到wrap类的映射
 # 这个wrap的好处就是，利用oop，使得操作的对象上面只有对应类型能用的方法
 # 不在直接使用node对应的原始的pygd_obj，那个对象只用来当做一个弱引用使用
-FClassMap = [None for x in range(20)]
+FClassMap = [None for x in range(30)]
 
 def GetWrappedObject(gdobj):
     if not gdobj:
