@@ -63,7 +63,7 @@ class CityController(Controller):
         if city.army_amount > 1000:
             city.army_amount -= 1000
 
-            x,y,z = city.get_location()
+            x,y,z = city.get_position()
 
             troop = game_mgr.unit_mgr.create_troop()
             troop.owner_city_id = city.unit_id

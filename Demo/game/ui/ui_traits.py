@@ -4,15 +4,30 @@
 import sys
 
 from game.core import log_util_debug
-from game.game_mgr import game_mgr
+from game.game_mgr import *
 
 #------------------------------------------------------------
 # traits 功能类，用来复用一些代码, 这里不带数据，只提供方法
 #------------------------------------------------------------
 
-class CloseTrait:
+class PopupTrait:
     def defer_close(self):
         game_mgr.ui_mgr.defer_close(self)
+
+    def set_position(self, x,y):
+        self.ui_obj.set_position(x,y)
+
+    def popup(self, x, y):
+        self.set_position(x, y)
+        self.show()
+
+    def popup_at_unit(self, unit):
+        x, y = get_main_camera().world_to_screen(unit.get_position())
+        self.popup(x, y)
+
+    def popup_at_mouse(self):
+        x, y = game_mgr.input_mgr.get_mouse_pos()
+        self.popup(x, y)
 
 class HeroListTrait:
     def init_header(self, header):

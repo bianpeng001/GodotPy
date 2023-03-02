@@ -7,22 +7,12 @@ from game.core import *
 from game.game_mgr import game_mgr
 from game.input_mgr import *
 
-def clamp(v):
-    if v < 0:
-        return 0.0
-    elif v > 1.0:
-        return 1.0
-    else:
-        return v
-
 # 镜头管理
 class CameraMgr(NodeObject):
     def __init__(self):
         super().__init__()
 
         game_mgr.camera_mgr = self
-
-        #self.is_left_button_pressed = False
 
         self.arm_length = 55
         self.arm_scale = 1.0

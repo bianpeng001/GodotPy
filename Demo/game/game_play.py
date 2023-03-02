@@ -70,7 +70,7 @@ class GamePlay:
                     self.set_city_owner(city, pm.main_player)
                     city.get_controller().set_flag_color()
 
-                    x,y,z = city.get_location()
+                    x,y,z = city.get_position()
                     cm.set_center(x,y,z)
                     cm.update_camera()
 

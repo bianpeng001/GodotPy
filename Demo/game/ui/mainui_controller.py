@@ -4,7 +4,7 @@
 import math
 
 from game.core import *
-from game.game_mgr import game_mgr
+from game.game_mgr import *
 from game.event_name import PRESSED
 from game.base_type import UIController
 
@@ -54,7 +54,7 @@ class MainUIController(UIController):
         self.update_fps()
 
         # player resource...
-        mp = game_mgr.player_mgr.main_player
+        mp = get_main_player()
 
         money_text = self.format_amount_str(mp.total_money_amount)
         self.money_label.set_text(money_text)

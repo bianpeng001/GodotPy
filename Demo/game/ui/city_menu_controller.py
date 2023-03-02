@@ -5,11 +5,11 @@
 from game.core import *
 from game.game_mgr import game_mgr
 from game.base_type import UIController
-from game.ui.ui_traits import CloseTrait
+from game.ui.ui_traits import PopupTrait
 from game.event_name import PRESSED
 
 # 城池的上下文菜单的控制器
-class CityMenuController(UIController, CloseTrait):
+class CityMenuController(UIController, PopupTrait):
     def __init__(self):
         pass
 
@@ -27,9 +27,9 @@ class CityMenuController(UIController, CloseTrait):
 
         print_line(f'{ui_mgr.context_unit.unit_name} neizheng')
 
-        ui_mgr.neizheng_panel.set_position(250, 100)
-        ui_mgr.neizheng_controller.show()
-        ui_mgr.neizheng_controller.tab_bar.set_current_tab(0)
+        #ui_mgr.neizheng_controller.tab_bar.set_current_tab(0)
+        ui_mgr.neizheng_controller.init(ui_mgr.context_unit)
+        ui_mgr.neizheng_controller.popup(250, 100)
 
     # 出战
     def on_chuzhan(self):

@@ -9,7 +9,7 @@ from game.game_mgr import game_mgr
 from game.ui.ui_traits import *
 
 # 选择武将
-class SelectHeroController(UIController, CloseTrait, HeroListTrait):
+class SelectHeroController(UIController, PopupTrait, HeroListTrait):
     def __init__(self):
         super().__init__()
         

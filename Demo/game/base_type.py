@@ -26,9 +26,16 @@ class AIMachine:
         if self.ai_state:
             self.ai_state.enter(self)
 
-#
+# AI状态之间交流数据的黑板
 class AIBlackboard:
-    pass
+    def __init__(self):
+        self.value_dict = {}
+
+    def get_value(self, key):
+        return self.value_dict.get(key, None)
+
+    def set_value(self, key, value):
+        self.value_dict[key] = value
 
 # AI状态机的单独状态, 生命周期
 class AIState:
@@ -85,9 +92,6 @@ class Unit:
     def load_model(self):
         pass
 
-    def get_location(self):
-        return self.get_position()
-
     def set_location(self, x, y, z):
         self.unit_position.set(x, y, z)
         self.get_controller().apply_position()
@@ -112,7 +116,7 @@ class Unit:
     def get_controller(self):
         return self._controller
 
-# 单位的控制器
+# 角色单位的控制器
 class Controller(AIMachine):
     def __init__(self):
         super().__init__()
@@ -148,7 +152,7 @@ class Controller(AIMachine):
         if node:
             node.set_position(*self.get_unit().get_position())
 
-#
+# UI 面板控制器
 class UIController:
     def __self__(self):
         self.ui_obj = None

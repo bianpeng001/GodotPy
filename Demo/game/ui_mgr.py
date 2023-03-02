@@ -18,11 +18,13 @@ class UIMgr(NodeObject):
         # 排队等关闭的ui，ui不能马上关闭，需要排队，不然马上就响应ui下面的元素被点击了
         self.defer_close_queue = []
 
+        # 点击的和正在操作的，做一下语义的区分
+        self.click_unit = None
         self.context_unit = None
+
         self.tick_time = 0
 
         self.auto_close_queue = []
-
 
     def _create(self):
         #self.get_obj().connect("ready", self._ready)
@@ -37,7 +39,6 @@ class UIMgr(NodeObject):
         game_mgr.event_mgr.add(LEFT_BUTTON_BEGIN_DRAG, self.on_begin_drag)
 
         # init ui
-        
 
     # 因为ready里面，scene_tree的限制，还不让加载对象
     # 所以，用一个coroutine，等一帧
@@ -114,8 +115,7 @@ class UIMgr(NodeObject):
     def on_begin_drag(self):
         self.city_menu_controller.defer_close()
         self.ground_menu_controller.defer_close()
-
-        self.context_unit = None
+        self.click_unit = None
 
     def on_scene_ground_click(self):
         if self.ground_menu_controller.is_visible:
@@ -123,25 +123,23 @@ class UIMgr(NodeObject):
         else:
             self.city_menu_controller.defer_close()
 
-            self.context_unit = None
-            x, y = game_mgr.input_mgr.get_mouse_pos()
-            self.ground_menu.set_position(x, y)
-            self.ground_menu_controller.show()
+            self.click_unit = None
+            self.ground_menu_controller.popup_at_mouse()
 
     def on_scene_unit_click(self, unit):
         self.ground_menu_controller.defer_close()
 
+        self.click_unit = unit
         self.context_unit = unit
         #print_line(f'click: {unit.unit_name}')
 
         if unit.unit_type == UT_CITY:
             if unit.owner_is_main_player():
-                x, y = game_mgr.input_mgr.get_mouse_pos()
-                self.city_menu.set_position(x, y)
-                self.city_menu_controller.show()
+                self.city_menu_controller.popup_at_mouse()
             else:
                 # TODO
                 pass
         else:
             # TODO
             pass
+

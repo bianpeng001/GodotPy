@@ -79,20 +79,23 @@ class GameMgr():
         self.update_list.append(self.ground_mgr.update)
         self.update_list.append(self.unit_mgr.update)
 
-    def get_main_player_id(self):
-        return self.player_mgr.main_player_id
-
-    @property
-    def main_pid(self):
-        return self.get_main_player_id()
-
 game_mgr = GameMgr()
 
 # 。。。。
 class UnitTrait:
     def owner_is_main_player(self):
-        return self.owner_player_id == game_mgr.main_pid
+        return self.owner_player_id == get_main_player_id()
     
-    def get_main_pid(self):
-        return game_mgr.get_main_player_id()
 
+def get_main_player():
+    return game_mgr.player_mgr.main_player
+
+def get_main_player_id():
+    return game_mgr.player_mgr.main_player_id
+
+def get_main_camera():
+    return game_mgr.camera_mgr.main_camera
+
+
+
+    

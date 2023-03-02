@@ -38,6 +38,9 @@
 // server headers
 #include "servers/display_server.h"
 
+
+//#define MEM_LOG
+
 // python headers
 #include <Windows.h>
 #define PY_SSIZE_T_CLEAN
@@ -324,6 +327,7 @@ public:
 			// 把wrapped_object释放掉，这样wrapped_object对gd_obj的引用就解开了
 			auto o = gdobj::Cast_PyGDObj(gd_obj);
 			if (o->wrapped_object) {
+#ifdef MEM_LOG
 				// 超过1说明被持有，1的话说明是一个临时变量
 				if (o->wrapped_object->ob_refcnt > 1 || gd_obj->ob_refcnt > 2) {
 					print_line(vformat("FGDObjSlot: wrapped_obj refcnt=%d type=%s, gd_obj refcnt=%d",
@@ -341,14 +345,18 @@ public:
 						print_line(vformat("FGDObjSlot: node_obj name=%s", p_node->get_name()));
 					}
 				}
+#endif
+
 				
 				GP_DECREF(o->wrapped_object);
 			}
 
+#ifdef MEM_LOG
 			// gd_obj->ob_type->tp_name 都是GDObj
 			if (gd_obj->ob_refcnt > 1) {
 				print_line(vformat("FGDObjSlot: gd_obj refcnt=%d", gd_obj->ob_refcnt));
 			}
+#endif
 
 			o->obj = NULL;
 			o->instance_id = ObjectID();
@@ -378,11 +386,13 @@ public:
 				auto slot = Object::cast_to<FGDObjSlot>(v.operator Object *());
 				memdelete(slot);
 			}
+#ifdef MEM_LOG
 			// 根据这个日志表明，至少这里是清空了的
-			//int slot_count = object_id2gd_obj_dict.size();
-			//if (slot_count < 10) {
-			//	print_line(vformat("gdobj slot_count=%d", slot_count));
-			//}
+			int slot_count = object_id2gd_obj_dict.size();
+			if (slot_count < 10) {
+				print_line(vformat("gdobj slot_count=%d", slot_count));
+			}
+#endif
 		}
 	}
 	static void Clear() {

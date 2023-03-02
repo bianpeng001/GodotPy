@@ -9,7 +9,7 @@ from game.event_name import GUI_INPUT, PRESSED, VALUE_CHANGED
 from game.ui.ui_traits import *
 
 # 内政，农商将
-class NeiZhengController(UIController, CloseTrait, HeroListTrait):
+class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     def __init__(self):
         super().__init__()
 
@@ -55,6 +55,8 @@ class NeiZhengController(UIController, CloseTrait, HeroListTrait):
         self.setup_btn_select_hero('BtnFarmerCharge')
         self.setup_btn_select_hero('BtnTraderCharge')
         
+    def init(self, city_unit):
+        self.city_unit = city_unit
 
     def setup_btn_select_hero(self, btn_name):
         btn_obj = self.tab_zheng_obj.find_node(btn_name)
@@ -105,10 +107,5 @@ class NeiZhengController(UIController, CloseTrait, HeroListTrait):
 
         item_node = self.tab_jiang_obj.find_node('HeroList/ScrollContainer/VBoxContainer/Item')
         self.init_items(item_node, city.hero_list)
-
-
-
-            
-
 
 

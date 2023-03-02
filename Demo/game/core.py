@@ -254,6 +254,14 @@ def random_num(min, max):
 def random_int(min, max):
     return random.randint(min, max)
 
+def clamp(v):
+    if v < 0:
+        return 0.0
+    elif v > 1.0:
+        return 1.0
+    else:
+        return v
+
 def print_line(*args, **kwargs):
     if not args:
         return

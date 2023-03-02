@@ -66,7 +66,7 @@ class TroopController(Controller):
 
 
     def look_at_unit(self, unit):
-        x,y,z = unit.get_location()
+        x,y,z = unit.get_position()
         self.look_at(x,y,z)
 
     def kill(self):

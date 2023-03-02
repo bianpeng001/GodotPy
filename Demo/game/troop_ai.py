@@ -189,7 +189,7 @@ class AIState_FindCity(AIState_Troop):
         return None
 
     def update(self, controller):
-        x,y,z = controller.get_unit().get_location()
+        x,y,z = controller.get_unit().get_position()
         col,row = game_mgr.ground_mgr.get_colrow(x, z)
         city = self.find_enemy_city(controller,col,row)
         if city:
@@ -206,8 +206,8 @@ class AIState_MarchToCity(AIState_Troop):
         troop = controller.get_unit()
        
         req = ArcMoveReq()
-        req.setup(*troop.get_location(),
-            *city.get_location(),
+        req.setup(*troop.get_position(),
+            *city.get_position(),
             troop.speed)
 
         controller.move_req = req
@@ -256,8 +256,8 @@ class AIState_AttackCity(AIState_Troop):
             troop = controller.get_unit()
 
             req = LeftRightMoveReq()
-            req.setup(*troop.get_location(),
-                *city.get_location(),
+            req.setup(*troop.get_position(),
+                *city.get_position(),
                 troop.speed*0.25)
 
             controller.move_req = req

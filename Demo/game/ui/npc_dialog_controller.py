@@ -4,10 +4,10 @@
 
 from game.game_mgr import game_mgr
 from game.base_type import UIController
-from game.ui.ui_traits import CloseTrait
+from game.ui.ui_traits import PopupTrait
 
 # npc对话框
-class NpcDialogController(UIController, CloseTrait):
+class NpcDialogController(UIController, PopupTrait):
     def __init__(self):
         self.show_time = 0
 
@@ -19,8 +19,7 @@ class NpcDialogController(UIController, CloseTrait):
         self.show_time += show_time
         self.dialog_label.set_text(text)
 
-        self.ui_obj.set_position(350, 480)
-        self.show()
+        self.popup(350, 480)
 
 
 
