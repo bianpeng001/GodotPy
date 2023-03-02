@@ -321,7 +321,7 @@ public:
 			auto o = gdobj::Cast_PyGDObj(gd_obj);
 			if (o->wrapped_object) {
 				// 超过1说明被持有，1的话说明是一个临时变量
-				if (o->wrapped_object->ob_refcnt > 1) {
+				if (o->wrapped_object->ob_refcnt > 1 || gd_obj->ob_refcnt > 1) {
 					print_line(vformat("FGDObjSlot: wrapped_obj refcnt=%d type=%s",
 							o->wrapped_object->ob_refcnt,
 							o->wrapped_object->ob_type->tp_name));
