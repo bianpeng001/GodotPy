@@ -1,8 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://drvm8b8tc7850"]
+[gd_scene load_steps=4 format=3 uid="uid://drvm8b8tc7850"]
 
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_hl2ab"]
+[ext_resource type="Texture2D" uid="uid://b2eatsg8j0me7" path="res://ui/img/Flag02.png" id="2_pf1jn"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_svgt4"]
+light_mode = 1
 
 [node name="HUD2d" type="Control"]
+material = SubResource("CanvasItemMaterial_svgt4")
 layout_mode = 3
 anchors_preset = 0
 
@@ -32,3 +37,22 @@ offset_top = 30.0
 offset_right = 70.0
 offset_bottom = 34.0
 color = Color(0, 1, 0, 1)
+
+[node name="Flag" type="TextureRect" parent="."]
+self_modulate = Color(0.580392, 1, 0.341176, 1)
+layout_mode = 0
+offset_top = -21.0
+offset_right = 27.0
+offset_bottom = -1.0
+texture = ExtResource("2_pf1jn")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Flag"]
+layout_mode = 0
+offset_left = 3.0
+offset_right = 23.0
+offset_bottom = 20.0
+theme = ExtResource("1_hl2ab")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "刘"
