@@ -70,8 +70,13 @@ class UIMgr(NodeObject):
         from game.ui.select_hero_controller import SelectHeroController
         self.select_hero_dialog, self.select_hero_controller = self.load_panel(
             'res://ui/SelectHeroDialog.tscn', SelectHeroController)
+
+        from game.ui.goto_panel_controller import GotoPanelController
+        self.goto_panel, self.goto_panel_controller = self.load_panel(
+            'res://ui/GotoPanel.tscn', GotoPanelController)
         
         self.auto_close_queue.append(self.npc_dialog_controller)
+        self.goto_panel_controller.popup(1000, 100)
 
 
     # def _ready(self):

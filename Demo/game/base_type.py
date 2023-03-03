@@ -159,7 +159,7 @@ class UIController:
         self.is_visible = True
 
     def setup(self, ui_obj):
-        pass
+        self.ui_obj = ui_obj
 
     def show(self):
         self.is_visible = True

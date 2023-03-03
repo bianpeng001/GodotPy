@@ -49,3 +49,59 @@ theme_override_styles/normal = ExtResource("2_55nsn")
 theme_override_styles/hover = ExtResource("2_55nsn")
 theme_override_styles/focus = ExtResource("3_8j16d")
 text = "襄阳"
+
+[node name="BtnCity3" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_t4vig")
+theme_override_styles/normal = ExtResource("2_55nsn")
+theme_override_styles/hover = ExtResource("2_55nsn")
+theme_override_styles/focus = ExtResource("3_8j16d")
+text = "襄阳"
+
+[node name="BtnCity4" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_t4vig")
+theme_override_styles/normal = ExtResource("2_55nsn")
+theme_override_styles/hover = ExtResource("2_55nsn")
+theme_override_styles/focus = ExtResource("3_8j16d")
+text = "襄阳"
+
+[node name="BtnCity5" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_t4vig")
+theme_override_styles/normal = ExtResource("2_55nsn")
+theme_override_styles/hover = ExtResource("2_55nsn")
+theme_override_styles/focus = ExtResource("3_8j16d")
+text = "襄阳"
+
+[node name="BtnCity6" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_t4vig")
+theme_override_styles/normal = ExtResource("2_55nsn")
+theme_override_styles/hover = ExtResource("2_55nsn")
+theme_override_styles/focus = ExtResource("3_8j16d")
+text = "襄阳"
+
+[node name="BtnCity7" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_t4vig")
+theme_override_styles/normal = ExtResource("2_55nsn")
+theme_override_styles/hover = ExtResource("2_55nsn")
+theme_override_styles/focus = ExtResource("3_8j16d")
+text = "襄阳"
+
+[node name="BtnCity8" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_t4vig")
+theme_override_styles/normal = ExtResource("2_55nsn")
+theme_override_styles/hover = ExtResource("2_55nsn")
+theme_override_styles/focus = ExtResource("3_8j16d")
+text = "襄阳"
+
+[node name="BtnCity9" type="Button" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_t4vig")
+theme_override_styles/normal = ExtResource("2_55nsn")
+theme_override_styles/hover = ExtResource("2_55nsn")
+theme_override_styles/focus = ExtResource("3_8j16d")
+text = "襄阳"
