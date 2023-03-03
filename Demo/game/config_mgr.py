@@ -37,7 +37,14 @@ class DialogConfig(BaseConfig):
 # 配置信息
 class ConfigMgr:
     def __init__(self):
-        pass
+        self.neizheng_strap_dialog_list = [
+            '为政之道，务于多闻。', 
+            '兵卒有制，虽庸将未败。',
+            '吾心如称，不能为人作轻重。',
+            '以弱为强者，非惟天时，抑亦人谋也。',
+            '国之大务，莫先于戒备。',
+        ]
+
 
 def select_one(item_list, delete=False):
     count = len(item_list)

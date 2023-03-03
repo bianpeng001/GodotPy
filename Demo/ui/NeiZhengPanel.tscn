@@ -187,6 +187,14 @@ offset_bottom = 390.0
 [node name="HeroList" parent="Panel/TabJiang" instance=ExtResource("4_p1uhh")]
 layout_mode = 1
 
+[node name="TabWai" type="Control" parent="Panel"]
+visible = false
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 40.0
+offset_right = 670.0
+offset_bottom = 390.0
+
 [node name="TabBar" type="TabBar" parent="."]
 layout_mode = 0
 offset_left = 5.0

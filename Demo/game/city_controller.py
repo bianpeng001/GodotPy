@@ -8,7 +8,9 @@ from game.core import *
 from game.game_mgr import game_mgr
 from game.base_type import Controller
 
+#
 # 城池
+#
 class CityController(Controller):
     def __init__(self):
         super().__init__()
@@ -32,13 +34,6 @@ class CityController(Controller):
                 #mesh_instance3d_load_material(flag_node, 0, 'res://models/Color/Green.tres')
                 flag_node.load_material(0, 'res://models/Color/Green.tres')
 
-    # 驱动ai tick
-    def drive_ai_tick(self):
-        self.ai_tick_time += game_mgr.delta_time
-        if self.ai_tick_time > 0.3:
-            self.on_ai_tick(self.ai_tick_time)
-            self.ai_tick_time = 0
-
     # 计算资源增长
     def _calc_resource(self, amount, growth_rate, delta_time, max_amount):
         value =  amount + growth_rate * delta_time
@@ -56,6 +51,11 @@ class CityController(Controller):
         city.rice_amount = self._calc_resource(city.rice_amount, 
                 city.growth_rate, delta_time, city.max_amount_limit)
 
+    # 重新计算城内各个增长率
+    def refresh_growth_rate(self):
+        "重新计算城内各个增长率"
+        pass
+
     def on_ai_tick(self, tick_time):
         city = self.get_unit()
 
@@ -71,6 +71,13 @@ class CityController(Controller):
 
             troop.set_army_amount(1000)
             troop.set_position(x,y,z)
+
+     # 驱动ai tick
+    def drive_ai_tick(self):
+        self.ai_tick_time += game_mgr.delta_time
+        if self.ai_tick_time > 0.3:
+            self.on_ai_tick(self.ai_tick_time)
+            self.ai_tick_time = 0
 
     def update(self):
         self.drive_ai_tick()

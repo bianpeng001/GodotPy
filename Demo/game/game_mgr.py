@@ -96,6 +96,14 @@ def get_main_player_id():
 def get_main_camera():
     return game_mgr.camera_mgr.main_camera
 
+def get_hero_name(hero_id):
+    if hero_id == 0:
+        return ''
+    hero = game_mgr.hero_mgr.get_hero(hero_id)
+    if not hero:
+        return ''
 
-
+    return hero.hero_name
     
+
+

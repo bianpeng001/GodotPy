@@ -29,6 +29,10 @@ class PopupTrait:
         x, y = game_mgr.input_mgr.get_mouse_pos()
         self.popup(x, y)
 
+    def popup_dialog(self, msg, time_out = 1.5):
+        controller = game_mgr.ui_mgr.npc_dialog_controller
+        controller.show_dialog(msg, time_out)
+
 class HeroListTrait:
     def init_header(self, header):
         name_label = header.find_node('Label')
@@ -102,4 +106,7 @@ class HeroListTrait:
             zhengzhi_label = name_label.dup()
             zhengzhi_label.set_minimum_size(40, 0)
             zhengzhi_label.set_text(f'{hero.zhengzhi}')
+
+
+
 

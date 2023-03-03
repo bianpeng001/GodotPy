@@ -254,6 +254,12 @@ def random_num(min, max):
 def random_int(min, max):
     return random.randint(min, max)
 
+def random_select_item(item_list):
+    if not item_list:
+        return None
+    index = random.randint(0, len(item_list) - 1)
+    return item_list[index]
+
 def clamp(v):
     if v < 0:
         return 0.0
