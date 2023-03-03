@@ -75,10 +75,10 @@ class ArcMoveReq(BaseMoveReq):
             p = self.start + \
                 self.delta * self.progress + \
                 self.right * y
-            troop.set_location(p.x,p.y,p.z)
+            troop.set_position(p.x,p.y,p.z)
         else:
             p = self.start + self.delta
-            troop.set_location(p.x,p.y,p.z)
+            troop.set_position(p.x,p.y,p.z)
             self.is_move = False
 
 
@@ -125,7 +125,7 @@ class LeftRightMoveReq(BaseMoveReq):
         self.progress += delta_time * self.time_to_progress
         if self.progress < 1.0:
             p = self.start + self.delta * self.progress
-            troop.set_location(p.x,p.y,p.z)
+            troop.set_position(p.x,p.y,p.z)
             
             t = self.target
             troop.get_controller().look_at(t.x,t.y,t.z)

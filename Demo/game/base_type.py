@@ -92,10 +92,6 @@ class Unit:
     def load_model(self):
         pass
 
-    def set_location(self, x, y, z):
-        self.unit_position.set(x, y, z)
-        self.get_controller().apply_position()
-
     def get_position(self):
         pos = self.unit_position
         return pos.x, pos.y, pos.z

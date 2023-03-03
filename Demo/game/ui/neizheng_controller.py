@@ -17,7 +17,6 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.tab_index = 0
        
         self.item_list = []
-        self.init_header_done = False
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
@@ -56,6 +55,11 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.slider_farmer_mass.connect(VALUE_CHANGED, self.on_farmer_slide_change)
         self.slider_trader_mass = self.tab_zheng_obj.find_node('SliderTraderMass')
         self.slider_trader_mass.connect(VALUE_CHANGED, self.on_trade_slide_change)
+
+        # wujiang tab
+        # 武将属性表头
+        header = self.tab_jiang_obj.find_node('HeroList/ScrollContainer/VBoxContainer/Header')
+        self.init_header(header, ['姓名', '年龄','活动','武力','统率','智力','政治'])
 
     def on_set_satrap(self, hero_id):
         if self.city_unit.satrap != 0 and hero_id == 0:
@@ -112,7 +116,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
                 set_hero_cb(0)
 
         def on_btn_click():
-            game_mgr.ui_mgr.select_hero_controller.show_dialog(select_cb)
+            game_mgr.ui_mgr.select_hero_controller.show_dialog(self.city_unit, select_cb)
             self.defer_close()
 
         btn_obj.connect(PRESSED, on_btn_click)
@@ -153,11 +157,6 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
     def init_hero_list(self):
         city = game_mgr.ui_mgr.context_unit
-
-        if not self.init_header_done:
-            self.init_header_done = True
-            header = self.tab_jiang_obj.find_node('HeroList/ScrollContainer/VBoxContainer/Header')
-            self.init_header(header)
 
         item_node = self.tab_jiang_obj.find_node('HeroList/ScrollContainer/VBoxContainer/Item')
         self.init_items(item_node, city.hero_list)

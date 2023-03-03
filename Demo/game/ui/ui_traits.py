@@ -10,6 +10,7 @@ from game.game_mgr import *
 # traits 功能类，用来复用一些代码, 这里不带数据，只提供方法
 #------------------------------------------------------------
 
+# 弹框，关闭
 class PopupTrait:
     def defer_close(self):
         game_mgr.ui_mgr.defer_close(self)
@@ -33,35 +34,55 @@ class PopupTrait:
         controller = game_mgr.ui_mgr.npc_dialog_controller
         controller.show_dialog(msg, time_out)
 
+# 武将列表
 class HeroListTrait:
-    def init_header(self, header):
+    def init_header(self, header, column_list):
         name_label = header.find_node('Label')
-        name_label.set_minimum_size(80, 0)
-        name_label.set_text('姓名')
 
-        age_label = name_label.dup()
-        age_label.set_minimum_size(40, 0)
-        age_label.set_text('年龄')
+        #name_label.set_minimum_size(80, 0)
+        #name_label.set_text('姓名')
+        #name_label.set_text(column_list[0])
 
-        action_label = name_label.dup()
-        action_label.set_minimum_size(60, 0)
-        action_label.set_text('活动')
+        for index in range(len(column_list)):
+            if index == 0:
+                label_obj = name_label
+            else:
+                label_obj = name_label.dup()
+            
+            col_name = column_list[index]
+            label_obj.set_text(col_name)
 
-        wuli_label = name_label.dup()
-        wuli_label.set_minimum_size(40, 0)
-        wuli_label.set_text('武力')
+            if col_name == '姓名':
+                label_obj.set_minimum_size(80, 0)
+            elif col_name == '活动':
+                label_obj.set_minimum_size(60, 0)
+            else:
+                label_obj.set_minimum_size(40, 0)
 
-        tongshuai_label = name_label.dup()
-        tongshuai_label.set_minimum_size(40, 0)
-        tongshuai_label.set_text('统率')
 
-        zhili_label = name_label.dup()
-        zhili_label.set_minimum_size(40, 0)
-        zhili_label.set_text('智力')
+        # age_label = name_label.dup()
+        # age_label.set_minimum_size(40, 0)
+        # age_label.set_text('年龄')
 
-        zhengzhi_label = name_label.dup()
-        zhengzhi_label.set_minimum_size(40, 0)
-        zhengzhi_label.set_text('政治')
+        # action_label = name_label.dup()
+        # action_label.set_minimum_size(60, 0)
+        # action_label.set_text('活动')
+
+        # wuli_label = name_label.dup()
+        # wuli_label.set_minimum_size(40, 0)
+        # wuli_label.set_text('武力')
+
+        # tongshuai_label = name_label.dup()
+        # tongshuai_label.set_minimum_size(40, 0)
+        # tongshuai_label.set_text('统率')
+
+        # zhili_label = name_label.dup()
+        # zhili_label.set_minimum_size(40, 0)
+        # zhili_label.set_text('智力')
+
+        # zhengzhi_label = name_label.dup()
+        # zhengzhi_label.set_minimum_size(40, 0)
+        # zhengzhi_label.set_text('政治')
 
 
     def init_items(self, item_node, hero_list):

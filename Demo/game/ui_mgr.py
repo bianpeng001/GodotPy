@@ -17,14 +17,14 @@ class UIMgr(NodeObject):
 
         # 排队等关闭的ui，ui不能马上关闭，需要排队，不然马上就响应ui下面的元素被点击了
         self.defer_close_queue = []
+        # 超时自动关闭队列
+        self.auto_close_queue = []
 
         # 点击的和正在操作的，做一下语义的区分
         self.click_unit = None
         self.context_unit = None
 
         self.tick_time = 0
-
-        self.auto_close_queue = []
 
         # 鼠标是否停留在ui上面
         self.last_x, self.last_y = 0, 0
@@ -90,6 +90,9 @@ class UIMgr(NodeObject):
         self.goto_panel, self.goto_panel_controller = self.load_panel(
             'res://ui/GotoPanel.tscn', GotoPanelController)
         
+        # load done
+        log_util.debug('ui panels load ok')
+
         self.auto_close_queue.append(self.npc_dialog_controller)
         self.goto_panel_controller.popup(1020, 100)
 

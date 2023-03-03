@@ -17,7 +17,6 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
         super().__init__()
         
         self.item_list = []
-        self.init_header_done = False
         self.on_ok_cb = None
 
     def setup(self, ui_obj):
@@ -27,9 +26,14 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
         self.ui_obj.find_node('Panel/BtnCancel').connect(PRESSED, self.on_cancel_click)
         self.ui_obj.find_node('Panel/BtnClose').connect(PRESSED, self.on_cancel_click)
 
-    def show_dialog(self, on_ok_cb):
+        # 武将属性表头
+        header = self.ui_obj.find_node('Panel/HeroList/ScrollContainer/VBoxContainer/Header')
+        self.init_header(header, ['姓名', '年龄','活动','武力','统率','智力','政治'])
+
+    def show_dialog(self, city_unit, ok_cb):
+        self.city_unit = city_unit
         self.init_hero_list()
-        self.on_ok_cb = on_ok_cb
+        self.ok_cb = ok_cb
         self.popup(250, 100)
 
     def on_cancel_click(self):
@@ -46,17 +50,10 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
             if item_obj.find_node('CheckBox').is_pressed():
                 hero_list.append(hero_id)
 
-        if self.on_ok_cb:
-            self.on_ok_cb(hero_list)
+        if self.ok_cb:
+            self.ok_cb(hero_list)
 
     def init_hero_list(self):
-        city = game_mgr.ui_mgr.context_unit
-
-        if not self.init_header_done:
-            self.init_header_done = True
-            header = self.ui_obj.find_node('Panel/HeroList/ScrollContainer/VBoxContainer/Header')
-            self.init_header(header)
-
         item_node = self.ui_obj.find_node('Panel/HeroList/ScrollContainer/VBoxContainer/Item')
-        self.init_items(item_node, city.hero_list)
+        self.init_items(item_node, self.city_unit.hero_list)
 
