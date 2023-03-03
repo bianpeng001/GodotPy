@@ -17,7 +17,7 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
         super().__init__()
         
         self.item_list = []
-        self.on_ok_cb = None
+        self.ok_cb = None
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
@@ -38,12 +38,10 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
 
     def on_cancel_click(self):
         self.defer_close()
-        #game_mgr.ui_mgr.neizheng_controller.show()
         game_mgr.ui_mgr.pop_panel()
 
     def on_ok_click(self):
         self.defer_close()
-        #game_mgr.ui_mgr.neizheng_controller.show()
         game_mgr.ui_mgr.pop_panel()
 
         hero_list = []
@@ -58,4 +56,6 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
     def init_hero_list(self):
         item_node = self.ui_obj.find_node('Panel/HeroList/ScrollContainer/VBoxContainer/Item')
         self.init_items(item_node, self.city_unit.hero_list)
+
+
 
