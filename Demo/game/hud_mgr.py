@@ -9,7 +9,10 @@ from game.game_mgr import *
 class HUDItem:
     def __init__(self):
         self.unit_id = 0
+
         self.hud_obj = None
+        self.title_obj = None
+        self.hp_obj = None
 
     def update(self):
         unit = game_mgr.unit_mgr.get_unit(self.unit_id)
@@ -17,6 +20,12 @@ class HUDItem:
             x,y,z=unit.get_position()
             x1, y1 = get_main_camera().world_to_screen(x,y+8,z)
             self.hud_obj.set_position(x1-40, y1+36)
+
+    def set_visible(self, Value):
+        self.hud_obj.set_visible(Value)
+
+    def set_text(self, text):
+        self.title_obj.set_text(text)
 
 # HUD的显示，刷新
 # 只分配已经在视野里面的，因为总体数量过于庞大，只在视野里面的，
@@ -62,8 +71,8 @@ class HUDMgr:
         item.hp_obj = item.hud_obj.find_node('HP')
 
         item.unit_id = unit_id
-        item.hud_obj.set_visible(True)
-        item.title_obj.set_text(game_mgr.unit_mgr.get_unit(unit_id).unit_name)
+        item.set_text(get_unit_name(unit_id))
+        item.set_visible(True)
 
         self.hud_item_dict[unit_id] = item
         item.update()

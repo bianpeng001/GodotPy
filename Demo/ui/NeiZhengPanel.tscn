@@ -35,6 +35,16 @@ offset_top = 40.0
 offset_right = 670.0
 offset_bottom = 390.0
 
+[node name="LblCityName" type="Label" parent="Panel/TabZheng"]
+offset_left = 270.0
+offset_top = -30.0
+offset_right = 390.0
+offset_bottom = 2.0
+theme = ExtResource("3_we820")
+theme_override_font_sizes/font_size = 28
+text = "襄阳"
+horizontal_alignment = 1
+
 [node name="LblSatrap" type="Label" parent="Panel/TabZheng"]
 layout_mode = 0
 offset_left = 29.0
@@ -159,7 +169,7 @@ offset_bottom = 174.0
 theme = ExtResource("3_we820")
 text = "100"
 
-[node name="LablCityInfo" type="Label" parent="Panel/TabZheng"]
+[node name="LblCityDetail" type="Label" parent="Panel/TabZheng"]
 layout_mode = 0
 offset_left = 420.0
 offset_top = 10.0

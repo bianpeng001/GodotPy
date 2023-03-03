@@ -47,12 +47,15 @@ class CityUnit(Unit, UnitTrait):
 
         # 士气
         self.army_moral = 50
-        # 治安
-        self.public_order = 100
+        # 治安,农业，商业的发展程度
+        self.order_points = 100
+        self.farmer_points = 100
+        self.trader_points = 100
+
         # 居民人口 = 治安 + 务农 + 经商
         self.urban_mass = 1000
         # 人口上限
-        self.urban_mass_limit = 10000 + random_int(0, 50)*1000
+        self.urban_mass_limit = 10000 + random_int(0, 9)*10000
 
         # 太守(总督)
         self.satrap = 0
