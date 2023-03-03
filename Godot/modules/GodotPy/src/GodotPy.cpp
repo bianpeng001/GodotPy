@@ -126,7 +126,8 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 			ClassTypeDict[StringName("HBoxContainer")] = ++id_seed_2d;
 			ClassTypeDict[StringName("Button")] = ++id_seed_2d;
 			ClassTypeDict[StringName("CheckBox")] = ++id_seed_2d;
-			ClassTypeDict[StringName("Slider")] = ++id_seed_2d;
+			ClassTypeDict[StringName("HSlider")] = ++id_seed_2d;
+			ClassTypeDict[StringName("VSlider")] = id_seed_2d;
 		}
 
 		auto &value = ClassTypeDict.get(class_name, Variant(0));

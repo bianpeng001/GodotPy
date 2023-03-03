@@ -53,7 +53,7 @@ class CityUnit(Unit, UnitTrait):
         self.trader_points = 100
 
         # 居民人口 = 治安 + 务农 + 经商
-        self.urban_mass = 1000
+        self.urban_mass = 1000 + random_int(100, 200)
         # 人口上限
         self.urban_mass_limit = 10000 + random_int(0, 9)*10000
 

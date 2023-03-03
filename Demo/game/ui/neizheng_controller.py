@@ -2,6 +2,8 @@
 # 2023年2月23日 bianpeng
 #
 
+import math
+
 from game.core import *
 from game.game_mgr import *
 from game.base_type import UIController
@@ -62,6 +64,8 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.slider_farmer_mass.connect(VALUE_CHANGED, self.on_farmer_slide_change)
         self.slider_trader_mass = self.tab_zheng_obj.find_node('SliderTraderMass')
         self.slider_trader_mass.connect(VALUE_CHANGED, self.on_trade_slide_change)
+        
+        
 
         # wujiang tab
         # 武将属性表头
@@ -86,7 +90,6 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.urban_mass = self.city_unit.urban_mass
 
         # 然后修改ui
-
         self.lbl_name_obj.set_text(self.city_unit.unit_name)
 
         self.btn_satrap.set_text(get_hero_name(self.satrap))
@@ -97,6 +100,10 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.lbl_order_mass.set_text(f'{city_unit.order_mass}人')
         self.lbl_farmer_mass.set_text(f'{city_unit.farmer_mass}人')
         self.lbl_trader_mass.set_text(f'{city_unit.trader_mass}人')
+
+        self.slider_order_mass.set_value(100*self.order_mass/self.urban_mass)
+        self.slider_farmer_mass.set_value(100*self.farmer_mass/self.urban_mass)
+        self.slider_trader_mass.set_value(100*self.trader_mass/self.urban_mass)
 
         text = f'''人口 {city_unit.urban_mass}人
 治安 {city_unit.order_points}
@@ -146,21 +153,23 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             game_mgr.ui_mgr.select_hero_controller.show_dialog(self.city_unit, select_cb)
 
         btn_obj.connect(PRESSED, on_btn_click)
-        
         return btn_obj
 
+    def get_slider_mass(self, value):
+        return math.floor(value * self.urban_mass * 0.001)*10
+
     def on_order_slide_change(self, value):
-        num = round(value * 10)
+        num = self.get_slider_mass(value)
         self.order_mass = num
         self.lbl_order_mass.set_text(f'{num}人')
 
     def on_farmer_slide_change(self, value):
-        num = round(value * 10)
+        num = self.get_slider_mass(value)
         self.farmer_mass = num
         self.lbl_farmer_mass.set_text(f'{num}人')
 
     def on_trade_slide_change(self, value):
-        num = round(value * 10)
+        num = self.get_slider_mass(value)
         self.trader_mass = num
         self.lbl_trader_mass.set_text(f'{num}人')
 
