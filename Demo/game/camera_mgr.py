@@ -13,6 +13,8 @@ class CameraMgr(NodeObject):
         super().__init__()
 
         game_mgr.camera_mgr = self
+        
+        self.main_camera = None
 
         self.arm_length = 55
         self.arm_scale = 1.0
@@ -77,7 +79,11 @@ class CameraMgr(NodeObject):
 
     def process_zoom(self, delta):
         input_mgr = game_mgr.input_mgr
+        x, y = input_mgr.get_mouse_pos()
 
+        if self.main_camera.find_control(x, y):
+            return
+        
         prev_norm = 1 + self.arm_scale
         self.arm_scale = clamp(self.arm_scale + delta)
         f = (1 + self.arm_scale) / prev_norm
