@@ -9,7 +9,7 @@ from game.game_mgr import game_mgr
 from game.ui.ui_traits import *
 
 #
-# 选择武将
+# 选择武将，是一个二级界面
 # 点击属性，要进行排序
 #
 class SelectHeroController(UIController, PopupTrait, HeroListTrait):
@@ -38,11 +38,13 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
 
     def on_cancel_click(self):
         self.defer_close()
-        game_mgr.ui_mgr.neizheng_controller.show()
+        #game_mgr.ui_mgr.neizheng_controller.show()
+        game_mgr.ui_mgr.pop_panel()
 
     def on_ok_click(self):
         self.defer_close()
-        game_mgr.ui_mgr.neizheng_controller.show()
+        #game_mgr.ui_mgr.neizheng_controller.show()
+        game_mgr.ui_mgr.pop_panel()
 
         hero_list = []
         for item in self.item_list:
