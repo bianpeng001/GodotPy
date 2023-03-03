@@ -76,7 +76,7 @@ class UIMgr(NodeObject):
             'res://ui/GotoPanel.tscn', GotoPanelController)
         
         self.auto_close_queue.append(self.npc_dialog_controller)
-        self.goto_panel_controller.popup(1000, 100)
+        self.goto_panel_controller.popup(1030, 100)
 
 
     # def _ready(self):

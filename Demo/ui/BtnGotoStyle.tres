@@ -1,8 +1,6 @@
-[gd_resource type="StyleBoxFlat" format=3 uid="uid://dhvfrs3uo0j77"]
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://t1vn752441ug"]
+
+[ext_resource type="Texture2D" uid="uid://b5a6a4fn3o2gu" path="res://ui/img/btn_bg.png" id="1_y1j88"]
 
 [resource]
-bg_color = Color(0.145098, 0.145098, 0.145098, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+texture = ExtResource("1_y1j88")

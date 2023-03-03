@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://b4onkqre0v5ap"]
 
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_83fnq"]
-[ext_resource type="Texture2D" uid="uid://ctnqcedrks12c" path="res://ui/img/bg.png" id="1_ti7pt"]
+[ext_resource type="Texture2D" uid="uid://cbfgi6tma1eyw" path="res://ui/img/bg2.png" id="3_ugj62"]
 
 [node name="NpcDialog" type="Control"]
 layout_mode = 3
@@ -13,12 +13,15 @@ offset_bottom = -488.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Bg" type="TextureRect" parent="."]
+[node name="Bg" type="NinePatchRect" parent="."]
 layout_mode = 0
 offset_right = 500.0
 offset_bottom = 160.0
-texture = ExtResource("1_ti7pt")
-expand_mode = 1
+texture = ExtResource("3_ugj62")
+patch_margin_left = 12
+patch_margin_top = 12
+patch_margin_right = 12
+patch_margin_bottom = 12
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
