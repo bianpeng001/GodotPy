@@ -21,8 +21,12 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
-        self.btn_close = self.ui_obj.find_node('Panel/BtnClose')
-        self.btn_close.connect(PRESSED, self.on_close_click)
+        self.ui_obj.find_node('Panel/BtnClose').connect(PRESSED,
+                self.on_cancel_click)
+        self.ui_obj.find_node('Panel/BtnCancel').connect(PRESSED,
+                self.on_cancel_click)
+        self.ui_obj.find_node('Panel/BtnOk').connect(PRESSED,
+                self.on_ok_click)
 
         self.tab_bar = self.ui_obj.find_node('TabBar')
         self.tab_bar.connect(TAB_CHANGED, self.on_tab_changed)
@@ -68,12 +72,27 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     def init(self, city_unit):
         self.city_unit = city_unit
 
+        # 缓存一些数据，用于修改，不是直接改
+        self.satrap = self.city_unit.satrap
+        self.order_incharge = self.city_unit.order_incharge
+        self.farmer_incharge = self.city_unit.farmer_incharge
+        self.trader_incharge = self.city_unit.trader_incharge
+
+        self.order_mass = self.city_unit.order_mass
+        self.farmer_mass = self.city_unit.farmer_mass
+        self.trader_mass = self.city_unit.trader_mass
+
+        # 这个不修改，只是这里用来计算的
+        self.urban_mass = self.city_unit.urban_mass
+
+        # 然后修改ui
+
         self.lbl_name_obj.set_text(self.city_unit.unit_name)
 
-        self.btn_satrap.set_text(get_hero_name(city_unit.satrap))
-        self.btn_order_incharge.set_text(get_hero_name(city_unit.order_incharge))
-        self.btn_farmer_incharge.set_text(get_hero_name(city_unit.farmer_incharge))
-        self.btn_trader_incharge.set_text(get_hero_name(city_unit.trader_incharge))
+        self.btn_satrap.set_text(get_hero_name(self.satrap))
+        self.btn_order_incharge.set_text(get_hero_name(self.order_incharge))
+        self.btn_farmer_incharge.set_text(get_hero_name(self.farmer_incharge))
+        self.btn_trader_incharge.set_text(get_hero_name(self.trader_incharge))
 
         self.lbl_order_mass.set_text(f'{city_unit.order_mass}人')
         self.lbl_farmer_mass.set_text(f'{city_unit.farmer_mass}人')
@@ -92,34 +111,21 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
     # 任命太守
     def on_set_satrap(self, hero_id):
-        if self.city_unit.satrap != 0 and hero_id == 0:
-            satrap = game_mgr.hero_mgr.get_hero(self.city_unit.satrap)
-            msg = f'{satrap.hero_name}: 请主公另选贤明。'
-            self.popup_dialog(msg, 1.5)
-            self.city_unit.satrap = 0
-        elif hero_id != 0:
-            hero = game_mgr.hero_mgr.get_hero(hero_id)
-            msg = f'{hero.hero_name}: 定当尽心竭力，不负所托。'
-            self.popup_dialog(msg, 1.5)
-
-        self.city_unit.satrap = hero_id
+        self.satrap = hero_id
         # 重新计算内政的数据，更新太守造成的影响
-        self.city_unit.get_controller().refresh_growth_rate()
+        #self.city_unit.get_controller().refresh_growth_rate()
 
     # 任命治安官
     def on_set_order_incharge(self, hero_id):
-        self.city_unit.order_incharge = hero_id
-        self.city_unit.get_controller().refresh_growth_rate()
+        self.order_incharge = hero_id
 
     # 任命治安官
     def on_set_farmer_incharge(self, hero_id):
-        self.city_unit.farmer_incharge = hero_id
-        self.city_unit.get_controller().refresh_growth_rate()
+        self.farmer_incharge = hero_id
     
     # 任命治安官
     def on_set_trader_incharge(self, hero_id):
-        self.city_unit.trader_incharge = hero_id
-        self.city_unit.get_controller().refresh_growth_rate()
+        self.trader_incharge = hero_id
     
     # 关联按钮，到英雄选择面板
     def setup_btn_select_hero(self, btn_name, set_hero_cb):
@@ -138,7 +144,6 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         def on_btn_click():
             game_mgr.ui_mgr.push_panel(self)
             game_mgr.ui_mgr.select_hero_controller.show_dialog(self.city_unit, select_cb)
-            #self.defer_close()
 
         btn_obj.connect(PRESSED, on_btn_click)
         
@@ -146,27 +151,49 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
     def on_order_slide_change(self, value):
         num = round(value * 10)
-        self.city_unit.order_mass = num
+        self.order_mass = num
         self.lbl_order_mass.set_text(f'{num}人')
 
     def on_farmer_slide_change(self, value):
         num = round(value * 10)
-        self.city_unit.farmer_mass = num
+        self.farmer_mass = num
         self.lbl_farmer_mass.set_text(f'{num}人')
 
     def on_trade_slide_change(self, value):
         num = round(value * 10)
-        self.city_unit.trader_mass = num
+        self.trader_mass = num
         self.lbl_trader_mass.set_text(f'{num}人')
 
-    def on_close_click(self):
+    def on_cancel_click(self):
         self.defer_close()
-        if self.city_unit.satrap != 0:
-            hero = game_mgr.hero_mgr.get_hero(self.city_unit.satrap)
-            if hero:
-                dlg = random_select_item(game_mgr.config_mgr.neizheng_strap_dialog_list)
-                msg = f'{hero.hero_name}: {dlg}'
-                self.popup_dialog(msg, 1.5)
+
+    def on_ok_click(self):
+        self.defer_close()
+
+        if self.city_unit.satrap != 0 and self.satrap == 0:
+            satrap = game_mgr.hero_mgr.get_hero(self.city_unit.satrap)
+            msg = f'{satrap.hero_name}: 莫非我不堪此任吗？请主公另选贤明。'
+            self.popup_dialog(msg, 1.5)
+        elif self.city_unit.satrap == 0 and self.satrap != 0:
+            hero = game_mgr.hero_mgr.get_hero(self.satrap)
+            msg = f'{hero.hero_name}: 定当尽心竭力，不负所托。'
+            self.popup_dialog(msg, 1.5)
+        elif self.satrap != 0:
+            hero = game_mgr.hero_mgr.get_hero(self.satrap)
+            dlg = random_select_item(game_mgr.config_mgr.neizheng_strap_dialog_list)
+            msg = f'{hero.hero_name}: {dlg}'
+            self.popup_dialog(msg, 1.5)
+
+        self.city_unit.satrap = self.satrap
+        self.city_unit.order_incharge = self.order_incharge
+        self.city_unit.farmer_incharge = self.farmer_incharge
+        self.city_unit.trader_incharge = self.trader_incharge
+
+        self.city_unit.order_mass = self.order_mass
+        self.city_unit.farmer_mass = self.farmer_mass
+        self.city_unit.trader_mass = self.trader_mass
+
+        self.city_unit.get_controller().refresh_growth_rate()
 
     def on_tab_changed(self, *args):
         self.tab_index = self.tab_bar.get_current_tab()
