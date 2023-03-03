@@ -1,0 +1,63 @@
+[gd_scene load_steps=7 format=3 uid="uid://dfqsvigo6xumx"]
+
+[ext_resource type="Texture2D" uid="uid://ds8t5yxnam6tw" path="res://ui/img/Coin.png" id="1_4863u"]
+[ext_resource type="Texture2D" uid="uid://c4hqyefqdw1o" path="res://ui/img/Close.png" id="1_avekh"]
+[ext_resource type="Texture2D" uid="uid://dojr4gpmt4yed" path="res://ui/img/Close_hover.png" id="2_diojs"]
+[ext_resource type="Texture2D" uid="uid://ku2hl7maj5jr" path="res://ui/img/Vegetable.png" id="2_vj4gv"]
+[ext_resource type="Texture2D" uid="uid://dtna5j4g2h7wb" path="res://ui/img/Wood.png" id="3_u2k6y"]
+[ext_resource type="Texture2D" uid="uid://dk8limhdutgwx" path="res://ui/img/Sea.png" id="4_h7iwo"]
+
+[node name="BuildPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -652.0
+offset_bottom = -598.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 26.0
+offset_right = 526.0
+offset_bottom = 50.0
+
+[node name="BtnCoin" type="TextureButton" parent="HBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("1_4863u")
+stretch_mode = 0
+
+[node name="BtnCoin2" type="TextureButton" parent="HBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("2_vj4gv")
+stretch_mode = 0
+
+[node name="BtnCoin3" type="TextureButton" parent="HBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("3_u2k6y")
+stretch_mode = 0
+
+[node name="BtnCoin4" type="TextureButton" parent="HBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("4_h7iwo")
+stretch_mode = 0
+
+[node name="BtnClose" type="TextureButton" parent="."]
+layout_mode = 2
+offset_top = 13.0
+offset_right = 24.0
+offset_bottom = 37.0
+texture_normal = ExtResource("1_avekh")
+texture_pressed = ExtResource("1_avekh")
+texture_hover = ExtResource("2_diojs")
+ignore_texture_size = true
+stretch_mode = 0

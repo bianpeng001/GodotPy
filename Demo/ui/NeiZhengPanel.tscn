@@ -23,12 +23,13 @@ theme_override_styles/panel = ExtResource("1_qussa")
 layout_mode = 0
 offset_left = 655.0
 offset_top = 5.0
-offset_right = 719.0
-offset_bottom = 69.0
-scale = Vector2(0.3, 0.3)
+offset_right = 675.0
+offset_bottom = 25.0
 texture_normal = ExtResource("1_2nwp5")
 texture_pressed = ExtResource("1_2nwp5")
 texture_hover = ExtResource("2_vthb4")
+ignore_texture_size = true
+stretch_mode = 0
 
 [node name="TabZheng" type="Control" parent="Panel"]
 anchors_preset = 0
