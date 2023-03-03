@@ -14,8 +14,9 @@ class HUDItem:
     def update(self):
         unit = game_mgr.unit_mgr.get_unit(self.unit_id)
         if unit:
-            x, y = get_main_camera().world_to_screen(*unit.get_position())
-            self.hud_obj.set_position(x, y)
+            x,y,z=unit.get_position()
+            x1, y1 = get_main_camera().world_to_screen(x,y+4,z)
+            self.hud_obj.set_position(x1, y1)
 
 # HUD的显示，刷新
 # 只分配已经在视野里面的，因为总体数量过于庞大，只在视野里面的，

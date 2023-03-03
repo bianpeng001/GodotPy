@@ -6,6 +6,13 @@
 layout_mode = 3
 anchors_preset = 0
 
+[node name="Bg" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 80.0
+offset_bottom = 40.0
+theme = ExtResource("1_hl2ab")
+color = Color(0.160784, 0.160784, 0.160784, 0.784314)
+
 [node name="Title" type="Label" parent="."]
 layout_mode = 0
 offset_right = 80.0

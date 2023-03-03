@@ -1,9 +1,104 @@
-[gd_scene format=3 uid="uid://c3rh3bfm3ueko"]
+[gd_scene load_steps=6 format=3 uid="uid://c3rh3bfm3ueko"]
+
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_beg0d"]
+[ext_resource type="StyleBox" uid="uid://ihq43j8tlee2" path="res://ui/BtnOkStyle.tres" id="2_42owk"]
+[ext_resource type="StyleBox" uid="uid://mkp6hswesryo" path="res://ui/BtnCancelStyle.tres" id="3_jqp0i"]
+[ext_resource type="Texture2D" uid="uid://c4hqyefqdw1o" path="res://ui/img/Close.png" id="4_2lhyx"]
+[ext_resource type="Texture2D" uid="uid://dojr4gpmt4yed" path="res://ui/img/Close_hover.png" id="5_lsca5"]
 
 [node name="ChuZhanPanel" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -552.0
+offset_bottom = -168.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 600.0
+offset_bottom = 480.0
+
+[node name="BtnOk" type="Button" parent="Panel"]
+offset_left = 432.0
+offset_top = 436.0
+offset_right = 492.0
+offset_bottom = 465.0
+theme = ExtResource("1_beg0d")
+theme_override_styles/normal = ExtResource("2_42owk")
+theme_override_styles/hover = ExtResource("2_42owk")
+theme_override_styles/pressed = ExtResource("2_42owk")
+text = "确定"
+
+[node name="BtnCancel" type="Button" parent="Panel"]
+offset_left = 512.0
+offset_top = 436.0
+offset_right = 572.0
+offset_bottom = 465.0
+theme = ExtResource("1_beg0d")
+theme_override_styles/normal = ExtResource("3_jqp0i")
+theme_override_styles/hover = ExtResource("3_jqp0i")
+theme_override_styles/pressed = ExtResource("3_jqp0i")
+text = "取消"
+
+[node name="BtnClose" type="TextureButton" parent="Panel"]
+offset_left = 575.0
+offset_top = 5.0
+offset_right = 639.0
+offset_bottom = 69.0
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("4_2lhyx")
+texture_pressed = ExtResource("4_2lhyx")
+texture_hover = ExtResource("5_lsca5")
+
+[node name="ColorRect" type="ColorRect" parent="Panel"]
+layout_mode = 0
+offset_left = 275.0
+offset_top = 100.0
+offset_right = 575.0
+offset_bottom = 400.0
+color = Color(0.12549, 0.12549, 0.12549, 1)
+
+[node name="BtnSatrap" type="Button" parent="Panel"]
+offset_left = 34.0
+offset_top = 54.0
+offset_right = 114.0
+offset_bottom = 82.0
+theme = ExtResource("1_beg0d")
+theme_override_font_sizes/font_size = 18
+text = "派遣武将"
+
+[node name="Label2" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 124.0
+offset_top = 56.0
+offset_right = 243.0
+offset_bottom = 83.0
+theme = ExtResource("1_beg0d")
+text = "关长赵马黄"
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 91.0
+offset_right = 87.0
+offset_bottom = 118.0
+theme = ExtResource("1_beg0d")
+text = "兵力"
+
+[node name="Label3" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 199.0
+offset_top = 90.0
+offset_right = 251.0
+offset_bottom = 117.0
+theme = ExtResource("1_beg0d")
+text = "10000人"
+
+[node name="SliderOrderMass" type="HSlider" parent="Panel"]
+offset_left = 81.0
+offset_top = 92.0
+offset_right = 190.0
+offset_bottom = 116.0
