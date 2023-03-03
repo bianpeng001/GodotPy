@@ -170,6 +170,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     def on_ok_click(self):
         self.defer_close()
 
+        # 弹一个对话
         if self.city_unit.satrap != 0 and self.satrap == 0:
             satrap = game_mgr.hero_mgr.get_hero(self.city_unit.satrap)
             msg = f'{satrap.hero_name}: 莫非我不堪此任吗？请主公另选贤明。'
@@ -184,6 +185,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             msg = f'{hero.hero_name}: {dlg}'
             self.popup_dialog(msg, 1.5)
 
+        # 数据回写
         self.city_unit.satrap = self.satrap
         self.city_unit.order_incharge = self.order_incharge
         self.city_unit.farmer_incharge = self.farmer_incharge
@@ -193,6 +195,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.city_unit.farmer_mass = self.farmer_mass
         self.city_unit.trader_mass = self.trader_mass
 
+        # 并重新计算
         self.city_unit.get_controller().refresh_growth_rate()
 
     def on_tab_changed(self, *args):

@@ -80,6 +80,19 @@ c++那边主要还是接口和高io，高cpu的代码。
 cd godot
 git apply node_cpp.patch
 ```
+### 编译pyc文件发布
+1. 原地生成pyc: python -m compileall -b .
+2. 删掉__pycache__: fild . -name "*pycache*" -exec rm -rf {} \;
+3. 删掉源文件: find . -name "*.py" -exec rm -rf {} \;
+
+
+
+其他命令
+
+复制到目标位置，但是似乎没有保留路径，差评
+```sh
+find game -name "*.pyc" -exec cp "{}" ../Build/py \;
+```
 
 ### 异常输出
 
