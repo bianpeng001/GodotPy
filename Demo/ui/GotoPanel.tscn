@@ -8,7 +8,7 @@
 [node name="GotoPanel" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 100.0
+offset_right = 106.0
 offset_bottom = 200.0
 
 [node name="TabBar" type="TabBar" parent="."]

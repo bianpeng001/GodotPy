@@ -111,5 +111,3 @@ def get_hero(hero_id):
 
     return hero
 
-
-

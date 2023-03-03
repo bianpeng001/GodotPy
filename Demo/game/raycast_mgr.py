@@ -22,7 +22,8 @@ class RaycastMgr(NodeObject):
         camera = game_mgr.camera_mgr.main_camera
         x, y = game_mgr.input_mgr.get_mouse_pos()
 
-        if camera.find_control(x, y):
+        #if camera.find_control(x, y):
+        if game_mgr.ui_mgr.is_point_at_gui():
             #logutil.debug('click on control, ui event system take over', st=False)
             return
         

@@ -425,10 +425,10 @@ static const char c_Transform3D[] = "Transform3D";
 static const char c_Quaternion[] = "Quaternion";
 static const char c_InputEvent[] = "InputEvent";
 
-template <const char* pointer_name>
+template <const char* pointer_name, typename T>
 void _capsule_delete_pointer(PyObject *obj) {
-	auto ptr = PyCapsule_GetPointer(obj, pointer_name);
-	memdelete(ptr);
+	auto ptr = reinterpret_cast<T*>(PyCapsule_GetPointer(obj, pointer_name));
+	memdelete<T>(ptr);
 }
 
 //------------------------------------------------------------------------------
@@ -507,7 +507,7 @@ private:
 						auto p_transform = memnew(Transform3D((Transform3D)arg));
 
 						value = PyCapsule_New(p_transform, c_Transform3D,
-								&_capsule_delete_pointer<c_Transform3D>);
+								&_capsule_delete_pointer<c_Transform3D, Transform3D>);
 					} while (0);
 
 					break;
@@ -516,13 +516,14 @@ private:
 						auto p_quat = memnew(Quaternion((Quaternion)arg));
 
 						value = PyCapsule_New(p_quat, c_Quaternion,
-								&_capsule_delete_pointer<c_Quaternion>);
+								&_capsule_delete_pointer<c_Quaternion, Quaternion>);
 					} while (0);
 
 					break;
 				case Variant::OBJECT: {
 					auto obj = (Object *)arg;
 					do {
+						// TODO: InputEvent以后应该还有更多的数据要放出来
 						auto input_event = Object::cast_to<InputEvent>(obj);
 						if (input_event) {
 							value = PyBool_FromLong(input_event->is_pressed());

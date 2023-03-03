@@ -78,11 +78,12 @@ class CameraMgr(NodeObject):
         pass
 
     def process_zoom(self, delta):
+        if game_mgr.ui_mgr.is_point_at_gui():
+            return
+
         input_mgr = game_mgr.input_mgr
         x, y = input_mgr.get_mouse_pos()
 
-        if self.main_camera.find_control(x, y):
-            return
         
         prev_norm = 1 + self.arm_scale
         self.arm_scale = clamp(self.arm_scale + delta)

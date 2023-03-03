@@ -120,7 +120,8 @@ class InputMgr(NodeObject):
 
     # 判断是否可以drag
     def can_drag(self):
-        camera = game_mgr.camera_mgr.main_camera
-        control = camera.find_control(self.x, self.y)
-        return control == None
+        #camera = game_mgr.camera_mgr.main_camera
+        #control = camera.find_control(self.x, self.y)
+        #return control == None
+        return not game_mgr.ui_mgr.is_point_at_gui()
 

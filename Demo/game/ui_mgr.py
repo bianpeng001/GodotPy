@@ -26,6 +26,21 @@ class UIMgr(NodeObject):
 
         self.auto_close_queue = []
 
+        # 鼠标是否停留在ui上面
+        self.last_x, self.last_y = 0, 0
+        self.last_point_at_gui = False
+
+    def is_point_at_gui(self):
+        x, y = game_mgr.input_mgr.get_mouse_pos()
+        dx = x - self.last_x
+        dy = y - self.last_y
+
+        if dx*dx + dy*dy > 10:
+            camera = game_mgr.camera_mgr.main_camera
+            self.last_point_at_gui = camera.find_control(x, y) != None
+
+        return self.last_point_at_gui
+        
     def _create(self):
         #self.get_obj().connect("ready", self._ready)
         game_mgr.co_mgr.start(self.co_init_panels())
@@ -76,7 +91,7 @@ class UIMgr(NodeObject):
             'res://ui/GotoPanel.tscn', GotoPanelController)
         
         self.auto_close_queue.append(self.npc_dialog_controller)
-        self.goto_panel_controller.popup(1030, 100)
+        self.goto_panel_controller.popup(1020, 100)
 
 
     # def _ready(self):
