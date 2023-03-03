@@ -21,6 +21,7 @@ offset_bottom = 300.0
 layout_mode = 2
 
 [node name="Header" type="HBoxContainer" parent="ScrollContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 
 [node name="Space" type="Label" parent="ScrollContainer/VBoxContainer/Header"]

@@ -38,6 +38,7 @@ offset_right = 670.0
 offset_bottom = 343.0
 
 [node name="LblCityName" type="Label" parent="Panel/TabZheng"]
+layout_mode = 0
 offset_left = 270.0
 offset_top = -30.0
 offset_right = 390.0
@@ -208,6 +209,7 @@ offset_right = 670.0
 offset_bottom = 390.0
 
 [node name="BtnOk" type="Button" parent="Panel"]
+layout_mode = 0
 offset_left = 510.0
 offset_top = 360.0
 offset_right = 570.0
@@ -219,6 +221,7 @@ theme_override_styles/pressed = ExtResource("6_wbn3m")
 text = "确定"
 
 [node name="BtnCancel" type="Button" parent="Panel"]
+layout_mode = 0
 offset_left = 590.0
 offset_top = 360.0
 offset_right = 650.0

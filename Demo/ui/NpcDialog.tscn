@@ -9,14 +9,14 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -652.0
-offset_bottom = -488.0
+offset_bottom = -528.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Bg" type="NinePatchRect" parent="."]
 layout_mode = 0
 offset_right = 500.0
-offset_bottom = 160.0
+offset_bottom = 120.0
 texture = ExtResource("3_ugj62")
 patch_margin_left = 12
 patch_margin_top = 12
@@ -28,8 +28,8 @@ layout_mode = 0
 offset_left = 40.0
 offset_top = 20.0
 offset_right = 460.0
-offset_bottom = 140.0
+offset_bottom = 110.0
 theme = ExtResource("1_83fnq")
 theme_override_colors/font_color = Color(0.207843, 0.207843, 0.207843, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 21
 text = "诸葛亮：主公放心，此计必成。"

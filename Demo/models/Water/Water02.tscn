@@ -10,4 +10,5 @@ subdivide_depth = 10
 [node name="Water02" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+cast_shadow = 0
 mesh = SubResource("PlaneMesh_x1f51")

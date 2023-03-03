@@ -98,14 +98,14 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.lbl_farmer_mass.set_text(f'{city_unit.farmer_mass}人')
         self.lbl_trader_mass.set_text(f'{city_unit.trader_mass}人')
 
-        text = f'''人口:{city_unit.urban_mass}人
-治安:{city_unit.order_points}
-农业:{city_unit.farmer_points}
-商业:{city_unit.trader_points}
-粮食:{city_unit.rice_amount}
-银两:{city_unit.money_amount}
-武将:{len(city_unit.hero_list)}人
-军队:{city_unit.army_amount}人
+        text = f'''人口 {city_unit.urban_mass}人
+治安 {city_unit.order_points}
+农业 {city_unit.farmer_points}
+商业 {city_unit.trader_points}
+粮食 {city_unit.rice_amount}
+银两 {city_unit.money_amount}
+武将 {len(city_unit.hero_list)}人
+军队 {city_unit.army_amount}人
 '''
         self.lbl_detail_obj.set_text(text)
 
