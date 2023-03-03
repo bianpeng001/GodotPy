@@ -106,10 +106,8 @@ def get_hero_name(hero_id):
     if hero_id == 0:
         return ''
     hero = game_mgr.hero_mgr.get_hero(hero_id)
-    if not hero:
-        return ''
 
-    return hero.hero_name
+    return hero.hero_name if hero else ''
     
 def get_hero(hero_id):
     if hero_id == 0:
@@ -117,4 +115,12 @@ def get_hero(hero_id):
     hero = game_mgr.hero_mgr.get_hero(hero_id)
 
     return hero
+
+def get_unit_name(unit_id):
+    if unit_id == 0:
+        return ''
+    unit = game_mgr.unit_mgr.get_unit(unit_id)
+
+    return unit.unit_name if unit else ''
+
 

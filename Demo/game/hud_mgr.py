@@ -15,8 +15,8 @@ class HUDItem:
         unit = game_mgr.unit_mgr.get_unit(self.unit_id)
         if unit:
             x,y,z=unit.get_position()
-            x1, y1 = get_main_camera().world_to_screen(x,y+4,z)
-            self.hud_obj.set_position(x1, y1)
+            x1, y1 = get_main_camera().world_to_screen(x,y+8,z)
+            self.hud_obj.set_position(x1-40, y1+36)
 
 # HUD的显示，刷新
 # 只分配已经在视野里面的，因为总体数量过于庞大，只在视野里面的，
@@ -31,13 +31,13 @@ class HUDMgr:
 
         # 缓存起来，永不销毁，尤其是 self.template_obj
         self.hud_item_cache = []
-        self.hud_item_list = []
+        self.hud_item_dict = {}
 
     def setup(self):
         self.hud_root_obj = game_mgr.scene_root_obj.find_node('HUDRoot')
 
     def update(self, delta_time):
-        for item in self.hud_item_list:
+        for item in self.hud_item_dict.values():
             item.update()
 
     def show(self):
@@ -50,7 +50,7 @@ class HUDMgr:
 
     def create_hud(self, unit_id):
         item = HUDItem()
-        item.unit_id = unit_id
+        
         if self.template_obj:
             item.hud_obj = self.template_obj.dup()
         else:
@@ -60,9 +60,17 @@ class HUDMgr:
 
         item.title_obj = item.hud_obj.find_node('Title')
         item.hp_obj = item.hud_obj.find_node('HP')
+
+        item.unit_id = unit_id
         item.hud_obj.set_visible(True)
         item.title_obj.set_text(game_mgr.unit_mgr.get_unit(unit_id).unit_name)
 
-        self.hud_item_list.append(item)
+        self.hud_item_dict[unit_id] = item
         item.update()
+
+    def free_hud(self, unit_id):
+        if unit_id in self.hud_item_dict:
+            item = self.hud_item_dict.pop(unit_id)
+            self.hud_item_cache.append(item)
+
 

@@ -9,7 +9,7 @@ anchors_preset = 0
 [node name="Bg" type="ColorRect" parent="."]
 layout_mode = 0
 offset_right = 80.0
-offset_bottom = 40.0
+offset_bottom = 36.0
 theme = ExtResource("1_hl2ab")
 color = Color(0.160784, 0.160784, 0.160784, 0.784314)
 
@@ -27,8 +27,8 @@ vertical_alignment = 1
 
 [node name="HP" type="ColorRect" parent="."]
 layout_mode = 0
-offset_left = 15.0
+offset_left = 10.0
 offset_top = 30.0
-offset_right = 65.0
+offset_right = 70.0
 offset_bottom = 34.0
 color = Color(0, 1, 0, 1)
