@@ -6,10 +6,10 @@ import os.path
 import json
 
 from game.core import *
-from game.game_mgr import game_mgr
+from game.game_mgr import *
 from game.event_name import *
-from game.base_type import UT_CITY, UT_TROOP
 from game.wait import *
+from game.base_type import UT_CITY, UT_TROOP
 from game.ground_mgr import Tile
 
 # 游戏的控制逻辑, 事件响应啥的，集中到这里来
@@ -18,12 +18,13 @@ from game.ground_mgr import Tile
 class GamePlay:
     def __init__(self):
         # init sub systems
+        from game.config_mgr import ConfigMgr
         from game.player_mgr import PlayerMgr
         from game.hero_mgr import HeroMgr
         from game.unit_mgr import UnitMgr
         from game.effect_mgr import EffectMgr
         from game.game_data import GameData
-        from game.config_mgr import ConfigMgr
+        from game.hud_mgr import HUDMgr
         
         game_mgr.player_mgr = PlayerMgr()
         game_mgr.hero_mgr = HeroMgr()
@@ -31,6 +32,9 @@ class GamePlay:
         game_mgr.effect_mgr = EffectMgr()
         game_mgr.game_data = GameData()
         game_mgr.config_mgr = ConfigMgr()
+        game_mgr.hud_mgr = HUDMgr()
+
+        game_mgr.hud_mgr.setup()
         
         # 资源刷新tick
         self.resource_grow_time = 0
@@ -52,7 +56,8 @@ class GamePlay:
                 obj = json.load(f)
                 OS.set_window_size(*obj['window'])
 
-        # 起始块, 不加载物件
+        # 起始块, 不加载物件，因为这块可能会有一些特效残留的bug，
+        # 弄一个建筑物挡一挡，毕竟是天下之中
         tile = Tile(0, 0)
         game_mgr.ground_mgr.tile_dict[(0, 0)] = tile
         tile.load()

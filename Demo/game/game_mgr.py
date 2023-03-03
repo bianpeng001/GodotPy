@@ -28,6 +28,10 @@ class GameMgr():
         self.ui_mgr = None
         self.hero_mgr = None
         self.effect_mgr = None
+        self.hud_mgr = None
+
+        # 场景的根节点
+        self.scene_root_obj = None
 
         # 玩法业务逻辑
         self.game_play = None
@@ -78,13 +82,16 @@ class GameMgr():
         self.update_list.append(self.ui_mgr.update)
         self.update_list.append(self.ground_mgr.update)
         self.update_list.append(self.unit_mgr.update)
+        self.update_list.append(self.hud_mgr.update)
 
 game_mgr = GameMgr()
 
-# 。。。。
+# 角色单位的共享实现
 class UnitTrait:
     def owner_is_main_player(self):
         return self.owner_player_id == get_main_player_id()
+
+# 一些简化工具方法
 
 def get_main_player():
     return game_mgr.player_mgr.main_player

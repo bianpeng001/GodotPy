@@ -70,6 +70,8 @@ class Tile:
                 0,
                 pos_z + random_x()*5)
             self.units.append(city)
+            
+            game_mgr.hud_mgr.create_hud(city.unit_id)
 
     def load_res(self, path, x, z, s):
         item = FNode3D.instantiate(path)

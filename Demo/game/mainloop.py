@@ -16,10 +16,10 @@ class MainLoop(NodeObject):
     def _create(self):
         self.get_obj().set_process(process=True)
         self.get_obj().connect("ready", self._ready)
-        
+
+        game_mgr.scene_root_obj = self.get_obj()
         from game.game_play import GamePlay
         game_mgr.game_play = GamePlay()
-
         game_mgr.event_mgr.emit(APP_LAUNCH)
 
     def _ready(self):
