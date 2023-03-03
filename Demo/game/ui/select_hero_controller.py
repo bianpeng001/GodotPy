@@ -8,7 +8,10 @@ from game.event_name import PRESSED
 from game.game_mgr import game_mgr
 from game.ui.ui_traits import *
 
+#
 # 选择武将
+# 点击属性，要进行排序
+#
 class SelectHeroController(UIController, PopupTrait, HeroListTrait):
     def __init__(self):
         super().__init__()

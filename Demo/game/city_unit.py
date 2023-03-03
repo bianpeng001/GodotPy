@@ -4,7 +4,7 @@
 import random
 
 from game.core import *
-from game.game_mgr import game_mgr, UnitTrait
+from game.game_mgr import *
 from game.base_type import Unit, UT_CITY
 from game.config_mgr import new_city_name, new_hero_name
 
@@ -18,16 +18,18 @@ from game.city_controller import CityController
 class CityUnit(Unit, UnitTrait):
     def __init__(self):
         super().__init__()
-        self.unit_type = UT_CITY
 
+        # 控制器
         self._controller = CityController()
         self._controller._unit = self
 
+        self.unit_type = UT_CITY
         self.radius = 3
         self.unit_name = new_city_name()
 
         # 军团，城市组合，某个城作为首府，控制周围的其他城
-        self.group_main_city_id = 0
+        self.leader_city = 0
+        self.city_group = []
 
         # 城内武将
         self.hero_list = []
@@ -44,7 +46,7 @@ class CityUnit(Unit, UnitTrait):
         self.money_amount = random_int(100, 1000)
 
         # 士气
-        self.army_moral = 100
+        self.army_moral = 50
         # 治安
         self.public_order = 100
         # 居民人口 = 治安 + 务农 + 经商
@@ -90,6 +92,9 @@ class CityUnit(Unit, UnitTrait):
             path = 'res://models/Wall01.tscn'
         
         self.model_node = FNode3D.instantiate(path)
+        if is_gate:
+            self.model_node.set_scale(1.8,1.8,1.8)
+
         self.get_controller().apply_position()
         self.get_controller().set_title(self.unit_name)
 

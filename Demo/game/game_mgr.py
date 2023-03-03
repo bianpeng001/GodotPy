@@ -85,7 +85,6 @@ game_mgr = GameMgr()
 class UnitTrait:
     def owner_is_main_player(self):
         return self.owner_player_id == get_main_player_id()
-    
 
 def get_main_player():
     return game_mgr.player_mgr.main_player
@@ -105,5 +104,12 @@ def get_hero_name(hero_id):
 
     return hero.hero_name
     
+def get_hero(hero_id):
+    if hero_id == 0:
+        return None
+    hero = game_mgr.hero_mgr.get_hero(hero_id)
+
+    return hero
+
 
 
