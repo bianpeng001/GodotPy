@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bvcyrjlniudm1"
+path="res://.godot/imported/WorkHouse.obj-72a4794c9060ff93dd2dd3e5104454fd.mesh"
+
+[deps]
+
+files=["res://.godot/imported/WorkHouse.obj-72a4794c9060ff93dd2dd3e5104454fd.mesh"]
+
+source_file="res://models/WorkHouse.obj"
+dest_files=["res://.godot/imported/WorkHouse.obj-72a4794c9060ff93dd2dd3e5104454fd.mesh", "res://.godot/imported/WorkHouse.obj-72a4794c9060ff93dd2dd3e5104454fd.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
