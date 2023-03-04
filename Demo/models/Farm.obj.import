@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b1gogra2ygqw4"
+path="res://.godot/imported/Farm.obj-178d8eada98c44cb6aa09c14a3d92625.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Farm.obj-178d8eada98c44cb6aa09c14a3d92625.mesh"]
+
+source_file="res://models/Farm.obj"
+dest_files=["res://.godot/imported/Farm.obj-178d8eada98c44cb6aa09c14a3d92625.mesh", "res://.godot/imported/Farm.obj-178d8eada98c44cb6aa09c14a3d92625.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

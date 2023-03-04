@@ -102,6 +102,11 @@ def get_main_player_id():
 def get_main_camera():
     return game_mgr.camera_mgr.main_camera
 
+def get_position_under_mouse():
+    camera = get_main_camera()
+    x,y = game_mgr.input_mgr.get_mouse_pos()
+    return camera.screen_to_world(x,y)
+
 def get_hero_name(hero_id):
     if hero_id == 0:
         return ''

@@ -19,6 +19,8 @@ class UIMgr(NodeObject):
         self.defer_close_queue = []
         # 超时自动关闭队列
         self.auto_close_queue = []
+        # 
+        self.update_list = []
 
         # 界面栈，用来恢复上级界面用的
         self.panel_stack = []
@@ -63,7 +65,7 @@ class UIMgr(NodeObject):
 
         from game.ui.mainui_controller import MainUIController
         self.mainui_panel, self.mainui_controller = self.load_panel(
-            'res://ui/MainUI.tscn', MainUIController)
+              'res://ui/MainUI.tscn', MainUIController)
         self.mainui_panel.set_position(0, 0)
         self.mainui_panel.set_visible(True)
         
@@ -81,21 +83,25 @@ class UIMgr(NodeObject):
 
         from game.ui.npc_dialog_controller import NpcDialogController
         self.npc_dialog, self.npc_dialog_controller = self.load_panel(
-            'res://ui/NpcDialog.tscn', NpcDialogController)
+                'res://ui/NpcDialog.tscn', NpcDialogController)
+        self.auto_close_queue.append(self.npc_dialog_controller)
 
         from game.ui.select_hero_controller import SelectHeroController
         self.select_hero_dialog, self.select_hero_controller = self.load_panel(
-            'res://ui/SelectHeroDialog.tscn', SelectHeroController)
+                'res://ui/SelectHeroDialog.tscn', SelectHeroController)
 
         from game.ui.goto_panel_controller import GotoPanelController
         self.goto_panel, self.goto_panel_controller = self.load_panel(
-            'res://ui/GotoPanel.tscn', GotoPanelController)
-        
+                'res://ui/GotoPanel.tscn', GotoPanelController)
+        self.goto_panel_controller.popup(1020, 100)
+
+        from game.ui.build_panel_controller import BuildPanelController
+        self.build_panel, self.build_panel_controller = self.load_panel(
+                'res://ui/BuildPanel.tscn', BuildPanelController)
+        self.update_list.append(self.build_panel_controller)
+
         # load done
         log_util.debug('ui panels load ok')
-
-        self.auto_close_queue.append(self.npc_dialog_controller)
-        self.goto_panel_controller.popup(1020, 100)
 
     def load_panel(self, path, cls):
         ui_obj = FNode3D.instantiate(path)
@@ -123,6 +129,10 @@ class UIMgr(NodeObject):
                     item.show_time = 0
                     item.hide()
 
+        # 有一些面板需要update
+        for panel in self.update_list:
+            panel.update()
+
     # 下一帧开头关闭
     # 避免本帧直接关闭，出现点穿的现象。如果立即关闭，则会判定为在空地上点了一下
     def defer_close(self, ui_controller):
@@ -139,6 +149,10 @@ class UIMgr(NodeObject):
 
     # 点击空地
     def on_scene_ground_click(self):
+        # 正在建设就不用弹菜单了
+        if self.build_panel_controller.is_building():
+            return
+
         if self.ground_menu_controller.is_visible:
             self.ground_menu_controller.defer_close()
         else:

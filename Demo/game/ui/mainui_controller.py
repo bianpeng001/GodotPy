@@ -41,7 +41,7 @@ class MainUIController(UIController):
         with open('./gm.py') as f:
             data = f.read()
             exec(data)
-            print('gm ok')
+            print('-----------------gm ok-----------------')
 
     def format_amount_str(self, value):
         if value < 100000:

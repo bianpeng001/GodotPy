@@ -34,6 +34,8 @@ class CityUnit(Unit, UnitTrait):
         # 城内武将
         self.hero_list = []
 
+        self.building_list = []
+
         # 单个资源上限
         self.max_amount_limit = 1000000 + random_int(0, 50)*10000
         

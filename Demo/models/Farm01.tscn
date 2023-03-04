@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://7bfbgd0yukwr"]
+
+[ext_resource type="ArrayMesh" uid="uid://b1gogra2ygqw4" path="res://models/Farm.obj" id="1_mjc6k"]
+
+[node name="Farm01" type="Node3D"]
+
+[node name="Farm" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+cast_shadow = 0
+mesh = ExtResource("1_mjc6k")
