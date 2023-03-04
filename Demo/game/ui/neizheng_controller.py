@@ -53,10 +53,12 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.btn_order_incharge = self.setup_btn_select_hero('BtnOrderCharge', self.on_set_order_incharge)
         self.btn_farmer_incharge = self.setup_btn_select_hero('BtnFarmerCharge', self.on_set_farmer_incharge)
         self.btn_trader_incharge = self.setup_btn_select_hero('BtnTraderCharge', self.on_set_trader_incharge)
+        self.btn_fax_incharge = self.setup_btn_select_hero('BtnFaxCharge', self.on_set_fax_incharge)
 
         self.lbl_order_mass = self.tab_zheng_obj.find_node('LblOrderMass')
         self.lbl_farmer_mass = self.tab_zheng_obj.find_node('LblFarmerMass')
         self.lbl_trader_mass = self.tab_zheng_obj.find_node('LblTraderMass')
+        self.lbl_fax_rate_value = self.tab_zheng_obj.find_node('LblFaxRateValue')
 
         self.slider_order_mass = self.tab_zheng_obj.find_node('SliderOrderMass')
         self.slider_order_mass.connect(VALUE_CHANGED, self.on_order_slide_change)
@@ -64,8 +66,8 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.slider_farmer_mass.connect(VALUE_CHANGED, self.on_farmer_slide_change)
         self.slider_trader_mass = self.tab_zheng_obj.find_node('SliderTraderMass')
         self.slider_trader_mass.connect(VALUE_CHANGED, self.on_trade_slide_change)
-        
-        
+        self.slider_fax_rate = self.tab_zheng_obj.find_node('SliderFaxRate')
+        self.slider_fax_rate.connect(VALUE_CHANGED, self.on_fax_slide_change)
 
         # wujiang tab
         # 武将属性表头
@@ -81,13 +83,16 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.order_incharge = self.city_unit.order_incharge
         self.farmer_incharge = self.city_unit.farmer_incharge
         self.trader_incharge = self.city_unit.trader_incharge
+        self.fax_incharge = self.city_unit.fax_incharge
 
         self.order_mass = self.city_unit.order_mass
         self.farmer_mass = self.city_unit.farmer_mass
         self.trader_mass = self.city_unit.trader_mass
+        self.fax_rate = self.city_unit.fax_rate
 
         # 这个不修改，只是这里用来计算的
         self.urban_mass = self.city_unit.urban_mass
+        
 
         # 然后修改ui
         self.lbl_name_obj.set_text(self.city_unit.unit_name)
@@ -96,14 +101,17 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.btn_order_incharge.set_text(get_hero_name(self.order_incharge))
         self.btn_farmer_incharge.set_text(get_hero_name(self.farmer_incharge))
         self.btn_trader_incharge.set_text(get_hero_name(self.trader_incharge))
+        self.btn_fax_incharge.set_text(get_hero_name(self.fax_incharge))
 
-        self.lbl_order_mass.set_text(f'{city_unit.order_mass}人')
-        self.lbl_farmer_mass.set_text(f'{city_unit.farmer_mass}人')
-        self.lbl_trader_mass.set_text(f'{city_unit.trader_mass}人')
+        self.lbl_order_mass.set_text(f'{self.order_mass}人')
+        self.lbl_farmer_mass.set_text(f'{self.farmer_mass}人')
+        self.lbl_trader_mass.set_text(f'{self.trader_mass}人')
+        self.lbl_fax_rate_value.set_text(f'{self.fax_rate}')
 
         self.slider_order_mass.set_value(100*self.order_mass/self.urban_mass)
         self.slider_farmer_mass.set_value(100*self.farmer_mass/self.urban_mass)
         self.slider_trader_mass.set_value(100*self.trader_mass/self.urban_mass)
+        self.slider_fax_rate.set_value(self.fax_rate)
 
         text = f'''人口 {city_unit.urban_mass}人
 治安 {city_unit.order_points}
@@ -121,6 +129,10 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.satrap = hero_id
         # 重新计算内政的数据，更新太守造成的影响
         #self.city_unit.get_controller().refresh_growth_rate()
+
+    # 税务官
+    def on_set_fax_incharge(self, hero_id):
+        self.fax_incharge = hero_id
 
     # 任命治安官
     def on_set_order_incharge(self, hero_id):
@@ -167,6 +179,9 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         num = self.get_slider_mass(value)
         self.farmer_mass = num
         self.lbl_farmer_mass.set_text(f'{num}人')
+
+    def on_fax_slide_change(self, value):
+        self.fax_rate = round(value)
 
     def on_trade_slide_change(self, value):
         num = self.get_slider_mass(value)

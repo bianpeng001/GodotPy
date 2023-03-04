@@ -173,6 +173,38 @@ offset_bottom = 174.0
 theme = ExtResource("3_we820")
 text = "100"
 
+[node name="LblFaxRate" type="Label" parent="Panel/TabZheng"]
+offset_left = 272.0
+offset_top = 190.0
+offset_right = 312.0
+offset_bottom = 214.0
+theme = ExtResource("3_we820")
+text = "税率"
+
+[node name="BtnFaxCharge" type="Button" parent="Panel/TabZheng"]
+layout_mode = 0
+offset_left = 319.0
+offset_top = 190.0
+offset_right = 399.0
+offset_bottom = 218.0
+theme = ExtResource("3_we820")
+theme_override_font_sizes/font_size = 18
+text = "赵云"
+
+[node name="SliderFaxRate" type="HSlider" parent="Panel/TabZheng"]
+offset_left = 413.0
+offset_top = 190.0
+offset_right = 556.0
+offset_bottom = 214.0
+
+[node name="LblFaxRateValue" type="Label" parent="Panel/TabZheng"]
+offset_left = 565.0
+offset_top = 190.0
+offset_right = 645.0
+offset_bottom = 214.0
+theme = ExtResource("3_we820")
+text = "100"
+
 [node name="LblCityDetail" type="Label" parent="Panel/TabZheng"]
 layout_mode = 0
 offset_left = 32.0

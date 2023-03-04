@@ -62,6 +62,11 @@ class CityUnit(Unit, UnitTrait):
         # 太守(总督)
         self.satrap = 0
 
+        # 税务官
+        self.fax_incharge = 0
+        # 税率,税率过高会影响士气,破坏治安
+        self.fax_rate = 10
+
         # 治安官
         self.order_incharge = 0
         # 治安人数
