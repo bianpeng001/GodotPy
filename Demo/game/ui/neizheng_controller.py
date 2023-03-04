@@ -106,7 +106,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.lbl_order_mass.set_text(f'{self.order_mass}人')
         self.lbl_farmer_mass.set_text(f'{self.farmer_mass}人')
         self.lbl_trader_mass.set_text(f'{self.trader_mass}人')
-        self.lbl_fax_rate_value.set_text(f'{self.fax_rate}')
+        self.lbl_fax_rate_value.set_text(f'{self.fax_rate}%')
 
         self.slider_order_mass.set_value(100*self.order_mass/self.urban_mass)
         self.slider_farmer_mass.set_value(100*self.farmer_mass/self.urban_mass)
@@ -182,6 +182,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
     def on_fax_slide_change(self, value):
         self.fax_rate = round(value)
+        self.lbl_fax_rate_value.set_value(f'{self.fax_rate}%')
 
     def on_trade_slide_change(self, value):
         num = self.get_slider_mass(value)

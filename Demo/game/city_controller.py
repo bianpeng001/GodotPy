@@ -19,12 +19,13 @@ class CityController(Controller):
         self.ai_tick_time = 0
 
     def set_title(self, text):
-        node = self.get_model_node()
-        if node:
-            title_node = node.find_node('HUD/Title')
-            if title_node:
-                #Label3D.set_text(title_node, text)
-                title_node.set_text(text)
+        pass
+        # node = self.get_model_node()
+        # if node:
+        #     title_node = node.find_node('HUD/Title')
+        #     if title_node:
+        #         #Label3D.set_text(title_node, text)
+        #         title_node.set_text(text)
 
     def set_flag_color(self):
         node = self.get_model_node()
