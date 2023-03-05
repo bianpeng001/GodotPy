@@ -23,7 +23,7 @@ layout_mode = 0
 offset_right = 320.0
 offset_bottom = 200.0
 
-[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
+[node name="Item" type="RichTextLabel" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 theme = ExtResource("1_qao50")

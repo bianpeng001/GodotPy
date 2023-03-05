@@ -21,6 +21,13 @@ tab_0/title = "城"
 tab_1/title = "将"
 tab_2/title = "军"
 
+[node name="Bg" type="ColorRect" parent="."]
+layout_mode = 0
+offset_top = 30.0
+offset_right = 124.0
+offset_bottom = 232.0
+color = Color(0.0823529, 0.0823529, 0.0823529, 0.784314)
+
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 2
 anchor_right = 1.0
