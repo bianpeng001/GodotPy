@@ -127,7 +127,7 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 			ClassTypeDict[StringName("Button")] = ++id_seed_2d;
 			ClassTypeDict[StringName("CheckBox")] = ++id_seed_2d;
 			ClassTypeDict[StringName("HSlider")] = ++id_seed_2d;
-			ClassTypeDict[StringName("VSlider")] = id_seed_2d;
+			ClassTypeDict[StringName("VSlider")] = ++id_seed_2d;
 		}
 
 		auto &value = ClassTypeDict.get(class_name, Variant(0));
@@ -1220,6 +1220,44 @@ static PyObject *f_canvas_item_set_visible(PyObject *module, PyObject *args) {
 	} while (0);
 	Py_RETURN_NONE;
 }
+static PyObject *f_canvas_item_set_modulate(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		float r, g, b;
+
+		if (!PyArg_ParseTuple(args, "Offf", &a_obj, &r,&g, &b)) {
+			break;
+		}
+
+		CanvasItem *canvas_item = GetObjPtr<CanvasItem>(a_obj);
+		if (!canvas_item) {
+			break;
+		}
+
+		canvas_item->set_modulate(Color(r, g, b));
+
+	} while (0);
+	Py_RETURN_NONE;
+}
+static PyObject *f_canvas_item_set_self_modulate(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		float r, g, b;
+
+		if (!PyArg_ParseTuple(args, "Offf", &a_obj, &r, &g, &b)) {
+			break;
+		}
+
+		CanvasItem *canvas_item = GetObjPtr<CanvasItem>(a_obj);
+		if (!canvas_item) {
+			break;
+		}
+
+		canvas_item->set_self_modulate(Color(r, g, b));
+
+	} while (0);
+	Py_RETURN_NONE;
+}
 static PyObject *f_find_control(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -1798,6 +1836,9 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "control_get_rect", f_control_get_rect, METH_VARARGS, NULL },
 
 	{ "canvas_item_set_visible", f_canvas_item_set_visible, METH_VARARGS, NULL },
+	{ "canvas_item_set_modulate", f_canvas_item_set_modulate, METH_VARARGS, NULL },
+	{ "canvas_item_set_self_modulate", f_canvas_item_set_self_modulate, METH_VARARGS, NULL },
+
 	{ "find_control", f_find_control, METH_VARARGS, NULL },
 	{ "base_button_set_disabled", f_base_button_set_disabled, METH_VARARGS, NULL },
 	{ "base_button_is_pressed", f_base_button_is_pressed, METH_VARARGS, NULL },

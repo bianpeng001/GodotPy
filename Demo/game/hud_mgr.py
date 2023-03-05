@@ -27,6 +27,12 @@ class HUDItem:
     def set_text(self, text):
         self.title_obj.set_text(text)
 
+    def set_flag_text(self, text):
+        self.hud_obj.find_node('FlagLabel').set_text(text)
+
+    def set_flag_color(self, r,g,b):
+        pass
+
 # HUD的显示，刷新
 # 只分配已经在视野里面的，因为总体数量过于庞大，只在视野里面的，
 # 数量应该是可以控制的
@@ -57,6 +63,9 @@ class HUDMgr:
         self.is_show = False
         self.hud_root_obj.set_visible(False)
 
+    def get_hud(self, unit_id):
+        return self.hud_item_dict.get(unit_id, None)
+
     def create_hud(self, unit_id):
         item = HUDItem()
         
@@ -71,6 +80,11 @@ class HUDMgr:
         item.hp_obj = item.hud_obj.find_node('HP')
 
         item.unit_id = unit_id
+        # unit = game_mgr.unit_mgr.get_unit(unit_id)
+        # item.set_text(unit.unit_name)
+        # if unit.owner_player_id != 0:
+        #     player = game_mgr.player_mgr.get_player(unit.owner_player_id)
+        #     item.set_flag_text(player.player_name[0])
         item.set_text(get_unit_name(unit_id))
         item.set_visible(True)
 

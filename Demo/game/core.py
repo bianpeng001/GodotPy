@@ -614,6 +614,7 @@ FClassMap[16] = FHBoxContainer
 FClassMap[17] = FButton
 FClassMap[18] = FCheckBox
 FClassMap[19] = FSlider
+FClassMap[20] = FSlider
 
 # 大话降龙
 # https://www.mm1316.com/maoxian/dahuajianglong
