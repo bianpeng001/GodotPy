@@ -61,7 +61,7 @@ class ArcMoveReq(BaseMoveReq):
         duration = mag1 / speed
         self.delta = self.delta * (mag1 / mag)
         self.time_to_progress = 1.0 / duration
-        self.right = self.delta.cross(Vector3.up).normlized() * 2
+        self.right = self.delta.cross(Vector3.up).normalized() * 2
 
         self.is_move = True
 

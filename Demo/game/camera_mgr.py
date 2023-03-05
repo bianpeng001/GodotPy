@@ -18,15 +18,15 @@ class CameraMgr(NodeObject):
 
         self.arm_length = 55
         self.arm_scale = 1.0
-        self.arm_dir = Vector3(30, 35, 30)
-        self.arm_dir.normlize()
+        self.arm_dir = Vector3(30, 35, 30).normalized()
 
+        # 自拍杆的长度
         self.offset = self.arm_dir * self.arm_length
-
+        # 自拍杆的手持位置
         self.center = Vector3()
-        self.drag_start = Vector3()
 
-        self.press_time = 0
+        # 拖拽起始点
+        self.drag_start = Vector3()
 
     def _create(self):
         self.get_obj().connect("ready", self._ready)
@@ -46,8 +46,6 @@ class CameraMgr(NodeObject):
         x,y,z = self.main_camera.screen_to_world(x, y)
         self.drag_start.set(x, y, z)
 
-        self.press_time = game_mgr.time
-    
     # TODO： begin_drag(), end_drag(), drag()
     def on_mouse_drag(self, x, y):
         # 拖拽场景，用移动摄像头来实现
@@ -110,4 +108,4 @@ class CameraMgr(NodeObject):
     
     def update(self, delta_time):
         pass
-        
+

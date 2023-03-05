@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://b235vl1f12uk8"]
+[gd_scene load_steps=7 format=3 uid="uid://b235vl1f12uk8"]
 
 [ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="1_53tvn"]
 [ext_resource type="PackedScene" path="res://effects/Dust01.tscn" id="5_0n56o"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://eimxflua5ypg" path="res://models/Park01.tscn" id="8_pjijt"]
 [ext_resource type="ArrayMesh" uid="uid://dtbgwxqjieh4p" path="res://models/River02.obj" id="8_ulrcq"]
 [ext_resource type="Material" uid="uid://vnh10gues45c" path="res://models/Water/Water02Mat.tres" id="9_7rrpb"]
-[ext_resource type="ArrayMesh" uid="uid://dg8r7eo7dujtk" path="res://models/Bridge01.obj" id="10_j4u4e"]
 
 [node name="MainScene" type="FPyObject"]
 python_module = "game.mainloop"
@@ -66,7 +65,8 @@ cast_shadow = 0
 mesh = ExtResource("8_ulrcq")
 surface_material_override/0 = ExtResource("9_7rrpb")
 
-[node name="Bridge01" type="MeshInstance3D" parent="River02"]
-transform = Transform3D(-0.0388204, 0, 0.498491, 0, 0.5, 0, -0.498491, 0, -0.0388204, -0.0702087, -9.53674e-07, -1.94851)
-mesh = ExtResource("10_j4u4e")
-skeleton = NodePath("../..")
+[node name="River03" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.496169, 0, -9.98768, 0, 10, 0, 9.98768, 0, -0.496169, 111.22, 0.1, -8.59246)
+cast_shadow = 0
+mesh = ExtResource("8_ulrcq")
+surface_material_override/0 = ExtResource("9_7rrpb")

@@ -97,14 +97,14 @@ class Vector3:
         v.scale(s)
         return v
 
-    def normlize(self):
+    def normalize(self):
         len = self.length()
         if len > 0:
             self.scale(1.0 / len)
 
-    def normlized(self):
+    def normalized(self):
         v = self.clone()
-        v.normlize()
+        v.normalize()
         return v
     
     def __add__(self, b):
