@@ -31,7 +31,7 @@ class HUDItem:
         self.hud_obj.find_node('FlagLabel').set_text(text)
 
     def set_flag_color(self, r,g,b):
-        pass
+        self.hud_obj.find_node('Flag').set_self_modulate(r,g,b)
 
 # HUD的显示，刷新
 # 只分配已经在视野里面的，因为总体数量过于庞大，只在视野里面的，

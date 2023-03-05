@@ -512,6 +512,12 @@ class FControl(FCanvasItem):
     def get_rect(self):
         return gp.control_get_rect(self.get_gdobj())
 
+    def set_modulate(self,r,g,b):
+        gp.canvas_item_set_modulate(self.get_gdobj(), r,g,b)
+
+    def set_self_modulate(self, r,g,b):
+        gp.canvas_item_set_self_modulate(self.get_gdobj(), r,g,b)
+
 class FTabBar(FControl):
     def get_current_tab(self):
         return gp.tab_bar_get_current_tab(self.get_gdobj())
@@ -615,6 +621,8 @@ FClassMap[17] = FButton
 FClassMap[18] = FCheckBox
 FClassMap[19] = FSlider
 FClassMap[20] = FSlider
+FClassMap[21] = FControl
+FClassMap[22] = FControl
 
 # 大话降龙
 # https://www.mm1316.com/maoxian/dahuajianglong

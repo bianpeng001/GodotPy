@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://byh0en3jtpqme"]
+
+[ext_resource type="ArrayMesh" uid="uid://bk828bvlg2bfx" path="res://models/WallMesh.res" id="1_g1u5y"]
+[ext_resource type="ArrayMesh" uid="uid://7ljbpgjyaxoj" path="res://models/Flag02Mesh.res" id="3_17blf"]
+
+[node name="Gate01" type="Node3D"]
+
+[node name="Model" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0, 0)
+mesh = ExtResource("1_g1u5y")
+skeleton = NodePath("../..")
+
+[node name="Flag" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.606218, 0, -0.35, 0, 0.7, 0, 0.35, 0, 0.606218, 0, 0.66148, 0)
+mesh = ExtResource("3_17blf")

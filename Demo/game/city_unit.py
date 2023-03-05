@@ -99,7 +99,7 @@ class CityUnit(Unit, UnitTrait):
 
         path = 'res://models/City01.tscn'
         if is_gate:
-            path = 'res://models/Wall01.tscn'
+            path = 'res://models/Gate01.tscn'
         
         self.model_node = FNode3D.instantiate(path)
         if is_gate:
