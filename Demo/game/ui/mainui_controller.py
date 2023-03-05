@@ -5,11 +5,12 @@ import math
 
 from game.core import *
 from game.game_mgr import *
-from game.event_name import PRESSED
 from game.base_type import UIController
+from game.ui.ui_traits import PopupTrait
+from game.event_name import PRESSED
 
 # 头顶主界面逻辑
-class MainUIController(UIController):
+class MainUIController(UIController, PopupTrait):
     def __init__(self):
         pass
 

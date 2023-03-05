@@ -66,9 +66,9 @@ class UIMgr(NodeObject):
         from game.ui.mainui_controller import MainUIController
         self.mainui_panel, self.mainui_controller = self.load_panel(
               'res://ui/MainUI.tscn', MainUIController)
-        self.mainui_panel.set_position(0, 0)
-        self.mainui_panel.set_visible(True)
+        self.mainui_controller.popup(0, 0)
         
+        # 要注意这里的顺序, 有关层级
         from game.ui.city_menu_controller import CityMenuController
         self.city_menu, self.city_menu_controller = self.load_panel(
                 'res://ui/CityMenu.tscn', CityMenuController)

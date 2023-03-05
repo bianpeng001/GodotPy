@@ -1,8 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://c1jjhatf1hdpn"]
+[gd_scene load_steps=4 format=3 uid="uid://c1jjhatf1hdpn"]
 
-[ext_resource type="Texture2D" uid="uid://b0t2s22exxwve" path="res://ui/img/SysLabel_hover.png" id="3_0wd0s"]
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="5_dnccb"]
-[ext_resource type="Texture2D" uid="uid://dbq8y2ou4np5t" path="res://ui/img/SysLabel.png" id="5_wnfx1"]
 [ext_resource type="Texture2D" uid="uid://ds8t5yxnam6tw" path="res://ui/img/Coin.png" id="6_k0gva"]
 [ext_resource type="Texture2D" uid="uid://dbiioiqpsaq0u" path="res://ui/img/Rice.png" id="8_n434f"]
 
@@ -15,16 +13,6 @@ layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 50.0
 color = Color(0.188235, 0.188235, 0.188235, 0.941176)
-
-[node name="BtnSys" type="TextureButton" parent="."]
-layout_mode = 0
-offset_left = 1115.0
-offset_top = 5.0
-offset_right = 1145.0
-offset_bottom = 45.0
-texture_normal = ExtResource("5_wnfx1")
-texture_pressed = ExtResource("5_wnfx1")
-texture_hover = ExtResource("3_0wd0s")
 
 [node name="RiceIcon" type="TextureRect" parent="."]
 layout_mode = 0
@@ -76,9 +64,9 @@ text = "fps:0 dc:0"
 
 [node name="BtnSys2" type="Button" parent="."]
 layout_mode = 0
-offset_left = 1080.0
+offset_left = 1116.0
 offset_top = 4.0
-offset_right = 1110.0
+offset_right = 1146.0
 offset_bottom = 46.0
 theme = ExtResource("5_dnccb")
 theme_override_constants/h_separation = 1
@@ -88,9 +76,9 @@ text = "系
 
 [node name="BtnMap" type="Button" parent="."]
 layout_mode = 0
-offset_left = 1048.0
+offset_left = 768.0
 offset_top = 4.0
-offset_right = 1078.0
+offset_right = 798.0
 offset_bottom = 46.0
 theme = ExtResource("5_dnccb")
 theme_override_constants/h_separation = 1
