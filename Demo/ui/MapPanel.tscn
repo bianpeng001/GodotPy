@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=3 uid="uid://4sj68x7y4ve6"]
+
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_bx3pn"]
+[ext_resource type="StyleBox" uid="uid://cs78tjnu0sn2w" path="res://ui/PanelStyle.tres" id="2_4ac1a"]
+[ext_resource type="Texture2D" uid="uid://c4hqyefqdw1o" path="res://ui/img/Close.png" id="3_yrr03"]
+[ext_resource type="Texture2D" uid="uid://dojr4gpmt4yed" path="res://ui/img/Close_hover.png" id="4_jl55u"]
+[ext_resource type="StyleBox" uid="uid://ihq43j8tlee2" path="res://ui/BtnOkStyle.tres" id="5_rce13"]
+[ext_resource type="StyleBox" uid="uid://mkp6hswesryo" path="res://ui/BtnCancelStyle.tres" id="6_j3psg"]
+
+[node name="MapPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -352.0
+offset_bottom = -148.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 800.0
+offset_bottom = 500.0
+theme = ExtResource("1_bx3pn")
+theme_override_styles/panel = ExtResource("2_4ac1a")
+
+[node name="BtnClose" type="TextureButton" parent="Panel"]
+layout_mode = 0
+offset_left = 775.0
+offset_top = 5.0
+offset_right = 795.0
+offset_bottom = 25.0
+texture_normal = ExtResource("3_yrr03")
+texture_pressed = ExtResource("3_yrr03")
+texture_hover = ExtResource("4_jl55u")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="BtnOk" type="Button" parent="Panel"]
+offset_left = 630.0
+offset_top = 460.0
+offset_right = 690.0
+offset_bottom = 489.0
+theme = ExtResource("1_bx3pn")
+theme_override_styles/normal = ExtResource("5_rce13")
+theme_override_styles/hover = ExtResource("5_rce13")
+theme_override_styles/pressed = ExtResource("5_rce13")
+text = "确定"
+
+[node name="BtnCancel" type="Button" parent="Panel"]
+offset_left = 710.0
+offset_top = 460.0
+offset_right = 770.0
+offset_bottom = 489.0
+theme = ExtResource("1_bx3pn")
+theme_override_styles/normal = ExtResource("6_j3psg")
+theme_override_styles/hover = ExtResource("6_j3psg")
+theme_override_styles/pressed = ExtResource("6_j3psg")
+text = "取消"

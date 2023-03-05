@@ -182,7 +182,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
     def on_fax_slide_change(self, value):
         self.fax_rate = round(value)
-        self.lbl_fax_rate_value.set_value(f'{self.fax_rate}%')
+        self.lbl_fax_rate_value.set_text(f'{self.fax_rate}%')
 
     def on_trade_slide_change(self, value):
         num = self.get_slider_mass(value)

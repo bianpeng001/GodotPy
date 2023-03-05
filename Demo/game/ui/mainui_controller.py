@@ -29,6 +29,10 @@ class MainUIController(UIController):
 
         self.ui_obj.find_node('BtnGM').set_text('执\n行')
         self.ui_obj.find_node('BtnSys2').set_text('系\n统')
+        
+        btn_map_obj = self.ui_obj.find_node('BtnMap')
+        btn_map_obj.set_text('地\n图')
+        btn_map_obj.connect(PRESSED, self.on_map_click)
 
         # 事件
         from game.event_name import MAINUI_REFRESH
@@ -42,6 +46,9 @@ class MainUIController(UIController):
             data = f.read()
             exec(data)
             print('-----------------gm ok-----------------')
+
+    def on_map_click(self):
+        game_mgr.ui_mgr.map_panel_controller.popup(150, 80)
 
     def format_amount_str(self, value):
         if value < 100000:

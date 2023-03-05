@@ -100,6 +100,10 @@ class UIMgr(NodeObject):
                 'res://ui/BuildPanel.tscn', BuildPanelController)
         self.update_list.append(self.build_panel_controller)
 
+        from game.ui.map_panel_controller import MapPanelController
+        self.map_panel, self.map_panel_controller = self.load_panel(
+                'res://ui/MapPanel.tscn', MapPanelController)
+
         # load done
         log_util.debug('ui panels load ok')
 
