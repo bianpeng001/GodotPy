@@ -90,10 +90,10 @@ class UIMgr(NodeObject):
         self.select_hero_dialog, self.select_hero_controller = self.load_panel(
                 'res://ui/SelectHeroDialog.tscn', SelectHeroController)
 
-        from game.ui.goto_panel_controller import GotoPanelController
-        self.goto_panel, self.goto_panel_controller = self.load_panel(
-                'res://ui/GotoPanel.tscn', GotoPanelController)
-        self.goto_panel_controller.popup(1020, 100)
+        from game.ui.nav_panel_controller import NavPanelController
+        self.nav_panel, self.nav_panel_controller = self.load_panel(
+                'res://ui/NavPanel.tscn', NavPanelController)
+        self.nav_panel_controller.popup(1010, 100)
 
         from game.ui.build_panel_controller import BuildPanelController
         self.build_panel, self.build_panel_controller = self.load_panel(

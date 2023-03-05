@@ -10,7 +10,7 @@ from game.event_name import PRESSED
 #
 # 定位面板，快速去到我的城，军队，武将
 #
-class GotoPanelController(UIController, PopupTrait):
+class NavPanelController(UIController, PopupTrait):
     def __init__(self):
         pass
     

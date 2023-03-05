@@ -108,3 +108,6 @@ class CameraMgr(NodeObject):
     def set_center(self,x,y,z):
         self.center.set(x,y,z)
     
+    def update(self, delta_time):
+        pass
+        

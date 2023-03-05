@@ -77,11 +77,12 @@ class GameMgr():
         
         self.update_list.append(self.input_mgr.update)
         self.update_list.append(self.game_play.update)
-        self.update_list.append(self.effect_mgr.update)
-        self.update_list.append(self.game_play.update)
-        self.update_list.append(self.ui_mgr.update)
-        self.update_list.append(self.ground_mgr.update)
         self.update_list.append(self.unit_mgr.update)
+        self.update_list.append(self.ground_mgr.update)
+        self.update_list.append(self.ui_mgr.update)
+
+        self.update_list.append(self.effect_mgr.update)
+        self.update_list.append(self.camera_mgr.update)
         self.update_list.append(self.hud_mgr.update)
 
 game_mgr = GameMgr()
