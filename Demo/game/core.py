@@ -72,6 +72,9 @@ class Vector3:
         self.y = y
         self.z = z
 
+    def copy(self, v):
+        self.set(v.x,v.y,v.z)
+
     def add(self, b):
         self.x += b.x
         self.y += b.y

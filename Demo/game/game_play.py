@@ -75,15 +75,16 @@ class GamePlay:
                         and x.owner_player_id == 0)
                 if city:
                     self.set_city_owner(city, pm.main_player)
-                    city.get_controller().set_flag_color()
+                    pm.main_player.main_city_id = city.unit_id
 
+                    city.get_controller().set_flag_color()
                     hud_item = game_mgr.hud_mgr.get_hud(city.unit_id)
                     if hud_item:
                         hud_item.set_flag_text(pm.main_player.player_name[0])
                         hud_item.set_flag_color(0.0,1.0,0.0)
 
-                    x,y,z = city.get_position()
-                    cm.set_center(x,y,z)
+                    #cm.set_center(x,y,z)
+                    cm.set_target_center(*city.get_position())
                     cm.update_camera()
 
                     break

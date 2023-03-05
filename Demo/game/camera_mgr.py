@@ -19,7 +19,6 @@ class CameraMgr(NodeObject):
         self.arm_length = 55
         self.arm_scale = 1.0
         self.arm_dir = Vector3(30, 35, 30).normalized()
-
         # 自拍杆的长度
         self.offset = self.arm_dir * self.arm_length
         # 自拍杆的手持位置
@@ -27,6 +26,10 @@ class CameraMgr(NodeObject):
 
         # 拖拽起始点
         self.drag_start = Vector3()
+
+        # 动画移动的目标
+        self.target_center = Vector3()
+        self.is_chase_target = False
 
     def _create(self):
         self.get_obj().connect("ready", self._ready)
@@ -105,7 +108,21 @@ class CameraMgr(NodeObject):
 
     def set_center(self,x,y,z):
         self.center.set(x,y,z)
+
+    def set_target_center(self,x,y,z):
+        self.target_center.set(x,y,z)
+        self.is_chase_target = True
     
     def update(self, delta_time):
-        pass
+        if self.is_chase_target:
+            delta = self.center - self.target_center
+            sqr_mag = delta.sqr_magnitude()
+            if sqr_mag < 10:
+                self.center.copy(self.target_center)
+                self.is_chase_target = False
+            else:
+                self.center = self.target_center + delta * 0.8
+            self.update_camera()
+
+
 
