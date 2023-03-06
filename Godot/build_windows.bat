@@ -30,9 +30,9 @@ set BUILD_DIR=d:\OpenSource\GodotPy\Build
 
 @rem build editor
 scons p=windows vsproj=yes bits=64 -j6 target=editor dev_build=false
-copy /Y bin\godot.windows.editor.x86_64.release.console.exe %BUILD_DIR%\GodotEditor.exe
+copy /Y bin\godot.windows.editor.x86_64.exe %BUILD_DIR%\GodotEditor.exe
 @rem pack resources
-bin\godot.windows.editor.x86_64.release.console.exe --path %DEMO_DIR% -w --export-pack "Windows Desktop" %BUILD_DIR%\Demo.pck
+bin\godot.windows.editor.x86_64.console.exe --path %DEMO_DIR% -w --export-pack "Windows Desktop" %BUILD_DIR%\Demo.pck
 @rem build player, copy deps
 scons p=windows tools=no bits=64 -j6 target=template_release
 copy /Y bin\godot.windows.template_release.x86_64.exe %BUILD_DIR%\Demo.exe
