@@ -602,6 +602,7 @@ _TypeMap = {
     'TabBar' : FTabBar,
     'HBoxContainer' : FHBoxContainer,
     'Button' : FButton,
+    'TextureButton' : FBaseButton,
     'CheckBox' : FCheckBox,
     'HSlider' : FSlider,
     'VSlider' : FSlider,
