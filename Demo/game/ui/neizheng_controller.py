@@ -139,7 +139,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         values = self.slider_value_list
         values[index] = round(value)
         
-        # TODO: 以后弄一个和谐一点的
+        # 以后弄一个和谐一点的
         overflow = sum(values) - 100
         if overflow > 0:
             # 第一轮扣超过平均数的
@@ -170,13 +170,15 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         #print(values)
         #print(sum(values))
-        
+
         # 标记激活的index,用来区分被动修改,不触发重新分配
         self.active_slider = index
         s1,s2,s3 = values
         self.slider_order_mass.set_value(s1)
         self.slider_farmer_mass.set_value(s2)
         self.slider_trader_mass.set_value(s3)
+        # TODO: 把修改值的,也都放到这里来,这样省得在value_changed里面去关联
+
         self.active_slider = -1
 
         return value

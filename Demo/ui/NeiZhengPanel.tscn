@@ -44,6 +44,7 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="TabZheng" type="Control" parent="Panel"]
+visible = false
 anchors_preset = 0
 offset_left = 10.0
 offset_top = 40.0
@@ -247,6 +248,24 @@ offset_bottom = 390.0
 
 [node name="HeroList" parent="Panel/TabJiang" instance=ExtResource("4_p1uhh")]
 layout_mode = 1
+
+[node name="Button" type="Button" parent="Panel/TabJiang"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 295.0
+offset_right = 73.0
+offset_bottom = 326.0
+theme = ExtResource("3_we820")
+text = "登庸"
+
+[node name="Button2" type="Button" parent="Panel/TabJiang"]
+layout_mode = 0
+offset_left = 82.0
+offset_top = 294.0
+offset_right = 130.0
+offset_bottom = 325.0
+theme = ExtResource("3_we820")
+text = "下野"
 
 [node name="TabWai" type="Control" parent="Panel"]
 visible = false
