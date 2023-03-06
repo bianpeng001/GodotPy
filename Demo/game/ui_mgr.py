@@ -85,7 +85,7 @@ class UIMgr(NodeObject):
         from game.ui.msg_panel_controller import MsgPanelController
         self.msg_panel, self.msg_panel_controller = self.load_panel(
                 'res://ui/MsgPanel.tscn', MsgPanelController)
-        self.msg_panel_controller.popup(4, 442)
+        self.msg_panel_controller.popup(4, 484)
 
         from game.ui.npc_dialog_controller import NpcDialogController
         self.npc_dialog, self.npc_dialog_controller = self.load_panel(

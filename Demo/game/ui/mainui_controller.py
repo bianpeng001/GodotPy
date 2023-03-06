@@ -28,30 +28,28 @@ class MainUIController(UIController, PopupTrait):
         self.refresh_time = game_mgr.sec_time
         self.refresh_frame_number = game_mgr.frame_number
 
-        pos_x = 1116
-        pos_y = 4
+       
 
         btn_sys = self.ui_obj.find_node('BtnSys')
         btn_sys.set_text('系\n统')
-        btn_sys.set_position(pos_x, pos_y)
-        
+
         btn_map = btn_sys.dup()
         btn_map.set_text('地\n图')
-        btn_map.set_position(pos_x-32, pos_y)
         btn_map.connect(PRESSED, self.on_map_click)
 
         btn_pause = btn_sys.dup()
         btn_pause.set_text('暂\n停')
-        btn_pause.set_position(pos_x-32*2, pos_y)
 
         btn_replay = btn_sys.dup()
         btn_replay.set_text('战\n报')
-        btn_replay.set_position(pos_x-32*3, pos_y)
 
         btn_gm = btn_sys.dup()
         btn_gm.set_text('执\n行')
-        btn_gm.set_position(pos_x-32*4, pos_y)
         btn_gm.connect(PRESSED, self.on_gm_click)
+
+        btn_list = [btn_sys, btn_map, btn_replay, btn_pause, btn_gm]
+        for i in range(len(btn_list)):
+            btn_list[i].set_position(1116-32*i, 4)
 
         # 事件
         from game.event_name import MAINUI_REFRESH

@@ -11,7 +11,6 @@ class MsgPanelController(UIController, PopupTrait):
     def __init__(self):
         pass
 
-
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
