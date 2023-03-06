@@ -27,15 +27,17 @@ goto :end
 :publish
 set DEMO_DIR=d:\OpenSource\GodotPy\Demo
 set BUILD_DIR=d:\OpenSource\GodotPy\Build
+set EDITOR=bin\godot.windows.editor.x86_64.exe
+set PLAYER=bin\godot.windows.template_release.x86_64.exe
 
 @rem build editor
 scons p=windows vsproj=yes bits=64 -j6 target=editor dev_build=false
-copy /Y bin\godot.windows.editor.x86_64.exe %BUILD_DIR%\GodotEditor.exe
+copy /Y %EDITOR% %BUILD_DIR%\GodotEditor.exe
 @rem pack resources
-bin\godot.windows.editor.x86_64.console.exe --path %DEMO_DIR% -w --export-pack "Windows Desktop" %BUILD_DIR%\Demo.pck
+%EDITOR% --path %DEMO_DIR% -w --export-pack "Windows Desktop" %BUILD_DIR%\Demo.pck
 @rem build player, copy deps
 scons p=windows tools=no bits=64 -j6 target=template_release
-copy /Y bin\godot.windows.template_release.x86_64.exe %BUILD_DIR%\Demo.exe
+copy /Y %PLAYER% %BUILD_DIR%\Demo.exe
 
 copy /Y bin\python3.dll %BUILD_DIR%\python3.dll
 copy /Y bin\sqlite3.dll %BUILD_DIR%\sqlite3.dll
