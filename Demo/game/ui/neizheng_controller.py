@@ -137,21 +137,40 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     # 联动修改, 总数小于100
     def update_slider_value(self, index, value):
         values = self.slider_value_list
-        values[index] = value
+        values[index] = round(value)
         
         # TODO: 以后弄一个和谐一点的
         overflow = sum(values) - 100
         if overflow > 0:
-            for i in range(len(values)):
-                if i != index:
-                    v = values[i] - overflow
+            # 第一轮扣超过平均数的
+            count = len(values)
+            avg = (100 - values[index]) // (count - 1)
+            for i in range(count):
+                if i != index and values[i] > avg:
+                    v = values[i] - avg - overflow
                     if v >= 0:
-                        values[i] = v
-                        break
+                        values[i] = v + avg
+                        overflow = 0
                     else:
-                        overflow -= values[i]
-                        values[i] = 0
+                        overflow -= (values[i] - avg)
+                        values[i] = avg
 
+            if overflow > 0:
+                # 第二轮
+                for i in range(count):
+                    if i != index:
+                        v = values[i] - overflow
+                        if v >= 0:
+                            values[i] = v
+                            overflow = 0
+                            break
+                        else:
+                            overflow -= values[i]
+                            values[i] = 0
+
+        #print(values)
+        #print(sum(values))
+        
         # 标记激活的index,用来区分被动修改,不触发重新分配
         self.active_slider = index
         s1,s2,s3 = values
