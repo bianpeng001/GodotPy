@@ -612,7 +612,8 @@ _TypeMap = {
 
 def _reg_type(type_name):
     if type_name in _TypeNameList:
-        raise Exception(f'repeat register {type_name}')
+        #raise Exception(f'repeat register {type_name}')
+        return 0
 
     type_id = len(_TypeNameList)
     f_type = _TypeMap.get(type_name, FNode)
@@ -620,7 +621,7 @@ def _reg_type(type_name):
     _TypeNameList.append(type_name)
     _FTypeList.append(f_type)
 
-    log_util.debug(f'reg_type: {type_name} -> {type_id} {f_type}')
+    log_util.debug(f'map type: {type_name} -> {type_id} {f_type}')
     return type_id
 
 def GetWrappedObject(gdobj):

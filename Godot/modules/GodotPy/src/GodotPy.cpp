@@ -85,6 +85,7 @@ static void PyGDObj_dealloc(PyObject *o) {
 }
 static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 	int type = 0;
+	static Dictionary ClassTypeDict;
 
 	do {
 		PyGDObj *self;
@@ -104,8 +105,7 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 		auto &class_name = obj->get_class_name();
 		//print_line(vformat("class_name=%s", class_name));
 
-		static Dictionary ClassTypeDict;
-
+		// 命中,说明类型id分配过了
 		type = (int)ClassTypeDict.get(class_name, Variant(0));
 		if (type != 0) {
 			break;
@@ -116,6 +116,7 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 		if (!PyArg_ParseTuple(args, "O", &reg_type_cb)) {
 			break;
 		}
+
 		do {
 			auto args = PyTuple_New(1);
 			PyTuple_SetItem(args, 0, PyUnicode_FromString(class_name.operator String().utf8()));
@@ -128,9 +129,13 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 
 		} while (0);
 		
-		if (type != 0) {
+		if (type > 0) {
 			ClassTypeDict[class_name] = type;
 			break;
+		}
+
+		if (type <= 0) {
+			print_line(vformat("register type failed: %s", class_name));
 		}
 
 	} while (false);
