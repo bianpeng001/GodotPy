@@ -398,6 +398,18 @@ Lib1 = env.SharedLibrary(ModuleName,
 )
 env.Requires(Lib1, [Gen1, Gen2])
 
+PythonExe_Res = env.RES('python3.rc')
+
+# python.exe
+PythonExe = env.Program('python.exe',
+    source = ['Programs/python.c', 'python3.res'],
+    resources = [],
+    cpppaths = incs,
+    LIBS = libs + ['python3.lib',]
+)
+
+env.Requires(PythonExe, [Lib1, PythonExe_Res])
+
 # generate vsproject
 env.MSVSProject(target = ModuleName + env['MSVSPROJECTSUFFIX'],
     srcs = srcs,

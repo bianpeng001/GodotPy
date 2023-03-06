@@ -14,7 +14,7 @@
 
 1. 做单机游戏,不做网游,因为网游难搞,且各种不方便,开发调试发布等各种方面.
 2. 先只做PC,把玩法和系统都稳定出来了,别人能接受的话.再考虑手机,避免多线作战.
-3. godot+python. godot的出现,为我们提供了一个选择,在u3d和ue之外. 曾经godot的一个门槛是gdscript,劝退了一些人. 后来官方支持了c#,已经很优秀了. 不过我决定支持一下python,给开发者再多一个选项,岂不美哉. (可以选择是一种美好的权益)
+3. godot+python. godot的出现,为我们提供了一个选择,在u3d和ue之外. 曾经godot的一个门槛是gdscript,劝退了一些人. 后来官方支持了c#,已经很优秀了. 不过我决定支持一下python,给开发者再多一个选项,岂不美哉. (在任何时候,有得选,都是一个很正向体验).
 4. 应该算是独立游戏吧. (此间近邑,名曰小沛,足可屯军)
 
 玩法系统:
@@ -25,17 +25,17 @@
 
 ## 上船了
 
-因为godot4.0上船了,所以接下来的构造内容里面,也要有所体现了.
+因为godot4.0上船了,所以接下来的构造内容里面,也要有所体现
 
-1. 包含最新的编辑器,可以打开工程,可以亵玩焉
-2. 功能验证基本完毕,接下来可以实际接玩法了.
+1. 包含最新的编辑器,可以打开工程.之前的阶段属于远观,接下来就能亵玩焉
+2. 功能验证基本完毕,接下来可以实际接玩法了. 包括: 3D,model,scene,tscn,resource,weekend build,material,shader,ui,font,input,db,lifecycle,gc,coroutine...
 
 Demo.zip包含内容
 1. Demo.exe demo的运行程序
 2. Demo.pck 资源包
 3. GodotEditor 引擎的编辑器
 4. game/*.py 游戏脚本,主要内容在此
-5. python3.dll,python312.zip,sqlite3.dll,_sqlite3.pyd这几个是python运行环境
+5. python3.dll,python312.zip,sqlite3.dll,_sqlite3.pyd python运行环境
 
 <div class="date">2023年3月6日</div>
 

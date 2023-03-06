@@ -586,23 +586,31 @@ class FNode2D(FCanvasItem):
 _FTypeList = [ None ]
 _TypeNameList = [ None ]
 _TypeMap = {
+    # core
     'FPyObject': FNode,
     'Node' : FNode,
+
+    # 3d
     'Node3D' : FNode3D,
     'MeshInstance3D' : FMeshInstance3D,
     'CPUParticles3D' : FCPUParticles3D,
-    'AnimationPlayer' : FAnimationPlayer,
-    'Label3D' : FLabel3D,
     'Camera3D' : FCamera3D,
+    'Label3D' : FLabel3D,
 
-    'CanvasItem' : FCanvasItem,
+    # animation
+    'AnimationPlayer' : FAnimationPlayer,
+
+    # 2d
     'Node2D' : FNode2D,
+
+    # ui
+    'CanvasItem' : FCanvasItem,
     'Label' : FLabel,
     'Control' : FControl,
-    'TabBar' : FTabBar,
     'HBoxContainer' : FHBoxContainer,
     'Button' : FButton,
     'TextureButton' : FBaseButton,
+    'TabBar' : FTabBar,
     'CheckBox' : FCheckBox,
     'HSlider' : FSlider,
     'VSlider' : FSlider,
@@ -633,8 +641,8 @@ def GetWrappedObject(gdobj):
         return obj
 
     type_id = gdobj.get_type(_reg_type)
-    if type_id == 0:
-        raise Exception('type_id == 0')
+    if type_id <= 0:
+        raise Exception('type_id error')
 
     f_type = _FTypeList[type_id]
 

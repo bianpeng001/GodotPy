@@ -38,6 +38,7 @@ copy /Y %EDITOR% %BUILD_DIR%\GodotEditor.exe
 @rem build player, copy deps
 scons p=windows tools=no bits=64 -j6 target=template_release
 copy /Y %PLAYER% %BUILD_DIR%\Demo.exe
+copy /Y bin\python.exe %BUILD_DIR%\python.exe
 
 copy /Y bin\python3.dll %BUILD_DIR%\python3.dll
 copy /Y bin\sqlite3.dll %BUILD_DIR%\sqlite3.dll
