@@ -65,7 +65,11 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.slider_farmer_mass = self.tab_zheng_obj.find_node('SliderFarmerMass')
         self.slider_farmer_mass.connect(VALUE_CHANGED, self.on_farmer_slide_change)
         self.slider_trader_mass = self.tab_zheng_obj.find_node('SliderTraderMass')
-        self.slider_trader_mass.connect(VALUE_CHANGED, self.on_trade_slide_change)
+        self.slider_trader_mass.connect(VALUE_CHANGED, self.on_trader_slide_change)
+
+        # 这三个值是联动的, 改一个,三个相加 <= 100
+        self.slider_value_list = [100, 0, 0]
+
         self.slider_fax_rate = self.tab_zheng_obj.find_node('SliderFaxRate')
         self.slider_fax_rate.connect(VALUE_CHANGED, self.on_fax_slide_change)
 
@@ -108,9 +112,15 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.lbl_trader_mass.set_text(f'{self.trader_mass}人')
         self.lbl_fax_rate_value.set_text(f'{self.fax_rate}%')
 
-        self.slider_order_mass.set_value(100*self.order_mass/self.urban_mass)
-        self.slider_farmer_mass.set_value(100*self.farmer_mass/self.urban_mass)
-        self.slider_trader_mass.set_value(100*self.trader_mass/self.urban_mass)
+        s1 = round(100*self.order_mass/self.urban_mass)
+        s2 = round(100*self.farmer_mass/self.urban_mass)
+        s3 = round(100*self.trader_mass/self.urban_mass)
+        self.slider_order_mass.set_value(s1)
+        self.slider_farmer_mass.set_value(s2)
+        self.slider_trader_mass.set_value(s3)
+        self.slider_value_list = [s1, s2, s3]
+        self.active_slider = -1
+
         self.slider_fax_rate.set_value(self.fax_rate)
 
         text = f'''人口 {city_unit.urban_mass}人
@@ -123,6 +133,34 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 军队 {city_unit.army_amount}人
 '''
         self.lbl_detail_obj.set_text(text)
+
+    # 联动修改, 总数小于100
+    def update_slider_value(self, index, value):
+        values = self.slider_value_list
+        values[index] = value
+        
+        # TODO: 以后弄一个和谐一点的
+        overflow = sum(values) - 100
+        if overflow > 0:
+            for i in range(len(values)):
+                if i != index:
+                    v = values[i] - overflow
+                    if v >= 0:
+                        values[i] = v
+                        break
+                    else:
+                        overflow -= values[i]
+                        values[i] = 0
+
+        # 标记激活的index,用来区分被动修改,不触发重新分配
+        self.active_slider = index
+        s1,s2,s3 = values
+        self.slider_order_mass.set_value(s1)
+        self.slider_farmer_mass.set_value(s2)
+        self.slider_trader_mass.set_value(s3)
+        self.active_slider = -1
+
+        return value
 
     # 任命太守
     def on_set_satrap(self, hero_id):
@@ -171,23 +209,29 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         return math.floor(value * self.urban_mass * 0.001)*10
 
     def on_order_slide_change(self, value):
+        if self.active_slider < 0:
+            self.update_slider_value(0, value)
         num = self.get_slider_mass(value)
         self.order_mass = num
         self.lbl_order_mass.set_text(f'{num}人')
 
     def on_farmer_slide_change(self, value):
+        if self.active_slider < 0:
+            self.update_slider_value(1, value)
         num = self.get_slider_mass(value)
         self.farmer_mass = num
         self.lbl_farmer_mass.set_text(f'{num}人')
 
-    def on_fax_slide_change(self, value):
-        self.fax_rate = round(value)
-        self.lbl_fax_rate_value.set_text(f'{self.fax_rate}%')
-
-    def on_trade_slide_change(self, value):
+    def on_trader_slide_change(self, value):
+        if self.active_slider < 0:
+            self.update_slider_value(2, value)
         num = self.get_slider_mass(value)
         self.trader_mass = num
         self.lbl_trader_mass.set_text(f'{num}人')
+
+    def on_fax_slide_change(self, value):
+        self.fax_rate = round(value)
+        self.lbl_fax_rate_value.set_text(f'{self.fax_rate}%')
 
     def on_cancel_click(self):
         self.defer_close()
