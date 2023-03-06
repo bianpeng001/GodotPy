@@ -105,35 +105,33 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 		//print_line(vformat("class_name=%s", class_name));
 
 		static Dictionary ClassTypeDict;
-		if (ClassTypeDict.size() == 0) {
-			ClassTypeDict[StringName("FPyObject")] = 1;
 
-			int id_seed_3d = 0;
-			ClassTypeDict[StringName("Node")] = ++id_seed_3d;
-			ClassTypeDict[StringName("Node3D")] = ++id_seed_3d;
-			ClassTypeDict[StringName("MeshInstance3D")] = ++id_seed_3d;
-			ClassTypeDict[StringName("CPUParticles3D")] = ++id_seed_3d;
-			ClassTypeDict[StringName("AnimationPlayer")] = ++id_seed_3d;
-			ClassTypeDict[StringName("Label3D")] = ++id_seed_3d;
-			ClassTypeDict[StringName("Camera3D")] = ++id_seed_3d;
-			
-			int id_seed_2d = 10;
-			ClassTypeDict[StringName("CanvasItem")] = ++id_seed_2d;
-			ClassTypeDict[StringName("Node2D")] = ++id_seed_2d;
-			ClassTypeDict[StringName("Label")] = ++id_seed_2d;
-			ClassTypeDict[StringName("Control")] = ++id_seed_2d;
-			ClassTypeDict[StringName("TabBar")] = ++id_seed_2d;
-			ClassTypeDict[StringName("HBoxContainer")] = ++id_seed_2d;
-			ClassTypeDict[StringName("Button")] = ++id_seed_2d;
-			ClassTypeDict[StringName("CheckBox")] = ++id_seed_2d;
-			ClassTypeDict[StringName("HSlider")] = ++id_seed_2d;
-			ClassTypeDict[StringName("VSlider")] = ++id_seed_2d;
-			ClassTypeDict[StringName("TextureRect")] = ++id_seed_2d;
-			ClassTypeDict[StringName("ColorRect")] = ++id_seed_2d;
+		type = (int)ClassTypeDict.get(class_name, Variant(0));
+		if (type != 0) {
+			break;
 		}
 
-		auto &value = ClassTypeDict.get(class_name, Variant(0));
-		type = (int)value;
+		// 改成在python里面去自行映射,这里指记录一个 class_name -> type_id
+		PyObject *reg_type_cb;
+		if (!PyArg_ParseTuple(args, "O", &reg_type_cb)) {
+			break;
+		}
+		do {
+			auto args = PyTuple_New(1);
+			PyTuple_SetItem(args, 0, PyUnicode_FromString(class_name.operator String().utf8()));
+			PyObject *type_id_obj = PyObject_Call(reg_type_cb, args, NULL);
+
+			type = (int)PyLong_AsLong(type_id_obj);
+
+			GP_DECREF(args);
+			GP_DECREF(type_id_obj);
+
+		} while (0);
+		
+		if (type != 0) {
+			ClassTypeDict[class_name] = type;
+			break;
+		}
 
 	} while (false);
 

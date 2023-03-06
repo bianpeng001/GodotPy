@@ -583,7 +583,45 @@ class FNode2D(FCanvasItem):
 # 类型到wrap类的映射
 # 这个wrap的好处就是，利用oop，使得操作的对象上面只有对应类型能用的方法
 # 不在直接使用node对应的原始的pygd_obj，那个对象只用来当做一个弱引用使用
-FClassMap = [None for x in range(30)]
+_FTypeList = [ None ]
+_TypeNameList = [ None ]
+_TypeMap = {
+    'FPyObject': FNode,
+    'Node' : FNode,
+    'Node3D' : FNode3D,
+    'MeshInstance3D' : FMeshInstance3D,
+    'CPUParticles3D' : FCPUParticles3D,
+    'AnimationPlayer' : FAnimationPlayer,
+    'Label3D' : FLabel3D,
+    'Camera3D' : FCamera3D,
+
+    'CanvasItem' : FCanvasItem,
+    'Node2D' : FNode2D,
+    'Label' : FLabel,
+    'Control' : FControl,
+    'TabBar' : FTabBar,
+    'HBoxContainer' : FHBoxContainer,
+    'Button' : FButton,
+    'CheckBox' : FCheckBox,
+    'HSlider' : FSlider,
+    'VSlider' : FSlider,
+    'TextureRect' : FControl,
+    'ColorRect' : FControl,
+}
+
+def _reg_type(type_name):
+    if type_name not in _TypeNameList:
+        type_id = len(_TypeNameList)
+        _TypeNameList.append(type_name)
+
+        f_type = _TypeMap.get(type_name, FNode)
+        _FTypeList.append(f_type)
+
+        log_util.debug(f'reg_type: {type_name} -> {type_id} {f_type}')
+        return type_id
+    
+    return 0
+        
 
 def GetWrappedObject(gdobj):
     if not gdobj:
@@ -593,39 +631,20 @@ def GetWrappedObject(gdobj):
     if obj:
         return obj
 
-    obj_type = gdobj.get_type()
-    class_type = FClassMap[obj_type] or FObject
+    type_id = gdobj.get_type(_reg_type)
+    if type_id == 0:
+        raise Exception('type_id == 0')
+
+    f_type = _FTypeList[type_id]
 
     #type_name = gdobj.get_type_name()
-    #log_util.debug(f'gdobj type_id={obj_type} type={type_name}')
+    #log_util.debug(f'gdobj type_id={type_id} type={type_name}')
 
-    obj = class_type()
+    obj = f_type()
     obj._gdobj = gdobj
     gdobj.set_wrapped_object(obj)
 
     return obj
-
-#
-FClassMap[1] = FNode
-FClassMap[2] = FNode3D
-FClassMap[3] = FMeshInstance3D
-FClassMap[4] = FCPUParticles3D
-FClassMap[5] = FAnimationPlayer
-FClassMap[6] = FLabel3D
-FClassMap[7] = FCamera3D
-
-FClassMap[11] = FCanvasItem
-FClassMap[12] = FNode2D
-FClassMap[13] = FLabel
-FClassMap[14] = FControl
-FClassMap[15] = FTabBar
-FClassMap[16] = FHBoxContainer
-FClassMap[17] = FButton
-FClassMap[18] = FCheckBox
-FClassMap[19] = FSlider
-FClassMap[20] = FSlider
-FClassMap[21] = FControl
-FClassMap[22] = FControl
 
 # 大话降龙
 # https://www.mm1316.com/maoxian/dahuajianglong
