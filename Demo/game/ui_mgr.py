@@ -110,8 +110,6 @@ class UIMgr(NodeObject):
         self.map_panel, self.map_panel_controller = self.load_panel(
                 'res://ui/MapPanel.tscn', MapPanelController)
 
-        
-
         # load done
         log_util.debug('ui panels load ok')
 
