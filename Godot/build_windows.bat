@@ -28,12 +28,19 @@ goto :end
 set DEMO_DIR=d:\OpenSource\GodotPy\Demo
 set BUILD_DIR=d:\OpenSource\GodotPy\Build
 
+@rem build editor
+scons p=windows vsproj=yes bits=64 -j6 target=editor dev_build=false
+copy /Y bin\godot.windows.editor.x86_64.release.console.exe %BUILD_DIR%\GodotEditor.exe
+@rem pack resources
+bin\godot.windows.editor.x86_64.release.console.exe --path %DEMO_DIR% -w --export-pack "Windows Desktop" %BUILD_DIR%\Demo.pck
+@rem build player, copy deps
 scons p=windows tools=no bits=64 -j6 target=template_release
-bin\godot.windows.editor.dev.x86_64.console.exe --path %DEMO_DIR% -w --export-pack "Windows Desktop" %BUILD_DIR%\Demo.pck
+copy /Y bin\godot.windows.template_release.x86_64.exe %BUILD_DIR%\Demo.exe
+
 copy /Y bin\python3.dll %BUILD_DIR%\python3.dll
 copy /Y bin\sqlite3.dll %BUILD_DIR%\sqlite3.dll
 copy /Y bin\_sqlite3.pyd %BUILD_DIR%\_sqlite3.pyd
-copy /Y bin\godot.windows.template_release.x86_64.exe %BUILD_DIR%\Demo.exe
+
 goto :end
 
 :end
