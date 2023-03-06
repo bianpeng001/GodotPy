@@ -24,7 +24,7 @@ BEGIN
 		VALUE "FileDescription",  "Godot Python"
 		VALUE "FileVersion",      PYTHON_VERSION
 		VALUE "InternalName",     "Godot Python"
-		VALUE "LegalCopyright",   "(C)2023 bianpeng001@163.com"
+		VALUE "LegalCopyright",   "(C)2023 bianpeng001"
 		VALUE "OriginalFilename", ""
 		VALUE "ProductName",      ""
 		VALUE "ProductVersion",	  PYTHON_VERSION
@@ -35,3 +35,6 @@ BEGIN
 		VALUE "Translation", 0x0409,1200
 	END
 END
+
+
+

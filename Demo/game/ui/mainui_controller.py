@@ -31,9 +31,18 @@ class MainUIController(UIController, PopupTrait):
         self.ui_obj.find_node('BtnGM').set_text('执\n行')
         self.ui_obj.find_node('BtnSys2').set_text('系\n统')
         
-        btn_map_obj = self.ui_obj.find_node('BtnMap')
-        btn_map_obj.set_text('地\n图')
-        btn_map_obj.connect(PRESSED, self.on_map_click)
+        btn_map = self.ui_obj.find_node('BtnMap')
+        btn_map.set_text('地\n图')
+        btn_map.set_position(700,4)
+        btn_map.connect(PRESSED, self.on_map_click)
+
+        btn_pause = btn_map.dup()
+        btn_pause.set_text('暂\n停')
+        btn_pause.set_position(700+32,4)
+
+        btn_replay = btn_map.dup()
+        btn_replay.set_text('战\n报')
+        btn_replay.set_position(700+32*2,4)
 
         # 事件
         from game.event_name import MAINUI_REFRESH

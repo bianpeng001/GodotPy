@@ -76,9 +76,9 @@ text = "系
 
 [node name="BtnMap" type="Button" parent="."]
 layout_mode = 0
-offset_left = 768.0
+offset_left = 700.0
 offset_top = 4.0
-offset_right = 798.0
+offset_right = 730.0
 offset_bottom = 46.0
 theme = ExtResource("5_dnccb")
 theme_override_constants/h_separation = 1

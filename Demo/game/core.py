@@ -585,6 +585,8 @@ class FNode2D(FCanvasItem):
 # 不在直接使用node对应的原始的pygd_obj，那个对象只用来当做一个弱引用使用
 _FTypeList = [ None ]
 _TypeNameList = [ None ]
+
+# 映射表,从godot的类型, 映射到 ftype
 _TypeMap = {
     # core
     'FPyObject': FNode,
@@ -607,7 +609,6 @@ _TypeMap = {
     'CanvasItem' : FCanvasItem,
     'Label' : FLabel,
     'Control' : FControl,
-    'HBoxContainer' : FHBoxContainer,
     'Button' : FButton,
     'TextureButton' : FBaseButton,
     'TabBar' : FTabBar,
@@ -616,6 +617,7 @@ _TypeMap = {
     'VSlider' : FSlider,
     'TextureRect' : FControl,
     'ColorRect' : FControl,
+    'HBoxContainer' : FHBoxContainer,
 }
 
 def _reg_type(type_name):

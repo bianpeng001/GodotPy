@@ -37,6 +37,7 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="BtnOk" type="Button" parent="Panel"]
+layout_mode = 0
 offset_left = 630.0
 offset_top = 460.0
 offset_right = 690.0
@@ -48,6 +49,7 @@ theme_override_styles/pressed = ExtResource("5_rce13")
 text = "确定"
 
 [node name="BtnCancel" type="Button" parent="Panel"]
+layout_mode = 0
 offset_left = 710.0
 offset_top = 460.0
 offset_right = 770.0
