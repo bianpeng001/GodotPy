@@ -11,7 +11,7 @@ anchors_preset = 0
 [node name="Bg" type="ColorRect" parent="."]
 layout_mode = 0
 offset_right = 1152.0
-offset_bottom = 50.0
+offset_bottom = 60.0
 color = Color(0.188235, 0.188235, 0.188235, 0.941176)
 
 [node name="RiceIcon" type="TextureRect" parent="."]
@@ -62,38 +62,14 @@ theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 28
 text = "fps:0 dc:0"
 
-[node name="BtnSys2" type="Button" parent="."]
+[node name="BtnSys" type="Button" parent="."]
 layout_mode = 0
 offset_left = 1116.0
 offset_top = 4.0
 offset_right = 1146.0
-offset_bottom = 46.0
+offset_bottom = 56.0
 theme = ExtResource("5_dnccb")
 theme_override_constants/h_separation = 1
 theme_override_font_sizes/font_size = 16
 text = "系
 统"
-
-[node name="BtnMap" type="Button" parent="."]
-layout_mode = 0
-offset_left = 700.0
-offset_top = 4.0
-offset_right = 730.0
-offset_bottom = 46.0
-theme = ExtResource("5_dnccb")
-theme_override_constants/h_separation = 1
-theme_override_font_sizes/font_size = 16
-text = "地
-图"
-
-[node name="BtnGM" type="Button" parent="."]
-layout_mode = 0
-offset_left = 400.0
-offset_top = 4.0
-offset_right = 430.0
-offset_bottom = 46.0
-theme = ExtResource("5_dnccb")
-theme_override_constants/h_separation = 1
-theme_override_font_sizes/font_size = 16
-text = "执
-行"

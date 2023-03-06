@@ -28,28 +28,35 @@ class MainUIController(UIController, PopupTrait):
         self.refresh_time = game_mgr.sec_time
         self.refresh_frame_number = game_mgr.frame_number
 
-        self.ui_obj.find_node('BtnGM').set_text('执\n行')
-        self.ui_obj.find_node('BtnSys2').set_text('系\n统')
+        pos_x = 1116
+        pos_y = 4
+
+        btn_sys = self.ui_obj.find_node('BtnSys')
+        btn_sys.set_text('系\n统')
+        btn_sys.set_position(pos_x, pos_y)
         
-        btn_map = self.ui_obj.find_node('BtnMap')
+        btn_map = btn_sys.dup()
         btn_map.set_text('地\n图')
-        btn_map.set_position(700,4)
+        btn_map.set_position(pos_x-32, pos_y)
         btn_map.connect(PRESSED, self.on_map_click)
 
-        btn_pause = btn_map.dup()
+        btn_pause = btn_sys.dup()
         btn_pause.set_text('暂\n停')
-        btn_pause.set_position(700+32,4)
+        btn_pause.set_position(pos_x-32*2, pos_y)
 
-        btn_replay = btn_map.dup()
+        btn_replay = btn_sys.dup()
         btn_replay.set_text('战\n报')
-        btn_replay.set_position(700+32*2,4)
+        btn_replay.set_position(pos_x-32*3, pos_y)
+
+        btn_gm = btn_sys.dup()
+        btn_gm.set_text('执\n行')
+        btn_gm.set_position(pos_x-32*4, pos_y)
+        btn_gm.connect(PRESSED, self.on_gm_click)
 
         # 事件
         from game.event_name import MAINUI_REFRESH
         game_mgr.event_mgr.add(MAINUI_REFRESH, self.on_refresh)
-
-        # gm
-        self.ui_obj.find_node('BtnGM').connect(PRESSED, self.on_gm_click)
+       
 
     def on_gm_click(self):
         with open('./gm.py') as f:
