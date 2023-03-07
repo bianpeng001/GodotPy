@@ -126,11 +126,12 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 			PyTuple_SetItem(args, 0, PyUnicode_FromString(class_name.operator String().utf8()));
 			PyTuple_SetItem(args, 1, PyLong_FromLong(type));
 			auto ret = PyObject_Call(reg_type_cb, args, NULL);
-
-			GP_DECREF(args);
 			if (ret) {
 				GP_DECREF(ret);
+			} else {
+				PyErr_Print();
 			}
+			GP_DECREF(args);
 
 		} while (0);
 
@@ -154,7 +155,7 @@ static PyObject *f_get_type_name(PyObject *a_self, PyObject *args) {
 		}
 
 		obj = self->obj;
-		auto &class_name = obj->get_class_name();
+		const auto &class_name = obj->get_class_name();
 
 		return PyUnicode_FromString(class_name.operator String().utf8());
 
@@ -1964,8 +1965,7 @@ void FPyObject::input(const Ref<InputEvent> &p_event) {
 		auto ret = PyObject_CallMethod(this->p_object, "on_mouse_move", "ff", pos.x, pos.y);
 		if (ret) {
 			GP_DECREF(ret);
-		}
-		else {
+		} else {
 			PyErr_Print();
 		}
 		return;
