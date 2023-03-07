@@ -83,6 +83,9 @@ class Tile:
     def unload(self):
         pass
 
+def pos_to_colrow(x, z):
+    return round(x / TILE_SIZE), round(z / TILE_SIZE)
+
 # 地面，管理
 class GroundMgr(NodeObject):
     def __init__(self):
@@ -98,16 +101,8 @@ class GroundMgr(NodeObject):
         log_util.debug('GroundMgr ready')
 
     def get_tile(self, x, z):
-        #col = math.floor((x / TILE_SIZE) + 0.5)
-        #row = math.floor((z / TILE_SIZE) + 0.5)
-        col,row = self.pos_to_colrow(x, z)
+        col,row = pos_to_colrow(x, z)
         return self.get_tile_colrow(col, row)
-
-    def pos_to_colrow(self, x, z):
-        #col = math.floor((x / TILE_SIZE) + 0.5)
-        #row = math.floor((z / TILE_SIZE) + 0.5)
-        col, row = int(round(x / TILE_SIZE)), int(round(z / TILE_SIZE))
-        return col, row
 
     def get_tile_colrow(self, col, row):
         key = (col,row)
