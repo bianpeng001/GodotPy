@@ -85,7 +85,7 @@ class CityUnit(Unit, UnitTrait):
         # 资源增长率, 基础增长率
         self.growth_rate = random_int(10, 30)
 
-        self.enble_ai = True
+        self.enable_ai = True
 
     def init(self):
         for i in range(5):
