@@ -20,6 +20,10 @@ class MapPanelController(UIController, PopupTrait):
         self.ui_obj.find_node('Panel/BtnCancel').connect(PRESSED, self.on_close_click)
         self.ui_obj.find_node('Panel/BtnOk').connect(PRESSED, self.on_ok_click)
 
+
+    def init(self):
+        pass
+
     def on_ok_click(self):
         self.defer_close()
 

@@ -4,7 +4,8 @@
 
 from game.core import *
 from game.base_type import *
-from game.game_mgr import game_mgr
+from game.game_mgr import *
+from game.ground_mgr import pos_to_colrow
 
 # 移动方式
 class BaseMoveReq:
@@ -178,7 +179,7 @@ class AIState_FindCity(AIState_Troop):
         owner_player_id = controller.get_unit().owner_player_id
         for i in range(3):
             for dx,dy in ring_range(i):
-                tile = game_mgr.ground_mgr.get_tile_at_colrow(col+dx, row+dy)
+                tile = game_mgr.ground_mgr.get_tile_colrow(col+dx, row+dy)
                 if not tile:
                     continue
                 for unit in tile.units:
@@ -190,7 +191,7 @@ class AIState_FindCity(AIState_Troop):
 
     def update(self, controller):
         x,y,z = controller.get_unit().get_position()
-        col,row = game_mgr.ground_mgr.get_colrow(x, z)
+        col,row = pos_to_colrow(x, z)
         city = self.find_enemy_city(controller,col,row)
         if city:
             logutil.debug(f'find emeny: {controller.unit_id} -> {city.unit_name}')

@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://c1jjhatf1hdpn"]
+[gd_scene load_steps=5 format=3 uid="uid://c1jjhatf1hdpn"]
 
+[ext_resource type="StyleBox" uid="uid://bn2js0rroor7y" path="res://ui/BtnEmptyStyle.tres" id="4_lp8dt"]
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="5_dnccb"]
 [ext_resource type="Texture2D" uid="uid://ds8t5yxnam6tw" path="res://ui/img/Coin.png" id="6_k0gva"]
 [ext_resource type="Texture2D" uid="uid://dbiioiqpsaq0u" path="res://ui/img/Rice.png" id="8_n434f"]
@@ -71,3 +72,4 @@ offset_bottom = 56.0
 theme = ExtResource("5_dnccb")
 theme_override_constants/h_separation = 1
 theme_override_font_sizes/font_size = 16
+theme_override_styles/focus = ExtResource("4_lp8dt")

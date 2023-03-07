@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://csvbr8jlvrect"]
+[gd_scene load_steps=9 format=3 uid="uid://csvbr8jlvrect"]
 
 [ext_resource type="Texture2D" uid="uid://c4hqyefqdw1o" path="res://ui/img/Close.png" id="1_2nwp5"]
 [ext_resource type="StyleBox" uid="uid://cs78tjnu0sn2w" path="res://ui/PanelStyle.tres" id="1_qussa"]
 [ext_resource type="Texture2D" uid="uid://dojr4gpmt4yed" path="res://ui/img/Close_hover.png" id="2_vthb4"]
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="3_we820"]
 [ext_resource type="PackedScene" uid="uid://cnaoeuea0v1ua" path="res://ui/HeroList.tscn" id="4_p1uhh"]
+[ext_resource type="StyleBox" uid="uid://bn2js0rroor7y" path="res://ui/BtnEmptyStyle.tres" id="6_tfify"]
 [ext_resource type="StyleBox" uid="uid://ihq43j8tlee2" path="res://ui/BtnOkStyle.tres" id="6_wbn3m"]
 [ext_resource type="StyleBox" uid="uid://mkp6hswesryo" path="res://ui/BtnCancelStyle.tres" id="7_7abjx"]
 
@@ -79,6 +80,7 @@ offset_right = 399.0
 offset_bottom = 46.0
 theme = ExtResource("3_we820")
 theme_override_font_sizes/font_size = 18
+theme_override_styles/focus = ExtResource("6_tfify")
 text = "刘备"
 
 [node name="LblOrderCharge" type="Label" parent="Panel/TabZheng"]
@@ -98,6 +100,7 @@ offset_right = 399.0
 offset_bottom = 98.0
 theme = ExtResource("3_we820")
 theme_override_font_sizes/font_size = 18
+theme_override_styles/focus = ExtResource("6_tfify")
 text = "关羽"
 
 [node name="SliderOrderMass" type="HSlider" parent="Panel/TabZheng"]
@@ -133,6 +136,7 @@ offset_right = 399.0
 offset_bottom = 138.0
 theme = ExtResource("3_we820")
 theme_override_font_sizes/font_size = 18
+theme_override_styles/focus = ExtResource("6_tfify")
 text = "诸葛亮"
 
 [node name="SliderFarmerMass" type="HSlider" parent="Panel/TabZheng"]
@@ -168,6 +172,7 @@ offset_right = 399.0
 offset_bottom = 178.0
 theme = ExtResource("3_we820")
 theme_override_font_sizes/font_size = 18
+theme_override_styles/focus = ExtResource("6_tfify")
 text = "张飞"
 
 [node name="SliderTraderMass" type="HSlider" parent="Panel/TabZheng"]
@@ -203,6 +208,7 @@ offset_right = 399.0
 offset_bottom = 218.0
 theme = ExtResource("3_we820")
 theme_override_font_sizes/font_size = 18
+theme_override_styles/focus = ExtResource("6_tfify")
 text = "赵云"
 
 [node name="SliderFaxRate" type="HSlider" parent="Panel/TabZheng"]
@@ -245,9 +251,11 @@ offset_top = 238.0
 offset_right = 395.0
 offset_bottom = 267.0
 theme = ExtResource("3_we820")
+theme_override_styles/focus = ExtResource("6_tfify")
 text = "治所"
 
 [node name="TabJiang" type="Control" parent="Panel"]
+visible = false
 anchors_preset = 0
 offset_left = 10.0
 offset_top = 40.0
@@ -267,6 +275,7 @@ offset_top = 294.0
 offset_right = 70.0
 offset_bottom = 324.0
 theme = ExtResource("3_we820")
+theme_override_styles/focus = ExtResource("6_tfify")
 text = "登庸"
 
 [node name="TabCases" type="Control" parent="Panel"]

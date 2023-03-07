@@ -20,9 +20,8 @@ grow_vertical = 2
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_top = 34.0
 offset_right = 680.0
-offset_bottom = 434.0
+offset_bottom = 400.0
 theme_override_styles/panel = ExtResource("1_170bu")
 
 [node name="HeroList" parent="Panel" instance=ExtResource("1_5h4xd")]

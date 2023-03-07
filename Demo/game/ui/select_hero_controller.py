@@ -30,11 +30,14 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
         header = self.ui_obj.find_node('Panel/HeroList/Header')
         self.init_header(header, ['姓名', '年龄','活动','武力','统率','智力','政治'])
 
+    def init(self):
+        self.init_hero_list()
+
     def show_dialog(self, city_unit, ok_cb):
         self.city_unit = city_unit
-        self.init_hero_list()
         self.ok_cb = ok_cb
-        self.popup(250, 100)
+        self.init()
+        self.popup(250, 134)
 
     def on_cancel_click(self):
         self.defer_close()
