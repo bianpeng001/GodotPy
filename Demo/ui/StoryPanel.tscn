@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://ckcoj2tealdyp"]
+
+[ext_resource type="Texture2D" uid="uid://dekis1iehdg2t" path="res://ui/story/001.png" id="1_jwy2h"]
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="2_aoew4"]
+
+[node name="StoryPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -752.0
+offset_bottom = -248.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Image" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 400.0
+texture = ExtResource("1_jwy2h")
+stretch_mode = 2
+
+[node name="Label" type="Label" parent="."]
+offset_top = 100.0
+offset_right = 400.0
+offset_bottom = 200.0
+theme = ExtResource("2_aoew4")
+text = "很久很久以前"
+horizontal_alignment = 1

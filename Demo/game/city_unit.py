@@ -85,7 +85,11 @@ class CityUnit(Unit, UnitTrait):
         # 资源增长率, 基础增长率
         self.growth_rate = random_int(10, 30)
 
+        # AI运行开关
         self.enable_ai = True
+        
+        # 友好城市,通商
+        self.friend_city_list = []
 
     def init(self):
         for i in range(5):

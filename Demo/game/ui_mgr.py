@@ -64,56 +64,59 @@ class UIMgr(NodeObject):
         yield None
 
         from game.ui.mainui_controller import MainUIController
-        self.mainui_panel, self.mainui_controller = self.load_panel(
+        _, self.mainui_controller = self.load_panel(
               'res://ui/MainUI.tscn', MainUIController)
         self.mainui_controller.popup(0, 0)
         
         # 要注意这里的顺序, 有关层级
         from game.ui.city_menu_controller import CityMenuController
-        self.city_menu, self.city_menu_controller = self.load_panel(
+        _, self.city_menu_controller = self.load_panel(
                 'res://ui/CityMenu.tscn', CityMenuController)
 
         from game.ui.ground_menu_controller import GroundMenuController
-        self.ground_menu, self.ground_menu_controller = self.load_panel(
+        _, self.ground_menu_controller = self.load_panel(
                 'res://ui/GroundMenu.tscn', GroundMenuController)
 
         from game.ui.nav_panel_controller import NavPanelController
-        self.nav_panel, self.nav_panel_controller = self.load_panel(
+        _, self.nav_panel_controller = self.load_panel(
                 'res://ui/NavPanel.tscn', NavPanelController)
         self.nav_panel_controller.popup(1010, 100)
 
         from game.ui.msg_panel_controller import MsgPanelController
-        self.msg_panel, self.msg_panel_controller = self.load_panel(
+        _, self.msg_panel_controller = self.load_panel(
                 'res://ui/MsgPanel.tscn', MsgPanelController)
         self.msg_panel_controller.popup(4, 484)
 
         # 下面是按需弹出
         from game.ui.build_panel_controller import BuildPanelController
-        self.build_panel, self.build_panel_controller = self.load_panel(
+        _, self.build_panel_controller = self.load_panel(
                 'res://ui/BuildPanel.tscn', BuildPanelController)
         self.update_list.append(self.build_panel_controller)
 
         from game.ui.neizheng_controller import NeiZhengController
-        self.neizheng_panel, self.neizheng_controller = self.load_panel(
+        _, self.neizheng_controller = self.load_panel(
                 'res://ui/NeiZhengPanel.tscn', NeiZhengController)
 
         from game.ui.map_panel_controller import MapPanelController
-        self.map_panel, self.map_panel_controller = self.load_panel(
+        _, self.map_panel_controller = self.load_panel(
                 'res://ui/MapPanel.tscn', MapPanelController)
 
         from game.ui.select_hero_controller import SelectHeroController
-        self.select_hero_dialog, self.select_hero_controller = self.load_panel(
+        _, self.select_hero_controller = self.load_panel(
                 'res://ui/SelectHeroDialog.tscn', SelectHeroController)
 
         from game.ui.npc_dialog_controller import NpcDialogController
-        self.npc_dialog, self.npc_dialog_controller = self.load_panel(
+        _, self.npc_dialog_controller = self.load_panel(
                 'res://ui/NpcDialog.tscn', NpcDialogController)
         self.auto_close_queue.append(self.npc_dialog_controller)
 
         from game.ui.setting_panel_controller import SettingPanelController
-        self.setting_panel, self.setting_panel_controller = self.load_panel(
+        _, self.setting_panel_controller = self.load_panel(
                 'res://ui/SettingPanel.tscn', SettingPanelController)
 
+        from game.ui.story_panel_controller import StoryPanelController
+        _, self.story_panel_controller = self.load_panel(
+                'res://ui/StoryPanel.tscn', StoryPanelController)
         # load done
         log_util.debug('ui panels load ok')
 
