@@ -317,9 +317,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             self.init_hero_list()
 
     def init_hero_list(self):
-        city = game_mgr.ui_mgr.context_unit
-
         item_node = self.tab_jiang_obj.find_node('HeroList/ScrollContainer/VBoxContainer/Item')
-        self.init_items(item_node, city.hero_list)
+        self.init_items(item_node, self.city_unit.hero_list)
 
 
