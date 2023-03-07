@@ -49,6 +49,8 @@ class GameMgr():
         self.paused = False
         self.play_time = 0
 
+        self.enable_drive_city_ai = False
+
     @property
     def event_mgr(self):
         return self._event_mgr

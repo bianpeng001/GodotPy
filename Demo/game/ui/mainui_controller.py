@@ -28,28 +28,19 @@ class MainUIController(UIController, PopupTrait):
         self.refresh_time = game_mgr.sec_time
         self.refresh_frame_number = game_mgr.frame_number
 
-       
-
         btn_sys = self.ui_obj.find_node('BtnSys')
-        btn_sys.set_text('系\n统')
-
-        btn_map = btn_sys.dup()
-        btn_map.set_text('地\n图')
-        btn_map.connect(PRESSED, self.on_map_click)
-
-        btn_pause = btn_sys.dup()
-        btn_pause.set_text('暂\n停')
-
-        btn_replay = btn_sys.dup()
-        btn_replay.set_text('战\n报')
-
-        btn_gm = btn_sys.dup()
-        btn_gm.set_text('执\n行')
-        btn_gm.connect(PRESSED, self.on_gm_click)
-
-        btn_list = [btn_sys, btn_map, btn_replay, btn_pause, btn_gm]
+        btn_labels = ['系统', '地图', '战报', '开关', '执行']
+        btn_list = [btn_sys]
+        for i in range(len(btn_labels) - 1):
+            btn = btn_sys.dup()
+            btn_list.append(btn)
         for i in range(len(btn_list)):
-            btn_list[i].set_position(1116-32*i, 4)
+            btn = btn_list[i]
+            btn.set_text('\n'.join(btn_labels[i]))
+            btn.set_position(1116-32*i, 4)
+
+        btn_list[1].connect(PRESSED, self.on_map_click)
+        btn_list[4].connect(PRESSED, self.on_gm_click)
 
         # 事件
         from game.event_name import MAINUI_REFRESH

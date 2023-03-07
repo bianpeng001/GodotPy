@@ -5,7 +5,7 @@
 import random
 
 from game.core import *
-from game.game_mgr import game_mgr
+from game.game_mgr import *
 from game.base_type import Controller
 
 #
@@ -81,7 +81,8 @@ class CityController(Controller):
             self.ai_tick_time = 0
 
     def update(self):
-        self.drive_ai_tick()
+        if game_mgr.enable_drive_city_ai:
+            self.drive_ai_tick()
 
 
         
