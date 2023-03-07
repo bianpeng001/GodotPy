@@ -355,8 +355,8 @@ class LogUtil:
         self.enable_debug = True
         self.enable_error = True
         
-        cur_path = os.path.abspath('.')
-        self.skip = len(cur_path) + 1
+        self.game_path = os.path.abspath('.')
+        self.skip = len(self.game_path) + 1
 
     def print_stack(self):
         s = traceback.extract_stack(limit=4)
@@ -379,7 +379,6 @@ class LogUtil:
         print_line(msg)
 
 log_util = LogUtil()
-logutil = log_util
 log_util_debug = log_util.debug
 
 #------------------------------------------------------------

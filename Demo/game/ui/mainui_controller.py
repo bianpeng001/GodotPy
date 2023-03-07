@@ -2,12 +2,13 @@
 # 2023年2月16日 bianpeng
 #
 import math
+import os.path
 
 from game.core import *
 from game.game_mgr import *
 from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
-from game.event_name import PRESSED
+from game.event_name import PRESSED, MAINUI_REFRESH
 
 # 头顶主界面逻辑
 class MainUIController(UIController, PopupTrait):
@@ -47,14 +48,16 @@ class MainUIController(UIController, PopupTrait):
         get_btn('执行').connect(PRESSED, self.on_gm_click)
 
         # 事件
-        from game.event_name import MAINUI_REFRESH
         game_mgr.event_mgr.add(MAINUI_REFRESH, self.on_refresh)
 
+        self.gm_file_path = os.path.join(game_mgr.game_path, 'gm.py')
+
     def on_gm_click(self):
-        with open('./gm.py') as f:
-            data = f.read()
-            exec(data)
-            print('-----------------gm ok-----------------')
+        if os.path.exists(self.gm_file_path):
+            with open(self.gm_file_path) as f:
+                data = f.read()
+                exec(data)
+                print('-----------------', self.gm_file_path, '-----------------')
 
     def on_map_click(self):
         obj = game_mgr.ui_mgr.map_panel_controller

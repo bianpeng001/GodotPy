@@ -194,7 +194,7 @@ class AIState_FindCity(AIState_Troop):
         col,row = pos_to_colrow(x, z)
         city = self.find_enemy_city(controller,col,row)
         if city:
-            logutil.debug(f'find emeny: {controller.unit_id} -> {city.unit_name}')
+            log_util.debug(f'find emeny: {controller.unit_id} -> {city.unit_name}')
             controller.ai_bb.target_unit_id = city.unit_id
             controller.ai_enter_state(AIState_MarchToCity())
         else:
@@ -226,14 +226,14 @@ class AIState_MarchToCity(AIState_Troop):
 # 解散
 class AIState_TroopDie(AIState_Troop):
     def do_enter(self, controller, bb):
-        logutil.debug(f'kill {controller.unit_id}')
+        log_util.debug(f'kill {controller.unit_id}')
         controller.kill()
 
 # 空闲
 class AIState_Idle(AIState_Troop):
     def update(self, controller):
         if random_max(100) < 10:
-            logutil.debug(f'idle {controller.unit_id}')
+            log_util.debug(f'idle {controller.unit_id}')
 
 #------------------------------------------------------------
 # 攻城战

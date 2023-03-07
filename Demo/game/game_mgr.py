@@ -7,12 +7,15 @@
 # 主要是模块这种机制，是不让循环引用的。因为他有toplevel语句
 # 相比之下Delphi的Unit，是可以循环引用的。java，c#的引用的话,两个包是可以互相引用的。
 
+from game.core import log_util
+
 # 所有的系统的管理，单例
 class GameMgr():
     def __init__(self):
         super().__init__()
 
-        # init in boot.py
+        self.game_path = log_util.game_path
+
         # 底层管理器
         from game.event_mgr import EventMgr
         self._event_mgr = EventMgr()

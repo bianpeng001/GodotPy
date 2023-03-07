@@ -52,7 +52,7 @@ class RaycastMgr(NodeObject):
         camera = game_mgr.camera_mgr.main_camera
         
         for a in self.reqs:
-            logutil.debug(f'raycast:{a}')
+            log_util.debug(f'raycast:{a}')
             shape = raycast_shape(camera, *a)
         self.reqs.clear()
 
