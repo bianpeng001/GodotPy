@@ -319,6 +319,19 @@ class OS:
     def viewport_get_size(cls):
         return gp.viewport_get_size()
 
+    @classmethod
+    def get_scene_root(cls):
+        obj = gp.get_scene_root()
+        return GetWrappedObject(obj)
+
+    @classmethod
+    def instantiate(cls, path):
+        gdobj = gp.instantiate(path)
+        return GetWrappedObject(gdobj)
+
+    @classmethod
+    def f_is_editor_mode(cls):
+        return gp.is_editor_mode()
 #
 class Debug:
     @classmethod
@@ -639,6 +652,8 @@ def GetWrappedObject(gdobj):
     gdobj.set_wrapped_object(obj)
 
     return obj
+
+get_wrapped_object = GetWrappedObject
 
 # 大话降龙
 # https://www.mm1316.com/maoxian/dahuajianglong

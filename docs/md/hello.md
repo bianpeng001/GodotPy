@@ -64,7 +64,7 @@
 因为godot4.0上船了,所以接下来的构造内容里面,也要有所体现
 
 1. 包含最新的编辑器,可以打开工程.之前的阶段属于远观,接下来就能亵玩焉
-2. 功能验证基本完毕,接下来可以实际接玩法了. 包括: 3D,model,scene,tscn,resource,weekend build,material,shader,ui,font,input,db,lifecycle,gc,coroutine...
+2. 功能验证基本完毕,接下来可以实际接玩法了. 包括: 3D,model,animation,scene,tscn,resource,weekend build,material,shader,ui,font,input,sqlite,lifecycle,memory,gc,coroutine...
 
 Demo.zip包含内容
 1. Demo.exe demo的运行程序

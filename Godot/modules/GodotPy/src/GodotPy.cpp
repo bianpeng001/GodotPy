@@ -646,6 +646,23 @@ static PyObject *f_viewport_get_size(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_get_scene_root(PyObject *module, PyObject *args) {
+	do {
+		auto st = SceneTree::get_singleton();
+		auto root = st->get_current_scene();
+
+		PyObject *root_obj = FGDObjSlot::GetGDObj(root);
+		Py_INCREF(root_obj);
+		return root_obj;
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_is_editor_mode(PyObject *module, PyObject *args) {
+	auto value = Engine::get_singleton()->is_editor_hint();
+	return PyBool_FromLong(value);
+}
 static PyObject *f_set_process_input(PyObject *module, PyObject *args) {
 	PyObject *a_obj;
 	int value;
@@ -1788,6 +1805,8 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "set_window_size", f_set_window_size, METH_VARARGS, NULL },
 	{ "get_window_size", f_get_window_size, METH_VARARGS, NULL },
 	{ "viewport_get_size", f_viewport_get_size, METH_VARARGS, NULL },
+	{ "get_scene_root", f_get_scene_root, METH_VARARGS, NULL },
+	{ "is_editor_mode", f_is_editor_mode, METH_VARARGS, NULL },
 
 	// node
 	{ "set_process", f_set_process, METH_VARARGS, NULL },
