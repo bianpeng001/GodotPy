@@ -20,7 +20,7 @@ offset_bottom = 34.0
 theme = ExtResource("3_we820")
 tab_count = 4
 tab_0/title = "治理"
-tab_1/title = "武将"
+tab_1/title = "任免"
 tab_2/title = "案件"
 tab_3/title = "制造"
 
@@ -44,6 +44,7 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="TabZheng" type="Control" parent="Panel"]
+visible = false
 anchors_preset = 0
 offset_left = 10.0
 offset_top = 40.0
@@ -247,7 +248,6 @@ theme = ExtResource("3_we820")
 text = "治所"
 
 [node name="TabJiang" type="Control" parent="Panel"]
-visible = false
 anchors_preset = 0
 offset_left = 10.0
 offset_top = 40.0
@@ -256,53 +256,28 @@ offset_bottom = 390.0
 
 [node name="HeroList" parent="Panel/TabJiang" instance=ExtResource("4_p1uhh")]
 layout_mode = 1
+offset_left = 5.0
+offset_right = -655.0
+offset_bottom = -350.0
 
-[node name="Button" type="Button" parent="Panel/TabJiang"]
+[node name="BtnDengYong" type="Button" parent="Panel/TabJiang"]
 layout_mode = 0
-offset_left = 22.0
-offset_top = 295.0
+offset_left = 20.0
+offset_top = 294.0
 offset_right = 70.0
-offset_bottom = 326.0
+offset_bottom = 324.0
 theme = ExtResource("3_we820")
 text = "登庸"
 
-[node name="Button2" type="Button" parent="Panel/TabJiang"]
-layout_mode = 0
-offset_left = 86.0
-offset_top = 295.0
-offset_right = 134.0
-offset_bottom = 326.0
-theme = ExtResource("3_we820")
-text = "下野"
+[node name="TabCases" type="Control" parent="Panel"]
+visible = false
+anchors_preset = 0
+offset_left = 10.0
+offset_top = 40.0
+offset_right = 670.0
+offset_bottom = 390.0
 
-[node name="Button3" type="Button" parent="Panel/TabJiang"]
-layout_mode = 0
-offset_left = 154.0
-offset_top = 295.0
-offset_right = 202.0
-offset_bottom = 326.0
-theme = ExtResource("3_we820")
-text = "训斥"
-
-[node name="Button4" type="Button" parent="Panel/TabJiang"]
-layout_mode = 0
-offset_left = 232.0
-offset_top = 295.0
-offset_right = 280.0
-offset_bottom = 326.0
-theme = ExtResource("3_we820")
-text = "赏赐"
-
-[node name="Button5" type="Button" parent="Panel/TabJiang"]
-layout_mode = 0
-offset_left = 302.0
-offset_top = 295.0
-offset_right = 350.0
-offset_bottom = 326.0
-theme = ExtResource("3_we820")
-text = "寻查"
-
-[node name="TabWai" type="Control" parent="Panel"]
+[node name="TabProduce" type="Control" parent="Panel"]
 visible = false
 anchors_preset = 0
 offset_left = 10.0

@@ -87,11 +87,6 @@ class UIMgr(NodeObject):
                 'res://ui/MsgPanel.tscn', MsgPanelController)
         self.msg_panel_controller.popup(4, 484)
 
-        from game.ui.npc_dialog_controller import NpcDialogController
-        self.npc_dialog, self.npc_dialog_controller = self.load_panel(
-                'res://ui/NpcDialog.tscn', NpcDialogController)
-        self.auto_close_queue.append(self.npc_dialog_controller)
-
         # 下面是按需弹出
         from game.ui.build_panel_controller import BuildPanelController
         self.build_panel, self.build_panel_controller = self.load_panel(
@@ -102,13 +97,18 @@ class UIMgr(NodeObject):
         self.neizheng_panel, self.neizheng_controller = self.load_panel(
                 'res://ui/NeiZhengPanel.tscn', NeiZhengController)
 
+        from game.ui.map_panel_controller import MapPanelController
+        self.map_panel, self.map_panel_controller = self.load_panel(
+                'res://ui/MapPanel.tscn', MapPanelController)
+
         from game.ui.select_hero_controller import SelectHeroController
         self.select_hero_dialog, self.select_hero_controller = self.load_panel(
                 'res://ui/SelectHeroDialog.tscn', SelectHeroController)
 
-        from game.ui.map_panel_controller import MapPanelController
-        self.map_panel, self.map_panel_controller = self.load_panel(
-                'res://ui/MapPanel.tscn', MapPanelController)
+        from game.ui.npc_dialog_controller import NpcDialogController
+        self.npc_dialog, self.npc_dialog_controller = self.load_panel(
+                'res://ui/NpcDialog.tscn', NpcDialogController)
+        self.auto_close_queue.append(self.npc_dialog_controller)
 
         # load done
         log_util.debug('ui panels load ok')

@@ -35,20 +35,19 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         self.tab_zheng_obj = self.ui_obj.find_node('Panel/TabZheng')
         self.tab_jiang_obj = self.ui_obj.find_node('Panel/TabJiang')
-        self.tab_wai_obj = self.ui_obj.find_node('Panel/TabWai')
+        self.tab_cases_obj = self.ui_obj.find_node('Panel/TabCases')
+        self.tab_produce_obj = self.ui_obj.find_node('Panel/TabProduce')
         self.tabs = [
             self.tab_zheng_obj,
             self.tab_jiang_obj,
-            self.tab_wai_obj,
+            self.tab_cases_obj,
+            self.tab_produce_obj
         ]
-        self.tab_index = 0
-        self.tab_bar.set_current_tab(self.tab_index)
-        self.on_tab_changed()
 
+        # 内政页
         self.lbl_detail_obj = self.tab_zheng_obj.find_node('LblCityDetail')
         self.lbl_name_obj = self.tab_zheng_obj.find_node('LblCityName')
 
-        # neizheng tab
         self.btn_satrap = self.setup_btn_select_hero('BtnSatrap', self.on_set_satrap)
         self.btn_order_incharge = self.setup_btn_select_hero('BtnOrderCharge', self.on_set_order_incharge)
         self.btn_farmer_incharge = self.setup_btn_select_hero('BtnFarmerCharge', self.on_set_farmer_incharge)
@@ -73,10 +72,21 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.slider_fax_rate = self.tab_zheng_obj.find_node('SliderFaxRate')
         self.slider_fax_rate.connect(VALUE_CHANGED, self.on_fax_slide_change)
 
-        # wujiang tab
+        # 任免页
         # 武将属性表头
-        header = self.tab_jiang_obj.find_node('HeroList/ScrollContainer/VBoxContainer/Header')
+        header = self.tab_jiang_obj.find_node('HeroList/Header')
         self.init_header(header, ['姓名', '年龄','活动','武力','统率','智力','政治'])
+
+        btn_dengyong = self.tab_jiang_obj.find_node('BtnDengYong')
+        rm_btns = [btn_dengyong, ]
+        rm_texts = ['致仕','训诫','赏赐','搜索']
+        for text in rm_texts:
+            btn = btn_dengyong.dup()
+            btn.set_text(text)
+            rm_btns.append(btn)
+        for i in range(len(rm_btns)):
+            rm_btns[i].set_position(20+(50+10)*i, 294)
+            rm_btns[i].connect(PRESSED, self.on_rm_btn_click)
 
     # 根据实际情况初始化
     def init(self, city_unit):
@@ -96,7 +106,6 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         # 这个不修改，只是这里用来计算的
         self.urban_mass = self.city_unit.urban_mass
-        
 
         # 然后修改ui
         self.lbl_name_obj.set_text(self.city_unit.unit_name)
@@ -133,6 +142,10 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 军队 {city_unit.army_amount}人
 '''
         self.lbl_detail_obj.set_text(text)
+
+        self.tab_index = 0
+        self.tab_bar.set_current_tab(self.tab_index)
+        self.on_tab_changed()
 
     # 联动修改, 总数小于100
     def update_slider_value(self, index, value):
@@ -253,6 +266,10 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     def on_fax_slide_change(self, value):
         self.fax_rate = round(value)
         self.lbl_fax_rate_value.set_text(f'{self.fax_rate}%')
+
+
+    def on_rm_btn_click(self):
+        self.popup_dialog('诸葛亮: 任重而道远,贵在持之以恒', 1.5)
 
     def on_cancel_click(self):
         self.defer_close()
