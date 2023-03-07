@@ -149,8 +149,6 @@ class UIMgr(NodeObject):
         if ui_controller.is_visible:
             self.defer_close_queue.append(ui_controller)
 
-    # events handlers
-
     # 开始拖拽场景
     def on_begin_drag(self):
         self.city_menu_controller.defer_close()

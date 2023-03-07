@@ -129,5 +129,12 @@ class HeroListTrait:
             zhengzhi_label.set_text(f'{hero.zhengzhi}')
 
 
-
+    def get_selected(self):
+        hero_list = []
+        for item in self.item_list:
+            hero_id, item_obj = item
+            if item_obj.find_node('CheckBox').is_pressed():
+                hero_list.append(hero_id)
+        
+        return hero_list
 

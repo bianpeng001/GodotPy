@@ -466,8 +466,6 @@ class FNode3D(FNode):
         gdobj = gp.instantiate(path)
         return GetWrappedObject(gdobj)
 
-Node3D = FNode3D
-
 class FVisualInstance3D(FNode3D):
     pass
 
@@ -575,7 +573,6 @@ class FSlider(FControl):
     def set_value(self, value):
         gp.slider_set_value(self.get_gdobj(), value)
 
-
 class FNode2D(FCanvasItem):
     def set_position(self, x,y):
         gp.node2d_set_position(self.get_gdobj(), x,y)
@@ -622,7 +619,7 @@ _TypeMap = {
 def _reg_type(type_name, type_id):
     f_type = _TypeMap.get(type_name, FNode)
     _FTypeList[type_id] = f_type
-    log_util.debug(f'map type: {type_name} -> {type_id} {f_type}')
+    log_util.debug(f'_reg_type: {type_name} -> {type_id} {f_type}')
 
 def GetWrappedObject(gdobj):
     if not gdobj:

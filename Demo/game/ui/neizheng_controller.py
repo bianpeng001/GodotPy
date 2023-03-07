@@ -267,9 +267,11 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.fax_rate = round(value)
         self.lbl_fax_rate_value.set_text(f'{self.fax_rate}%')
 
-
     def on_rm_btn_click(self):
-        self.popup_dialog('诸葛亮: 任重而道远,贵在持之以恒', 1.5)
+        hero_list = self.get_selected()
+        if len(hero_list) > 0:
+            speaker_name = get_hero_name(hero_list[0])
+            self.popup_dialog(f'{speaker_name}: 任重而道远,贵在持之以恒', 1.5)
 
     def on_cancel_click(self):
         self.defer_close()

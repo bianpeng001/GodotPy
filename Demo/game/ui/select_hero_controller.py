@@ -44,12 +44,7 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
         self.defer_close()
         game_mgr.ui_mgr.pop_panel()
 
-        hero_list = []
-        for item in self.item_list:
-            hero_id, item_obj = item
-            if item_obj.find_node('CheckBox').is_pressed():
-                hero_list.append(hero_id)
-
+        hero_list = self.get_selected()
         if self.ok_cb:
             self.ok_cb(hero_list)
 
