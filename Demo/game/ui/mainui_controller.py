@@ -28,7 +28,7 @@ class MainUIController(UIController, PopupTrait):
         self.refresh_time = game_mgr.sec_time
         self.refresh_frame_number = game_mgr.frame_number
 
-        btn_labels = ['系统', '地图', '战报', '开关', '执行']
+        btn_labels = ['系统', '地图', '战报', '执行']
         btn_sys = self.ui_obj.find_node('BtnSys')
         btn_list = [btn_sys.dup() for i in range(len(btn_labels) - 1)]
         btn_list.append(btn_sys)
@@ -38,8 +38,9 @@ class MainUIController(UIController, PopupTrait):
             btn.set_text('\n'.join(btn_labels[i]))
             btn.set_position(1116-32*i, 4)
 
+        btn_list[0].connect(PRESSED, self.on_setting_click)
         btn_list[1].connect(PRESSED, self.on_map_click)
-        btn_list[4].connect(PRESSED, self.on_gm_click)
+        btn_list[3].connect(PRESSED, self.on_gm_click)
 
         # 事件
         from game.event_name import MAINUI_REFRESH
@@ -53,7 +54,18 @@ class MainUIController(UIController, PopupTrait):
             print('-----------------gm ok-----------------')
 
     def on_map_click(self):
-        game_mgr.ui_mgr.map_panel_controller.popup(150, 80)
+        obj = game_mgr.ui_mgr.map_panel_controller
+        if obj.is_visible:
+            obj.defer_close()
+        else:
+            obj.popup(150, 80)
+
+    def on_setting_click(self):
+        obj = game_mgr.ui_mgr.setting_panel_controller
+        if obj.is_visible:
+            obj.defer_close()
+        else:
+            obj.popup(150, 80)
 
     def format_amount_str(self, value):
         if value < 100000:
