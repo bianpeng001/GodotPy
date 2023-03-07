@@ -583,8 +583,7 @@ class FNode2D(FCanvasItem):
 # 类型到wrap类的映射
 # 这个wrap的好处就是，利用oop，使得操作的对象上面只有对应类型能用的方法
 # 不在直接使用node对应的原始的pygd_obj，那个对象只用来当做一个弱引用使用
-_FTypeList = [ None ]
-_TypeNameList = [ None ]
+_FTypeList = [ None for i in range(32) ]
 
 # 映射表,从godot的类型, 映射到 ftype
 _TypeMap = {
@@ -620,19 +619,10 @@ _TypeMap = {
     'HBoxContainer' : FHBoxContainer,
 }
 
-def _reg_type(type_name):
-    if type_name in _TypeNameList:
-        #raise Exception(f'repeat register {type_name}')
-        return 0
-
-    type_id = len(_TypeNameList)
+def _reg_type(type_name, type_id):
     f_type = _TypeMap.get(type_name, FNode)
-
-    _TypeNameList.append(type_name)
-    _FTypeList.append(f_type)
-
+    _FTypeList[type_id] = f_type
     log_util.debug(f'map type: {type_name} -> {type_id} {f_type}')
-    return type_id
 
 def GetWrappedObject(gdobj):
     if not gdobj:
@@ -643,9 +633,6 @@ def GetWrappedObject(gdobj):
         return obj
 
     type_id = gdobj.get_type(_reg_type)
-    if type_id <= 0:
-        raise Exception('type_id error')
-
     f_type = _FTypeList[type_id]
 
     #type_name = gdobj.get_type_name()

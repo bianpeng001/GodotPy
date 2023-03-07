@@ -86,6 +86,7 @@ static void PyGDObj_dealloc(PyObject *o) {
 static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 	int type = 0;
 	static Dictionary ClassTypeDict;
+	static int next_type_id = 0;
 
 	do {
 		PyGDObj *self;
@@ -117,26 +118,21 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 			break;
 		}
 
-		do {
-			auto args = PyTuple_New(1);
-			PyTuple_SetItem(args, 0, PyUnicode_FromString(class_name.operator String().utf8()));
-			PyObject *type_id_obj = PyObject_Call(reg_type_cb, args, NULL);
+		type = ++next_type_id;
+		ClassTypeDict[class_name] = type;
 
-			type = (int)PyLong_AsLong(type_id_obj);
+		do {
+			auto args = PyTuple_New(2);
+			PyTuple_SetItem(args, 0, PyUnicode_FromString(class_name.operator String().utf8()));
+			PyTuple_SetItem(args, 1, PyLong_FromLong(type));
+			auto ret = PyObject_Call(reg_type_cb, args, NULL);
 
 			GP_DECREF(args);
-			GP_DECREF(type_id_obj);
+			if (ret) {
+				GP_DECREF(ret);
+			}
 
 		} while (0);
-		
-		if (type > 0) {
-			ClassTypeDict[class_name] = type;
-			break;
-		}
-
-		if (type <= 0) {
-			print_line(vformat("register type failed: %s", class_name));
-		}
 
 	} while (false);
 
