@@ -23,8 +23,8 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
         self.ui_obj = ui_obj
 
         self.ui_obj.find_node('Panel/BtnOk').connect(PRESSED, self.on_ok_click)
-        self.ui_obj.find_node('Panel/BtnCancel').connect(PRESSED, self.on_cancel_click)
         self.ui_obj.find_node('Panel/BtnClose').connect(PRESSED, self.on_cancel_click)
+        self.ui_obj.find_node('Panel/BtnCancel').connect(PRESSED, self.on_cancel_click)
 
         # 武将属性表头
         header = self.ui_obj.find_node('Panel/HeroList/Header')
@@ -47,6 +47,7 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
         hero_list = self.get_selected()
         if self.ok_cb:
             self.ok_cb(hero_list)
+            self.ok_cb = None
 
     def init_hero_list(self):
         item_node = self.ui_obj.find_node('Panel/HeroList/ScrollContainer/VBoxContainer/Item')

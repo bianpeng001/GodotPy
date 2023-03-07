@@ -45,7 +45,6 @@ class MainUIController(UIController, PopupTrait):
         # 事件
         from game.event_name import MAINUI_REFRESH
         game_mgr.event_mgr.add(MAINUI_REFRESH, self.on_refresh)
-       
 
     def on_gm_click(self):
         with open('./gm.py') as f:

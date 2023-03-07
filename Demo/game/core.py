@@ -575,7 +575,10 @@ class FImage(FControl):
 class FPanel(FControl):
     pass
 
-class FHBoxContainer(FControl):
+class FContainer(FControl):
+    pass
+
+class FHBoxContainer(FContainer):
     pass
 
 class FSlider(FControl):
@@ -626,6 +629,7 @@ _TypeMap = {
     'TextureRect' : FControl,
     'ColorRect' : FControl,
     'HBoxContainer' : FHBoxContainer,
+    'ScrollContainer' : FContainer,
 }
 
 def _reg_type(type_name, type_id):
