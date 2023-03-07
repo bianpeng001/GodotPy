@@ -466,9 +466,6 @@ class FNode3D(FNode):
         gdobj = gp.instantiate(path)
         return GetWrappedObject(gdobj)
 
-class FVisualInstance3D(FNode3D):
-    pass
-
 class FCamera3D(FNode3D):
     def screen_to_world(self, x,y):
         return gp.screen_to_world(self.get_gdobj(), x, y)
@@ -476,11 +473,14 @@ class FCamera3D(FNode3D):
     def world_to_screen(self, x,y,z):
         return gp.world_to_screen(self.get_gdobj(), x,y,z)
 
-class FMeshInstance3D(FNode3D):
+class FVisualInstance3D(FNode3D):
+    pass
+
+class FMeshInstance3D(FVisualInstance3D):
     def load_material(self, index, path):
         gp.mesh_instance3d_load_material(self.get_gdobj(), index, path)
 
-class FAnimationPlayer(FNode3D):
+class FAnimationPlayer(FNode):
     def play(self, anim_name):
         gp.animation_player_play(self.get_gdobj(), anim_name)
 
@@ -529,7 +529,6 @@ class FTabBar(FControl):
 class FLabel(FControl):
     def __init__(self):
         super().__init__()
-
         self.text = None
 
     def set_text(self, text):
