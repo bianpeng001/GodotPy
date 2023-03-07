@@ -58,6 +58,7 @@ class MainUIController(UIController, PopupTrait):
         if obj.is_visible:
             obj.defer_close()
         else:
+            obj.init()
             obj.popup(150, 80)
 
     def on_setting_click(self):
@@ -65,6 +66,7 @@ class MainUIController(UIController, PopupTrait):
         if obj.is_visible:
             obj.defer_close()
         else:
+            obj.init()
             obj.popup(150, 80)
 
     def format_amount_str(self, value):

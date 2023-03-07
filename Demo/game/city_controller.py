@@ -81,7 +81,7 @@ class CityController(Controller):
             self.ai_tick_time = 0
 
     def update(self):
-        if game_mgr.enable_drive_city_ai:
+        if game_mgr.enable_city_ai:
             self.drive_ai_tick()
 
 

@@ -49,7 +49,7 @@ class GameMgr():
         self.paused = False
         self.play_time = 0
 
-        self.enable_drive_city_ai = False
+        self.enable_city_ai = False
 
     @property
     def event_mgr(self):
