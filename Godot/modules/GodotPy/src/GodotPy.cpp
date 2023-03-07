@@ -659,7 +659,7 @@ static PyObject *f_get_scene_root(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
-static PyObject *f_is_editor_mode(PyObject *module, PyObject *args) {
+static PyObject *f_is_editor_hint(PyObject *module, PyObject *args) {
 	auto value = Engine::get_singleton()->is_editor_hint();
 	return PyBool_FromLong(value);
 }
@@ -1806,7 +1806,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "get_window_size", f_get_window_size, METH_VARARGS, NULL },
 	{ "viewport_get_size", f_viewport_get_size, METH_VARARGS, NULL },
 	{ "get_scene_root", f_get_scene_root, METH_VARARGS, NULL },
-	{ "is_editor_mode", f_is_editor_mode, METH_VARARGS, NULL },
+	{ "is_editor_hint", f_is_editor_hint, METH_VARARGS, NULL },
 
 	// node
 	{ "set_process", f_set_process, METH_VARARGS, NULL },

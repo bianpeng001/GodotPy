@@ -330,8 +330,8 @@ class OS:
         return GetWrappedObject(gdobj)
 
     @classmethod
-    def f_is_editor_mode(cls):
-        return gp.is_editor_mode()
+    def is_editor_hint(cls):
+        return gp.is_editor_hint()
 #
 class Debug:
     @classmethod
