@@ -28,12 +28,11 @@ class MainUIController(UIController, PopupTrait):
         self.refresh_time = game_mgr.sec_time
         self.refresh_frame_number = game_mgr.frame_number
 
-        btn_sys = self.ui_obj.find_node('BtnSys')
         btn_labels = ['系统', '地图', '战报', '开关', '执行']
-        btn_list = [btn_sys]
-        for i in range(len(btn_labels) - 1):
-            btn = btn_sys.dup()
-            btn_list.append(btn)
+        btn_sys = self.ui_obj.find_node('BtnSys')
+        btn_list = [btn_sys.dup() for i in range(len(btn_labels) - 1)]
+        btn_list.append(btn_sys)
+        
         for i in range(len(btn_list)):
             btn = btn_list[i]
             btn.set_text('\n'.join(btn_labels[i]))
