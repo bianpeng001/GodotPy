@@ -502,9 +502,9 @@ class FCPUParticles3D(FVisualInstance3D):
         gp.cpu_particle_set_emitting(self.get_gdobj(), value)
 
 class FCanvasItem(FNode):
-    def set_visible(self, visible):
-        self.visible = visible
-        gp.canvas_item_set_visible(self.get_gdobj(), visible)
+    def set_visible(self, value):
+        self.visible = value
+        gp.canvas_item_set_visible(self.get_gdobj(), value)
 
 class FControl(FCanvasItem):
     def set_position(self, x,y):

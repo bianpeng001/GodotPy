@@ -127,11 +127,13 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.slider_order_mass.set_value(s1)
         self.slider_farmer_mass.set_value(s2)
         self.slider_trader_mass.set_value(s3)
+
         self.slider_value_list = [s1, s2, s3]
         self.active_slider = -1
 
+        # 税率
         self.slider_fax_rate.set_value(self.fax_rate)
-
+        # 详情
         text = f'''人口 {city_unit.urban_mass}人
 治安 {city_unit.order_points}
 农业 {city_unit.farmer_points}
@@ -143,6 +145,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 '''
         self.lbl_detail_obj.set_text(text)
 
+        # 设置当前页
         self.tab_index = 0
         self.tab_bar.set_current_tab(self.tab_index)
         self.on_tab_changed()
@@ -190,11 +193,17 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.slider_order_mass.set_value(s1)
         self.slider_farmer_mass.set_value(s2)
         self.slider_trader_mass.set_value(s3)
-        # TODO: 把修改值的,也都放到这里来,这样省得在value_changed里面去关联
-
         self.active_slider = -1
 
-        return value
+        # TODO: 把修改值的,也都放到这里来,这样省得在value_changed里面去关联
+        self.order_mass = self.get_slider_mass(s1)
+        self.lbl_order_mass.set_text(f'{self.order_mass}人')
+
+        self.farmer_mass = self.get_slider_mass(s2)
+        self.lbl_farmer_mass.set_text(f'{self.farmer_mass}人')
+
+        self.trader_mass = self.get_slider_mass(s3)
+        self.lbl_trader_mass.set_text(f'{self.trader_mass}人')
 
     # 任命太守
     def on_set_satrap(self, hero_id):
@@ -245,23 +254,14 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     def on_order_slide_change(self, value):
         if self.active_slider < 0:
             self.update_slider_value(0, value)
-        num = self.get_slider_mass(value)
-        self.order_mass = num
-        self.lbl_order_mass.set_text(f'{num}人')
 
     def on_farmer_slide_change(self, value):
         if self.active_slider < 0:
             self.update_slider_value(1, value)
-        num = self.get_slider_mass(value)
-        self.farmer_mass = num
-        self.lbl_farmer_mass.set_text(f'{num}人')
 
     def on_trader_slide_change(self, value):
         if self.active_slider < 0:
             self.update_slider_value(2, value)
-        num = self.get_slider_mass(value)
-        self.trader_mass = num
-        self.lbl_trader_mass.set_text(f'{num}人')
 
     def on_fax_slide_change(self, value):
         self.fax_rate = round(value)
