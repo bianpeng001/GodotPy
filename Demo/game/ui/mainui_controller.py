@@ -29,18 +29,22 @@ class MainUIController(UIController, PopupTrait):
         self.refresh_frame_number = game_mgr.frame_number
 
         btn_labels = ['系统', '读档', '存档', '地图', '战报', '执行']
-        btn_sys = self.ui_obj.find_node('BtnSys')
-        btn_list = [btn_sys.dup() for i in range(len(btn_labels) - 1)]
-        btn_list.append(btn_sys)
+        btn_1 = self.ui_obj.find_node('Btn1')
+        btn_list = [btn_1.dup() for i in range(len(btn_labels) - 1)]
+        btn_list.append(btn_1)
         
         for i in range(len(btn_list)):
             btn = btn_list[i]
             btn.set_text('\n'.join(btn_labels[i]))
             btn.set_position(1116-32*i, 4)
 
-        btn_list[0].connect(PRESSED, self.on_setting_click)
-        btn_list[3].connect(PRESSED, self.on_map_click)
-        btn_list[5].connect(PRESSED, self.on_gm_click)
+        def get_btn(s):
+            index = btn_labels.index(s)
+            return btn_list[index]
+
+        get_btn('系统').connect(PRESSED, self.on_setting_click)
+        get_btn('地图').connect(PRESSED, self.on_map_click)
+        get_btn('执行').connect(PRESSED, self.on_gm_click)
 
         # 事件
         from game.event_name import MAINUI_REFRESH
