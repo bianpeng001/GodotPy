@@ -610,17 +610,18 @@ static PyObject *f_print_line(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
-static PyObject *f_set_window_size(PyObject *module, PyObject *args) {
-	int width, height;
+static PyObject *f_set_window_rect(PyObject *module, PyObject *args) {
 	int x, y;
-	if (!PyArg_ParseTuple(args, "iiii", &width, &height, &x, &y)) {
+	int width, height;
+
+	if (!PyArg_ParseTuple(args, "iiii", &x, &y, &width, &height)) {
 		Py_RETURN_NONE;
 	}
 
 	auto server = DisplayServer::get_singleton();
 	if (server) {
-		server->window_set_size(Size2(width, height));
 		server->window_set_position(Point2i(x, y));
+		server->window_set_size(Size2(width, height));
 	}
 
 	Py_RETURN_NONE;
@@ -1802,7 +1803,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "print_line", f_print_line, METH_VARARGS, NULL },
 	{ "get_time", f_get_time, METH_VARARGS, NULL },
 	{ "get_delta_time", f_get_delta_time, METH_VARARGS, NULL },
-	{ "set_window_size", f_set_window_size, METH_VARARGS, NULL },
+	{ "set_window_rect", f_set_window_rect, METH_VARARGS, NULL },
 	{ "get_window_size", f_get_window_size, METH_VARARGS, NULL },
 	{ "viewport_get_size", f_viewport_get_size, METH_VARARGS, NULL },
 	{ "get_scene_root", f_get_scene_root, METH_VARARGS, NULL },

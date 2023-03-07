@@ -54,7 +54,7 @@ class GamePlay:
         if os.path.exists('launch.json'):
             with open('launch.json', 'r') as f:
                 obj = json.load(f)
-                OS.set_window_size(*obj['window'])
+                OS.set_window_rect(*obj['window'])
 
         # 起始块, 不加载物件，因为这块可能会有一些特效残留的bug，
         # 弄一个建筑物挡一挡，毕竟是天下之中
