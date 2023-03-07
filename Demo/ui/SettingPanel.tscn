@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://ckutlr7lvb2ko"]
+[gd_scene load_steps=8 format=3 uid="uid://ckutlr7lvb2ko"]
 
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_2q3es"]
 [ext_resource type="StyleBox" uid="uid://cs78tjnu0sn2w" path="res://ui/PanelStyle.tres" id="2_n0sdf"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dojr4gpmt4yed" path="res://ui/img/Close_hover.png" id="4_keel0"]
 [ext_resource type="StyleBox" uid="uid://ihq43j8tlee2" path="res://ui/BtnOkStyle.tres" id="5_luvut"]
 [ext_resource type="StyleBox" uid="uid://mkp6hswesryo" path="res://ui/BtnCancelStyle.tres" id="6_61mru"]
+[ext_resource type="StyleBox" uid="uid://bn2js0rroor7y" path="res://ui/BtnEmptyStyle.tres" id="7_yedjh"]
 
 [node name="SettingPanel" type="Control"]
 layout_mode = 3
@@ -62,9 +63,18 @@ text = "取消"
 
 [node name="CheckCityAI" type="CheckBox" parent="Panel"]
 layout_mode = 0
-offset_left = 49.0
-offset_top = 51.0
-offset_right = 124.0
-offset_bottom = 80.0
+offset_left = 40.0
+offset_top = 60.0
+offset_right = 127.0
+offset_bottom = 89.0
 theme = ExtResource("1_2q3es")
+theme_override_styles/focus = ExtResource("7_yedjh")
 text = "城市AI"
+
+[node name="LblTitle" type="Label" parent="Panel"]
+offset_left = 12.0
+offset_top = 5.0
+offset_right = 92.0
+offset_bottom = 29.0
+theme = ExtResource("1_2q3es")
+text = "设置"

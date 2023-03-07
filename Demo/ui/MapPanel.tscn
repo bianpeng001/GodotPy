@@ -59,3 +59,11 @@ theme_override_styles/normal = ExtResource("6_j3psg")
 theme_override_styles/hover = ExtResource("6_j3psg")
 theme_override_styles/pressed = ExtResource("6_j3psg")
 text = "取消"
+
+[node name="LblTitle" type="Label" parent="Panel"]
+offset_left = 12.0
+offset_top = 5.0
+offset_right = 92.0
+offset_bottom = 29.0
+theme = ExtResource("1_bx3pn")
+text = "地图"
