@@ -70,7 +70,7 @@ class Tile:
                 0,
                 pos_z + random_x()*5)
             self.units.append(city)
-            
+
             game_mgr.hud_mgr.create_hud(city.unit_id)
 
     def load_res(self, path, x, z, s):
@@ -100,17 +100,18 @@ class GroundMgr(NodeObject):
     def get_tile(self, x, z):
         #col = math.floor((x / TILE_SIZE) + 0.5)
         #row = math.floor((z / TILE_SIZE) + 0.5)
-        col,row = self.get_colrow(x, z)
-        return self.tile_dict.get((col, row), None)
+        col,row = self.pos_to_colrow(x, z)
+        return self.get_tile_colrow(col, row)
 
-    def get_colrow(self, x, z):
+    def pos_to_colrow(self, x, z):
         #col = math.floor((x / TILE_SIZE) + 0.5)
         #row = math.floor((z / TILE_SIZE) + 0.5)
         col, row = int(round(x / TILE_SIZE)), int(round(z / TILE_SIZE))
         return col, row
 
-    def get_tile_at_colrow(self, col, row):
-        return self.tile_dict.get((col, row), None)
+    def get_tile_colrow(self, col, row):
+        key = (col,row)
+        return self.tile_dict.get(key, None)
 
     def update(self, delta_time):
         x, z = game_mgr.camera_mgr.center.get_xz()
@@ -137,12 +138,22 @@ class GroundMgr(NodeObject):
 
         self.refresh_tile(cx - 2, cz    )
         self.refresh_tile(cx - 2, cz + 1)
+    
+    def create_tile(self,col,row):
+        key = (col, row)
+        tile = self.get_tile_colrow(col, row)
+        if tile:
+            return tile, False
+
+        tile = Tile(col, row)
+        self.tile_dict[key] = tile
+
+        return tile, True
+
 
     def refresh_tile(self, col, row):
-        key = (col, row)
-        if key not in self.tile_dict:
-            tile = Tile(col, row)
-            self.tile_dict[key] = tile
+        tile, first_hit = self.create_tile(col, row)
+        if first_hit:
             tile.load()
             tile.load_items()
 

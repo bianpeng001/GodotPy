@@ -10,7 +10,6 @@ from game.game_mgr import *
 from game.event_name import *
 from game.wait import *
 from game.base_type import UT_CITY, UT_TROOP
-from game.ground_mgr import Tile
 
 # 游戏的控制逻辑, 事件响应啥的，集中到这里来
 # 业务逻辑也放到这里来，脏活累活都放这
@@ -58,8 +57,7 @@ class GamePlay:
 
         # 起始块, 不加载物件，因为这块可能会有一些特效残留的bug，
         # 弄一个建筑物挡一挡，毕竟是天下之中
-        tile = Tile(0, 0)
-        game_mgr.ground_mgr.tile_dict[(0, 0)] = tile
+        tile, _ = game_mgr.ground_mgr.create_tile(0, 0)
         tile.load()
 
     # create main player
