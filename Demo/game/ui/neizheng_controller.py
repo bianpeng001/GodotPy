@@ -150,6 +150,8 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.tab_bar.set_current_tab(self.tab_index)
         self.on_tab_changed()
 
+        self.init_hero_list()
+
     # 联动修改, 总数小于100
     def update_slider_value(self, index, value):
         values = self.slider_value_list
@@ -300,21 +302,20 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.city_unit.order_incharge = self.order_incharge
         self.city_unit.farmer_incharge = self.farmer_incharge
         self.city_unit.trader_incharge = self.trader_incharge
+        self.city_unit.fax_incharge = self.fax_incharge
 
         self.city_unit.order_mass = self.order_mass
         self.city_unit.farmer_mass = self.farmer_mass
         self.city_unit.trader_mass = self.trader_mass
+        self.city_unit.fax_rate = self.fax_rate
 
-        # 并重新计算
+        # 刷新数值,重新计算
         self.city_unit.get_controller().refresh_growth_rate()
 
     def on_tab_changed(self, *args):
         self.tab_index = self.tab_bar.get_current_tab()
         for i in range(len(self.tabs)):
             self.tabs[i].set_visible(i == self.tab_index)
-
-        if self.tab_index == 1:
-            self.init_hero_list()
 
     def init_hero_list(self):
         item_node = self.tab_jiang_obj.find_node('HeroList/ScrollContainer/VBoxContainer/Item')

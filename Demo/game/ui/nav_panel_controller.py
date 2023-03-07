@@ -17,8 +17,8 @@ class NavPanelController(UIController, PopupTrait):
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
-        self.ui_obj.find_node('ScrollContainer/VBoxContainer/BtnMainCity').connect(PRESSED,
-                self.on_main_city_click)
+        self.ui_obj.find_node('ScrollContainer/VBoxContainer/BtnMainCity').connect(
+                PRESSED, self.on_main_city_click)
 
 
     def on_main_city_click(self):
