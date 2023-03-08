@@ -129,7 +129,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.slider_trader_mass.set_value(s3)
 
         self.slider_value_list = [s1, s2, s3]
-        self.active_slider = -1
+        self.ignore_slider_change = False
 
         # 税率
         self.slider_fax_rate.set_value(self.fax_rate)
@@ -189,13 +189,13 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         #print(values)
         #print(sum(values))
 
-        # 标记激活的index,用来区分被动修改,不触发重新分配
-        self.active_slider = index
+        # 标记是否要在事件里面,ignore修改,用来区分被动修改,不触发避免死循环
+        self.ignore_slider_change = True
         s1,s2,s3 = values
         self.slider_order_mass.set_value(s1)
         self.slider_farmer_mass.set_value(s2)
         self.slider_trader_mass.set_value(s3)
-        self.active_slider = -1
+        self.ignore_slider_change = False
 
         # TODO: 把修改值的,也都放到这里来,这样省得在value_changed里面去关联
         self.order_mass = self.get_slider_mass(s1)
@@ -255,15 +255,15 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         return math.floor(value * self.urban_mass * 0.001)*10
 
     def on_order_slide_change(self, value):
-        if self.active_slider < 0:
+        if not self.ignore_slider_change:
             self.update_slider_value(0, value)
 
     def on_farmer_slide_change(self, value):
-        if self.active_slider < 0:
+        if not self.ignore_slider_change:
             self.update_slider_value(1, value)
 
     def on_trader_slide_change(self, value):
-        if self.active_slider < 0:
+        if not self.ignore_slider_change:
             self.update_slider_value(2, value)
 
     def on_fax_slide_change(self, value):
