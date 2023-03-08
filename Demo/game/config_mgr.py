@@ -37,6 +37,7 @@ class DialogConfig(BaseConfig):
 # 配置信息
 class ConfigMgr:
     def __init__(self):
+        # 太守的发言
         self.neizheng_strap_dialog_list = [
             '为政之道，务于多闻。', 
             '兵卒有制，虽庸将未败。',
@@ -44,6 +45,16 @@ class ConfigMgr:
             '以弱为强者，非惟天时，抑亦人谋也。',
             '国之大务，莫先于戒备。',
         ]
+
+    # 公式也都定义在此, 参数有点多
+
+    # 伤害结算
+    def calc_damage(self, 
+            damage, a_level,
+            defense, b_level):
+        value = damage - defense
+        
+        return value if value > 0 else 1
 
 
 def select_one(item_list, delete=False):
@@ -291,3 +302,5 @@ def new_hero_name():
         return f1 + n2
     else:
         return '李哪吒'
+
+

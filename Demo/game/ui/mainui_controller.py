@@ -36,7 +36,8 @@ class MainUIController(UIController, PopupTrait):
         
         for i in range(len(btn_list)):
             btn = btn_list[i]
-            btn.set_text('\n'.join(btn_labels[i]))
+            text = btn_labels[i]
+            btn.set_text('\n'.join(text))
             btn.set_position(1116-32*i, 4)
 
         def get_btn(s):
@@ -88,7 +89,7 @@ class MainUIController(UIController, PopupTrait):
     def on_refresh(self):
         self.update_fps()
 
-        # player resource...
+        # 更新玩家资源
         mp = get_main_player()
 
         money_text = self.format_amount_str(mp.total_money_amount)
@@ -99,8 +100,8 @@ class MainUIController(UIController, PopupTrait):
 
     def update_fps(self):
         delta_time = game_mgr.sec_time - self.refresh_time
-
         delta_frame_number = game_mgr.frame_number - self.refresh_frame_number
+
         self.refresh_time = game_mgr.sec_time
         self.refresh_frame_number = game_mgr.frame_number
 
