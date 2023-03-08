@@ -36,7 +36,8 @@ class MainUIController(UIController, PopupTrait):
         
         for i in range(len(btn_list)):
             btn = btn_list[i]
-            btn.set_text('\n'.join(btn_labels[i]))
+            text = btn_labels[i]
+            btn.set_text('\n'.join(text))
             btn.set_position(1116-32*i, 4)
 
         def get_btn(s):

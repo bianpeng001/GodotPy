@@ -568,7 +568,12 @@ class FBaseButton(FControl):
 
 class FButton(FBaseButton):
     def set_text(self, text):
+        self.text = text
         gp.button_set_text(self.get_gdobj(), text)
+
+    def get_text(self):
+        # TODO: 目前直接把缓存的返回就好
+        return self.text
 
 class FCheckBox(FBaseButton):
     pass
@@ -587,9 +592,11 @@ class FHBoxContainer(FContainer):
 
 class FSlider(FControl):
     def get_value(self):
-        return gp.slider_get_value(self.get_gdobj())
+        #return gp.slider_get_value(self.get_gdobj())
+        return self.value
 
     def set_value(self, value):
+        self.value = value
         gp.slider_set_value(self.get_gdobj(), value)
 
 class FNode2D(FCanvasItem):
