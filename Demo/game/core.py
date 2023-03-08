@@ -207,11 +207,10 @@ class NodeObject:
     # 这个是兼容原来的设计, c++端的FPyObject, 这里 get_obj() 实际就是 self
     # 但是,只有NodeObject才有,
     def get_obj(self):
-        wobj GetWrappedObject(self._gdobj)
-        if wobj != self:
-            raise Exception('xxx')
-
-        return wobj
+        wrap_obj = GetWrappedObject(self._gdobj)
+        # wrap_obj 跟 self 的区别是, NodeObject是FPyObject里面创建的Py对象自定义模块, 没有Node方法
+        # wrap_obj 是节点自己对应的Py对象, 有Node方法
+        return wrap_obj
 
     def get_gdobj(self):
         return self._gdobj
@@ -600,7 +599,7 @@ class FNode2D(FCanvasItem):
 # 类型到wrap类的映射
 # 这个wrap的好处就是，利用oop，使得操作的对象上面只有对应类型能用的方法
 # 不在直接使用node对应的原始的pygd_obj，那个对象只用来当做一个弱引用使用
-_FTypeList = [ None for i in range(32) ]
+_FTypeList = [ None for i in range(64) ]
 
 # 映射表,从godot的类型, 映射到 ftype
 _TypeMap = {
@@ -637,11 +636,14 @@ _TypeMap = {
     'ScrollContainer' : FContainer,
 }
 
+# 传给c++,那边,当新增一个类型的时候,需要注册到py端,关键需要保持type_id一致
 def _reg_type(type_name, type_id):
     f_type = _TypeMap.get(type_name, FNode)
     _FTypeList[type_id] = f_type
     log_util.debug(f'_reg_type: {type_name} -> {type_id} {f_type}')
 
+# 对原始的gdobj,做一个包装的对象,包装好的对象里,有对应Node类型的方法
+# gdobj的职责,是对c++端对象的一个弱引用
 def GetWrappedObject(gdobj):
     if not gdobj:
         return None
@@ -661,8 +663,6 @@ def GetWrappedObject(gdobj):
     gdobj.set_wrapped_object(obj)
 
     return obj
-
-get_wrapped_object = GetWrappedObject
 
 # 大话降龙
 # https://www.mm1316.com/maoxian/dahuajianglong

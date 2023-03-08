@@ -1,0 +1,9 @@
+[FILENAMES]
+Exe= ..\Build\Demo.exe
+SaveAs= ..\Build\Demo.exe
+Log= replace_icon.log
+
+[COMMANDS]
+-addoverwrite .\app.ico,ICONGROUP,GODOT_ICON,0
+
+

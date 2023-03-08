@@ -29,6 +29,7 @@ set DEMO_DIR=d:\OpenSource\GodotPy\Demo
 set BUILD_DIR=d:\OpenSource\GodotPy\Build
 set EDITOR=bin\godot.windows.editor.x86_64.exe
 set PLAYER=bin\godot.windows.template_release.x86_64.exe
+set RES_HACKER=d:\Tools\ResHacker\ResourceHacker.exe
 
 @rem build editor
 scons p=windows vsproj=yes bits=64 -j6 target=editor dev_build=false
@@ -43,6 +44,8 @@ copy /Y bin\python.exe %BUILD_DIR%\python.exe
 copy /Y bin\python3.dll %BUILD_DIR%\python3.dll
 copy /Y bin\sqlite3.dll %BUILD_DIR%\sqlite3.dll
 copy /Y bin\_sqlite3.pyd %BUILD_DIR%\_sqlite3.pyd
+
+%RES_HACKER% -script %DEMO_DIR%\..\Godot\replace_icon.txt
 
 goto :end
 
