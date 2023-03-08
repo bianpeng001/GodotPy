@@ -148,7 +148,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         # 设置当前页
         self.tab_index = 0
         self.tab_bar.set_current_tab(self.tab_index)
-        self.on_tab_changed()
+        self.on_tab_changed(0)
 
         self.init_hero_list()
 
@@ -312,8 +312,8 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         # 刷新数值,重新计算
         self.city_unit.get_controller().refresh_growth_rate()
 
-    def on_tab_changed(self, *args):
-        self.tab_index = self.tab_bar.get_current_tab()
+    def on_tab_changed(self, index):
+        self.tab_index = index
         for i in range(len(self.tabs)):
             self.tabs[i].set_visible(i == self.tab_index)
 

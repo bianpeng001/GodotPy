@@ -42,7 +42,9 @@ class Bmp:
 
             self.lines = []
             for i in range(self.height):
-                self.lines.append(f.read(self.line_bytes))
+                data = f.read(self.line_bytes)
+                line_pixels = [data[i*3:i*3+3] for i in range(self.width)]
+                self.lines.append(line_pixels)
             
 
 
