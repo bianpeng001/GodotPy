@@ -88,7 +88,7 @@ class MainUIController(UIController, PopupTrait):
     def on_refresh(self):
         self.update_fps()
 
-        # player resource...
+        # 更新玩家资源
         mp = get_main_player()
 
         money_text = self.format_amount_str(mp.total_money_amount)
@@ -99,8 +99,8 @@ class MainUIController(UIController, PopupTrait):
 
     def update_fps(self):
         delta_time = game_mgr.sec_time - self.refresh_time
-
         delta_frame_number = game_mgr.frame_number - self.refresh_frame_number
+
         self.refresh_time = game_mgr.sec_time
         self.refresh_frame_number = game_mgr.frame_number
 

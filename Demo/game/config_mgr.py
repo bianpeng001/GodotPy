@@ -45,6 +45,15 @@ class ConfigMgr:
             '国之大务，莫先于戒备。',
         ]
 
+    # 公式也都定义在此, 参数有点多
+
+    def calc_damage(self, 
+            damage, a_level,
+            defense, b_level):
+        value = damage - defense
+        
+        return value if value > 0 else 1
+
 
 def select_one(item_list, delete=False):
     count = len(item_list)
@@ -291,3 +300,5 @@ def new_hero_name():
         return f1 + n2
     else:
         return '李哪吒'
+
+
