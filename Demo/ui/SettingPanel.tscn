@@ -72,6 +72,7 @@ theme_override_styles/focus = ExtResource("7_yedjh")
 text = "城市AI"
 
 [node name="LblTitle" type="Label" parent="Panel"]
+layout_mode = 0
 offset_left = 12.0
 offset_top = 5.0
 offset_right = 92.0

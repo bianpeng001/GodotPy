@@ -45,7 +45,6 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="TabZheng" type="Control" parent="Panel"]
-visible = false
 anchors_preset = 0
 offset_left = 10.0
 offset_top = 40.0
@@ -246,10 +245,10 @@ text = "治安 100
 
 [node name="CheckBaseCity" type="CheckBox" parent="Panel/TabZheng"]
 layout_mode = 0
-offset_left = 320.0
-offset_top = 238.0
-offset_right = 395.0
-offset_bottom = 267.0
+offset_left = 248.0
+offset_top = 230.0
+offset_right = 323.0
+offset_bottom = 259.0
 theme = ExtResource("3_we820")
 theme_override_styles/focus = ExtResource("6_tfify")
 text = "治所"
