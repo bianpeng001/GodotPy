@@ -11,7 +11,7 @@
 ## 关于UE
 
 UE也很不错,用了一阵,学习曲线遇到了第二个的低谷,又一次感受到了优秀的设计.
-1. 对象生命周期
+1. Object LifeCycle,  TWeakObjectPtr<T>, GC
 2. DedicatedServer
 
 <div class="date">2023年3月8日</div>

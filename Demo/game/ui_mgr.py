@@ -123,7 +123,6 @@ class UIMgr(NodeObject):
     def load_panel(self, path, cls):
         ui_obj = FNode3D.instantiate(path)
         ui_obj.reparent(self.get_obj())
-        #ui_obj.set_visible(False)
 
         controller = cls()
         controller.setup(ui_obj)

@@ -14,7 +14,6 @@ class StoryPanelController(UIController, PopupTrait):
     def __init__(self):
         pass
 
-
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
         self.image = self.ui_obj.find_node('Image')
@@ -22,7 +21,6 @@ class StoryPanelController(UIController, PopupTrait):
 
         self.image.set_visible(False)
         self.label.set_visible(False)
-
 
     def init(self):
         pass
