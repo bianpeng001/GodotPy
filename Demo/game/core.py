@@ -204,8 +204,14 @@ class NodeObject:
     def __init__(self):
         self._gdobj = None
 
+    # 这个是兼容原来的设计, c++端的FPyObject, 这里 get_obj() 实际就是 self
+    # 但是,只有NodeObject才有,
     def get_obj(self):
-        return GetWrappedObject(self._gdobj)
+        wobj GetWrappedObject(self._gdobj)
+        if wobj != self:
+            raise Exception('xxx')
+
+        return wobj
 
     def get_gdobj(self):
         return self._gdobj
