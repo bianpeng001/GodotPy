@@ -27,6 +27,16 @@
 				margin-left: auto;
 				margin-right: auto;
 			}
+			div#pageFooter {
+				min-height:100px;
+				line-height:100px;
+				padding: 0 100px;
+				text-align: center;
+			}
+			#pageFooter a, #pageFooter a:hover, #pageFooter a:visited {
+				color: #0a0a0a;
+				font-size:10pt;
+			}
 		</style>
 		<title>洒家的博客</title>
 	</head>
@@ -37,6 +47,10 @@
 			loading
 		</div>
 
+		<div id="pageFooter">
+			<a id="email">邮箱</a>
+		</div>
+
 		<script src="js/jquery-3.6.3.min.js"></script>
 
 		<!-- marked -->
@@ -44,6 +58,7 @@
 		
 		<script>
 			$(document).ready(() => {
+				
 				console.log('ready')
 
 				$.get('md/hello.md?_=' + new Date().getTime(), data => {
@@ -52,6 +67,10 @@
 					// https://github.com/markedjs/marked
 					$('#markedDiv').html(marked.parse(data))
 				})
+				
+				let a = 'm1111o:bianpeng112-113.com'
+				a=a.replace('1111', 'ailt').replace('112-','001@').replace('13',Number('13')+50)
+				$('#email')[0].href = a
 			})
 		</script>
 		
