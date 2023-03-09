@@ -17,13 +17,23 @@ class Bmp:
     def __init__(self):
         pass
 
+    def get_pixel(self, x, y):
+        return self.lines[x][y]
+    
+    def set_pixel(self, x, y, value):
+        self.lines[x][y] = value
+
+    def get_color(self, x, y):
+        data = self.get_pixel(x, y)
+        return struct.unpack(self.pixel_format, data)
+
     def load(self, path):
         with open(path, 'rb') as f:
             head = f.read(54)
-            print(head)
+            #print(head)
 
             data = struct.unpack('<ccIIIIIIHH' + 'IIIIII', head)
-            print(data)
+            #print(data)
             
             self.file_size = data[2]
             self.pixel_data_offset = data[4]
@@ -31,6 +41,11 @@ class Bmp:
             self.width = data[6]
             self.height = data[7]
             self.pixel_bits = data[9]
+
+            if self.pixel_bits not in [24, 32]:
+                raise Exception(f'pixel bits not support: {self.pixel_bits}')
+
+            self.pixel_format = 'BBB' if self.pixel_bits == 24 else 'BBBB'
 
             self.line_bytes = (self.width*self.pixel_bits + 31) // 8
             self.line_bytes = self.line_bytes // 4 * 4
@@ -41,10 +56,12 @@ class Bmp:
             f.seek(self.pixel_data_offset)
 
             self.lines = []
+            n = self.pixel_bits // 8
             for i in range(self.height):
                 data = f.read(self.line_bytes)
-                line_pixels = [data[i*3:i*3+3] for i in range(self.width)]
+                line_pixels = [data[i*n:(i+1)*n] for i in range(self.width)]
                 self.lines.append(line_pixels)
+            self.lines.reverse()
             
 
 
@@ -52,5 +69,7 @@ if __name__ == '__main__':
     bmp = Bmp()
     bmp.load('../world_map.bmp')
     print(bmp.width, bmp.pixel_bits, bmp.line_bytes)
-    print(bmp.lines)
+    #print(bmp.lines)
+    #print(bmp.get_pixel(29, 4))
+    print(bmp.get_color(29, 4))
     
