@@ -11,14 +11,17 @@ TILE_SIZE = 30
 
 # tile内部，a*寻路
 # tile外部，大a*寻路
-# 打仗过程里面，走直线
+# 打仗过程里面，走直线, 加一点弧度或者干扰, 别笔直就好了
 class Tile:
     def __init__(self, col, row):
         # 区块的ID，坐标/TILE_SIZE, 取证
         self.col = col
         self.row = row
+        # 自己的地块模型
         self.model_node = None
+        # 附属模型
         self.item_nodes = []
+        # 上面的单位列表
         self.units = []
 
     def get_center_pos(self):
@@ -26,9 +29,6 @@ class Tile:
 
     def load(self):
         log_util.debug(f'load tile: ({self.col},{self.row})')
-        
-        #pos_x = self.col*TILE_SIZE
-        #pos_z = self.row*TILE_SIZE
         pos_x, pos_z = self.get_center_pos()
 
         self.model_node = FNode3D.instantiate('res://models/Square.tscn')

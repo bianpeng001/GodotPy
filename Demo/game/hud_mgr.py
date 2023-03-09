@@ -13,6 +13,9 @@ class HUDItem:
         self.hud_obj = None
         self.title_obj = None
         self.hp_obj = None
+        
+        # 可见度,加一个计数
+        self.show_count = 1
 
     def update(self):
         unit = game_mgr.unit_mgr.get_unit(self.unit_id)
