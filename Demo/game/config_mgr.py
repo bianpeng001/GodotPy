@@ -50,8 +50,8 @@ class ConfigMgr:
 
     # 伤害结算
     def calc_damage(self, 
-            damage, a_level,
-            defense, b_level):
+            a_damage, a_level,
+            b_defense, b_level):
         value = damage - defense
         
         return value if value > 0 else 1
