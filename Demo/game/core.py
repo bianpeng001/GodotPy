@@ -497,6 +497,9 @@ class FMeshInstance3D(FVisualInstance3D):
     def load_material(self, index, path):
         gp.mesh_instance3d_load_material(self.get_gdobj(), index, path)
 
+    def set_albedo_color(self, r,g,b):
+        gp.mesh_instance3d_set_albedo_color(self.get_gdobj(), r,g,b)
+
 class FAnimationPlayer(FNode):
     def play(self, anim_name):
         gp.animation_player_play(self.get_gdobj(), anim_name)

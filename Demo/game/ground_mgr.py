@@ -32,6 +32,7 @@ class Tile:
         pos_x, pos_z = self.get_center_pos()
 
         self.model_node = FNode3D.instantiate('res://models/Square.tscn')
+        self.model_node.find_node('Mesh').load_material(0, 'res://models/Terrain/GrassMat.tres')
         self.model_node.set_position(pos_x, 0, pos_z)
 
     def load_items(self):

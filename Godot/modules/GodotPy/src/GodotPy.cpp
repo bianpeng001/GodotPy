@@ -427,6 +427,7 @@ void delete_gdobj(Node* p_node) {
 static const char c_Transform3D[] = "Transform3D";
 static const char c_Quaternion[] = "Quaternion";
 static const char c_InputEvent[] = "InputEvent";
+static const char c_Resource[] = "Resource";
 
 template <const char* pointer_name, typename T>
 void _capsule_delete_pointer(PyObject *obj) {
@@ -1691,7 +1692,7 @@ static PyObject *f_slider_set_value(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
-static PyObject *f_material_set_albedo_color(PyObject *module, PyObject *args) {
+static PyObject *f_mesh_instance3d_set_albedo_color(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
 		int surface;
@@ -1726,6 +1727,63 @@ static PyObject *f_material_set_albedo_color(PyObject *module, PyObject *args) {
 		//mat->set_transparency(StandardMaterial3D::TRANSPARENCY_DISABLED);
 		//mesh_instance->set_surface_override_material(index, mat);
 		
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_mesh_instance3d_load_albedo_tex(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		int surface;
+		const char *a_path;
+
+		if (!PyArg_ParseTuple(args, "Ois", &a_obj, &surface, &a_path)) {
+			break;
+		}
+
+		auto mesh_instance = GetObjPtr<MeshInstance3D>(a_obj);
+		if (!mesh_instance) {
+			break;
+		}
+
+		// TODO:....
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+//
+enum class EResType {
+	None,
+	Material,
+	Texture,
+};
+// 一个存Res的包装
+struct ResourceRef {
+	int type;
+	Ref<Resource> res;
+};
+static ResourceRef* GetResourceRef(PyObject* capsule) {
+	return reinterpret_cast<ResourceRef *>(PyCapsule_GetPointer(capsule, c_Resource));
+}
+//f_load_resource
+static PyObject *f_load_resource(PyObject *module, PyObject *args) {
+	do {
+		const char *a_path;
+		
+		if (!PyArg_ParseTuple(args, "s", &a_path)) {
+			break;
+		}
+
+		String path(a_path);
+		auto *p_res = memnew(ResourceRef);
+		p_res->type = 0;
+		p_res->res = ResourceLoader::load(path);
+
+		auto obj = PyCapsule_New(p_res, c_Resource,
+				&_capsule_delete_pointer<c_Resource, ResourceRef>);
+		return obj;
+
 	} while (0);
 
 	Py_RETURN_NONE;
@@ -1885,13 +1943,13 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// mesh instance
 	{ "mesh_instance3d_load_material", f_mesh_instance3d_load_material, METH_VARARGS, NULL },
-
-	// material
-	{ "material_set_albedo_color", f_material_set_albedo_color, METH_VARARGS, NULL },
+	{ "mesh_instance3d_set_albedo_color", f_mesh_instance3d_set_albedo_color, METH_VARARGS, NULL },
+	{ "mesh_instance3d_load_albedo_tex", f_mesh_instance3d_load_albedo_tex, METH_VARARGS, NULL },
 
 	// resource
 	{ "instantiate", f_instantiate, METH_VARARGS, NULL },
 	{ "load_scene", f_load_scene, METH_VARARGS, NULL },
+	{ "load_resource", f_load_resource, METH_VARARGS, NULL },
 
 	// godotpy
 	//{ "get_py_object", f_get_py_object, METH_VARARGS, NULL },

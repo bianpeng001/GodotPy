@@ -14,14 +14,14 @@ import struct
 # b
 
 class Bmp:
-    def __init__(self):
-        pass
+    def __init__(self, path):
+        self.load(path)
 
     def get_pixel(self, x, y):
-        return self.lines[x][y]
+        return self.lines[y][x]
     
     def set_pixel(self, x, y, value):
-        self.lines[x][y] = value
+        self.lines[y][x] = value
 
     def get_color(self, x, y):
         data = self.get_pixel(x, y)
@@ -66,10 +66,9 @@ class Bmp:
 
 
 if __name__ == '__main__':
-    bmp = Bmp()
-    bmp.load('../world_map.bmp')
+    bmp = Bmp('../world_map.bmp')
     print(bmp.width, bmp.pixel_bits, bmp.line_bytes)
     #print(bmp.lines)
     #print(bmp.get_pixel(29, 4))
-    print(bmp.get_color(29, 4))
+    print(bmp.get_color(3, 29))
     
