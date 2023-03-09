@@ -157,12 +157,12 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         values = self.slider_value_list
         values[index] = round(value)
         
+        count = len(values)
         # 这个就挺和谐的
         overflow = sum(values) - 100
-        
+
         # 第一轮扣超过平均数的, 相当于从大的开始
         if overflow > 0:
-            count = len(values)
             avg = (100 - values[index]) // (count - 1)
             for i in range(count):
                 if i != index and values[i] > avg:
