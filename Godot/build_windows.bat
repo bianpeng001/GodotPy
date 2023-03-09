@@ -25,8 +25,8 @@ goto :end
 
 
 :publish
-set DEMO_DIR=d:\OpenSource\GodotPy\Demo
-set BUILD_DIR=d:\OpenSource\GodotPy\Build
+set DEMO_DIR=..\GodotPy\Demo
+set BUILD_DIR=..\GodotPy\Build
 set EDITOR=bin\godot.windows.editor.x86_64.exe
 set PLAYER=bin\godot.windows.template_release.x86_64.exe
 set RES_HACKER=d:\Tools\ResHacker\ResourceHacker.exe
