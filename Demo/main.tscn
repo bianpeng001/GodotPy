@@ -52,21 +52,25 @@ shadow_opacity = 0.5
 
 [node name="Dust01" parent="." instance=ExtResource("5_0n56o")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.676337, 10.3015, 1.07973)
+visible = false
 
 [node name="Hill01" parent="." instance=ExtResource("8_k8kn3")]
 transform = Transform3D(-4.96934, 0, -0.552835, 0, 5, 0, 0.552835, 0, -4.96934, 0, -0.1, 0)
+visible = false
 
 [node name="Park01" parent="." instance=ExtResource("8_pjijt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.3645, 0, 4.6021)
 
 [node name="River02" type="MeshInstance3D" parent="."]
 transform = Transform3D(-0.496169, 0, -9.98768, 0, 10, 0, 9.98768, 0, -0.496169, 11.918, 0.1, -14.8734)
+visible = false
 cast_shadow = 0
 mesh = ExtResource("8_ulrcq")
 surface_material_override/0 = ExtResource("9_7rrpb")
 
 [node name="River03" type="MeshInstance3D" parent="."]
 transform = Transform3D(-0.496169, 0, -9.98768, 0, 10, 0, 9.98768, 0, -0.496169, 111.22, 0.1, -8.59246)
+visible = false
 cast_shadow = 0
 mesh = ExtResource("8_ulrcq")
 surface_material_override/0 = ExtResource("9_7rrpb")
