@@ -211,7 +211,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         # 把修改值的,也都放到这里来,这样省得在value_changed里面去关联
         self.order_mass, self.farmer_mass, self.trader_mass = values
-        print(values)
+        #print(values)
 
         calc_mass = game_mgr.config_mgr.calc_mass
         v0, v1, v2 = map(lambda x: calc_mass(x, self.population), values)
@@ -229,6 +229,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     # 税务官
     def on_set_fax_incharge(self, hero_id):
         self.fax_incharge = hero_id
+        self.update_city_detail()
 
     # 任命治安官
     def on_set_order_incharge(self, hero_id):
@@ -239,9 +240,10 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.farmer_incharge = hero_id
         self.update_city_detail()
     
-    # 任命治安官
+    # 任命商业官
     def on_set_trader_incharge(self, hero_id):
         self.trader_incharge = hero_id
+        self.update_city_detail()
     
     # 关联按钮，到英雄选择面板
     def setup_btn_select_hero(self, btn_name, set_hero_cb):
