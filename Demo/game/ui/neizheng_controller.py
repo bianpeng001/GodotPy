@@ -19,6 +19,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.tab_index = 0
        
         self.item_list = []
+        self.ignore_slider_change = False
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
@@ -116,21 +117,14 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.btn_trader_incharge.set_text(get_hero_name(self.trader_incharge))
         self.btn_fax_incharge.set_text(get_hero_name(self.fax_incharge))
 
-        self.lbl_order_mass.set_text(f'{self.order_mass}人')
-        self.lbl_farmer_mass.set_text(f'{self.farmer_mass}人')
-        self.lbl_trader_mass.set_text(f'{self.trader_mass}人')
         self.lbl_fax_rate_value.set_text(f'{self.fax_rate}%')
 
-        s1 = round(100*self.order_mass/self.population)
-        s2 = round(100*self.farmer_mass/self.population)
-        s3 = round(100*self.trader_mass/self.population)
-        self.slider_order_mass.set_value(s1)
-        self.slider_farmer_mass.set_value(s2)
-        self.slider_trader_mass.set_value(s3)
-
-        self.slider_value_list = [s1, s2, s3]
-        self.ignore_slider_change = False
-
+        self.slider_value_list = [
+                self.order_mass,
+                self.farmer_mass,
+                self.trader_mass]
+        self.update_slider_value(0, self.order_mass)
+        
         # 税率
         self.slider_fax_rate.set_value(self.fax_rate)
         # 详情
@@ -154,12 +148,17 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
                 get_hero(self.farmer_incharge))
         farmer_growth_label = config_mgr.format_colored_label(farmer_growth_rate)
 
+        money_growth_rate = config_mgr.calc_money_growth_rate(
+                get_hero(self.satrap),
+                get_hero(self.trader_incharge))
+        money_growth_label = config_mgr.format_colored_label(money_growth_rate)
+
         text = f'''人口 {city_unit.population}人
 治安 {city_unit.order_points}
 农业 {city_unit.farmer_points}
 商业 {city_unit.trader_points}
 粮食 {city_unit.rice_amount} {farmer_growth_label}
-银两 {city_unit.money_amount}
+银两 {city_unit.money_amount} {money_growth_label}
 军队 {city_unit.army_amount}人
 武将 {len(city_unit.hero_list)}人
 '''
@@ -205,21 +204,20 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         # 标记是否要在事件里面,ignore修改,用来区分被动修改,不触发避免死循环
         self.ignore_slider_change = True
-        s1,s2,s3 = values
-        self.slider_order_mass.set_value(s1)
-        self.slider_farmer_mass.set_value(s2)
-        self.slider_trader_mass.set_value(s3)
+        self.slider_order_mass.set_value(values[0])
+        self.slider_farmer_mass.set_value(values[1])
+        self.slider_trader_mass.set_value(values[2])
         self.ignore_slider_change = False
 
-        # TODO: 把修改值的,也都放到这里来,这样省得在value_changed里面去关联
-        self.order_mass = self.get_slider_mass(s1)
-        self.lbl_order_mass.set_text(f'{self.order_mass}人')
+        # 把修改值的,也都放到这里来,这样省得在value_changed里面去关联
+        self.order_mass, self.farmer_mass, self.trader_mass = values
 
-        self.farmer_mass = self.get_slider_mass(s2)
-        self.lbl_farmer_mass.set_text(f'{self.farmer_mass}人')
+        calc_mass = game_mgr.config_mgr.calc_mass
+        v1, v2, v3 = map(lambda x: calc_mass(x, self.population), values)
 
-        self.trader_mass = self.get_slider_mass(s3)
-        self.lbl_trader_mass.set_text(f'{self.trader_mass}人')
+        self.lbl_order_mass.set_text(f'{v1}人')
+        self.lbl_farmer_mass.set_text(f'{v2}人')
+        self.lbl_trader_mass.set_text(f'{v2}人')
 
     # 任命太守
     def on_set_satrap(self, hero_id):
@@ -265,9 +263,6 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         btn_obj.connect(PRESSED, on_btn_click)
         return btn_obj
-
-    def get_slider_mass(self, value):
-        return math.floor(value * self.population * 0.001)*10
 
     def on_order_slide_change(self, value):
         if not self.ignore_slider_change:

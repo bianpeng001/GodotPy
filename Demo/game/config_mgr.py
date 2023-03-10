@@ -5,6 +5,8 @@
 import math
 import random
 
+from game.core import log_util_debug
+
 class BaseConfig:
     def __init__(self):
         self.config_id = 0
@@ -56,13 +58,15 @@ class ConfigMgr:
         
         return value if value > 0 else 1
 
-    # 政治属性对应的,二次化的一个系数
+    # 政治属性对应的,二次化的一个系数,
+    # 空的时候给0.3,意思就是有时候,有太守,
+    # 如果政治属性太低,这个比例不增反降
     def get_zhengzhi_ratio(self, hero):
         if hero:
             x = hero.zhengzhi/100
+            return x*x
         else:
-            x = 0.1
-        return x*x
+            return 0.3
 
     def calc_rice_growth_rate(self, satrap, hero):
         value = 0
@@ -74,6 +78,7 @@ class ConfigMgr:
             value += hero.zhengzhi*0.5 + hero.zhili * 0.1
 
         value *= self.get_zhengzhi_ratio(satrap)
+        log_util_debug('rice growth', value)
 
         return round(value)
 
@@ -100,6 +105,12 @@ class ConfigMgr:
             value += satrap.zhengzhi*0.5 + satrap.meili*0.5
         return round(value)
 
+    # percent = [0, 100]
+    def calc_mass(self, percent, max_mass):
+        v = percent * max_mass * 0.001
+        v = math.trunc(v)*10
+        return v
+
     def format_colored_label(self, value):
         if value > 0.001:
             return f'[color=green]+{value}[/color]'
@@ -107,6 +118,16 @@ class ConfigMgr:
             return f'[color=red]{value}[/color]'
         else:
             return ''
+
+    def format_amount_label(self, value):
+        if value < 100000:
+            return str(round(value))
+        elif value < 100000000:
+            value //= 10000
+            return f'{value}万'
+        else:
+            value //= 100000000
+            return f'{value}亿'
 
 def select_one(item_list, delete=False):
     count = len(item_list)

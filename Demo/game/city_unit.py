@@ -66,7 +66,7 @@ class CityUnit(Unit, UnitTrait):
         # 居民人口 = 治安 + 务农 + 经商
         self.population = 1000 + random_int(100, 200)
         self.polulation_growth_rate = 0
-        
+
         # 人口上限
         self.population_limit = 10000 + random_int(0, 9)*10000
 
@@ -78,6 +78,8 @@ class CityUnit(Unit, UnitTrait):
         # 税率,税率过高会影响士气,破坏治安
         self.fax_rate = 10
 
+        # 由于人口是一个动态的, 工作人数用百分比最好
+
         # 治安官
         self.order_incharge = 0
         # 治安人数
@@ -85,7 +87,7 @@ class CityUnit(Unit, UnitTrait):
         
         # 农业官
         self.farmer_incharge = 0
-        # 农民数量
+        # 农民数量, 改成百分比 
         self.farmer_mass = 0
         
         # 商业官

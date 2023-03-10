@@ -76,26 +76,18 @@ class MainUIController(UIController, PopupTrait):
             obj.init()
             obj.popup(150, 80)
 
-    def format_amount_str(self, value):
-        if value < 100000:
-            return str(round(value))
-        elif value < 100000000:
-            value //= 10000
-            return f'{value}万'
-        else:
-            value //= 100000000
-            return f'{value}亿'
-        
     def on_refresh(self):
         self.update_fps()
+
+        config_mgr = game_mgr.config_mgr
 
         # 更新玩家资源
         mp = get_main_player()
 
-        money_text = self.format_amount_str(mp.total_money_amount)
+        money_text = config_mgr.format_amount_label(mp.total_money_amount)
         self.money_label.set_text(money_text)
 
-        rice_text = self.format_amount_str(mp.total_rice_amount)
+        rice_text = config_mgr.format_amount_label(mp.total_rice_amount)
         self.rice_label.set_text(rice_text)
 
     def update_fps(self):

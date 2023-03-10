@@ -464,7 +464,7 @@ class FNode3D(FNode):
         gp.set_rotation(self.get_gdobj(), x,y,z)
 
     def set_scale(self, sx,sy,sz):
-        gp.set_scale(self.get_gdobj(), sx, sy, sz)
+        gp.set_scale(self.get_gdobj(), sx,sy,sz)
 
     def set_scale1(self, s):
         gp.set_scale(self.get_gdobj(), s, s, s)
