@@ -36,9 +36,9 @@ class StoryPanelController(UIController, PopupTrait):
         log_util_debug('begin play story')
 
         text_list = (
-            '华夏大地,不知何许年也',
-            '山河日月,一如汉唐',
-            '此城虽小,也可励精图治',
+            '华夏大地, 不知何许年也',
+            '山河日月, 一如汉唐',
+            '此城虽小, 可励精图治',
             )
         for text in text_list:
             self.show_text(text)

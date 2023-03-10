@@ -75,7 +75,9 @@ class HUDMgr:
     def _create_hud(self, unit_id):
         if len(self.hud_item_cache) > 0:
             hud_item = self.hud_item_cache.pop()
-            log_util_debug('reuse hud item')
+            log_util_debug('reuse hud item',
+                    len(self.hud_item_dict),
+                    len(self.hud_item_cache))
         else:
             if not self.template_obj:
                 self.template_obj = FNode3D.instantiate('res://ui/HUD.tscn')
