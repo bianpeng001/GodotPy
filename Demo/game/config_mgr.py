@@ -72,10 +72,10 @@ class ConfigMgr:
         value = 0
 
         if satrap:
-            value += satrap.zhengzhi*0.5
+            value += satrap.zhengzhi*0.53
 
         if hero:
-            value += hero.zhengzhi*0.5 + hero.zhili * 0.1
+            value += hero.zhengzhi*0.37 + hero.zhili * 0.1
 
         value *= self.get_zhengzhi_ratio(satrap)
         #log_util_debug('rice growth', value)
@@ -86,10 +86,10 @@ class ConfigMgr:
         value = 0
         
         if satrap:
-            value += satrap.zhengzhi*0.5
+            value += satrap.zhengzhi*0.53
 
         if hero:
-            value += hero.zhengzhi*0.5 + hero.zhili * 0.1
+            value += hero.zhengzhi*0.37 + hero.zhili * 0.1
             
         value *= self.get_zhengzhi_ratio(satrap)
 
@@ -102,7 +102,10 @@ class ConfigMgr:
             trader_incharge):
         value = 0
         if satrap:
-            value += satrap.zhengzhi*0.5 + satrap.meili*0.5
+            value += satrap.zhengzhi*0.51 + \
+                    satrap.meili*0.31 + \
+                    satrap.tongshuai*0.18
+
         return round(value)
 
     # percent = [0, 100]
