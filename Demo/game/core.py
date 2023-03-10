@@ -258,6 +258,8 @@ def random_range(start, stop, step=1):
 def random_num(min, max):
     return min + random.random() * (max - min)
 
+# random.random() => [0, 1)
+# => [min, max], 包括头尾
 def random_int(min, max):
     return random.randint(min, max)
 

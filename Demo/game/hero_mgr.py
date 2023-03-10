@@ -137,6 +137,10 @@ class HeroMgr:
         self.hero_dict = {}
         self.hero_id_seed = 1000
 
+    # 支持随机英雄和经典英雄
+    def new_hero1(self):
+        pass
+
     def new_hero(self):
         hero = Hero()
 
@@ -146,17 +150,20 @@ class HeroMgr:
 
         # 随机一个属性出来
         for i in range(len(hero.attr)):
-            hero.attr[i] = random_int(1, 80)
+            hero.attr[i] = random_int(10, 75)
         remain_points = 100
         for i in range(len(hero.attr)):
             if remain_points <= 0:
                 break
             else:
-                v = random_int(0, 100 - hero.attr[i])
+                v = random_int(0, 89 - hero.attr[i])
                 if v > remain_points:
                     v = remain_points
                 hero.attr[i] += v
                 remain_points -= v
+
+        # 这种随机产生的英雄,得分不能太高了,
+        # 经典英雄,才有牛逼的数值
 
         hero.hero_name = f'武将_{hero.hero_id}'
 

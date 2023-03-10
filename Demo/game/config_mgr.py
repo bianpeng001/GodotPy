@@ -78,7 +78,7 @@ class ConfigMgr:
             value += hero.zhengzhi*0.5 + hero.zhili * 0.1
 
         value *= self.get_zhengzhi_ratio(satrap)
-        log_util_debug('rice growth', value)
+        #log_util_debug('rice growth', value)
 
         return round(value)
 
