@@ -211,12 +211,13 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         # 把修改值的,也都放到这里来,这样省得在value_changed里面去关联
         self.order_mass, self.farmer_mass, self.trader_mass = values
+        print(values)
 
         calc_mass = game_mgr.config_mgr.calc_mass
-        v1, v2, v3 = map(lambda x: calc_mass(x, self.population), values)
+        v0, v1, v2 = map(lambda x: calc_mass(x, self.population), values)
 
-        self.lbl_order_mass.set_text(f'{v1}人')
-        self.lbl_farmer_mass.set_text(f'{v2}人')
+        self.lbl_order_mass.set_text(f'{v0}人')
+        self.lbl_farmer_mass.set_text(f'{v1}人')
         self.lbl_trader_mass.set_text(f'{v2}人')
 
     # 任命太守
