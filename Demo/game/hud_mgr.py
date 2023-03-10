@@ -51,12 +51,15 @@ class HUDMgr:
         self.hud_item_cache = []
         self.hud_item_dict = {}
 
+        self.hidden_list = []
+
     def setup(self):
         self.hud_root_obj = game_mgr.scene_root_obj.find_node('HUDRoot')
 
     def update(self, delta_time):
-        for item in self.hud_item_dict.values():
-            item.update()
+        # for item in self.hud_item_dict.values():
+        #     item.update()
+        pass
 
     def show(self):
         self.is_show = True
@@ -69,34 +72,59 @@ class HUDMgr:
     def get_hud(self, unit_id):
         return self.hud_item_dict.get(unit_id, None)
 
-    def create_hud(self, unit_id):
-        item = HUDItem()
-        
-        if self.template_obj:
-            item.hud_obj = self.template_obj.dup()
+    def _create_hud(self, unit_id):
+        if len(self.hud_item_cache) > 0:
+            hud_item = self.hud_item_cache.pop()
+            log_util_debug('reuse hud item')
         else:
-            self.template_obj = FNode3D.instantiate('res://ui/HUD.tscn')
-            self.template_obj.reparent(self.hud_root_obj)
-            item.hud_obj = self.template_obj
+            if not self.template_obj:
+                self.template_obj = FNode3D.instantiate('res://ui/HUD.tscn')
+                self.template_obj.reparent(self.hud_root_obj)
+                self.template_obj.set_visible(False)
 
-        item.title_obj = item.hud_obj.find_node('Title')
-        item.hp_obj = item.hud_obj.find_node('HP')
+            hud_item = HUDItem()
+            hud_item.hud_obj = self.template_obj.dup()
+            hud_item.title_obj = hud_item.hud_obj.find_node('Title')
+            hud_item.hp_obj = hud_item.hud_obj.find_node('HP')
 
-        item.unit_id = unit_id
+        hud_item.unit_id = unit_id
+        hud_item.set_text(get_unit_name(unit_id))
         # unit = game_mgr.unit_mgr.get_unit(unit_id)
         # item.set_text(unit.unit_name)
         # if unit.owner_player_id != 0:
         #     player = game_mgr.player_mgr.get_player(unit.owner_player_id)
         #     item.set_flag_text(player.player_name[0])
-        item.set_text(get_unit_name(unit_id))
-        item.set_visible(True)
 
-        self.hud_item_dict[unit_id] = item
-        item.update()
+        hud_item.set_visible(True)
+        hud_item.show_count = 1
 
-    def free_hud(self, unit_id):
+        self.hud_item_dict[unit_id] = hud_item
+        #hud_item.update()
+        return hud_item
+
+    def _free_hud(self, unit_id):
         if unit_id in self.hud_item_dict:
-            item = self.hud_item_dict.pop(unit_id)
-            self.hud_item_cache.append(item)
+            hud_item = self.hud_item_dict.pop(unit_id)
+            hud_item.set_visible(False)
+            self.hud_item_cache.append(hud_item)
+
+    def update_hud(self, unit_id):
+        hud_item = self.get_hud(unit_id)
+        if not hud_item:
+            hud_item = self._create_hud(unit_id)
+        hud_item.show_count += 1
+        hud_item.update()
+
+    # 把本次没被刷新的,清理掉
+    def clean_hidden(self):
+        for hud_item in self.hud_item_dict.values():
+            hud_item.show_count -= 1
+            if hud_item.show_count <= 0:
+                self.hidden_list.append(hud_item.unit_id)
+        
+        if len(self.hidden_list) > 0:
+            for unit_id in self.hidden_list:
+                self._free_hud(unit_id)
+            self.hidden_list.clear()
 
 

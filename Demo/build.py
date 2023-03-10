@@ -44,7 +44,9 @@ def main():
 
     shutil.copy(EDITOR, os.path.join(BUILD_DIR, 'GodotEditor.exe'))
     shutil.copy(PLAYER, os.path.join(BUILD_DIR, 'Demo.exe'))
+    shutil.copy(f'{DEMO_DIR}\\gm.py', os.path.join(BUILD_DIR, 'gm.py'))
     
+    # replace app icon
     run(f'{RES_HACKER} -script {WORK_DIR}\\Godot\\replace_icon.txt')
 
     # remove pyc

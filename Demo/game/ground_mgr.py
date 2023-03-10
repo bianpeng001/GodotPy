@@ -22,7 +22,7 @@ class Tile:
         # 附属模型
         self.item_nodes = []
         # 上面的单位列表
-        self.units = []
+        self.unit_list = []
 
     def get_center_pos(self):
         return self.col*TILE_SIZE,self.row*TILE_SIZE
@@ -70,9 +70,9 @@ class Tile:
             city.set_position(pos_x + random_x()*5,
                 0,
                 pos_z + random_x()*5)
-            self.units.append(city)
+            self.unit_list.append(city)
 
-            game_mgr.hud_mgr.create_hud(city.unit_id)
+            
 
     def load_res(self, path, x, z, s):
         item = FNode3D.instantiate(path)
@@ -83,6 +83,10 @@ class Tile:
 
     def unload(self):
         pass
+
+    def update_hud(self):
+        for unit in self.unit_list:
+            game_mgr.hud_mgr.update_hud(unit.unit_id)
 
 def pos_to_colrow(x, z):
     return round(x / TILE_SIZE), round(z / TILE_SIZE)
@@ -134,6 +138,9 @@ class GroundMgr(NodeObject):
 
         self.refresh_tile(cx - 2, cz    )
         self.refresh_tile(cx - 2, cz + 1)
+
+        # refresh done, clear no hit hud
+        game_mgr.hud_mgr.clean_hidden()
     
     def create_tile(self,col,row):
         key = (col, row)
@@ -152,5 +159,7 @@ class GroundMgr(NodeObject):
         if first_hit:
             tile.load()
             tile.load_items()
+        
+        tile.update_hud()
 
 

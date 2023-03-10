@@ -35,7 +35,7 @@ class RaycastMgr(NodeObject):
         tile = game_mgr.ground_mgr.get_tile(wx, wz)
         if tile:
             click_on_unit = False
-            for unit in tile.units:
+            for unit in tile.unit_list:
                 unit_x, _, unit_z = unit.get_position()
                 dx = unit_x - wx
                 dz = unit_z - wz
