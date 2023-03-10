@@ -559,6 +559,10 @@ class FLabel(FControl):
     def set_minimum_size(self, w, h):
         gp.label_set_minimum_size(self.get_gdobj(), w, h)
 
+class FRichTextLabel(FControl):
+    def set_text(self, text):
+        gp.rich_text_label_set_text(self.get_gdobj(), text)
+
 class FBaseButton(FControl):
     def set_disabled(self, value):
         gp.base_button_set_disabled(self.get_gdobj(), value)
@@ -633,6 +637,7 @@ _TypeMap = {
     # ui
     'CanvasItem' : FCanvasItem,
     'Label' : FLabel,
+    'RichTextLabel' : FRichTextLabel,
     'Control' : FControl,
     'Button' : FButton,
     'TextureButton' : FBaseButton,
@@ -644,6 +649,7 @@ _TypeMap = {
     'ColorRect' : FControl,
     'HBoxContainer' : FHBoxContainer,
     'ScrollContainer' : FContainer,
+    
 }
 
 # 传给c++,那边,当新增一个类型的时候,需要注册到py端,关键需要保持type_id一致

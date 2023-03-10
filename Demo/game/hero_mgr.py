@@ -125,6 +125,10 @@ class Hero:
     def tongshuai(self):
         return self.get_attr(ATTR_TONG)
 
+    @property
+    def meili(self):
+        return self.get_attr(ATTR_MEI)
+
 #
 # 武将管理器，所有的武将都在这里，就像一个数据库
 #

@@ -39,12 +39,12 @@ class CityController(Controller):
     def grow_resource(self, delta_time):
         city = self.get_unit()
 
-        city.army_amount = self._calc_resource(city.army_amount, 
-                city.growth_rate, delta_time, city.max_amount_limit)
+        city.population = self._calc_resource(city.army_amount, 
+                city.polulation_growth_rate, delta_time, city.max_amount_limit)
         city.money_amount = self._calc_resource(city.money_amount, 
-                city.growth_rate, delta_time, city.max_amount_limit)
+                city.rice_growth_rate, delta_time, city.max_amount_limit)
         city.rice_amount = self._calc_resource(city.rice_amount, 
-                city.growth_rate, delta_time, city.max_amount_limit)
+                city.money_growth_rate, delta_time, city.max_amount_limit)
 
     # 重新计算城内各个增长率
     def refresh_growth_rate(self):

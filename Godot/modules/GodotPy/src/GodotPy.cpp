@@ -33,6 +33,7 @@
 #include "scene/gui/base_button.h"
 #include "scene/gui/button.h"
 #include "scene/gui/label.h"
+#include "scene/gui/rich_text_label.h"
 #include "scene/gui/tab_bar.h"
 #include "scene/gui/check_box.h"
 #include "scene/gui/slider.h"
@@ -1505,6 +1506,26 @@ static PyObject *f_label_set_text(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_rich_text_label_set_text(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		const char *s;
+		if (!PyArg_ParseTuple(args, "Os", &a_obj, &s)) {
+			break;
+		}
+
+		auto label = GetObjPtr<RichTextLabel>(a_obj);
+		if (!label) {
+			break;
+		}
+
+		auto text = String::utf8(s);
+		label->set_text(text);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_label_set_minimum_size(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -1929,7 +1950,10 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// label
 	{ "label_set_text", f_label_set_text, METH_VARARGS, NULL },
-	{ "label_set_minimum_size", f_label_set_minimum_size, METH_VARARGS, NULL }, 
+	{ "label_set_minimum_size", f_label_set_minimum_size, METH_VARARGS, NULL },
+
+	// rich_text_label_set_text
+	{ "rich_text_label_set_text", f_rich_text_label_set_text, METH_VARARGS, NULL },
 
 	// tabbar
 	{ "tab_bar_get_current_tab", f_tab_bar_get_current_tab, METH_VARARGS, NULL },

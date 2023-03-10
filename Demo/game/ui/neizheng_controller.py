@@ -134,23 +134,36 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         # 税率
         self.slider_fax_rate.set_value(self.fax_rate)
         # 详情
-        text = f'''人口 {city_unit.population}人
-治安 {city_unit.order_points}
-农业 {city_unit.farmer_points}
-商业 {city_unit.trader_points}
-粮食 {city_unit.rice_amount}
-银两 {city_unit.money_amount}
-武将 {len(city_unit.hero_list)}人
-军队 {city_unit.army_amount}人
-'''
-        self.lbl_detail_obj.set_text(text)
-
+        self.update_city_detail()
+        
         # 设置当前页
         self.tab_index = 0
         self.tab_bar.set_current_tab(self.tab_index)
         self.on_tab_changed(0)
 
         self.init_hero_list()
+
+    # 详情
+    def update_city_detail(self):
+        city_unit = self.city_unit
+
+        config_mgr = game_mgr.config_mgr
+
+        farmer_growth_rate = config_mgr.calc_rice_growth_rate(
+                get_hero(self.satrap),
+                get_hero(self.farmer_incharge))
+        farmer_growth_label = config_mgr.format_colored_label(farmer_growth_rate)
+
+        text = f'''人口 {city_unit.population}人
+治安 {city_unit.order_points}
+农业 {city_unit.farmer_points}
+商业 {city_unit.trader_points}
+粮食 {city_unit.rice_amount} {farmer_growth_label}
+银两 {city_unit.money_amount}
+军队 {city_unit.army_amount}人
+武将 {len(city_unit.hero_list)}人
+'''
+        self.lbl_detail_obj.set_text(text)
 
     # 联动修改, 总数小于100
     def update_slider_value(self, index, value):
@@ -212,7 +225,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     def on_set_satrap(self, hero_id):
         self.satrap = hero_id
         # 重新计算内政的数据，更新太守造成的影响
-        #self.city_unit.get_controller().refresh_growth_rate()
+        self.update_city_detail()
 
     # 税务官
     def on_set_fax_incharge(self, hero_id):
@@ -225,6 +238,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     # 任命治安官
     def on_set_farmer_incharge(self, hero_id):
         self.farmer_incharge = hero_id
+        self.update_city_detail()
     
     # 任命治安官
     def on_set_trader_incharge(self, hero_id):

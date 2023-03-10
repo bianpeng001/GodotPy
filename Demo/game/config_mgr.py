@@ -56,6 +56,57 @@ class ConfigMgr:
         
         return value if value > 0 else 1
 
+    # 政治属性对应的,二次化的一个系数
+    def get_zhengzhi_ratio(self, hero):
+        if hero:
+            x = hero.zhengzhi/100
+        else:
+            x = 0.1
+        return x*x
+
+    def calc_rice_growth_rate(self, satrap, hero):
+        value = 0
+
+        if satrap:
+            value += satrap.zhengzhi*0.5
+
+        if hero:
+            value += hero.zhengzhi*0.5 + hero.zhili * 0.1
+
+        value *= self.get_zhengzhi_ratio(satrap)
+
+        return round(value)
+
+    def calc_money_growth_rate(self, satrap, hero):
+        value = 0
+        
+        if satrap:
+            value += satrap.zhengzhi*0.5
+
+        if hero:
+            value += hero.zhengzhi*0.5 + hero.zhili * 0.1
+            
+        value *= self.get_zhengzhi_ratio(satrap)
+
+        return round(value)
+
+    def calc_polulation_growth_rate(self,
+            satrap,
+            order_incharge,
+            farmer_incharge,
+            trader_incharge):
+        value = 0
+        if satrap:
+            value += satrap.zhengzhi*0.5 + satrap.meili*0.5
+        return round(value)
+
+    def format_colored_label(self, value):
+        if value > 0.001:
+            return f'[color=green]+{value}[/color]'
+        elif value < -0.001:
+            return f'[color=red]{value}[/color]'
+        else:
+            return ''
 
 def select_one(item_list, delete=False):
     count = len(item_list)
@@ -302,5 +353,7 @@ def new_hero_name():
         return f1 + n2
     else:
         return '李哪吒'
+
+
 
 

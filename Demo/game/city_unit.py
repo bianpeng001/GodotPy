@@ -39,28 +39,34 @@ class CityUnit(Unit, UnitTrait):
         # 单个资源上限
         self.max_amount_limit = 1000000 + random_int(0, 50)*10000
         
-        # 资源
+        # 军队数量,不在人口之列
         self.army_amount = random_int(100, 1000)
+        # 粮食
         self.rice_amount = random_int(100, 1000)
-        self.iron_amount = random_int(100, 1000)
-        self.stone_amount = random_int(100, 1000)
-        self.wood_amount = random_int(100, 1000)
+        # 银两
         self.money_amount = random_int(100, 1000)
+
+        # 这两个暂时没用上
+        #self.iron_amount = random_int(100, 1000)
+        #self.stone_amount = random_int(100, 1000)
+        #self.wood_amount = random_int(100, 1000)
 
         # 士气
         self.army_moral = 50
         # 治安,农业，商业的发展程度
-        self.order_points = 100
-        self.farmer_points = 100
-        self.trader_points = 100
+        self.order_points = 50
+        self.farmer_points = 50
+        self.trader_points = 50
 
         # 资源增长率, 基础增长率
-        self.growth_rate = 1
+        self.rice_growth_rate = 0
         # 人口增长率
-        self.mass_growth_rate = 0.1
+        self.money_growth_rate = 0
 
         # 居民人口 = 治安 + 务农 + 经商
         self.population = 1000 + random_int(100, 200)
+        self.polulation_growth_rate = 0
+        
         # 人口上限
         self.population_limit = 10000 + random_int(0, 9)*10000
 

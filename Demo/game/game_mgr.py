@@ -108,24 +108,24 @@ def get_main_player_id():
 def get_main_camera():
     return game_mgr.camera_mgr.main_camera
 
+# 鼠标下的世界坐标
 def get_position_under_mouse():
     camera = get_main_camera()
     x,y = game_mgr.input_mgr.get_mouse_pos()
     return camera.screen_to_world(x,y)
 
-def get_hero_name(hero_id):
-    if hero_id == 0:
-        return ''
-    hero = game_mgr.hero_mgr.get_hero(hero_id)
-
-    return hero.hero_name if hero else ''
-    
 def get_hero(hero_id):
     if hero_id == 0:
         return None
     hero = game_mgr.hero_mgr.get_hero(hero_id)
 
     return hero
+
+def get_hero_name(hero_id):
+    hero = get_hero(hero_id)
+
+    return hero.hero_name if hero else ''
+    
 
 def get_unit_name(unit_id):
     if unit_id == 0:
