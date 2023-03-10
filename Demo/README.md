@@ -231,7 +231,43 @@ ui自动适配屏幕大小，在Project Settings > Window > Stretch。Mode:canva
 
 九宫格(NinePatchRect)，在这里有个特殊的名字，新建一个资源[StyleBoxTexture](https://docs.godotengine.org/zh_CN/stable/classes/class_styleboxtexture.html)。
 
+### Python的用法
 
+python, decorator语法, 是在是太霸气了.
+所以,这里的Deco,并不限定是个啥,可以是一个func, 也可以是一个Class
+```python
+@Deco
+def hello():
+  pass
+
+# 等价于
+def _hello():
+  pass
+hello = Deco(_hello)
+```
+
+一个Property的实现原理
+
+```python
+class Prop:
+    def __init__(self, value):
+        self.value = value
+
+    def __get__(self, obj, owner):
+        print('call', obj, owner)
+        return self.value
+
+
+class A:
+    x = Prop(1234)
+    def __init__(self):
+        pass
+a = A()
+
+print(a.x)
+
+
+```
 
 ### 内存管理
 TODO：现在是放在一个列表，出场景统一清理。以后要做成跟着python的GC走, 可能要给Python一个弱引用。目前是用Capsule上面做的，后面自己做一个容器。
