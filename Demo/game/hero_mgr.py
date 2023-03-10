@@ -84,6 +84,9 @@ class Hero:
         self.attr = [ 0 for i in range(MAX) ]
         self.tags = []
 
+        # 行动力
+        self.action_points = 100
+
         # 老病残孕
         self.health = JK_HEALTH
         # 军队，内政(政,农,商..)，空闲

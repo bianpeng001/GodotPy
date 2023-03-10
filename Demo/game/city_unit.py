@@ -33,7 +33,7 @@ class CityUnit(Unit, UnitTrait):
 
         # 城内武将
         self.hero_list = []
-
+        #  附属建筑
         self.building_list = []
 
         # 单个资源上限
@@ -45,11 +45,6 @@ class CityUnit(Unit, UnitTrait):
         self.rice_amount = random_int(100, 1000)
         # 银两
         self.money_amount = random_int(100, 1000)
-
-        # 这两个暂时没用上
-        #self.iron_amount = random_int(100, 1000)
-        #self.stone_amount = random_int(100, 1000)
-        #self.wood_amount = random_int(100, 1000)
 
         # 士气
         self.army_moral = 50
@@ -66,7 +61,6 @@ class CityUnit(Unit, UnitTrait):
         # 居民人口 = 治安 + 务农 + 经商
         self.population = 1000 + random_int(100, 200)
         self.polulation_growth_rate = 0
-
         # 人口上限
         self.population_limit = 10000 + random_int(0, 9)*10000
 

@@ -599,6 +599,9 @@ class FContainer(FControl):
 class FHBoxContainer(FContainer):
     pass
 
+class FVBoxContainer(FContainer):
+    pass
+
 class FSlider(FControl):
     def get_value(self):
         #return gp.slider_get_value(self.get_gdobj())
@@ -649,8 +652,9 @@ _TypeMap = {
     'VSlider' : FSlider,
     'TextureRect' : FControl,
     'ColorRect' : FControl,
-    'HBoxContainer' : FHBoxContainer,
     'ScrollContainer' : FContainer,
+    'HBoxContainer' : FHBoxContainer,
+    'VBoxContainer' : FVBoxContainer,
     
 }
 
