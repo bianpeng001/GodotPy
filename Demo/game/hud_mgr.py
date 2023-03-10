@@ -21,11 +21,11 @@ class HUDItem:
         unit = game_mgr.unit_mgr.get_unit(self.unit_id)
         if unit:
             x,y,z=unit.get_position()
-            x1, y1 = get_main_camera().world_to_screen(x,y+8,z)
-            self.hud_obj.set_position(x1-40, y1+36)
+            x1,y1 = get_main_camera().world_to_screen(x,y+8,z)
+            self.hud_obj.set_position(x1-40, y1)
 
-    def set_visible(self, Value):
-        self.hud_obj.set_visible(Value)
+    def set_visible(self, value):
+        self.hud_obj.set_visible(value)
 
     def set_text(self, text):
         self.title_obj.set_text(text)

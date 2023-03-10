@@ -105,7 +105,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.fax_rate = self.city_unit.fax_rate
 
         # 这个不修改，只是这里用来计算的
-        self.urban_mass = self.city_unit.urban_mass
+        self.population = self.city_unit.population
 
         # 然后修改ui
         self.lbl_name_obj.set_text(self.city_unit.unit_name)
@@ -121,9 +121,9 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.lbl_trader_mass.set_text(f'{self.trader_mass}人')
         self.lbl_fax_rate_value.set_text(f'{self.fax_rate}%')
 
-        s1 = round(100*self.order_mass/self.urban_mass)
-        s2 = round(100*self.farmer_mass/self.urban_mass)
-        s3 = round(100*self.trader_mass/self.urban_mass)
+        s1 = round(100*self.order_mass/self.population)
+        s2 = round(100*self.farmer_mass/self.population)
+        s3 = round(100*self.trader_mass/self.population)
         self.slider_order_mass.set_value(s1)
         self.slider_farmer_mass.set_value(s2)
         self.slider_trader_mass.set_value(s3)
@@ -134,7 +134,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         # 税率
         self.slider_fax_rate.set_value(self.fax_rate)
         # 详情
-        text = f'''人口 {city_unit.urban_mass}人
+        text = f'''人口 {city_unit.population}人
 治安 {city_unit.order_points}
 农业 {city_unit.farmer_points}
 商业 {city_unit.trader_points}
@@ -253,7 +253,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         return btn_obj
 
     def get_slider_mass(self, value):
-        return math.floor(value * self.urban_mass * 0.001)*10
+        return math.floor(value * self.population * 0.001)*10
 
     def on_order_slide_change(self, value):
         if not self.ignore_slider_change:

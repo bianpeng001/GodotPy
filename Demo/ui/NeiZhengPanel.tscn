@@ -226,15 +226,16 @@ offset_bottom = 214.0
 theme = ExtResource("3_we820")
 text = "100"
 
-[node name="LblCityDetail" type="Label" parent="Panel/TabZheng"]
+[node name="LblCityDetail" type="RichTextLabel" parent="Panel/TabZheng"]
 layout_mode = 0
 offset_left = 32.0
 offset_top = 13.0
 offset_right = 232.0
 offset_bottom = 304.0
 theme = ExtResource("3_we820")
-text = "治安 100
-商业 100
+bbcode_enabled = true
+text = "治安 100 [color=green]+10[/color]
+商业 100 [color=red]-10[/color]
 农业 100
 人口 10000
 粮食 100000
