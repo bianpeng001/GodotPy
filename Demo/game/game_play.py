@@ -101,7 +101,8 @@ class GamePlay:
         log_util.debug('on_player_ready', game_mgr.camera_mgr.center)
 
         self.refresh_resource_grow(0)
-
+        
+        game_mgr.ui_mgr.story_panel_controller.play_story()
 
     # API方法，业务代码
 

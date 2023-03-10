@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://ckcoj2tealdyp"]
+[gd_scene load_steps=4 format=3 uid="uid://ckcoj2tealdyp"]
 
+[ext_resource type="Texture2D" uid="uid://d1ss7f4s3o5v1" path="res://ui/img/bg3.png" id="1_0fhxh"]
 [ext_resource type="Texture2D" uid="uid://dekis1iehdg2t" path="res://ui/story/001.png" id="1_jwy2h"]
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="2_aoew4"]
 
@@ -13,7 +14,15 @@ offset_bottom = -248.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Bg" type="TextureRect" parent="."]
+layout_mode = 0
+offset_top = 50.0
+offset_right = 400.0
+offset_bottom = 250.0
+texture = ExtResource("1_0fhxh")
+
 [node name="Image" type="TextureRect" parent="."]
+visible = false
 layout_mode = 0
 offset_right = 400.0
 offset_bottom = 400.0
@@ -21,9 +30,11 @@ texture = ExtResource("1_jwy2h")
 stretch_mode = 2
 
 [node name="Label" type="Label" parent="."]
+layout_mode = 0
 offset_top = 100.0
 offset_right = 400.0
 offset_bottom = 200.0
 theme = ExtResource("2_aoew4")
 text = "很久很久以前"
 horizontal_alignment = 1
+vertical_alignment = 1
