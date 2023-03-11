@@ -76,7 +76,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         # 任免页
         # 武将属性表头
         header = self.tab_jiang_obj.find_node('HeroList/Header')
-        self.init_header(header, ['姓名', '年龄','活动','武力','统率','智力','政治'])
+        self.init_header(header)
 
         btn_dengyong = self.tab_jiang_obj.find_node('BtnDengYong')
         rm_btns = [btn_dengyong, ]

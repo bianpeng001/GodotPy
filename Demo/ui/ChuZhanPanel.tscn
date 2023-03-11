@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://c3rh3bfm3ueko"]
+[gd_scene load_steps=7 format=3 uid="uid://c3rh3bfm3ueko"]
 
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_beg0d"]
 [ext_resource type="StyleBox" uid="uid://ihq43j8tlee2" path="res://ui/BtnOkStyle.tres" id="2_42owk"]
+[ext_resource type="StyleBox" uid="uid://cs78tjnu0sn2w" path="res://ui/PanelStyle.tres" id="2_ncryx"]
 [ext_resource type="StyleBox" uid="uid://mkp6hswesryo" path="res://ui/BtnCancelStyle.tres" id="3_jqp0i"]
 [ext_resource type="Texture2D" uid="uid://c4hqyefqdw1o" path="res://ui/img/Close.png" id="4_2lhyx"]
 [ext_resource type="Texture2D" uid="uid://dojr4gpmt4yed" path="res://ui/img/Close_hover.png" id="5_lsca5"]
@@ -20,6 +21,8 @@ grow_vertical = 2
 layout_mode = 0
 offset_right = 600.0
 offset_bottom = 480.0
+theme = ExtResource("1_beg0d")
+theme_override_styles/panel = ExtResource("2_ncryx")
 
 [node name="BtnOk" type="Button" parent="Panel"]
 layout_mode = 0
@@ -59,10 +62,10 @@ stretch_mode = 0
 
 [node name="ColorRect" type="ColorRect" parent="Panel"]
 layout_mode = 0
-offset_left = 275.0
-offset_top = 100.0
-offset_right = 575.0
-offset_bottom = 400.0
+offset_left = 283.0
+offset_top = 85.0
+offset_right = 533.0
+offset_bottom = 335.0
 color = Color(0.12549, 0.12549, 0.12549, 1)
 
 [node name="BtnSatrap" type="Button" parent="Panel"]
@@ -75,36 +78,36 @@ theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 18
 text = "派遣武将"
 
-[node name="Label2" type="Label" parent="Panel"]
+[node name="LblMembers" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 124.0
-offset_top = 56.0
-offset_right = 243.0
-offset_bottom = 83.0
+offset_left = 25.0
+offset_top = 88.0
+offset_right = 240.0
+offset_bottom = 190.0
 theme = ExtResource("1_beg0d")
-text = "关长赵马黄"
+text = "关羽,张飞,赵云,马超,黄忠"
 
 [node name="Label" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 35.0
-offset_top = 91.0
-offset_right = 87.0
-offset_bottom = 118.0
+offset_left = 34.0
+offset_top = 266.0
+offset_right = 86.0
+offset_bottom = 293.0
 theme = ExtResource("1_beg0d")
 text = "兵力"
 
-[node name="Label3" type="Label" parent="Panel"]
+[node name="LblArmy" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 199.0
-offset_top = 90.0
-offset_right = 251.0
-offset_bottom = 117.0
+offset_left = 198.0
+offset_top = 265.0
+offset_right = 250.0
+offset_bottom = 292.0
 theme = ExtResource("1_beg0d")
 text = "10000人"
 
 [node name="SliderOrderMass" type="HSlider" parent="Panel"]
 layout_mode = 0
-offset_left = 81.0
-offset_top = 92.0
-offset_right = 190.0
-offset_bottom = 116.0
+offset_left = 80.0
+offset_top = 267.0
+offset_right = 189.0
+offset_bottom = 291.0

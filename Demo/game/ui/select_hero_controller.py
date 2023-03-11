@@ -28,7 +28,7 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
 
         # 武将属性表头
         header = self.ui_obj.find_node('Panel/HeroList/Header')
-        self.init_header(header, ['姓名', '年龄','活动','武力','统率','智力','政治'])
+        self.init_header(header)
 
     def init(self):
         self.init_hero_list()

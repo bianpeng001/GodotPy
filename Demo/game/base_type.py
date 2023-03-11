@@ -161,9 +161,6 @@ class UIController:
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
-    def init(self):
-        pass
-
     def show(self):
         self.is_visible = True
         self.ui_obj.set_visible(True)

@@ -105,6 +105,10 @@ class UIMgr(NodeObject):
         _, self.select_hero_controller = self.load_panel(
                 'res://ui/SelectHeroDialog.tscn', SelectHeroController)
 
+        from game.ui.chuzhan_panel_controller import ChuZhanPanelController
+        _, self.chuzhan_panel_controller = self.load_panel(
+                'res://ui/ChuZhanPanel.tscn', ChuZhanPanelController)
+
         from game.ui.npc_dialog_controller import NpcDialogController
         _, self.npc_dialog_controller = self.load_panel(
                 'res://ui/NpcDialog.tscn', NpcDialogController)

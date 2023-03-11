@@ -36,8 +36,9 @@ class PopupTrait:
 
 # 武将列表
 class HeroListTrait:
-    def init_header(self, header, column_list):
+    def init_header(self, header):
         name_label = header.find_node('Label')
+        column_list = ['姓名', '年龄','活动','武力','统率','智力','政治', '行动']
 
         #name_label.set_minimum_size(80, 0)
         #name_label.set_text('姓名')
@@ -127,6 +128,10 @@ class HeroListTrait:
             zhengzhi_label = name_label.dup()
             zhengzhi_label.set_minimum_size(40, 0)
             zhengzhi_label.set_text(f'{hero.zhengzhi}')
+
+            zhengzhi_label = name_label.dup()
+            zhengzhi_label.set_minimum_size(40, 0)
+            zhengzhi_label.set_text(f'{hero.action_points}')
 
 
     def get_selected(self):

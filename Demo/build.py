@@ -29,10 +29,9 @@ def run(cmd):
     print(cmd)
     os.system(cmd)
 
-def build_release():
-    os.chdir(GODOT_DIR)
-
-    run(f'{SCONS_EXE} p=windows vsproj=no bits=64 -j6 target=editor dev_build=false')
+def build_publish():
+    #run(f'{SCONS_EXE} p=windows vsproj=no bits=64 -j6 target=editor dev_build=false')
+    build_editor_release()
     run(f'{EDITOR} -w --path "{DEMO_DIR}" --export-pack "Windows Desktop" {BUILD_DIR}\\Demo.pck')
     run(f'{SCONS_EXE} p=windows tools=no bits=64 -j6 target=template_release')
 
@@ -56,18 +55,19 @@ def build_release():
     for f in glob.iglob(f'{DEMO_DIR}\\game\\**\\*.pyc'):
         os.remove(f)
 
-def build_debug():
-    os.chdir(GODOT_DIR)
+def build_editor_debug():
+    run(f'{SCONS_EXE} p=windows vsproj=yes tools=yes bits=64 -j6 target=editor dev_build=true')
 
-    run(f'{SCONS_EXE} p=windows vsproj=yes bits=64 -j6 target=editor dev_build=true')
-
+def build_editor_release():
+    run(f'{SCONS_EXE} p=windows vsproj=no tools=yes bits=64 -j6 target=editor dev_build=false')
 
 if __name__ == '__main__':
     import sys
 
     jump_table = {
-        'release' : build_release,
-        'debug' : build_debug,
+        'publish' : build_publish,
+        'editor_debug' : build_editor_debug,
+        'editor_release' : build_editor_release,
     }
     fun = None
     if len(sys.argv) >= 2:
@@ -76,6 +76,7 @@ if __name__ == '__main__':
         fun = jump_table.get(cmd, None)
     
     if fun:
+        os.chdir(GODOT_DIR)
         fun()
     else:
         print('tasks', list(jump_table.keys()))
