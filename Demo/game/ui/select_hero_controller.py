@@ -22,9 +22,7 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
-        self.ui_obj.find_node('Panel/BtnOk').connect(PRESSED, self.on_ok_click)
-        self.ui_obj.find_node('Panel/BtnClose').connect(PRESSED, self.on_cancel_click)
-        self.ui_obj.find_node('Panel/BtnCancel').connect(PRESSED, self.on_cancel_click)
+        self.bind_ok_cancel_close()
 
         # 武将属性表头
         header = self.ui_obj.find_node('Panel/HeroList/Header')
@@ -39,7 +37,7 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
         self.init()
         self.popup(250, 134)
 
-    def on_cancel_click(self):
+    def on_close_click(self):
         self.defer_close()
         game_mgr.ui_mgr.pop_panel()
 

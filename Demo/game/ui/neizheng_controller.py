@@ -24,12 +24,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
-        self.ui_obj.find_node('Panel/BtnClose').connect(PRESSED,
-                self.on_cancel_click)
-        self.ui_obj.find_node('Panel/BtnCancel').connect(PRESSED,
-                self.on_cancel_click)
-        self.ui_obj.find_node('Panel/BtnOk').connect(PRESSED,
-                self.on_ok_click)
+        self.bind_ok_cancel_close()
 
         self.tab_bar = self.ui_obj.find_node('TabBar')
         self.tab_bar.connect(TAB_CHANGED, self.on_tab_changed)
@@ -288,9 +283,6 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         if len(hero_list) > 0:
             speaker_name = get_hero_name(hero_list[0])
             self.popup_dialog(f'{speaker_name}: 任重而道远,贵在持之以恒', 1.5)
-
-    def on_cancel_click(self):
-        self.defer_close()
 
     def on_ok_click(self):
         self.defer_close()

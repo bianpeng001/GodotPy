@@ -17,9 +17,15 @@ class ChuZhanPanelController(UIController, PopupTrait):
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
+        self.bind_ok_cancel_close()
+
+    def on_ok_click(self):
+        self.defer_close()
 
     def init(self, city_unit):
         self.city_unit = city_unit
+
+        
 
 
 

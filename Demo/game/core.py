@@ -593,6 +593,10 @@ class FImage(FControl):
 class FPanel(FControl):
     pass
 
+class FItemList(FControl):
+    def set_item_list(self, item_list):
+        pass
+
 class FContainer(FControl):
     pass
 

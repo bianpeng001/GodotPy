@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c3rh3bfm3ueko"]
+[gd_scene load_steps=8 format=3 uid="uid://c3rh3bfm3ueko"]
 
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_beg0d"]
 [ext_resource type="StyleBox" uid="uid://ihq43j8tlee2" path="res://ui/BtnOkStyle.tres" id="2_42owk"]
@@ -6,6 +6,7 @@
 [ext_resource type="StyleBox" uid="uid://mkp6hswesryo" path="res://ui/BtnCancelStyle.tres" id="3_jqp0i"]
 [ext_resource type="Texture2D" uid="uid://c4hqyefqdw1o" path="res://ui/img/Close.png" id="4_2lhyx"]
 [ext_resource type="Texture2D" uid="uid://dojr4gpmt4yed" path="res://ui/img/Close_hover.png" id="5_lsca5"]
+[ext_resource type="StyleBox" uid="uid://bn2js0rroor7y" path="res://ui/BtnEmptyStyle.tres" id="7_1lycp"]
 
 [node name="ChuZhanPanel" type="Control"]
 layout_mode = 3
@@ -62,52 +63,150 @@ stretch_mode = 0
 
 [node name="ColorRect" type="ColorRect" parent="Panel"]
 layout_mode = 0
-offset_left = 283.0
-offset_top = 85.0
-offset_right = 533.0
-offset_bottom = 335.0
+offset_left = 310.0
+offset_top = 127.0
+offset_right = 560.0
+offset_bottom = 377.0
 color = Color(0.12549, 0.12549, 0.12549, 1)
-
-[node name="BtnSatrap" type="Button" parent="Panel"]
-layout_mode = 0
-offset_left = 34.0
-offset_top = 54.0
-offset_right = 114.0
-offset_bottom = 82.0
-theme = ExtResource("1_beg0d")
-theme_override_font_sizes/font_size = 18
-text = "派遣武将"
-
-[node name="LblMembers" type="Label" parent="Panel"]
-layout_mode = 0
-offset_left = 25.0
-offset_top = 88.0
-offset_right = 240.0
-offset_bottom = 190.0
-theme = ExtResource("1_beg0d")
-text = "关羽,张飞,赵云,马超,黄忠"
 
 [node name="Label" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 34.0
-offset_top = 266.0
-offset_right = 86.0
-offset_bottom = 293.0
+offset_left = 30.0
+offset_top = 43.0
+offset_right = 82.0
+offset_bottom = 70.0
+theme = ExtResource("1_beg0d")
+text = "武将"
+
+[node name="LblMembers" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 82.0
+offset_top = 43.0
+offset_right = 222.0
+offset_bottom = 85.0
+theme = ExtResource("1_beg0d")
+theme_override_font_sizes/font_size = 14
+text = "关羽,张飞,赵云,马超,黄忠"
+autowrap_mode = 2
+text_overrun_behavior = 3
+
+[node name="BtnHeros" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 43.0
+offset_right = 262.0
+offset_bottom = 66.0
+theme = ExtResource("1_beg0d")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/focus = ExtResource("7_1lycp")
+text = "选择"
+
+[node name="Label3" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 85.0
+offset_right = 82.0
+offset_bottom = 112.0
 theme = ExtResource("1_beg0d")
 text = "兵力"
 
 [node name="LblArmy" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 198.0
-offset_top = 265.0
-offset_right = 250.0
-offset_bottom = 292.0
+offset_left = 202.0
+offset_top = 85.0
+offset_right = 254.0
+offset_bottom = 112.0
 theme = ExtResource("1_beg0d")
-text = "10000人"
+text = "10000/10000人"
 
 [node name="SliderOrderMass" type="HSlider" parent="Panel"]
 layout_mode = 0
-offset_left = 80.0
-offset_top = 267.0
-offset_right = 189.0
-offset_bottom = 291.0
+offset_left = 84.0
+offset_top = 85.0
+offset_right = 193.0
+offset_bottom = 109.0
+
+[node name="Label2" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 127.0
+offset_right = 82.0
+offset_bottom = 154.0
+theme = ExtResource("1_beg0d")
+text = "阵型"
+
+[node name="Label4" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 263.0
+offset_right = 82.0
+offset_bottom = 290.0
+theme = ExtResource("1_beg0d")
+text = "策略"
+
+[node name="BtnForm" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 82.0
+offset_top = 127.0
+offset_right = 122.0
+offset_bottom = 150.0
+theme = ExtResource("1_beg0d")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/focus = ExtResource("7_1lycp")
+text = "方阵"
+
+[node name="FormList" type="ItemList" parent="Panel"]
+visible = false
+layout_mode = 0
+offset_left = 82.0
+offset_top = 150.0
+offset_right = 186.0
+offset_bottom = 240.0
+theme_override_font_sizes/font_size = 14
+item_count = 2
+item_0/text = "长蛇阵"
+item_1/text = "长蛇阵"
+
+[node name="CheckGreedy" type="CheckBox" parent="Panel"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 293.0
+offset_right = 105.0
+offset_bottom = 322.0
+theme = ExtResource("1_beg0d")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/focus = ExtResource("7_1lycp")
+text = "无视其他目标"
+
+[node name="CheckGreedy2" type="CheckBox" parent="Panel"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 322.0
+offset_right = 142.0
+offset_bottom = 351.0
+theme = ExtResource("1_beg0d")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/focus = ExtResource("7_1lycp")
+text = "追击目标"
+
+[node name="CheckGreedy3" type="CheckBox" parent="Panel"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 351.0
+offset_right = 142.0
+offset_bottom = 380.0
+theme = ExtResource("1_beg0d")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/focus = ExtResource("7_1lycp")
+text = "失去目标即撤兵"
+
+[node name="CheckGreedy4" type="CheckBox" parent="Panel"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 380.0
+offset_right = 142.0
+offset_bottom = 409.0
+theme = ExtResource("1_beg0d")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/focus = ExtResource("7_1lycp")
+text = "无视其他目标"

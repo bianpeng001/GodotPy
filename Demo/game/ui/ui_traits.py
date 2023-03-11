@@ -5,6 +5,7 @@ import sys
 
 from game.core import log_util_debug
 from game.game_mgr import *
+from game.event_name import *
 
 #------------------------------------------------------------
 # traits 功能类，用来复用一些代码, 这里不带数据，只提供方法
@@ -33,6 +34,19 @@ class PopupTrait:
     def popup_dialog(self, msg, time_out = 1.5):
         controller = game_mgr.ui_mgr.npc_dialog_controller
         controller.show_dialog(msg, time_out)
+
+    def bind_ok_cancel_close(self):
+        btn_close = self.ui_obj.find_node('Panel/BtnClose')
+        btn_close.connect(PRESSED, self.on_close_click)
+        
+        btn_cancel = self.ui_obj.find_node('Panel/BtnCancel')
+        btn_cancel.connect(PRESSED, self.on_close_click)
+
+        btn_ok = self.ui_obj.find_node('Panel/BtnOk')
+        btn_ok.connect(PRESSED, self.on_ok_click)
+
+    def on_close_click(self):
+        self.defer_close()
 
 # 武将列表
 class HeroListTrait:

@@ -102,7 +102,7 @@ class GamePlay:
 
         self.refresh_resource_grow(0)
         
-        game_mgr.ui_mgr.story_panel_controller.play_story()
+        #game_mgr.ui_mgr.story_panel_controller.play_story()
 
     # API方法，业务代码
 
