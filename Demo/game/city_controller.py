@@ -36,18 +36,26 @@ class CityController(Controller):
             value = max_amount
         return round(value)
 
-    def grow_resource(self, delta_time):
-        city = self.get_unit()
+    def refresh_resource_amount(self, delta_time):
+        city_unit = self.get_unit()
 
         # 重新计算城内各个增长率
+        order,rice,money,population = self.calc_growth_rate(
+                city_unit.satrap,
+                city_unit.order_incharge,
+                city_unit.farmer_incharge,
+                city_unit.trader_incharge)
 
         # city.army_amount = self._calc_resource(city.army_amount, 
         #         city.polulation_growth_rate, delta_time, city.max_amount_limit)
-        city.money_amount = self._calc_resource(city.money_amount, 
-                city.money_growth_rate, delta_time, city.max_amount_limit)
-        city.rice_amount = self._calc_resource(city.rice_amount, 
-                city.rice_growth_rate, delta_time, city.max_amount_limit)
+        city_unit.money_amount = self._calc_resource(city_unit.money_amount,
+                money, delta_time,
+                city_unit.max_amount_limit)
+        city_unit.rice_amount = self._calc_resource(city_unit.rice_amount,
+                rice, delta_time,
+                city_unit.max_amount_limit)
 
+    # 计算各个资源的增长率
     def calc_growth_rate(self,
             satrap, 
             order_incharge,
@@ -76,6 +84,7 @@ class CityController(Controller):
     def on_ai_tick(self, tick_time):
         city_unit = self.get_unit()
 
+        # TODO: 这个要改,细化行为,要有各种行为
         # 测试行为，不断招兵，军队数量达到1000，就出兵征讨
         if city_unit.army_amount > 1000:
             city_unit.army_amount -= 1000

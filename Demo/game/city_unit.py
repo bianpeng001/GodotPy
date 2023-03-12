@@ -53,11 +53,6 @@ class CityUnit(Unit, UnitTrait):
         self.farmer_points = 50
         self.trader_points = 50
 
-        # 资源增长率, 基础增长率
-        self.rice_growth_rate = 0
-        # 人口增长率
-        self.money_growth_rate = 0
-
         # 居民人口 = 治安 + 务农 + 经商
         self.population = 1000 + random_int(100, 200)
         self.polulation_growth_rate = 0

@@ -100,7 +100,7 @@ class GamePlay:
         mp = game_mgr.player_mgr.main_player
         log_util.debug('on_player_ready', game_mgr.camera_mgr.center)
 
-        self.refresh_resource_grow(0)
+        self.refresh_player_resource(0)
         
         #game_mgr.ui_mgr.story_panel_controller.play_story()
 
@@ -144,18 +144,18 @@ class GamePlay:
         
         # 资源刷新
         self.data_tick_time += delta_time
-        if self.data_tick_time > 1.0:
+        if self.data_tick_time > 30.0:
             # 刷新日期
             game_data.cur_year = game_data.get_cur_year()
             # 结算资源
-            self.refresh_resource_grow(self.data_tick_time)
+            self.refresh_player_resource(self.data_tick_time)
             self.data_tick_time = 0
 
     # 刷新所有的资源增长, 这个开销也不大
     # delta_time：间隔时长，单位秒
-    def refresh_resource_grow(self, delta_time):
+    def refresh_player_resource(self, delta_time):
         for city in game_mgr.unit_mgr.each_city():
-            city.get_controller().grow_resource(delta_time)
+            city.get_controller().refresh_resource_amount(delta_time)
         
         for player in game_mgr.player_mgr.each_player():
             player.total_money_amount = 0
