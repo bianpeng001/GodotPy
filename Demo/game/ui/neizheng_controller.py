@@ -150,9 +150,9 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 治安 {city_unit.order_points} {order}
 农业 {city_unit.farmer_points}
 商业 {city_unit.trader_points}
-粮食 {city_unit.rice_amount} {rice}
-银两 {city_unit.money_amount} {money}
-军队 {city_unit.army_amount}人
+粮食 {round(city_unit.rice_amount)} {rice}
+银两 {round(city_unit.money_amount)} {money}
+军队 {round(city_unit.army_amount)}人
 武将 {len(city_unit.hero_list)}人
 '''
         self.lbl_detail_obj.set_text(text)
