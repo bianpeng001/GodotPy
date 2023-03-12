@@ -8,10 +8,10 @@ import sqlite3
 # 游戏存档
 class GameData:
     def __init__(self):
-        self.start_year = 160
+        self.start_year = 181
         self.play_time = 0
         
-        self.cur_year = 181
+        self.cur_year = self.get_cur_year()
         self.cur_month = 1
 
         self.player_list = []

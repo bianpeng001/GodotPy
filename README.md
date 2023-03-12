@@ -26,9 +26,7 @@
         print(f'{OS.get_time()} {game_mgr.sec_time}')
 ```
 
-详细情况，见[开发记录](Demo/README.md)
-
-或者[我的博客](https://bianpeng001.github.io/GodotPy/blog.htm)
+详细情况，见[开发记录](Demo/README.md)和[我的博客](https://bianpeng001.github.io/GodotPy/blog.htm)
 
 ## 文档
 文档用markdownjs来从md生成页面，[marked](https://github.com/markedjs/marked)

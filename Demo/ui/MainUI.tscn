@@ -15,39 +15,39 @@ offset_right = 1152.0
 offset_bottom = 60.0
 color = Color(0.188235, 0.188235, 0.188235, 0.941176)
 
-[node name="RiceIcon" type="TextureRect" parent="."]
-layout_mode = 0
-offset_left = 220.0
-offset_top = 10.0
-offset_right = 250.0
-offset_bottom = 40.0
-texture = ExtResource("8_n434f")
-expand_mode = 1
-
-[node name="RiceLabel" type="Label" parent="."]
-layout_mode = 0
-offset_left = 260.0
-offset_top = 12.0
-offset_right = 319.0
-offset_bottom = 38.0
-theme = ExtResource("5_dnccb")
-text = "0"
-
 [node name="MoneyIcon" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = 100.0
-offset_top = 10.0
-offset_right = 130.0
-offset_bottom = 40.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 46.0
+offset_bottom = 46.0
 texture = ExtResource("6_k0gva")
 expand_mode = 1
 
 [node name="MoneyLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 140.0
-offset_top = 12.0
-offset_right = 199.0
-offset_bottom = 38.0
+offset_left = 56.0
+offset_top = 18.0
+offset_right = 115.0
+offset_bottom = 44.0
+theme = ExtResource("5_dnccb")
+text = "0"
+
+[node name="RiceIcon" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 104.0
+offset_top = 16.0
+offset_right = 134.0
+offset_bottom = 46.0
+texture = ExtResource("8_n434f")
+expand_mode = 1
+
+[node name="RiceLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 18.0
+offset_right = 203.0
+offset_bottom = 44.0
 theme = ExtResource("5_dnccb")
 text = "0"
 

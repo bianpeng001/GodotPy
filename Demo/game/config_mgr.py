@@ -48,6 +48,8 @@ class ConfigMgr:
             '国之大务，莫先于戒备。',
         ]
 
+        self.play_time_scale = 1000
+
     # 公式也都定义在此, 参数有点多
 
     # 伤害结算

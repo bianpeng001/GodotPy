@@ -36,7 +36,7 @@ class GamePlay:
         game_mgr.hud_mgr.setup()
         
         # 资源刷新tick
-        self.resource_grow_time = 0
+        self.data_tick_time = 0
 
         # add event handler
         game_mgr.event_mgr.add(APP_LAUNCH, self.on_app_launch)
@@ -120,7 +120,7 @@ class GamePlay:
         city.owner_player_id = player.player_id
         player.city_list.append(city.unit_id)
 
-        # TODO: 城中的武将
+        # TODO: 城中的武将的归属,逃走俘虏
 
     # 队伍攻城
     def troop_attack_city(self, troop, city):
@@ -138,14 +138,18 @@ class GamePlay:
 
     def update(self, delta_time):
         # 游戏时间
-        game_mgr.game_data.play_time += delta_time*10000
-        game_mgr.game_data.cur_year = game_mgr.game_data.get_cur_year()
-
+        game_data = game_mgr.game_data
+        time_scale = game_mgr.config_mgr.play_time_scale
+        game_data.play_time += delta_time * time_scale
+        
         # 资源刷新
-        self.resource_grow_time += delta_time
-        if self.resource_grow_time > 1.1:
-            self.refresh_resource_grow(self.resource_grow_time)
-            self.resource_grow_time = 0
+        self.data_tick_time += delta_time
+        if self.data_tick_time > 1.0:
+            # 刷新日期
+            game_data.cur_year = game_data.get_cur_year()
+            # 结算资源
+            self.refresh_resource_grow(self.data_tick_time)
+            self.data_tick_time = 0
 
     # 刷新所有的资源增长, 这个开销也不大
     # delta_time：间隔时长，单位秒
