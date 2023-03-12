@@ -67,7 +67,11 @@ class CityController(Controller):
             get_hero(satrap), get_hero(trader_incharge)
         )
 
-        return order,rice,money
+        population = config_mgr.calc_population_growth_rate(
+            get_hero(satrap)
+        )
+
+        return order,rice,money,population
 
     def on_ai_tick(self, tick_time):
         city_unit = self.get_unit()

@@ -73,12 +73,12 @@ text = "太守"
 
 [node name="BtnSatrap" type="Button" parent="Panel/TabZheng"]
 layout_mode = 0
-offset_left = 319.0
+offset_left = 321.0
 offset_top = 18.0
-offset_right = 399.0
+offset_right = 397.0
 offset_bottom = 46.0
 theme = ExtResource("3_we820")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 theme_override_styles/focus = ExtResource("6_tfify")
 text = "刘备"
 
@@ -93,12 +93,12 @@ text = "治安"
 
 [node name="BtnOrderCharge" type="Button" parent="Panel/TabZheng"]
 layout_mode = 0
-offset_left = 319.0
+offset_left = 321.0
 offset_top = 70.0
-offset_right = 399.0
+offset_right = 397.0
 offset_bottom = 98.0
 theme = ExtResource("3_we820")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 theme_override_styles/focus = ExtResource("6_tfify")
 text = "关羽"
 
@@ -129,12 +129,12 @@ text = "农业"
 
 [node name="BtnFarmerCharge" type="Button" parent="Panel/TabZheng"]
 layout_mode = 0
-offset_left = 319.0
+offset_left = 321.0
 offset_top = 110.0
-offset_right = 399.0
+offset_right = 397.0
 offset_bottom = 138.0
 theme = ExtResource("3_we820")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 theme_override_styles/focus = ExtResource("6_tfify")
 text = "诸葛亮"
 
@@ -165,12 +165,12 @@ text = "商业"
 
 [node name="BtnTraderCharge" type="Button" parent="Panel/TabZheng"]
 layout_mode = 0
-offset_left = 319.0
+offset_left = 321.0
 offset_top = 150.0
-offset_right = 399.0
+offset_right = 397.0
 offset_bottom = 178.0
 theme = ExtResource("3_we820")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 theme_override_styles/focus = ExtResource("6_tfify")
 text = "张飞"
 
@@ -201,12 +201,12 @@ text = "税率"
 
 [node name="BtnFaxCharge" type="Button" parent="Panel/TabZheng"]
 layout_mode = 0
-offset_left = 319.0
+offset_left = 321.0
 offset_top = 190.0
-offset_right = 399.0
+offset_right = 397.0
 offset_bottom = 218.0
 theme = ExtResource("3_we820")
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 17
 theme_override_styles/focus = ExtResource("6_tfify")
 text = "赵云"
 

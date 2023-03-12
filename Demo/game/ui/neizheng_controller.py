@@ -144,9 +144,9 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
                 self.farmer_incharge,
                 self.trader_incharge)
 
-        order,rice,money = map(config_mgr.format_colored_label, rates)
+        order,rice,money,population = map(config_mgr.format_colored_label, rates)
 
-        text = f'''人口 {city_unit.population}人
+        text = f'''人口 {city_unit.population}人 {population}
 治安 {city_unit.order_points} {order}
 农业 {city_unit.farmer_points}
 商业 {city_unit.trader_points}

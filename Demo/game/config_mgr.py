@@ -91,7 +91,7 @@ class ConfigMgr:
             value += satrap.zhengzhi*0.53
 
         if hero:
-            value += hero.zhengzhi*0.37 + hero.zhili * 0.1
+            value += hero.zhengzhi*0.37 + hero.zhili*0.1
 
         value *= self.get_zhengzhi_ratio(satrap)
         #log_util_debug('rice growth', value)
@@ -105,18 +105,15 @@ class ConfigMgr:
             value += satrap.zhengzhi*0.43
 
         if hero:
-            value += hero.zhengzhi*0.37 + hero.zhili * 0.2
+            value += hero.zhengzhi*0.37 + hero.zhili*0.2
             
         value *= self.get_zhengzhi_ratio(satrap)
 
         return round(value)
 
-    def calc_polulation_growth_rate(self,
-            satrap,
-            order_incharge,
-            farmer_incharge,
-            trader_incharge):
+    def calc_population_growth_rate(self, satrap):
         value = 0
+        
         if satrap:
             value += satrap.zhengzhi*0.51 + \
                     satrap.meili*0.31 + \
