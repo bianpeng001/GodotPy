@@ -70,6 +70,20 @@ class ConfigMgr:
         else:
             return 0.3
 
+    def calc_order_growth_rate(self, satrap, hero):
+        value = 0
+
+        if satrap:
+            value += satrap.zhengzhi*0.2
+
+        if hero:
+            value += hero.wuli*0.5 + hero.tongshuai*0.3
+
+        value *= self.get_zhengzhi_ratio(satrap)*0.2
+        #log_util_debug('rice growth', value)
+
+        return round(value)
+
     def calc_rice_growth_rate(self, satrap, hero):
         value = 0
 
@@ -88,10 +102,10 @@ class ConfigMgr:
         value = 0
         
         if satrap:
-            value += satrap.zhengzhi*0.53
+            value += satrap.zhengzhi*0.43
 
         if hero:
-            value += hero.zhengzhi*0.37 + hero.zhili * 0.1
+            value += hero.zhengzhi*0.37 + hero.zhili * 0.2
             
         value *= self.get_zhengzhi_ratio(satrap)
 

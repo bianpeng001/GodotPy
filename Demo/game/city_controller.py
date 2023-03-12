@@ -39,35 +39,53 @@ class CityController(Controller):
     def grow_resource(self, delta_time):
         city = self.get_unit()
 
-        city.army_amount = self._calc_resource(city.army_amount, 
-                city.polulation_growth_rate, delta_time, city.max_amount_limit)
-        city.money_amount = self._calc_resource(city.money_amount, 
-                city.rice_growth_rate, delta_time, city.max_amount_limit)
-        city.rice_amount = self._calc_resource(city.rice_amount, 
-                city.money_growth_rate, delta_time, city.max_amount_limit)
+        # 重新计算城内各个增长率
 
-    # 重新计算城内各个增长率
-    def refresh_growth_rate(self):
-        "重新计算城内各个增长率"
-        pass
+        # city.army_amount = self._calc_resource(city.army_amount, 
+        #         city.polulation_growth_rate, delta_time, city.max_amount_limit)
+        city.money_amount = self._calc_resource(city.money_amount, 
+                city.money_growth_rate, delta_time, city.max_amount_limit)
+        city.rice_amount = self._calc_resource(city.rice_amount, 
+                city.rice_growth_rate, delta_time, city.max_amount_limit)
+
+    def calc_growth_rate(self,
+            satrap, 
+            order_incharge,
+            farmer_incharge,
+            trader_incharge):
+        config_mgr = game_mgr.config_mgr
+
+        order = config_mgr.calc_order_growth_rate(
+            get_hero(satrap), get_hero(order_incharge)
+        )
+
+        rice = config_mgr.calc_rice_growth_rate(
+            get_hero(satrap), get_hero(farmer_incharge)
+        )
+        
+        money = config_mgr.calc_money_growth_rate(
+            get_hero(satrap), get_hero(trader_incharge)
+        )
+
+        return order,rice,money
 
     def on_ai_tick(self, tick_time):
-        city = self.get_unit()
+        city_unit = self.get_unit()
 
         # 测试行为，不断招兵，军队数量达到1000，就出兵征讨
-        if city.army_amount > 1000:
-            city.army_amount -= 1000
+        if city_unit.army_amount > 1000:
+            city_unit.army_amount -= 1000
 
-            x,y,z = city.get_position()
+            x,y,z = city_unit.get_position()
 
             troop = game_mgr.unit_mgr.create_troop()
-            troop.owner_city_id = city.unit_id
-            troop.owner_player_id = city.owner_player_id
+            troop.owner_city_id = city_unit.unit_id
+            troop.owner_player_id = city_unit.owner_player_id
 
             troop.set_army_amount(1000)
             troop.set_position(x,y,z)
 
-     # 驱动ai tick
+     # 驱动 ai tick
     def drive_ai_tick(self):
         self.ai_tick_time += game_mgr.delta_time
         if self.ai_tick_time > 0.3:

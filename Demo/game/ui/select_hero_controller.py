@@ -2,11 +2,11 @@
 # 2023年2月28日 bianpeng
 #
 
-from game.core import log_util
+from game.core import log_util_debug
 from game.base_type import UIController
-from game.event_name import PRESSED
-from game.game_mgr import game_mgr
+from game.game_mgr import *
 from game.ui.ui_traits import *
+from game.event_name import PRESSED
 
 #
 # 选择武将，是一个二级界面
@@ -17,24 +17,20 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
         super().__init__()
         
         self.item_list = []
-        self.ok_cb = None
+        self.select_callback = None
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
-
         self.bind_ok_cancel_close()
-
         # 武将属性表头
         header = self.ui_obj.find_node('Panel/HeroList/Header')
         self.init_header(header)
 
-    def init(self):
-        self.init_hero_list()
-
-    def show_dialog(self, city_unit, ok_cb):
+    def show_dialog(self, city_unit, select_callback):
         self.city_unit = city_unit
-        self.ok_cb = ok_cb
-        self.init()
+        self.select_callback = select_callback
+
+        self.init_hero_list()
         self.popup(250, 134)
 
     def on_close_click(self):
@@ -46,13 +42,11 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
         game_mgr.ui_mgr.pop_panel()
 
         hero_list = self.get_selected()
-        if self.ok_cb:
-            self.ok_cb(hero_list)
-            self.ok_cb = None
+        if self.select_callback:
+            self.select_callback(hero_list)
+            self.select_callback = None
 
     def init_hero_list(self):
         item_node = self.ui_obj.find_node('Panel/HeroList/ScrollContainer/VBoxContainer/Item')
         self.init_items(item_node, self.city_unit.hero_list)
-
-
 

@@ -138,22 +138,20 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         config_mgr = game_mgr.config_mgr
 
-        farmer_growth_rate = config_mgr.calc_rice_growth_rate(
-                get_hero(self.satrap),
-                get_hero(self.farmer_incharge))
-        farmer_growth_label = config_mgr.format_colored_label(farmer_growth_rate)
+        rates = city_unit.get_controller().calc_growth_rate(
+                self.satrap, 
+                self.order_incharge,
+                self.farmer_incharge,
+                self.trader_incharge)
 
-        money_growth_rate = config_mgr.calc_money_growth_rate(
-                get_hero(self.satrap),
-                get_hero(self.trader_incharge))
-        money_growth_label = config_mgr.format_colored_label(money_growth_rate)
+        order,rice,money = map(config_mgr.format_colored_label, rates)
 
         text = f'''人口 {city_unit.population}人
-治安 {city_unit.order_points}
+治安 {city_unit.order_points} {order}
 农业 {city_unit.farmer_points}
 商业 {city_unit.trader_points}
-粮食 {city_unit.rice_amount} {farmer_growth_label}
-银两 {city_unit.money_amount} {money_growth_label}
+粮食 {city_unit.rice_amount} {rice}
+银两 {city_unit.money_amount} {money}
 军队 {city_unit.army_amount}人
 武将 {len(city_unit.hero_list)}人
 '''
@@ -229,6 +227,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     # 任命治安官
     def on_set_order_incharge(self, hero_id):
         self.order_incharge = hero_id
+        self.update_city_detail()
 
     # 任命治安官
     def on_set_farmer_incharge(self, hero_id):
@@ -313,9 +312,6 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.city_unit.farmer_mass = self.farmer_mass
         self.city_unit.trader_mass = self.trader_mass
         self.city_unit.fax_rate = self.fax_rate
-
-        # 刷新数值,重新计算
-        self.city_unit.get_controller().refresh_growth_rate()
 
     def on_tab_changed(self, index):
         self.tab_index = index
