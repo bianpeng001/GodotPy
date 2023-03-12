@@ -52,9 +52,11 @@ class MainUIController(UIController, PopupTrait):
         game_mgr.event_mgr.add(MAINUI_REFRESH, self.on_refresh)
 
         self.gm_file_path = os.path.join(game_mgr.game_path, 'gm.py')
+        if not os.path.exists(self.gm_file_path):
+            self.gm_file_path = None
 
     def on_gm_click(self):
-        if os.path.exists(self.gm_file_path):
+        if self.gm_file_path:
             with open(self.gm_file_path, encoding='utf-8') as f:
                 data = f.read()
                 exec(data)
