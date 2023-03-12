@@ -55,7 +55,7 @@ class MainUIController(UIController, PopupTrait):
 
     def on_gm_click(self):
         if os.path.exists(self.gm_file_path):
-            with open(self.gm_file_path) as f:
+            with open(self.gm_file_path, encoding='utf-8') as f:
                 data = f.read()
                 exec(data)
                 print('-----------------', self.gm_file_path, '-----------------')

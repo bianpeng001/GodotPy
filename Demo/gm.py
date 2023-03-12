@@ -8,5 +8,5 @@ main_camera = game_mgr.camera_mgr.main_camera
 ui_mgr = game_mgr.ui_mgr
 #print(ui_mgr.build_panel_controller.is_visible)
 
-game_mgr.ui_mgr.story_panel_controller.play_story()
+game_mgr.ui_mgr.story_panel_controller.play_story(['此城虽小, 可励精图治'])
 

@@ -26,20 +26,20 @@ class StoryPanelController(UIController, PopupTrait):
     def init(self):
         pass
 
-    def play_story(self):
-        game_mgr.co_mgr.start(self.co_play_story())
+    def play_story(self, text_list):
+        game_mgr.co_mgr.start(self.co_play_story(text_list))
 
-    def co_play_story(self):
+    def co_play_story(self, text_list):
         yield WaitForSeconds(3)
 
         self.popup(350, 100)
         log_util_debug('begin play story')
 
-        text_list = (
-            '华夏大地, 不知何许年也',
-            '山河日月, 一如汉唐',
-            '此城虽小, 可励精图治',
-            )
+        # text_list = (
+        #     '华夏大地, 不知何许年也',
+        #     '山河日月, 一如汉唐',
+        #     '此城虽小, 可励精图治',
+        # )
         for text in text_list:
             self.show_text(text)
             yield WaitForSeconds(3)

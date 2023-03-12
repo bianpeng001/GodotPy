@@ -128,9 +128,9 @@ class ConfigMgr:
         return v
 
     def format_colored_label(self, value):
-        if value > 0.001:
+        if value > 0.01:
             return f'[color=green]+{value}[/color]'
-        elif value < -0.001:
+        elif value < -0.01:
             return f'[color=red]{value}[/color]'
         else:
             return ''
