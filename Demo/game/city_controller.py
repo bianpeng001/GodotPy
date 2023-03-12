@@ -34,7 +34,7 @@ class CityController(Controller):
         value =  amount + growth_rate * delta_time
         if value > max_amount:
             value = max_amount
-        return round(value)
+        return value
 
     def refresh_resource_amount(self, delta_time):
         city_unit = self.get_unit()

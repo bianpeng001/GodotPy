@@ -113,7 +113,7 @@ class ConfigMgr:
 
     def calc_population_growth_rate(self, satrap):
         value = 0
-        
+
         if satrap:
             value += satrap.zhengzhi*0.51 + \
                     satrap.meili*0.31 + \
@@ -136,8 +136,9 @@ class ConfigMgr:
             return ''
 
     def format_amount_label(self, value):
+        value = math.floor(value)
         if value < 100000:
-            return str(round(value))
+            return str(value)
         elif value < 100000000:
             value //= 10000
             return f'{value}万'
