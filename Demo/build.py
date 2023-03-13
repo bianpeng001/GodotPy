@@ -10,10 +10,12 @@ import glob
 
 GODOT_DIR = 'D:\\OpenSource\\godot'
 PROJECT_DIR = 'D:\\OpenSource\\GodotPy'
+THREADS = 6
 
 if not os.path.exists(GODOT_DIR):
     GODOT_DIR = f'H:\\godot'
     PROJECT_DIR = f'H:\\GodotPy'
+    THREADS = 4
 
 GODOT_BIN_DIR = os.path.join(GODOT_DIR, 'bin')
 EDITOR = os.path.join(GODOT_BIN_DIR, 'godot.windows.editor.x86_64.exe')
@@ -33,7 +35,7 @@ def build_publish():
     #run(f'{SCONS_EXE} p=windows vsproj=no bits=64 -j4 target=editor dev_build=false')
     build_editor_release()
     run(f'{EDITOR} -w --path "{DEMO_DIR}" --export-pack "Windows Desktop" {BUILD_DIR}\\Demo.pck')
-    run(f'{SCONS_EXE} p=windows tools=no bits=64 -j4 target=template_release')
+    run(f'{SCONS_EXE} p=windows tools=no bits=64 -j{THREADS} target=template_release')
 
     file_list = (
         'python.exe',
@@ -57,10 +59,10 @@ def build_publish():
         os.remove(f)
 
 def build_editor_debug():
-    run(f'{SCONS_EXE} p=windows vsproj=yes tools=yes bits=64 -j4 target=editor dev_build=true')
+    run(f'{SCONS_EXE} p=windows vsproj=yes tools=yes bits=64 -j{THREADS} target=editor dev_build=true')
 
 def build_editor_release():
-    run(f'{SCONS_EXE} p=windows vsproj=no tools=yes bits=64 -j4 target=editor dev_build=false')
+    run(f'{SCONS_EXE} p=windows vsproj=no tools=yes bits=64 -j{THREADS} target=editor dev_build=false')
 
 if __name__ == '__main__':
     import sys
