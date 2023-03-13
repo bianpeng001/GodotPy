@@ -3,7 +3,8 @@
 #
 import math
 import random
-import json
+#import json
+import struct
 
 from game.core import *
 from game.game_mgr import game_mgr
@@ -176,14 +177,17 @@ class GroundMgr(NodeObject):
 
     # 从数据中加载
     def load_data(self):
-        with open('world_map.json') as f:
-            data = json.load(f)
-        
+        data = []
+        # with open('world_map.json') as f:
+        #     data = json.load(f)
+        with open('world_map.dat', 'rb') as f:
+            buf = f.read()
+            for i in range(len(buf) // 3):
+                item = struct.unpack('>bbB', buf[i*3:(i+1)*3])
+                data.append(item)
+
         for item in data:
             x, y, color = item
             tile, _ = self.create_tile(x, y)
             tile.color = color
-
-
-
 
