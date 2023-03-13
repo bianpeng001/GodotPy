@@ -61,9 +61,14 @@ class ChuZhanPanelController(UIController, PopupTrait):
                 self.is_drag = False
                 # drag stop...
                 x,y=self.hero_item.get_rect()[0:2]
-                x=math.floor((x+40)/80)*80
-                y=math.floor((y+40)/80)*80
-                self.hero_item.set_position(x,y)
+                x,y=x+40,y+40
+                if x >= 0 and x < 240 and \
+                        y >= 0 and y < 240:
+                    x=math.floor(x/80)*80
+                    y=math.floor(y/80)*80
+                    self.hero_item.set_position(x,y)
+                else:
+                    self.hero_item.set_position(*self.pos0)
 
     def on_form_select(self):
         self.form_list.set_visible(True)
