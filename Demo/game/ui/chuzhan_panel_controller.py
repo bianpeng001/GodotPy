@@ -22,6 +22,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
     def __init__(self):
         self.max_army_mass = 1000
         self.hero_item_list = []
+        self.back_hero_item_list = []
 
         # 处理拖拽
         self.is_drag = False
@@ -41,7 +42,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
         #self.form_root = self.ui_obj.find_node('Panel/FormRoot')
 
         self.hero_item_obj = self.ui_obj.find_node('Panel/FormRoot/HeroItem')
-        self.hero_item_obj.connect(GUI_INPUT, self.on_hero_item_input)
+        self.hero_item_obj.set_visible(False)
 
         self.lbl_members.set_text('')
         self.btn_select.connect(PRESSED, self.on_select_click)
@@ -51,31 +52,31 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.btn_form.connect(PRESSED, self.on_form_select)
         self.form_list.connect(ITEM_SELECTED, self.on_form_selected)
 
-    def on_hero_item_input(self, pressed, *args):
+    def on_hero_item_input(self, hero_item_obj, pressed):
         input_mgr = game_mgr.input_mgr
         if input_mgr.is_mouse_pressed(1):
             if not self.is_drag:
                 self.is_drag = True
-                self.pos0 = self.hero_item_obj.get_rect()[0:2]
+                self.pos0 = hero_item_obj.get_rect()[0:2]
                 self.pos1 = input_mgr.get_mouse_pos()
             else:
                 pos = input_mgr.get_mouse_pos()
-                self.hero_item_obj.set_position(
+                hero_item_obj.set_position(
                         self.pos0[0]+pos[0]-self.pos1[0],
                         self.pos0[1]+pos[1]-self.pos1[1])
         else:
             if self.is_drag:
                 self.is_drag = False
                 # drag stop...
-                x,y=self.hero_item_obj.get_rect()[0:2]
+                x,y=hero_item_obj.get_rect()[0:2]
                 x,y=x+40,y+40
                 if x >= 0 and x < 240 and \
                         y >= 0 and y < 240:
                     x=math.floor(x/80)*80
                     y=math.floor(y/80)*80
-                    self.hero_item_obj.set_position(x,y)
+                    hero_item_obj.set_position(x,y)
                 else:
-                    self.hero_item_obj.set_position(*self.pos0)
+                    hero_item_obj.set_position(*self.pos0)
 
     def on_form_select(self):
         self.form_list.set_visible(True)
@@ -111,7 +112,34 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.slider_army_mass.set_value(100)
 
     def init_form(self, hero_list):
-        #self.hero_item_list.clear()
+        for item in self.hero_item_list:
+            item.hero_item_obj.set_visible(False)
+            self.back_hero_item_list.append(item)
+        self.hero_item_list.clear()
+
+        for hero_id in hero_list:
+            hero = get_hero(hero_id)
+            if len(self.back_hero_item_list) > 0:
+                hero_item = self.back_hero_item_list.pop()
+            else:
+                hero_item = HeroItem()
+                hero_item.hero_item_obj = self.hero_item_obj.dup()
+
+                def bind_on_input(hero_item):
+                    return lambda pressed: self.on_hero_item_input(
+                            hero_item.hero_item_obj, pressed)
+
+                hero_item.hero_item_obj.connect(GUI_INPUT, bind_on_input(hero_item))
+            
+            
+            hero_item.hero_id = hero_id
+            hero_item.index = len(self.hero_item_list)
+            hero_item.hero_item_obj.set_visible(True)
+            hero_item.hero_item_obj.find_node('Label').set_text(get_hero_name(hero_id))
+            hero_item.hero_item_obj.set_position(
+                    80*(hero_item.index % 3),
+                    80*(hero_item.index // 3))
+            self.hero_item_list.append(hero_item)
         pass
 
     def on_ok_click(self):
