@@ -9,12 +9,19 @@ from game.ui.ui_traits import PopupTrait
 from game.event_name import PRESSED,VALUE_CHANGED,ITEM_SELECTED,GUI_INPUT
 
 #
+class HeroItem:
+    def __init__(self):
+        self.hero_id = 0
+        self.index = 0
+        self.hero_item_obj = None
+
+#
 # 出战
 #
 class ChuZhanPanelController(UIController, PopupTrait):
     def __init__(self):
         self.max_army_mass = 1000
-        self.form_item_list = []
+        self.hero_item_list = []
 
         # 处理拖拽
         self.is_drag = False
@@ -33,8 +40,8 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.form_list = self.ui_obj.find_node('Panel/FormList')
         #self.form_root = self.ui_obj.find_node('Panel/FormRoot')
 
-        self.hero_item = self.ui_obj.find_node('Panel/FormRoot/HeroItem')
-        self.hero_item.connect(GUI_INPUT, self.on_hero_item_input)
+        self.hero_item_obj = self.ui_obj.find_node('Panel/FormRoot/HeroItem')
+        self.hero_item_obj.connect(GUI_INPUT, self.on_hero_item_input)
 
         self.lbl_members.set_text('')
         self.btn_select.connect(PRESSED, self.on_select_click)
@@ -49,26 +56,26 @@ class ChuZhanPanelController(UIController, PopupTrait):
         if input_mgr.is_mouse_pressed(1):
             if not self.is_drag:
                 self.is_drag = True
-                self.pos0 = self.hero_item.get_rect()[0:2]
+                self.pos0 = self.hero_item_obj.get_rect()[0:2]
                 self.pos1 = input_mgr.get_mouse_pos()
             else:
                 pos = input_mgr.get_mouse_pos()
-                self.hero_item.set_position(
+                self.hero_item_obj.set_position(
                         self.pos0[0]+pos[0]-self.pos1[0],
                         self.pos0[1]+pos[1]-self.pos1[1])
         else:
             if self.is_drag:
                 self.is_drag = False
                 # drag stop...
-                x,y=self.hero_item.get_rect()[0:2]
+                x,y=self.hero_item_obj.get_rect()[0:2]
                 x,y=x+40,y+40
                 if x >= 0 and x < 240 and \
                         y >= 0 and y < 240:
                     x=math.floor(x/80)*80
                     y=math.floor(y/80)*80
-                    self.hero_item.set_position(x,y)
+                    self.hero_item_obj.set_position(x,y)
                 else:
-                    self.hero_item.set_position(*self.pos0)
+                    self.hero_item_obj.set_position(*self.pos0)
 
     def on_form_select(self):
         self.form_list.set_visible(True)
@@ -104,12 +111,14 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.slider_army_mass.set_value(100)
 
     def init_form(self, hero_list):
-        self.form_item_list.clear()
+        #self.hero_item_list.clear()
+        pass
 
     def on_ok_click(self):
         self.defer_close()
 
-        log_debug(f'chuzhan ok')
+        if len(self.hero_item_list) > 0:
+            log_debug(f'chuzhan ok')
 
 
 
