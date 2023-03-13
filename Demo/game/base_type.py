@@ -186,5 +186,6 @@ class LimitValue:
             self.value = self.value_limit
 
     def get_value(self):
-        return self.value
+        return round(self.value)
+        
 

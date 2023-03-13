@@ -486,6 +486,11 @@ class FNode3D(FNode):
         gdobj = gp.instantiate(path)
         return GetWrappedObject(gdobj)
 
+class FResource:
+    @classmethod
+    def load_resource(cls, path):
+        return gp.load_resource(path)
+
 class FCamera3D(FNode3D):
     def screen_to_world(self, x,y):
         return gp.screen_to_world(self.get_gdobj(), x, y)

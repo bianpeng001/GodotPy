@@ -37,6 +37,8 @@
 #include "scene/gui/tab_bar.h"
 #include "scene/gui/check_box.h"
 #include "scene/gui/slider.h"
+#include "scene/gui/color_rect.h"
+#include "scene/gui/texture_rect.h"
 
 #include "scene/resources/packed_scene.h"
 
@@ -1547,6 +1549,48 @@ static PyObject *f_rich_text_label_set_text(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_texture_rect_load_texture(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		const char *s;
+		if (!PyArg_ParseTuple(args, "Os", &a_obj, &s)) {
+			break;
+		}
+
+		auto rect = GetObjPtr<TextureRect>(a_obj);
+		if (!rect) {
+			break;
+		}
+
+		Ref<Resource> res = ResourceLoader::load(s);
+		Ref<Texture> tex = res;
+		if (tex.is_valid()) {
+			rect->set_texture(tex);
+		}
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_color_rect_set_color(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		float r,g,b;
+
+		if (!PyArg_ParseTuple(args, "Os", &a_obj, &r,&g,&b)) {
+			break;
+		}
+
+		auto rect = GetObjPtr<ColorRect>(a_obj);
+		if (!rect) {
+			break;
+		}
+		rect->set_color(Color(r,g,b));
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_label_set_minimum_size(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -1801,12 +1845,17 @@ enum class EResType {
 	Texture,
 };
 // 一个存Res的包装
-struct ResRef {
+struct ResCapsule {
 	int type;
 	Ref<Resource> res;
+
+	template <typename T>
+	Ref<T> As() {
+		return Res<T>(this->res);
+	}
 };
-static ResRef *GetResourceRef(PyObject *capsule) {
-	return reinterpret_cast<ResRef *>(PyCapsule_GetPointer(capsule, c_Resource));
+static ResCapsule *GetResourceRef(PyObject *capsule) {
+	return reinterpret_cast<ResCapsule *>(PyCapsule_GetPointer(capsule, c_Resource));
 }
 //f_load_resource
 static PyObject *f_load_resource(PyObject *module, PyObject *args) {
@@ -1817,13 +1866,12 @@ static PyObject *f_load_resource(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		String path(a_path);
-		auto *p_res = memnew(ResRef);
+		ResCapsule *p_res = memnew(ResCapsule);
 		p_res->type = 0;
-		p_res->res = ResourceLoader::load(path);
+		p_res->res = ResourceLoader::load(String::utf8(a_path));
 
 		auto obj = PyCapsule_New(p_res, c_Resource,
-				&_capsule_delete_pointer<c_Resource, ResRef>);
+				&_capsule_delete_pointer<c_Resource, ResCapsule>);
 		return obj;
 
 	} while (0);
@@ -1966,7 +2014,6 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "canvas_item_set_visible", f_canvas_item_set_visible, METH_VARARGS, NULL },
 	{ "canvas_item_set_modulate", f_canvas_item_set_modulate, METH_VARARGS, NULL },
 	{ "canvas_item_set_self_modulate", f_canvas_item_set_self_modulate, METH_VARARGS, NULL },
-	
 
 	{ "find_control", f_find_control, METH_VARARGS, NULL },
 	{ "base_button_set_disabled", f_base_button_set_disabled, METH_VARARGS, NULL },
@@ -1980,6 +2027,10 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "label_set_text", f_label_set_text, METH_VARARGS, NULL },
 	{ "label_set_minimum_size", f_label_set_minimum_size, METH_VARARGS, NULL },
 
+	// texture rect
+	{ "texture_rect_load_texture", f_texture_rect_load_texture, METH_VARARGS, NULL },
+	{ "color_rect_set_color", f_color_rect_set_color, METH_VARARGS, NULL },
+	
 	// rich_text_label_set_text
 	{ "rich_text_label_set_text", f_rich_text_label_set_text, METH_VARARGS, NULL },
 
