@@ -14,6 +14,7 @@ from game.event_name import PRESSED,VALUE_CHANGED, ITEM_SELECTED
 class ChuZhanPanelController(UIController, PopupTrait):
     def __init__(self):
         self.max_army_mass = 1000
+        self.form_item_list = []
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
@@ -25,13 +26,14 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.slider_army_mass = self.ui_obj.find_node('Panel/SliderArmyMass')
         self.btn_form = self.ui_obj.find_node('Panel/BtnForm')
         self.form_list = self.ui_obj.find_node('Panel/FormList')
+        self.form_bg = self.ui_obj.find_node('Panel/FormBg')
 
         self.lbl_members.set_text('')
         self.btn_select.connect(PRESSED, self.on_select_click)
 
-        self.slider_army_mass.connect(VALUE_CHANGED, self.on_slider_army_mass_changed)
+        self.slider_army_mass.connect(VALUE_CHANGED,
+                self.on_slider_army_mass_changed)
         self.btn_form.connect(PRESSED, self.on_form_select)
-
         self.form_list.connect(ITEM_SELECTED, self.on_form_selected)
 
     def on_form_select(self):
@@ -44,12 +46,14 @@ class ChuZhanPanelController(UIController, PopupTrait):
     def on_select_click(self):
         def select_cb(hero_list):
             if len(hero_list) > 0:
-                print(hero_list)
-                text = ', '.join(map(lambda x: get_hero_name(x), 
+                #log_util(hero_list)
+                text = ','.join(map(
+                        lambda x: get_hero_name(x), 
                         hero_list))
-                self.lbl_members.set_text(text)
+                self.init_form(hero_list)
             else:
-                self.lbl_members.set_text('')
+                text = ''
+            self.lbl_members.set_text(text)
 
         game_mgr.ui_mgr.push_panel(self)
         game_mgr.ui_mgr.select_hero_controller.show_dialog(
@@ -65,5 +69,14 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.max_army_mass = 1000
         self.slider_army_mass.set_value(100)
 
+    def init_form(self, hero_list):
+        self.form_item_list.clear()
+
     def on_ok_click(self):
         self.defer_close()
+
+        log_debug(f'chuzhan ok')
+
+
+
+

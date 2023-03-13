@@ -61,13 +61,35 @@ texture_hover = ExtResource("5_lsca5")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="ColorRect" type="ColorRect" parent="Panel"]
+[node name="FormBg" type="ColorRect" parent="Panel"]
 layout_mode = 0
 offset_left = 310.0
 offset_top = 127.0
 offset_right = 560.0
 offset_bottom = 377.0
 color = Color(0.12549, 0.12549, 0.12549, 1)
+
+[node name="HeroItem" type="Control" parent="Panel/FormBg"]
+visible = false
+anchors_preset = 0
+offset_right = 80.0
+offset_bottom = 80.0
+
+[node name="ColorRect" type="ColorRect" parent="Panel/FormBg/HeroItem"]
+layout_mode = 0
+offset_right = 80.0
+offset_bottom = 80.0
+color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+
+[node name="Label" type="Label" parent="Panel/FormBg/HeroItem"]
+offset_left = 10.0
+offset_top = 25.0
+offset_right = 70.0
+offset_bottom = 55.0
+theme = ExtResource("1_beg0d")
+text = "黄忠"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Label" type="Label" parent="Panel"]
 layout_mode = 0

@@ -652,21 +652,21 @@ _TypeMap = {
 
     # ui
     'CanvasItem' : FCanvasItem,
-    'Label' : FLabel,
-    'RichTextLabel' : FRichTextLabel,
     'Control' : FControl,
-    'Button' : FButton,
+    'TextureRect' : FControl,
+    'ColorRect' : FControl,
     'TextureButton' : FBaseButton,
+    'Button' : FButton,
     'TabBar' : FTabBar,
     'CheckBox' : FCheckBox,
     'HSlider' : FSlider,
     'VSlider' : FSlider,
-    'TextureRect' : FControl,
-    'ColorRect' : FControl,
+    'Label' : FLabel,
+    'RichTextLabel' : FRichTextLabel,
+    'Panel' : FPanel,
     'ScrollContainer' : FContainer,
     'HBoxContainer' : FHBoxContainer,
     'VBoxContainer' : FVBoxContainer,
-    'Panel' : FPanel,
     'ItemList' : FItemList,
 }
 
