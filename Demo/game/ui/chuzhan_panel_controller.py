@@ -6,7 +6,7 @@ from game.core import *
 from game.game_mgr import *
 from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
-from game.event_name import PRESSED,VALUE_CHANGED, ITEM_SELECTED
+from game.event_name import PRESSED,VALUE_CHANGED,ITEM_SELECTED,GUI_INPUT
 
 #
 # 出战
@@ -15,6 +15,11 @@ class ChuZhanPanelController(UIController, PopupTrait):
     def __init__(self):
         self.max_army_mass = 1000
         self.form_item_list = []
+
+        # 处理拖拽
+        self.is_drag = False
+        self.pos0 = (0, 0)
+        self.pos1 = (0, 0)
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
@@ -28,6 +33,9 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.form_list = self.ui_obj.find_node('Panel/FormList')
         self.form_bg = self.ui_obj.find_node('Panel/FormBg')
 
+        self.hero_item = self.ui_obj.find_node('Panel/FormBg/HeroItem')
+        self.hero_item.connect(GUI_INPUT, self.on_hero_item_input)
+
         self.lbl_members.set_text('')
         self.btn_select.connect(PRESSED, self.on_select_click)
 
@@ -35,6 +43,24 @@ class ChuZhanPanelController(UIController, PopupTrait):
                 self.on_slider_army_mass_changed)
         self.btn_form.connect(PRESSED, self.on_form_select)
         self.form_list.connect(ITEM_SELECTED, self.on_form_selected)
+
+    def on_hero_item_input(self, pressed, *args):
+        input_mgr = game_mgr.input_mgr
+        log_debug(pressed)
+        if pressed:
+            if not self.is_drag:
+                self.is_drag = True
+                x,y,_,_ = self.hero_item.get_rect()
+                self.pos0 = x,y
+                self.pos1 = input_mgr.get_mouse_pos()
+            else:
+                x,y = input_mgr.get_mouse_pos()
+                dx,dy = x-self.pos1[0],y-self.pos1[1]
+                log_debug(dx, dy)
+                self.hero_item.set_position(self.pos0[0]+dx, self.pos0[1]+dy)
+        else:
+            if self.is_drag:
+                self.is_drag = False
 
     def on_form_select(self):
         self.form_list.set_visible(True)

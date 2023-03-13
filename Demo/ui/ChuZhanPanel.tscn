@@ -70,7 +70,6 @@ offset_bottom = 377.0
 color = Color(0.12549, 0.12549, 0.12549, 1)
 
 [node name="HeroItem" type="Control" parent="Panel/FormBg"]
-visible = false
 anchors_preset = 0
 offset_right = 80.0
 offset_bottom = 80.0
@@ -79,9 +78,11 @@ offset_bottom = 80.0
 layout_mode = 0
 offset_right = 80.0
 offset_bottom = 80.0
+mouse_filter = 1
 color = Color(0.0627451, 0.0627451, 0.0627451, 1)
 
 [node name="Label" type="Label" parent="Panel/FormBg/HeroItem"]
+layout_mode = 0
 offset_left = 10.0
 offset_top = 25.0
 offset_right = 70.0
