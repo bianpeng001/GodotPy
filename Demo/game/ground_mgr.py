@@ -37,10 +37,9 @@ class Tile:
         pos_x, pos_z = self.get_center_pos()
 
         self.model_node = FNode3D.instantiate('res://models/Square.tscn')
-
-        mesh = self.model_node.find_node('Mesh')
         self.model_node.set_position(pos_x, 0, pos_z)
 
+        mesh = self.model_node.find_node('Mesh')
         if self.color == 255:
             mesh.load_material(0, 'res://models/Terrain/GrassMat.tres')
         else:
