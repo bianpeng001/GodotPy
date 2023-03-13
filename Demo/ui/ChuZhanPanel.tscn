@@ -61,27 +61,34 @@ texture_hover = ExtResource("5_lsca5")
 ignore_texture_size = true
 stretch_mode = 0
 
-[node name="FormBg" type="ColorRect" parent="Panel"]
-layout_mode = 0
+[node name="FormRoot" type="Control" parent="Panel"]
+anchors_preset = 0
 offset_left = 310.0
 offset_top = 127.0
-offset_right = 560.0
-offset_bottom = 377.0
+offset_right = 554.0
+offset_bottom = 371.0
+
+[node name="FormBg" type="ColorRect" parent="Panel/FormRoot"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 242.0
+offset_bottom = 242.0
 color = Color(0.12549, 0.12549, 0.12549, 1)
 
-[node name="HeroItem" type="Control" parent="Panel/FormBg"]
+[node name="HeroItem" type="Control" parent="Panel/FormRoot"]
 anchors_preset = 0
 offset_right = 80.0
 offset_bottom = 80.0
 
-[node name="ColorRect" type="ColorRect" parent="Panel/FormBg/HeroItem"]
+[node name="ColorRect" type="ColorRect" parent="Panel/FormRoot/HeroItem"]
 layout_mode = 0
 offset_right = 80.0
 offset_bottom = 80.0
 mouse_filter = 1
 color = Color(0.0627451, 0.0627451, 0.0627451, 1)
 
-[node name="Label" type="Label" parent="Panel/FormBg/HeroItem"]
+[node name="Label" type="Label" parent="Panel/FormRoot/HeroItem"]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 25.0

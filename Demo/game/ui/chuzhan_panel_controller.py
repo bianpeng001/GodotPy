@@ -31,9 +31,9 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.slider_army_mass = self.ui_obj.find_node('Panel/SliderArmyMass')
         self.btn_form = self.ui_obj.find_node('Panel/BtnForm')
         self.form_list = self.ui_obj.find_node('Panel/FormList')
-        self.form_bg = self.ui_obj.find_node('Panel/FormBg')
+        #self.form_root = self.ui_obj.find_node('Panel/FormRoot')
 
-        self.hero_item = self.ui_obj.find_node('Panel/FormBg/HeroItem')
+        self.hero_item = self.ui_obj.find_node('Panel/FormRoot/HeroItem')
         self.hero_item.connect(GUI_INPUT, self.on_hero_item_input)
 
         self.lbl_members.set_text('')
@@ -46,21 +46,24 @@ class ChuZhanPanelController(UIController, PopupTrait):
 
     def on_hero_item_input(self, pressed, *args):
         input_mgr = game_mgr.input_mgr
-        log_debug(pressed)
-        if pressed:
+        if input_mgr.is_mouse_pressed(1):
             if not self.is_drag:
                 self.is_drag = True
-                x,y,_,_ = self.hero_item.get_rect()
-                self.pos0 = x,y
+                self.pos0 = self.hero_item.get_rect()[0:2]
                 self.pos1 = input_mgr.get_mouse_pos()
             else:
-                x,y = input_mgr.get_mouse_pos()
-                dx,dy = x-self.pos1[0],y-self.pos1[1]
-                log_debug(dx, dy)
-                self.hero_item.set_position(self.pos0[0]+dx, self.pos0[1]+dy)
+                pos = input_mgr.get_mouse_pos()
+                self.hero_item.set_position(
+                        self.pos0[0]+pos[0]-self.pos1[0],
+                        self.pos0[1]+pos[1]-self.pos1[1])
         else:
             if self.is_drag:
                 self.is_drag = False
+                # drag stop...
+                x,y=self.hero_item.get_rect()[0:2]
+                x=math.floor((x+40)/80)*80
+                y=math.floor((y+40)/80)*80
+                self.hero_item.set_position(x,y)
 
     def on_form_select(self):
         self.form_list.set_visible(True)
