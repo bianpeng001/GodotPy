@@ -5,7 +5,7 @@ import random
 
 from game.core import *
 from game.game_mgr import *
-from game.base_type import Unit, UT_CITY
+from game.base_type import LimitValue, Unit, UT_CITY
 from game.config_mgr import new_city_name, new_hero_name
 
 from game.city_controller import CityController
@@ -39,8 +39,9 @@ class CityUnit(Unit, UnitTrait):
         # 单个资源上限
         self.max_amount_limit = 1000000 + random_int(0, 50)*10000
         
-        # 军队数量,不在人口之列
-        self.army_amount = random_int(100, 1000)
+        # 军队数量,区别于居民人口
+        self.army_amount = LimitValue(random_int(100, 1000), 100000)
+
         # 粮食
         self.rice_amount = random_int(100, 1000)
         # 银两

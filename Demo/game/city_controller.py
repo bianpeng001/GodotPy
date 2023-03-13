@@ -30,30 +30,33 @@ class CityController(Controller):
                 flag_node.load_material(0, 'res://models/Color/Green.tres')
 
     # 计算资源增长
-    def _calc_resource(self, amount, growth_rate, delta_time, max_amount):
+    def _calc_resource_grow(self, amount, growth_rate, delta_time, max_amount):
         value =  amount + growth_rate * delta_time
         if value > max_amount:
             value = max_amount
         return value
 
+    # 刷新资源增长
     def refresh_resource_amount(self, delta_time):
         city_unit = self.get_unit()
 
         # 重新计算城内各个增长率
-        order,rice,money,population = self.calc_growth_rate(
+        order,rice,money,population,army = self.calc_growth_rate(
                 city_unit.satrap,
                 city_unit.order_incharge,
                 city_unit.farmer_incharge,
                 city_unit.trader_incharge)
 
-        # city.army_amount = self._calc_resource(city.army_amount, 
-        #         city.polulation_growth_rate, delta_time, city.max_amount_limit)
-        city_unit.money_amount = self._calc_resource(city_unit.money_amount,
-                money, delta_time,
+        city_unit.money_amount = self._calc_resource_grow(city_unit.money_amount,
+                money*0.1, delta_time,
                 city_unit.max_amount_limit)
-        city_unit.rice_amount = self._calc_resource(city_unit.rice_amount,
-                rice, delta_time,
+        city_unit.rice_amount = self._calc_resource_grow(city_unit.rice_amount,
+                rice*0.1, delta_time,
                 city_unit.max_amount_limit)
+        city_unit.population = self._calc_resource_grow(city_unit.population,
+                population*0.1, delta_time,
+                city_unit.population_limit)
+        city_unit.army_amount.grow(army*0.1, delta_time)
 
     # 计算各个资源的增长率
     def calc_growth_rate(self,
@@ -78,16 +81,20 @@ class CityController(Controller):
         population = config_mgr.calc_population_growth_rate(
             get_hero(satrap)
         )
+        army = config_mgr.calc_army_growth_rate(
+            get_hero(satrap)
+        )
 
-        return order,rice,money,population
+        return order,rice,money,population,army
 
     def on_ai_tick(self, tick_time):
         city_unit = self.get_unit()
 
         # TODO: 这个要改,细化行为,要有各种行为
         # 测试行为，不断招兵，军队数量达到1000，就出兵征讨
-        if city_unit.army_amount > 1000:
-            city_unit.army_amount -= 1000
+        army_amount = city_unit.army_amount.get()
+        if army_amount > 1000:
+            army_amount -= 1000
 
             x,y,z = city_unit.get_position()
 

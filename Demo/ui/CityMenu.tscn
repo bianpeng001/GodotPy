@@ -7,6 +7,7 @@ layout_mode = 3
 anchors_preset = 0
 
 [node name="Panel" type="Panel" parent="."]
+layout_mode = 0
 offset_right = 64.0
 offset_bottom = 90.0
 
@@ -21,6 +22,7 @@ theme_override_font_sizes/font_size = 16
 text = "内政"
 
 [node name="BtnChuZhan" type="Button" parent="Panel"]
+visible = false
 layout_mode = 0
 offset_left = 2.0
 offset_top = 32.0
@@ -31,6 +33,7 @@ theme_override_font_sizes/font_size = 16
 text = "出战"
 
 [node name="BtnTanSuo" type="Button" parent="Panel"]
+visible = false
 layout_mode = 0
 offset_left = 2.0
 offset_top = 62.0

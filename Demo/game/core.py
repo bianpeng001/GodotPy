@@ -532,6 +532,9 @@ class FControl(FCanvasItem):
     def set_position(self, x,y):
         gp.control_set_position(self.get_gdobj(), x,y)
 
+    def set_size(self, w,h):
+        gp.control_set_size(self.get_gdobj(), w,h)
+
     def get_rect(self):
         return gp.control_get_rect(self.get_gdobj())
 

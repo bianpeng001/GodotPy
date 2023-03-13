@@ -144,7 +144,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
                 self.farmer_incharge,
                 self.trader_incharge)
 
-        order,rice,money,population = map(config_mgr.format_colored_label, rates)
+        order,rice,money,population,army = map(config_mgr.format_colored_label, rates)
 
         text = f'''人口 {city_unit.population}人 {population}
 治安 {city_unit.order_points} {order}
@@ -152,7 +152,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 商业 {city_unit.trader_points}
 粮食 {round(city_unit.rice_amount)} {rice}
 银两 {round(city_unit.money_amount)} {money}
-军队 {round(city_unit.army_amount)}人
+军队 {round(city_unit.army_amount.get_value())}人 {army}
 武将 {len(city_unit.hero_list)}人
 '''
         self.lbl_detail_obj.set_text(text)

@@ -1280,6 +1280,7 @@ static PyObject *f_canvas_item_set_self_modulate(PyObject *module, PyObject *arg
 	} while (0);
 	Py_RETURN_NONE;
 }
+
 static PyObject *f_find_control(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -1342,6 +1343,26 @@ static PyObject *f_control_set_position(PyObject *module, PyObject *args) {
 		}
 
 		control->set_position(Point2(x, y));
+
+	} while (0);
+	Py_RETURN_NONE;
+}
+static PyObject *f_control_set_size(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		float w, h;
+
+		if (!PyArg_ParseTuple(args, "Off", &a_obj, &w, &h)) {
+			break;
+		}
+
+		Control *canvas_item = GetObjPtr<Control>(a_obj);
+		if (!canvas_item) {
+			break;
+		}
+
+		//canvas_item->set_self_modulate(Color(r, g, b));
+		canvas_item->set_size(Size2(w, h));
 
 	} while (0);
 	Py_RETURN_NONE;
@@ -1773,19 +1794,19 @@ static PyObject *f_mesh_instance3d_load_albedo_tex(PyObject *module, PyObject *a
 
 	Py_RETURN_NONE;
 }
-//
+// 记录一下资源的类型
 enum class EResType {
 	None,
 	Material,
 	Texture,
 };
 // 一个存Res的包装
-struct ResourceRef {
+struct ResRef {
 	int type;
 	Ref<Resource> res;
 };
-static ResourceRef* GetResourceRef(PyObject* capsule) {
-	return reinterpret_cast<ResourceRef *>(PyCapsule_GetPointer(capsule, c_Resource));
+static ResRef *GetResourceRef(PyObject *capsule) {
+	return reinterpret_cast<ResRef *>(PyCapsule_GetPointer(capsule, c_Resource));
 }
 //f_load_resource
 static PyObject *f_load_resource(PyObject *module, PyObject *args) {
@@ -1797,12 +1818,12 @@ static PyObject *f_load_resource(PyObject *module, PyObject *args) {
 		}
 
 		String path(a_path);
-		auto *p_res = memnew(ResourceRef);
+		auto *p_res = memnew(ResRef);
 		p_res->type = 0;
 		p_res->res = ResourceLoader::load(path);
 
 		auto obj = PyCapsule_New(p_res, c_Resource,
-				&_capsule_delete_pointer<c_Resource, ResourceRef>);
+				&_capsule_delete_pointer<c_Resource, ResRef>);
 		return obj;
 
 	} while (0);
@@ -1934,11 +1955,13 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// gui
 	{ "control_set_position", f_control_set_position, METH_VARARGS, NULL },
+	{ "control_size", f_control_set_size, METH_VARARGS, NULL },
 	{ "control_get_rect", f_control_get_rect, METH_VARARGS, NULL },
 
 	{ "canvas_item_set_visible", f_canvas_item_set_visible, METH_VARARGS, NULL },
 	{ "canvas_item_set_modulate", f_canvas_item_set_modulate, METH_VARARGS, NULL },
 	{ "canvas_item_set_self_modulate", f_canvas_item_set_self_modulate, METH_VARARGS, NULL },
+	
 
 	{ "find_control", f_find_control, METH_VARARGS, NULL },
 	{ "base_button_set_disabled", f_base_button_set_disabled, METH_VARARGS, NULL },

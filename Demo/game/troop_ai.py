@@ -278,7 +278,7 @@ class AIState_AttackCity(AIState_Troop):
                 *city.get_position())
 
             game_mgr.game_play.troop_attack_city(troop, city)
-            if city.army_amount <= 0:
+            if city.army_amount.value <= 0:
                 troop_dismiss = True
 
         # 结束战斗

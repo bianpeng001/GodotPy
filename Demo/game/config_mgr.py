@@ -122,6 +122,15 @@ class ConfigMgr:
 
         return round(value)
 
+    def calc_army_growth_rate(self, satrap):
+        value = 0
+
+        if satrap:
+            value += satrap.tongshuai*0.61 +\
+                    satrap.meili*0.39
+            
+        return round(value)
+
     # percent = [0, 100]
     def calc_mass(self, percent, max_mass):
         v = percent * max_mass * 0.001

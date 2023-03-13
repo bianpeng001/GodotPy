@@ -170,4 +170,21 @@ class UIController:
         self.ui_obj.set_visible(False)
 
 
+# 有上限的值
+class LimitValue:
+    def __init__(self, value, value_limit):
+        self.value = value
+        self.value_limit = value_limit
+
+    def grow(self, growth_rate, delta_time):
+        delta = growth_rate * delta_time
+        self.add(delta)
+
+    def add(self, delta):
+        self.value += delta
+        if self.value >= self.value_limit:
+            self.value = self.value_limit
+
+    def get_value(self):
+        return self.value
 

@@ -3,6 +3,7 @@
 @set cmd=%1
 @echo "cmd=%cmd%"
 @IF "%cmd%" == "publish" ( GOTO :publish )
+@IF "%cmd%" == "editor_release" ( GOTO :editor_release )
 
 goto :gd
 @rem goto :mono
@@ -18,9 +19,14 @@ scons p=windows vsproj=yes target=editor bits=64 module_mono_enabled=yes
 goto :end
 
 :gd
+:editor_debug
 @rem scons p=windows vsproj=yes bits=64 -j6 target=editor
 @rem scons p=windows tools=no bits=64 -j6 target=template_release
 scons p=windows vsproj=yes bits=64 -j6 target=editor dev_build=true
+goto :end
+
+:editor_release
+scons p=windows vsproj=no bits=64 -j6 target=editor dev_build=false
 goto :end
 
 
