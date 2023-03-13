@@ -75,7 +75,7 @@ def build_map_data():
             r,g,b = bmp.get_color(x, y)
             item = (x - cx, -(y - cy), r)
             data.append(item)
-    with open('map.json', 'w') as f:
+    with open('world_map.json', 'w') as f:
         json.dump(data, f)
 
 

@@ -1854,7 +1854,11 @@ static PyObject *f_mesh_instance3d_load_material(PyObject *module, PyObject *arg
 
 		String path(a_path);
 		Ref<Material> mat = ResourceLoader::load(path);
-		mesh_instance->set_surface_override_material(surface, mat);
+
+		//mesh_instance->set_surface_override_material(surface, mat);
+		// 这个issure, 有人给了一个解决方案, 换成下面这个override
+		// https://github.com/godotengine/godot/issues/59912
+		mesh_instance->set_material_override(mat);
 
 	} while (0);
 

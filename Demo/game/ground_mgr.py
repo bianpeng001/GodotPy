@@ -176,7 +176,7 @@ class GroundMgr(NodeObject):
 
     # 从数据中加载
     def load_data(self):
-        with open('map.json') as f:
+        with open('world_map.json') as f:
             data = json.load(f)
         
         for item in data:
