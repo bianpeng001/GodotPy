@@ -36,16 +36,12 @@ class CityUnit(Unit, UnitTrait):
         #  附属建筑
         self.building_list = []
 
-        # 单个资源上限
-        self.max_amount_limit = 1000000 + random_int(0, 50)*10000
-        
         # 军队数量,区别于居民人口
         self.army_amount = LimitValue(random_int(100, 1000), 100000)
-
         # 粮食
-        self.rice_amount = random_int(100, 1000)
+        self.rice_amount = LimitValue(random_int(100, 1000), 1000000)
         # 银两
-        self.money_amount = random_int(100, 1000)
+        self.money_amount = LimitValue(random_int(100, 1000), 1000000)
 
         # 士气
         self.army_moral = 50
@@ -55,10 +51,8 @@ class CityUnit(Unit, UnitTrait):
         self.trader_points = 50
 
         # 居民人口 = 治安 + 务农 + 经商
-        self.population = 1000 + random_int(100, 200)
+        self.population = LimitValue(1000 + random_int(100, 200), 10000 + random_int(0, 9)*10000)
         self.polulation_growth_rate = 0
-        # 人口上限
-        self.population_limit = 10000 + random_int(0, 9)*10000
 
         # 太守(总督)
         self.satrap = 0

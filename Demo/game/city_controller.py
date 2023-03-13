@@ -47,15 +47,9 @@ class CityController(Controller):
                 city_unit.farmer_incharge,
                 city_unit.trader_incharge)
 
-        city_unit.money_amount = self._calc_resource_grow(city_unit.money_amount,
-                money*0.1, delta_time,
-                city_unit.max_amount_limit)
-        city_unit.rice_amount = self._calc_resource_grow(city_unit.rice_amount,
-                rice*0.1, delta_time,
-                city_unit.max_amount_limit)
-        city_unit.population = self._calc_resource_grow(city_unit.population,
-                population*0.1, delta_time,
-                city_unit.population_limit)
+        city_unit.money_amount.grow(money*0.1, delta_time)
+        city_unit.rice_amount.grow(rice*0.1, delta_time)
+        city_unit.population.grow(population*0.1, delta_time)
         city_unit.army_amount.grow(army*0.1, delta_time)
 
     # 计算各个资源的增长率

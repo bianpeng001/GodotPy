@@ -101,7 +101,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.fax_rate = self.city_unit.fax_rate
 
         # 这个不修改，只是这里用来计算的
-        self.population = self.city_unit.population
+        self.population = self.city_unit.population.get_value()
 
         # 然后修改ui
         self.lbl_name_obj.set_text(self.city_unit.unit_name)
@@ -146,12 +146,12 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         order,rice,money,population,army = map(config_mgr.format_colored_label, rates)
 
-        text = f'''人口 {city_unit.population}人 {population}
+        text = f'''人口 {self.population}人 {population}
 治安 {city_unit.order_points} {order}
 农业 {city_unit.farmer_points}
 商业 {city_unit.trader_points}
-粮食 {round(city_unit.rice_amount)} {rice}
-银两 {round(city_unit.money_amount)} {money}
+粮食 {round(city_unit.rice_amount.get_value())} {rice}
+银两 {round(city_unit.money_amount.get_value())} {money}
 军队 {round(city_unit.army_amount.get_value())}人 {army}
 武将 {len(city_unit.hero_list)}人
 '''

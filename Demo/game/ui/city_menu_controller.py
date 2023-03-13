@@ -2,7 +2,7 @@
 # 2023年2月24日 bianpeng
 #
 
-from game.core import *
+from game.core import log_debug
 from game.game_mgr import *
 from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
@@ -16,7 +16,7 @@ class CityMenuController(UIController, PopupTrait):
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
-        self.ui_obj.find_node('Panel').set_size(64, 30*3)
+        self.ui_obj.find_node('Panel').set_size(64, 30*4)
         btn_neizheng = self.ui_obj.find_node('Panel/BtnNeiZheng')
         btn_neizheng.connect(PRESSED, self.on_neizheng)
 
@@ -30,12 +30,17 @@ class CityMenuController(UIController, PopupTrait):
         btn_tansuo.set_position(2, 62)
         btn_tansuo.connect(PRESSED, self.on_tansuo)
 
+        btn_chakan = btn_neizheng.dup()
+        btn_chakan.set_text('查看')
+        btn_chakan.set_position(2, 92)
+        btn_chakan.connect(PRESSED, self.on_chakan)
+
     # 内政
     def on_neizheng(self):
         self.defer_close()
 
         city_unit = game_mgr.ui_mgr.context_unit
-        print_line(f'{city_unit.unit_name} neizheng')
+        log_debug(f'{city_unit.unit_name} neizheng')
 
         game_mgr.ui_mgr.neizheng_controller.init(city_unit)
         game_mgr.ui_mgr.neizheng_controller.popup(250, 100)
@@ -45,15 +50,24 @@ class CityMenuController(UIController, PopupTrait):
         self.defer_close()
 
         city_unit = game_mgr.ui_mgr.context_unit
-        print_line(f'{city_unit.unit_name} chuzhan')
+        log_debug(f'{city_unit.unit_name} chuzhan')
 
         game_mgr.ui_mgr.chuzhan_panel_controller.init(city_unit)
         game_mgr.ui_mgr.chuzhan_panel_controller.popup(250, 100)
 
     # 探索
     def on_tansuo(self):
-        ui_mgr = game_mgr.ui_mgr
-
         self.defer_close()
-        print_line(f'{ui_mgr.context_unit.unit_name} tansuo')
+
+        city_unit = game_mgr.ui_mgr.context_unit
+        log_debug(f'{city_unit.unit_name} tansuo')
+
+    # 查看
+    def on_chakan(self):
+        self.defer_close()
+
+        city_unit = game_mgr.ui_mgr.context_unit
+        log_debug(f'{city_unit.unit_name} chakan')
+
+
 

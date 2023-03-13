@@ -163,8 +163,8 @@ class GamePlay:
 
             for city_id in player.city_list:
                 city = game_mgr.unit_mgr.get_unit(city_id)
-                player.total_money_amount += city.money_amount
-                player.total_rice_amount += city.rice_amount
+                player.total_money_amount += city.money_amount.value
+                player.total_rice_amount += city.rice_amount.value
         
         # 完成，刷新界面
         game_mgr.event_mgr.emit(MAINUI_REFRESH)

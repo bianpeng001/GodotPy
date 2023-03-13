@@ -387,6 +387,7 @@ class LogUtil:
 
 log_util = LogUtil()
 log_util_debug = log_util.debug
+log_debug = log_util.debug
 
 #------------------------------------------------------------
 # gdobj 封装
