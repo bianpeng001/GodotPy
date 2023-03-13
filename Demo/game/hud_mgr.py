@@ -15,7 +15,7 @@ class HUDItem:
         self.hp_obj = None
         
         # 可见度,加一个计数
-        self.show_count = 1
+        self.show_age = 1
 
     def update(self):
         unit = game_mgr.unit_mgr.get_unit(self.unit_id)
@@ -98,7 +98,7 @@ class HUDMgr:
         #     item.set_flag_text(player.player_name[0])
 
         hud_item.set_visible(True)
-        hud_item.show_count = 1
+        hud_item.show_age = 1
 
         self.hud_item_dict[unit_id] = hud_item
         #hud_item.update()
@@ -114,14 +114,14 @@ class HUDMgr:
         hud_item = self.get_hud(unit_id)
         if not hud_item:
             hud_item = self._create_hud(unit_id)
-        hud_item.show_count += 1
+        hud_item.show_age += 1
         hud_item.update()
 
     # 把本次没被刷新的,清理掉
     def clean_hidden(self):
         for hud_item in self.hud_item_dict.values():
-            hud_item.show_count -= 1
-            if hud_item.show_count <= 0:
+            hud_item.show_age -= 1
+            if hud_item.show_age <= 0:
                 self.hidden_list.append(hud_item.unit_id)
         
         if len(self.hidden_list) > 0:

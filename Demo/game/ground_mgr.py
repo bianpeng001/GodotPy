@@ -25,7 +25,10 @@ class Tile:
         self.item_nodes = []
         # 上面的单位列表
         self.unit_list = []
-
+        
+        # 用来控制可见列表
+        self.show_age = 1
+        
         # 颜色
         self.color = 0
 
@@ -82,7 +85,6 @@ class Tile:
                 pos_z + random_x()*5)
             self.unit_list.append(city)
 
-            
 
     def load_res(self, path, x, z, s):
         item = FNode3D.instantiate(path)
@@ -108,6 +110,7 @@ class GroundMgr(NodeObject):
         game_mgr.ground_mgr = self
 
         self.tile_dict = {}
+        self.show_tile_list = []
 
     def _create(self):
         self.get_obj().connect("ready", self._ready)
@@ -152,7 +155,8 @@ class GroundMgr(NodeObject):
 
         # refresh done, clear no hit hud
         game_mgr.hud_mgr.clean_hidden()
-    
+
+   
     def create_tile(self,col,row):
         key = (col, row)
         tile = self.get_tile_colrow(col, row)
@@ -173,6 +177,7 @@ class GroundMgr(NodeObject):
                 tile.load_items()
         
         tile.update_hud()
+        self.show_tile_list.append(tile)
 
     # 从数据中加载
     def load_data(self):
