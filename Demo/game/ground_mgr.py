@@ -3,6 +3,7 @@
 #
 import math
 import random
+import json
 
 from game.core import *
 from game.game_mgr import game_mgr
@@ -24,6 +25,9 @@ class Tile:
         # 上面的单位列表
         self.unit_list = []
 
+        # 颜色
+        self.color = 0
+
     def get_center_pos(self):
         return self.col*TILE_SIZE,self.row*TILE_SIZE
 
@@ -32,8 +36,14 @@ class Tile:
         pos_x, pos_z = self.get_center_pos()
 
         self.model_node = FNode3D.instantiate('res://models/Square.tscn')
-        self.model_node.find_node('Mesh').load_material(0, 'res://models/Terrain/GrassMat.tres')
+
+        mesh = self.model_node.find_node('Mesh')
         self.model_node.set_position(pos_x, 0, pos_z)
+
+        if self.color == 255:
+            mesh.load_material(0, 'res://models/Terrain/GrassMat.tres')
+        else:
+            mesh.load_material(0, 'res://models/Terrain/WaterMat.tres')
 
     def load_items(self):
         pos_x, pos_z = self.get_center_pos()
@@ -98,7 +108,7 @@ class GroundMgr(NodeObject):
         game_mgr.ground_mgr = self
 
         self.tile_dict = {}
-    
+
     def _create(self):
         self.get_obj().connect("ready", self._ready)
 
@@ -109,6 +119,7 @@ class GroundMgr(NodeObject):
         col,row = pos_to_colrow(x, z)
         return self.get_tile_colrow(col, row)
 
+    # tile: col,row => x,y
     def get_tile_colrow(self, col, row):
         key = (col,row)
         return self.tile_dict.get(key, None)
@@ -120,24 +131,24 @@ class GroundMgr(NodeObject):
         cz = math.floor((z / TILE_SIZE) + 0.5)
 
         # 中心九宫格
-        self.refresh_tile(cx    , cz    )
-        self.refresh_tile(cx - 1, cz    )
-        self.refresh_tile(cx + 1, cz    )
+        self.update_tile(cx    , cz    )
+        self.update_tile(cx - 1, cz    )
+        self.update_tile(cx + 1, cz    )
 
-        self.refresh_tile(cx    , cz - 1)
-        self.refresh_tile(cx - 1, cz - 1)
-        self.refresh_tile(cx + 1, cz - 1)
+        self.update_tile(cx    , cz - 1)
+        self.update_tile(cx - 1, cz - 1)
+        self.update_tile(cx + 1, cz - 1)
         
-        self.refresh_tile(cx    , cz + 1)
-        self.refresh_tile(cx - 1, cz + 1)
-        self.refresh_tile(cx + 1, cz + 1)
+        self.update_tile(cx    , cz + 1)
+        self.update_tile(cx - 1, cz + 1)
+        self.update_tile(cx + 1, cz + 1)
 
         # 左右远角，视觉上面有坑
-        self.refresh_tile(cx    , cz - 2)
-        self.refresh_tile(cx + 1, cz - 2)
+        self.update_tile(cx    , cz - 2)
+        self.update_tile(cx + 1, cz - 2)
 
-        self.refresh_tile(cx - 2, cz    )
-        self.refresh_tile(cx - 2, cz + 1)
+        self.update_tile(cx - 2, cz    )
+        self.update_tile(cx - 2, cz + 1)
 
         # refresh done, clear no hit hud
         game_mgr.hud_mgr.clean_hidden()
@@ -153,13 +164,26 @@ class GroundMgr(NodeObject):
 
         return tile, True
 
-
-    def refresh_tile(self, col, row):
+    # 只有在刷可见性调用,来自update
+    def update_tile(self, col, row):
         tile, first_hit = self.create_tile(col, row)
-        if first_hit:
+        if first_hit or not tile.model_node:
             tile.load()
-            tile.load_items()
+            if tile.color == 255:
+                tile.load_items()
         
         tile.update_hud()
+
+    # 从数据中加载
+    def load_data(self):
+        with open('map.json') as f:
+            data = json.load(f)
+        
+        for item in data:
+            x, y, color = item
+            tile, _ = self.create_tile(x, y)
+            tile.color = color
+
+
 
 

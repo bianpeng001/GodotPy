@@ -46,8 +46,8 @@ class GamePlay:
     # 事件
     def on_app_launch(self):
         log_util.debug('on_app_launch')
-
         game_mgr.init_update_list()
+        game_mgr.ground_mgr.load_data()
 
         # read window
         if os.path.exists('launch.json'):
@@ -69,7 +69,8 @@ class GamePlay:
         # 默认创建一个空城
         def co_bind_to_base_city():
             while True:
-                city = game_mgr.unit_mgr.find_unit(lambda x: x.unit_type == UT_CITY \
+                city = game_mgr.unit_mgr.find_unit(lambda x:
+                        x.unit_type == UT_CITY \
                         and x.owner_player_id == 0)
                 if city:
                     self.set_city_owner(city, pm.main_player)

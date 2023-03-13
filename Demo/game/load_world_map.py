@@ -1,17 +1,16 @@
+import os
+import json
 import struct
 
-##两个字节：’BM’表示Windows位图，’BA’表示OS/2位图；
-##一个4字节整数：表示位图大小；
-##一个4字节整数：保留位，始终为0；
-##一个4字节整数：实际图像的偏移量；
-##一个4字节整数：Header的字节数；
-##一个4字节整数：图像宽度；
-##一个4字节整数：图像高度；
-##一个2字节整数：始终为1；
-##一个2字节整数：颜色数。
-
-# a
-# b
+# 两个字节：’BM’表示Windows位图，’BA’表示OS/2位图；
+# 一个4字节整数：表示位图大小；
+# 一个4字节整数：保留位，始终为0；
+# 一个4字节整数：实际图像的偏移量；
+# 一个4字节整数：Header的字节数；
+# 一个4字节整数：图像宽度；
+# 一个4字节整数：图像高度；
+# 一个2字节整数：始终为1；
+# 一个2字节整数：颜色数。
 
 class Bmp:
     def __init__(self, path):
@@ -62,13 +61,32 @@ class Bmp:
                 line_pixels = [data[i*n:(i+1)*n] for i in range(self.width)]
                 self.lines.append(line_pixels)
             self.lines.reverse()
-            
+
+def build_map_data():
+    bmp = Bmp('./world_map.bmp')
+    print(bmp.width, bmp.height)
+
+    cx = bmp.width // 2
+    cy = bmp.height // 2
+
+    data = []
+    for y in range(bmp.height):
+        for x in range(bmp.width):
+            r,g,b = bmp.get_color(x, y)
+            item = (x - cx, -(y - cy), r)
+            data.append(item)
+    with open('map.json', 'w') as f:
+        json.dump(data, f)
+
+
 
 
 if __name__ == '__main__':
-    bmp = Bmp('../world_map.bmp')
-    print(bmp.width, bmp.pixel_bits, bmp.line_bytes)
+    #bmp = Bmp('./world_map.bmp')
+    #print(bmp.width, bmp.pixel_bits, bmp.line_bytes)
     #print(bmp.lines)
     #print(bmp.get_pixel(29, 4))
-    print(bmp.get_color(3, 29))
+    #print(bmp.get_color(3, 29))
+    build_map_data()
+
     
