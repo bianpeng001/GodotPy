@@ -600,6 +600,9 @@ class FItemList(FControl):
     def set_item_list(self, item_list):
         pass
 
+class FPanel(FControl):
+    pass
+
 class FContainer(FControl):
     pass
 
@@ -662,7 +665,7 @@ _TypeMap = {
     'ScrollContainer' : FContainer,
     'HBoxContainer' : FHBoxContainer,
     'VBoxContainer' : FVBoxContainer,
-    
+    'Panel' : FPanel,
 }
 
 # 传给c++,那边,当新增一个类型的时候,需要注册到py端,关键需要保持type_id一致

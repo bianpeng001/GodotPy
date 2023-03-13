@@ -1955,7 +1955,7 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// gui
 	{ "control_set_position", f_control_set_position, METH_VARARGS, NULL },
-	{ "control_size", f_control_set_size, METH_VARARGS, NULL },
+	{ "control_set_size", f_control_set_size, METH_VARARGS, NULL },
 	{ "control_get_rect", f_control_get_rect, METH_VARARGS, NULL },
 
 	{ "canvas_item_set_visible", f_canvas_item_set_visible, METH_VARARGS, NULL },

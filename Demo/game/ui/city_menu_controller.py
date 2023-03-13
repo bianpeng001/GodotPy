@@ -16,9 +16,19 @@ class CityMenuController(UIController, PopupTrait):
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
-        self.ui_obj.find_node('Panel/BtnNeiZheng').connect(PRESSED, self.on_neizheng)
-        self.ui_obj.find_node('Panel/BtnChuZhan').connect(PRESSED, self.on_chuzhan)
-        self.ui_obj.find_node('Panel/BtnTanSuo').connect(PRESSED, self.on_tansuo)
+        self.ui_obj.find_node('Panel').set_size(64, 30*3)
+        btn_neizheng = self.ui_obj.find_node('Panel/BtnNeiZheng')
+        btn_neizheng.connect(PRESSED, self.on_neizheng)
+
+        btn_chuzhan = btn_neizheng.dup()
+        btn_chuzhan.set_text('出战')
+        btn_chuzhan.set_position(2, 32)
+        btn_chuzhan.connect(PRESSED, self.on_chuzhan)
+
+        btn_tansuo = btn_neizheng.dup()
+        btn_tansuo.set_text('探索')
+        btn_tansuo.set_position(2, 62)
+        btn_tansuo.connect(PRESSED, self.on_tansuo)
 
     # 内政
     def on_neizheng(self):
