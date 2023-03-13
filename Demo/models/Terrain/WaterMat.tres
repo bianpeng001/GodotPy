@@ -1,4 +1,6 @@
-[gd_resource type="StandardMaterial3D" format=3 uid="uid://c7py87rgqhvl4"]
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://c7py87rgqhvl4"]
+
+[ext_resource type="Texture2D" uid="uid://3nlachbgbdk4" path="res://models/Terrain/Water.png" id="1_fy16m"]
 
 [resource]
-albedo_color = Color(0.266667, 0.423529, 0.760784, 1)
+albedo_texture = ExtResource("1_fy16m")
