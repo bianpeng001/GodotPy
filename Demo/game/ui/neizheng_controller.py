@@ -246,7 +246,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         def select_cb(hero_list):
             #log_util.debug(hero_list)
             if len(hero_list) > 0:
-                hero = game_mgr.hero_mgr.get_hero(hero_list[0])
+                hero = get_hero(hero_list[0])
                 btn_obj.set_text(hero.hero_name)
                 set_hero_cb(hero.hero_id)
             else:

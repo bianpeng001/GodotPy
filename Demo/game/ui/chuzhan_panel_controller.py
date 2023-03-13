@@ -6,26 +6,64 @@ from game.core import *
 from game.game_mgr import *
 from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
-from game.event_name import PRESSED
+from game.event_name import PRESSED,VALUE_CHANGED, ITEM_SELECTED
 
 #
 # 出战
 #
 class ChuZhanPanelController(UIController, PopupTrait):
     def __init__(self):
-        pass
+        self.max_army_mass = 1000
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
         self.bind_ok_cancel_close()
 
-    def on_ok_click(self):
-        self.defer_close()
+        self.lbl_members = self.ui_obj.find_node('Panel/LblMembers')
+        self.btn_select = self.ui_obj.find_node('Panel/BtnHeros')
+        self.lbl_army_mass = self.ui_obj.find_node('Panel/LblArmy')
+        self.slider_army_mass = self.ui_obj.find_node('Panel/SliderArmyMass')
+        self.btn_form = self.ui_obj.find_node('Panel/BtnForm')
+        self.form_list = self.ui_obj.find_node('Panel/FormList')
+
+        self.lbl_members.set_text('')
+        self.btn_select.connect(PRESSED, self.on_select_click)
+
+        self.slider_army_mass.connect(VALUE_CHANGED, self.on_slider_army_mass_changed)
+        self.btn_form.connect(PRESSED, self.on_form_select)
+
+        self.form_list.connect(ITEM_SELECTED, self.on_form_selected)
+
+    def on_form_select(self):
+        self.form_list.set_visible(True)
+
+    def on_form_selected(self, index):
+        self.form_list.set_visible(False)
+        log_debug(index)
+
+    def on_select_click(self):
+        def select_cb(hero_list):
+            if len(hero_list) > 0:
+                print(hero_list)
+                text = ', '.join(map(lambda x: get_hero_name(x), 
+                        hero_list))
+                self.lbl_members.set_text(text)
+            else:
+                self.lbl_members.set_text('')
+
+        game_mgr.ui_mgr.push_panel(self)
+        game_mgr.ui_mgr.select_hero_controller.show_dialog(
+                self.city_unit, select_cb)
+
+    def on_slider_army_mass_changed(self, value):
+        v = round(value*0.01*self.max_army_mass)
+        self.lbl_army_mass.set_text(f'{v}/{self.max_army_mass}人')
 
     def init(self, city_unit):
         self.city_unit = city_unit
 
-        
+        self.max_army_mass = 1000
+        self.slider_army_mass.set_value(100)
 
-
-
+    def on_ok_click(self):
+        self.defer_close()

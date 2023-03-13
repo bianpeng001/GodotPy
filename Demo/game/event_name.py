@@ -20,6 +20,7 @@ PRESSED = 'pressed'
 GUI_INPUT = 'gui_input'
 VALUE_CHANGED = 'value_changed'
 TAB_CHANGED = 'tab_changed'
+ITEM_SELECTED = 'item_selected'
 
 
 # 场景事件

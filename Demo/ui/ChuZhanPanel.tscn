@@ -119,7 +119,7 @@ offset_bottom = 112.0
 theme = ExtResource("1_beg0d")
 text = "10000/10000人"
 
-[node name="SliderOrderMass" type="HSlider" parent="Panel"]
+[node name="SliderArmyMass" type="HSlider" parent="Panel"]
 layout_mode = 0
 offset_left = 84.0
 offset_top = 85.0

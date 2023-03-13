@@ -44,8 +44,6 @@ class HUDMgr:
         self.is_show = True
         self.hud_root_obj = None
         self.template_obj = None
-        self.title_obj = None
-        self.hp_obj = None
 
         # 缓存起来，永不销毁，尤其是 self.template_obj
         self.hud_item_cache = []
