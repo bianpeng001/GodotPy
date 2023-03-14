@@ -289,11 +289,11 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         # 弹一个对话
         if self.city_unit.satrap != 0 and self.satrap == 0:
             satrap = game_mgr.hero_mgr.get_hero(self.city_unit.satrap)
-            msg = f'{satrap.hero_name}: 莫非我不堪此任吗？请主公另选贤明。'
+            msg = f'{satrap.hero_name}: 莫非我不堪此任吗?请主公另选贤明.'
             self.popup_dialog(msg, 1.5)
         elif self.city_unit.satrap == 0 and self.satrap != 0:
             hero = game_mgr.hero_mgr.get_hero(self.satrap)
-            msg = f'{hero.hero_name}: 定当尽心竭力，不负所托。'
+            msg = f'{hero.hero_name}: 定当尽心竭力,不负所托.'
             self.popup_dialog(msg, 1.5)
         elif self.satrap != 0:
             hero = game_mgr.hero_mgr.get_hero(self.satrap)
@@ -312,6 +312,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.city_unit.farmer_mass = self.farmer_mass
         self.city_unit.trader_mass = self.trader_mass
         self.city_unit.fax_rate = self.fax_rate
+        log_debug('apply city property changes')
 
     def on_tab_changed(self, index):
         self.tab_index = index

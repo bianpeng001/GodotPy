@@ -86,9 +86,9 @@ class CityController(Controller):
 
         # TODO: 这个要改,细化行为,要有各种行为
         # 测试行为，不断招兵，军队数量达到1000，就出兵征讨
-        army_amount = city_unit.army_amount.get()
+        army_amount = city_unit.army_amount.value
         if army_amount > 1000:
-            army_amount -= 1000
+            city_unit.army_amount.value -= 1000
 
             x,y,z = city_unit.get_position()
 

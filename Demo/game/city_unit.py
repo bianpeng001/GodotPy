@@ -37,7 +37,7 @@ class CityUnit(Unit, UnitTrait):
         self.building_list = []
 
         # 军队数量,区别于居民人口
-        self.army_amount = LimitValue(random_int(100, 1000), 100000)
+        self.army_amount = LimitValue(random_int(1000, 2000), 100000)
         # 粮食
         self.rice_amount = LimitValue(random_int(100, 1000), 1000000)
         # 银两
