@@ -73,14 +73,13 @@ def build_map_data():
     for y in range(bmp.height):
         for x in range(bmp.width):
             r,g,b = bmp.get_color(x, y)
-            item = (x - cx, -(y - cy), r)
+            item = (x - cx, -(y - cy), r,g,b)
             data.append(item)
-    # with open('world_map.json', 'w') as f:
-    #     json.dump(data, f)
+
     with open('world_map.dat', 'wb') as f:
         for item in data:
-            x,y,color = item
-            tile = struct.pack('>bbB', x,y,color)
+            x,y,r,g,b = item
+            tile = struct.pack('>BBB', r,g,b)
             f.write(tile)
 
 if __name__ == '__main__':

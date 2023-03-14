@@ -28,7 +28,7 @@ class Tile:
         
         # 用来控制可见列表
         self.show_age = 1
-        
+
         # 颜色
         self.color = 0
 
@@ -184,14 +184,19 @@ class GroundMgr(NodeObject):
         data = []
         # with open('world_map.json') as f:
         #     data = json.load(f)
+        w,h = 30,30
+        cx, cy = w//2,h//2
         with open('world_map.dat', 'rb') as f:
             buf = f.read()
             for i in range(len(buf) // 3):
-                item = struct.unpack('>bbB', buf[i*3:(i+1)*3])
+                x = i % w
+                y = i // h
+                r,g,b = struct.unpack('>BBB', buf[i*3:(i+1)*3])
+                item = (x-cx,y-cy,r)
                 data.append(item)
 
         for item in data:
-            x, y, color = item
+            x,y,r = item
             tile, _ = self.create_tile(x, y)
-            tile.color = color
+            tile.color = r
 
