@@ -398,8 +398,10 @@ class FObject:
     def __init__(self):
         self._gdobj = None
 
+    # 当在python端,对于这个handle的引用归零, 则可以清理掉c那边缓存的python对象
+
     # def __del__(self):
-    #     # TODO: 可以在这里关联，但似乎又过于频繁了，这样做的话
+    #     #可以在这里关联，但似乎又过于频繁了，这样做的话
     #     log_util.debug(f'__del__ {self.get_gdobj().get_type_name()}')
     #     pass
 
