@@ -128,11 +128,17 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.max_army_mass = 1000
         self.slider_army_mass.set_value(100)
 
-    def init_form(self, hero_list):
+        self.clear_form()
+        self.lbl_members.set_text('')
+
+    def clear_form(self):
         for item in self.hero_item_list:
             item.hero_item_obj.set_visible(False)
             self.back_hero_item_list.append(item)
         self.hero_item_list.clear()
+
+    def init_form(self, hero_list):
+        self.clear_form()
 
         for hero_id in hero_list:
             hero = get_hero(hero_id)
