@@ -5,7 +5,7 @@ x下载reshacker
 	https://scons.org/
 
 安装scons(后面也可以走升级)
-	python -m pip install scons
+	python -m pip install scons==4.4.0
 	
 安装pip
 	get-pip.py

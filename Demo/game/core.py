@@ -630,6 +630,26 @@ class FSlider(FControl):
 class FNode2D(FCanvasItem):
     def set_position(self, x,y):
         gp.node2d_set_position(self.get_gdobj(), x,y)
+
+
+class FSurfaceTool:
+    def __init__(self):
+        self.st = gp.surface_tool_new()
+
+    def add_vertex(self, x,y,z):
+        gp.surface_tool_add_vertex(self.st, x,y,z)
+    
+    def add_index(self, i):
+        gp.surface_tool_add_index(self.st, i)
+
+    def add_triangle(self, a,b,c):
+        self.add_index(a)
+        self.add_index(b)
+        self.add_index(c)
+
+    # mi -> FMeshInstance3D
+    def commit(self, mi):
+        gp.surface_tool_commit(self.st, mi.get_gdobj())
    
 # 类型到wrap类的映射
 # 这个wrap的好处就是，利用oop，使得操作的对象上面只有对应类型能用的方法

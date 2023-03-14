@@ -39,14 +39,30 @@ class Tile:
         log_util.debug(f'load tile: ({self.col},{self.row})')
         pos_x, pos_z = self.get_center_pos()
 
-        self.model_node = FNode3D.instantiate('res://models/Square.tscn')
+        self.model_node = FNode3D.instantiate('res://models/Tile01.tscn')
         self.model_node.set_position(pos_x, 0, pos_z)
+
+        self.test_mesh()
 
         mesh = self.model_node.find_node('Mesh')
         if self.color == 255:
             mesh.load_material(0, 'res://models/Terrain/GrassMat.tres')
         else:
             mesh.load_material(0, 'res://models/Terrain/WaterMat.tres')
+
+    def test_mesh(self):
+        mesh = self.model_node.find_node('Mesh')
+
+        st = FSurfaceTool()
+        st.add_vertex(0, 0, 0)
+        st.add_vertex(10, 0, 0)
+        st.add_vertex(10, 0, 10)
+        st.add_vertex(0, 0, 10)
+
+        st.add_triangle(0,2,1)
+        st.add_triangle(0,3,2)
+
+        st.commit(mesh)
 
     def load_items(self):
         pos_x, pos_z = self.get_center_pos()

@@ -41,6 +41,11 @@
 #include "scene/gui/texture_rect.h"
 
 #include "scene/resources/packed_scene.h"
+#include "scene/resources/surface_tool.h"
+#include "scene/resources/material.h"
+#include "scene/resources/mesh.h"
+#include "scene/resources/primitive_meshes.h"
+#include "scene/resources/immediate_mesh.h"
 
 // server headers
 #include "servers/display_server.h"
@@ -431,9 +436,11 @@ static const char c_Transform3D[] = "Transform3D";
 static const char c_Quaternion[] = "Quaternion";
 static const char c_InputEvent[] = "InputEvent";
 static const char c_Resource[] = "Resource";
+static const char c_SurfaceTool[] = "SurfaceTool";
 
 template <const char* pointer_name, typename T>
 void _capsule_delete_pointer(PyObject *obj) {
+	print_line(vformat("delete %s"), String(pointer_name));
 	auto ptr = reinterpret_cast<T*>(PyCapsule_GetPointer(obj, pointer_name));
 	memdelete<T>(ptr);
 }
@@ -1862,7 +1869,7 @@ struct ResCapsule {
 		return Res<T>(this->res);
 	}
 };
-static ResCapsule *GetResourceRef(PyObject *capsule) {
+static ResCapsule *GetResCapsule(PyObject *capsule) {
 	return reinterpret_cast<ResCapsule *>(PyCapsule_GetPointer(capsule, c_Resource));
 }
 //f_load_resource
@@ -1958,6 +1965,118 @@ static PyObject *f_debug_get_monitor(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+// surface tool
+struct SurfaceToolCapsule {
+	Ref<SurfaceTool> st;
+};
+static SurfaceToolCapsule* GetSurfaceToolCapsule(PyObject* capsule) {
+	return reinterpret_cast<SurfaceToolCapsule *>(PyCapsule_GetPointer(capsule, c_SurfaceTool));
+}
+static PyObject *f_surface_tool_new(PyObject *module, PyObject *args) {
+	do {
+		SurfaceToolCapsule *p_res = memnew(SurfaceToolCapsule);
+		p_res->st = Ref<SurfaceTool>(memnew(SurfaceTool));
+		p_res->st->begin(Mesh::PRIMITIVE_TRIANGLES);
+		p_res->st->set_color(Color(1.0f, 1.0f, 1.0f));
+		p_res->st->set_normal(Vector3(0.0f, 1.0f, 0.0f));
+		p_res->st->set_uv(Vector2(0.0, 0.0f));
+
+		auto obj = PyCapsule_New(p_res, c_SurfaceTool,
+				&_capsule_delete_pointer<c_SurfaceTool, SurfaceToolCapsule>);
+		return obj;
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_surface_tool_set_color(PyObject *module, PyObject *args) {
+	do {
+		PyObject *p_obj;
+		float r, g, b;
+
+		if (!PyArg_ParseTuple(args, "Offf", &p_obj, &r, &g, &b)) {
+			break;
+		}
+
+		auto p_res = GetSurfaceToolCapsule(p_obj);
+		p_res->st->set_color(Color(r,g,b));
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_surface_tool_set_uv(PyObject *module, PyObject *args) {
+	do {
+		PyObject *p_obj;
+		float x, y;
+
+		if (!PyArg_ParseTuple(args, "Off", &p_obj, &x, &y)) {
+			break;
+		}
+
+		auto p_res = GetSurfaceToolCapsule(p_obj);
+		p_res->st->set_uv(Vector2(x, y));
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_surface_tool_add_vertex(PyObject *module, PyObject *args) {
+	do {
+		PyObject *p_obj;
+		float x, y, z;
+
+		if (!PyArg_ParseTuple(args, "Offf", &p_obj, &x, &y, &z)) {
+			break;
+		}
+
+		auto p_res = GetSurfaceToolCapsule(p_obj);
+		p_res->st->add_vertex(Vector3(x, y, z));
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_surface_tool_add_index(PyObject *module, PyObject *args) {
+	do {
+		PyObject *p_obj;
+		int i;
+
+		if (!PyArg_ParseTuple(args, "Oi", &p_obj, &i)) {
+			break;
+		}
+
+		auto p_res = GetSurfaceToolCapsule(p_obj);
+		p_res->st->add_index(i);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_surface_tool_commit(PyObject *module, PyObject *args) {
+	do {
+		PyObject *p_obj;
+		PyObject *p_mesh_instance3d;
+
+		if (!PyArg_ParseTuple(args, "OO", &p_obj, &p_mesh_instance3d)) {
+			break;
+		}
+
+		auto p_res = GetSurfaceToolCapsule(p_obj);
+		auto mi = GetObjPtr<MeshInstance3D>(p_mesh_instance3d);
+		if (!mi || !p_res) {
+			break;
+		}
+		Ref<Mesh> mesh = memnew(ImmediateMesh);
+		p_res->st->commit(mesh);
+
+		mi->set_mesh(mesh);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+
 // define godot api
 static PyMethodDef GodotPy_methods[] = {
 	// os
@@ -2062,6 +2181,15 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "instantiate", f_instantiate, METH_VARARGS, NULL },
 	{ "load_scene", f_load_scene, METH_VARARGS, NULL },
 	{ "load_resource", f_load_resource, METH_VARARGS, NULL },
+
+	// surface tool
+	{ "surface_tool_new", f_surface_tool_new, METH_VARARGS, NULL },
+	{ "surface_tool_set_color", f_surface_tool_set_color, METH_VARARGS, NULL },
+	{ "surface_tool_set_uv", f_surface_tool_set_uv, METH_VARARGS, NULL },
+	{ "surface_tool_add_vertex", f_surface_tool_add_vertex, METH_VARARGS, NULL },
+	{ "surface_tool_add_index", f_surface_tool_add_index, METH_VARARGS, NULL },
+	{ "surface_tool_commit", f_surface_tool_commit, METH_VARARGS, NULL },
+
 
 	// godotpy
 	//{ "get_py_object", f_get_py_object, METH_VARARGS, NULL },
