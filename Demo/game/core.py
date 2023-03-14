@@ -636,9 +636,18 @@ class FSurfaceTool:
     def __init__(self):
         self.st = gp.surface_tool_new()
 
+    def set_uv(self, x,y):
+        gp.surface_tool_set_uv(self.st, x,y)
+
+    def set_color(self, r,g,b):
+        gp.surface_tool_set_color(self.st, r,g,b)
+
+    def set_normal(self, x,y,z):
+        gp.surface_tool_set_normal(self.st, x,y,z)
+    
     def add_vertex(self, x,y,z):
         gp.surface_tool_add_vertex(self.st, x,y,z)
-    
+
     def add_index(self, i):
         gp.surface_tool_add_index(self.st, i)
 

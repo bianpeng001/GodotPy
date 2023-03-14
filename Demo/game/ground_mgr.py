@@ -54,9 +54,13 @@ class Tile:
         mesh = self.model_node.find_node('Mesh')
 
         st = FSurfaceTool()
+        st.set_uv(0, 0)
         st.add_vertex(-1, 0, -1)
+        st.set_uv(1, 0)
         st.add_vertex(1, 0, -1)
+        st.set_uv(1, 1)
         st.add_vertex(1, 0, 1)
+        st.set_uv(0, 1)
         st.add_vertex(-1, 0, 1)
 
         st.add_triangle(0,1,2)

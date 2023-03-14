@@ -2061,6 +2061,22 @@ static PyObject *f_surface_tool_add_index(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_surface_tool_set_normal(PyObject *module, PyObject *args) {
+	do {
+		PyObject *p_obj;
+		float x, y, z;
+
+		if (!PyArg_ParseTuple(args, "Offf", &p_obj, &x, &y, &z)) {
+			break;
+		}
+
+		auto p_res = GetSurfaceToolCapsule(p_obj);
+		p_res->st->set_normal(Vector3(x,y,z));
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_surface_tool_commit(PyObject *module, PyObject *args) {
 	do {
 		PyObject *p_obj;
@@ -2193,10 +2209,10 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "surface_tool_new", f_surface_tool_new, METH_VARARGS, NULL },
 	{ "surface_tool_set_color", f_surface_tool_set_color, METH_VARARGS, NULL },
 	{ "surface_tool_set_uv", f_surface_tool_set_uv, METH_VARARGS, NULL },
+	{ "surface_tool_set_normal", f_surface_tool_set_normal, METH_VARARGS, NULL }, 
 	{ "surface_tool_add_vertex", f_surface_tool_add_vertex, METH_VARARGS, NULL },
 	{ "surface_tool_add_index", f_surface_tool_add_index, METH_VARARGS, NULL },
 	{ "surface_tool_commit", f_surface_tool_commit, METH_VARARGS, NULL },
-
 
 	// godotpy
 	//{ "get_py_object", f_get_py_object, METH_VARARGS, NULL },
