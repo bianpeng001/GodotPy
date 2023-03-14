@@ -283,6 +283,15 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             speaker_name = get_hero_name(hero_list[0])
             self.popup_dialog(f'{speaker_name}: 任重而道远,贵在持之以恒', 1.5)
 
+    def on_tab_changed(self, index):
+        self.tab_index = index
+        for i in range(len(self.tabs)):
+            self.tabs[i].set_visible(i == self.tab_index)
+
+    def init_hero_list(self):
+        item_node = self.tab_jiang_obj.find_node('HeroList/ScrollContainer/VBoxContainer/Item')
+        self.init_items(item_node, self.city_unit.hero_list)
+
     def on_ok_click(self):
         self.defer_close()
 
@@ -312,15 +321,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.city_unit.farmer_mass = self.farmer_mass
         self.city_unit.trader_mass = self.trader_mass
         self.city_unit.fax_rate = self.fax_rate
+        
         log_debug('apply city property changes')
-
-    def on_tab_changed(self, index):
-        self.tab_index = index
-        for i in range(len(self.tabs)):
-            self.tabs[i].set_visible(i == self.tab_index)
-
-    def init_hero_list(self):
-        item_node = self.tab_jiang_obj.find_node('HeroList/ScrollContainer/VBoxContainer/Item')
-        self.init_items(item_node, self.city_unit.hero_list)
 
 

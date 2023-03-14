@@ -1,4 +1,23 @@
-http://angusj.com/resourcehacker
+x下载reshacker
+	http://angusj.com/resourcehacker
 
-https://scons.org/
+下载scons
+	https://scons.org/
 
+安装scons(后面也可以走升级)
+	python -m pip install scons
+	
+安装pip
+	get-pip.py
+
+升级pip
+	python -m pip install --upgrade pip
+	
+standalone方式(从zip包直接使用pip)
+	https://bootstrap.pypa.io/pip/pip.pyz
+	python pip.pyz --help
+
+pip内容详见:	
+	https://pip.pypa.io/en/stable/installation/
+
+	
