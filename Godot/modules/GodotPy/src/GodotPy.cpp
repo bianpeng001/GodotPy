@@ -1980,6 +1980,7 @@ static PyObject *f_surface_tool_new(PyObject *module, PyObject *args) {
 		p_res->st->set_color(Color(1.0f, 1.0f, 1.0f));
 		p_res->st->set_normal(Vector3(0.0f, 1.0f, 0.0f));
 		p_res->st->set_uv(Vector2(0.0, 0.0f));
+		p_res->st->index();
 
 		auto obj = PyCapsule_New(p_res, c_SurfaceTool,
 				&_capsule_delete_pointer<c_SurfaceTool, SurfaceToolCapsule>);
@@ -2067,9 +2068,8 @@ static PyObject *f_surface_tool_commit(PyObject *module, PyObject *args) {
 		if (!mi || !p_res) {
 			break;
 		}
-		//Ref<Mesh> mesh = memnew(ImmediateMesh);
-		Ref<ArrayMesh> mesh = p_res->st->commit();
 
+		Ref<ArrayMesh> mesh = p_res->st->commit();
 		mi->set_mesh(mesh);
 
 	} while (0);
