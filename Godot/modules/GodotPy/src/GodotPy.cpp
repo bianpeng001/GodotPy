@@ -440,7 +440,7 @@ static const char c_SurfaceTool[] = "SurfaceTool";
 
 template <const char* pointer_name, typename T>
 void _capsule_delete_pointer(PyObject *obj) {
-	print_line(vformat("delete %s"), String(pointer_name));
+	print_line(vformat("delete %s", String(pointer_name)));
 	auto ptr = reinterpret_cast<T*>(PyCapsule_GetPointer(obj, pointer_name));
 	memdelete<T>(ptr);
 }
@@ -2056,19 +2056,19 @@ static PyObject *f_surface_tool_add_index(PyObject *module, PyObject *args) {
 static PyObject *f_surface_tool_commit(PyObject *module, PyObject *args) {
 	do {
 		PyObject *p_obj;
-		PyObject *p_mesh_instance3d;
+		PyObject *mi_obj;
 
-		if (!PyArg_ParseTuple(args, "OO", &p_obj, &p_mesh_instance3d)) {
+		if (!PyArg_ParseTuple(args, "OO", &p_obj, &mi_obj)) {
 			break;
 		}
 
 		auto p_res = GetSurfaceToolCapsule(p_obj);
-		auto mi = GetObjPtr<MeshInstance3D>(p_mesh_instance3d);
+		auto mi = GetObjPtr<MeshInstance3D>(mi_obj);
 		if (!mi || !p_res) {
 			break;
 		}
-		Ref<Mesh> mesh = memnew(ImmediateMesh);
-		p_res->st->commit(mesh);
+		//Ref<Mesh> mesh = memnew(ImmediateMesh);
+		Ref<ArrayMesh> mesh = p_res->st->commit();
 
 		mi->set_mesh(mesh);
 
