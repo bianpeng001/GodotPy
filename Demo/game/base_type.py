@@ -196,11 +196,17 @@ def narudo_range(n):
     steps = ((0, 1),(1, 0),(0, -1),(-1, 0))
     step_index = 0
 
+    def next_step():
+        nonlocal steps
+        nonlocal step_index
+        dx,dy = steps[step_index]
+        step_index = (step_index+1) % 4
+        return dx,dy
+
     x,y=0,0
     i = 1
     while i < n:
-        dx,dy = steps[step_index]
-        step_index = (step_index+1) % 4
+        dx,dy = next_step()
         j = 0
         while j < i:
             x+=dx
@@ -208,8 +214,7 @@ def narudo_range(n):
             yield x,y
             j += 1
         
-        dx,dy = steps[step_index]
-        step_index = (step_index+1) % 4
+        dx,dy = next_step()
         j = 0
         while j < i:
             x+=dx
@@ -219,3 +224,34 @@ def narudo_range(n):
 
         i += 1
 
+def narudo_range2(start, n):
+    steps = ((0, 1),(1, 0),(0, -1),(-1, 0))
+    step_index = 0
+
+    def next_step():
+        nonlocal steps
+        nonlocal step_index
+        dx,dy = steps[step_index]
+        step_index = (step_index+1) % 4
+        return dx,dy
+
+    x,y=-start,-start
+    i = start*2
+    while i < n:
+        dx,dy = next_step()
+        j = 0
+        while j < i:
+            x+=dx
+            y+=dy
+            yield x,y
+            j += 1
+        
+        dx,dy = next_step()
+        j = 0
+        while j < i:
+            x+=dx
+            y+=dy
+            yield x,y
+            j += 1
+
+        i += 1
