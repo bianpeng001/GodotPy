@@ -444,6 +444,11 @@ void _capsule_delete_pointer(PyObject *obj) {
 	auto ptr = reinterpret_cast<T*>(PyCapsule_GetPointer(obj, pointer_name));
 	memdelete<T>(ptr);
 }
+template <const char* pointer_name, typename T>
+inline T* _capsule_get_pointer(PyObject* obj) {
+	void *ptr = PyCapsule_GetPointer(obj, pointer_name);
+	return reinterpret_cast<T *>(ptr);
+}
 
 //------------------------------------------------------------------------------
 // 用来处理python的callback, 这个算是一个扩展点
@@ -1869,8 +1874,9 @@ struct ResCapsule {
 		return Res<T>(this->res);
 	}
 };
-static ResCapsule *GetResCapsule(PyObject *capsule) {
-	return reinterpret_cast<ResCapsule *>(PyCapsule_GetPointer(capsule, c_Resource));
+static inline ResCapsule *GetResCapsule(PyObject *obj) {
+	//return reinterpret_cast<ResCapsule *>(PyCapsule_GetPointer(capsule, c_Resource));
+	return _capsule_get_pointer<c_Resource, ResCapsule>(obj);
 }
 //f_load_resource
 static PyObject *f_load_resource(PyObject *module, PyObject *args) {
@@ -1969,8 +1975,9 @@ static PyObject *f_debug_get_monitor(PyObject *module, PyObject *args) {
 struct SurfaceToolCapsule {
 	Ref<SurfaceTool> st;
 };
-static SurfaceToolCapsule* GetSurfaceToolCapsule(PyObject* capsule) {
-	return reinterpret_cast<SurfaceToolCapsule *>(PyCapsule_GetPointer(capsule, c_SurfaceTool));
+static inline SurfaceToolCapsule* GetSurfaceToolCapsule(PyObject* capsule) {
+	//return reinterpret_cast<SurfaceToolCapsule *>(PyCapsule_GetPointer(capsule, c_SurfaceTool));
+	return _capsule_get_pointer<c_SurfaceTool, SurfaceToolCapsule>(capsule);
 }
 static PyObject *f_surface_tool_new(PyObject *module, PyObject *args) {
 	do {
