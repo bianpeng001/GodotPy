@@ -188,4 +188,34 @@ class LimitValue:
     def get_value(self):
         return round(self.value)
         
+# 一个螺旋形的遍历
+# 812
+# 703
+# 654
+def narudo_range(n):
+    steps = ((0, 1),(1, 0),(0, -1),(-1, 0))
+    step_index = 0
+
+    x,y=0,0
+    i = 1
+    while i < n:
+        dx,dy = steps[step_index]
+        step_index = (step_index+1) % 4
+        j = 0
+        while j < i:
+            x+=dx
+            y+=dy
+            yield x,y
+            j += 1
+        
+        dx,dy = steps[step_index]
+        step_index = (step_index+1) % 4
+        j = 0
+        while j < i:
+            x+=dx
+            y+=dy
+            yield x,y
+            j += 1
+
+        i += 1
 

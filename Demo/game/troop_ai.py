@@ -134,6 +134,11 @@ class LeftRightMoveReq(BaseMoveReq):
             self.reset(self.stop)
 
 
+# 还有一个螺旋形的遍历
+# 812
+# 703
+# 654
+
 # 遍历一周，顺序如下
 # 012
 # 7X3
@@ -177,16 +182,16 @@ class AIState_FindCity(AIState_Troop):
     # 从内而外的一圈圈的找目标
     def find_enemy_city(self,controller,col,row):
         owner_player_id = controller.get_unit().owner_player_id
-        for i in range(3):
-            for dx,dy in ring_range(i):
-                tile = game_mgr.ground_mgr.get_tile_colrow(col+dx, row+dy)
-                if not tile:
-                    continue
-                for unit in tile.unit_list:
-                    if unit.unit_type == UT_CITY and \
-                            (unit.owner_player_id == 0 or \
-                            unit.owner_player_id != owner_player_id):
-                        return unit
+        
+        for dx,dy in narudo_range(4):
+            tile = game_mgr.ground_mgr.get_tile_colrow(col+dx, row+dy)
+            if not tile:
+                continue
+            for unit in tile.unit_list:
+                if unit.unit_type == UT_CITY and \
+                        (unit.owner_player_id == 0 or \
+                        unit.owner_player_id != owner_player_id):
+                    return unit
         return None
 
     def update(self, controller):
@@ -281,10 +286,11 @@ class AIState_AttackCity(AIState_Troop):
             if city.army_amount.value <= 0:
                 troop_dismiss = True
 
-        # 结束战斗
+        # 超时直接结束战斗
         if bb.get_state_time() > 50:
             troop_dismiss = True
 
+        # 队伍可以解散
         if troop_dismiss:
             controller.ai_enter_state(AIState_TroopDie())
 

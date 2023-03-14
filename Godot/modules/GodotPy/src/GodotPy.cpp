@@ -639,6 +639,14 @@ static PyObject *f_get_window_size(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_window_set_title(PyObject *module, PyObject *args) {
+	auto server = DisplayServer::get_singleton();
+	if (server) {
+		server->window_set_title(String());
+	}
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_viewport_get_size(PyObject *module, PyObject *args) {
 	do {
 		auto st = SceneTree::get_singleton();
@@ -1958,6 +1966,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "get_delta_time", f_get_delta_time, METH_VARARGS, NULL },
 	{ "set_window_rect", f_set_window_rect, METH_VARARGS, NULL },
 	{ "get_window_size", f_get_window_size, METH_VARARGS, NULL },
+	{ "window_set_title", f_window_set_title, METH_VARARGS, NULL },
 	{ "viewport_get_size", f_viewport_get_size, METH_VARARGS, NULL },
 	{ "get_scene_root", f_get_scene_root, METH_VARARGS, NULL },
 	{ "is_editor_hint", f_is_editor_hint, METH_VARARGS, NULL },
