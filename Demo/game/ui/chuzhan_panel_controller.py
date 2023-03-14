@@ -8,12 +8,21 @@ from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
 from game.event_name import PRESSED,VALUE_CHANGED,ITEM_SELECTED,GUI_INPUT
 
+ITEM_SIZE = 80
+
 #
 class HeroItem:
     def __init__(self):
         self.hero_id = 0
         self.index = 0
         self.hero_item_obj = None
+
+    def get_position(self):
+        return (self.index % 3)*ITEM_SIZE, (self.index // 3)*ITEM_SIZE
+
+    def set_index(self, index):
+        self.index = index
+        self.hero_item_obj.set_position(*self.get_position())
 
 #
 # 出战
@@ -52,13 +61,15 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.btn_form.connect(PRESSED, self.on_form_select)
         self.form_list.connect(ITEM_SELECTED, self.on_form_selected)
 
-    def on_hero_item_input(self, hero_item_obj, pressed):
+    def on_hero_item_input(self, hero_item, pressed):
+        hero_item_obj = hero_item.hero_item_obj
         input_mgr = game_mgr.input_mgr
         if input_mgr.is_mouse_pressed(1):
             if not self.is_drag:
                 self.is_drag = True
-                self.pos0 = hero_item_obj.get_rect()[0:2]
+                self.pos0 = hero_item.get_position()
                 self.pos1 = input_mgr.get_mouse_pos()
+                hero_item_obj.set_last()
             else:
                 pos = input_mgr.get_mouse_pos()
                 hero_item_obj.set_position(
@@ -67,16 +78,22 @@ class ChuZhanPanelController(UIController, PopupTrait):
         else:
             if self.is_drag:
                 self.is_drag = False
+                
                 # drag stop...
                 x,y=hero_item_obj.get_rect()[0:2]
-                x,y=x+40,y+40
-                if x >= 0 and x < 240 and \
-                        y >= 0 and y < 240:
-                    x=math.floor(x/80)*80
-                    y=math.floor(y/80)*80
-                    hero_item_obj.set_position(x,y)
+                x,y=x+ITEM_SIZE/2,y+ITEM_SIZE/2
+                if x >= 0 and x < ITEM_SIZE*3 and \
+                        y >= 0 and y < ITEM_SIZE*3:
+                    x=math.floor(x/ITEM_SIZE)
+                    y=math.floor(y/ITEM_SIZE)
+                    index = y*3+x
+                    if index != hero_item.index:
+                        prev_item = self.find_hero_by_index(index)
+                        if prev_item:
+                            prev_item.set_index(hero_item.index)
+                    hero_item.set_index(index)
                 else:
-                    hero_item_obj.set_position(*self.pos0)
+                    hero_item.set_index(hero_item.index)
 
     def on_form_select(self):
         self.form_list.set_visible(True)
@@ -126,27 +143,27 @@ class ChuZhanPanelController(UIController, PopupTrait):
                 hero_item.hero_item_obj = self.hero_item_obj.dup()
 
                 def bind_on_input(hero_item):
-                    return lambda pressed: self.on_hero_item_input(
-                            hero_item.hero_item_obj, pressed)
+                    return lambda pressed: self.on_hero_item_input(hero_item, pressed)
 
                 hero_item.hero_item_obj.connect(GUI_INPUT, bind_on_input(hero_item))
             
-            
             hero_item.hero_id = hero_id
-            hero_item.index = len(self.hero_item_list)
+            hero_item.set_index(len(self.hero_item_list))
             hero_item.hero_item_obj.set_visible(True)
             hero_item.hero_item_obj.find_node('Label').set_text(get_hero_name(hero_id))
-            hero_item.hero_item_obj.set_position(
-                    80*(hero_item.index % 3),
-                    80*(hero_item.index // 3))
+
             self.hero_item_list.append(hero_item)
-        pass
+
+    def find_hero_by_index(self, index):
+        for item in self.hero_item_list:
+            if item.index == index:
+                return item
 
     def on_ok_click(self):
         self.defer_close()
 
         if len(self.hero_item_list) > 0:
-            log_debug(f'chuzhan ok')
+            log_debug(f'chuzhan ok', self.hero_item_list)
 
 
 

@@ -461,6 +461,9 @@ class FNode(FObject):
         gdobj = gp.find_control(self.get_gdobj(), x, y)
         return GetWrappedObject(gdobj)
 
+    def set_last(self):
+        gp.node_set_last(self.get_gdobj())
+
 class FNode3D(FNode):
     def set_position(self, x,y,z):
         gp.set_position(self.get_gdobj(), x,y,z)

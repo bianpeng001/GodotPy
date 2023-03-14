@@ -796,6 +796,27 @@ static PyObject *f_reparent(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_node_set_last(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+
+		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
+			break;
+		}
+
+		Node *obj = GetObjPtr<Node>(a_obj);
+		if (!obj) {
+			break;
+		}
+		auto p = obj->get_parent();
+		if (p) {
+			p->move_child(obj, p->get_child_count() - 1);
+		}
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_node_dup(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -2124,7 +2145,8 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "get_child_at", f_get_child_at, METH_VARARGS, NULL },
 	{ "get_parent", f_get_parent, METH_VARARGS, NULL },
 	{ "reparent", f_reparent, METH_VARARGS, NULL },
-	{ "node_dup", f_node_dup, METH_VARARGS, NULL }, 
+	{ "node_set_last", f_node_set_last, METH_VARARGS, NULL },
+	{ "node_dup", f_node_dup, METH_VARARGS, NULL },
 
 	{ "connect", f_connect, METH_VARARGS, NULL },
 	
