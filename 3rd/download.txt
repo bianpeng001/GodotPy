@@ -8,7 +8,7 @@ x下载reshacker
 	python -m pip install scons==4.4.0
 	
 安装pip
-	get-pip.py
+	get-pip.py (get-pip.py.zip, 压缩掉了, 不然占代码行)
 
 升级pip
 	python -m pip install --upgrade pip
