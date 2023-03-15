@@ -44,14 +44,14 @@ class Tile:
 
         self.test_mesh()
 
-        mesh = self.model_node.find_node('Mesh')
+        mi = self.model_node.find_node('Mesh')
         if self.color == 0:
-            mesh.load_material(0, 'res://models/Terrain/WaterMat.tres')
+            mi.load_material(0, 'res://models/Terrain/WaterMat.tres')
         else:
-            mesh.load_material(0, 'res://models/Terrain/GrassMat.tres')
+            mi.load_material(0, 'res://models/Terrain/GrassMat.tres')
 
     def test_mesh(self):
-        mesh = self.model_node.find_node('Mesh')
+        mi = self.model_node.find_node('Mesh')
 
         st = FSurfaceTool()
         st.set_uv(0, 0)
@@ -63,10 +63,10 @@ class Tile:
         st.set_uv(0, 1)
         st.add_vertex(-1, 0, 1)
 
-        st.add_triangle(0,1,2)
-        st.add_triangle(0,2,3)
+        st.add_triangle(0, 1, 2)
+        st.add_triangle(0, 2, 3)
 
-        st.commit(mesh)
+        st.commit(mi)
 
     def load_items(self):
         pos_x, pos_z = self.get_center_pos()

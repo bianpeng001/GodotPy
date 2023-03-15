@@ -361,3 +361,9 @@ Godot里面Object和ObjectId，ObjectId应该是一个不会重复的值。如�
 
 
 
+### 日志文件
+
+ProjectSetting -> Debug -> File Logging
+
+Log Path: res://logs/godot.log
+
