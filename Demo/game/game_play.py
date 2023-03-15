@@ -175,7 +175,7 @@ class GamePlay:
         # 主将
         chief_hero_id = 0
         for item in hero_list:
-            if item.pos_index == 5:
+            if item.pos_index == 4:
                 chief_hero_id = item.hero_id
                 break
             elif chief_hero_id == 0:
@@ -191,6 +191,8 @@ class GamePlay:
         if chief_hero_id > 0:
             troop.chief_hero_id = chief_hero_id
             troop.unit_name = f'{get_hero_name(chief_hero_id)}军'
+        else:
+            troop.unit_name = f'{city_unit.unit_name}军'
 
         return troop
 

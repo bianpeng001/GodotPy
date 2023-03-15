@@ -197,8 +197,8 @@ def narudo_range(n):
     step_index = 0
 
     def next_step():
-        nonlocal steps
-        nonlocal step_index
+        nonlocal steps,step_index
+        
         dx,dy = steps[step_index]
         step_index = (step_index+1) % 4
         return dx,dy

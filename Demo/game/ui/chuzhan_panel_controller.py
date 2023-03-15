@@ -120,8 +120,8 @@ class ChuZhanPanelController(UIController, PopupTrait):
                 self.city_unit, select_cb)
 
     def on_slider_army_mass_changed(self, value):
-        self.max_army_mass = round(value*0.01*self.max_army_mass)
-        self.lbl_army_mass.set_text(f'{self.max_army_mass}/{self.max_army_mass}人')
+        self.army_amount = round(value*0.01*self.max_army_mass)
+        self.lbl_army_mass.set_text(f'{self.army_amount}/{self.max_army_mass}人')
 
     def init(self, city_unit):
         self.city_unit = city_unit

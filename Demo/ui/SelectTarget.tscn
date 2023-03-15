@@ -18,6 +18,7 @@ offset_right = 250.0
 offset_bottom = 56.0
 
 [node name="BtnOk" type="Button" parent="Panel"]
+layout_mode = 0
 offset_left = 120.0
 offset_top = 14.0
 offset_right = 180.0
@@ -29,6 +30,7 @@ theme_override_styles/pressed = ExtResource("2_ff50y")
 text = "确定"
 
 [node name="BtnCancel" type="Button" parent="Panel"]
+layout_mode = 0
 offset_left = 184.0
 offset_top = 14.0
 offset_right = 244.0
@@ -48,6 +50,7 @@ offset_bottom = 43.0
 color = Color(0.105882, 0.105882, 0.105882, 1)
 
 [node name="LblTarget" type="Label" parent="Panel"]
+layout_mode = 0
 offset_left = 8.0
 offset_top = 16.0
 offset_right = 112.0
