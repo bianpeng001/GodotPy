@@ -4,17 +4,16 @@
 
 from game.core import *
 from game.game_mgr import *
-from game.base_type import UIController
+from game.base_type import UIController, HeroSlot
 from game.ui.ui_traits import PopupTrait
 from game.event_name import PRESSED,VALUE_CHANGED,ITEM_SELECTED,GUI_INPUT
 
 ITEM_SIZE = 80
 
 #
-class HeroItem:
+class HeroItem(HeroSlot):
     def __init__(self):
-        self.hero_id = 0
-        self.pos_index = 0
+        super().__init__()
         self.hero_item_obj = None
 
     def get_position(self):
@@ -37,6 +36,8 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.is_drag = False
         self.pos0 = (0, 0)
         self.pos1 = (0, 0)
+
+        self.army_amount = 0
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
@@ -119,13 +120,14 @@ class ChuZhanPanelController(UIController, PopupTrait):
                 self.city_unit, select_cb)
 
     def on_slider_army_mass_changed(self, value):
-        v = round(value*0.01*self.max_army_mass)
-        self.lbl_army_mass.set_text(f'{v}/{self.max_army_mass}人')
+        self.max_army_mass = round(value*0.01*self.max_army_mass)
+        self.lbl_army_mass.set_text(f'{self.max_army_mass}/{self.max_army_mass}人')
 
     def init(self, city_unit):
         self.city_unit = city_unit
 
         self.max_army_mass = 1000
+        self.army_amount = self.max_army_mass
         self.slider_army_mass.set_value(100)
 
         self.clear_form()
@@ -170,6 +172,21 @@ class ChuZhanPanelController(UIController, PopupTrait):
 
         if len(self.hero_item_list) > 0:
             log_debug(f'chuzhan ok', self.hero_item_list)
+
+            x,y,z = self.city_unit.get_position()
+
+            hero_list = []
+            for hero_item in self.hero_item_list:
+                new_hero_item = HeroSlot()
+                new_hero_item.hero_id = hero_item.hero_id
+                new_hero_item.pos_index = hero_item.pos_index
+                hero_list.append(new_hero_item)
+
+            troop = game_mgr.game_play.create_troop(
+                    self.city_unit,
+                    hero_list,
+                    x,y,z,
+                    self.army_amount)
 
 
 

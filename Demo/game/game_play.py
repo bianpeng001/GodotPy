@@ -172,13 +172,25 @@ class GamePlay:
 
     # 创建队伍
     def create_troop(self, city_unit, hero_list, x,y,z, army_amount):
+        # 主将
+        chief_hero_id = 0
+        for item in hero_list:
+            if item.pos_index == 5:
+                chief_hero_id = item.hero_id
+                break
+            elif chief_hero_id == 0:
+                chief_hero_id = item.hero_id
+
         troop = game_mgr.unit_mgr.create_troop()
         troop.hero_list = hero_list
         troop.owner_city_id = city_unit.unit_id
         troop.owner_player_id = city_unit.owner_player_id
-
-        troop.set_army_amount(army_amount)
+        troop.army_amount = army_amount
         troop.set_position(x,y,z)
+
+        if chief_hero_id > 0:
+            troop.chief_hero_id = chief_hero_id
+            troop.unit_name = f'{get_unit_name(chief_hero_id)}军'
 
         return troop
 

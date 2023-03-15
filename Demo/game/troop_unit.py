@@ -6,14 +6,9 @@ from game.game_mgr import game_mgr, UnitTrait
 from game.base_type import Unit, UT_TROOP
 from game.troop_controller import TroopController
 
-# 军队里面, 武将的位置
-class HeroSlot:
-    def __init__(self):
-        self.hero_id = 0
-        self.pos_index = 0
-        self.hp = 0
-
+#
 # 部队
+#
 class TroopUnit(Unit, UnitTrait):
     def __init__(self):
         super().__init__()
@@ -31,12 +26,18 @@ class TroopUnit(Unit, UnitTrait):
         # 武将
         self.hero_list = []
         # 主将
-        self.leader_hero_id = 0
+        self.chief_hero_id = 0
 
+        # 军队数量
         self.army_amount = 0
+        # 士气
         self.army_moral = 100
 
+        # 模型的类型
         self.model_type = 3
+
+        # 战斗策略
+        self.fight_to_death = True
 
     def load_model(self):
         self.unit_name = f'部队_{self.unit_id}'
@@ -47,9 +48,7 @@ class TroopUnit(Unit, UnitTrait):
         self.model_node = FNode3D.instantiate(path)
         self.get_controller().apply_position()
 
-    def set_army_amount(self, value):
-        self.army_amount = value
 
-    def add_hero(self, hero_id):
-        self.hero_list.append(hero_id)
+
+
 

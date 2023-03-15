@@ -102,11 +102,10 @@ class UnitMgr:
         return self.create_unit(TroopUnit)
 
     # find first match requirements unit
-    def find_unit(self, cb):
+    def find_unit(self, predicate):
         for unit in self.update_list:
-            if cb(unit):
+            if predicate(unit):
                 return unit
-        return None
 
     def each_city(self):
         for unit in self.update_list:

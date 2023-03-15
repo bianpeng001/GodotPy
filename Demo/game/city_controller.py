@@ -92,12 +92,14 @@ class CityController(Controller):
 
             x,y,z = city_unit.get_position()
 
-            troop = game_mgr.unit_mgr.create_troop()
-            troop.owner_city_id = city_unit.unit_id
-            troop.owner_player_id = city_unit.owner_player_id
+            # troop = game_mgr.unit_mgr.create_troop()
+            # troop.owner_city_id = city_unit.unit_id
+            # troop.owner_player_id = city_unit.owner_player_id
 
-            troop.set_army_amount(1000)
-            troop.set_position(x,y,z)
+            # troop.set_army_amount(1000)
+            # troop.set_position(x,y,z)
+            troop = game_mgr.game_play.create_troop(city_unit,
+                    [], x,y,z,1000)
 
      # 驱动 ai tick
     def drive_ai_tick(self):

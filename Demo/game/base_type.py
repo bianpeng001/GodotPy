@@ -203,17 +203,9 @@ def narudo_range(n):
         step_index = (step_index+1) % 4
         return dx,dy
 
-    x,y=0,0
-    i = 1
-    while i < n:
-        dx,dy = next_step()
-        j = 0
-        while j < i:
-            x+=dx
-            y+=dy
-            yield x,y
-            j += 1
-        
+    def one_line():
+        nonlocal x,y
+
         dx,dy = next_step()
         j = 0
         while j < i:
@@ -222,6 +214,13 @@ def narudo_range(n):
             yield x,y
             j += 1
 
+    x,y = 0,0
+    i = 1
+    while i < n:
+        for a in one_line():
+            yield a
+        for a in one_line():
+            yield a
         i += 1
 
 def narudo_range2(start, n):
@@ -229,23 +228,15 @@ def narudo_range2(start, n):
     step_index = 0
 
     def next_step():
-        nonlocal steps
-        nonlocal step_index
+        nonlocal steps, step_index
+        
         dx,dy = steps[step_index]
         step_index = (step_index+1) % 4
         return dx,dy
 
-    x,y=-start,-start
-    i = start*2
-    while i < n:
-        dx,dy = next_step()
-        j = 0
-        while j < i:
-            x+=dx
-            y+=dy
-            yield x,y
-            j += 1
-        
+    def one_line():
+        nonlocal x,y
+
         dx,dy = next_step()
         j = 0
         while j < i:
@@ -254,4 +245,24 @@ def narudo_range2(start, n):
             yield x,y
             j += 1
 
+    x,y = -start,-start
+    i = start*2
+    while i < n:
+        for a in one_line():
+            yield a
+        for a in one_line():
+            yield a
         i += 1
+
+
+
+#
+# 军队里面武将位置, 武将ID, 位置
+#
+class HeroSlot:
+    def __init__(self):
+        self.hero_id = 0
+        self.pos_index = 0
+
+
+
