@@ -1236,16 +1236,17 @@ static PyObject *f_screen_to_world(PyObject *module, PyObject *args) {
 		auto ray_normal = camera->project_ray_normal(screen_pos);
 		ray_normal.normalize();
 
-		//const Plane plane(Vector3(0, 1, 0), 0);
-
-		//Vector3 p;
-		//if (plane.intersects_ray(ray_origin, ray_normal, &p)) {
-		//	return Py_BuildValue("(fff)", p.x, p.y, p.z);
-		//}
-
 		const Vector3 plane_normal(0, 1, 0);
 		const Vector3 plane_p0(0, 0, 0);
-		real_t d = (plane_p0 - ray_origin).dot(plane_normal) / ray_normal.dot(plane_normal);
+
+		real_t den = ray_normal.dot(plane_normal);
+		if (Math::is_zero_approx(den)) {
+			// 没有交点,法线垂直, 说明直线跟平面平行
+			return Py_BuildValue("(fff)", 0,0,0);
+		}
+
+		// 这个公式的几何意义, ray_origin到p0的向量, ray_normal在plane_normal上的投影, 形成的相似三角形
+		real_t d = (plane_p0 - ray_origin).dot(plane_normal) / den;
 
 		Vector3 p(ray_origin + d * ray_normal);
 		return Py_BuildValue("(fff)", p.x, p.y, p.z);
