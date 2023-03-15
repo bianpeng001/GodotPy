@@ -1,0 +1,58 @@
+[gd_scene load_steps=4 format=3 uid="uid://ctbkjxfnhhou0"]
+
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_l8j2c"]
+[ext_resource type="Texture2D" uid="uid://b2eatsg8j0me7" path="res://ui/img/Flag02.png" id="2_ubyry"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_svgt4"]
+light_mode = 1
+
+[node name="TroopHUD" type="Control"]
+material = SubResource("CanvasItemMaterial_svgt4")
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Bg" type="ColorRect" parent="."]
+layout_mode = 0
+offset_top = 20.0
+offset_right = 100.0
+offset_bottom = 42.0
+theme = ExtResource("1_l8j2c")
+color = Color(0.160784, 0.160784, 0.160784, 0.784314)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 0
+offset_top = 20.0
+offset_right = 100.0
+offset_bottom = 42.0
+theme = ExtResource("1_l8j2c")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 18
+text = "诸葛孔明军"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HP" type="ColorRect" parent="."]
+layout_mode = 0
+offset_top = 42.0
+offset_right = 100.0
+offset_bottom = 45.0
+color = Color(0, 1, 0, 1)
+
+[node name="Flag" type="TextureRect" parent="."]
+layout_mode = 0
+offset_top = -1.0
+offset_right = 27.0
+offset_bottom = 19.0
+texture = ExtResource("2_ubyry")
+expand_mode = 1
+
+[node name="FlagLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 3.0
+offset_top = -1.0
+offset_right = 23.0
+offset_bottom = 19.0
+theme = ExtResource("1_l8j2c")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "匪"

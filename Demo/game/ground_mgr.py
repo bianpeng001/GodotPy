@@ -121,7 +121,7 @@ class Tile:
 
     def update_hud(self):
         for unit in self.unit_list:
-            game_mgr.hud_mgr.update_hud(unit.unit_id)
+            game_mgr.hud_mgr.update_hud(unit)
 
     def add_unit(self, unit):
         self.unit_list.append(unit)

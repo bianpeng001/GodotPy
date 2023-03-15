@@ -10,6 +10,8 @@ class HUDItem:
     def __init__(self):
         self.unit_id = 0
 
+        self.unit_type = 0
+
         self.hud_obj = None
         self.title_obj = None
         self.hp_obj = None
@@ -17,10 +19,10 @@ class HUDItem:
         # 可见度,加一个计数
         self.show_age = 1
 
-    def update(self):
-        unit = game_mgr.unit_mgr.get_unit(self.unit_id)
+    # new_hud 是否新创建的, 少刷新一些东西
+    def update(self, unit, new_hud):
         if unit:
-            x,y,z=unit.get_position()
+            x,y,z = unit.get_position()
             x1,y1 = get_main_camera().world_to_screen(x,y+8,z)
             self.hud_obj.set_position(x1-40, y1)
 
@@ -49,6 +51,8 @@ class HUDMgr:
         self.hud_item_cache = []
         self.hud_item_dict = {}
 
+        self.template_list = None
+
         self.hidden_list = []
 
     def setup(self):
@@ -70,36 +74,51 @@ class HUDMgr:
     def get_hud(self, unit_id):
         return self.hud_item_dict.get(unit_id, None)
 
-    def _create_hud(self, unit_id):
-        if len(self.hud_item_cache) > 0:
-            hud_item = self.hud_item_cache.pop()
-            log_util_debug('reuse hud item',
-                    len(self.hud_item_dict),
-                    len(self.hud_item_cache))
-        else:
-            if not self.template_obj:
-                self.template_obj = FNode3D.instantiate('res://ui/HUD.tscn')
-                self.template_obj.reparent(self.hud_root_obj)
-                self.template_obj.set_visible(False)
+    def _create_hud(self, unit):
+        # load template
+        if not self.template_list:
+            self.template_list = [ None, None, None ]
 
+            hud_obj = FNode3D.instantiate('res://ui/CityHUD.tscn')
+            self.template_list[1] = hud_obj
+            
+            hud_obj = FNode3D.instantiate('res://ui/TroopHUD.tscn')
+            self.template_list[2] = hud_obj
+            
+            for hud_obj in self.template_list:
+                if hud_obj:
+                    hud_obj.reparent(self.hud_root_obj)
+                    hud_obj.set_visible(False)
+
+        # create hud_item
+        hud_item = None
+
+        if len(self.hud_item_cache) > 0:
+            index = -1
+            for i in range(len(self.hud_item_cache)):
+                if self.hud_item_cache[i].unit_type == unit.unit_type:
+                    index = i
+                    break
+
+            if index >= 0:
+                hud_item = self.hud_item_cache.pop(index)
+                log_util_debug('reuse hud item',
+                        len(self.hud_item_dict),
+                        len(self.hud_item_cache))
+
+        if not hud_item:
             hud_item = HUDItem()
-            hud_item.hud_obj = self.template_obj.dup()
+            hud_item.unit_type = unit.unit_type
+            hud_item.hud_obj = self.template_list[hud_item.unit_type].dup()
             hud_item.title_obj = hud_item.hud_obj.find_node('Title')
             hud_item.hp_obj = hud_item.hud_obj.find_node('HP')
 
-        hud_item.unit_id = unit_id
-        hud_item.set_text(get_unit_name(unit_id))
-        # unit = game_mgr.unit_mgr.get_unit(unit_id)
-        # item.set_text(unit.unit_name)
-        # if unit.owner_player_id != 0:
-        #     player = game_mgr.player_mgr.get_player(unit.owner_player_id)
-        #     item.set_flag_text(player.player_name[0])
-
+        hud_item.unit_id = unit.unit_id
+        hud_item.set_text(unit.unit_name)
         hud_item.set_visible(True)
         hud_item.show_age = 1
 
-        self.hud_item_dict[unit_id] = hud_item
-        #hud_item.update()
+        self.hud_item_dict[hud_item.unit_id] = hud_item
         return hud_item
 
     def _free_hud(self, unit_id):
@@ -108,12 +127,15 @@ class HUDMgr:
             hud_item.set_visible(False)
             self.hud_item_cache.append(hud_item)
 
-    def update_hud(self, unit_id):
-        hud_item = self.get_hud(unit_id)
-        if not hud_item:
-            hud_item = self._create_hud(unit_id)
+    def update_hud(self, unit):
+        hud_item = self.get_hud(unit.unit_id)
+        if hud_item:
+            hud_item.update(unit, False)
+        else:
+            hud_item = self._create_hud(unit)
+            hud_item.update(unit, True)
+
         hud_item.show_age += 1
-        hud_item.update()
 
     # 把本次没被刷新的,清理掉
     def clean_hidden(self):
