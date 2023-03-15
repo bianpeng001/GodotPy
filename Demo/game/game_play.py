@@ -190,7 +190,7 @@ class GamePlay:
 
         if chief_hero_id > 0:
             troop.chief_hero_id = chief_hero_id
-            troop.unit_name = f'{get_unit_name(chief_hero_id)}军'
+            troop.unit_name = f'{get_hero_name(chief_hero_id)}军'
 
         return troop
 

@@ -3,21 +3,26 @@
 #
 
 from game.core import *
-from game.game_mgr import game_mgr
+from game.game_mgr import *
 from game.base_type import Controller
 from game.troop_ai import *
+from game.ground_mgr import pos_to_colrow
 
 # 部队控制，包括特效，动作，位置，朝向...
 class TroopController(Controller):
     def __init__(self):
         super().__init__()
 
+        # AI 相关
         self.ai_tick_time = 0
-
         self.ai_bb = TroopBlackboard()
         self.ai_enter_state(AIState_FindCity())
         
+        # 位移请求
         self.move_req = None
+
+        # 所在的地块
+        self.owner_tile = None
 
     def get_blackboard(self):
         return self.ai_bb
@@ -37,8 +42,20 @@ class TroopController(Controller):
         req = self.move_req
         if req and req.is_move:
             troop = self.get_unit()
-            delta = game_mgr.delta_time
-            req.update(troop, delta)
+            req.update(troop, game_mgr.delta_time)
+
+            # 刷新tile归属
+            x,z = troop.unit_position.get_xz()
+            col,row = pos_to_colrow(x,z)
+            if self.owner_tile:
+                if self.owner_tile.col != col or \
+                        self.owner_tile.row != row:
+                    self.owner_tile.unit_list.remove(troop)
+                    self.owner_tile, _ = game_mgr.ground_mgr.create_tile(col,row)
+                    self.owner_tile.unit_list.append(troop)
+            else:
+                self.owner_tile, _ = game_mgr.ground_mgr.create_tile(col,row)
+                self.owner_tile.unit_list.append(troop)
 
     def start(self):
         node = self.get_model_node()
@@ -63,7 +80,6 @@ class TroopController(Controller):
         node = self.get_model_node()
         if node:
             node.look_at(x,y,z)
-
 
     def look_at_unit(self, unit):
         x,y,z = unit.get_position()

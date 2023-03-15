@@ -3,13 +3,16 @@
 #
 import math
 import random
-#import json
 import struct
 
 from game.core import *
-from game.game_mgr import game_mgr
+from game.game_mgr import *
 
 TILE_SIZE = 30
+
+# col,row
+def pos_to_colrow(x, z):
+    return round(x / TILE_SIZE), round(z / TILE_SIZE)
 
 # tile内部，a*寻路
 # tile外部，大a*寻路
@@ -120,9 +123,6 @@ class Tile:
         for unit in self.unit_list:
             game_mgr.hud_mgr.update_hud(unit.unit_id)
 
-def pos_to_colrow(x, z):
-    return round(x / TILE_SIZE), round(z / TILE_SIZE)
-
 # 地面，管理
 class GroundMgr(NodeObject):
     def __init__(self):
@@ -173,10 +173,11 @@ class GroundMgr(NodeObject):
         self.update_tile(cx - 2, cz    )
         self.update_tile(cx - 2, cz + 1)
 
+        self.show_tile_list.clear()
+
         # refresh done, clear no hit hud
         game_mgr.hud_mgr.clean_hidden()
 
-   
     def create_tile(self,col,row):
         key = (col, row)
         tile = self.get_tile_colrow(col, row)
