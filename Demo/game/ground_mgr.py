@@ -30,7 +30,7 @@ class Tile:
         self.show_age = 1
 
         # 颜色
-        self.color = 0
+        self.color = 1
 
     def get_center_pos(self):
         return self.col*TILE_SIZE,self.row*TILE_SIZE
@@ -45,10 +45,10 @@ class Tile:
         self.test_mesh()
 
         mesh = self.model_node.find_node('Mesh')
-        if self.color == 255:
-            mesh.load_material(0, 'res://models/Terrain/GrassMat.tres')
-        else:
+        if self.color == 0:
             mesh.load_material(0, 'res://models/Terrain/WaterMat.tres')
+        else:
+            mesh.load_material(0, 'res://models/Terrain/GrassMat.tres')
 
     def test_mesh(self):
         mesh = self.model_node.find_node('Mesh')
@@ -204,6 +204,7 @@ class GroundMgr(NodeObject):
         data = []
         # with open('world_map.json') as f:
         #     data = json.load(f)
+        # 一整块数据, 地图块数据, 不包含说明信息
         w,h = 30,30
         cx, cy = w//2,h//2
         with open('game\\data\\world_map.dat', 'rb') as f:
