@@ -116,8 +116,18 @@ class ChuZhanPanelController(UIController, PopupTrait):
             self.lbl_members.set_text(text)
 
         game_mgr.ui_mgr.push_panel(self)
-        game_mgr.ui_mgr.select_hero_controller.show_dialog(
-                self.city_unit, select_cb)
+        select_hero = game_mgr.ui_mgr.select_hero_controller
+        select_hero.show_dialog(self.city_unit, select_cb)
+
+        for hero_id, item_obj in select_hero.item_list:
+            if self.is_selected(hero_id):
+                item_obj.find_node('CheckBox').set_pressed(True)
+
+    def is_selected(self, hero_id):
+        for item in self.hero_item_list:
+            if item.hero_id == hero_id:
+                return True
+        return False
 
     def on_slider_army_mass_changed(self, value):
         self.army_amount = round(value*0.01*self.max_army_mass)

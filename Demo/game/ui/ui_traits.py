@@ -74,32 +74,6 @@ class HeroListTrait:
             else:
                 label_obj.set_minimum_size(40, 0)
 
-
-        # age_label = name_label.dup()
-        # age_label.set_minimum_size(40, 0)
-        # age_label.set_text('年龄')
-
-        # action_label = name_label.dup()
-        # action_label.set_minimum_size(60, 0)
-        # action_label.set_text('活动')
-
-        # wuli_label = name_label.dup()
-        # wuli_label.set_minimum_size(40, 0)
-        # wuli_label.set_text('武力')
-
-        # tongshuai_label = name_label.dup()
-        # tongshuai_label.set_minimum_size(40, 0)
-        # tongshuai_label.set_text('统率')
-
-        # zhili_label = name_label.dup()
-        # zhili_label.set_minimum_size(40, 0)
-        # zhili_label.set_text('智力')
-
-        # zhengzhi_label = name_label.dup()
-        # zhengzhi_label.set_minimum_size(40, 0)
-        # zhengzhi_label.set_text('政治')
-
-
     def init_items(self, item_node, hero_list):
         for item in self.item_list:
             _, item_obj = item
@@ -146,7 +120,6 @@ class HeroListTrait:
             zhengzhi_label = name_label.dup()
             zhengzhi_label.set_minimum_size(40, 0)
             zhengzhi_label.set_text(f'{hero.action_points}')
-
 
     def get_selected(self):
         hero_list = []
