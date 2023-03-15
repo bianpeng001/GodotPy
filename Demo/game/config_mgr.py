@@ -123,7 +123,7 @@ class ConfigMgr:
         return round(value)
 
     def calc_army_growth_rate(self, satrap):
-        value = 0
+        value = 50
 
         if satrap:
             value += satrap.tongshuai*0.61 +\
