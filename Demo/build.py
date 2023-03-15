@@ -21,6 +21,8 @@ GODOT_BIN_DIR = os.path.join(GODOT_DIR, 'bin')
 EDITOR = os.path.join(GODOT_BIN_DIR, 'godot.windows.editor.x86_64.exe')
 PLAYER = os.path.join(GODOT_BIN_DIR, 'godot.windows.template_release.x86_64.exe')
 
+EDITOR_DEBUG = os.path.join(GODOT_BIN_DIR, 'godot.windows.editor.dev.x86_64.exe')
+
 DEMO_DIR = os.path.join(PROJECT_DIR, 'Demo')
 BUILD_DIR = os.path.join(PROJECT_DIR, 'Build')
 
@@ -67,6 +69,9 @@ def build_editor_release():
 def run_editor_release():
     run(f'{EDITOR} -w --path {DEMO_DIR} -e')
 
+def play_editor_debug():
+    run(f'{EDITOR_DEBUG} -w --path {DEMO_DIR}')
+
 if __name__ == '__main__':
     import sys
 
@@ -75,6 +80,7 @@ if __name__ == '__main__':
         'editor_debug' : build_editor_debug,
         'editor_release' : build_editor_release,
         'run_editor_release' : run_editor_release,
+        'play_editor_debug' : play_editor_debug,
     }
     fun = None
     if len(sys.argv) >= 2:

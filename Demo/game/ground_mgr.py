@@ -206,7 +206,7 @@ class GroundMgr(NodeObject):
         #     data = json.load(f)
         w,h = 30,30
         cx, cy = w//2,h//2
-        with open('world_map.dat', 'rb') as f:
+        with open('game\\data\\world_map.dat', 'rb') as f:
             buf = f.read()
             for i in range(len(buf) // 3):
                 x = i % w

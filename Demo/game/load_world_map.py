@@ -63,7 +63,7 @@ class Bmp:
             self.lines.reverse()
 
 def build_map_data():
-    bmp = Bmp('./world_map.bmp')
+    bmp = Bmp('./game/data/world_map.bmp')
     print(bmp.width, bmp.height)
 
     cx = bmp.width // 2
@@ -76,7 +76,7 @@ def build_map_data():
             item = (x - cx, -(y - cy), r,g,b)
             data.append(item)
 
-    with open('world_map.dat', 'wb') as f:
+    with open('./game/data/world_map.dat', 'wb') as f:
         for item in data:
             x,y,r,g,b = item
             tile = struct.pack('>BBB', r,g,b)
