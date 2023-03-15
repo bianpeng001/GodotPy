@@ -64,6 +64,9 @@ def build_editor_debug():
 def build_editor_release():
     run(f'{SCONS_EXE} p=windows vsproj=no tools=yes bits=64 -j{THREADS} target=editor dev_build=false')
 
+def run_editor_release():
+    run(f'{EDITOR} -w --path {DEMO_DIR} -e')
+
 if __name__ == '__main__':
     import sys
 
@@ -71,6 +74,7 @@ if __name__ == '__main__':
         'publish' : build_publish,
         'editor_debug' : build_editor_debug,
         'editor_release' : build_editor_release,
+        'run_editor_release' : run_editor_release,
     }
     fun = None
     if len(sys.argv) >= 2:
