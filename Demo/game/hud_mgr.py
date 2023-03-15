@@ -11,6 +11,7 @@ class HUDItem:
         self.unit_id = 0
 
         self.unit_type = 0
+        self.offset = -40
 
         self.hud_obj = None
         self.title_obj = None
@@ -24,7 +25,7 @@ class HUDItem:
         if unit:
             x,y,z = unit.get_position()
             x1,y1 = get_main_camera().world_to_screen(x,y+8,z)
-            self.hud_obj.set_position(x1-40, y1)
+            self.hud_obj.set_position(x1+self.offset, y1)
 
     def set_visible(self, value):
         self.hud_obj.set_visible(value)
@@ -113,6 +114,11 @@ class HUDMgr:
             hud_item.title_obj = hud_item.hud_obj.find_node('Title')
             hud_item.hp_obj = hud_item.hud_obj.find_node('HP')
 
+            if unit.unit_type == 2:
+                hud_item.offset = -50
+            else:
+                hud_item.offset = -40
+
         hud_item.unit_id = unit.unit_id
         hud_item.set_text(unit.unit_name)
         hud_item.set_visible(True)
@@ -134,16 +140,18 @@ class HUDMgr:
         else:
             hud_item = self._create_hud(unit)
             hud_item.update(unit, True)
-
+        # 增加可见计数
         hud_item.show_age += 1
 
     # 把本次没被刷新的,清理掉
-    def clean_hidden(self):
+    def update_hud_items(self):
+        # 刷新可见性
         for hud_item in self.hud_item_dict.values():
             hud_item.show_age -= 1
             if hud_item.show_age <= 0:
                 self.hidden_list.append(hud_item.unit_id)
-        
+
+        # 清空没有关联的
         if len(self.hidden_list) > 0:
             for unit_id in self.hidden_list:
                 self._free_hud(unit_id)

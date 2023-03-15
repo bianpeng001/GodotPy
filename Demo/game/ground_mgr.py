@@ -185,7 +185,7 @@ class GroundMgr(NodeObject):
         self.show_tile_list.clear()
 
         # refresh done, clear no hit hud
-        game_mgr.hud_mgr.clean_hidden()
+        game_mgr.hud_mgr.update_hud_items()
 
     def create_tile(self,col,row):
         key = (col, row)
