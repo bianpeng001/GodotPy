@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cg56hyv2xh2li"
-path="res://.godot/imported/world_map.bmp-c709744976a3d5f2ef24c72836561b39.ctex"
+path="res://.godot/imported/world_map.bmp-3d72eaabfc49f3f8ec1ea082b3c9c47a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://world_map.bmp"
-dest_files=["res://.godot/imported/world_map.bmp-c709744976a3d5f2ef24c72836561b39.ctex"]
+source_file="res://game/data/world_map.bmp"
+dest_files=["res://.godot/imported/world_map.bmp-3d72eaabfc49f3f8ec1ea082b3c9c47a.ctex"]
 
 [params]
 
