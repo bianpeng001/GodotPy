@@ -123,13 +123,22 @@ class Tile:
         for unit in self.unit_list:
             game_mgr.hud_mgr.update_hud(unit.unit_id)
 
+    def add_unit(self, unit):
+        self.unit_list.append(unit)
+
+    def remove_unit(self, unit):
+        self.unit_list.remove(unit)
+
 # 地面，管理
 class GroundMgr(NodeObject):
     def __init__(self):
         super().__init__()
         game_mgr.ground_mgr = self
-
+        
+        # 地块
         self.tile_dict = {}
+
+        # 可见的地块, 用来卸载不可见的地块, 或者还要加一个age
         self.show_tile_list = []
 
     def _create(self):

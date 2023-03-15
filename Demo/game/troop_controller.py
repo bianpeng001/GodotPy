@@ -44,18 +44,19 @@ class TroopController(Controller):
             troop = self.get_unit()
             req.update(troop, game_mgr.delta_time)
 
-            # 刷新tile归属
+            # 位置变更之后,刷新tile归属
             x,z = troop.unit_position.get_xz()
             col,row = pos_to_colrow(x,z)
             if self.owner_tile:
                 if self.owner_tile.col != col or \
                         self.owner_tile.row != row:
-                    self.owner_tile.unit_list.remove(troop)
+                    self.owner_tile.remove_unit(troop)
+
                     self.owner_tile, _ = game_mgr.ground_mgr.create_tile(col,row)
-                    self.owner_tile.unit_list.append(troop)
+                    self.owner_tile.add_unit(troop)
             else:
                 self.owner_tile, _ = game_mgr.ground_mgr.create_tile(col,row)
-                self.owner_tile.unit_list.append(troop)
+                self.owner_tile.add_unit(troop)
 
     def start(self):
         node = self.get_model_node()
@@ -86,5 +87,7 @@ class TroopController(Controller):
         self.look_at(x,y,z)
 
     def kill(self):
+        if self.owner_tile:
+            self.owner_tile.remove_unit(self.get_unit())
         self.get_unit().set_dead()
 
