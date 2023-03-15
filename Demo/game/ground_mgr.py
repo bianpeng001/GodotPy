@@ -30,7 +30,7 @@ class Tile:
         self.show_age = 1
 
         # 颜色
-        self.color = 1
+        self.color = -1
 
     def get_center_pos(self):
         return self.col*TILE_SIZE,self.row*TILE_SIZE
