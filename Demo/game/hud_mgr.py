@@ -46,15 +46,13 @@ class HUDMgr:
     def __init__(self):
         self.is_show = True
         self.hud_root_obj = None
-        self.template_obj = None
-
         # 缓存起来，永不销毁，尤其是 self.template_obj
         self.hud_item_cache = []
         self.hud_item_dict = {}
 
         self.template_list = None
-
-        self.hidden_list = []
+        # 需要隐藏的排队
+        self.hide_queue = []
 
     def setup(self):
         self.hud_root_obj = game_mgr.scene_root_obj.find_node('HUDRoot')
@@ -149,12 +147,12 @@ class HUDMgr:
         for hud_item in self.hud_item_dict.values():
             hud_item.show_age -= 1
             if hud_item.show_age <= 0:
-                self.hidden_list.append(hud_item.unit_id)
+                self.hide_queue.append(hud_item.unit_id)
 
         # 清空没有关联的
-        if len(self.hidden_list) > 0:
-            for unit_id in self.hidden_list:
+        if len(self.hide_queue) > 0:
+            for unit_id in self.hide_queue:
                 self._free_hud(unit_id)
-            self.hidden_list.clear()
+            self.hide_queue.clear()
 
 
