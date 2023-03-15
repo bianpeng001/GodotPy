@@ -14,14 +14,14 @@ ITEM_SIZE = 80
 class HeroItem:
     def __init__(self):
         self.hero_id = 0
-        self.index = 0
+        self.pos_index = 0
         self.hero_item_obj = None
 
     def get_position(self):
-        return (self.index % 3)*ITEM_SIZE, (self.index // 3)*ITEM_SIZE
+        return (self.pos_index % 3)*ITEM_SIZE, (self.pos_index // 3)*ITEM_SIZE
 
-    def set_index(self, index):
-        self.index = index
+    def set_index(self, pos_index):
+        self.pos_index = pos_index
         self.hero_item_obj.set_position(*self.get_position())
 
 #
@@ -86,14 +86,14 @@ class ChuZhanPanelController(UIController, PopupTrait):
                         y >= 0 and y < ITEM_SIZE*3:
                     x=math.floor(x/ITEM_SIZE)
                     y=math.floor(y/ITEM_SIZE)
-                    index = y*3+x
-                    if index != hero_item.index:
-                        prev_item = self.find_hero_by_index(index)
+                    pos_index = y*3+x
+                    if pos_index != hero_item.pos_index:
+                        prev_item = self.find_hero_by_index(pos_index)
                         if prev_item:
-                            prev_item.set_index(hero_item.index)
-                    hero_item.set_index(index)
+                            prev_item.set_index(hero_item.pos_index)
+                    hero_item.set_index(pos_index)
                 else:
-                    hero_item.set_index(hero_item.index)
+                    hero_item.set_index(hero_item.pos_index)
 
     def on_form_select(self):
         self.form_list.set_visible(True)
@@ -160,9 +160,9 @@ class ChuZhanPanelController(UIController, PopupTrait):
 
             self.hero_item_list.append(hero_item)
 
-    def find_hero_by_index(self, index):
+    def find_hero_by_index(self, pos_index):
         for item in self.hero_item_list:
-            if item.index == index:
+            if item.pos_index == pos_index:
                 return item
 
     def on_ok_click(self):
@@ -170,6 +170,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
 
         if len(self.hero_item_list) > 0:
             log_debug(f'chuzhan ok', self.hero_item_list)
+
 
 
 

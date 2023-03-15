@@ -6,6 +6,13 @@ from game.game_mgr import game_mgr, UnitTrait
 from game.base_type import Unit, UT_TROOP
 from game.troop_controller import TroopController
 
+# 军队里面, 武将的位置
+class HeroSlot:
+    def __init__(self):
+        self.hero_id = 0
+        self.pos_index = 0
+        self.hp = 0
+
 # 部队
 class TroopUnit(Unit, UnitTrait):
     def __init__(self):

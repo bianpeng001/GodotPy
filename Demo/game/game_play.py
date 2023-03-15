@@ -170,5 +170,17 @@ class GamePlay:
         # 完成，刷新界面
         game_mgr.event_mgr.emit(MAINUI_REFRESH)
 
+    # 创建队伍
+    def create_troop(self, city_unit, hero_list, x,y,z, army_amount):
+        troop = game_mgr.unit_mgr.create_troop()
+        troop.hero_list = hero_list
+        troop.owner_city_id = city_unit.unit_id
+        troop.owner_player_id = city_unit.owner_player_id
+
+        troop.set_army_amount(army_amount)
+        troop.set_position(x,y,z)
+
+        return troop
+
 
 
