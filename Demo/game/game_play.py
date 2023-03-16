@@ -195,6 +195,7 @@ class GamePlay:
         else:
             troop.unit_name = f'{city_unit.unit_name}军'
 
+        #log_debug('create troop', troop.unit_id, troop.unit_name)
         return troop
 
 

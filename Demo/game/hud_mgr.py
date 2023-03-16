@@ -117,6 +117,7 @@ class HUDMgr:
             else:
                 hud_item.offset = -40
 
+        #log_debug('create hud', unit.unit_id, unit.unit_name)
         hud_item.unit_id = unit.unit_id
         hud_item.set_text(unit.unit_name)
         hud_item.set_visible(True)

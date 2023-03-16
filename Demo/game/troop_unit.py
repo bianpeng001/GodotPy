@@ -40,8 +40,6 @@ class TroopUnit(Unit, UnitTrait):
         self.fight_to_death = True
 
     def load_model(self):
-        self.unit_name = f'{self.unit_id}军'
-
         #path = 'res://models/Troop01.tscn'
         path = f'res://models/Troop{self.model_type:02}.tscn'
         
