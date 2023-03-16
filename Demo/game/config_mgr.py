@@ -5,7 +5,7 @@
 import math
 import random
 
-from game.core import log_util_debug
+from game.core import log_debug
 
 class BaseConfig:
     def __init__(self):
@@ -81,7 +81,7 @@ class ConfigMgr:
             value += hero.wuli*0.5 + hero.tongshuai*0.3
 
         value *= self.get_zhengzhi_ratio(satrap)*0.2
-        #log_util_debug('rice growth', value)
+        #log_debug('rice growth', value)
 
         return round(value)
 
@@ -95,7 +95,7 @@ class ConfigMgr:
             value += hero.zhengzhi*0.37 + hero.zhili*0.1
 
         value *= self.get_zhengzhi_ratio(satrap)
-        #log_util_debug('rice growth', value)
+        #log_debug('rice growth', value)
 
         return round(value)
 

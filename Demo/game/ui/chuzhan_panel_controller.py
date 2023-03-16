@@ -81,24 +81,26 @@ class ChuZhanPanelController(UIController, PopupTrait):
                 self.is_drag = False
                 
                 # drag stop...
-                x,y=hero_item_obj.get_rect()[0:2]
-                x,y=x+ITEM_SIZE/2,y+ITEM_SIZE/2
+                x,y = hero_item_obj.get_rect()[0:2]
+                x,y = x+ITEM_SIZE/2,y+ITEM_SIZE/2
                 if x >= 0 and x < ITEM_SIZE*3 and \
                         y >= 0 and y < ITEM_SIZE*3:
-                    x=math.floor(x/ITEM_SIZE)
-                    y=math.floor(y/ITEM_SIZE)
+                    x = math.floor(x/ITEM_SIZE)
+                    y = math.floor(y/ITEM_SIZE)
                     pos_index = y*3+x
                     if pos_index != hero_item.pos_index:
-                        prev_item = self.find_hero_by_index(pos_index)
+                        prev_item = self.get_hero_at_pos_index(pos_index)
                         if prev_item:
                             prev_item.set_index(hero_item.pos_index)
                     hero_item.set_index(pos_index)
                 else:
                     hero_item.set_index(hero_item.pos_index)
 
+    # 弹出选择阵形列表
     def on_form_select(self):
         self.form_list.set_visible(True)
 
+    # 阵形选择完毕
     def on_form_selected(self, index):
         self.form_list.set_visible(False)
         log_debug(index)
@@ -106,9 +108,8 @@ class ChuZhanPanelController(UIController, PopupTrait):
     def on_select_click(self):
         def select_cb(hero_list):
             if len(hero_list) > 0:
-                #log_util(hero_list)
-                text = ','.join(map(
-                        lambda x: get_hero_name(x), 
+                text = ' '.join(map(
+                        lambda x: get_hero_name(x),
                         hero_list))
                 self.init_form(hero_list)
             else:
@@ -118,11 +119,9 @@ class ChuZhanPanelController(UIController, PopupTrait):
         game_mgr.ui_mgr.push_panel(self)
         select_hero = game_mgr.ui_mgr.select_hero_controller
         select_hero.show_dialog(self.city_unit, select_cb)
+        select_hero.select([ item.hero_id for item in self.hero_item_list ])
 
-        for hero_id, item_obj in select_hero.item_list:
-            if self.is_selected(hero_id):
-                item_obj.find_node('CheckBox').set_pressed(True)
-
+    # 是否选中状态
     def is_selected(self, hero_id):
         for item in self.hero_item_list:
             if item.hero_id == hero_id:
@@ -168,11 +167,16 @@ class ChuZhanPanelController(UIController, PopupTrait):
             hero_item.hero_id = hero_id
             hero_item.set_index(len(self.hero_item_list))
             hero_item.hero_item_obj.set_visible(True)
-            hero_item.hero_item_obj.find_node('Label').set_text(get_hero_name(hero_id))
+
+            label = hero_item.hero_item_obj.find_node('Label')
+            label.set_text(get_hero_name(hero_id))
+            avatar = hero_item.hero_item_obj.find_node('Avatar')
+            if hero_id % 2 == 0:
+                avatar.load_tex('res://ui/face/XuShu.png')
 
             self.hero_item_list.append(hero_item)
 
-    def find_hero_by_index(self, pos_index):
+    def get_hero_at_pos_index(self, pos_index):
         for item in self.hero_item_list:
             if item.pos_index == pos_index:
                 return item

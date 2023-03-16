@@ -33,7 +33,7 @@ class StoryPanelController(UIController, PopupTrait):
         yield WaitForSeconds(3)
 
         self.popup(350, 100)
-        log_util_debug('begin play story')
+        log_debug('begin play story')
 
         # text_list = (
         #     '华夏大地, 不知何许年也',

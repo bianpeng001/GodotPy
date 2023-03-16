@@ -386,7 +386,6 @@ class LogUtil:
         print_line(msg)
 
 log_util = LogUtil()
-log_util_debug = log_util.debug
 log_debug = log_util.debug
 
 #------------------------------------------------------------
@@ -617,6 +616,13 @@ class FPanel(FControl):
 class FContainer(FControl):
     pass
 
+class FTextureRect(FControl):
+    def load_tex(self, path):
+        gp.texture_rect_load_texture(self.get_gdobj(), path)
+
+class FColorRect(FControl):
+    pass
+
 class FHBoxContainer(FContainer):
     pass
 
@@ -692,8 +698,8 @@ _TypeMap = {
     # ui
     'CanvasItem' : FCanvasItem,
     'Control' : FControl,
-    'TextureRect' : FControl,
-    'ColorRect' : FControl,
+    'TextureRect' : FTextureRect,
+    'ColorRect' : FColorRect,
     'TextureButton' : FBaseButton,
     'Button' : FButton,
     'TabBar' : FTabBar,
