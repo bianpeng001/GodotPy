@@ -59,6 +59,8 @@ class TroopController(Controller):
                 self.owner_tile.add_unit(troop)
 
     def start(self):
+        self.get_unit().load_model()
+        
         node = self.get_model_node()
         if node:
             anim_name = "SoldierAnimLib/Run"

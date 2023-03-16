@@ -171,8 +171,10 @@ class ChuZhanPanelController(UIController, PopupTrait):
             label = hero_item.hero_item_obj.find_node('Label')
             label.set_text(get_hero_name(hero_id))
             avatar = hero_item.hero_item_obj.find_node('Avatar')
-            if hero_id % 2 == 0:
+            if hero_id % 3 == 0:
                 avatar.load_tex('res://ui/face/XuShu.png')
+            elif hero_id % 3 == 1:
+                avatar.load_tex('res://ui/face/DiaoChan.png')
 
             self.hero_item_list.append(hero_item)
 
@@ -200,7 +202,8 @@ class ChuZhanPanelController(UIController, PopupTrait):
                     self.city_unit,
                     hero_list,
                     x,y,z,
-                    self.army_amount)
+                    self.army_amount,
+                    4)
 
 
 

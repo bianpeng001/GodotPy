@@ -171,7 +171,7 @@ class GamePlay:
         game_mgr.event_mgr.emit(MAINUI_REFRESH)
 
     # 创建队伍
-    def create_troop(self, city_unit, hero_list, x,y,z, army_amount):
+    def create_troop(self, city_unit, hero_list, x,y,z, army_amount, model_type):
         # 主将
         chief_hero_id = 0
         for item in hero_list:
@@ -187,6 +187,7 @@ class GamePlay:
         troop.owner_player_id = city_unit.owner_player_id
         troop.army_amount = army_amount
         troop.set_position(x,y,z)
+        troop.model_type = model_type
 
         if chief_hero_id > 0:
             troop.chief_hero_id = chief_hero_id

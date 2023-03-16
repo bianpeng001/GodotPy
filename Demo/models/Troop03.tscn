@@ -6,7 +6,7 @@
 [ext_resource type="ArrayMesh" uid="uid://7ljbpgjyaxoj" path="res://models/Flag02Mesh.res" id="5_det5c"]
 [ext_resource type="ArrayMesh" uid="uid://diq03gmuembok" path="res://models/Soldier03.obj" id="6_0c3mq"]
 
-[node name="Troop02" type="Node3D"]
+[node name="Troop03" type="Node3D"]
 
 [node name="Dust02" parent="." instance=ExtResource("1_wyng1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.990564)

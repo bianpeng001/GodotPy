@@ -95,7 +95,8 @@ class CityController(Controller):
             troop = game_mgr.game_play.create_troop(city_unit,
                     [],
                     x,y,z,
-                    1000)
+                    1000,
+                    3)
 
      # 驱动 ai tick
     def drive_ai_tick(self):
@@ -107,6 +108,10 @@ class CityController(Controller):
     def update(self):
         if game_mgr.enable_city_ai and self.get_unit().enable_ai:
             self.drive_ai_tick()
+
+    def start(self):
+        self.get_unit().load_model()
+        
 
 
         

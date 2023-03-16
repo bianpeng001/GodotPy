@@ -17,15 +17,15 @@ class UnitMgr:
 
         self.unit_dict = {}
         
-        # update
+        # update, 事件
         self.update_list = []
         self.back_update_list = []
 
-        # start
+        # start, 事件机制, 第一次update之前
         self.start_list = []
         self.back_start_list = []
 
-        # dead
+        # dead, 死亡队列
         self.dead_list = []
 
     def get_next_unit_id(self):
@@ -41,6 +41,7 @@ class UnitMgr:
         tmp = self.start_list
         self.start_list = self.back_start_list
         self.back_start_list = tmp
+        # 因为start过程里,可能创建其他对象,所以要前后两个start_queue
 
         if len(self.back_start_list) > 0:
             try:
@@ -49,12 +50,11 @@ class UnitMgr:
             finally:
                 self.back_start_list.clear()
 
-
     def _call_update(self):
-        # swap update list
         tmp = self.back_update_list
         self.back_update_list = self.update_list
         self.update_list = tmp
+        # 因为update过程里,可能创建其他对象,所以要前后两个update_list
 
         # call update on every unit
         if len(self.back_update_list) > 0:
@@ -83,12 +83,12 @@ class UnitMgr:
 
         unit.unit_id = self.get_next_unit_id()
         self.unit_dict[unit.unit_id] = unit
-        self.update_list.append(unit)
         self.start_list.append(unit)
+        self.update_list.append(unit)
         #print_line(f'add unit: {unit.unit_id}')
 
         unit.init()
-        unit.load_model()
+        #unit.load_model()
 
         return unit
 
