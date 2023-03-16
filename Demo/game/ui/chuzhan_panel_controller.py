@@ -39,6 +39,13 @@ class ChuZhanPanelController(UIController, PopupTrait):
 
         self.army_amount = 0
 
+    # 是否选中状态
+    def is_selected(self, hero_id):
+        for item in self.hero_item_list:
+            if item.hero_id == hero_id:
+                return True
+        return False
+
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
         self.bind_ok_cancel_close()
@@ -50,6 +57,8 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.btn_form = self.ui_obj.find_node('Panel/BtnForm')
         self.form_list = self.ui_obj.find_node('Panel/FormList')
         #self.form_root = self.ui_obj.find_node('Panel/FormRoot')
+        self.btn_target = self.ui_obj.find_node('Panel/BtnTarget')
+        self.btn_target.connect(PRESSED, self.on_select_target)
 
         self.hero_item_obj = self.ui_obj.find_node('Panel/FormRoot/HeroItem')
         self.hero_item_obj.set_visible(False)
@@ -121,12 +130,14 @@ class ChuZhanPanelController(UIController, PopupTrait):
         select_hero.show_dialog(self.city_unit, select_cb)
         select_hero.select([ item.hero_id for item in self.hero_item_list ])
 
-    # 是否选中状态
-    def is_selected(self, hero_id):
-        for item in self.hero_item_list:
-            if item.hero_id == hero_id:
-                return True
-        return False
+    # 选择目标
+    def on_select_target(self):
+        panel_controller = game_mgr.ui_mgr.select_target_controller
+        def select_cb():
+            self.btn_target.set_text(panel_controller.target_name)
+
+        game_mgr.ui_mgr.push_panel(self)
+        panel_controller.show_dialog(select_cb)
 
     def on_slider_army_mass_changed(self, value):
         self.army_amount = round(value*0.01*self.max_army_mass)

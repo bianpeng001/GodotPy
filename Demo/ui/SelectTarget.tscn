@@ -9,6 +9,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -902.0
+offset_bottom = -592.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -57,5 +59,4 @@ offset_right = 112.0
 offset_bottom = 40.0
 theme = ExtResource("1_tdfun")
 theme_override_font_sizes/font_size = 16
-text = "博望坡"
 horizontal_alignment = 1
