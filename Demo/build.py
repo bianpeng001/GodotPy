@@ -87,12 +87,12 @@ def run_editor_release():
 def play_editor_debug():
     run(f'{EDITOR_DEBUG} -w --path {DEMO_DIR}')
 
-def zipdir(dir_path, root_dir, f):
+def zipdir(dir_path, f):
     for root, dirs, files in os.walk(dir_path, followlinks=True):
         for file in files:
             if not file.endswith('.pyc'):
                 file_path = os.path.join(root, file)
-                f.write(file_path, os.path.relpath(file_path, root_dir))
+                f.write(file_path, os.path.relpath(file_path, dir_path))
 
 
             
@@ -104,7 +104,7 @@ def make_python_zip():
 
     lib_dir = f'{PYTHON_DIR}\\Lib'
     with zipfile.ZipFile(path, 'w', zipfile.ZIP_DEFLATED) as f:
-        zipdir(lib_dir, lib_dir, f)
+        zipdir(lib_dir, f)
 
 def archive_demo():
     path1 = f'{BUILD_DIR}\\..\\Demo.zip'
@@ -116,7 +116,7 @@ def archive_demo():
         os.remove(path2)
 
     with zipfile.ZipFile(path1, 'w', zipfile.ZIP_DEFLATED, compresslevel=6) as f:
-        zipdir(BUILD_DIR, BUILD_DIR, f)
+        zipdir(BUILD_DIR, f)
 
     os.rename(path1, path2)
 
