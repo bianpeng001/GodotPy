@@ -87,30 +87,38 @@ def run_editor_release():
 def play_editor_debug():
     run(f'{EDITOR_DEBUG} -w --path {DEMO_DIR}')
 
-def zipdir(dir_path, f):
-    for root, dirs, files in os.walk(dir_path):
+def zipdir(dir_path, root_dir, f):
+    for root, dirs, files in os.walk(dir_path, followlinks=True):
         for file in files:
             if not file.endswith('.pyc'):
                 file_path = os.path.join(root, file)
-                f.write(file_path, os.path.relpath(file_path, dir_path))
+                f.write(file_path, os.path.relpath(file_path, root_dir))
+
+
+            
 
 def make_python_zip():
     path = f'{BUILD_DIR}\\python312.zip'
     if os.path.exists(path):
         os.remove(path)
 
+    lib_dir = f'{PYTHON_DIR}\\Lib'
     with zipfile.ZipFile(path, 'w', zipfile.ZIP_DEFLATED) as f:
-        zipdir(f'{PYTHON_DIR}\\Lib', f)
+        zipdir(lib_dir, lib_dir, f)
 
 def archive_demo():
-    path = f'{BUILD_DIR}\\..\\Demo.zip'
-    if os.path.exists(path):
-        os.remove(path)
+    path1 = f'{BUILD_DIR}\\..\\Demo.zip'
+    path2 = f'{BUILD_DIR}\\Demo.zip'
 
-    with zipfile.ZipFile(path, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as f:
-        zipdir(BUILD_DIR, f)
+    if os.path.exists(path1):
+        os.remove(path1)
+    if os.path.exists(path2):
+        os.remove(path2)
 
-    os.rename(path, f'{BUILD_DIR}\\Demo.zip')
+    with zipfile.ZipFile(path1, 'w', zipfile.ZIP_DEFLATED, compresslevel=6) as f:
+        zipdir(BUILD_DIR, BUILD_DIR, f)
+
+    os.rename(path1, path2)
 
 def build_python():
     os.chdir(PYTHON_DIR)
