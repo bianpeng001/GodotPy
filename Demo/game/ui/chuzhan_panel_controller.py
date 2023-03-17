@@ -128,16 +128,16 @@ class ChuZhanPanelController(UIController, PopupTrait):
         select_hero = game_mgr.ui_mgr.select_hero_controller
         select_hero.init_dialog(self.city_unit, select_cb)
         select_hero.select([ item.hero_id for item in self.hero_item_list ])
-        game_mgr.ui_mgr.push_panel(select_hero)
+        select_hero.push_panel()
 
     # 选择目标
     def on_select_target(self):
-        panel_controller = game_mgr.ui_mgr.select_target_controller
+        dialog = game_mgr.ui_mgr.select_target_controller
         def select_cb():
-            self.btn_target.set_text(panel_controller.target_name)
+            self.btn_target.set_text(dialog.target_name)
 
-        panel_controller.show_dialog(select_cb)
-        game_mgr.ui_mgr.push_panel(panel_controller)
+        dialog.init_dialog(select_cb)
+        dialog.push_panel()
 
     def on_slider_army_mass_changed(self, value):
         self.army_amount = round(value*0.01*self.max_army_mass)

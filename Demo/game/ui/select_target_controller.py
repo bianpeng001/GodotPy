@@ -6,7 +6,7 @@ from game.core import log_debug
 from game.base_type import UIController, UT_CITY
 from game.game_mgr import *
 from game.event_name import PRESSED,SCENE_GROUND_CLICK,SCENE_UNIT_CLICK
-from game.ui.ui_traits import *
+from game.ui.ui_traits import PopupTrait
 
 #
 # 选择目标
@@ -58,7 +58,7 @@ class SelectTargetController(UIController, PopupTrait):
         self.target_name = target_name
         self.lbl_target.set_text(target_name)
         
-    def show_dialog(self, select_callback):
+    def init_dialog(self, select_callback):
         self.select_callback = select_callback
         self.popup(240, 70)
     

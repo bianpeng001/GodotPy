@@ -33,7 +33,7 @@ class PopupTrait:
 
     def popup_dialog(self, msg, time_out = 1.5):
         controller = game_mgr.ui_mgr.npc_dialog_controller
-        controller.show_dialog(msg, time_out)
+        controller.init_dialog(msg, time_out)
 
     def bind_ok_cancel_close(self, ok=True, cancel=True, close=True):
         if close:
@@ -47,6 +47,9 @@ class PopupTrait:
         if ok:
             btn_ok = self.ui_obj.find_node('Panel/BtnOk')
             btn_ok.connect(PRESSED, self.on_ok_click)
+
+    def push_panel(self):
+        game_mgr.ui_mgr.push_panel(self)
 
     def pop_panel(self):
         game_mgr.ui_mgr.pop_panel(self)

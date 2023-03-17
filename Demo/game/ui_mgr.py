@@ -214,8 +214,6 @@ class UIMgr(NodeObject):
         if len(self.panel_stack) > 0:
             self.panel_stack[-1].defer_close()
         self.panel_stack.append(cur_ui)
-
-        # 确认显示一下
         cur_ui.show()
 
     def pop_panel(self, cur_ui):
