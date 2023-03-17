@@ -37,11 +37,14 @@ def run(cmd):
     os.system(cmd)
 
 def build_publish():
+    build_python()
     #run(f'{SCONS_EXE} p=windows vsproj=no bits=64 -j4 target=editor dev_build=false')
     build_editor_release()
-    run(f'{EDITOR} -w --path "{DEMO_DIR}" --export-pack "Windows Desktop" {BUILD_DIR}\\Demo.pck')
-    run(f'{SCONS_EXE} p=windows tools=no bits=64 -j{THREADS} target=template_release')
-
+    # build package
+    build_pck()
+    # build player
+    build_player()
+    
     file_list = (
         'python.exe',
         'python3.dll',
@@ -58,13 +61,19 @@ def build_publish():
     
     # replace app icon
     run(f'{RES_HACKER} -script {PROJECT_DIR}\\Godot\\replace_icon.txt')
-
+    
+    # zip python312.zip
     make_python_zip()
 
+    # 这步不需要了, zipdir 的时候, 会跳过pyc
     # remove pyc
-    for f in glob.iglob(f'{DEMO_DIR}\\game\\**\\*.pyc'):
-        os.remove(f)
+    # for f in glob.iglob(f'{DEMO_DIR}\\game\\**\\*.pyc'):
+    #     os.remove(f)
+
+    # zip Demo.zip
     archive_demo()
+
+    print('------------- build ok -------------')
 
 def build_editor_debug():
     run(f'{SCONS_EXE} p=windows vsproj=yes tools=yes bits=64 -j{THREADS} target=editor dev_build=true')
@@ -94,7 +103,7 @@ def make_python_zip():
         zipdir(f'{PYTHON_DIR}\\Lib', f)
 
 def archive_demo():
-    path = f'{PROJECT_DIR}\\Demo.zip'
+    path = f'{BUILD_DIR}\\..\\Demo.zip'
     if os.path.exists(path):
         os.remove(path)
 
@@ -102,6 +111,17 @@ def archive_demo():
         zipdir(BUILD_DIR, f)
 
     os.rename(path, f'{BUILD_DIR}\\Demo.zip')
+
+def build_python():
+    os.chdir(PYTHON_DIR)
+    run(f'{SCONS_EXE}')
+    os.chdir(GODOT_DIR)
+
+def build_pck():
+    run(f'{EDITOR} -w --path "{DEMO_DIR}" --export-pack "Windows Desktop" {BUILD_DIR}\\Demo.pck')
+
+def build_player():
+    run(f'{SCONS_EXE} p=windows tools=no bits=64 -j{THREADS} target=template_release')
 
 if __name__ == '__main__':
     import sys
@@ -112,6 +132,11 @@ if __name__ == '__main__':
         'editor_release' : build_editor_release,
         'run_editor_release' : run_editor_release,
         'play_editor_debug' : play_editor_debug,
+
+        # 分步骤
+        'package' : build_pck,
+        'player' : build_player,
+        'python' : build_python,
         'python_zip' : make_python_zip,
         'archive_demo' : archive_demo,
     }
