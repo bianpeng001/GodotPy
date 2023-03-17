@@ -126,7 +126,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
             self.lbl_members.set_text(text)
 
         select_hero = game_mgr.ui_mgr.select_hero_controller
-        select_hero.show_dialog(self.city_unit, select_cb)
+        select_hero.init_dialog(self.city_unit, select_cb)
         select_hero.select([ item.hero_id for item in self.hero_item_list ])
         game_mgr.ui_mgr.push_panel(select_hero)
 
@@ -196,7 +196,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
 
     def on_ok_click(self):
         #self.defer_close()
-        game_mgr.ui_mgr.pop_panel()
+        game_mgr.ui_mgr.pop_panel(self)
 
         if len(self.hero_item_list) > 0:
             log_debug(f'chuzhan ok', self.hero_item_list)

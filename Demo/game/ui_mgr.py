@@ -4,7 +4,7 @@
 
 from game.core import *
 from game.game_mgr import game_mgr
-from game.base_type import UT_CITY
+from game.base_type import UT_CITY, UT_TROOP, UT_BUILDING
 
 #
 # ui 管理器
@@ -201,6 +201,10 @@ class UIMgr(NodeObject):
             else:
                 # TODO
                 pass
+        elif unit.unit_type == UT_TROOP:
+            log_debug('troop click', unit.unit_name)
+        elif unit.unit_type == UT_BUILDING:
+            log_debug('building click', unit.unit_name)
         else:
             # TODO
             pass
@@ -214,9 +218,9 @@ class UIMgr(NodeObject):
         # 确认显示一下
         cur_ui.show()
 
-    def pop_panel(self, cur_ui = None):
+    def pop_panel(self, cur_ui):
         if cur_ui and cur_ui != self.get_top_panel():
-            raise Exception('xxxx')
+            raise Exception('top ui should be close by itself')
 
         # 关闭当前的
         if len(self.panel_stack) > 0:

@@ -3,7 +3,7 @@
 #
 import math
 
-from game.core import *
+from game.core import log_debug
 from game.game_mgr import *
 from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
@@ -29,11 +29,11 @@ class SettingPanelController(UIController, PopupTrait):
     def on_ok_click(self):
         #self.defer_close()
         game_mgr.ui_mgr.pop_panel(self)
-        
+
         game_mgr.enable_city_ai = self.enable_city_ai
 
     def on_city_ai_click(self):
-        print('city_ai', self.check_city_ai.is_pressed())
+        log_debug('city_ai', self.check_city_ai.is_pressed())
         self.enable_city_ai = self.check_city_ai.is_pressed()
 
 

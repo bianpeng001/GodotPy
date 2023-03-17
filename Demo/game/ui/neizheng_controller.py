@@ -254,8 +254,9 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
                 set_hero_cb(0)
 
         def on_btn_click():
-            game_mgr.ui_mgr.select_hero_controller.show_dialog(
+            game_mgr.ui_mgr.select_hero_controller.init_dialog(
                     self.city_unit, select_cb)
+            game_mgr.ui_mgr.select_hero_controller.select([])
             game_mgr.ui_mgr.push_panel(game_mgr.ui_mgr.select_hero_controller)
 
         btn_obj.connect(PRESSED, on_btn_click)

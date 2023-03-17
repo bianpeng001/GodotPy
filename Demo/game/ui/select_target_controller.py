@@ -33,11 +33,8 @@ class SelectTargetController(UIController, PopupTrait):
         self.select_callback = select_callback
         self.popup(240, 70)
     
-    def on_close_click(self):
-        game_mgr.ui_mgr.pop_panel()
-
     def on_ok_click(self):
-        game_mgr.ui_mgr.pop_panel()
+        game_mgr.ui_mgr.pop_panel(self)
        
         if self.select_callback:
             self.select_callback()
