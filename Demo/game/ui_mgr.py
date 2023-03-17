@@ -171,8 +171,12 @@ class UIMgr(NodeObject):
 
     # 点击空地
     def on_scene_ground_click(self):
-        # 正在建设就不用弹菜单了
-        if self.build_panel_controller.is_building():
+        # TODO: 正在建设就不用弹菜单了, 后面发现只要有界面显示,就不应该这个右键菜单
+        # if self.build_panel_controller.is_building():
+        #     return
+        top_ui = self.get_top_panel()
+        if top_ui:
+            log_debug('top panel visible', top_ui)
             return
 
         if self.ground_menu_controller.is_visible:
@@ -183,7 +187,7 @@ class UIMgr(NodeObject):
             self.click_unit = None
             self.ground_menu_controller.popup_at_mouse()
 
-    # 点击c场景中的单位
+    # 点击场景中的单位
     def on_scene_unit_click(self, unit):
         self.ground_menu_controller.defer_close()
 
@@ -201,18 +205,30 @@ class UIMgr(NodeObject):
             # TODO
             pass
 
+    # 界面的入栈出栈,用来恢复上级界面
+    def push_panel(self, cur_ui):
+        if len(self.panel_stack) > 0:
+            self.panel_stack[-1].defer_close()
+        self.panel_stack.append(cur_ui)
 
-    def push_panel(self, ui_controller):
-        ui_controller.defer_close()
-        self.panel_stack.append(ui_controller)
+        # 确认显示一下
+        cur_ui.show()
 
-    def pop_panel(self):
-        if self.panel_stack:
-            ui_controller = self.panel_stack.pop()
-            ui_controller.show()
-            return ui_controller
+    def pop_panel(self, cur_ui = None):
+        if cur_ui and cur_ui != self.get_top_panel():
+            raise Exception('xxxx')
 
-
-
-
+        # 关闭当前的
+        if len(self.panel_stack) > 0:
+            self.panel_stack.pop().defer_close()
             
+        # 上级界面恢复显示, 如果有的话
+        if len(self.panel_stack) > 0:
+            self.panel_stack[-1].show()
+
+    # 获取当前的顶层ui controller
+    def get_top_panel(self):
+        if len(self.panel_stack) > 0:
+            return self.panel_stack[-1]
+
+

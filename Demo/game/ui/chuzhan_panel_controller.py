@@ -125,10 +125,10 @@ class ChuZhanPanelController(UIController, PopupTrait):
                 text = ''
             self.lbl_members.set_text(text)
 
-        game_mgr.ui_mgr.push_panel(self)
         select_hero = game_mgr.ui_mgr.select_hero_controller
         select_hero.show_dialog(self.city_unit, select_cb)
         select_hero.select([ item.hero_id for item in self.hero_item_list ])
+        game_mgr.ui_mgr.push_panel(select_hero)
 
     # 选择目标
     def on_select_target(self):
@@ -136,8 +136,8 @@ class ChuZhanPanelController(UIController, PopupTrait):
         def select_cb():
             self.btn_target.set_text(panel_controller.target_name)
 
-        game_mgr.ui_mgr.push_panel(self)
         panel_controller.show_dialog(select_cb)
+        game_mgr.ui_mgr.push_panel(panel_controller)
 
     def on_slider_army_mass_changed(self, value):
         self.army_amount = round(value*0.01*self.max_army_mass)
@@ -195,7 +195,8 @@ class ChuZhanPanelController(UIController, PopupTrait):
                 return item
 
     def on_ok_click(self):
-        self.defer_close()
+        #self.defer_close()
+        game_mgr.ui_mgr.pop_panel()
 
         if len(self.hero_item_list) > 0:
             log_debug(f'chuzhan ok', self.hero_item_list)

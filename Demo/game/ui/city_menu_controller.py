@@ -39,21 +39,27 @@ class CityMenuController(UIController, PopupTrait):
     def on_neizheng(self):
         self.defer_close()
 
-        city_unit = game_mgr.ui_mgr.context_unit
+        ui_mgr = game_mgr.ui_mgr
+
+        city_unit = ui_mgr.context_unit
         log_debug(f'{city_unit.unit_name} neizheng')
 
-        game_mgr.ui_mgr.neizheng_controller.init(city_unit)
-        game_mgr.ui_mgr.neizheng_controller.popup(250, 100)
+        ui_mgr.neizheng_controller.init(city_unit)
+        ui_mgr.neizheng_controller.popup(250, 100)
+        ui_mgr.push_panel(ui_mgr.neizheng_controller)
 
     # 出战
     def on_chuzhan(self):
         self.defer_close()
 
-        city_unit = game_mgr.ui_mgr.context_unit
+        ui_mgr = game_mgr.ui_mgr
+
+        city_unit = ui_mgr.context_unit
         log_debug(f'{city_unit.unit_name} chuzhan')
 
-        game_mgr.ui_mgr.chuzhan_panel_controller.init(city_unit)
-        game_mgr.ui_mgr.chuzhan_panel_controller.popup(250, 100)
+        ui_mgr.chuzhan_panel_controller.init(city_unit)
+        ui_mgr.chuzhan_panel_controller.popup(250, 100)
+        ui_mgr.push_panel(ui_mgr.chuzhan_panel_controller)
 
     # 探索
     def on_tansuo(self):

@@ -38,11 +38,9 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
         self.popup(250, 134)
 
     def on_close_click(self):
-        self.defer_close()
         game_mgr.ui_mgr.pop_panel()
 
     def on_ok_click(self):
-        self.defer_close()
         game_mgr.ui_mgr.pop_panel()
 
         hero_list = self.get_selected()

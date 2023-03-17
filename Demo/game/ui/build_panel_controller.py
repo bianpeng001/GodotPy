@@ -42,14 +42,19 @@ class BuildPanelController(UIController, PopupTrait):
         self.active_obj.set_visible(True)
     
     def on_scene_ground_click(self):
-        if self.is_building():
-            self.active_obj.dup()
+        if not self.is_building():
+            return
+            
+        self.active_obj.dup()
+        # TODO: 修改数据,创建附属建筑等操作略
 
     def on_close_click(self):
-        self.defer_close()
         if self.active_obj:
             self.active_obj.set_visible(False)
         self.active_obj = None
+
+        #self.defer_close()
+        game_mgr.ui_mgr.pop_panel(self)
 
     def on_build_farm_click(self):
         self.set_active_obj(self.item_list[0])

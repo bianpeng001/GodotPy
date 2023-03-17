@@ -16,19 +16,13 @@ class MapPanelController(UIController, PopupTrait):
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
-        self.ui_obj.find_node('Panel/BtnClose').connect(PRESSED, self.on_close_click)
-        self.ui_obj.find_node('Panel/BtnCancel').connect(PRESSED, self.on_close_click)
-        self.ui_obj.find_node('Panel/BtnOk').connect(PRESSED, self.on_ok_click)
-
+        self.bind_ok_cancel_close()
 
     def init(self):
         pass
 
     def on_ok_click(self):
-        self.defer_close()
+        game_mgr.ui_mgr.pop_panel(self)
 
-
-    def on_close_click(self):
-        self.defer_close()
         
 

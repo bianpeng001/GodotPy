@@ -17,9 +17,7 @@ class SettingPanelController(UIController, PopupTrait):
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
-        self.ui_obj.find_node('Panel/BtnOk').connect(PRESSED, self.on_ok_click)
-        self.ui_obj.find_node('Panel/BtnClose').connect(PRESSED, self.on_close_click)
-        self.ui_obj.find_node('Panel/BtnCancel').connect(PRESSED, self.on_close_click)
+        self.bind_ok_cancel_close()
 
         self.check_city_ai = self.ui_obj.find_node('Panel/CheckCityAI')
         self.check_city_ai.connect(PRESSED, self.on_city_ai_click)
@@ -28,12 +26,10 @@ class SettingPanelController(UIController, PopupTrait):
         self.enable_city_ai = game_mgr.enable_city_ai
         self.check_city_ai.set_pressed(self.enable_city_ai)
 
-    def on_close_click(self):
-        self.defer_close()
-
     def on_ok_click(self):
-        self.defer_close()
-
+        #self.defer_close()
+        game_mgr.ui_mgr.pop_panel(self)
+        
         game_mgr.enable_city_ai = self.enable_city_ai
 
     def on_city_ai_click(self):

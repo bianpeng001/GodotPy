@@ -49,10 +49,12 @@ class PopupTrait:
             btn_ok.connect(PRESSED, self.on_ok_click)
 
     def on_close_click(self):
-        self.defer_close()
+        #self.defer_close()
+        game_mgr.ui_mgr.pop_panel(self)
 
     def on_ok_click(self):
-        self.defer_close()
+        #self.defer_close()
+        game_mgr.ui_mgr.pop_panel(self)
 
 # 武将列表
 class HeroListTrait:

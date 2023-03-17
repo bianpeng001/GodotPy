@@ -254,9 +254,9 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
                 set_hero_cb(0)
 
         def on_btn_click():
-            game_mgr.ui_mgr.push_panel(self)
             game_mgr.ui_mgr.select_hero_controller.show_dialog(
                     self.city_unit, select_cb)
+            game_mgr.ui_mgr.push_panel(game_mgr.ui_mgr.select_hero_controller)
 
         btn_obj.connect(PRESSED, on_btn_click)
         return btn_obj
@@ -293,7 +293,8 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.init_items(item_node, self.city_unit.hero_list)
 
     def on_ok_click(self):
-        self.defer_close()
+        #self.defer_close()
+        game_mgr.ui_mgr.pop_panel(self)
 
         # 弹一个对话
         if self.city_unit.satrap != 0 and self.satrap == 0:
@@ -323,5 +324,6 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.city_unit.fax_rate = self.fax_rate
         
         log_debug('apply city property changes')
+
 
 

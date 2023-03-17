@@ -65,18 +65,22 @@ class MainUIController(UIController, PopupTrait):
     def on_map_click(self):
         obj = game_mgr.ui_mgr.map_panel_controller
         if obj.is_visible:
-            obj.defer_close()
+            #obj.defer_close()
+            game_mgr.ui_mgr.pop_panel(obj)
         else:
             obj.init()
             obj.popup(150, 80)
+            game_mgr.ui_mgr.push_panel(obj)
 
     def on_setting_click(self):
         obj = game_mgr.ui_mgr.setting_panel_controller
         if obj.is_visible:
-            obj.defer_close()
+            #obj.defer_close()
+            game_mgr.ui_mgr.pop_panel(obj)
         else:
             obj.init()
             obj.popup(150, 80)
+            game_mgr.ui_mgr.push_panel(obj)
 
     def on_refresh(self):
         self.update_fps()

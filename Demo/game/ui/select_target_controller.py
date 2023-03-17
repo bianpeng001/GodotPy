@@ -13,7 +13,7 @@ from game.ui.ui_traits import *
 #
 class SelectTargetController(UIController, PopupTrait):
     def __init__(self):
-        self.target_name = ''
+        self.target_name = '长坂坡'
         self.target_type = 0
         self.target_unit_id = 0
 
@@ -21,26 +21,24 @@ class SelectTargetController(UIController, PopupTrait):
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
-
         self.bind_ok_cancel_close(close=False)
+
+        self.lbl_target = self.ui_obj.find_node('Panel/LblTarget')
+        self.lbl_target.set_text(self.target_name)
+
+    def set_target(self, target):
+        pass
 
     def show_dialog(self, select_callback):
         self.select_callback = select_callback
         self.popup(240, 70)
     
     def on_close_click(self):
-        self.defer_close()
         game_mgr.ui_mgr.pop_panel()
 
     def on_ok_click(self):
-        self.defer_close()
         game_mgr.ui_mgr.pop_panel()
-
-        self.target_name = '长坂坡'
-        
+       
         if self.select_callback:
             self.select_callback()
-
-
-
 
