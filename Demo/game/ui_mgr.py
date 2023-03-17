@@ -4,7 +4,7 @@
 
 from game.core import *
 from game.game_mgr import game_mgr
-from game.base_type import UT_CITY, UT_TROOP, UT_BUILDING
+from game.base_type import UT_CITY, UT_TROOP
 
 #
 # ui 管理器
@@ -199,14 +199,10 @@ class UIMgr(NodeObject):
             if unit.owner_is_main_player():
                 self.city_menu_controller.popup_at_mouse()
             else:
-                # TODO
                 pass
         elif unit.unit_type == UT_TROOP:
             log_debug('troop click', unit.unit_name)
-        elif unit.unit_type == UT_BUILDING:
-            log_debug('building click', unit.unit_name)
         else:
-            # TODO
             pass
 
     # 界面的入栈出栈,用来恢复上级界面
