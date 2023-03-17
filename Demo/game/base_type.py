@@ -57,8 +57,6 @@ class AIState:
 UT_CITY = 1
 # 军队
 UT_TROOP = 2
-# 附属建筑
-UT_BUILDING = 3
 
 # 场景中的单位
 class Unit:

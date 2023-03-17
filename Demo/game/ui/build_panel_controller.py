@@ -8,7 +8,9 @@ from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
 from game.event_name import PRESSED, SCENE_GROUND_CLICK
 
+#
 # 建设面板
+#
 class BuildPanelController(UIController, PopupTrait):
     def __init__(self):
         self.item_list = []
@@ -53,7 +55,6 @@ class BuildPanelController(UIController, PopupTrait):
             self.active_obj.set_visible(False)
         self.active_obj = None
 
-        #self.defer_close()
         self.pop_panel()
 
     def on_build_farm_click(self):
