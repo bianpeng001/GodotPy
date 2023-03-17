@@ -103,9 +103,10 @@ class Tile:
         if random.random() < 0.5:
             city = game_mgr.unit_mgr.create_city()
             city.owner_player_id = 0
-            city.set_position(pos_x + random_x()*5,
+            city.set_position(
+                round(pos_x + random_x()*5),
                 0,
-                pos_z + random_x()*5)
+                round(pos_z + random_x()*5))
             self.unit_list.append(city)
 
 

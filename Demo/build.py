@@ -94,10 +94,7 @@ def zipdir(dir_path, f):
                 file_path = os.path.join(root, file)
                 f.write(file_path, os.path.relpath(file_path, dir_path))
 
-
-            
-
-def make_python_zip():
+def archive_python():
     path = f'{BUILD_DIR}\\python312.zip'
     if os.path.exists(path):
         os.remove(path)
@@ -145,7 +142,7 @@ if __name__ == '__main__':
         'package' : build_pck,
         'player' : build_player,
         'python' : build_python,
-        'python_zip' : make_python_zip,
+        'archive_python' : archive_python,
         'archive_demo' : archive_demo,
     }
     fun = None

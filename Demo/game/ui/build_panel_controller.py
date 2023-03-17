@@ -44,7 +44,7 @@ class BuildPanelController(UIController, PopupTrait):
     def on_scene_ground_click(self):
         if not self.is_building():
             return
-            
+
         self.active_obj.dup()
         # TODO: 修改数据,创建附属建筑等操作略
 

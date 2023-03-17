@@ -20,25 +20,25 @@ class RaycastMgr(NodeObject):
 
     def on_mouse_click(self):
         camera = game_mgr.camera_mgr.main_camera
-        x, y = game_mgr.input_mgr.get_mouse_pos()
+        screen_x,screen_y = game_mgr.input_mgr.get_mouse_pos()
 
         #if camera.find_control(x, y):
         if game_mgr.ui_mgr.is_point_at_gui():
             #log_util.debug('click on control, ui event system take over', st=False)
             return
         
-        wx,wy,wz = camera.screen_to_world(x, y)
+        x,y,z = camera.screen_to_world(screen_x, screen_y)
         #self.reqs.append((wx, wy, wz))
         #print_line(f'press: {wx},{wy},{wz}')
 
-        # TODO: 找到点击的单位
-        tile = game_mgr.ground_mgr.get_tile(wx, wz)
+        # TODO: 找到点击的单位, 用距离找的,比较土, 但还能用
+        tile = game_mgr.ground_mgr.get_tile(x, z)
         if tile:
             click_on_unit = False
             for unit in tile.unit_list:
                 unit_x, _, unit_z = unit.get_position()
-                dx = unit_x - wx
-                dz = unit_z - wz
+                dx = unit_x - x
+                dz = unit_z - z
                 if dx*dx+dz*dz < unit.radius*unit.radius:
                     #print_line(f'click: {unit.unit_name} {unit.unit_id}')
                     game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, unit)

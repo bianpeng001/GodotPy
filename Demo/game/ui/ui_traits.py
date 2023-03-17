@@ -48,6 +48,9 @@ class PopupTrait:
             btn_ok = self.ui_obj.find_node('Panel/BtnOk')
             btn_ok.connect(PRESSED, self.on_ok_click)
 
+    def pop_panel(self):
+        game_mgr.ui_mgr.pop_panel(self)
+
     def on_close_click(self):
         #self.defer_close()
         game_mgr.ui_mgr.pop_panel(self)

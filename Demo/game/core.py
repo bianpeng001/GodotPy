@@ -600,9 +600,6 @@ class FButton(FBaseButton):
 class FCheckBox(FBaseButton):
     pass
 
-class FImage(FControl):
-    pass
-
 class FPanel(FControl):
     pass
 

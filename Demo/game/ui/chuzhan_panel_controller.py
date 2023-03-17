@@ -188,11 +188,9 @@ class ChuZhanPanelController(UIController, PopupTrait):
                 tex = FResource.load_resource('res://ui/face/XuShu.png')
                 avatar.set_tex(tex)
             elif hero_id % 3 == 1:
-                #avatar.load_tex('res://ui/face/DiaoChan.png')
                 tex = FResource.load_resource('res://ui/face/DiaoChan.png')
                 avatar.set_tex(tex)
 
-            
             self.hero_item_list.append(hero_item)
 
     def get_hero_at_pos_index(self, pos_index):
