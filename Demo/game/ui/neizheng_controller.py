@@ -295,7 +295,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
     def on_ok_click(self):
         #self.defer_close()
-        game_mgr.ui_mgr.pop_panel(self)
+        self.pop_panel()
 
         # 弹一个对话
         if self.city_unit.satrap != 0 and self.satrap == 0:

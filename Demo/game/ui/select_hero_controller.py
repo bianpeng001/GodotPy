@@ -38,7 +38,7 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
         self.set_position(250, 134)
 
     def on_ok_click(self):
-        game_mgr.ui_mgr.pop_panel(self)
+        self.pop_panel()
 
         hero_list = self.get_selected()
         if self.select_callback:

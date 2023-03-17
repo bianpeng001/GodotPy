@@ -28,7 +28,7 @@ class SettingPanelController(UIController, PopupTrait):
 
     def on_ok_click(self):
         #self.defer_close()
-        game_mgr.ui_mgr.pop_panel(self)
+        self.pop_panel()
 
         game_mgr.enable_city_ai = self.enable_city_ai
 

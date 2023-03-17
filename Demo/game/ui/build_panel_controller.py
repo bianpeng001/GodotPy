@@ -54,7 +54,7 @@ class BuildPanelController(UIController, PopupTrait):
         self.active_obj = None
 
         #self.defer_close()
-        game_mgr.ui_mgr.pop_panel(self)
+        self.pop_panel()
 
     def on_build_farm_click(self):
         self.set_active_obj(self.item_list[0])

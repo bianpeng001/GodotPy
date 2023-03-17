@@ -22,7 +22,7 @@ class MapPanelController(UIController, PopupTrait):
         pass
 
     def on_ok_click(self):
-        game_mgr.ui_mgr.pop_panel(self)
+        self.pop_panel()
 
         
 

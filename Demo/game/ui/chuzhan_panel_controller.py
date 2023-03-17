@@ -200,7 +200,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
 
     def on_ok_click(self):
         #self.defer_close()
-        game_mgr.ui_mgr.pop_panel(self)
+        self.pop_panel()
 
         if len(self.hero_item_list) > 0:
             log_debug(f'chuzhan ok', self.hero_item_list)
