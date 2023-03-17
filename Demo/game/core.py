@@ -620,6 +620,9 @@ class FTextureRect(FControl):
     def load_tex(self, path):
         gp.texture_rect_load_texture(self.get_gdobj(), path)
 
+    def set_tex(self, tex):
+        gp.texture_rect_set_texture(self.get_gdobj(), tex)
+
 class FColorRect(FControl):
     pass
 

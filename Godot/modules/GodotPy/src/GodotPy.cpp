@@ -613,6 +613,27 @@ public:
 	};
 };
 
+// 记录一下资源的类型
+enum class EResType {
+	None,
+	Material,
+	Texture,
+};
+// 一个存Res的包装
+struct ResCapsule {
+	int type;
+	Ref<Resource> res;
+
+	template <typename T>
+	Ref<T> As() {
+		return Res<T>(this->res);
+	}
+};
+static inline ResCapsule *GetResCapsule(PyObject *obj) {
+	//return reinterpret_cast<ResCapsule *>(PyCapsule_GetPointer(capsule, c_Resource));
+	return _capsule_get_pointer<c_Resource, ResCapsule>(obj);
+}
+
 //------------------------------------------------------------------------------
 // module function implementation
 //------------------------------------------------------------------------------
@@ -1624,6 +1645,34 @@ static PyObject *f_texture_rect_load_texture(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_texture_rect_set_texture(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		PyObject *a_tex;
+		if (!PyArg_ParseTuple(args, "OO", &a_obj, &a_tex)) {
+			break;
+		}
+
+		auto rect = GetObjPtr<TextureRect>(a_obj);
+		if (!rect) {
+			break;
+		}
+		auto p_res = GetResCapsule(a_tex);
+		if (!p_res) {
+			break;
+		}
+
+		Ref<Texture> tex = p_res->res;
+		if (!tex.is_valid()) {
+			break;
+		}
+
+		rect->set_texture(tex);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_color_rect_set_color(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -1889,26 +1938,6 @@ static PyObject *f_mesh_instance3d_load_albedo_tex(PyObject *module, PyObject *a
 	} while (0);
 
 	Py_RETURN_NONE;
-}
-// 记录一下资源的类型
-enum class EResType {
-	None,
-	Material,
-	Texture,
-};
-// 一个存Res的包装
-struct ResCapsule {
-	int type;
-	Ref<Resource> res;
-
-	template <typename T>
-	Ref<T> As() {
-		return Res<T>(this->res);
-	}
-};
-static inline ResCapsule *GetResCapsule(PyObject *obj) {
-	//return reinterpret_cast<ResCapsule *>(PyCapsule_GetPointer(capsule, c_Resource));
-	return _capsule_get_pointer<c_Resource, ResCapsule>(obj);
 }
 //f_load_resource
 static PyObject *f_load_resource(PyObject *module, PyObject *args) {
@@ -2213,7 +2242,9 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// texture rect
 	{ "texture_rect_load_texture", f_texture_rect_load_texture, METH_VARARGS, NULL },
+	{ "texture_rect_set_texture", f_texture_rect_set_texture, METH_VARARGS, NULL },
 	{ "color_rect_set_color", f_color_rect_set_color, METH_VARARGS, NULL },
+	
 	
 	// rich_text_label_set_text
 	{ "rich_text_label_set_text", f_rich_text_label_set_text, METH_VARARGS, NULL },

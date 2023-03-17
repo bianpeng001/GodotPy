@@ -182,11 +182,17 @@ class ChuZhanPanelController(UIController, PopupTrait):
             label = hero_item.hero_item_obj.find_node('Label')
             label.set_text(get_hero_name(hero_id))
             avatar = hero_item.hero_item_obj.find_node('Avatar')
-            if hero_id % 3 == 0:
-                avatar.load_tex('res://ui/face/XuShu.png')
-            elif hero_id % 3 == 1:
-                avatar.load_tex('res://ui/face/DiaoChan.png')
 
+            if hero_id % 3 == 0:
+                #avatar.load_tex('res://ui/face/XuShu.png')
+                tex = FResource.load_resource('res://ui/face/XuShu.png')
+                avatar.set_tex(tex)
+            elif hero_id % 3 == 1:
+                #avatar.load_tex('res://ui/face/DiaoChan.png')
+                tex = FResource.load_resource('res://ui/face/DiaoChan.png')
+                avatar.set_tex(tex)
+
+            
             self.hero_item_list.append(hero_item)
 
     def get_hero_at_pos_index(self, pos_index):
