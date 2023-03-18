@@ -13,7 +13,7 @@ from game.ui.ui_traits import PopupTrait
 #
 class SelectTargetController(UIController, PopupTrait):
     def __init__(self):
-        self.target_name = '长坂坡'
+        self.target_name = ''
         self.target_unit_id = 0
         self.target_pos = (0,0)
 
@@ -43,7 +43,6 @@ class SelectTargetController(UIController, PopupTrait):
                 if unit.unit_type == UT_CITY:
                     target_name = f'{unit.unit_name} {target_name}'
                     break
-            
 
         self.target_name = target_name
         self.lbl_target.set_text(target_name)
@@ -51,12 +50,14 @@ class SelectTargetController(UIController, PopupTrait):
     def on_scene_unit_click(self, unit):
         if not self.is_visible:
             return
+            
         x,y,z = unit.get_position()
         self.set_target(unit.unit_id, (round(x),round(z)))
 
     def on_scene_ground_click(self):
         if not self.is_visible:
             return
+
         x,y,z = get_position_under_mouse()
         self.set_target(0, (round(x), round(z)))
         

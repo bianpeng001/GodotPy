@@ -171,30 +171,28 @@ class UIMgr(NodeObject):
 
     # 点击空地
     def on_scene_ground_click(self):
-        # TODO: 正在建设就不用弹菜单了, 后面发现只要有界面显示,就不应该这个右键菜单
-        # if self.build_panel_controller.is_building():
-        #     return
-        top_ui = self.get_top_panel()
-        if top_ui:
-            log_debug('top panel visible', top_ui)
+        if self.get_top_panel():
+            log_debug('top panel visible', self.get_top_panel())
             return
 
+        self.city_menu_controller.defer_close()
         if self.ground_menu_controller.is_visible:
             self.ground_menu_controller.defer_close()
         else:
-            self.city_menu_controller.defer_close()
-
             self.click_unit = None
             self.ground_menu_controller.popup_at_mouse()
 
     # 点击场景中的单位
     def on_scene_unit_click(self, unit):
-        self.ground_menu_controller.defer_close()
+        if self.get_top_panel():
+            log_debug('top panel visible', self.get_top_panel())
+            return
 
         self.click_unit = unit
         self.context_unit = unit
         #print_line(f'click: {unit.unit_name}')
 
+        self.ground_menu_controller.defer_close()
         if unit.unit_type == UT_CITY:
             if unit.owner_is_main_player():
                 self.city_menu_controller.popup_at_mouse()
