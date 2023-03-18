@@ -1,5 +1,11 @@
 <style>
-    .date { font-size: 10px;color: #606060; }
+    .date
+    {
+      font-size: 10px;
+      color: #606060;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #c5c5c5;
+    }
 </style>
 
 # 洒家的博客
@@ -21,7 +27,7 @@
 TODO:
 
 1. 细化战斗,攻城,场景和地图界面
-2. 美化视觉,这个是长期的追求,不必着急
+2. 改善资源,学习美术,这个是长期的追求,不可着急
 
 ![screenshot01](img/screenshot01.png)
 
