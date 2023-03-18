@@ -153,8 +153,8 @@ class Controller(AIMachine):
 # UI 面板控制器
 class UIController:
     def __self__(self):
-        self.ui_obj = None
         self.is_visible = True
+        self.ui_obj = None
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj

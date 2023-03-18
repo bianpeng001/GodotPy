@@ -9,22 +9,22 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -902.0
+offset_right = -872.0
 offset_bottom = -592.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_right = 250.0
-offset_bottom = 56.0
+offset_right = 280.0
+offset_bottom = 40.0
 
 [node name="BtnOk" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 120.0
-offset_top = 14.0
-offset_right = 180.0
-offset_bottom = 43.0
+offset_left = 149.0
+offset_top = 5.0
+offset_right = 209.0
+offset_bottom = 34.0
 theme = ExtResource("1_tdfun")
 theme_override_styles/normal = ExtResource("2_ff50y")
 theme_override_styles/hover = ExtResource("2_ff50y")
@@ -33,10 +33,10 @@ text = "确定"
 
 [node name="BtnCancel" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 184.0
-offset_top = 14.0
-offset_right = 244.0
-offset_bottom = 43.0
+offset_left = 213.0
+offset_top = 5.0
+offset_right = 273.0
+offset_bottom = 34.0
 theme = ExtResource("1_tdfun")
 theme_override_styles/normal = ExtResource("3_0b1sx")
 theme_override_styles/hover = ExtResource("3_0b1sx")
@@ -45,18 +45,18 @@ text = "取消"
 
 [node name="ColorRect" type="ColorRect" parent="Panel"]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 14.0
-offset_right = 112.0
-offset_bottom = 43.0
+offset_left = 7.0
+offset_top = 5.0
+offset_right = 143.0
+offset_bottom = 34.0
 color = Color(0.105882, 0.105882, 0.105882, 1)
 
 [node name="LblTarget" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 8.0
-offset_top = 16.0
-offset_right = 112.0
-offset_bottom = 40.0
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 143.0
+offset_bottom = 31.0
 theme = ExtResource("1_tdfun")
 theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1

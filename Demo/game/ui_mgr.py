@@ -126,7 +126,7 @@ class UIMgr(NodeObject):
         _, self.story_panel_controller = self.load_panel(
                 'res://ui/StoryPanel.tscn', StoryPanelController)
         # load done
-        log_util.debug('ui panels load ok')
+        log_debug('ui panels load ok')
 
     def load_panel(self, path, cls):
         ui_obj = FNode3D.instantiate(path)
@@ -213,6 +213,7 @@ class UIMgr(NodeObject):
         cur_ui.show()
 
     def pop_panel(self, cur_ui):
+        # 判断只有自己能关闭自己,别人都不行
         if cur_ui and cur_ui != self.get_top_panel():
             raise Exception('top ui should be close by itself')
 

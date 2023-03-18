@@ -3,10 +3,10 @@
 #
 
 from game.core import log_debug
-from game.base_type import UIController
 from game.game_mgr import *
+from game.base_type import UIController
 from game.event_name import PRESSED
-from game.ui.ui_traits import *
+from game.ui.ui_traits import PopupTrait, HeroListTrait
 
 #
 # 选择武将，是一个二级界面
