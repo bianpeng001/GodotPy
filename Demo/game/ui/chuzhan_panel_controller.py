@@ -56,6 +56,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.slider_army_mass = self.ui_obj.find_node('Panel/SliderArmyMass')
         self.btn_form = self.ui_obj.find_node('Panel/BtnForm')
         self.form_list = self.ui_obj.find_node('Panel/FormList')
+        
         #self.form_root = self.ui_obj.find_node('Panel/FormRoot')
         self.btn_target = self.ui_obj.find_node('Panel/BtnTarget')
         self.btn_target.connect(PRESSED, self.on_select_target)
@@ -152,6 +153,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
 
         self.clear_form()
         self.lbl_members.set_text('')
+        self.form_list.set_visible(False)
 
     def clear_form(self):
         for item in self.hero_item_list:

@@ -807,12 +807,12 @@ static PyObject *f_reparent(PyObject *module, PyObject *args) {
 		}
 
 		Node *obj = GetObjPtr<Node>(a_obj);
-		Node *parent_obj = GetObjPtr<Node>(a_new_parent);
+		Node *new_parent = GetObjPtr<Node>(a_new_parent);
 		
-		if (!obj || !parent_obj) {
+		if (!obj || !new_parent) {
 			break;
 		}
-		obj->reparent(parent_obj);
+		obj->reparent(new_parent);
 
 	} while (0);
 
@@ -852,6 +852,7 @@ static PyObject *f_node_dup(PyObject *module, PyObject *args) {
 		if (!obj) {
 			break;
 		}
+
 		auto dup = obj->duplicate();
 		//obj->add_sibling(dup);
 		auto parent = obj->get_parent();
@@ -969,7 +970,8 @@ static PyObject *f_get_child_count(PyObject *module, PyObject *args) {
 		}
 
 		int child_count = node->get_child_count();
-		return Py_BuildValue("i", child_count);
+		//return Py_BuildValue("i", child_count);
+		return PyLong_FromLong(child_count);
 
 	} while (false);
 

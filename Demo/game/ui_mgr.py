@@ -33,7 +33,7 @@ class UIMgr(NodeObject):
 
         # 鼠标是否停留在ui上面
         self.last_x, self.last_y = 0, 0
-        self.last_point_at_gui = False
+        self.control_under_mouse = False
 
     def is_point_at_gui(self):
         x, y = game_mgr.input_mgr.get_mouse_pos()
@@ -42,16 +42,16 @@ class UIMgr(NodeObject):
 
         if dx*dx + dy*dy > 10:
             camera = game_mgr.camera_mgr.main_camera
-            self.last_point_at_gui = camera.find_control(x, y) != None
+            self.control_under_mouse = camera.find_control(x, y)
 
-        return self.last_point_at_gui
+        return self.control_under_mouse != None
         
     def _create(self):
         #self.get_obj().connect("ready", self._ready)
         game_mgr.co_mgr.start(self.co_init_panels())
 
-        from game.event_name import SCENE_UNIT_CLICK, \
-                LEFT_BUTTON_BEGIN_DRAG, \
+        from game.event_name import SCENE_UNIT_CLICK,\
+                LEFT_BUTTON_BEGIN_DRAG,\
                 SCENE_GROUND_CLICK
 
         game_mgr.event_mgr.add(SCENE_UNIT_CLICK, self.on_scene_unit_click)

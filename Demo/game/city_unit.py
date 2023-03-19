@@ -100,6 +100,8 @@ class CityUnit(Unit, UnitTrait):
         path = 'res://models/City01.tscn'
         if is_gate:
             path = 'res://models/Gate01.tscn'
+        elif random.random() < 0.5:
+            path = 'res://models/City02.tscn'
         
         self.model_node = FNode3D.instantiate(path)
         if is_gate:

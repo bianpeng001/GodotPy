@@ -227,12 +227,12 @@ theme = ExtResource("1_beg0d")
 text = "策略"
 
 [node name="FormList" type="ItemList" parent="Panel"]
-visible = false
 layout_mode = 0
-offset_left = 82.0
-offset_top = 150.0
-offset_right = 186.0
-offset_bottom = 240.0
+offset_left = 172.0
+offset_top = 126.0
+offset_right = 276.0
+offset_bottom = 216.0
+theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 14
 item_count = 2
 item_0/text = "长蛇阵"

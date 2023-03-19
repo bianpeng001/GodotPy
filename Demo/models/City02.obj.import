@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dkrgkg360dir7"
+path="res://.godot/imported/City02.obj-885c03d47322dcec0cf972bd9e5b78f6.mesh"
+
+[deps]
+
+files=["res://.godot/imported/City02.obj-885c03d47322dcec0cf972bd9e5b78f6.mesh"]
+
+source_file="res://models/City02.obj"
+dest_files=["res://.godot/imported/City02.obj-885c03d47322dcec0cf972bd9e5b78f6.mesh", "res://.godot/imported/City02.obj-885c03d47322dcec0cf972bd9e5b78f6.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
