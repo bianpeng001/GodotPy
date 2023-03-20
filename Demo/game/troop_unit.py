@@ -36,7 +36,8 @@ class TroopUnit(Unit, UnitTrait):
         self.model_type = 3
 
         # 战斗策略
-
+        self.target_pos = (0, 0)
+        self.target_unit_id = 0
 
         # 追逐目标
         self.chase_target = False

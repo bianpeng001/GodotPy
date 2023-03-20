@@ -133,27 +133,6 @@ class LeftRightMoveReq(BaseMoveReq):
         else:
             self.reset(self.stop)
 
-
-# 还有一个螺旋形的遍历
-# 812
-# 703
-# 654
-
-# 遍历一周，顺序如下
-# 012
-# 7X3
-# 654
-def ring_range(n):
-    s = 2 * n
-    for i in range(s):
-        yield -n + i, -n
-    for i in range(s):
-        yield n, -n + i
-    for i in range(s):
-        yield n - i, n
-    for i in range(s):
-        yield -n, n - i
-
 # 黑板，用于读写信息，状态之间传递数据
 class TroopBlackboard(AIBlackboard):
     def __init__(self):

@@ -63,6 +63,9 @@ class Unit:
     def __init__(self):
         self.unit_type = None
 
+        # 控制器
+        self._controller = None
+
         # 身份
         self.unit_id = 0
         self.unit_name = ''
@@ -76,9 +79,7 @@ class Unit:
 
         # 生死存亡
         self.is_dead = False
-        # 控制器
-        self._controller = None
-
+        
         # 场景里面的属性
         self.unit_position = Vector3()
         self.rotation = Vector3()

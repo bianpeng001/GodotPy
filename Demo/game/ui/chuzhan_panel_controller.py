@@ -136,6 +136,8 @@ class ChuZhanPanelController(UIController, PopupTrait):
         dialog = game_mgr.ui_mgr.select_target_controller
         def select_cb():
             self.btn_target.set_text(dialog.target_name)
+            self.target_unit_id = dialog.target_unit_id
+            self.target_pos = dialog.target_pos
 
         dialog.init_dialog(select_cb)
         dialog.push_panel()
@@ -221,6 +223,8 @@ class ChuZhanPanelController(UIController, PopupTrait):
                     self.army_amount,
                     4)
             # 设置目标,策略
+            troop.target_unit_id = self.target_unit_id
+            troop.target_pos = self.target_pos
             
         else:
             log_debug('no hero selected')

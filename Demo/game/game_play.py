@@ -182,12 +182,13 @@ class GamePlay:
                 chief_hero_id = item.hero_id
 
         troop = game_mgr.unit_mgr.create_troop()
+        
         troop.hero_list = hero_list
         troop.owner_city_id = city_unit.unit_id
         troop.owner_player_id = city_unit.owner_player_id
         troop.army_amount = army_amount
-        troop.set_position(x,y,z)
         troop.model_type = model_type
+        troop.set_position(x,y,z)
 
         # 军队的名字, 跟随主将
         troop.chief_hero_id = chief_hero_id

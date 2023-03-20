@@ -109,8 +109,12 @@ class UnitMgr:
             if predicate(unit):
                 return unit
 
+    # iterate every city
     def each_city(self):
         for unit in self.update_list:
             if unit.unit_type == UT_CITY:
                 yield unit
+
+
+
 

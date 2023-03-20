@@ -13,11 +13,13 @@ from game.ui.ui_traits import PopupTrait
 #
 class SelectTargetController(UIController, PopupTrait):
     def __init__(self):
+        # 返回的数据
         self.target_name = ''
         self.target_unit_id = 0
         self.target_pos = (0,0)
-
-        self.select_callback = None
+        
+        # 回调
+        self.select_cb = None
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
@@ -61,14 +63,17 @@ class SelectTargetController(UIController, PopupTrait):
         x,y,z = get_position_under_mouse()
         self.set_target(0, (round(x), round(z)))
         
-    def init_dialog(self, select_callback):
-        self.select_callback = select_callback
-        self.popup(240, 70)
+    def init_dialog(self, select_cb):
+        self.select_cb = select_cb
         self.set_target(0, (0,0))
+        self.popup(240, 70)
     
     def on_ok_click(self):
         self.pop_panel()
        
-        if self.select_callback:
-            self.select_callback()
+        if self.select_cb:
+            self.select_cb()
+
+
+
 
