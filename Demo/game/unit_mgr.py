@@ -78,10 +78,12 @@ class UnitMgr:
                 self.unit_dict.pop(unit.unit_id)
             self.dead_list.clear()
 
-    def create_unit(self, unit_class_):
+    def create_unit(self, unit_class_, unit_type):
         unit = unit_class_()
 
+        unit.unit_type = unit_type
         unit.unit_id = self.get_next_unit_id()
+
         self.unit_dict[unit.unit_id] = unit
         self.start_list.append(unit)
         self.update_list.append(unit)
@@ -96,10 +98,10 @@ class UnitMgr:
         return self.unit_dict.get(unit_id, None)
 
     def create_city(self):
-        return self.create_unit(CityUnit)
+        return self.create_unit(CityUnit, UT_CITY)
 
     def create_troop(self):
-        return self.create_unit(TroopUnit)
+        return self.create_unit(TroopUnit, UT_TROOP)
 
     # find first match requirements unit
     def find_unit(self, predicate):

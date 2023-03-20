@@ -91,7 +91,7 @@ class Tile:
                 0.8 + random.random()*0.7)
 
         # 亭
-        if random.random() < 0.3:
+        if random_100() < 30:
             rad = random_x()*math.pi
             dis = 6 + random.random()*10
             self.load_res('res://models/Pavilion01.tscn',
@@ -100,7 +100,7 @@ class Tile:
                 1.0)
 
         # 城
-        if random.random() < 0.8:
+        if random_100() < 80:
             city = game_mgr.unit_mgr.create_city()
             city.owner_player_id = 0
             city.set_position(

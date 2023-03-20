@@ -201,10 +201,8 @@ class ChuZhanPanelController(UIController, PopupTrait):
                 return item
 
     def on_ok_click(self):
-        #self.defer_close()
-        self.pop_panel()
-
         if len(self.hero_item_list) > 0:
+            self.pop_panel()
             log_debug(f'chuzhan ok', self.hero_item_list)
 
             x,y,z = self.city_unit.get_position()
@@ -222,6 +220,10 @@ class ChuZhanPanelController(UIController, PopupTrait):
                     x,y,z,
                     self.army_amount,
                     4)
+            # 设置目标,策略
+            
+        else:
+            log_debug('no hero selected')
 
 
 

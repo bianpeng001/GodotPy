@@ -259,6 +259,7 @@ def random_num(min, max):
     return min + random.random() * (max - min)
 
 # random.random() => [0, 1)
+
 # => [min, max], 包括头尾
 def random_int(min, max):
     return random.randint(min, max)
@@ -268,6 +269,9 @@ def random_select_item(item_list):
         return None
     index = random.randint(0, len(item_list) - 1)
     return item_list[index]
+
+def random_100():
+    return random_int(0, 100)
 
 def clamp(v):
     if v < 0:

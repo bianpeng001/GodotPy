@@ -3,16 +3,15 @@
 #
 from game.core import *
 from game.game_mgr import game_mgr, UnitTrait
-from game.base_type import Unit, UT_TROOP
+from game.base_type import Unit, LimitValue
 from game.troop_controller import TroopController
 
 #
-# 部队
+# 军团
 #
 class TroopUnit(Unit, UnitTrait):
     def __init__(self):
         super().__init__()
-        self.unit_type = UT_TROOP
 
         self._controller = TroopController()
         self._controller._unit = self
@@ -37,7 +36,10 @@ class TroopUnit(Unit, UnitTrait):
         self.model_type = 3
 
         # 战斗策略
-        self.fight_to_death = True
+
+
+        # 追逐目标
+        self.chase_target = False
 
     def load_model(self):
         #path = 'res://models/Troop01.tscn'

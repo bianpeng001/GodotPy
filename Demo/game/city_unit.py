@@ -5,7 +5,7 @@ import random
 
 from game.core import *
 from game.game_mgr import *
-from game.base_type import LimitValue, Unit, UT_CITY
+from game.base_type import Unit, LimitValue
 from game.config_mgr import new_city_name, new_hero_name
 
 from game.city_controller import CityController
@@ -23,7 +23,6 @@ class CityUnit(Unit, UnitTrait):
         self._controller = CityController()
         self._controller._unit = self
 
-        self.unit_type = UT_CITY
         self.radius = 3
         self.unit_name = new_city_name()
 

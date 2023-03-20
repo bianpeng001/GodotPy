@@ -189,8 +189,9 @@ class GamePlay:
         troop.set_position(x,y,z)
         troop.model_type = model_type
 
+        # 军队的名字, 跟随主将
+        troop.chief_hero_id = chief_hero_id
         if chief_hero_id > 0:
-            troop.chief_hero_id = chief_hero_id
             troop.unit_name = f'{get_hero_name(chief_hero_id)}军'
         else:
             troop.unit_name = f'{city_unit.unit_name}军'
