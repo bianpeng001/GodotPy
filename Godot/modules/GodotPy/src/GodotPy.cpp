@@ -2569,6 +2569,12 @@ void FPyObject::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_python_class", "py_class"), &FPyObject::set_python_class);
 	ClassDB::bind_method(D_METHOD("get_python_class"), &FPyObject::get_python_class);
 	ADD_PROPERTY(PropertyInfo(Variant::STRING, "python_class"), "set_python_class", "get_python_class");
+
+	ClassDB::bind_static_method("PyLib", D_METHOD("call_python_func", "module", "func"), &FPyObject::call_python_func);
+}
+
+void FPyObject::call_python_func(const String &module, const String &func) {
+	print_line(vformat("call python func: %s.%s"), module, func);
 }
 
 

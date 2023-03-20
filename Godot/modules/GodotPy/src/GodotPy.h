@@ -56,6 +56,7 @@ private:
 		return py_class;
 	}
 	static void _bind_methods();
+	static void call_python_func(const String &module, const String &func);
 };
 
 /// <summary>
