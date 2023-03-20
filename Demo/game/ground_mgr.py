@@ -148,14 +148,17 @@ class GroundMgr(NodeObject):
     def _ready(self):
         log_util.debug('GroundMgr ready')
 
+    # create new tile , if not exists
     def get_tile(self, x, z):
         col,row = pos_to_colrow(x, z)
-        return self.get_tile_colrow(col, row)
+        #return self.get_tile_colrow(col, row)
+        tile, _ = self.create_tile(col, row)
+        return tile
 
     # tile: col,row => x,y
+    # return NONE if not exists
     def get_tile_colrow(self, col, row):
-        key = (col,row)
-        return self.tile_dict.get(key, None)
+        return self.tile_dict.get((col,row), None)
 
     def update(self, delta_time):
         x, z = game_mgr.camera_mgr.center.get_xz()

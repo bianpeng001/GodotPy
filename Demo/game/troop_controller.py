@@ -6,9 +6,11 @@ from game.core import *
 from game.game_mgr import *
 from game.base_type import Controller
 from game.troop_ai import *
-from game.ground_mgr import pos_to_colrow
 
+#
+# 这是一个AIController
 # 部队控制，包括特效，动作，位置，朝向...
+#
 class TroopController(Controller):
     def __init__(self):
         super().__init__()
@@ -46,16 +48,12 @@ class TroopController(Controller):
 
             # 位置变更之后,刷新tile归属
             x,z = troop.unit_position.get_xz()
-            col,row = pos_to_colrow(x,z)
-            if self.owner_tile:
-                if self.owner_tile.col != col or \
-                        self.owner_tile.row != row:
+            tile = game_mgr.ground_mgr.get_tile(x, z)
+            if self.owner_tile != tile:
+                if self.owner_tile:
                     self.owner_tile.remove_unit(troop)
 
-                    self.owner_tile, _ = game_mgr.ground_mgr.create_tile(col,row)
-                    self.owner_tile.add_unit(troop)
-            else:
-                self.owner_tile, _ = game_mgr.ground_mgr.create_tile(col,row)
+                self.owner_tile = tile
                 self.owner_tile.add_unit(troop)
 
     def start(self):
