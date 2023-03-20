@@ -63,7 +63,7 @@ def build_publish():
     run(f'{RES_HACKER} -script {PROJECT_DIR}\\Godot\\replace_icon.txt')
     
     # zip python312.zip
-    make_python_zip()
+    archive_python()
 
     # 这步不需要了, zipdir 的时候, 会跳过pyc
     # remove pyc
