@@ -1,14 +1,21 @@
 @tool
 extends EditorPlugin
 
+var dock
+
 func _enter_tree():
 	print('init python plugin')
 	add_tool_menu_item("Exec Python", self.on_exec_python)
-
-func on_exec_python():
-	print('exec python')
+	
+	dock = preload('res://addons/python_plugin/python_dock.tscn').instantiate()
+	add_control_to_dock(DOCK_SLOT_LEFT_UL, dock)
 
 func _exit_tree():
-	# Clean-up of the plugin goes here.
 	remove_tool_menu_item("Exec Python")
-	pass
+	
+	remove_control_from_docks(dock)
+	dock.free()
+
+func on_exec_python():
+	print('1111111')
+
