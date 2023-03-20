@@ -2493,6 +2493,7 @@ void FPyObject::_ready() {
 			PyErr_Print();
 			break;
 		}
+
 		if (!PyCallable_Check(p_class_info)) {
 			break;
 		}
@@ -2570,11 +2571,51 @@ void FPyObject::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_python_class"), &FPyObject::get_python_class);
 	ADD_PROPERTY(PropertyInfo(Variant::STRING, "python_class"), "set_python_class", "get_python_class");
 
-	ClassDB::bind_static_method("PyLib", D_METHOD("call_python_func", "module", "func"), &FPyObject::call_python_func);
+	ClassDB::bind_static_method("FPyObject", D_METHOD("call_python_func", "module", "func"), &FPyObject::call_python_func);
 }
 
 void FPyObject::call_python_func(const String &module, const String &func) {
-	print_line(vformat("call python func: %s.%s"), module, func);
+	print_line(vformat("call python func: %s.%s", module, func));
+
+	do
+	{
+		PyObject *p_path = PyUnicode_FromString(module.utf8().get_data());
+		auto p_module = PyImport_Import(p_path);
+		if (p_module) {
+			break;
+		}
+		GP_DECREF(p_path);
+
+		auto dict = PyModule_GetDict(p_module);
+		if (!dict) {
+			GP_DECREF(p_module);
+			PyErr_Print();
+			break;
+		}
+		GP_DECREF(p_module);
+
+		auto p_func = PyDict_GetItemString(dict, func.utf8().get_data());
+		if (!p_func) {
+			PyErr_Print();
+			break;
+		}
+
+		if (!PyCallable_Check(p_func)) {
+			break;
+		}
+
+		//auto args = PyTuple_New(0);
+		auto ret = PyObject_CallObject(p_func, NULL);
+		//GP_DECREF(args);
+
+		if (!ret) {
+			PyErr_Print();
+			break;
+		}
+		GP_DECREF(ret);
+		 
+	} while (0);
+	
 }
 
 
