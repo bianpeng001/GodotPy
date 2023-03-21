@@ -319,8 +319,8 @@ class OS:
         return gp.get_delta_time()
 
     @classmethod
-    def set_window_rect(cls, x, y,width,height):
-        gp.set_window_rect(x,y,width,height,)
+    def set_window_rect(cls, x,y,width,height):
+        gp.set_window_rect(x,y,width,height)
 
     @classmethod
     def get_window_size(cls):

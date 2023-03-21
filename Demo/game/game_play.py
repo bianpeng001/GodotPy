@@ -98,8 +98,9 @@ class GamePlay:
         test_wait_1()
 
         # load cursor
-        cursor = OS.load_resource('res://Cursor.png')
-        OS.set_custom_mouse_cursor(cursor, 0, 1, 1)
+        if not OS.is_editor_hint():
+            cursor = OS.load_resource('res://Cursor.png')
+            OS.set_custom_mouse_cursor(cursor, 0, 1, 1)
 
     def on_player_ready(self):
         mp = game_mgr.player_mgr.main_player
