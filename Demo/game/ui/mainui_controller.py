@@ -64,7 +64,7 @@ class MainUIController(UIController, PopupTrait):
 
     def on_map_click(self):
         obj = game_mgr.ui_mgr.map_panel_controller
-        if obj.is_visible:
+        if obj.is_show():
             #obj.defer_close()
             game_mgr.ui_mgr.pop_panel(obj)
         else:
@@ -74,8 +74,7 @@ class MainUIController(UIController, PopupTrait):
 
     def on_setting_click(self):
         obj = game_mgr.ui_mgr.setting_panel_controller
-        if obj.is_visible:
-            #obj.defer_close()
+        if obj.is_show():
             game_mgr.ui_mgr.pop_panel(obj)
         else:
             obj.init()

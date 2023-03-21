@@ -160,7 +160,7 @@ class UIMgr(NodeObject):
     # 下一帧开头关闭
     # 避免本帧直接关闭，出现点穿的现象。如果立即关闭，则会判定为在空地上点了一下
     def defer_close(self, ui_controller):
-        if ui_controller.is_visible:
+        if ui_controller.is_show():
             self.defer_close_queue.append(ui_controller)
 
     # 开始拖拽场景
@@ -176,7 +176,7 @@ class UIMgr(NodeObject):
             return
 
         self.city_menu_controller.defer_close()
-        if self.ground_menu_controller.is_visible:
+        if self.ground_menu_controller.is_show():
             self.ground_menu_controller.defer_close()
         else:
             self.click_unit = None

@@ -164,6 +164,9 @@ class UIController:
         self.is_visible = True
         self.ui_obj.set_visible(True)
 
+    def is_show(self):
+        return self.is_visible
+
     def hide(self):
         self.is_visible = False
         self.ui_obj.set_visible(False)
@@ -173,7 +176,7 @@ class UIController:
 #
 def RequireShow(func):
     def _func(self, *args,**kwargs):
-        if self.is_visible:
+        if self.is_show():
             return func(self, *args, **kwargs)
     
     return _func
