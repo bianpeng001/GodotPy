@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dd4s66q0b1ug8"]
+[gd_scene load_steps=2 format=3 uid="uid://basddi8ojakyp"]
 
-[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_qa4tx"]
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_q2jbi"]
 
-[node name="CityMenu" type="Control"]
+[node name="TroopMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 
@@ -11,12 +11,12 @@ layout_mode = 0
 offset_right = 64.0
 offset_bottom = 90.0
 
-[node name="BtnNeiZheng" type="Button" parent="Panel"]
+[node name="BtnTarget" type="Button" parent="Panel"]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
 offset_right = 62.0
 offset_bottom = 28.0
-theme = ExtResource("1_qa4tx")
+theme = ExtResource("1_q2jbi")
 theme_override_font_sizes/font_size = 16
 text = "内政"

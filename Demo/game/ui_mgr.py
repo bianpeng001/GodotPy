@@ -77,6 +77,10 @@ class UIMgr(NodeObject):
         _, self.ground_menu_controller = self.load_panel(
                 'res://ui/GroundMenu.tscn', GroundMenuController)
 
+        from game.ui.troop_menu_controller import TroopMenuController
+        _, self.troop_menu_controller = self.load_panel(
+                'res://ui/TroopMenu.tscn', TroopMenuController)
+
         from game.ui.nav_panel_controller import NavPanelController
         _, self.nav_panel_controller = self.load_panel(
                 'res://ui/NavPanel.tscn', NavPanelController)
@@ -128,6 +132,12 @@ class UIMgr(NodeObject):
         # load done
         log_debug('ui panels load ok')
 
+        self.menu_list = [
+            self.city_menu_controller,
+            self.ground_menu_controller,
+            self.troop_menu_controller,
+        ]
+
     def load_panel(self, path, cls):
         ui_obj = FNode3D.instantiate(path)
         ui_obj.reparent(self.get_obj())
@@ -163,6 +173,13 @@ class UIMgr(NodeObject):
         if ui_controller.is_show():
             self.defer_close_queue.append(ui_controller)
 
+    def show_menu(self, menu):
+        for item in self.menu_list:
+            if item == menu:
+                item.popup_at_mouse()
+            else:
+                item.defer_close()
+
     # 开始拖拽场景
     def on_begin_drag(self):
         self.city_menu_controller.defer_close()
@@ -175,12 +192,11 @@ class UIMgr(NodeObject):
             log_debug('top panel visible', self.get_top_panel())
             return
 
-        self.city_menu_controller.defer_close()
         if self.ground_menu_controller.is_show():
-            self.ground_menu_controller.defer_close()
+            self.show_menu(None)
         else:
             self.click_unit = None
-            self.ground_menu_controller.popup_at_mouse()
+            self.show_menu(self.ground_menu_controller)
 
     # 点击场景中的单位
     def on_scene_unit_click(self, unit):
@@ -192,16 +208,19 @@ class UIMgr(NodeObject):
         self.context_unit = unit
         #print_line(f'click: {unit.unit_name}')
 
-        self.ground_menu_controller.defer_close()
         if unit.unit_type == UT_CITY:
             if unit.owner_is_main_player():
-                self.city_menu_controller.popup_at_mouse()
+                self.show_menu(self.city_menu_controller)
             else:
                 pass
         elif unit.unit_type == UT_TROOP:
+            if unit.owner_is_main_player():
+                self.show_menu(self.troop_menu_controller)
+            else:
+                pass
             log_debug('troop click', unit.unit_name)
         else:
-            pass
+            self.show_menu(None)
 
     # 界面的入栈出栈,用来恢复上级界面
     def push_panel(self, cur_ui):

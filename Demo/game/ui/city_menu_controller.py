@@ -8,7 +8,9 @@ from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
 from game.event_name import PRESSED
 
+#
 # 城池的上下文菜单的控制器
+#
 class CityMenuController(UIController, PopupTrait):
     def __init__(self):
         pass
@@ -19,6 +21,7 @@ class CityMenuController(UIController, PopupTrait):
         self.ui_obj.find_node('Panel').set_size(64, 30*4)
         btn_neizheng = self.ui_obj.find_node('Panel/BtnNeiZheng')
         btn_neizheng.connect(PRESSED, self.on_neizheng)
+        btn_neizheng.set_position(2, 2)
 
         btn_chuzhan = btn_neizheng.dup()
         btn_chuzhan.set_text('出战')
