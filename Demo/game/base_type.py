@@ -168,6 +168,15 @@ class UIController:
         self.is_visible = False
         self.ui_obj.set_visible(False)
 
+#
+# 本方法在UI可见时才生效, 用于事件响应
+#
+def RequireShow(func):
+    def _func(self, *args,**kwargs):
+        if self.is_visible:
+            return func(self, *args, **kwargs)
+    
+    return _func
 
 # 有上限的值
 class LimitValue:
