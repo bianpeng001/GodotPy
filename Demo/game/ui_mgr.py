@@ -176,14 +176,16 @@ class UIMgr(NodeObject):
     def show_menu(self, menu):
         for item in self.menu_list:
             if item == menu:
-                item.popup_at_mouse()
+                if item.is_visible:
+                    item.defer_close()
+                else:
+                    item.popup_at_mouse()
             else:
                 item.defer_close()
 
     # 开始拖拽场景
     def on_begin_drag(self):
-        self.city_menu_controller.defer_close()
-        self.ground_menu_controller.defer_close()
+        self.show_menu(None)
         self.click_unit = None
 
     # 点击空地
@@ -192,11 +194,7 @@ class UIMgr(NodeObject):
             log_debug('top panel visible', self.get_top_panel())
             return
 
-        if self.ground_menu_controller.is_show():
-            self.show_menu(None)
-        else:
-            self.click_unit = None
-            self.show_menu(self.ground_menu_controller)
+        self.show_menu(self.ground_menu_controller)
 
     # 点击场景中的单位
     def on_scene_unit_click(self, unit):

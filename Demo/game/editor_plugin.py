@@ -8,7 +8,7 @@ log_debug('1111')
 
 
 def say_hello():
-    print('2222222222')
+    log_debug('2222222222')
 
 
     

@@ -65,6 +65,9 @@ class Hero:
         self.hero_id = 0
         self.hero_name = ''
         self.gender = MALE
+        
+        # 主公
+        self.owner_player_id = 0
 
         # 生卒年份
         self.born_year = 0
@@ -95,8 +98,6 @@ class Hero:
         self.city_id = 0
         self.troop_id = 0
 
-        # 主公
-        self.owner_player_id = 0
         
     def get_age(self):
         return game_mgr.game_data.cur_year - self.born_year + 1
