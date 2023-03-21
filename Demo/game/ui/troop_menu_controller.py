@@ -18,24 +18,36 @@ class TroopMenuController(UIController, PopupTrait):
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
-        self.ui_obj.find_node('Panel').set_size(64, 30*3)
+        btn_list = []
+        lbl_list = ['目标','策略','撤退']
+
+        self.ui_obj.find_node('Panel').set_size(64, 30*len(lbl_list))
         btn_target = self.ui_obj.find_node('Panel/BtnTarget')
-        btn_target.connect(PRESSED, self.on_select_target)
-        btn_target.set_text('目标')
-        btn_target.set_position(2, 2)
 
-        btn_2 = btn_target.dup()
-        btn_2.set_position(2, 32)
+        for i in range(len(lbl_list)):
+            if i > 0:
+                btn = btn_target.dup()
+            else:
+                btn = btn_target
+            btn.set_text(lbl_list[i])
+            btn.set_position(2, 2 + i*30)
+            btn_list.append(btn)
 
-        btn_3 = btn_target.dup()
-        btn_3.set_position(2, 62)
+        btn_list[0].connect(PRESSED, self.on_select_target)
+        
+
+    def init(self, troop_unit):
+        self.troop_unit = troop_unit
 
     def on_select_target(self):
         self.defer_close()
 
         dialog = game_mgr.ui_mgr.select_target_controller
         def select_cb():
-            log_debug('target', dialog.target_unit_id, dialog.target_pos)
+            #log_debug('target', dialog.target_unit_id, dialog.target_pos)
+            self.troop_unit.target_unit_id = dialog.target_unit_id
+            self.troop_unit.target_pos = dialog.target_pos
+            self.troop_unit.get_controller().reset_ai()
 
         dialog.init_dialog(select_cb)
         dialog.push_panel()

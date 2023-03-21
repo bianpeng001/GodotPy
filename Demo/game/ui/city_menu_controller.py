@@ -18,25 +18,29 @@ class CityMenuController(UIController, PopupTrait):
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
-        self.ui_obj.find_node('Panel').set_size(64, 30*4)
         btn_neizheng = self.ui_obj.find_node('Panel/BtnNeiZheng')
-        btn_neizheng.connect(PRESSED, self.on_neizheng)
-        btn_neizheng.set_position(2, 2)
 
-        btn_chuzhan = btn_neizheng.dup()
-        btn_chuzhan.set_text('出战')
-        btn_chuzhan.set_position(2, 32)
-        btn_chuzhan.connect(PRESSED, self.on_chuzhan)
+        btn_list = []
+        lbl_list = ['内政','出战','探索','查看']
+        
+        self.ui_obj.find_node('Panel').set_size(64, 30*len(lbl_list))
+        for i in range(len(lbl_list)):
+            if i > 0:
+                btn = btn_neizheng.dup()
+            else:
+                btn = btn_neizheng
+            btn.set_text(lbl_list[i])
+            btn.set_position(2, 2 + i*30)
+            btn_list.append(btn)
+            
 
-        btn_tansuo = btn_neizheng.dup()
-        btn_tansuo.set_text('探索')
-        btn_tansuo.set_position(2, 62)
-        btn_tansuo.connect(PRESSED, self.on_tansuo)
+        btn_list[0].connect(PRESSED, self.on_neizheng)
+        btn_list[1].connect(PRESSED, self.on_chuzhan)
+        btn_list[2].connect(PRESSED, self.on_tansuo)
+        btn_list[3].connect(PRESSED, self.on_chakan)
 
-        btn_chakan = btn_neizheng.dup()
-        btn_chakan.set_text('查看')
-        btn_chakan.set_position(2, 92)
-        btn_chakan.connect(PRESSED, self.on_chakan)
+    def init(self, city_unit):
+        self.city_unit = city_unit
 
     # 内政
     def on_neizheng(self):
@@ -44,7 +48,7 @@ class CityMenuController(UIController, PopupTrait):
 
         ui_mgr = game_mgr.ui_mgr
 
-        city_unit = ui_mgr.context_unit
+        city_unit = self.city_unit
         log_debug(f'{city_unit.unit_name} neizheng')
 
         ui_mgr.neizheng_controller.init(city_unit)
@@ -57,7 +61,7 @@ class CityMenuController(UIController, PopupTrait):
 
         ui_mgr = game_mgr.ui_mgr
 
-        city_unit = ui_mgr.context_unit
+        city_unit = self.city_unit
         log_debug(f'{city_unit.unit_name} chuzhan')
 
         ui_mgr.chuzhan_panel_controller.init(city_unit)
@@ -68,14 +72,14 @@ class CityMenuController(UIController, PopupTrait):
     def on_tansuo(self):
         self.defer_close()
 
-        city_unit = game_mgr.ui_mgr.context_unit
+        city_unit = self.city_unit
         log_debug(f'{city_unit.unit_name} tansuo')
 
     # 查看
     def on_chakan(self):
         self.defer_close()
 
-        city_unit = game_mgr.ui_mgr.context_unit
+        city_unit = self.city_unit
         log_debug(f'{city_unit.unit_name} chakan')
 
 

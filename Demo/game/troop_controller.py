@@ -2,7 +2,7 @@
 # 2023年2月1日 bianpeng
 #
 
-from game.core import *
+from game.core import log_debug
 from game.game_mgr import *
 from game.base_type import Controller
 from game.troop_ai import *
@@ -16,16 +16,18 @@ class TroopController(Controller):
         super().__init__()
 
         # AI 相关
-        self.ai_tick_time = 0
-        self.blackboard = TroopBlackboard()
-        #self.enter_state(AIState_FindCity())
-        self.enter_state(AIState_TroopStart())
-        
+        self.reset_ai()
         # 位移请求
         self.move_req = None
 
         # 所在的地块
         self.owner_tile = None
+
+    def reset_ai(self):
+        self.ai_tick_time = 0
+        self.blackboard = TroopBlackboard()
+        self.enter_state(AIState_TroopStart())
+
     def on_ai_tick(self, tick_time):
         #unit = game_mgr.unit_mgr.get_unit(self.unit_id)
         #print_line(unit.unit_name)

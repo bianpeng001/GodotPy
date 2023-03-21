@@ -208,11 +208,13 @@ class UIMgr(NodeObject):
 
         if unit.unit_type == UT_CITY:
             if unit.owner_is_main_player():
+                self.city_menu_controller.init(unit)
                 self.show_menu(self.city_menu_controller)
             else:
                 pass
         elif unit.unit_type == UT_TROOP:
             if unit.owner_is_main_player():
+                self.troop_menu_controller.init(unit)
                 self.show_menu(self.troop_menu_controller)
             else:
                 pass
