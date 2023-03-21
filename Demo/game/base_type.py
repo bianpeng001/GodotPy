@@ -14,7 +14,7 @@ class AIMachine:
         # ai state machine
         self.ai_state = None
         # blackboard
-        self.ai_bb = None
+        self.blackboard = None
 
     def enter_state(self, new_state):
         if self.ai_state:
@@ -25,6 +25,9 @@ class AIMachine:
 
         if self.ai_state:
             self.ai_state.enter(self)
+
+    def get_blackboard(self):
+        return self.blackboard
 
 # AI状态之间交流数据的黑板
 class AIBlackboard:
@@ -39,6 +42,9 @@ class AIBlackboard:
 
 # AI状态机的单独状态, 生命周期
 class AIState:
+    def __init__(self):
+        pass
+
     def enter(self, controller):
         pass
 
@@ -46,6 +52,16 @@ class AIState:
         pass
 
     def leave(self, controller):
+        pass
+
+# sequence
+class AISequence(AIState):
+    def __init__(self):
+        pass
+
+# selector
+class AISelector(AIState):
+    def __init__(self):
         pass
 
 #------------------------------------------------------------
@@ -142,9 +158,6 @@ class Controller(AIMachine):
 
     def update(self):
         pass
-
-    def get_blackboard(self):
-        return None
 
     def apply_position(self):
         node = self.get_model_node()

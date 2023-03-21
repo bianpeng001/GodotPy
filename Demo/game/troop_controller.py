@@ -17,7 +17,7 @@ class TroopController(Controller):
 
         # AI 相关
         self.ai_tick_time = 0
-        self.ai_bb = TroopBlackboard()
+        self.blackboard = TroopBlackboard()
         self.enter_state(AIState_FindCity())
         
         # 位移请求
@@ -25,10 +25,6 @@ class TroopController(Controller):
 
         # 所在的地块
         self.owner_tile = None
-
-    def get_blackboard(self):
-        return self.ai_bb
-
     def on_ai_tick(self, tick_time):
         #unit = game_mgr.unit_mgr.get_unit(self.unit_id)
         #print_line(unit.unit_name)

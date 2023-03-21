@@ -145,16 +145,15 @@ class TroopBlackboard(AIBlackboard):
     def get_state_time(self):
         return game_mgr.sec_time - self.state_start_time
 
+#----------------------------------------------------------------------------
+#
+#----------------------------------------------------------------------------
+
 # troop的state的基类，在enter里面记录开始时间
 class AIState_Troop(AIState):
     def enter(self, controller):
-        bb = controller.get_blackboard()
-        bb.state_start_time = game_mgr.sec_time
-
-        self.do_enter(controller, bb)
-
-    def do_enter(self, controller, bb):
-        pass
+        blackboard = controller.get_blackboard()
+        blackboard.state_start_time = game_mgr.sec_time
 
 # 寻找一个目标城池
 class AIState_FindCity(AIState_Troop):
@@ -179,15 +178,17 @@ class AIState_FindCity(AIState_Troop):
         city = self.find_enemy_city(controller,col,row)
         if city:
             log_util.debug(f'find emeny: {controller.unit_id} -> {city.unit_name}')
-            controller.ai_bb.target_unit_id = city.unit_id
+            controller.get_blackboard().target_unit_id = city.unit_id
             controller.enter_state(AIState_MarchToCity())
         else:
             controller.enter_state(AIState_TroopDie())
 
 # 行军, 先寻路，然后监控周围的敌人
 class AIState_MarchToCity(AIState_Troop):
-    def do_enter(self, controller, bb):
-        city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
+    def enter(self, controller):
+        super().enter(controller)
+
+        city = game_mgr.unit_mgr.get_unit(controller.get_blackboard().target_unit_id)
         troop = controller.get_unit()
        
         req = ArcMoveReq()
@@ -203,13 +204,15 @@ class AIState_MarchToCity(AIState_Troop):
         if not controller.move_req.is_move:
             controller.enter_state(AIState_AttackCity())
 
-        bb = controller.get_blackboard()
-        city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
+        blackboard = controller.get_blackboard()
+        city = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
         controller.look_at_unit(city)
 
 # 解散
 class AIState_TroopDie(AIState_Troop):
-    def do_enter(self, controller, bb):
+    def enter(self, controller):
+        super().enter(controller)
+
         log_util.debug(f'kill {controller.unit_id}')
         controller.kill()
 
@@ -224,20 +227,20 @@ class AIState_Idle(AIState_Troop):
 #------------------------------------------------------------
 class AIState_AttackCity(AIState_Troop):
     def update(self, controller):
-        bb = controller.get_blackboard()
+        blackboard = controller.get_blackboard()
 
         # 射箭
-        if not bb.shoot_effect:
+        if not blackboard.shoot_effect:
             path = 'res://effects/Shoot01.tscn'
-            bb.shoot_effect = FNode3D.instantiate(path)
-            bb.shoot_effect.reparent(controller.get_model_node())
-            bb.shoot_effect.set_position(0, 0, 0)
-            bb.shoot_effect.set_rotation(0, 0, 0)
+            blackboard.shoot_effect = FNode3D.instantiate(path)
+            blackboard.shoot_effect.reparent(controller.get_model_node())
+            blackboard.shoot_effect.set_position(0, 0, 0)
+            blackboard.shoot_effect.set_rotation(0, 0, 0)
 
         # 左右横移
         if not controller.move_req or \
                 not controller.move_req.is_move:
-            city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
+            city = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
             troop = controller.get_unit()
 
             req = LeftRightMoveReq()
@@ -251,11 +254,11 @@ class AIState_AttackCity(AIState_Troop):
         # 是否可以解散了
         troop_dismiss = False
 
-        if game_mgr.sec_time - bb.attack_time > 2.4:
-            bb.attack_time = game_mgr.sec_time
+        if game_mgr.sec_time - blackboard.attack_time > 2.4:
+            blackboard.attack_time = game_mgr.sec_time
 
             troop = controller.get_unit()
-            city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
+            city = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
 
             game_mgr.effect_mgr.play_effect1(
                 *troop.get_position(),
@@ -266,11 +269,24 @@ class AIState_AttackCity(AIState_Troop):
                 troop_dismiss = True
 
         # 超时直接结束战斗
-        if bb.get_state_time() > 50:
+        if blackboard.get_state_time() > 50:
             troop_dismiss = True
 
         # 队伍可以解散
         if troop_dismiss:
             controller.enter_state(AIState_TroopDie())
 
+#
+class AIState_TroopRoot(AIState_Troop):
+    def enter(self, controller):
+        super().enter(controller)
+
+        unit = controller.get_unit()
+        blackboard = controller.get_blackboard()
+
+        if unit.target_unit_id > 0:
+            blackboard.target_unit_id = unit.target_unit_id
+        else:
+            pass
+        pass
 
