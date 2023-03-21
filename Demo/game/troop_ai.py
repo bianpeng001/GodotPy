@@ -180,9 +180,9 @@ class AIState_FindCity(AIState_Troop):
         if city:
             log_util.debug(f'find emeny: {controller.unit_id} -> {city.unit_name}')
             controller.ai_bb.target_unit_id = city.unit_id
-            controller.ai_enter_state(AIState_MarchToCity())
+            controller.enter_state(AIState_MarchToCity())
         else:
-            controller.ai_enter_state(AIState_TroopDie())
+            controller.enter_state(AIState_TroopDie())
 
 # 行军, 先寻路，然后监控周围的敌人
 class AIState_MarchToCity(AIState_Troop):
@@ -201,7 +201,7 @@ class AIState_MarchToCity(AIState_Troop):
         #print_line(f'enter state: {controller.unit_id}')
     def update(self, controller):
         if not controller.move_req.is_move:
-            controller.ai_enter_state(AIState_AttackCity())
+            controller.enter_state(AIState_AttackCity())
 
         bb = controller.get_blackboard()
         city = game_mgr.unit_mgr.get_unit(bb.target_unit_id)
@@ -271,6 +271,6 @@ class AIState_AttackCity(AIState_Troop):
 
         # 队伍可以解散
         if troop_dismiss:
-            controller.ai_enter_state(AIState_TroopDie())
+            controller.enter_state(AIState_TroopDie())
 
 

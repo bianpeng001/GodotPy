@@ -16,7 +16,7 @@ class AIMachine:
         # blackboard
         self.ai_bb = None
 
-    def ai_enter_state(self, new_state):
+    def enter_state(self, new_state):
         if self.ai_state:
             self.ai_state.leave(self)
             self.ai_state = None
@@ -118,7 +118,7 @@ class Unit:
 # 角色单位的控制器
 class Controller(AIMachine):
     def __init__(self):
-        super().__init__()
+        AIMachine.__init__(self)
         
         self._unit = None
 

@@ -18,7 +18,7 @@ class TroopController(Controller):
         # AI 相关
         self.ai_tick_time = 0
         self.ai_bb = TroopBlackboard()
-        self.ai_enter_state(AIState_FindCity())
+        self.enter_state(AIState_FindCity())
         
         # 位移请求
         self.move_req = None
