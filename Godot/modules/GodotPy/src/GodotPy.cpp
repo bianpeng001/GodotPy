@@ -2581,7 +2581,7 @@ void FPyObject::call_python_func(const String &module, const String &func) {
 	{
 		PyObject *p_path = PyUnicode_FromString(module.utf8().get_data());
 		auto p_module = PyImport_Import(p_path);
-		if (p_module) {
+		if (!p_module) {
 			break;
 		}
 		GP_DECREF(p_path);

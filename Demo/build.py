@@ -125,7 +125,7 @@ def build_python():
 def build_pck():
     run(f'{EDITOR} -w --path "{DEMO_DIR}" --export-pack "Windows Desktop" {BUILD_DIR}\\Demo.pck')
 
-def build_player():
+def build_player_release():
     run(f'{SCONS_EXE} p=windows tools=no bits=64 -j{THREADS} target=template_release')
 
 if __name__ == '__main__':
@@ -139,9 +139,9 @@ if __name__ == '__main__':
         'play_editor_debug' : play_editor_debug,
 
         # 分步骤
-        'package' : build_pck,
-        'player' : build_player,
         'python' : build_python,
+        'player_release' : build_player_release,
+        'package' : build_pck,
         'archive_python' : archive_python,
         'archive_demo' : archive_demo,
     }

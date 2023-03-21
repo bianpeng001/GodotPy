@@ -18,10 +18,9 @@ func click():
 	
 func _exit_tree():
 	remove_tool_menu_item("Exec Python")
-	
 	remove_control_from_docks(dock)
 	dock.free()
 
 func on_exec_python():
-	print('1111111')
+	print('on_exec_python')
 
