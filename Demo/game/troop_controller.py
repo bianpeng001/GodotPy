@@ -18,7 +18,8 @@ class TroopController(Controller):
         # AI 相关
         self.ai_tick_time = 0
         self.blackboard = TroopBlackboard()
-        self.enter_state(AIState_FindCity())
+        #self.enter_state(AIState_FindCity())
+        self.enter_state(AIState_TroopStart())
         
         # 位移请求
         self.move_req = None
@@ -38,7 +39,7 @@ class TroopController(Controller):
 
     def update_move(self):
         req = self.move_req
-        if req and req.is_move:
+        if req and not req.is_done():
             troop = self.get_unit()
             req.update(troop, game_mgr.delta_time)
 
@@ -95,4 +96,6 @@ class TroopController(Controller):
         if self.owner_tile:
             self.owner_tile.remove_unit(self.get_unit())
         self.get_unit().set_dead()
+
+
 

@@ -10,7 +10,7 @@ from game.ground_mgr import pos_to_colrow
 # 移动方式
 class BaseMoveReq:
     def __init__(self):
-        self.is_move = True
+        self._done = False
 
         self.start = None
         self.stop = None
@@ -18,6 +18,12 @@ class BaseMoveReq:
 
         self.progress = 0
         self.time_to_progress = 1
+
+    def complete(self):
+        self._done = True
+
+    def is_done(self):
+        return self._done
 
 # 直线
 class LineMoveReq(BaseMoveReq):
@@ -32,13 +38,11 @@ class LineMoveReq(BaseMoveReq):
         mag = self.delta.magnitude()
         mag1 = mag - 6
         if mag1 < 0:
-            self.is_move = False
+            self.complete()
             return
 
         self.delta = self.delta * (mag1 / mag)
         self.time_to_progress = speed / mag1
-
-        self.is_move = True
 
 
 # 模拟弧线
@@ -48,23 +52,22 @@ class ArcMoveReq(BaseMoveReq):
         
         self.right = None
 
-    def setup(self,x0,y0,z0,x1,y1,z1, speed):
+    def setup(self,x0,y0,z0,x1,y1,z1, speed,radius):
         self.start = Vector3(x0,y0,z0)
         self.stop = Vector3(x1,y1,z1)
         self.delta = self.stop - self.start
 
         mag = self.delta.magnitude()
-        mag1 = mag - 6
+        # 减掉双方半径
+        mag1 = mag - radius
         if mag1 < 0:
-            self.is_move = False
+            self.complete()
             return
 
         duration = mag1 / speed
         self.delta = self.delta * (mag1 / mag)
         self.time_to_progress = 1.0 / duration
         self.right = self.delta.cross(Vector3.up).normalized() * 2
-
-        self.is_move = True
 
     def update(self, troop, delta_time):
         self.progress += delta_time * self.time_to_progress
@@ -80,7 +83,6 @@ class ArcMoveReq(BaseMoveReq):
         else:
             p = self.start + self.delta
             troop.set_position(p.x,p.y,p.z)
-            self.is_move = False
 
 
 # 左右移动
@@ -108,7 +110,6 @@ class LeftRightMoveReq(BaseMoveReq):
         self.speed = speed
         self.reset(v0)
         self.target = v1
-        self.is_move = True
 
     def reset(self, v0):
         self.stop_index = (self.stop_index + 1) % 2
@@ -154,6 +155,10 @@ class AIState_Troop(AIState):
     def enter(self, controller):
         blackboard = controller.get_blackboard()
         blackboard.state_start_time = game_mgr.sec_time
+        self.do_enter(controller)
+
+    def do_enter(self, controller):
+        pass
 
 # 寻找一个目标城池
 class AIState_FindCity(AIState_Troop):
@@ -185,23 +190,23 @@ class AIState_FindCity(AIState_Troop):
 
 # 行军, 先寻路，然后监控周围的敌人
 class AIState_MarchToCity(AIState_Troop):
-    def enter(self, controller):
-        super().enter(controller)
+    def do_enter(self, controller):
+        blackboard = controller.get_blackboard()
 
-        city = game_mgr.unit_mgr.get_unit(controller.get_blackboard().target_unit_id)
+        city = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
         troop = controller.get_unit()
        
         req = ArcMoveReq()
         req.setup(*troop.get_position(),
             *city.get_position(),
-            troop.speed)
+            troop.speed, city.radius + troop.radius)
 
         controller.move_req = req
         controller.look_at_unit(city)
 
         #print_line(f'enter state: {controller.unit_id}')
     def update(self, controller):
-        if not controller.move_req.is_move:
+        if controller.move_req.is_done():
             controller.enter_state(AIState_AttackCity())
 
         blackboard = controller.get_blackboard()
@@ -210,17 +215,16 @@ class AIState_MarchToCity(AIState_Troop):
 
 # 解散
 class AIState_TroopDie(AIState_Troop):
-    def enter(self, controller):
-        super().enter(controller)
-
+    def do_enter(self, controller):
         log_util.debug(f'kill {controller.unit_id}')
         controller.kill()
 
 # 空闲
 class AIState_Idle(AIState_Troop):
     def update(self, controller):
-        if random_max(100) < 10:
-            log_util.debug(f'idle {controller.unit_id}')
+        if random_100() < 10:
+            log_util.debug(f'idle {controller.get_unit().unit_name}')
+        
 
 #------------------------------------------------------------
 # 攻城战
@@ -239,7 +243,7 @@ class AIState_AttackCity(AIState_Troop):
 
         # 左右横移
         if not controller.move_req or \
-                not controller.move_req.is_move:
+                controller.move_req.is_done():
             city = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
             troop = controller.get_unit()
 
@@ -277,16 +281,40 @@ class AIState_AttackCity(AIState_Troop):
             controller.enter_state(AIState_TroopDie())
 
 #
-class AIState_TroopRoot(AIState_Troop):
-    def enter(self, controller):
-        super().enter(controller)
-
-        unit = controller.get_unit()
+class AIState_MarchToPos(AIState_Troop):
+    def do_enter(self, controller):
+        troop = controller.get_unit()
         blackboard = controller.get_blackboard()
 
-        if unit.target_unit_id > 0:
-            blackboard.target_unit_id = unit.target_unit_id
+        x,z = blackboard.target_pos
+
+        req = ArcMoveReq()
+        req.setup(*troop.get_position(),
+            x,0,z,
+            troop.speed, 0)
+        controller.move_req = req
+        controller.look_at(x,0,z)
+
+    def update(self, controller):
+        if controller.move_req.is_done():
+            controller.enter_state(AIState_Idle())
         else:
+            #blackboard = controller.get_blackboard()
+            #x,z = blackboard.target_pos
+            #controller.look_at(x,0,z)
             pass
-        pass
+
+# 起始,根据目标的设置,进行跳转
+class AIState_TroopStart(AIState_Troop):
+    def update(self, controller):
+        troop = controller.get_unit()
+        blackboard = controller.get_blackboard()
+
+        if troop.target_unit_id > 0:
+            blackboard.target_unit_id = troop.target_unit_id
+            controller.enter_state(AIState_MarchToCity())
+        else:
+            blackboard.target_pos = troop.target_pos
+            controller.enter_state(AIState_MarchToPos())
+        
 
