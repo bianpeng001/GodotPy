@@ -14,6 +14,7 @@
 #include "core/os/os.h"
 #include "core/os/memory.h"
 #include "core/os/time.h"
+#include "core/input/input.h"
 #include "core/math/plane.h"
 
 #include "main/performance.h"
@@ -709,6 +710,21 @@ static PyObject *f_get_scene_root(PyObject *module, PyObject *args) {
 static PyObject *f_is_editor_hint(PyObject *module, PyObject *args) {
 	auto value = Engine::get_singleton()->is_editor_hint();
 	return PyBool_FromLong(value);
+}
+static PyObject *f_set_custom_mouse_cursor(PyObject *module, PyObject *args) {
+	do {
+		PyObject *p_cursor;
+		int shape, x, y;
+		if (!PyArg_ParseTuple(args, "Oiii", &p_cursor,&shape,&x,&y)) {
+			break;
+		}
+		auto p_res = GetResCapsule(p_cursor);
+		const auto input = Input::get_singleton();
+		input->set_custom_mouse_cursor(p_res->res, (Input::CursorShape)shape, Vector2(x,y));
+
+	} while (0);
+
+	Py_RETURN_NONE;
 }
 static PyObject *f_set_process_input(PyObject *module, PyObject *args) {
 	PyObject *a_obj;
@@ -2175,6 +2191,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "viewport_get_size", f_viewport_get_size, METH_VARARGS, NULL },
 	{ "get_scene_root", f_get_scene_root, METH_VARARGS, NULL },
 	{ "is_editor_hint", f_is_editor_hint, METH_VARARGS, NULL },
+	{ "set_custom_mouse_cursor", f_set_custom_mouse_cursor, METH_VARARGS, NULL },
 
 	// node
 	{ "set_process", f_set_process, METH_VARARGS, NULL },
@@ -2191,6 +2208,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "node_dup", f_node_dup, METH_VARARGS, NULL },
 
 	{ "connect", f_connect, METH_VARARGS, NULL },
+	
 	
 	// node3d
 	{ "set_position", f_set_position, METH_VARARGS, NULL },

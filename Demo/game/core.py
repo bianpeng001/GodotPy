@@ -343,6 +343,15 @@ class OS:
     @classmethod
     def is_editor_hint(cls):
         return gp.is_editor_hint()
+
+    @classmethod
+    def set_custom_mouse_cursor(cls, cursor,shape,x,y):
+        gp.set_custom_mouse_cursor(cursor,shape,x,y)
+
+    @classmethod
+    def load_resource(cls, path):
+        return gp.load_resource(path)
+
 #
 class Debug:
     @classmethod
@@ -493,11 +502,6 @@ class FNode3D(FNode):
     def instantiate(cls, path):
         gdobj = gp.instantiate(path)
         return GetWrappedObject(gdobj)
-
-class FResource:
-    @classmethod
-    def load_resource(cls, path):
-        return gp.load_resource(path)
 
 class FCamera3D(FNode3D):
     def screen_to_world(self, x,y):

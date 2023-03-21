@@ -97,6 +97,10 @@ class GamePlay:
         game_mgr.co_mgr.start(co_bind_to_base_city())
         test_wait_1()
 
+        # load cursor
+        cursor = OS.load_resource('res://Cursor.png')
+        OS.set_custom_mouse_cursor(cursor, 0, 1, 1)
+
     def on_player_ready(self):
         mp = game_mgr.player_mgr.main_player
         log_util.debug('on_player_ready', game_mgr.camera_mgr.center)
