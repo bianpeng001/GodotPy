@@ -43,6 +43,7 @@ class TroopController(Controller):
         req = self.move_req
         if req and not req.is_done():
             troop = self.get_unit()
+            # 位置朝向
             req.update(troop, game_mgr.delta_time)
 
             # 位置变更之后,刷新tile归属
@@ -51,6 +52,7 @@ class TroopController(Controller):
             if self.owner_tile != tile:
                 if self.owner_tile:
                     self.owner_tile.remove_unit(troop)
+                    self.owner_tile = None
 
                 self.owner_tile = tile
                 self.owner_tile.add_unit(troop)
@@ -89,6 +91,10 @@ class TroopController(Controller):
         node = self.get_model_node()
         if node:
             node.look_at(x,y,z)
+
+    def get_forward(self):
+        node = self.get_model_node()
+        return node.get_forward()
 
     def look_at_unit(self, unit):
         x,y,z = unit.get_position()

@@ -69,6 +69,8 @@ class ArcMoveReq(BaseMoveReq):
         self.time_to_progress = 1.0 / duration
         self.right = self.delta.cross(Vector3.up).normalized() * 2
 
+        self.rotate_time = -1
+
     def update(self, troop, delta_time):
         self.progress += delta_time * self.time_to_progress
         if self.progress < 1.0:
@@ -84,6 +86,19 @@ class ArcMoveReq(BaseMoveReq):
             p = self.start + self.delta
             troop.set_position(p.x,p.y,p.z)
 
+        # rotate
+        if self.rotate_time < 0:
+            self.rotate_time = 0
+            a,b,c=troop.model_node.get_forward()
+            self.rot_v0 = Vector3(a,b,-c)*self.delta.magnitude() +\
+                    self.start
+        if self.rotate_time < 2:
+            self.rotate_time += delta_time
+            v0 = self.rot_v0
+            v1 = self.stop
+            v2 = v0 + (v1 - v0) * (self.rotate_time / 2)
+            troop.get_controller().look_at(v2.x,v2.y,v2.z)
+            log_debug(self.rotate_time, v2.x,v2.z)
 
 # 左右移动
 class LeftRightMoveReq(BaseMoveReq):
@@ -286,22 +301,19 @@ class AIState_MarchToPos(AIState_Troop):
         troop = controller.get_unit()
         blackboard = controller.get_blackboard()
 
+        x0,y0,z0 = troop.get_position()
         x,z = blackboard.target_pos
 
         req = ArcMoveReq()
-        req.setup(*troop.get_position(),
+        req.setup(x0,y0,z0,
             x,0,z,
             troop.speed, 0)
         controller.move_req = req
-        controller.look_at(x,0,z)
 
     def update(self, controller):
         if controller.move_req.is_done():
             controller.enter_state(AIState_Idle())
         else:
-            #blackboard = controller.get_blackboard()
-            #x,z = blackboard.target_pos
-            #controller.look_at(x,0,z)
             pass
 
 # 起始,根据目标的设置,进行跳转

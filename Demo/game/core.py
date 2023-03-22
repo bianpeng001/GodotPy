@@ -49,11 +49,23 @@ class Ray:
     def get_point(self, d):
         return self.x0+self.n_x*d, self.y0+self.n_y*d, self.z0+self.n_z*d
 
+class Vector4:
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+        self.z = 0
+        self.w = 0
+
 # 四元组
 class Quaternion:
     def __init__(self):
         self.s = 0
         self.v = Vector3(1, 0, 0)
+
+    def mul_vector(self, x,y,z):
+        v = Vector4()
+        # TODO:
+        return v
 
 # 向量
 class Vector3:
@@ -497,6 +509,9 @@ class FNode3D(FNode):
 
     def set_visible(self, value):
         gp.node3d_set_visible(self.get_gdobj(), value)
+
+    def get_forward(self):
+        return gp.get_forward(self.get_gdobj())
 
     @classmethod
     def instantiate(cls, path):
