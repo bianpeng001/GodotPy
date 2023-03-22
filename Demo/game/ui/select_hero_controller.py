@@ -19,8 +19,6 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
         self.item_list = []
         self.select_callback = None
 
-        self.city_id = 0
-
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
         self.bind_ok_cancel_close()
@@ -32,9 +30,7 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
         self.city_unit = city_unit
         self.select_callback = select_callback
 
-        if self.city_id != city_unit.unit_id:
-            self.city_id = city_unit.unit_id
-            self.init_hero_list()
+        self.init_hero_list()
         self.set_position(250, 134)
 
     def on_ok_click(self):

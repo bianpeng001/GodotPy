@@ -7,6 +7,7 @@ import math
 from game.core import *
 from game.game_mgr import *
 from game.base_type import UIController
+from game.hero_mgr import *
 from game.ui.ui_traits import *
 from game.event_name import GUI_INPUT, PRESSED, VALUE_CHANGED, TAB_CHANGED
 
@@ -311,6 +312,15 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             dlg = random_select_item(game_mgr.config_mgr.neizheng_strap_dialog_list)
             msg = f'{hero.hero_name}: {dlg}'
             self.popup_dialog(msg, 1.5)
+
+        def set_action(hero_id):
+            game_mgr.hero_mgr.set_hero_action(hero_id, ACT_NEIZHENG)
+
+        set_action(self.satrap)
+        set_action(self.order_incharge)
+        set_action(self.farmer_incharge)
+        set_action(self.trader_incharge)
+        set_action(self.fax_incharge)
 
         # 数据回写
         self.city_unit.satrap = self.satrap

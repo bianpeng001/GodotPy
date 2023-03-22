@@ -5,6 +5,7 @@
 from game.core import *
 from game.game_mgr import *
 from game.base_type import UIController, HeroSlot
+from game.hero_mgr import *
 from game.ui.ui_traits import PopupTrait
 from game.event_name import PRESSED,VALUE_CHANGED,ITEM_SELECTED,GUI_INPUT
 
@@ -38,6 +39,9 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.pos1 = (0, 0)
 
         self.army_amount = 0
+
+        self.target_unit_id = 0
+        self.target_pos = (0,0)
 
     # 是否选中状态
     def is_selected(self, hero_id):
@@ -216,6 +220,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
                 new_hero_item.hero_id = hero_item.hero_id
                 new_hero_item.pos_index = hero_item.pos_index
                 hero_list.append(new_hero_item)
+                game_mgr.hero_mgr.set_hero_action(hero_item.hero_id, ACT_CHUZHAN)
 
             army_amount = min(self.army_amount, self.city_unit.army_amount.value)
             self.city_unit.army_amount.value -= army_amount

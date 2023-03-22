@@ -94,6 +94,8 @@ class HeroListTrait:
 
         for hero_id in hero_list:
             hero = game_mgr.hero_mgr.get_hero(hero_id)
+            if hero.activity != 0:
+                continue
 
             new_item = item_node.dup()
             new_item.set_visible(True)

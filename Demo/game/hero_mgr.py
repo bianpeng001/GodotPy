@@ -56,6 +56,18 @@ JK_HEALTH = 0
 JK_INJURED = 1
 JK_DEAD = 2
 
+
+# 活动
+
+# 空闲
+ACT_IDLE = 0
+# 内政
+ACT_NEIZHENG = 1
+# 出战
+ACT_CHUZHAN = 2
+# 受伤
+ACT_SHOUSHANG = 3
+
 #
 # 英雄(逻辑单位，没有实体)
 # TODO: 还要搞一个3D的捏脸数据，用来区分一下形象
@@ -89,8 +101,11 @@ class Hero:
 
         # 老病残孕
         self.health = JK_HEALTH
+
+        # 这个要用来做控制了,不能同时做两件事情
         # 军队，内政(政,农,商..)，空闲
         self.activity = 0
+
         # 行动力
         self.action_points = 80
 
@@ -180,13 +195,17 @@ class HeroMgr:
     def get_hero(self, hero_id):
         return self.hero_dict.get(hero_id, None)
 
+    def set_hero_action(self, hero_id, action):
+        if hero_id != 0:
+            hero = self.get_hero(hero_id)
+            hero.activity = action
+
 if __name__ == '__main__':
     import json
 
     def encode_hero(obj):
         if isinstance(obj, Hero):
-            return (obj.hero_id, obj.hero_name, obj.gender,
-                obj.born_year)
+            return (obj.hero_id, obj.hero_name, obj.gender, obj.born_year)
         else:
             return obj
 
