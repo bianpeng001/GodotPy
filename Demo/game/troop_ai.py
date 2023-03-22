@@ -7,6 +7,10 @@ from game.base_type import *
 from game.game_mgr import *
 from game.ground_mgr import pos_to_colrow
 
+#----------------------------------------------------------------------------
+#
+#----------------------------------------------------------------------------
+
 # 移动方式
 class BaseMoveReq:
     def __init__(self):
@@ -84,10 +88,10 @@ class ArcMoveReq(BaseMoveReq):
             p = self.start + \
                 self.delta * self.progress
             p += self.right * y
-            troop.set_position(p.x,p.y,p.z)
         else:
             p = self.start + self.delta
-            troop.set_position(p.x,p.y,p.z)
+            self.complete()
+        troop.set_position(p.x,p.y,p.z)
 
         # rotate
         if self.rot_time < 0.5:
@@ -158,7 +162,7 @@ class TroopBlackboard(AIBlackboard):
         return game_mgr.sec_time - self.state_start_time
 
 #----------------------------------------------------------------------------
-#
+# AI State
 #----------------------------------------------------------------------------
 
 # troop的state的基类，在enter里面记录开始时间
@@ -237,9 +241,9 @@ class AIState_Idle(AIState_Troop):
             log_util.debug(f'idle {controller.get_unit().unit_name}')
         
 
-#------------------------------------------------------------
+#--------------------------------------------------------------------------------
 # 攻城战
-#------------------------------------------------------------
+#--------------------------------------------------------------------------------
 class AIState_AttackCity(AIState_Troop):
     def update(self, controller):
         blackboard = controller.get_blackboard()

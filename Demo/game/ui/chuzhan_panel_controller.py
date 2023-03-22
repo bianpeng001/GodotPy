@@ -149,7 +149,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
     def init(self, city_unit):
         self.city_unit = city_unit
 
-        self.max_army_amount = min(1000, city_unit.army_amount.get_value())
+        self.max_army_amount = min(1000, self.city_unit.army_amount.get_value())
         self.army_amount = self.max_army_amount
         self.slider_army_mass.set_value(100)
         self.on_slider_army_mass_changed(100)

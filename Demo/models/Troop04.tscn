@@ -9,7 +9,6 @@
 [node name="Troop04" type="Node3D"]
 
 [node name="Dust02" parent="." instance=ExtResource("1_du4ct")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.990564)
 
 [node name="Arrow" type="MeshInstance3D" parent="."]
 visible = false
