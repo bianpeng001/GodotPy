@@ -69,36 +69,37 @@ class ArcMoveReq(BaseMoveReq):
         self.time_to_progress = 1.0 / duration
         self.right = self.delta.cross(Vector3.up).normalized() * 2
 
-        self.rotate_time = -1
+        self.rot_time = -1
 
     def update(self, troop, delta_time):
         self.progress += delta_time * self.time_to_progress
         if self.progress < 1.0:
             x = 2*self.progress - 1
-            #y = math.sqrt(1 - x*x)
             y = 1 - x*x
 
             p = self.start + \
-                self.delta * self.progress + \
-                self.right * y
+                self.delta * self.progress
+            p += self.right * y
             troop.set_position(p.x,p.y,p.z)
         else:
             p = self.start + self.delta
             troop.set_position(p.x,p.y,p.z)
 
         # rotate
-        if self.rotate_time < 0:
-            self.rotate_time = 0
-            a,b,c=troop.model_node.get_forward()
-            self.rot_v0 = Vector3(a,b,-c)*self.delta.magnitude() +\
-                    self.start
-        if self.rotate_time < 2:
-            self.rotate_time += delta_time
+        if self.rot_time < 0:
+            #troop.get_controller().look_at(self.stop.x,self.stop.y,self.stop.z)
+            self.rot_time = 0
+            x,y,z=troop.model_node.get_forward()
+            #log_debug(x,y,z)
+            self.rot_v0 = Vector3(x,y,z)*self.delta.magnitude() + self.start
+        
+        if self.rot_time < 0.5:
+            self.rot_time += delta_time
             v0 = self.rot_v0
             v1 = self.stop
-            v2 = v0 + (v1 - v0) * (self.rotate_time / 2)
+            v2 = v0 + (v1 - v0) * (self.rot_time / 0.5)
             troop.get_controller().look_at(v2.x,v2.y,v2.z)
-            log_debug(self.rotate_time, v2.x,v2.z)
+            
 
 # 左右移动
 class LeftRightMoveReq(BaseMoveReq):
@@ -309,6 +310,7 @@ class AIState_MarchToPos(AIState_Troop):
             x,0,z,
             troop.speed, 0)
         controller.move_req = req
+        #controller.look_at(x,0,z)
 
     def update(self, controller):
         if controller.move_req.is_done():

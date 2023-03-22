@@ -1122,7 +1122,7 @@ static PyObject *f_get_forward(PyObject *module, PyObject *args) {
 		if (!node) {
 			break;
 		}
-		auto p = node->get_global_transform().xform(Vector3(0, 0, 1));
+		auto p = node->get_global_transform().xform(Vector3(0, 0, -1));
 		p -= node->get_position();
 		return Py_BuildValue("(fff)", p.x, p.y, p.z);
 

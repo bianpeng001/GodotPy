@@ -17,7 +17,7 @@ mesh = ExtResource("2_i7a10")
 surface_material_override/0 = ExtResource("3_ftjsq")
 
 [node name="Flag" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = ExtResource("4_4o0p1")
 
 [node name="Soldier5" type="MeshInstance3D" parent="."]
