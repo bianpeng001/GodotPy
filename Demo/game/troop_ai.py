@@ -52,8 +52,8 @@ class ArcMoveReq(BaseMoveReq):
         
         self.right = None
 
-    def setup(self,x0,y0,z0,x1,y1,z1, speed,radius):
-        self.start = Vector3(x0,y0,z0)
+    def setup(self,troop,x1,y1,z1, speed,radius):
+        self.start = Vector3(*troop.get_position())
         self.stop = Vector3(x1,y1,z1)
         self.delta = self.stop - self.start
 
@@ -69,9 +69,13 @@ class ArcMoveReq(BaseMoveReq):
         self.time_to_progress = 1.0 / duration
         self.right = self.delta.cross(Vector3.up).normalized() * 2
 
-        self.rot_time = -1
+        # 转身
+        self.rot_time = 0
+        forward = Vector3(*troop.model_node.get_forward())
+        self.rot_v0 = forward * self.delta.magnitude() + self.start
 
     def update(self, troop, delta_time):
+        # move
         self.progress += delta_time * self.time_to_progress
         if self.progress < 1.0:
             x = 2*self.progress - 1
@@ -86,13 +90,6 @@ class ArcMoveReq(BaseMoveReq):
             troop.set_position(p.x,p.y,p.z)
 
         # rotate
-        if self.rot_time < 0:
-            #troop.get_controller().look_at(self.stop.x,self.stop.y,self.stop.z)
-            self.rot_time = 0
-            x,y,z=troop.model_node.get_forward()
-            #log_debug(x,y,z)
-            self.rot_v0 = Vector3(x,y,z)*self.delta.magnitude() + self.start
-        
         if self.rot_time < 0.5:
             self.rot_time += delta_time
             v0 = self.rot_v0
@@ -104,8 +101,6 @@ class ArcMoveReq(BaseMoveReq):
 # 左右移动
 class LeftRightMoveReq(BaseMoveReq):
     def setup(self, x0,y0,z0, x1,y1,z1, speed):
-        self.is_left = True
-
         v0 = Vector3(x0,y0,z0)
         v1 = Vector3(x1,y1,z1)
         delta = v1 - v0
@@ -132,7 +127,7 @@ class LeftRightMoveReq(BaseMoveReq):
 
         self.start = v0
         self.stop = self.stops[self.stop_index] + \
-                Vector3(random_x()*0.5, 0, random_x()*0.5)
+                Vector3(random_x()*0.5,0,random_x()*0.5)
         self.delta = self.stop - self.start
 
         duration = self.delta.magnitude() / self.speed
@@ -302,11 +297,10 @@ class AIState_MarchToPos(AIState_Troop):
         troop = controller.get_unit()
         blackboard = controller.get_blackboard()
 
-        x0,y0,z0 = troop.get_position()
         x,z = blackboard.target_pos
 
         req = ArcMoveReq()
-        req.setup(x0,y0,z0,
+        req.setup(troop,
             x,0,z,
             troop.speed, 0)
         controller.move_req = req

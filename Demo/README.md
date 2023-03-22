@@ -360,10 +360,13 @@ Godot里面Object和ObjectId，ObjectId应该是一个不会重复的值。如�
 个人感觉,国内搞不定这个模型训练,因为成本还是很高的.然后原始数据缺,中文对图片的描述,要补足这个,估计要100年.大量的志愿者和稳定的资金.
 
 
-
 ### 日志文件
 
 ProjectSetting -> Debug -> File Logging
 
 Log Path: res://logs/godot.log
+
+### c++代码今天分析
+python 有 clang 包, 解析源码.
+
 
