@@ -237,9 +237,9 @@ class AIState_TroopDie(AIState_Troop):
 # 空闲
 class AIState_Idle(AIState_Troop):
     def update(self, controller):
-        if random_100() < 10:
+        if random_100() < 4:
             log_util.debug(f'idle {controller.get_unit().unit_name}')
-        
+            pass
 
 #--------------------------------------------------------------------------------
 # 攻城战
