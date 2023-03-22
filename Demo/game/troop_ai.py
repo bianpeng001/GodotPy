@@ -292,6 +292,8 @@ class AIState_AttackCity(AIState_Troop):
             controller.enter_state(AIState_TroopDie())
 
 #
+# 移动到目标位置, 然后警戒, 现在停在那里即可
+#
 class AIState_MarchToPos(AIState_Troop):
     def do_enter(self, controller):
         troop = controller.get_unit()

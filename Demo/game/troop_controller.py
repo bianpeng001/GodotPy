@@ -80,7 +80,7 @@ class TroopController(Controller):
                     i += 1
                     row = hero_item.pos_index // 3 - 1
                     col = hero_item.pos_index % 3 - 1
-                    obj.set_position(col*1, 0, row*1)
+                    obj.set_position(col*0.8, 0, row*0.8)
 
 
     def update(self):

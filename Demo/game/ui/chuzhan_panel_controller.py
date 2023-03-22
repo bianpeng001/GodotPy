@@ -143,15 +143,16 @@ class ChuZhanPanelController(UIController, PopupTrait):
         dialog.push_panel()
 
     def on_slider_army_mass_changed(self, value):
-        self.army_amount = round(value*0.01*self.max_army_mass)
-        self.lbl_army_mass.set_text(f'{self.army_amount}/{self.max_army_mass}人')
+        self.army_amount = round(value*0.01*self.max_army_amount)
+        self.lbl_army_mass.set_text(f'{self.army_amount}/{self.max_army_amount}人')
 
     def init(self, city_unit):
         self.city_unit = city_unit
 
-        self.max_army_mass = 1000
-        self.army_amount = self.max_army_mass
+        self.max_army_amount = min(1000, city_unit.army_amount.get_value())
+        self.army_amount = self.max_army_amount
         self.slider_army_mass.set_value(100)
+        self.on_slider_army_mass_changed(100)
 
         self.clear_form()
         self.lbl_members.set_text('')
@@ -216,11 +217,14 @@ class ChuZhanPanelController(UIController, PopupTrait):
                 new_hero_item.pos_index = hero_item.pos_index
                 hero_list.append(new_hero_item)
 
+            army_amount = min(self.army_amount, self.city_unit.army_amount.value)
+            self.city_unit.army_amount.value -= army_amount
+
             troop = game_mgr.game_play.create_troop(
                     self.city_unit,
                     hero_list,
                     x,y,z,
-                    self.army_amount,
+                    army_amount,
                     4)
             # 设置目标,策略
             troop.target_unit_id = self.target_unit_id
