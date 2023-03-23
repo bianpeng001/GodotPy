@@ -29,7 +29,7 @@ EDITOR_DEBUG = os.path.join(GODOT_BIN_DIR, 'godot.windows.editor.dev.x86_64.exe'
 DEMO_DIR = os.path.join(PROJECT_DIR, 'Demo')
 BUILD_DIR = os.path.join(PROJECT_DIR, 'Build')
 
-RES_HACKER = f'd:\Tools\ResHacker\ResourceHacker.exe'
+RES_HACKER = f'D:\Tools\ResHacker\ResourceHacker.exe'
 SCONS_EXE = 'scons.exe'
 
 def run(cmd):
@@ -43,8 +43,9 @@ def build_publish():
     # build package
     build_pck()
     # build player
-    build_player()
+    build_player_release()
     
+    # copy files
     file_list = (
         'python.exe',
         'python3.dll',
