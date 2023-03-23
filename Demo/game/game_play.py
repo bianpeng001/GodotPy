@@ -66,12 +66,17 @@ class GamePlay:
         cm = game_mgr.camera_mgr
         cm.update_camera()
 
+        def in_range(x, min, max):
+            return x >= min and x < max
+
         # 默认创建一个空城
         def co_bind_to_base_city():
             while True:
                 city = game_mgr.unit_mgr.find_unit(lambda x:
                         x.unit_type == UT_CITY and \
                         x.unit_id > 10020 and \
+                        in_range(x.get_x(), -300, 300) and \
+                        in_range(x.get_z(), -300, 300) and \
                         x.owner_player_id == 0)
                 if city:
                     self.set_city_owner(city, pm.main_player)
@@ -100,11 +105,11 @@ class GamePlay:
 
     def on_player_ready(self):
         mp = game_mgr.player_mgr.main_player
-        log_util.debug('on_player_ready', game_mgr.camera_mgr.center)
+        log_debug('on_player_ready')
 
         self.refresh_player_resource(0)
 
-        city_count = len(game_mgr.unit_mgr.each_city())
+        city_count = len([x for x in game_mgr.unit_mgr.each_city()])
         log_debug('city count=', city_count)
         
         #game_mgr.ui_mgr.story_panel_controller.play_story()

@@ -113,10 +113,20 @@ class Unit:
 
     def get_position(self):
         pos = self.unit_position
-        return pos.x, pos.y, pos.z
+        return pos.x,pos.y,pos.z
+
+    def get_xz(self):
+        pos = self.unit_position
+        return pos.x,pos.z
+
+    def get_x(self):
+        return self.unit_position.x
+
+    def get_z(self):
+        return self.unit_position.z
 
     def set_position(self, x,y,z):
-        self.unit_position.set(x, y, z)
+        self.unit_position.set(x,y,z)
         self.get_controller().apply_position()
 
     # 最后清除的时候，回调

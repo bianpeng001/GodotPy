@@ -102,7 +102,7 @@ class Tile:
                 1.0)
 
     def create_city(self):
-        if not self.city_unit and random_100() < 80:
+        if not self.city_unit and random_100() < 30:
             pos_x,pos_z = self.get_center_pos()
 
             self.city_unit = game_mgr.unit_mgr.create_city()
@@ -224,6 +224,8 @@ class GroundMgr(NodeObject):
         # 一整块数据, 地图块数据, 不包含说明信息
         w,h = 30,30
         cx, cy = w//2,h//2
+        
+        log_debug(f'load map {w}x{h}')
         with open('game\\data\\world_map.dat', 'rb') as f:
             buf = f.read()
             for i in range(len(buf) // 3):
