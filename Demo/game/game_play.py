@@ -78,6 +78,7 @@ class GamePlay:
                         in_range(x.get_x(), -300, 300) and \
                         in_range(x.get_z(), -300, 300) and \
                         x.owner_player_id == 0)
+
                 if city:
                     self.set_city_owner(city, pm.main_player)
                     pm.main_player.main_city_id = city.unit_id
@@ -90,6 +91,7 @@ class GamePlay:
 
                 yield None
 
+            yield None
             game_mgr.event_mgr.emit(MAIN_PLAYER_READY)
 
         log_util.debug('create main player')
@@ -110,9 +112,24 @@ class GamePlay:
         self.refresh_player_resource(0)
 
         city_count = len([x for x in game_mgr.unit_mgr.each_city()])
-        log_debug('city count=', city_count)
+        log_debug('city count =', city_count)
+
+        # 游戏的第一个选择
+        def confirm_start_option(index):
+            log_debug(index)
+
+        def show_start_options():
+            dlg = game_mgr.ui_mgr.option_panel_controller
+            dlg.init('  大哥,朝廷封赏,命你去做县尉,咱们接下来怎么办?',
+                    ['遣散回乡', '投军', '做县尉'],
+                    confirm_start_option)
+            dlg.push_panel()
+
+        log_debug(game_mgr.ui_mgr.story_panel_controller)
         
-        #game_mgr.ui_mgr.story_panel_controller.play_story()
+        game_mgr.ui_mgr.story_panel_controller.play_story(
+                game_mgr.config_mgr.story.start_game_story,
+                show_start_options)
 
     # API方法，业务代码
 

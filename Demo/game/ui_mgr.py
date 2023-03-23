@@ -122,13 +122,18 @@ class UIMgr(NodeObject):
                 'res://ui/NpcDialog.tscn', NpcDialogController)
         self.auto_close_queue.append(self.npc_dialog_controller)
 
-        from game.ui.setting_panel_controller import SettingPanelController
-        _, self.setting_panel_controller = self.load_panel(
-                'res://ui/SettingPanel.tscn', SettingPanelController)
+        from game.ui.option_panel_controller import OptionPanelController
+        _, self.option_panel_controller = self.load_panel(
+                'res://ui/OptionPanel.tscn', OptionPanelController)
 
         from game.ui.story_panel_controller import StoryPanelController
         _, self.story_panel_controller = self.load_panel(
                 'res://ui/StoryPanel.tscn', StoryPanelController)
+
+        from game.ui.setting_panel_controller import SettingPanelController
+        _, self.setting_panel_controller = self.load_panel(
+                'res://ui/SettingPanel.tscn', SettingPanelController)
+
         # load done
         log_debug('ui panels load ok')
 

@@ -1,0 +1,55 @@
+[gd_scene load_steps=6 format=3 uid="uid://cwnm8eruuih1h"]
+
+[ext_resource type="StyleBox" uid="uid://cs78tjnu0sn2w" path="res://ui/PanelStyle.tres" id="2_dc4en"]
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="3_xrwtj"]
+[ext_resource type="ButtonGroup" uid="uid://csbq4qgo4ps4m" path="res://ui/OptionPanelButtonGroup.tres" id="4_o3pe8"]
+[ext_resource type="StyleBox" uid="uid://ihq43j8tlee2" path="res://ui/BtnOkStyle.tres" id="5_fi5mc"]
+[ext_resource type="StyleBox" uid="uid://bn2js0rroor7y" path="res://ui/BtnEmptyStyle.tres" id="7_uloo5"]
+
+[node name="OptionPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -752.0
+offset_bottom = -348.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 400.0
+offset_bottom = 300.0
+theme = ExtResource("3_xrwtj")
+theme_override_styles/panel = ExtResource("2_dc4en")
+
+[node name="LblMsg" type="Label" parent="Panel"]
+offset_left = 20.0
+offset_top = 30.0
+offset_right = 380.0
+offset_bottom = 180.0
+theme = ExtResource("3_xrwtj")
+theme_override_font_sizes/font_size = 18
+text = "东临碣石，以观沧海。水何澹澹，山岛竦峙。树木丛生，百草丰茂。秋风萧瑟，洪波涌起。"
+autowrap_mode = 2
+
+[node name="Option1" type="CheckBox" parent="Panel"]
+offset_left = 40.0
+offset_top = 180.0
+offset_right = 127.0
+offset_bottom = 209.0
+theme = ExtResource("3_xrwtj")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/focus = ExtResource("7_uloo5")
+button_group = ExtResource("4_o3pe8")
+text = "选项"
+
+[node name="BtnOk" type="Button" parent="Panel"]
+offset_left = 170.0
+offset_top = 260.0
+offset_right = 230.0
+offset_bottom = 289.0
+theme = ExtResource("3_xrwtj")
+theme_override_styles/normal = ExtResource("5_fi5mc")
+theme_override_styles/hover = ExtResource("5_fi5mc")
+theme_override_styles/pressed = ExtResource("5_fi5mc")
+text = "确定"

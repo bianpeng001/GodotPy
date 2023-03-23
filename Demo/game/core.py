@@ -611,7 +611,6 @@ class FBaseButton(FControl):
     def set_pressed(self, value):
         return gp.base_button_set_pressed(self.get_gdobj(), value)
 
-class FButton(FBaseButton):
     def set_text(self, text):
         self.text = text
         gp.button_set_text(self.get_gdobj(), text)
@@ -619,6 +618,9 @@ class FButton(FBaseButton):
     def get_text(self):
         # TODO: 目前直接把缓存的返回就好
         return self.text
+
+class FButton(FBaseButton):
+    pass
 
 class FCheckBox(FBaseButton):
     pass

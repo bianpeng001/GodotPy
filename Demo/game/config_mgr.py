@@ -36,6 +36,16 @@ class DialogConfig(BaseConfig):
     def __init__(self):
         pass
 
+# 剧情
+class StoryConfig(BaseConfig):
+    def __init__(self):
+        self.start_game_story = [
+            '某朝某年, 一不第书生山中遇仙, 习得符法, 治病救人',
+            '因聚集民众, 后来竟然成事, 几年后终于被击败',
+            '然而真正的豪杰已经蠢蠢欲动',
+            '这几年你出生入死, 颇有军功, 该何去何从',
+        ]
+
 # 配置信息
 class ConfigMgr:
     def __init__(self):
@@ -50,6 +60,7 @@ class ConfigMgr:
         ]
 
         self.play_time_scale = 1000
+        self.story = StoryConfig()
 
     # 公式也都定义在此, 参数有点多
 

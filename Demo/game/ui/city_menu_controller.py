@@ -52,7 +52,7 @@ class CityMenuController(UIController, PopupTrait):
         log_debug(f'{city_unit.unit_name} neizheng')
 
         ui_mgr.neizheng_controller.init(city_unit)
-        ui_mgr.neizheng_controller.popup(250, 100)
+        ui_mgr.neizheng_controller.set_position(250, 100)
         ui_mgr.push_panel(ui_mgr.neizheng_controller)
 
     # 出战

@@ -101,9 +101,7 @@ class HUDMgr:
 
             if index >= 0:
                 hud_item = self.hud_item_cache.pop(index)
-                log_debug('reuse hud item',
-                        len(self.hud_item_dict),
-                        len(self.hud_item_cache))
+                #log_debug('reuse hud item', len(self.hud_item_dict), len(self.hud_item_cache))
 
         if not hud_item:
             hud_item = HUDItem()

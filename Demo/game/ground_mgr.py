@@ -41,7 +41,7 @@ class Tile:
         return self.col*TILE_SIZE,self.row*TILE_SIZE
 
     def load(self):
-        log_debug(f'load tile: ({self.col},{self.row})')
+        #log_debug(f'load tile: ({self.col},{self.row})')
         pos_x, pos_z = self.get_center_pos()
 
         self.model_node = FNode3D.instantiate('res://models/Tile01.tscn')
@@ -224,7 +224,7 @@ class GroundMgr(NodeObject):
         # 一整块数据, 地图块数据, 不包含说明信息
         w,h = 30,30
         cx, cy = w//2,h//2
-        
+
         log_debug(f'load map {w}x{h}')
         with open('game\\data\\world_map.dat', 'rb') as f:
             buf = f.read()

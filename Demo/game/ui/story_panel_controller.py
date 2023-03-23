@@ -13,12 +13,13 @@ from game.wait import *
 #
 class StoryPanelController(UIController, PopupTrait):
     def __init__(self):
-        pass
+        self.close_panels = []
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
         self.image = self.ui_obj.find_node('Image')
         self.label = self.ui_obj.find_node('Label')
+        self.bg = self.ui_obj.find_node('Bg')
 
         self.image.set_visible(False)
         self.label.set_visible(False)
@@ -26,13 +27,21 @@ class StoryPanelController(UIController, PopupTrait):
     def init(self):
         pass
 
-    def play_story(self, text_list):
-        game_mgr.co_mgr.start(self.co_play_story(text_list))
+    def play_story(self, text_list, on_complete=None):
+        game_mgr.co_mgr.start(self.co_play_story(text_list, on_complete))
 
-    def co_play_story(self, text_list):
-        yield WaitForSeconds(3)
+    def co_play_story(self, text_list, on_complete):
+        self.close_panels = [
+            game_mgr.ui_mgr.msg_panel_controller,
+            game_mgr.ui_mgr.nav_panel_controller,
+            game_mgr.ui_mgr.mainui_controller,
+        ]
+        for item in self.close_panels:
+            item.defer_close()
 
-        self.popup(350, 100)
+        yield WaitForSeconds(1)
+
+        self.popup(176, 100)
         log_debug('begin play story')
 
         # text_list = (
@@ -42,12 +51,19 @@ class StoryPanelController(UIController, PopupTrait):
         # )
         for text in text_list:
             self.show_text(text)
-            yield WaitForSeconds(3)
+            yield WaitForSeconds(1)
         
         self.defer_close()
 
+        for item in self.close_panels:
+            item.show()
+
+        if on_complete:
+            on_complete()
+
     def show_text(self, text):
-        self.label.set_text(text)
+        self.bg.set_visible(True)
         self.label.set_visible(True)
+        self.label.set_text(text)
 
     
