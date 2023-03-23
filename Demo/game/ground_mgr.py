@@ -41,7 +41,7 @@ class Tile:
         return self.col*TILE_SIZE,self.row*TILE_SIZE
 
     def load(self):
-        log_util.debug(f'load tile: ({self.col},{self.row})')
+        log_debug(f'load tile: ({self.col},{self.row})')
         pos_x, pos_z = self.get_center_pos()
 
         self.model_node = FNode3D.instantiate('res://models/Tile01.tscn')

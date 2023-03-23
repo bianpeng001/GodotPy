@@ -441,7 +441,7 @@ static const char c_SurfaceTool[] = "SurfaceTool";
 
 template <const char* pointer_name, typename T>
 void _capsule_delete_pointer(PyObject *obj) {
-	print_line(vformat("delete %s", String(pointer_name)));
+	//print_line(vformat("delete %s", String(pointer_name)));
 	//auto ptr = reinterpret_cast<T *>(PyCapsule_GetPointer(obj, pointer_name));
 	auto ptr = _capsule_get_pointer<pointer_name, T>(obj);
 	memdelete<T>(ptr);

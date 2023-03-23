@@ -103,6 +103,9 @@ class GamePlay:
         log_util.debug('on_player_ready', game_mgr.camera_mgr.center)
 
         self.refresh_player_resource(0)
+
+        city_count = len(game_mgr.unit_mgr.each_city())
+        log_debug('city count=', city_count)
         
         #game_mgr.ui_mgr.story_panel_controller.play_story()
 
