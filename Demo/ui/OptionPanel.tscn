@@ -17,12 +17,14 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="Panel" parent="."]
+layout_mode = 0
 offset_right = 400.0
 offset_bottom = 300.0
 theme = ExtResource("3_xrwtj")
 theme_override_styles/panel = ExtResource("2_dc4en")
 
 [node name="LblMsg" type="Label" parent="Panel"]
+layout_mode = 0
 offset_left = 20.0
 offset_top = 30.0
 offset_right = 380.0
@@ -30,9 +32,11 @@ offset_bottom = 180.0
 theme = ExtResource("3_xrwtj")
 theme_override_font_sizes/font_size = 18
 text = "东临碣石，以观沧海。水何澹澹，山岛竦峙。树木丛生，百草丰茂。秋风萧瑟，洪波涌起。"
+vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Option1" type="CheckBox" parent="Panel"]
+layout_mode = 0
 offset_left = 40.0
 offset_top = 180.0
 offset_right = 127.0
@@ -44,6 +48,7 @@ button_group = ExtResource("4_o3pe8")
 text = "选项"
 
 [node name="BtnOk" type="Button" parent="Panel"]
+layout_mode = 0
 offset_left = 170.0
 offset_top = 260.0
 offset_right = 230.0

@@ -94,9 +94,32 @@ class GamePlay:
             yield None
             game_mgr.event_mgr.emit(MAIN_PLAYER_READY)
 
+        def co_wait_for_ground():
+            yield None
+
+            # 游戏的第一个选择
+            def confirm_start_option(index):
+                log_debug(index)
+                game_mgr.co_mgr.start(co_bind_to_base_city())
+
+            def show_start_options():
+                dlg = game_mgr.ui_mgr.option_panel_controller
+                dlg.init('  朝廷命你去当个小小县尉, 你要作何选择?',
+                        ['遣散队伍回乡务农', '投军继续当兵', '听从安排上任县尉'],
+                        confirm_start_option)
+                dlg.push_panel()
+
+            log_debug(game_mgr.ui_mgr.story_panel_controller)
+            
+            game_mgr.ui_mgr.story_panel_controller.play_story(
+                    game_mgr.config_mgr.story.start_game_story,
+                    show_start_options)
+
+
         log_util.debug('create main player')
         pm.main_player = pm.new_player()
-        game_mgr.co_mgr.start(co_bind_to_base_city())
+        game_mgr.co_mgr.start(co_wait_for_ground())
+        #game_mgr.co_mgr.start(co_bind_to_base_city())
         test_wait_1()
 
         # load cursor
@@ -113,23 +136,6 @@ class GamePlay:
 
         city_count = len([x for x in game_mgr.unit_mgr.each_city()])
         log_debug('city count =', city_count)
-
-        # 游戏的第一个选择
-        def confirm_start_option(index):
-            log_debug(index)
-
-        def show_start_options():
-            dlg = game_mgr.ui_mgr.option_panel_controller
-            dlg.init('  大哥,朝廷封赏,命你去做县尉,咱们接下来怎么办?',
-                    ['遣散回乡', '投军', '做县尉'],
-                    confirm_start_option)
-            dlg.push_panel()
-
-        log_debug(game_mgr.ui_mgr.story_panel_controller)
-        
-        game_mgr.ui_mgr.story_panel_controller.play_story(
-                game_mgr.config_mgr.story.start_game_story,
-                show_start_options)
 
     # API方法，业务代码
 
