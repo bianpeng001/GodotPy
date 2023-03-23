@@ -16,15 +16,24 @@ python现在越来越好，想继续用，况且长远看python在服务器端�
 
 差不多第四周，感受到妙处了，引擎的和python的。后续不知道还有几次反转。
 
+好了,6周, 就是python了,真是好用啊.
+
 ## python对比lua
 在游戏脚本领域，其实lua是更主流的选择，lua来做很多事情就会简单直接很多，比如嵌入扩展啥的。但是，lua本身相比于python，相对弱一些，各种工具和开发者数量上都不足。所以，我还是想尝试一下用python的实现，权当是一次学习。
 
+lua性能好,语言核心小,仅几百k,语言机制简单,使用者变少,开发也不怎么活跃; python语言强,语言核心6M,模块丰富,用户多,增加中. 跟c语言合作不相上下.组织大规模代码时,python更强一些,有不少语法糖,开发活跃. 而且python的GC机制,更加适合游戏这种对卡顿敏感的应用.
 
 ## 目录
 
 - Demo: 试验工程，测试和完善GodotPy。作为一个测试工程的同时，也许能让它有点好玩。
 - Godot: godot的扩展和构造脚本
 - Python: python的构造脚本和扩展
+
+构造说明
+1. Python, 把Python目录下面SConstruct, python3.rc, Godot 复制到cpython目录(或者软链接)
+2. godot, 把modules内容复制到godot/modules下, 对node.cpp打patch
+3. godot/bin, 下面的dll依赖,构造脚本会自动复制. 需要手工创建Lib软连接到cpython/Lib
+4. done
 
 ## 协程
 协程是个好东西，给godot做一个吧。

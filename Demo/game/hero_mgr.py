@@ -3,9 +3,9 @@
 #
 
 from game.core import *
-from game.game_mgr import game_mgr
+from game.game_mgr import *
 
-# Hero在都是纯数据，不存在实体
+# Hero 是纯数据Entity，不存在实体
 
 # 性别
 FEMAIL = 0
@@ -147,6 +147,17 @@ class Hero:
     def meili(self):
         return self.get_attr(ATTR_MEI)
 
+# 武将活动, 持续一段时间,完成后,需要转成空闲
+class HeroActivity:
+    def __init__(self, hero_id, act, time):
+        self.hero_id = hero_id
+        self.act = act
+        self.time = time
+
+    def complete(self):
+        hero = get_hero(self.hero_id)
+        hero.activity = ACT_IDLE
+
 #
 # 武将管理器，所有的武将都在这里，就像一个数据库
 #
@@ -154,6 +165,9 @@ class HeroMgr:
     def __init__(self):
         self.hero_dict = {}
         self.hero_id_seed = 1000
+
+        self.hero_activity_list = []
+        self.back_hero_activity_list = []
 
     # 支持随机英雄和经典英雄
     def new_hero1(self):
@@ -195,10 +209,30 @@ class HeroMgr:
     def get_hero(self, hero_id):
         return self.hero_dict.get(hero_id, None)
 
-    def set_hero_action(self, hero_id, action):
+    # 活动
+    def set_hero_activity(self, hero_id, activity):
         if hero_id != 0:
             hero = self.get_hero(hero_id)
-            hero.activity = action
+            hero.activity = activity
+
+    def add_activity(self, hero, time):
+        item = HeroActivity(hero.hero_id, hero.activity, time)
+        self.hero_activity_list.append(item)
+
+    # 刷新事件
+    def update(self, delta_time):
+        tmp = self.back_hero_activity_list
+        self.back_hero_activity_list = self.hero_activity_list
+        self.hero_activity_list = tmp
+
+        self.hero_activity_list.clear()
+        for item in self.back_hero_activity_list:
+            item.time -= delta_time
+            if item.time > 0:
+                self.hero_activity_list.append(item)
+            else:
+                item.complete()
+
 
 if __name__ == '__main__':
     import json

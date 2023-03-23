@@ -220,7 +220,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
                 new_hero_item.hero_id = hero_item.hero_id
                 new_hero_item.pos_index = hero_item.pos_index
                 hero_list.append(new_hero_item)
-                game_mgr.hero_mgr.set_hero_action(hero_item.hero_id, ACT_CHUZHAN)
+                game_mgr.hero_mgr.set_hero_activity(hero_item.hero_id, ACT_CHUZHAN)
 
             army_amount = min(self.army_amount, self.city_unit.army_amount.value)
             self.city_unit.army_amount.value -= army_amount

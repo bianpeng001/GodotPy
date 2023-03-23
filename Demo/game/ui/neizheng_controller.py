@@ -314,7 +314,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             self.popup_dialog(msg, 1.5)
 
         def set_action(hero_id):
-            game_mgr.hero_mgr.set_hero_action(hero_id, ACT_NEIZHENG)
+            game_mgr.hero_mgr.set_hero_activity(hero_id, ACT_NEIZHENG)
 
         set_action(self.satrap)
         set_action(self.order_incharge)
