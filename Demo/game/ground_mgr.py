@@ -32,6 +32,8 @@ class Tile:
         # 用来控制可见列表
         self.show_age = 1
 
+        self.city_unit = None
+
         # 颜色
         self.color = -1
 
@@ -99,16 +101,17 @@ class Tile:
                 pos_z + math.sin(rad)*dis,
                 1.0)
 
-        # 城
-        if random_100() < 80:
-            city = game_mgr.unit_mgr.create_city()
-            city.owner_player_id = 0
-            city.set_position(
+    def create_city(self):
+        if not self.city_unit and random_100() < 80:
+            pos_x,pos_z = self.get_center_pos()
+
+            self.city_unit = game_mgr.unit_mgr.create_city()
+            self.city_unit.owner_player_id = 0
+            self.city_unit.set_position(
                 round(pos_x + random_x()*5),
                 0,
                 round(pos_z + random_x()*5))
-            self.unit_list.append(city)
-
+            self.unit_list.append(self.city_unit)
 
     def load_res(self, path, x, z, s):
         item = FNode3D.instantiate(path)
@@ -230,8 +233,13 @@ class GroundMgr(NodeObject):
                 item = (x-cx,y-cy,r)
                 data.append(item)
 
+        log_util.enable_debug = False
+
         for item in data:
             x,y,r = item
             tile, _ = self.create_tile(x, y)
             tile.color = r
+            tile.create_city()
+
+        log_util.enable_debug = True
 

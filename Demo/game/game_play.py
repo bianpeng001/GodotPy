@@ -70,8 +70,9 @@ class GamePlay:
         def co_bind_to_base_city():
             while True:
                 city = game_mgr.unit_mgr.find_unit(lambda x:
-                        x.unit_type == UT_CITY \
-                        and x.owner_player_id == 0)
+                        x.unit_type == UT_CITY and \
+                        x.unit_id > 10020 and \
+                        x.owner_player_id == 0)
                 if city:
                     self.set_city_owner(city, pm.main_player)
                     pm.main_player.main_city_id = city.unit_id
@@ -93,8 +94,9 @@ class GamePlay:
 
         # load cursor
         if not OS.is_editor_hint():
-            cursor = OS.load_resource('res://Cursor.png')
-            OS.set_custom_mouse_cursor(cursor, 0, 1, 1)
+            #cursor = OS.load_resource('res://Cursor.png')
+            #OS.set_custom_mouse_cursor(cursor, 0, 1, 1)
+            pass
 
     def on_player_ready(self):
         mp = game_mgr.player_mgr.main_player
