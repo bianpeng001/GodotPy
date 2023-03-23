@@ -166,6 +166,7 @@ class HeroMgr:
         self.hero_dict = {}
         self.hero_id_seed = 1000
 
+        # 武将活动, 比如移动,啥的,是需要时间的
         self.hero_activity_list = []
         self.back_hero_activity_list = []
 

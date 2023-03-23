@@ -82,8 +82,7 @@ class ArcMoveReq(BaseMoveReq):
         # move
         self.progress += delta_time * self.time_to_progress
         if self.progress < 1.0:
-            x = 2*self.progress - 1
-            y = 1 - x*x
+            y = 1 - (2*self.progress - 1)**2
 
             p = self.start + \
                 self.delta * self.progress
@@ -100,7 +99,6 @@ class ArcMoveReq(BaseMoveReq):
             v1 = self.stop
             v2 = v0 + (v1 - v0) * (self.rot_time / 0.5)
             troop.get_controller().look_at(v2.x,v2.y,v2.z)
-            
 
 # 左右移动
 class LeftRightMoveReq(BaseMoveReq):
@@ -214,12 +212,13 @@ class AIState_MarchToCity(AIState_Troop):
         req = ArcMoveReq()
         req.setup(*troop.get_position(),
             *city.get_position(),
-            troop.speed, city.radius + troop.radius)
+            troop.speed,
+            city.radius + troop.radius)
 
         controller.move_req = req
         controller.look_at_unit(city)
-
         #print_line(f'enter state: {controller.unit_id}')
+
     def update(self, controller):
         if controller.move_req.is_done():
             controller.enter_state(AIState_AttackCity())
@@ -331,4 +330,7 @@ class AIState_TroopStart(AIState_Troop):
             blackboard.target_pos = troop.target_pos
             controller.enter_state(AIState_MarchToPos())
         
+
+
+
 

@@ -161,7 +161,7 @@ class GroundMgr(NodeObject):
         return self.tile_dict.get((col,row), None)
 
     def update(self, delta_time):
-        x, z = game_mgr.camera_mgr.center.get_xz()
+        x,z = game_mgr.camera_mgr.get_focus_xz()
 
         cx = math.floor((x / TILE_SIZE) + 0.5)
         cz = math.floor((z / TILE_SIZE) + 0.5)

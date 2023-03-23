@@ -22,13 +22,13 @@ class CameraMgr(NodeObject):
         # 自拍杆的长度
         self.offset = self.arm_dir * self.arm_length
         # 自拍杆的手持位置
-        self.center = Vector3()
+        self.focus = Vector3()
 
         # 拖拽起始点
         self.drag_start = Vector3()
 
         # 动画移动的目标
-        self.target_center = Vector3()
+        self.target_focus = Vector3()
         self.is_chase_target = False
 
     def _create(self):
@@ -58,22 +58,22 @@ class CameraMgr(NodeObject):
         dy = y - self.drag_start.y
         dz = z - self.drag_start.z
 
-        self.center.x -= dx
-        self.center.y -= dy
-        self.center.z -= dz
+        self.focus.x -= dx
+        self.focus.y -= dy
+        self.focus.z -= dz
 
         self.update_camera()
 
     # 刷新camera位置和朝向
     def update_camera(self):
         self.main_camera.set_position(
-            self.center.x + self.offset.x,
-            self.center.y + self.offset.y,
-            self.center.z + self.offset.z)
+            self.focus.x + self.offset.x,
+            self.focus.y + self.offset.y,
+            self.focus.z + self.offset.z)
         self.main_camera.look_at(
-            self.center.x,
-            self.center.y,
-            self.center.z)
+            self.focus.x,
+            self.focus.y,
+            self.focus.z)
 
     def on_mouse_button_up(self):
         pass
@@ -91,11 +91,11 @@ class CameraMgr(NodeObject):
         f = (1 + self.arm_scale) / prev_norm
         
         x1,y1,z1 = self.main_camera.screen_to_world(input_mgr.x, input_mgr.y)
-        dx = (self.center.x - x1) * f
-        dy = (self.center.y - y1) * f
-        dz = (self.center.z - z1) * f
+        dx = (self.focus.x - x1) * f
+        dy = (self.focus.y - y1) * f
+        dz = (self.focus.z - z1) * f
 
-        self.center.set(x1+dx, y1+dy, z1+dz)
+        self.focus.set(x1+dx, y1+dy, z1+dz)
         self.offset = self.arm_dir * (self.arm_length * (1 + self.arm_scale) * 0.5)
         
         self.update_camera()
@@ -106,22 +106,27 @@ class CameraMgr(NodeObject):
     def on_wheel_down(self):
         self.process_zoom(0.05)
 
-    def set_center(self,x,y,z):
-        self.center.set(x,y,z)
+    # 直接设置focus
+    def set_focus(self,x,y,z):
+        self.focus.set(x,y,z)
 
-    def set_target_center(self,x,y,z):
-        self.target_center.set(x,y,z)
+    def get_focus_xz(self):
+        return self.focus.x, self.focus.z
+
+    # 设置目标,然后快速飞过去
+    def set_target_focus(self,x,y,z):
+        self.target_focus.set(x,y,z)
         self.is_chase_target = True
     
     def update(self, delta_time):
         if self.is_chase_target:
-            delta = self.center - self.target_center
+            delta = self.focus - self.target_focus
             sqr_mag = delta.sqr_magnitude()
             if sqr_mag < 10:
-                self.center.copy(self.target_center)
+                self.focus.copy(self.target_focus)
                 self.is_chase_target = False
             else:
-                self.center = self.target_center + delta * 0.8
+                self.focus = self.target_focus + delta * 0.8
             self.update_camera()
 
 

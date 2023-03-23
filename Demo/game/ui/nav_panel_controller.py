@@ -24,5 +24,5 @@ class NavPanelController(UIController, PopupTrait):
     def on_main_city_click(self):
         p = get_main_player()
         city = game_mgr.unit_mgr.get_unit(p.main_city_id)
-        game_mgr.camera_mgr.set_target_center(*city.get_position())
+        game_mgr.camera_mgr.set_target_focus(*city.get_position())
 
