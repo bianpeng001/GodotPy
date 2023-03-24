@@ -53,6 +53,8 @@
 			<a href="#">About</a>
 		</div>
 
+		<div id="debugLog"></div>
+
 		<script src="js/jquery-3.6.3.min.js"></script>
 		<!-- marked -->
 		<script src="https://cdn.bootcdn.net/ajax/libs/marked/4.2.12/marked.min.js"></script>
@@ -70,6 +72,12 @@
 				let a='m1111o:bianpeng112-113.com'
 				a=a.replace('1111', 'ailt').replace('112-','001@').replace('13',Number('13')+50)
 				$('#email')[0].href=a
+
+				let agent = window.navigator.userAgent
+				$('#debugLog').text(agent)
+				if (agent.indexOf('Android') > 0) {
+					$('#markedDiv')[0].style = 'font-size:20pt;'
+				}
 			})
 		</script>
 		
