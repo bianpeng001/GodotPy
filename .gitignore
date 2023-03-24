@@ -36,6 +36,7 @@
 
 .godot
 __pycache__
+demo_ver.txt
 Build
 Demo/launch.json
 *.swp

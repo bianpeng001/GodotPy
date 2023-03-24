@@ -38,6 +38,9 @@ def run(cmd):
     os.system(cmd)
 
 def build_publish():
+    os.chdir(PROJECT_DIR)
+    run(f'{GIT_EXE} log -1 --format=%h > demo_ver.txt')
+
     build_python()
     #run(f'{SCONS_EXE} p=windows vsproj=no bits=64 -j4 target=editor dev_build=false')
     build_editor_release()
@@ -51,9 +54,12 @@ def build_publish():
         python_ver = f.read().strip()
     with open(f'{GODOT_DIR}\\godot_ver.txt') as f:
         godot_ver = f.read().strip()
+    with open(f'{PROJECT_DIR}\\demo_ver.txt') as f:
+        demo_ver = f.read().strip()
     with open(f'{BUILD_DIR}\\verion.txt', 'w') as f:
         f.write(f'python {python_ver}\n')
         f.write(f'godot {godot_ver}\n')
+        f.write(f'demo {demo_ver}\n')
     
     # copy files
     file_list = (
@@ -101,6 +107,9 @@ def play_editor_debug():
 def zipdir(dir_path, f):
     for root, dirs, files in os.walk(dir_path, followlinks=True):
         for file in files:
+            if root.endswith('.vscode'):
+                continue
+
             if not file.endswith('.pyc'):
                 file_path = os.path.join(root, file)
                 f.write(file_path, os.path.relpath(file_path, dir_path))
