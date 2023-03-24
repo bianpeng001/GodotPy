@@ -44,7 +44,7 @@ class OptionPanelController(UIController, PopupTrait):
                 btn = self.poop.pop()
             else:
                 btn = self.option_1.dup()
-            btn.set_position(20 + (i % 2)*200, 180 + (i // 2)*30)
+            btn.set_position(30 + (i % 2)*190, 150 + (i // 2)*30)
             opt = option_list[i]
             btn.set_text(opt)
             self.btn_list.append(btn)

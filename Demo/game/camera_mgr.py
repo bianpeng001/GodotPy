@@ -11,7 +11,6 @@ from game.input_mgr import *
 class CameraMgr(NodeObject):
     def __init__(self):
         super().__init__()
-
         game_mgr.camera_mgr = self
         
         self.main_camera = None
@@ -122,11 +121,11 @@ class CameraMgr(NodeObject):
         if self.is_chase_target:
             delta = self.focus - self.target_focus
             sqr_mag = delta.sqr_magnitude()
-            if sqr_mag < 10:
+            if sqr_mag < 0.04:
                 self.focus.copy(self.target_focus)
                 self.is_chase_target = False
             else:
-                self.focus = self.target_focus + delta * 0.8
+                self.focus = self.target_focus + delta * 0.9
             self.update_camera()
 
 

@@ -45,7 +45,6 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="TabZheng" type="Control" parent="Panel"]
-visible = false
 anchors_preset = 0
 offset_left = 10.0
 offset_top = 40.0
