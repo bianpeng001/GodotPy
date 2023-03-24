@@ -106,6 +106,9 @@ class Tile:
             pos_x,pos_z = self.get_center_pos()
 
             self.city_unit = game_mgr.unit_mgr.create_city()
+            if random_100() < 50:
+                self.city_unit.model_type = 2
+
             self.city_unit.owner_player_id = 0
             self.city_unit.set_position(
                 round(pos_x + random_x()*5),

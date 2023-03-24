@@ -13,7 +13,7 @@ from game.wait import *
 #
 class StoryPanelController(UIController, PopupTrait):
     def __init__(self):
-        self.close_panels = []
+        pass
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
@@ -31,14 +31,6 @@ class StoryPanelController(UIController, PopupTrait):
         game_mgr.co_mgr.start(self.co_play_story(text_list, on_complete))
 
     def co_play_story(self, text_list, on_complete):
-        self.close_panels = [
-            game_mgr.ui_mgr.msg_panel_controller,
-            game_mgr.ui_mgr.nav_panel_controller,
-            game_mgr.ui_mgr.mainui_controller,
-        ]
-        for item in self.close_panels:
-            item.defer_close()
-
         yield WaitForSeconds(1)
 
         self.popup(176, 100)
@@ -54,9 +46,6 @@ class StoryPanelController(UIController, PopupTrait):
             yield WaitForSeconds(1)
         
         self.defer_close()
-
-        for item in self.close_panels:
-            item.show()
 
         if on_complete:
             on_complete()

@@ -137,10 +137,18 @@ class UIMgr(NodeObject):
         # load done
         log_debug('ui panels load ok')
 
+        # 菜单列表
         self.menu_list = [
             self.city_menu_controller,
             self.ground_menu_controller,
             self.troop_menu_controller,
+        ]
+
+        # 一直显示的列表
+        self.base_ui_list = [
+            self.msg_panel_controller,
+            self.nav_panel_controller,
+            self.mainui_controller,
         ]
 
     def load_panel(self, path, cls):
@@ -252,4 +260,13 @@ class UIMgr(NodeObject):
         if len(self.panel_stack) > 0:
             return self.panel_stack[-1]
 
+    def show_base_ui(self, show):
+        if show:
+            for item in self.base_ui_list:
+                item.show()
+        else:
+            for item in self.base_ui_list:
+                item.defer_close()
 
+
+                

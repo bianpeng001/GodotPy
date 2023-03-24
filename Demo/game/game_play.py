@@ -75,6 +75,7 @@ class GamePlay:
                 city = game_mgr.unit_mgr.find_unit(lambda x:
                         x.unit_type == UT_CITY and \
                         x.unit_id > 10020 and \
+                        x.model_type == 2 and \
                         in_range(x.get_x(), -300, 300) and \
                         in_range(x.get_z(), -300, 300) and \
                         x.owner_player_id == 0)
@@ -94,32 +95,31 @@ class GamePlay:
             yield None
             game_mgr.event_mgr.emit(MAIN_PLAYER_READY)
 
+        # 等地图加载好,弹一个选择框,然后在分配城
         def co_wait_for_ground():
             yield None
 
             # 游戏的第一个选择
             def confirm_start_option(index):
-                log_debug(index)
+                log_debug('select', index)
                 game_mgr.co_mgr.start(co_bind_to_base_city())
+                game_mgr.ui_mgr.show_base_ui(True)
 
             def show_start_options():
                 dlg = game_mgr.ui_mgr.option_panel_controller
-                dlg.init('  朝廷命你去当个小小县尉, 你要作何选择?',
-                        ['遣散队伍回乡务农', '投军继续当兵', '听从安排上任县尉'],
+                dlg.init('  朝廷命你离开军队,去定州做县尉, 你将作何选择?',
+                        ['遣散队伍回乡务农', '率众投军继续当兵', '听从安排上任县尉'],
                         confirm_start_option)
                 dlg.push_panel()
 
-            log_debug(game_mgr.ui_mgr.story_panel_controller)
-            
+            game_mgr.ui_mgr.show_base_ui(False)
             game_mgr.ui_mgr.story_panel_controller.play_story(
                     game_mgr.config_mgr.story.start_game_story,
                     show_start_options)
 
-
         log_util.debug('create main player')
         pm.main_player = pm.new_player()
         game_mgr.co_mgr.start(co_wait_for_ground())
-        #game_mgr.co_mgr.start(co_bind_to_base_city())
         test_wait_1()
 
         # load cursor

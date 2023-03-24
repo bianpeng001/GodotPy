@@ -1,8 +1,6 @@
 #
 # 2023年2月8日 bianpeng
 #
-import random
-
 from game.core import *
 from game.game_mgr import *
 from game.base_type import Unit, LimitValue
@@ -84,6 +82,8 @@ class CityUnit(Unit, UnitTrait):
         # 友好城市,通商
         self.friend_city_list = []
 
+        self.model_type = 1
+
     def init(self):
         for i in range(5):
             hero = game_mgr.hero_mgr.new_hero()
@@ -96,10 +96,11 @@ class CityUnit(Unit, UnitTrait):
     def load_model(self):
         is_gate = self.unit_name.endswith('关')
 
-        path = 'res://models/City01.tscn'
-        if is_gate:
-            path = 'res://models/Gate01.tscn'
-        elif random.random() < 0.5:
+        if self.model_type == 1:
+            path = 'res://models/City01.tscn'
+            if is_gate:
+                path = 'res://models/Gate01.tscn'
+        else:
             path = 'res://models/City02.tscn'
         
         self.model_node = FNode3D.instantiate(path)
