@@ -70,7 +70,10 @@ class GamePlay:
             return x >= min and x < max
 
         # 默认创建一个空城
-        def co_bind_to_base_city():
+        def co_choose_base_city():
+            player = pm.main_player
+            player.player_name = '刘备'
+            
             while True:
                 city = game_mgr.unit_mgr.find_unit(lambda x:
                         x.unit_type == UT_CITY and \
@@ -82,12 +85,23 @@ class GamePlay:
 
                 if city:
                     city.unit_name = '安喜'
-                    self.set_city_owner(city, pm.main_player)
-                    pm.main_player.main_city_id = city.unit_id
+                    self.set_city_owner(city, player)
+                    player.main_city_id = city.unit_id
 
+                    # 还要创建一个自己
+                    hero = game_mgr.hero_mgr.new_hero()
+                    hero.hero_name = player.player_name
+                    hero.owner_player_id = player.player_id
+                    hero.owner_city_id = city.unit_id
+                    player.main_hero_id = hero.hero_id
+                    player.hero_list.append(hero.hero_id)
+
+                    city.hero_list.append(hero.hero_id)
                     city.get_controller().set_flag_color()
                     cm.set_target_focus(*city.get_position())
                     cm.update_camera()
+                    for hero_id in city.hero_list:
+                        player.hero_list.append(hero_id)
 
                     break
 
@@ -116,7 +130,7 @@ class GamePlay:
                     return True
 
                 log_debug('select', index)
-                game_mgr.co_mgr.start(co_bind_to_base_city())
+                game_mgr.co_mgr.start(co_choose_base_city())
                 game_mgr.ui_mgr.show_base_ui(True)
                 game_mgr.co_mgr.start(co_show_dialog())
 
