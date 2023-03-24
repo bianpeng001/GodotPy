@@ -13,6 +13,8 @@ from game.city_controller import CityController
 # 战斗状态下，治安越来越差，且毫无收益
 # 影响因素，自然灾害，麻匪，朝廷征收，摊派，督邮的敲诈啥的，神仙显灵
 #
+# 城池, 根据发展也是有级别的. 可以是, 县郡州
+#
 class CityUnit(Unit, UnitTrait):
     def __init__(self):
         super().__init__()
@@ -48,10 +50,11 @@ class CityUnit(Unit, UnitTrait):
         self.trader_points = 50
 
         # 居民人口 = 治安 + 务农 + 经商
-        self.population = LimitValue(1000 + random_int(100, 200), 10000 + random_int(0, 9)*10000)
+        self.population = LimitValue(1000 + random_int(0, 200),
+                10000 + random_int(0, 9)*10000)
         self.polulation_growth_rate = 0
 
-        # 太守(总督)
+        # 太守(总督,县尉,郡守)
         self.satrap = 0
 
         # 税务官
@@ -68,7 +71,7 @@ class CityUnit(Unit, UnitTrait):
         
         # 农业官
         self.farmer_incharge = 0
-        # 农民数量, 改成百分比 
+        # 农民数量, 改成百分比
         self.farmer_mass = 0
         
         # 商业官
@@ -82,6 +85,7 @@ class CityUnit(Unit, UnitTrait):
         # 友好城市,通商
         self.friend_city_list = []
 
+        # 模型
         self.model_type = 1
 
     def init(self):

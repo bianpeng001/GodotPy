@@ -81,6 +81,7 @@ class GamePlay:
                         x.owner_player_id == 0)
 
                 if city:
+                    city.unit_name = '安喜'
                     self.set_city_owner(city, pm.main_player)
                     pm.main_player.main_city_id = city.unit_id
 
