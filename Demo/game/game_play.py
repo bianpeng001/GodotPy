@@ -100,6 +100,7 @@ class GamePlay:
         def co_wait_for_ground():
             yield None
 
+            # 到达之后, 显示一段对话
             def co_show_dialog():
                 yield WaitForSeconds(1.5)
 
@@ -108,6 +109,12 @@ class GamePlay:
 
             # 游戏的第一个选择
             def confirm_start_option(index):
+                # TODO: 这里要根据选项做一些区别对待
+                if index == 0:
+                    dlg = game_mgr.ui_mgr.npc_dialog_controller
+                    dlg.init('大哥, 你在开玩笑?', 10)
+                    return True
+
                 log_debug('select', index)
                 game_mgr.co_mgr.start(co_bind_to_base_city())
                 game_mgr.ui_mgr.show_base_ui(True)
