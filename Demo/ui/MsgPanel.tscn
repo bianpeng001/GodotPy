@@ -13,7 +13,8 @@ offset_bottom = -648.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Bg" type="ColorRect" parent="."]
+visible = false
 layout_mode = 0
 offset_right = 320.0
 offset_bottom = 160.0

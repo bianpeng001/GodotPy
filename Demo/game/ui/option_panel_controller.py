@@ -39,21 +39,26 @@ class OptionPanelController(UIController, PopupTrait):
             btn.set_visible(False)
             self.pool.append(btn)
 
-        x,y = 40,180
         for i in range(len(option_list)):
             if len(self.pool) > 0:
                 btn = self.poop.pop()
             else:
                 btn = self.option_1.dup()
-            btn.set_position(x + (i % 2)*180, y + (i // 2)*32)
+            btn.set_position(20 + (i % 2)*200, 180 + (i // 2)*30)
             opt = option_list[i]
             btn.set_text(opt)
             self.btn_list.append(btn)
             btn.set_visible(True)
+        
+        self.btn_list[-1].set_pressed(True)
 
     def on_ok_click(self):
         self.pop_panel()
 
+        for i in range(len(self.btn_list)):
+            if self.btn_list[i].is_pressed():
+                break
+
         if self.callback:
-            self.callback(0)
+            self.callback(i)
 
