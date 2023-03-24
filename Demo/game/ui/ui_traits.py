@@ -33,7 +33,7 @@ class PopupTrait:
 
     def popup_dialog(self, msg, time_out = 1.5):
         controller = game_mgr.ui_mgr.npc_dialog_controller
-        controller.init_dialog(msg, time_out)
+        controller.init(msg, time_out)
 
     def bind_ok_cancel_close(self, ok=True, cancel=True, close=True):
         if close:

@@ -100,16 +100,23 @@ class GamePlay:
         def co_wait_for_ground():
             yield None
 
+            def co_show_dialog():
+                yield WaitForSeconds(1.5)
+
+                dlg = game_mgr.ui_mgr.npc_dialog_controller
+                dlg.init('大哥, 此处虽小, 只要用心经营, 未必不能有一番作为.', 3)
+
             # 游戏的第一个选择
             def confirm_start_option(index):
                 log_debug('select', index)
                 game_mgr.co_mgr.start(co_bind_to_base_city())
                 game_mgr.ui_mgr.show_base_ui(True)
+                game_mgr.co_mgr.start(co_show_dialog())
 
             def show_start_options():
                 dlg = game_mgr.ui_mgr.option_panel_controller
                 dlg.init('  朝廷安抚平乱有功者, 因此你除授定州安喜县令, 克日赴任. 你将作何选择?',
-                        ['遣散队伍回乡务农', '率众投军继续当兵', '听从安排上任县尉'],
+                        ['遣散队伍回乡务农', '率众投军继续当兵', '听从安排上任县令'],
                         confirm_start_option)
                 dlg.push_panel()
 
