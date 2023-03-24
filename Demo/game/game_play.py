@@ -73,7 +73,7 @@ class GamePlay:
         def co_choose_base_city():
             player = pm.main_player
             player.player_name = '刘备'
-            
+
             while True:
                 city = game_mgr.unit_mgr.find_unit(lambda x:
                         x.unit_type == UT_CITY and \
@@ -98,10 +98,13 @@ class GamePlay:
 
                     city.hero_list.append(hero.hero_id)
                     city.get_controller().set_flag_color()
-                    cm.set_target_focus(*city.get_position())
-                    cm.update_camera()
+                    city.satrap = hero.hero_id
+
                     for hero_id in city.hero_list:
                         player.hero_list.append(hero_id)
+
+                    cm.set_target_focus(*city.get_position())
+                    cm.update_camera()
 
                     break
 
