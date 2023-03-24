@@ -1,13 +1,3 @@
-<style>
-    .date
-    {
-      font-size: 10px;
-      color: #606060;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #c5c5c5;
-    }
-</style>
-
 # 洒家的博客
 
 ## 无题

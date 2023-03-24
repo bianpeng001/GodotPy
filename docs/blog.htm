@@ -38,6 +38,19 @@
 				font-size:10pt;
 				padding: 0 10px;
 			}
+			.date
+			{
+				font-size: 10pt;
+				color: #606060;
+				padding-bottom: 20px;
+				border-bottom: 1px solid #c5c5c5;
+			}
+
+			/* android platform */
+			.date_Android
+			{
+				font-size:20pt;
+			}
 		</style>
 		<title>洒家的博客</title>
 	</head>
@@ -76,8 +89,10 @@
 				let agent = window.navigator.userAgent
 				$('#debugLog').text(agent)
 				if (agent.indexOf('Android') > 0) {
-					$('#markedDiv')[0].style = 'font-size:20pt;'
+					$('#markedDiv').css('font-size', '30pt')
+					$('.date').addClass('date_Android')
 				}
+				$('#debugLog').hide()
 			})
 		</script>
 		
