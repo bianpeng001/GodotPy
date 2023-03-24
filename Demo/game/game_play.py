@@ -96,13 +96,11 @@ class GamePlay:
                     player.main_hero_id = hero.hero_id
                     player.hero_list.append(hero.hero_id)
 
-                    city.hero_list.append(hero.hero_id)
-                    city.get_controller().set_flag_color()
+                    # 城池归属
                     city.satrap = hero.hero_id
+                    city.hero_list.append(hero.hero_id)
 
-                    for hero_id in city.hero_list:
-                        player.hero_list.append(hero_id)
-
+                    city.get_controller().set_flag_color()
                     cm.set_target_focus(*city.get_position())
                     cm.update_camera()
 
@@ -185,7 +183,10 @@ class GamePlay:
         city.owner_player_id = player.player_id
         player.city_list.append(city.unit_id)
 
-        # TODO: 城中的武将的归属,逃走俘虏
+        # 城内武将的归属
+        # TODO: 城中的武将的归属,现在做成直接归属. 以后做成俘虏
+        for hero_id in city.hero_list:
+            player.hero_list.append(hero_id)
 
     # 队伍攻城
     def troop_attack_city(self, troop, city):
