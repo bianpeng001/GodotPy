@@ -121,7 +121,7 @@ class GamePlay:
         def show_start_options():
             dlg = game_mgr.ui_mgr.option_panel_controller
             dlg.init('  大哥,朝廷封赏,命你去做县尉,咱们接下来怎么办?',
-                    ['遣散回乡', '投军', '做县尉'],
+                    ['回乡务农', '继续从军', '做县尉去'],
                     confirm_start_option)
             dlg.push_panel()
 
