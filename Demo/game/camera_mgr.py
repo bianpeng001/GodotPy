@@ -60,6 +60,7 @@ class CameraMgr(NodeObject):
         self.focus.x -= dx
         self.focus.y -= dy
         self.focus.z -= dz
+        self.is_chase_target = False
 
         self.update_camera()
 
@@ -121,7 +122,7 @@ class CameraMgr(NodeObject):
         if self.is_chase_target:
             delta = self.focus - self.target_focus
             sqr_mag = delta.sqr_magnitude()
-            if sqr_mag < 0.04:
+            if sqr_mag < 0.01:
                 self.focus.copy(self.target_focus)
                 self.is_chase_target = False
             else:
