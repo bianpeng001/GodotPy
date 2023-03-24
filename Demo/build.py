@@ -29,8 +29,9 @@ EDITOR_DEBUG = os.path.join(GODOT_BIN_DIR, 'godot.windows.editor.dev.x86_64.exe'
 DEMO_DIR = os.path.join(PROJECT_DIR, 'Demo')
 BUILD_DIR = os.path.join(PROJECT_DIR, 'Build')
 
-RES_HACKER = f'D:\Tools\ResHacker\ResourceHacker.exe'
+RES_HACKER = r'D:\Tools\ResHacker\ResourceHacker.exe'
 SCONS_EXE = 'scons.exe'
+GIT_EXE = r'D:\Tools\PortableGit\bin\git.exe'
 
 def run(cmd):
     print(cmd)
@@ -44,6 +45,15 @@ def build_publish():
     build_pck()
     # build player
     build_player_release()
+
+    # version.txt
+    with open(f'{PYTHON_DIR}\\python_ver.txt') as f:
+        python_ver = f.read().strip()
+    with open(f'{GODOT_DIR}\\godot_ver.txt') as f:
+        godot_ver = f.read().strip()
+    with open(f'{BUILD_DIR}\\verion.txt', 'w') as f:
+        f.write(f'python {python_ver}\n')
+        f.write(f'godot {godot_ver}\n')
     
     # copy files
     file_list = (
@@ -121,6 +131,7 @@ def archive_demo():
 def build_python():
     os.chdir(PYTHON_DIR)
     run(f'{SCONS_EXE}')
+    run(f'{GIT_EXE} log -1 --format=%h > python_ver.txt')
     os.chdir(GODOT_DIR)
 
 def build_pck():
@@ -128,6 +139,12 @@ def build_pck():
 
 def build_player_release():
     run(f'{SCONS_EXE} p=windows tools=no bits=64 -j{THREADS} target=template_release')
+    run(f'{GIT_EXE} log -1 --format=%h > godot_ver.txt')
+
+def verinfo():
+    run(f'{GIT_EXE} log -1 --format=%h')
+    os.chdir(PYTHON_DIR)
+    run(f'{GIT_EXE} log -1 --format=%h')
 
 if __name__ == '__main__':
     import sys
@@ -145,6 +162,7 @@ if __name__ == '__main__':
         'package' : build_pck,
         'archive_python' : archive_python,
         'archive_demo' : archive_demo,
+        'verinfo' : verinfo,
     }
     fun = None
     if len(sys.argv) >= 2:
