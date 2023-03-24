@@ -39,7 +39,7 @@ def run(cmd):
 
 def build_publish():
     os.chdir(PROJECT_DIR)
-    run(f'{GIT_EXE} log -1 --format=%h > demo_ver.txt')
+    run(f'{GIT_EXE} log -1 --format=%H > demo_ver.txt')
 
     build_python()
     #run(f'{SCONS_EXE} p=windows vsproj=no bits=64 -j4 target=editor dev_build=false')
@@ -140,7 +140,7 @@ def archive_demo():
 def build_python():
     os.chdir(PYTHON_DIR)
     run(f'{SCONS_EXE}')
-    run(f'{GIT_EXE} log -1 --format=%h > python_ver.txt')
+    run(f'{GIT_EXE} log -1 --format=%H > python_ver.txt')
     os.chdir(GODOT_DIR)
 
 def build_pck():
@@ -148,10 +148,10 @@ def build_pck():
 
 def build_player_release():
     run(f'{SCONS_EXE} p=windows tools=no bits=64 -j{THREADS} target=template_release')
-    run(f'{GIT_EXE} log -1 --format=%h > godot_ver.txt')
+    run(f'{GIT_EXE} log -1 --format=%H > godot_ver.txt')
 
 def verinfo():
-    run(f'{GIT_EXE} log -1 --format=%h')
+    run(f'{GIT_EXE} log -1 --format=%H')
     os.chdir(PYTHON_DIR)
     run(f'{GIT_EXE} log -1 --format=%h')
 
