@@ -16,6 +16,7 @@ class MainLoop(NodeObject):
     def _create(self):
         self.get_obj().set_process(process=True)
         self.get_obj().connect("ready", self._ready)
+        self.get_obj().connect("tree_exiting", self._tree_exiting)
 
         game_mgr.scene_root_obj = self.get_obj()
         from game.game_play import GamePlay
@@ -23,9 +24,13 @@ class MainLoop(NodeObject):
         game_mgr.event_mgr.emit(APP_LAUNCH)
 
     def _ready(self):
-        log_util.debug('MainLoop ready')
+        log_debug('MainLoop ready')
         # start game
         game_mgr.event_mgr.emit(START_GAME)
+
+    def _tree_exiting(self):
+        log_debug('exit tree')
+        game_mgr.game_play.on_leave_scene()
 
     def _process(self):
         if not game_mgr.paused:

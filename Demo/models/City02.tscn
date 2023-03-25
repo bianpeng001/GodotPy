@@ -1,15 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://crtycdurfutkf"]
+[gd_scene load_steps=6 format=3 uid="uid://crtycdurfutkf"]
 
-[ext_resource type="ArrayMesh" uid="uid://7ljbpgjyaxoj" path="res://models/Flag02Mesh.res" id="2_x0ewf"]
 [ext_resource type="ArrayMesh" uid="uid://blbfw86ajb7p0" path="res://models/House01.obj" id="3_s621r"]
+[ext_resource type="ArrayMesh" uid="uid://crcugkxd4vcf2" path="res://models/Flag03.obj" id="5_60rg5"]
 [ext_resource type="ArrayMesh" uid="uid://d0p8ns1eso5hb" path="res://models/Road01.obj" id="5_vm4ah"]
+[ext_resource type="Material" uid="uid://b0eifmnip3tre" path="res://models/Color/White.tres" id="6_2k7rw"]
 [ext_resource type="ArrayMesh" uid="uid://dkrgkg360dir7" path="res://models/City02.obj" id="6_gvndv"]
 
 [node name="City01" type="Node3D"]
-
-[node name="Flag" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.866026, 0, -0.499999, 0, 1, 0, 0.499999, 0, 0.866026, -0.0247706, 0, 0.952739)
-mesh = ExtResource("2_x0ewf")
 
 [node name="House01" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.112752, 0, -0.710538)
@@ -22,3 +19,8 @@ mesh = ExtResource("5_vm4ah")
 [node name="City02" type="MeshInstance3D" parent="."]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 mesh = ExtResource("6_gvndv")
+
+[node name="Flag" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.34641, 0, -0.2, 0, 0.4, 0, 0.2, 0, 0.34641, 0, 0, 0.955478)
+mesh = ExtResource("5_60rg5")
+surface_material_override/1 = ExtResource("6_2k7rw")

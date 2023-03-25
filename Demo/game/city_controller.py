@@ -27,7 +27,9 @@ class CityController(Controller):
             flag_node = node.find_node('Flag')
             if flag_node:
                 #mesh_instance3d_load_material(flag_node, 0, 'res://models/Color/Green.tres')
-                flag_node.load_material(0, 'res://models/Color/Green.tres')
+                #flag_node.load_material(1, 'res://models/Color/Green.tres')
+                mat = OS.load_resource('res://models/Color/Green.tres')
+                flag_node.set_surface_material(1, mat)
 
     # 计算资源增长
     def _calc_resource_grow(self, amount, growth_rate, delta_time, max_amount):

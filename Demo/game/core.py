@@ -535,6 +535,9 @@ class FMeshInstance3D(FVisualInstance3D):
     def set_albedo_color(self, r,g,b):
         gp.mesh_instance3d_set_albedo_color(self.get_gdobj(), r,g,b)
 
+    def set_surface_material(self, surface, mat):
+        gp.mesh_instance3d_set_surface_material(self.get_gdobj(), surface, mat)
+
 class FAnimationPlayer(FNode):
     def play(self, anim_name):
         gp.animation_player_play(self.get_gdobj(), anim_name)

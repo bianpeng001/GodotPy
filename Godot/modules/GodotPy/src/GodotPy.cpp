@@ -2030,6 +2030,39 @@ static PyObject *f_mesh_instance3d_load_material(PyObject *module, PyObject *arg
 		// https://github.com/godotengine/godot/issues/59912
 		mesh_instance->set_material_override(mat);
 
+		// 这个不能用啊
+		//mesh_instance->set_surface_override_material(surface, mat);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_mesh_instance3d_set_surface_material(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		int a_surface;
+		PyObject *a_mat;
+
+		if (!PyArg_ParseTuple(args, "OiO", &a_obj, &a_surface, &a_mat)) {
+			break;
+		}
+
+		MeshInstance3D *mesh_instance = GetObjPtr<MeshInstance3D>(a_obj);
+		if (!mesh_instance) {
+			break;
+		}
+
+		int count = mesh_instance->get_surface_override_material_count();
+		if (a_surface >= count) {
+			break;
+		}
+		if (Py_IsNone(a_mat)) {
+			mesh_instance->set_surface_override_material(a_surface, nullptr);
+		} else {
+			auto p_res = GetResCapsule(a_mat);
+			mesh_instance->set_surface_override_material(a_surface, p_res->res);
+		}
+
 	} while (0);
 
 	Py_RETURN_NONE;
@@ -2303,6 +2336,7 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// mesh instance
 	{ "mesh_instance3d_load_material", f_mesh_instance3d_load_material, METH_VARARGS, NULL },
+	{ "mesh_instance3d_set_surface_material", f_mesh_instance3d_set_surface_material, METH_VARARGS, NULL },
 	{ "mesh_instance3d_set_albedo_color", f_mesh_instance3d_set_albedo_color, METH_VARARGS, NULL },
 	{ "mesh_instance3d_load_albedo_tex", f_mesh_instance3d_load_albedo_tex, METH_VARARGS, NULL },
 
