@@ -88,6 +88,9 @@ if __name__ == '__main__':
     #print(bmp.lines)
     #print(bmp.get_pixel(29, 4))
     #print(bmp.get_color(3, 29))
-    build_map_data()
+    
+    #build_map_data()
 
+    bmp = Bmp('./data/world_terrain.bmp')
+    print(bmp.pixel_data_offset)
     

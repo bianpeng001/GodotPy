@@ -29,7 +29,7 @@ class MainLoop(NodeObject):
         game_mgr.event_mgr.emit(START_GAME)
 
     def _tree_exiting(self):
-        log_debug('exit tree')
+        log_debug('MainLoop exit tree')
         game_mgr.game_play.on_leave_scene()
 
     def _process(self):

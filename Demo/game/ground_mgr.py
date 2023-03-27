@@ -50,12 +50,12 @@ class Tile:
 
         mi = self.model_node.find_node('Mesh')
         
-        self.test_mesh()
+        #self.test_mesh()
         # if self.color == 0:
         #     mi.load_material(0, 'res://models/Terrain/WaterMat.tres')
         # else:
         #     mi.load_material(0, 'res://models/Terrain/GrassMat.tres')
-        #self.generate_mesh()
+        self.generate_mesh()
         mat = OS.load_resource('res://models/Terrain/Terrain01Mat.tres')
         mi.set_surface_material(0, mat)
 
@@ -79,9 +79,36 @@ class Tile:
 
     # TODO: 根据底图生成mesh, 用来表示地形
     def generate_mesh(self):
-        pasmi = self.model_node.find_node('Mesh')
-
+        bmp = game_mgr.ground_mgr.terrain_map
+        STEP = 0.2
+        
+        vertex_index = 0
         st = FSurfaceTool()
+        for y in range(10):
+            for x in range(10):
+                col,row = x+(self.col+15)*10, y+(self.row+15)*10
+                if col >= 0 and col < 300 and row >=0 and row < 300:
+                    b,g,r = bmp.get_color(col,row)
+                else:
+                    b,g,r = 0,0,0
+                
+                if r == 255:
+                    st.set_uv(0.11,0.11)
+                else:
+                    st.set_uv(0.36, 0.86)
+                st.set_normal(0, 1, 0)
+                
+                st.add_vertex(-1+x*STEP, 0, -1+y*STEP)
+                st.add_vertex(-1+(x+1)*STEP, 0, -1+y*STEP)
+                st.add_vertex(-1+(x+1)*STEP, 0, -1+(y+1)*STEP)
+                st.add_vertex(-1+x*STEP, 0, -1+(y+1)*STEP)
+                st.add_triangle(vertex_index,vertex_index+1,vertex_index+2)
+                st.add_triangle(vertex_index,vertex_index+2,vertex_index+3)
+
+                vertex_index+=4
+
+                
+        mi = self.model_node.find_node('Mesh')
         st.commit(mi)
 
     def load_items(self):
@@ -113,7 +140,9 @@ class Tile:
                 1.0)
 
     def create_city(self):
-        if not self.city_unit and random_100() < 30:
+        if not self.city_unit and \
+                self.color == 255 and \
+                random_100() < 35:
             pos_x,pos_z = self.get_center_pos()
 
             self.city_unit = game_mgr.unit_mgr.create_city()
@@ -239,7 +268,7 @@ class GroundMgr(NodeObject):
         bmp = Bmp(r'game\data\world_map.bmp')
         for y in range(h):
             for x in range(w):
-                r,g,b = bmp.get_color(x,y)
+                b,g,r = bmp.get_color(x,y)
                 col = x - cx
                 row = y - cy
 
@@ -248,6 +277,6 @@ class GroundMgr(NodeObject):
                 tile.create_city()
         log_util.enable_debug = True
 
-        self.terrian_map = Bmp(r'game\data\world_terrain.bmp')
+        self.terrain_map = Bmp(r'game\data\world_terrain.bmp')
 
 
