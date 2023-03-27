@@ -33,7 +33,7 @@ theme = ExtResource("3_xrwtj")
 theme_override_font_sizes/font_size = 18
 text = "东临碣石，以观沧海。水何澹澹，山岛竦峙。树木丛生，百草丰茂。秋风萧瑟，洪波涌起。"
 vertical_alignment = 1
-autowrap_mode = 2
+autowrap_mode = 1
 
 [node name="Option1" type="CheckBox" parent="Panel"]
 layout_mode = 0

@@ -120,14 +120,14 @@ class GamePlay:
                 yield WaitForSeconds(1.5)
 
                 dlg = game_mgr.ui_mgr.npc_dialog_controller
-                dlg.init('大哥, 此处虽小, 只要用心经营, 未必不能有一番作为.', 3)
+                dlg.init('现在各地经历兵乱, 破坏凋敝. 此处虽小, 只要用心经营, 也是个安身之处.', 3)
 
             # 游戏的第一个选择
             def confirm_start_option(index):
                 # TODO: 这里要根据选项做一些区别对待
                 if index == 0:
                     dlg = game_mgr.ui_mgr.npc_dialog_controller
-                    dlg.init('大哥, 你在开玩笑?', 10)
+                    dlg.init('大哥, 你在开玩笑?', 3)
                     return True
 
                 log_debug('select', index)
@@ -167,6 +167,16 @@ class GamePlay:
         city_count = len([x for x in game_mgr.unit_mgr.each_city()])
         log_debug('city count =', city_count)
 
+    # 离开场景前, 需要做一些清理
+    def on_leave_scene(self):
+        # 这是要清理surface material override
+        # 不然就有报错, 所以, 虽然不太合理,但还是可以做一下
+        for city in game_mgr.unit_mgr.get_city_iterator():
+            if city.model_node:
+                flag_node = city.model_node.find_node('Flag')
+                if flag_node:
+                    flag_node.set_surface_material(1, None)
+                
     # API方法，业务代码
 
     # 修改城城池归属
