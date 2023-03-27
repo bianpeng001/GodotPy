@@ -29,3 +29,7 @@ godot shader 展示
 完整的toon shader展示
 https://godotshaders.com/shader/complete-toon-shader/
 https://gitlab.com/eldskald/3d-toon-resources
+
+// markdown, 这两个库应该都可以用. 目前用的marked
+https://github.com/markedjs/marked
+https://github.com/markdown-it/markdown-it
