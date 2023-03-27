@@ -339,6 +339,10 @@ class OS:
         return gp.get_window_size()
 
     @classmethod
+    def set_window_title(cls, title):
+        return gp.window_set_title(title)
+        
+    @classmethod
     def viewport_get_size(cls):
         return gp.viewport_get_size()
 

@@ -675,11 +675,19 @@ static PyObject *f_get_window_size(PyObject *module, PyObject *args) {
 	Py_RETURN_NONE;
 }
 static PyObject *f_window_set_title(PyObject *module, PyObject *args) {
-	auto server = DisplayServer::get_singleton();
-	if (server) {
-		server->window_set_title(String());
-	}
+	do {
+		const char *a_title;
+		if (!PyArg_ParseTuple(args, "s", &a_title)) {
+			break;
+		}
+		auto server = DisplayServer::get_singleton();
+		if (server) {
+			auto title = String::utf8(a_title);
+			server->window_set_title(title);
+		}
 
+	} while (0);
+	
 	Py_RETURN_NONE;
 }
 static PyObject *f_viewport_get_size(PyObject *module, PyObject *args) {

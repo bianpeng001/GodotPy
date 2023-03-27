@@ -55,6 +55,9 @@ class GamePlay:
                 obj = json.load(f)
                 OS.set_window_rect(*obj['window'])
 
+        # 标题
+        OS.set_window_title('豪杰是怎样练成的')
+
         # 起始块, 不加载物件，因为这块可能会有一些特效残留的bug，
         # 弄一个建筑物挡一挡，毕竟是天下之中
         tile, _ = game_mgr.ground_mgr.create_tile(0, 0)
@@ -72,7 +75,6 @@ class GamePlay:
         # 默认创建一个空城
         def co_choose_base_city():
             player = pm.main_player
-            player.player_name = '刘备'
 
             while True:
                 city = game_mgr.unit_mgr.find_unit(lambda x:
@@ -127,7 +129,7 @@ class GamePlay:
                 # TODO: 这里要根据选项做一些区别对待
                 if index == 0:
                     dlg = game_mgr.ui_mgr.npc_dialog_controller
-                    dlg.init('大哥, 你在开玩笑?', 3)
+                    dlg.init('严肃点, 不要开玩笑?', 3)
                     return True
 
                 log_debug('select', index)
@@ -149,6 +151,8 @@ class GamePlay:
 
         log_util.debug('create main player')
         pm.main_player = pm.new_player()
+        pm.main_player.player_name = '刘备'
+        
         game_mgr.co_mgr.start(co_wait_for_ground())
         test_wait_1()
 

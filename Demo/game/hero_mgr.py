@@ -112,7 +112,9 @@ class Hero:
         # 所在城市id
         self.city_id = 0
         self.troop_id = 0
-
+        
+        # 人物传记, 就是要记录个人的一些关键节点
+        self.biography = []
         
     def get_age(self):
         return game_mgr.game_data.cur_year - self.born_year + 1

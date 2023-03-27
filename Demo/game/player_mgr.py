@@ -8,7 +8,7 @@ from game.core import *
 class Player:
     def __init__(self):
         self.player_id = 0
-        self.player_name = ''
+        self.player_name = '无名氏'
 
         self.city_list = []
         self.troop_list = []
