@@ -25,5 +25,7 @@ godot shader 展示
 	https://godotshaders.com/?s=water
 	
 	
-	
-	
+///
+完整的toon shader展示
+https://godotshaders.com/shader/complete-toon-shader/
+https://gitlab.com/eldskald/3d-toon-resources

@@ -7,6 +7,7 @@ import struct
 
 from game.core import *
 from game.game_mgr import *
+from game.load_world_map import Bmp
 
 TILE_SIZE = 30
 
@@ -19,7 +20,7 @@ def pos_to_colrow(x, z):
 # 打仗过程里面，走直线, 加一点弧度或者干扰, 别笔直就好了
 class Tile:
     def __init__(self, col, row):
-        # 区块的ID，坐标/TILE_SIZE, 取证
+        # 区块的ID，坐标/TILE_SIZE, 取整
         self.col = col
         self.row = row
         # 自己的地块模型
@@ -71,6 +72,13 @@ class Tile:
         st.add_triangle(0, 1, 2)
         st.add_triangle(0, 2, 3)
 
+        st.commit(mi)
+        
+    # TODO: 根据底图生成mesh, 用来表示地形
+    def generate_mesh(self):
+        pasmi = self.model_node.find_node('Mesh')
+
+        st = FSurfaceTool()
         st.commit(mi)
 
     def load_items(self):
@@ -221,30 +229,22 @@ class GroundMgr(NodeObject):
 
     # 从数据中加载
     def load_data(self):
-        data = []
-        # with open('world_map.json') as f:
-        #     data = json.load(f)
-        # 一整块数据, 地图块数据, 不包含说明信息
         w,h = 30,30
-        cx, cy = w//2,h//2
-
-        log_debug(f'load map {w}x{h}')
-        with open('game\\data\\world_map.dat', 'rb') as f:
-            buf = f.read()
-            for i in range(len(buf) // 3):
-                x = i % w
-                y = i // h
-                r,g,b = struct.unpack('>BBB', buf[i*3:(i+1)*3])
-                item = (x-cx,y-cy,r)
-                data.append(item)
-
+        cx,cy = w//2,h//2
+        
         log_util.enable_debug = False
-
-        for item in data:
-            x,y,r = item
-            tile, _ = self.create_tile(x, y)
-            tile.color = r
-            tile.create_city()
-
+        bmp = Bmp(f'game\data\world_map.bmp')
+        for y in range(h):
+            for x in range(w):
+                r,g,b = bmp.get_color(x,y)
+                col = x - cx
+                row = y - cy
+                
+                tile, _ = self.create_tile(col, row)
+                tile.color = r
+                tile.create_city()
         log_util.enable_debug = True
+        
+        self.terrian_map = Bmp(f'game\data\world_terrain.bmp')
+        
 

@@ -491,6 +491,9 @@ class FNode(FObject):
 
     def set_last(self):
         gp.node_set_last(self.get_gdobj())
+        
+    def set_name(self, name):
+        gp.node_set_name(self.get_gdobj(), name)
 
 class FNode3D(FNode):
     def set_position(self, x,y,z):

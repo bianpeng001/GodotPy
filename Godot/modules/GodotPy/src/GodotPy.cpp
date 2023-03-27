@@ -799,6 +799,22 @@ static PyObject *f_connect(PyObject *module, PyObject *args) {
 	
 	Py_RETURN_NONE;
 }
+static PyObject *f_node_set_name(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		const char *a_name;
+
+		if (!PyArg_ParseTuple(args, "Os", &a_obj, &a_name)) {
+			break;
+		}
+
+		auto node = GetObjPtr<Node>(a_obj);
+		node->set_name(String::utf8(a_name));
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+//
 static PyObject *f_get_parent(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_node;
@@ -2270,7 +2286,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "node_dup", f_node_dup, METH_VARARGS, NULL },
 
 	{ "connect", f_connect, METH_VARARGS, NULL },
-	
+	{ "node_set_name", f_node_set_name, METH_VARARGS, NULL },
 	
 	// node3d
 	{ "set_position", f_set_position, METH_VARARGS, NULL },
