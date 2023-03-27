@@ -29,7 +29,7 @@ class Tile:
         self.item_nodes = []
         # 上面的单位列表
         self.unit_list = []
-        
+
         # 用来控制可见列表
         self.show_age = 1
 
@@ -48,13 +48,16 @@ class Tile:
         self.model_node = FNode3D.instantiate('res://models/Tile01.tscn')
         self.model_node.set_position(pos_x, 0, pos_z)
 
-        self.test_mesh()
-
         mi = self.model_node.find_node('Mesh')
-        if self.color == 0:
-            mi.load_material(0, 'res://models/Terrain/WaterMat.tres')
-        else:
-            mi.load_material(0, 'res://models/Terrain/GrassMat.tres')
+        
+        self.test_mesh()
+        # if self.color == 0:
+        #     mi.load_material(0, 'res://models/Terrain/WaterMat.tres')
+        # else:
+        #     mi.load_material(0, 'res://models/Terrain/GrassMat.tres')
+        #self.generate_mesh()
+        mat = OS.load_resource('res://models/Terrain/Terrain01Mat.tres')
+        mi.set_surface_material(0, mat)
 
     def test_mesh(self):
         mi = self.model_node.find_node('Mesh')
@@ -73,7 +76,7 @@ class Tile:
         st.add_triangle(0, 2, 3)
 
         st.commit(mi)
-        
+
     # TODO: 根据底图生成mesh, 用来表示地形
     def generate_mesh(self):
         pasmi = self.model_node.find_node('Mesh')
@@ -95,7 +98,7 @@ class Tile:
 
         # 草
         for i in range(random.randrange(1, 5)):
-            self.load_res('res://models/Grass01.tscn', 
+            self.load_res('res://models/Grass01.tscn',
                 pos_x + random_x()*15,
                 pos_z + random_x()*15,
                 0.8 + random.random()*0.7)
@@ -149,7 +152,7 @@ class GroundMgr(NodeObject):
     def __init__(self):
         super().__init__()
         game_mgr.ground_mgr = self
-        
+
         # 地块
         self.tile_dict = {}
 
@@ -188,7 +191,7 @@ class GroundMgr(NodeObject):
         self.update_tile(cx    , cz - 1)
         self.update_tile(cx - 1, cz - 1)
         self.update_tile(cx + 1, cz - 1)
-        
+
         self.update_tile(cx    , cz + 1)
         self.update_tile(cx - 1, cz + 1)
         self.update_tile(cx + 1, cz + 1)
@@ -223,7 +226,7 @@ class GroundMgr(NodeObject):
             tile.load()
             if tile.color == 255:
                 tile.load_items()
-        
+
         tile.update_hud()
         self.show_tile_list.append(tile)
 
@@ -231,20 +234,20 @@ class GroundMgr(NodeObject):
     def load_data(self):
         w,h = 30,30
         cx,cy = w//2,h//2
-        
+
         log_util.enable_debug = False
-        bmp = Bmp(f'game\data\world_map.bmp')
+        bmp = Bmp(r'game\data\world_map.bmp')
         for y in range(h):
             for x in range(w):
                 r,g,b = bmp.get_color(x,y)
                 col = x - cx
                 row = y - cy
-                
+
                 tile, _ = self.create_tile(col, row)
                 tile.color = r
                 tile.create_city()
         log_util.enable_debug = True
-        
-        self.terrian_map = Bmp(f'game\data\world_terrain.bmp')
-        
+
+        self.terrian_map = Bmp(r'game\data\world_terrain.bmp')
+
 
