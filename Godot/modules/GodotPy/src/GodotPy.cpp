@@ -2138,6 +2138,7 @@ static inline SurfaceToolCapsule* GetSurfaceToolCapsule(PyObject* capsule) {
 }
 static PyObject *f_surface_tool_new(PyObject *module, PyObject *args) {
 	do {
+
 		SurfaceToolCapsule *p_res = memnew(SurfaceToolCapsule);
 		p_res->st = Ref<SurfaceTool>(memnew(SurfaceTool));
 		p_res->st->begin(Mesh::PRIMITIVE_TRIANGLES);
@@ -2164,6 +2165,10 @@ static PyObject *f_surface_tool_set_color(PyObject *module, PyObject *args) {
 		}
 
 		auto p_res = GetSurfaceToolCapsule(p_obj);
+		if (!p_res) {
+			break;
+		}
+
 		p_res->st->set_color(Color(r,g,b));
 
 	} while (0);
@@ -2180,7 +2185,31 @@ static PyObject *f_surface_tool_set_uv(PyObject *module, PyObject *args) {
 		}
 
 		auto p_res = GetSurfaceToolCapsule(p_obj);
+		if (!p_res) {
+			break;
+		}
+
 		p_res->st->set_uv(Vector2(x, y));
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_surface_tool_set_uv2(PyObject *module, PyObject *args) {
+	do {
+		PyObject *p_obj;
+		float x, y;
+
+		if (!PyArg_ParseTuple(args, "Off", &p_obj, &x, &y)) {
+			break;
+		}
+
+		auto p_res = GetSurfaceToolCapsule(p_obj);
+		if (!p_res) {
+			break;
+		}
+
+		p_res->st->set_uv2(Vector2(x, y));
 
 	} while (0);
 
@@ -2196,6 +2225,10 @@ static PyObject *f_surface_tool_add_vertex(PyObject *module, PyObject *args) {
 		}
 
 		auto p_res = GetSurfaceToolCapsule(p_obj);
+		if (!p_res) {
+			break;
+		}
+
 		p_res->st->add_vertex(Vector3(x, y, z));
 
 	} while (0);
@@ -2212,6 +2245,10 @@ static PyObject *f_surface_tool_add_index(PyObject *module, PyObject *args) {
 		}
 
 		auto p_res = GetSurfaceToolCapsule(p_obj);
+		if (!p_res) {
+			break;
+		}
+
 		p_res->st->add_index(i);
 
 	} while (0);
@@ -2228,6 +2265,10 @@ static PyObject *f_surface_tool_set_normal(PyObject *module, PyObject *args) {
 		}
 
 		auto p_res = GetSurfaceToolCapsule(p_obj);
+		if (!p_res) {
+			break;
+		}
+
 		p_res->st->set_normal(Vector3(x,y,z));
 
 	} while (0);
@@ -2244,6 +2285,7 @@ static PyObject *f_surface_tool_commit(PyObject *module, PyObject *args) {
 		}
 
 		auto p_res = GetSurfaceToolCapsule(p_obj);
+		
 		auto mi = GetObjPtr<MeshInstance3D>(mi_obj);
 		if (!mi || !p_res) {
 			break;
@@ -2373,6 +2415,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "surface_tool_new", f_surface_tool_new, METH_VARARGS, NULL },
 	{ "surface_tool_set_color", f_surface_tool_set_color, METH_VARARGS, NULL },
 	{ "surface_tool_set_uv", f_surface_tool_set_uv, METH_VARARGS, NULL },
+	{ "surface_tool_set_uv2", f_surface_tool_set_uv2, METH_VARARGS, NULL },
 	{ "surface_tool_set_normal", f_surface_tool_set_normal, METH_VARARGS, NULL }, 
 	{ "surface_tool_add_vertex", f_surface_tool_add_vertex, METH_VARARGS, NULL },
 	{ "surface_tool_add_index", f_surface_tool_add_index, METH_VARARGS, NULL },
