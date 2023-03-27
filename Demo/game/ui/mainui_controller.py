@@ -29,7 +29,7 @@ class MainUIController(UIController, PopupTrait):
         self.refresh_time = game_mgr.sec_time
         self.refresh_frame_number = game_mgr.frame_number
 
-        btn_labels = ['系统', '读档', '存档', '地图', '战报', '执行']
+        btn_labels = ['系统', '读档', '存档', '地图', '战报', '执行', '势力']
         btn_1 = self.ui_obj.find_node('Btn1')
         btn_list = [btn_1.dup() for i in range(len(btn_labels) - 1)]
         btn_list.append(btn_1)
