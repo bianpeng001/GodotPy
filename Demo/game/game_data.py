@@ -3,7 +3,7 @@
 #
 import os
 import sqlite3
-
+import json
 
 # 游戏存档
 class GameData:
@@ -29,23 +29,29 @@ class GameData:
         
         cursor = conn.cursor()
         cursor.execute('''
-                       CREATE TABLE CITY (
-                           ID INT PRIMARY KEY NOT NULL,
-                           NAME TEXT NOT NULL,
-                           X INT,
-                           Y INT
-                       );
-                       
-                       
-                       ''')
+CREATE TABLE CITY (
+    ID INT PRIMARY KEY NOT NULL,
+    NAME TEXT NOT NULL,
+    X INT,
+    Y INT,
+);
+''')
         cursor.execute('''
-                       CREATE TABLE HERO(
-                           ID INT PRIMARY KEY NOT NULL,
-                           NAME TEXT NOT NULL,
-                           BORN_YEAR INT,
-                           CITY_ID INT
-                       );
-                       ''')
+CREATE TABLE HERO (
+ID INT PRIMARY KEY NOT NULL,
+NAME TEXT NOT NULL,
+BORN_YEAR INT,
+CITY_ID INT references CITY(ID),
+);
+''')
+        cursor.execute('''
+CREATE TABLE TROOP (
+ID INT PRIMARY KEY NOT NULL,
+NAME TEXT NOT NULL,
+CHIEF_HERO_ID INT references HERO(ID)
+HERO_LIST INT ARRAY[9],
+);
+''')
         conn.commit()
         
         conn.close()
@@ -54,13 +60,4 @@ class GameData:
         return self.start_year + int(self.play_time / (86400*365))
 
 
-    def test_db(self):
-        con = sqlite3.connect("tutorial.db")
-        cur = con.cursor()
-        cur.execute("CREATE TABLE movie(title, year, score)")
 
-        con.commit()
-        con.close()
-
-
-        
