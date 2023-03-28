@@ -80,8 +80,22 @@ class Tile:
     
     # 生成地形融合, 最好是用贴图来融合
     def generate_mesh(self, mi):
-        bmp = game_mgr.ground_mgr.terrain_map
         
+        def get_color(col,row):
+            if col >= 0 and col < 300 and row >= 0 and row < 300:
+                b,g,r = bmp.get_color(col, row)
+                if r != 255:
+                    r = 0
+                return r,g,b
+            else:
+                return 0,0,0
+        def get_uv(r):
+            if r == 255:
+                return 0.11,0.11
+            else:
+                return 0.36, 0.86
+            
+        bmp = game_mgr.ground_mgr.terrain_map
         STEP = 0.2
         vertex_index = 0
         
@@ -92,6 +106,11 @@ class Tile:
         for i in range(100):
             x = i % 10
             y = i // 10
+            
+            col,row = x+(self.col+15)*10, y+(self.row+15)*10
+            r,g,b = get_color(col, row)
+            u,v = get_uv(r)
+            st.set_color(u,v,u,v)
             
             st.set_uv(0.5, 1.0)
             st.add_vertex(-1+x*STEP, 0, -1+y*STEP)
