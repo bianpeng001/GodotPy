@@ -85,8 +85,8 @@ class Tile:
         def get_color(col,row):
             if col >= 0 and col < 300 and row >= 0 and row < 300:
                 b,g,r = bmp.get_color(col, row)
-                if r != 255:
-                    r = 0
+                
+                r = 0 if r < 100 else 255
                 return r,g,b
             else:
                 return 0,0,0
@@ -117,7 +117,7 @@ class Tile:
             elif s == 3 or s == 4:
                 r = 255
                 pat = pat | 0b00001
-                
+            
             return r, pat
             
         def get_uv(r):
