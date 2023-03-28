@@ -1,7 +1,7 @@
 shader_type spatial;
 //render_mode unshaded;
 //render_mode diffuse_toon, specular_toon;
-
+//render_mode diffuse_lambert;
 
 uniform sampler2D base_tex;
 uniform sampler2D blend_tex;

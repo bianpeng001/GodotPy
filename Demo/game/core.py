@@ -711,7 +711,8 @@ class FSurfaceTool:
     # mi -> FMeshInstance3D
     def commit(self, mi):
         gp.surface_tool_commit(self.st, mi.get_gdobj())
-   
+
+
 # 类型到wrap类的映射
 # 这个wrap的好处就是，利用oop，使得操作的对象上面只有对应类型能用的方法
 # 不在直接使用node对应的原始的pygd_obj，那个对象只用来当做一个弱引用使用

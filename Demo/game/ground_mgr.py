@@ -89,6 +89,7 @@ class Tile:
                 return r,g,b
             else:
                 return 0,0,0
+            
         def get_uv(r):
             if r == 255:
                 return 0.11,0.11
@@ -99,6 +100,15 @@ class Tile:
         STEP = 0.2
         vertex_index = 0
         
+        uv_dict = {
+            0b00111: (0.5,0.0,0.0,0.5),
+            0b01101: (0.0,0.0,0.5,0.5),
+            0b11001: (0.0,0.5,0.5,0.0),
+            0b10011: (0.5,0.5,0.0,0.0),
+            
+            0b00000: (0.5,0.5,1.0,1.0)
+        }
+        
         st = FSurfaceTool()
         st.set_color(0.11,0.11,0.36,0.86)
         st.set_normal(0, 1, 0)
@@ -108,21 +118,48 @@ class Tile:
             y = i // 10
             
             col,row = x+(self.col+15)*10, y+(self.row+15)*10
-            r,g,b = get_color(col, row)
-            u,v = get_uv(r)
-            st.set_color(u,v,u,v)
+            r,_,_ = get_color(col, row)
             
-            st.set_uv(0.5, 1.0)
+            pat = 0
+            if r == 255:
+                pat += 0b00001
+            
+            #   2
+            #  301
+            #   4
+            r1,_,_ = get_color(col+1, row)
+            r2,_,_ = get_color(col, row-1)
+            r3,_,_ = get_color(col-1, row)
+            r4,_,_ = get_color(col, row+1)
+            
+            if r1 == 255:
+                pat += 0b00010
+            if r2 == 255:
+                pat += 0b00100
+            if r3 == 255:
+                pat += 0b01000
+            if r4 == 255:
+                pat += 0b10000
+            
+            #u1,v1,u2,v2 = 0.0,0.5,0.5,1.0
+            #u1,v1,u2,v2 = 0.5,0.5,1.0,1.0
+            #u1,v1,u2,v2 = 0.0,0.0,0.5,0.5
+            if pat & 0b00001 == 0:
+                u1,v1,u2,v2 = uv_dict[0]
+            else:
+                u1,v1,u2,v2 = uv_dict.get(pat, (0.0, 0.5, 0.5, 1.0))
+            
+            st.set_uv(u1,v2)
             st.add_vertex(-1+x*STEP, 0, -1+y*STEP)
-            st.set_uv(1.0, 1.0)
+            st.set_uv(u2,v2)
             st.add_vertex(-1+(x+1)*STEP, 0, -1+y*STEP)
-            st.set_uv(1.0, 0.0)
-            st.add_vertex(-1+(x+1)*STEP, 0, -1+(y+1)*STEP)
-            st.set_uv(0.5, 0.0)
-            st.add_vertex(-1+x*STEP, 0, -1+(y+1)*STEP)
+            st.set_uv(u2,v1)
+            st.add_vertex(-1+(x+1)*STEP, 0, -1+(y-1)*STEP)
+            st.set_uv(u1,v1)
+            st.add_vertex(-1+x*STEP, 0, -1+(y-1)*STEP)
             
-            st.add_triangle(vertex_index, vertex_index+1, vertex_index+2)
-            st.add_triangle(vertex_index, vertex_index+2, vertex_index+3)
+            st.add_triangle(vertex_index, vertex_index+2, vertex_index+1)
+            st.add_triangle(vertex_index, vertex_index+3, vertex_index+2)
             vertex_index+=4
             
         st.commit(mi)
