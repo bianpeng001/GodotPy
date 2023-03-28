@@ -5,7 +5,9 @@ import os
 import sqlite3
 import json
 
+#
 # 游戏存档
+#
 class GameData:
     def __init__(self):
         self.start_year = 181
@@ -30,10 +32,19 @@ class GameData:
         cursor = conn.cursor()
         cursor.execute('''
 CREATE TABLE CITY (
-    ID INT PRIMARY KEY NOT NULL,
-    NAME TEXT NOT NULL,
-    X INT,
-    Y INT,
+ID INT PRIMARY KEY NOT NULL,
+NAME TEXT NOT NULL,
+HERO_LIST INT ARRAY,
+
+SATRAP INT,
+ORDER_INCHARGE INT,
+FARM_INCHARGE INT,
+TRADER_INCHARGE INT,
+FAX_INCHARGE INT,
+
+FAX_RATE INT,
+X FLOAT,
+Y FLOAT
 );
 ''')
         cursor.execute('''
@@ -41,7 +52,7 @@ CREATE TABLE HERO (
 ID INT PRIMARY KEY NOT NULL,
 NAME TEXT NOT NULL,
 BORN_YEAR INT,
-CITY_ID INT references CITY(ID),
+CITY_ID INT references CITY(ID)
 );
 ''')
         cursor.execute('''
@@ -50,14 +61,16 @@ ID INT PRIMARY KEY NOT NULL,
 NAME TEXT NOT NULL,
 CHIEF_HERO_ID INT references HERO(ID)
 HERO_LIST INT ARRAY[9],
+X FLOAT,
+Y FLOAT
 );
 ''')
         conn.commit()
-        
         conn.close()
 
     def get_cur_year(self):
         return self.start_year + int(self.play_time / (86400*365))
+
 
 
 
