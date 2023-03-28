@@ -48,15 +48,15 @@ class Tile:
         self.model_node = FNode3D.instantiate('res://models/Tile01.tscn')
         self.model_node.set_position(pos_x, 0, pos_z)
 
-        mi = self.model_node.find_node('Mesh')
-        
         #self.test_mesh()
         # if self.color == 0:
         #     mi.load_material(0, 'res://models/Terrain/WaterMat.tres')
         # else:
         #     mi.load_material(0, 'res://models/Terrain/GrassMat.tres')
-        self.generate_mesh()
-        mat = OS.load_resource('res://models/Terrain/Terrain01Mat.tres')
+        
+        mi = self.model_node.find_node('Mesh')
+        self.generate_mesh(mi)
+        mat = OS.load_resource('res://models/Terrain/Terrain03Mat.tres')
         mi.set_surface_material(0, mat)
 
     def test_mesh(self):
@@ -79,11 +79,37 @@ class Tile:
 
     
     # 生成地形融合, 最好是用贴图来融合
-    def generate_mesh2(self):
-        pass
+    def generate_mesh(self, mi):
+        bmp = game_mgr.ground_mgr.terrain_map
+        
+        STEP = 0.2
+        vertex_index = 0
+        
+        st = FSurfaceTool()
+        st.set_color(0.11,0.11,0.36,0.86)
+        st.set_normal(0, 1, 0)
+        
+        for i in range(100):
+            x = i % 10
+            y = i // 10
+            
+            st.set_uv(0.5, 1.0)
+            st.add_vertex(-1+x*STEP, 0, -1+y*STEP)
+            st.set_uv(1.0, 1.0)
+            st.add_vertex(-1+(x+1)*STEP, 0, -1+y*STEP)
+            st.set_uv(1.0, 0.0)
+            st.add_vertex(-1+(x+1)*STEP, 0, -1+(y+1)*STEP)
+            st.set_uv(0.5, 0.0)
+            st.add_vertex(-1+x*STEP, 0, -1+(y+1)*STEP)
+            
+            st.add_triangle(vertex_index, vertex_index+1, vertex_index+2)
+            st.add_triangle(vertex_index, vertex_index+2, vertex_index+3)
+            vertex_index+=4
+            
+        st.commit(mi)
     
     # TODO: 根据底图生成mesh, 用来表示地形
-    def generate_mesh(self):
+    def generate_mesh1(self):
         bmp = game_mgr.ground_mgr.terrain_map
         def get_color(col,row):
             if col >= 0 and col < 300 and row >= 0 and row < 300:
