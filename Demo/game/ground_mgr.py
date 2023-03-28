@@ -414,12 +414,12 @@ class GroundMgr(NodeObject):
         bmp = Bmp(r'game\data\world_map.bmp')
         for y in range(h):
             for x in range(w):
-                b,g,r = bmp.get_color(x,y)
+                _,_,r = bmp.get_color(x,y)
                 col = x - cx
                 row = y - cy
 
                 tile, _ = self.create_tile(col, row)
-                tile.color = r
+                tile.color = 255 if r > 199 else 0
                 tile.create_city()
         log_util.enable_debug = True
 
