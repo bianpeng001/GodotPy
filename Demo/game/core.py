@@ -677,7 +677,6 @@ class FNode2D(FCanvasItem):
     def set_position(self, x,y):
         gp.node2d_set_position(self.get_gdobj(), x,y)
 
-
 class FSurfaceTool:
     def __init__(self):
         self.st = gp.surface_tool_new()
@@ -755,6 +754,7 @@ _TypeMap = {
     'HBoxContainer' : FHBoxContainer,
     'VBoxContainer' : FVBoxContainer,
     'ItemList' : FItemList,
+    
 }
 
 # 传给c++,那边,当新增一个类型的时候,需要注册到py端,关键需要保持type_id一致

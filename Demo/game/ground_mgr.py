@@ -91,6 +91,35 @@ class Tile:
             else:
                 return 0,0,0
             
+        def fix_color(r, r1,r2,r3,r4):
+            s = 0
+            pat = 0
+            
+            if r == 255:
+                pat += 1
+                
+            if r1 == 255:
+                s += 1
+                pat += (1 << 1)
+            if r2 == 255:
+                s += 1
+                pat += (1 << 2)
+            if r3 == 255:
+                s += 1
+                pat += (1 << 3)
+            if r4 == 255:
+                s += 1
+                pat += (1 << 4)
+                
+            if s == 0 or s == 1:
+                r = 0
+                pat = pat & 0b11110
+            elif s == 3 or s == 4:
+                r = 255
+                pat = pat | 0b00001
+                
+            return r, pat
+            
         def get_uv(r):
             if r == 255:
                 return 0.11,0.11
@@ -106,11 +135,6 @@ class Tile:
             0b01101: (0.0,0.0,0.5,0.5),
             0b11001: (0.0,0.5,0.5,0.0),
             0b10011: (0.5,0.5,0.0,0.0),
-            
-            #0b01111: (0.5,0.0,1.0,0.5),
-            #0b11101: (0.5,0.5,1.0,0.0),
-            
-            0b00000: (0.51,0.51,0.99,0.99)
         }
         
         st = FSurfaceTool()
@@ -124,10 +148,6 @@ class Tile:
             col,row = x+(self.col+15)*10, y+(self.row+15)*10
             r,_,_ = get_color(col, row)
             
-            pat = 0
-            if r == 255:
-                pat += 0b00001
-            
             #   2
             #  301
             #   4
@@ -136,24 +156,14 @@ class Tile:
             r3,_,_ = get_color(col-1, row)
             r4,_,_ = get_color(col, row+1)
             
-            if r1 == 255:
-                pat += 0b00010
-            if r2 == 255:
-                pat += 0b00100
-            if r3 == 255:
-                pat += 0b01000
-            if r4 == 255:
-                pat += 0b10000
+            r, pat = fix_color(r,r1,r2,r3,r4)
             
-            #u1,v1,u2,v2 = 0.0,0.5,0.5,1.0
-            #u1,v1,u2,v2 = 0.5,0.5,1.0,1.0
-            #u1,v1,u2,v2 = 0.0,0.0,0.5,0.5
             if pat in uv_dict:
                 u1,v1,u2,v2 = uv_dict[pat]
             elif pat & 0b00001 == 0:
-                u1,v1,u2,v2 = uv_dict[0]
+                u1,v1,u2,v2 = 0.51,0.51,0.99,0.99
             else:
-                u1,v1,u2,v2 = uv_dict.get(pat, (0.01, 0.51, 0.49, 0.99))
+                u1,v1,u2,v2 = 0.01, 0.51, 0.49, 0.99
             
             st.set_uv(u1,v2)
             st.add_vertex(-1+x*STEP, 0, -1+y*STEP)
