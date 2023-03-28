@@ -1,7 +1,7 @@
 #
 # 2023年2月9日 bianpeng
 #
-
+import os
 import sqlite3
 
 
@@ -22,7 +22,33 @@ class GameData:
         pass
 
     def save(self, path):
-        pass
+        if os.path.exists(path):
+            os.remove(path)
+            
+        conn = sqlite3.connect(path)
+        
+        cursor = conn.cursor()
+        cursor.execute('''
+                       CREATE TABLE CITY (
+                           ID INT PRIMARY KEY NOT NULL,
+                           NAME TEXT NOT NULL,
+                           X INT,
+                           Y INT
+                       );
+                       
+                       
+                       ''')
+        cursor.execute('''
+                       CREATE TABLE HERO(
+                           ID INT PRIMARY KEY NOT NULL,
+                           NAME TEXT NOT NULL,
+                           BORN_YEAR INT,
+                           CITY_ID INT
+                       );
+                       ''')
+        conn.commit()
+        
+        conn.close()
 
     def get_cur_year(self):
         return self.start_year + int(self.play_time / (86400*365))

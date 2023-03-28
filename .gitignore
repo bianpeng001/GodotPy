@@ -33,6 +33,7 @@
 
 *.rar
 *.zip
+*.db
 
 .godot
 __pycache__

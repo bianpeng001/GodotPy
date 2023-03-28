@@ -47,6 +47,7 @@ class MainUIController(UIController, PopupTrait):
         get_btn('系统').connect(PRESSED, self.on_setting_click)
         get_btn('地图').connect(PRESSED, self.on_map_click)
         get_btn('执行').connect(PRESSED, self.on_gm_click)
+        get_btn('存档').connect(PRESSED, self.on_save_click)
 
         # 事件
         game_mgr.event_mgr.add(MAINUI_REFRESH, self.on_refresh)
@@ -107,6 +108,7 @@ class MainUIController(UIController, PopupTrait):
         dc = Debug.get_drawcall()
         
         self.fps_label.set_text(f'fps:{fps},{fps0} dc:{dc}')
-        
-        
+    
+    def on_save_click(self):
+        game_mgr.game_data.save('01.db')
     

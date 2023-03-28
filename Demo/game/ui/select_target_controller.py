@@ -66,7 +66,7 @@ class SelectTargetController(UIController, PopupTrait):
     
     def on_ok_click(self):
         self.pop_panel()
-       
+        
         if self.select_cb:
             self.select_cb()
 
