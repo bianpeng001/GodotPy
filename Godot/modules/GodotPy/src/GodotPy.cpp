@@ -2158,9 +2158,9 @@ static PyObject *f_surface_tool_new(PyObject *module, PyObject *args) {
 static PyObject *f_surface_tool_set_color(PyObject *module, PyObject *args) {
 	do {
 		PyObject *p_obj;
-		float r, g, b;
+		float r, g, b, a;
 
-		if (!PyArg_ParseTuple(args, "Offf", &p_obj, &r, &g, &b)) {
+		if (!PyArg_ParseTuple(args, "Offff", &p_obj, &r, &g, &b, &a)) {
 			break;
 		}
 
@@ -2169,7 +2169,7 @@ static PyObject *f_surface_tool_set_color(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		p_res->st->set_color(Color(r,g,b));
+		p_res->st->set_color(Color(r, g, b, a));
 
 	} while (0);
 
@@ -2270,6 +2270,27 @@ static PyObject *f_surface_tool_set_normal(PyObject *module, PyObject *args) {
 		}
 
 		p_res->st->set_normal(Vector3(x,y,z));
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_surface_tool_set_custom(PyObject *module, PyObject *args) {
+	do {
+		PyObject *p_obj;
+		int channel_index;
+		float a, r, g, b;
+
+		if (!PyArg_ParseTuple(args, "Oiffff", &p_obj, &channel_index, &r, &g, &b, &a)) {
+			break;
+		}
+
+		auto p_res = GetSurfaceToolCapsule(p_obj);
+		if (!p_res) {
+			break;
+		}
+
+		p_res->st->set_custom(channel_index, Color(r, g, b, a));
 
 	} while (0);
 
@@ -2419,6 +2440,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "surface_tool_set_normal", f_surface_tool_set_normal, METH_VARARGS, NULL }, 
 	{ "surface_tool_add_vertex", f_surface_tool_add_vertex, METH_VARARGS, NULL },
 	{ "surface_tool_add_index", f_surface_tool_add_index, METH_VARARGS, NULL },
+	{ "surface_tool_set_custom", f_surface_tool_set_custom, METH_VARARGS, NULL },
 	{ "surface_tool_commit", f_surface_tool_commit, METH_VARARGS, NULL },
 
 	// godotpy

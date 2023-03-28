@@ -31,8 +31,13 @@ lua性能好,语言核心小,仅几百k,语言机制简单,使用者变少,开�
 
 构造说明
 1. Python, 把Python目录下面SConstruct, python3.rc, Godot 复制到cpython目录(或者软链接)
+   1. d:/cpython/Sconstruct
+   2. d:/cpython/python3.rc
+   3. d:/cpython/Godot -> d:/GodotPy/Godot
 2. godot, 把modules内容复制到godot/modules下, 对node.cpp打patch
+   1. d:/godot/modules/GodotPy -> d:/GodotPy/Godot/modules/GodotPy
 3. godot/bin, 下面的dll依赖,构造脚本会自动复制. 需要手工创建Lib软连接到cpython/Lib
+   1. godot/bin/Lib -> d:/cpython/Lib
 4. done
 
 ## 协程

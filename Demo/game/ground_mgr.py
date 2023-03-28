@@ -77,37 +77,85 @@ class Tile:
 
         st.commit(mi)
 
+    
+    # 生成地形融合, 最好是用贴图来融合
+    def generate_mesh2(self):
+        pass
+    
     # TODO: 根据底图生成mesh, 用来表示地形
     def generate_mesh(self):
         bmp = game_mgr.ground_mgr.terrain_map
+        def get_color(col,row):
+            if col >= 0 and col < 300 and row >= 0 and row < 300:
+                b,g,r = bmp.get_color(col, row)
+                if r != 255:
+                    r = 0
+                return r,g,b
+            else:
+                return 0,0,0
+            
+        def set_uv(r):
+            if r == 255:
+                st.set_uv(0.11,0.11)
+            else:
+                st.set_uv(0.36, 0.86)
+                
         STEP = 0.2
-        
-        vertex_index = 0
         st = FSurfaceTool()
+        vertex_index = 0
         for y in range(10):
             for x in range(10):
                 col,row = x+(self.col+15)*10, y+(self.row+15)*10
-                if col >= 0 and col < 300 and row >=0 and row < 300:
-                    b,g,r = bmp.get_color(col,row)
-                else:
-                    b,g,r = 0,0,0
-                
-                if r == 255:
-                    st.set_uv(0.11,0.11)
-                else:
-                    st.set_uv(0.36, 0.86)
                 st.set_normal(0, 1, 0)
                 
-                st.add_vertex(-1+x*STEP, 0, -1+y*STEP)
-                st.add_vertex(-1+(x+1)*STEP, 0, -1+y*STEP)
-                st.add_vertex(-1+(x+1)*STEP, 0, -1+(y+1)*STEP)
-                st.add_vertex(-1+x*STEP, 0, -1+(y+1)*STEP)
-                st.add_triangle(vertex_index,vertex_index+1,vertex_index+2)
-                st.add_triangle(vertex_index,vertex_index+2,vertex_index+3)
-
-                vertex_index+=4
-
+                #  2
+                # 301
+                #  4
+                r0,_,_ = get_color(col, row)
+                r1,_,_ = get_color(col+1, row)
+                r2,_,_ = get_color(col, row-1)
+                r3,_,_ = get_color(col-1, row)
+                r4,_,_ = get_color(col, row+1)
                 
+                if r2 == r3:
+                    set_uv(r2)
+                    st.add_vertex(-1+x*STEP, 0, -1+y*STEP)
+                    st.add_vertex(-1+(x+1)*STEP, 0, -1+(y+1)*STEP)
+                    st.add_vertex(-1+x*STEP, 0, -1+(y+1)*STEP)
+                    st.add_triangle(vertex_index, vertex_index+1, vertex_index+2)
+                    vertex_index+=3
+                    
+                    set_uv(r4)
+                    st.add_vertex(-1+x*STEP, 0, -1+y*STEP)
+                    st.add_vertex(-1+(x+1)*STEP, 0, -1+y*STEP)
+                    st.add_vertex(-1+(x+1)*STEP, 0, -1+(y+1)*STEP)
+                    st.add_triangle(vertex_index, vertex_index+1, vertex_index+2)
+                    vertex_index+=3
+                    
+                elif r3 == r4:
+                    set_uv(r3)
+                    st.add_vertex(-1+x*STEP, 0, -1+(y+1)*STEP)
+                    st.add_vertex(-1+x*STEP, 0, -1+y*STEP)
+                    st.add_vertex(-1+(x+1)*STEP, 0, -1+y*STEP)
+                    st.add_triangle(vertex_index, vertex_index+1, vertex_index+2)
+                    vertex_index+=3
+                    
+                    set_uv(r2)
+                    st.add_vertex(-1+x*STEP, 0, -1+(y+1)*STEP)
+                    st.add_vertex(-1+(x+1)*STEP, 0, -1+y*STEP)
+                    st.add_vertex(-1+(x+1)*STEP, 0, -1+(y+1)*STEP)
+                    st.add_triangle(vertex_index, vertex_index+1, vertex_index+2)
+                    vertex_index+=3
+                else:
+                    set_uv(r0)
+                    st.add_vertex(-1+x*STEP, 0, -1+y*STEP)
+                    st.add_vertex(-1+(x+1)*STEP, 0, -1+y*STEP)
+                    st.add_vertex(-1+(x+1)*STEP, 0, -1+(y+1)*STEP)
+                    st.add_vertex(-1+x*STEP, 0, -1+(y+1)*STEP)
+                    st.add_triangle(vertex_index, vertex_index+1, vertex_index+2)
+                    st.add_triangle(vertex_index, vertex_index+2, vertex_index+3)
+                    vertex_index+=4
+                    
         mi = self.model_node.find_node('Mesh')
         st.commit(mi)
 

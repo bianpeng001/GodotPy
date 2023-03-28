@@ -688,8 +688,11 @@ class FSurfaceTool:
     def set_uv2(self, x,y):
         gp.surface_tool_set_uv2(self.st, x,y)
 
-    def set_color(self, r,g,b):
-        gp.surface_tool_set_color(self.st, r,g,b)
+    def set_color(self, r,g,b,a):
+        gp.surface_tool_set_color(self.st, r,g,b,a)
+        
+    def set_custom(self, channel_index, r,g,b,a):
+        gp.surface_tool_set_custom(self.st, r,g,b,a)
 
     def set_normal(self, x,y,z):
         gp.surface_tool_set_normal(self.st, x,y,z)
