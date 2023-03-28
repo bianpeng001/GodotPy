@@ -79,6 +79,7 @@ class Tile:
 
     
     # 生成地形融合, 最好是用贴图来融合
+    # 这个版本还是丑, 接下来, 还是老老实实, 用贴图融合吧
     def generate_mesh(self, mi):
         
         def get_color(col,row):
@@ -106,7 +107,10 @@ class Tile:
             0b11001: (0.0,0.5,0.5,0.0),
             0b10011: (0.5,0.5,0.0,0.0),
             
-            0b00000: (0.5,0.5,1.0,1.0)
+            #0b01111: (0.5,0.0,1.0,0.5),
+            #0b11101: (0.5,0.5,1.0,0.0),
+            
+            0b00000: (0.51,0.51,0.99,0.99)
         }
         
         st = FSurfaceTool()
@@ -144,10 +148,12 @@ class Tile:
             #u1,v1,u2,v2 = 0.0,0.5,0.5,1.0
             #u1,v1,u2,v2 = 0.5,0.5,1.0,1.0
             #u1,v1,u2,v2 = 0.0,0.0,0.5,0.5
-            if pat & 0b00001 == 0:
+            if pat in uv_dict:
+                u1,v1,u2,v2 = uv_dict[pat]
+            elif pat & 0b00001 == 0:
                 u1,v1,u2,v2 = uv_dict[0]
             else:
-                u1,v1,u2,v2 = uv_dict.get(pat, (0.0, 0.5, 0.5, 1.0))
+                u1,v1,u2,v2 = uv_dict.get(pat, (0.01, 0.51, 0.49, 0.99))
             
             st.set_uv(u1,v2)
             st.add_vertex(-1+x*STEP, 0, -1+y*STEP)
