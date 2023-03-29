@@ -18,5 +18,13 @@ ui_mgr = game_mgr.ui_mgr
 #     '古今多少事，都付笑谈中。',
 # ])
 
-game_mgr.ui_mgr.story_panel_controller.play_story(
-    game_mgr.config_mgr.story.start_game_story)
+# game_mgr.ui_mgr.story_panel_controller.play_story(
+#     game_mgr.config_mgr.story.start_game_story)
+
+
+import imp
+
+#import game.game_data
+#imp.reload(game.game_data)
+
+

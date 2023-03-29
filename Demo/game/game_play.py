@@ -131,7 +131,7 @@ class GamePlay:
                 dlg = game_mgr.ui_mgr.npc_dialog_controller
                 dlg.init('现在各地经历兵乱, 破坏凋敝. 此处虽小, 只要用心经营, 也是个安身之处.', 3)
                 yield WaitForSeconds(3.5)
-                dlg.init('不错, 安喜虽小, 不妨碍励精图治.', 3)
+                dlg.init('不错, 安喜虽小, 不妨碍我们励精图治.', 3)
 
             # 游戏的第一个选择
             def confirm_start_option(index):

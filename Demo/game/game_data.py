@@ -23,13 +23,9 @@ class GameData:
     def load(self, path):
         pass
 
-    def save(self, path):
-        if os.path.exists(path):
-            os.remove(path)
-            
-        conn = sqlite3.connect(path)
-        
+    def do_save(self, conn):
         cursor = conn.cursor()
+        
         cursor.execute('''
 CREATE TABLE CITY (
 ID INT PRIMARY KEY NOT NULL,
@@ -59,13 +55,21 @@ CITY_ID INT references CITY(ID)
 CREATE TABLE TROOP (
 ID INT PRIMARY KEY NOT NULL,
 NAME TEXT NOT NULL,
-CHIEF_HERO_ID INT references HERO(ID)
+CHIEF_HERO_ID INT references HERO(ID),
 HERO_LIST INT ARRAY[9],
 X FLOAT,
 Y FLOAT
 );
 ''')
         conn.commit()
+    
+    def save(self, path):
+        if os.path.exists(path):
+            os.remove(path)
+            
+        conn = sqlite3.connect(path)
+        self.do_save(conn)
+        
         conn.close()
 
     def get_cur_year(self):
