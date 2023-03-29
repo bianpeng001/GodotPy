@@ -135,12 +135,51 @@ def get_unit_name(unit_id):
     return unit.unit_name if unit else ''
 
 
-_ch_num = ['〇','一','二','三','四','五','六','七','八','九','十']
+# 〇零, 选一个吧
+_ch_num = ['〇','一','二','三','四','五','六','七','八','九',]
 def num_to_chinese(num):
+    if num == 0:
+        return _ch_num[0]
+    
+    minus = num < 0
+    if minus:
+        num = -num
+        
     s = []
     while num > 0:
         d = num % 10
         s.append(_ch_num[d])
         num //= 10
+    
+    if minus:
+        s.append('负')
     s.reverse()
+    
     return ''.join(s)
+
+_ch_num1 = ['零','一','二','三','四','五','六','七','八','九']
+_ch_num2 = ['零','十','百','千','万','亿','京']
+def num_to_chinese2(num):
+    index = 0
+    s = []
+    while num > 0:
+        if index >= 4 and index % 4 == 0:
+            s.append(_ch_num2[index // 4 + 3])
+        
+        d = num % 10
+        if d > 0 and index % 4 > 0:
+            s.append(_ch_num2[index % 4])
+        
+        s.append(_ch_num1[d])
+
+        num //= 10
+        index += 1
+        
+    s.reverse()
+    
+    return ''.join(s)
+    
+        
+        
+    
+    
