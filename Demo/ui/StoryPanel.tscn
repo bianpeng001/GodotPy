@@ -14,15 +14,29 @@ offset_bottom = -248.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Bg" type="TextureRect" parent="."]
-layout_mode = 0
-offset_top = 50.0
-offset_right = 800.0
-offset_bottom = 250.0
-texture = ExtResource("1_0fhxh")
-
-[node name="Image" type="TextureRect" parent="."]
+[node name="Chapter" type="Control" parent="."]
 visible = false
+anchors_preset = 0
+offset_right = 800.0
+offset_bottom = 400.0
+
+[node name="Label" type="Label" parent="Chapter"]
+offset_top = 100.0
+offset_right = 800.0
+offset_bottom = 200.0
+theme = ExtResource("2_aoew4")
+theme_override_font_sizes/font_size = 24
+text = "第一回 治理安喜"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Picture" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 800.0
+offset_bottom = 400.0
+
+[node name="Image" type="TextureRect" parent="Picture"]
 layout_mode = 0
 offset_left = 200.0
 offset_right = 600.0
@@ -30,7 +44,20 @@ offset_bottom = 400.0
 texture = ExtResource("1_jwy2h")
 stretch_mode = 2
 
-[node name="Label" type="Label" parent="."]
+[node name="Text" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 800.0
+offset_bottom = 400.0
+
+[node name="Bg" type="TextureRect" parent="Text"]
+layout_mode = 0
+offset_top = 50.0
+offset_right = 800.0
+offset_bottom = 250.0
+texture = ExtResource("1_0fhxh")
+
+[node name="Label" type="Label" parent="Text"]
 layout_mode = 0
 offset_top = 100.0
 offset_right = 800.0

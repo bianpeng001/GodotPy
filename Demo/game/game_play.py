@@ -120,9 +120,18 @@ class GamePlay:
             # 到达之后, 显示一段对话
             def co_show_dialog():
                 yield WaitForSeconds(1.5)
+                
+                game_mgr.ui_mgr.story_panel_controller.show()
+                game_mgr.ui_mgr.story_panel_controller.show_chapter('第一章 治理安喜')
+                yield WaitForSeconds(3.5)
+                
+                game_mgr.ui_mgr.story_panel_controller.defer_close()
+                yield WaitForSeconds(1.5)
 
                 dlg = game_mgr.ui_mgr.npc_dialog_controller
                 dlg.init('现在各地经历兵乱, 破坏凋敝. 此处虽小, 只要用心经营, 也是个安身之处.', 3)
+                yield WaitForSeconds(3.5)
+                dlg.init('不错, 安喜虽小, 不妨碍励精图治.', 3)
 
             # 游戏的第一个选择
             def confirm_start_option(index):
@@ -276,8 +285,9 @@ class GamePlay:
         else:
             troop.unit_name = f'{city_unit.unit_name}军'
 
-        #log_debug('create troop', troop.unit_id, troop.unit_name)
         return troop
+    
+        #log_debug('create troop', troop.unit_id, troop.unit_name)
 
 
 

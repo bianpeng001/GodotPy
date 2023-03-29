@@ -17,13 +17,21 @@ class StoryPanelController(UIController, PopupTrait):
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
-        self.image = self.ui_obj.find_node('Image')
-        self.label = self.ui_obj.find_node('Label')
-        self.bg = self.ui_obj.find_node('Bg')
+        
+        self.chapter = self.ui_obj.find_node('Chapter')
+        self.picture = self.ui_obj.find_node('Picture')
+        self.text = self.ui_obj.find_node('Text')
+        
+        self.hide_all()
+        self.set_position(176, 100)
+        
+        self.wait_time = 1
 
-        self.image.set_visible(False)
-        self.label.set_visible(False)
-
+    def hide_all(self):
+        self.chapter.set_visible(False)
+        self.picture.set_visible(False)
+        self.text.set_visible(False)
+        
     def init(self):
         pass
 
@@ -31,9 +39,10 @@ class StoryPanelController(UIController, PopupTrait):
         game_mgr.co_mgr.start(self.co_play_story(text_list, on_complete))
 
     def co_play_story(self, text_list, on_complete):
-        yield WaitForSeconds(1)
+        self.hide_all()
+        yield WaitForSeconds(self.wait_time)
 
-        self.popup(176, 100)
+        self.show()
         log_debug('begin play story')
 
         # text_list = (
@@ -43,16 +52,20 @@ class StoryPanelController(UIController, PopupTrait):
         # )
         for text in text_list:
             self.show_text(text)
-            yield WaitForSeconds(1)
+            yield WaitForSeconds(self.wait_time)
         
+        self.hide_all()
         self.defer_close()
 
         if on_complete:
             on_complete()
 
     def show_text(self, text):
-        self.bg.set_visible(True)
-        self.label.set_visible(True)
-        self.label.set_text(text)
+        self.text.set_visible(True)
+        label = self.text.find_node('Label')
+        label.set_text(text)
+        
+    def show_chapter(self, text):
+        self.chapter.set_visible(True)
 
     
