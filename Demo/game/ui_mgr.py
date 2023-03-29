@@ -34,6 +34,8 @@ class UIMgr(NodeObject):
         # 鼠标是否停留在ui上面
         self.last_x, self.last_y = 0, 0
         self.control_under_mouse = False
+        
+        self.load_complete = False
 
     def is_point_at_gui(self):
         x, y = game_mgr.input_mgr.get_mouse_pos()
@@ -65,7 +67,7 @@ class UIMgr(NodeObject):
 
         from game.ui.mainui_controller import MainUIController
         _, self.mainui_controller = self.load_panel(
-              'res://ui/MainUI.tscn', MainUIController)
+                'res://ui/MainUI.tscn', MainUIController)
         self.mainui_controller.popup(0, 0)
         
         # 要注意这里的顺序, 有关层级
@@ -150,6 +152,8 @@ class UIMgr(NodeObject):
             self.nav_panel_controller,
             self.mainui_controller,
         ]
+        
+        self.load_complete = True
 
     def load_panel(self, path, cls):
         ui_obj = FNode3D.instantiate(path)

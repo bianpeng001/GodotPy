@@ -333,6 +333,9 @@ class GroundMgr(NodeObject):
 
         # 可见的地块, 用来卸载不可见的地块, 或者还要加一个age
         self.show_tile_list = []
+        
+        #
+        self.load_complete = False
 
     def _create(self):
         self.get_obj().connect("ready", self._ready)
@@ -424,5 +427,7 @@ class GroundMgr(NodeObject):
         log_util.enable_debug = True
 
         self.terrain_map = Bmp(r'game\data\world_terrain.bmp')
+        self.load_complete = True
+
 
 

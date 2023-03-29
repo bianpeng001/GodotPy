@@ -22,18 +22,19 @@ class StoryPanelController(UIController, PopupTrait):
         self.picture = self.ui_obj.find_node('Picture')
         self.text = self.ui_obj.find_node('Text')
         
-        self.hide_all()
-        self.set_position(176, 100)
-        
         self.wait_time = 1
-
+        
+        self.init()
+        
+        
     def hide_all(self):
         self.chapter.set_visible(False)
         self.picture.set_visible(False)
         self.text.set_visible(False)
         
     def init(self):
-        pass
+        self.hide_all()
+        self.set_position(176, 100)
 
     def play_story(self, text_list, on_complete=None):
         game_mgr.co_mgr.start(self.co_play_story(text_list, on_complete))

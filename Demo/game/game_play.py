@@ -115,14 +115,17 @@ class GamePlay:
 
         # 等地图加载好,弹一个选择框,然后在分配城
         def co_wait_for_ground():
-            yield None
-
+            #yield None
+            while not game_mgr.ui_mgr.load_complete or \
+                        not game_mgr.ground_mgr.load_complete:
+                yield None
+            
             # 到达之后, 显示一段对话
             def co_show_dialog():
                 yield WaitForSeconds(1.5)
                 
                 game_mgr.ui_mgr.story_panel_controller.show()
-                game_mgr.ui_mgr.story_panel_controller.show_chapter('第一章 治理安喜')
+                game_mgr.ui_mgr.story_panel_controller.show_chapter('第一回 治理安喜')
                 yield WaitForSeconds(3.5)
                 
                 game_mgr.ui_mgr.story_panel_controller.defer_close()
@@ -138,7 +141,7 @@ class GamePlay:
                 # TODO: 这里要根据选项做一些区别对待
                 if index == 0:
                     dlg = game_mgr.ui_mgr.npc_dialog_controller
-                    dlg.init('严肃点, 不要开玩笑?', 3)
+                    dlg.init('认真点, 不要开玩笑', 3)
                     return True
 
                 log_debug('select', index)
