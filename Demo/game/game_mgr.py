@@ -135,3 +135,12 @@ def get_unit_name(unit_id):
     return unit.unit_name if unit else ''
 
 
+_ch_num = ['〇','一','二','三','四','五','六','七','八','九','十']
+def num_to_chinese(num):
+    s = []
+    while num > 0:
+        d = num % 10
+        s.append(_ch_num[d])
+        num //= 10
+    s.reverse()
+    return ''.join(s)
