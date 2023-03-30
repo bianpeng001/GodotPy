@@ -24,17 +24,18 @@ patch_margin_top = 12
 patch_margin_right = 12
 patch_margin_bottom = 12
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="RichTextLabel" parent="."]
 layout_mode = 0
 offset_left = 40.0
 offset_top = 20.0
 offset_right = 460.0
 offset_bottom = 110.0
 theme = ExtResource("1_83fnq")
-theme_override_colors/font_color = Color(0.207843, 0.207843, 0.207843, 1)
-theme_override_font_sizes/font_size = 21
+theme_override_colors/default_color = Color(0.0313726, 0.0313726, 0.0313726, 1)
+bbcode_enabled = true
 text = "诸葛亮：主公放心，此计必成。"
 autowrap_mode = 1
+deselect_on_focus_loss_enabled = false
 
 [node name="Frame" type="ColorRect" parent="."]
 layout_mode = 0
