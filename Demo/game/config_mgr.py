@@ -35,6 +35,13 @@ class EffectConfig(BaseConfig):
 class DialogConfig(BaseConfig):
     def __init__(self):
         pass
+    
+# 回目, 章节
+class ChapterConfig(BaseConfig):
+    def __init__(self):
+        pass
+    
+    
 
 # 剧情
 class StoryConfig(BaseConfig):

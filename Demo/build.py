@@ -39,7 +39,6 @@ def run(cmd):
 
 def build_publish():
     os.chdir(PROJECT_DIR)
-    run(f'{GIT_EXE} log -1 --format=%H > demo_ver.txt')
 
     build_python()
     #run(f'{SCONS_EXE} p=windows vsproj=no bits=64 -j4 target=editor dev_build=false')
