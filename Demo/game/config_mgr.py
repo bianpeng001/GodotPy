@@ -39,9 +39,9 @@ class DialogConfig(BaseConfig):
 # 回目, 章节
 class ChapterConfig(BaseConfig):
     def __init__(self):
-        pass
-    
-    
+        self.num = 1
+        self.title = ''
+        self.script = []
 
 # 剧情
 class StoryConfig(BaseConfig):
@@ -68,6 +68,12 @@ class ConfigMgr:
 
         self.play_time_scale = 1000
         self.story = StoryConfig()
+
+        self.chapter_dict = {}
+        self.load_chapter()
+
+    def load_chapter(self):
+        pass
 
     # 公式也都定义在此, 参数有点多
 
