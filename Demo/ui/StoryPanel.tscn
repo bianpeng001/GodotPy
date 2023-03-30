@@ -15,17 +15,19 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Chapter" type="Control" parent="."]
-visible = false
 anchors_preset = 0
 offset_right = 800.0
 offset_bottom = 400.0
 
 [node name="Label" type="Label" parent="Chapter"]
+layout_mode = 0
 offset_top = 100.0
 offset_right = 800.0
 offset_bottom = 200.0
 theme = ExtResource("2_aoew4")
-theme_override_font_sizes/font_size = 24
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 32
 text = "第一回 治理安喜"
 horizontal_alignment = 1
 vertical_alignment = 1
