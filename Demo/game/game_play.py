@@ -50,7 +50,7 @@ class GamePlay:
         game_mgr.init_update_list()
         game_mgr.ground_mgr.load_data()
 
-        # read window
+        # restore saved window position
         if os.path.exists('launch.json'):
             with open('launch.json', 'r') as f:
                 obj = json.load(f)
@@ -114,9 +114,9 @@ class GamePlay:
             yield None
             game_mgr.event_mgr.emit(MAIN_PLAYER_READY)
             
-        # 等地图加载好,弹一个选择框,然后在分配城
+        
         def co_wait_for_ground():
-            #yield None
+            # 等地图和ui加载好,然后分配一个新手城
             while not game_mgr.ui_mgr.load_complete or \
                         not game_mgr.ground_mgr.load_complete:
                 yield None
