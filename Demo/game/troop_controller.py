@@ -88,7 +88,7 @@ class TroopController(Controller):
                         row = i // 4 - 1.5
                         col = i % 4 - 1.5
                         obj = temp if i == 0 else temp.dup()
-                        obj.set_position(col*0.6, 0, row*0.6)
+                        obj.set_position(col*0.7, 0, row*0.7)
 
 
     def update(self):
