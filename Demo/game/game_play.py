@@ -154,18 +154,21 @@ class GamePlay:
                         confirm_start_option)
                 dlg.push_panel()
 
-            game_mgr.ui_mgr.show_base_ui(False)
-            game_mgr.ui_mgr.story_panel_controller.play_story(
+            def on_create_player(player_name):
+                log_util.debug('create main player')
+                pm.main_player = pm.new_player()
+                pm.main_player.player_name = player_name
+
+                game_mgr.ui_mgr.story_panel_controller.play_story(
                     game_mgr.config_mgr.story.start_game_story,
                     show_start_options)
 
-        log_util.debug('create main player')
-        pm.main_player = pm.new_player()
-        pm.main_player.player_name = new_hero_name()
-        
+            game_mgr.ui_mgr.show_base_ui(False)
+            game_mgr.ui_mgr.create_player_controller.show_dialog(on_create_player)
+    
         game_mgr.co_mgr.start(co_wait_for_ground())
-        test_wait_1()
 
+        test_wait_1()
         # load cursor
         if not OS.is_editor_hint():
             #cursor = OS.load_resource('res://Cursor.png')

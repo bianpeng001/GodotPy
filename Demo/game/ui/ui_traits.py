@@ -3,7 +3,7 @@
 #
 import sys
 
-from game.core import log_debug
+from game.core import *
 from game.game_mgr import *
 from game.event_name import *
 
@@ -34,6 +34,11 @@ class PopupTrait:
     def popup_dialog(self, msg, time_out = 1.5):
         controller = game_mgr.ui_mgr.npc_dialog_controller
         controller.init(msg, time_out)
+
+    def popup_screen_center(self):
+        screen_width,screen_height = OS.viewport_get_size()
+        _,_,width,height = self.ui_obj.get_rect()
+        self.popup((screen_width-width)/2, (screen_height-height)/2)
 
     def bind_ok_cancel_close(self, ok=True, cancel=True, close=True):
         if close:

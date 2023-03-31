@@ -629,6 +629,14 @@ class FBaseButton(FControl):
         # TODO: 目前直接把缓存的返回就好
         return self.text
 
+
+class FTextEdit(FControl):
+    def get_text(self):
+        return gp.text_edit_get_text(self.get_gdobj())
+
+    def set_text(self, s):
+        gp.text_edit_set_text(self.get_gdobj(), s)
+
 class FButton(FBaseButton):
     pass
 
@@ -749,6 +757,7 @@ _TypeMap = {
     'VSlider' : FSlider,
     'Label' : FLabel,
     'RichTextLabel' : FRichTextLabel,
+    'TextEdit' : FTextEdit,
     'Panel' : FPanel,
     'ScrollContainer' : FContainer,
     'HBoxContainer' : FHBoxContainer,

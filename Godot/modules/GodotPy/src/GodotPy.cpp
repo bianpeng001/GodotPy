@@ -40,6 +40,7 @@
 #include "scene/gui/slider.h"
 #include "scene/gui/color_rect.h"
 #include "scene/gui/texture_rect.h"
+#include "scene/gui/text_edit.h"
 
 #include "scene/resources/packed_scene.h"
 #include "scene/resources/surface_tool.h"
@@ -1736,6 +1737,45 @@ static PyObject *f_texture_rect_set_texture(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_text_edit_set_text(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		const char *s;
+
+		if (!PyArg_ParseTuple(args, "Os", &a_obj, &s)) {
+			break;
+		}
+
+		auto edit = GetObjPtr<TextEdit>(a_obj);
+		if (!edit) {
+			break;
+		}
+		edit->set_text(String::utf8(s));
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_text_edit_get_text(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+
+		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
+			break;
+		}
+
+		auto edit = GetObjPtr<TextEdit>(a_obj);
+		if (!edit) {
+			break;
+		}
+		auto s = edit->get_text();
+
+		return PyUnicode_FromString(s.utf8());
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_color_rect_set_color(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -2406,7 +2446,10 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "texture_rect_load_texture", f_texture_rect_load_texture, METH_VARARGS, NULL },
 	{ "texture_rect_set_texture", f_texture_rect_set_texture, METH_VARARGS, NULL },
 	{ "color_rect_set_color", f_color_rect_set_color, METH_VARARGS, NULL },
-	
+
+	// text edit
+	{ "text_edit_set_text", f_text_edit_set_text, METH_VARARGS, NULL },
+	{ "text_edit_get_text", f_text_edit_get_text, METH_VARARGS, NULL },
 	
 	// rich_text_label_set_text
 	{ "rich_text_label_set_text", f_rich_text_label_set_text, METH_VARARGS, NULL },

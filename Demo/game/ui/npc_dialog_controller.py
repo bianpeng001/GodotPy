@@ -20,10 +20,12 @@ class NpcDialogController(UIController, PopupTrait):
         self.show_time = show_time
         self.dialog_label.set_text(text)
 
-        w1,h1 = OS.viewport_get_size()
-        _,_,w2,h2 = self.ui_obj.get_rect()
+        self.popup_screen_center()
+
+        #w1,h1 = OS.viewport_get_size()
+        #_,_,w2,h2 = self.ui_obj.get_rect()
         #log_util.debug(f'size: {w1} {h1}, {w2} {h2}')
-        self.popup((w1-w2)/2, h1-h2)
+        #self.popup((w1-w2)/2, h1-h2)
         #self.popup((1152-w2)/2, 648-h2)
 
 

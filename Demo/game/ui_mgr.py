@@ -136,6 +136,9 @@ class UIMgr(NodeObject):
         _, self.setting_panel_controller = self.load_panel(
                 'res://ui/SettingPanel.tscn', SettingPanelController)
 
+        from game.ui.create_player_controller import CreatePlayerController
+        _, self.create_player_controller = self.load_panel(
+                'res://ui/InputPanel.tscn', CreatePlayerController)
         # load done
         log_debug('ui panels load ok')
 
