@@ -8,6 +8,7 @@ import os.path
 import shutil
 import glob
 import zipfile
+import time
 
 GODOT_DIR = 'D:\\OpenSource\\godot'
 PROJECT_DIR = 'D:\\OpenSource\\GodotPy'
@@ -89,8 +90,6 @@ def build_publish():
 
     # zip Demo.zip
     call_task('archive_demo')
-
-    print('------------- build ok -------------')
 
 def build_editor_debug():
     run(f'{SCONS_EXE} p=windows vsproj=yes tools=yes bits=64 -j{THREADS} target=editor dev_build=true')
@@ -175,9 +174,12 @@ task_table = {
 def call_task(task_name):
     fun = task_table.get(task_name, None)
     if fun:
-        print('-------', task_name)
+        print('-------', task_name, 'begin')
+        t1 = time.time()
         os.chdir(GODOT_DIR)
         fun()
+        cost_time = time.time() - t1
+        print('-------', task_name, 'end', f'in {cost_time:.1f}s')
     else:
         print('tasks', list(task_table.keys()))
 
