@@ -32,6 +32,7 @@ def GetReady():
 
     copy_if_expired(PYTHON_HOME + '/sqlite3.dll', '../../bin/sqlite3.dll')
     copy_if_expired(PYTHON_HOME + '/_sqlite3.dll', '../../bin/_sqlite3.pyd')
+    copy_if_expired(PYTHON_HOME + '/_socket.dll', '../../bin/_socket.pyd')
     copy_if_expired(PYTHON_HOME + '/python.exe', '../../bin/python.exe')
 
 GetReady()

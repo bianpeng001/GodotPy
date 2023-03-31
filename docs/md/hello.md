@@ -6,6 +6,14 @@
 
 <div class="date">xxxx年x月xx日</div>
 
+## _socket 模块
+
+顺手把socketmodule加上了, 发现编译进python3.dll则增加40kb, 单独编译成_socket.pyd, 则有200kb. 说明还是有不少代码静态链接进去了. 
+
+如果将来需要往其他平台port, 我觉得还是静态编译好一些, 直接一个单独的python3.dll. 不过,需要应该要改一下config.c, 新增一条, "_socket".
+
+<div class="date">2023年3月31日</div>
+
 ## 玩法笔记(3)
 
 继续主线和存档, 主线需要一个事件生成器. 一些大事件按照配置走, 随机事件的产生. 用来生成一些任务, 主要是提供一些收益. 比如盗贼, 经商等.

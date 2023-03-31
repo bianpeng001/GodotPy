@@ -40,13 +40,13 @@ def run(cmd):
 def build_publish():
     os.chdir(PROJECT_DIR)
 
-    build_python()
+    call_task('python')
     #run(f'{SCONS_EXE} p=windows vsproj=no bits=64 -j4 target=editor dev_build=false')
-    build_editor_release()
+    call_task('editor_release')
     # build package
-    build_pck()
+    call_task('package')
     # build player
-    build_player_release()
+    call_task('player_release')
 
     # version.txt
     with open(f'{PYTHON_DIR}\\python_ver.txt') as f:
@@ -56,9 +56,9 @@ def build_publish():
     with open(f'{PROJECT_DIR}\\demo_ver.txt') as f:
         demo_ver = f.read().strip()
     with open(f'{BUILD_DIR}\\verion.txt', 'w') as f:
-        f.write(f'python {python_ver}\n')
-        f.write(f'godot {godot_ver}\n')
-        f.write(f'demo {demo_ver}\n')
+        f.write(f'python\t{python_ver}\n')
+        f.write(f'godot\t{godot_ver}\n')
+        f.write(f'demo\t{demo_ver}\n')
     
     # copy files
     file_list = (
@@ -66,20 +66,21 @@ def build_publish():
         'python3.dll',
         'sqlite3.dll',
         '_sqlite3.pyd',
+        '_socket.pyd',
     )
     for item in file_list:
         shutil.copy(os.path.join(GODOT_BIN_DIR, item), os.path.join(BUILD_DIR, item))
 
     shutil.copy(EDITOR, os.path.join(BUILD_DIR, 'GodotEditor.exe'))
     shutil.copy(PLAYER, os.path.join(BUILD_DIR, 'Demo.exe'))
-    shutil.copy(f'{DEMO_DIR}\\gm.py', os.path.join(BUILD_DIR, 'gm.py'))
-    shutil.copy(f'{PROJECT_DIR}\\LICENSE', os.path.join(BUILD_DIR, 'LICENSE'))
+    shutil.copy(os.path.join(DEMO_DIR, 'gm.py'), os.path.join(BUILD_DIR, 'gm.py'))
+    shutil.copy(os.path.join(PROJECT_DIR, 'LICENSE'), os.path.join(BUILD_DIR, 'LICENSE'))
     
     # replace app icon
     run(f'{RES_HACKER} -script {PROJECT_DIR}\\Godot\\replace_icon.txt')
     
     # zip python312.zip
-    archive_python()
+    call_task('archive_python')
 
     # 这步不需要了, zipdir 的时候, 会跳过pyc
     # remove pyc
@@ -87,7 +88,7 @@ def build_publish():
     #     os.remove(f)
 
     # zip Demo.zip
-    archive_demo()
+    call_task('archive_demo')
 
     print('------------- build ok -------------')
 
@@ -153,11 +154,9 @@ def verinfo():
     run(f'{GIT_EXE} log -1 --format=%H')
     os.chdir(PYTHON_DIR)
     run(f'{GIT_EXE} log -1 --format=%h')
-
-if __name__ == '__main__':
-    import sys
-
-    jump_table = {
+    
+# tasks
+task_table = {
         'publish' : build_publish,
         'editor_debug' : build_editor_debug,
         'editor_release' : build_editor_release,
@@ -172,15 +171,23 @@ if __name__ == '__main__':
         'archive_demo' : archive_demo,
         'verinfo' : verinfo,
     }
-    fun = None
-    if len(sys.argv) >= 2:
-        cmd = sys.argv[1]
-        print(cmd)
-        fun = jump_table.get(cmd, None)
-    
+
+def call_task(task_name):
+    fun = task_table.get(task_name, None)
     if fun:
+        print('-------', task_name)
         os.chdir(GODOT_DIR)
         fun()
     else:
-        print('tasks', list(jump_table.keys()))
+        print('tasks', list(task_table.keys()))
+
+if __name__ == '__main__':
+    import sys
+
+    if len(sys.argv) >= 2:
+        cmd = sys.argv[1]
+        call_task(cmd)
+    else:
+        pass
+    
 

@@ -229,6 +229,7 @@ libs = [
     'Pathcch',
     'Advapi32',
     'Ws2_32',
+    
 ]
 incs = [
     '.',
@@ -376,6 +377,7 @@ srcs = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + IOModules + Modules + [
         'Python/frozen.c',
         'Python/deepfreeze/deepfreeze.c',
         'Modules/getpath.c',
+        
 
         'Modules/zlibmodule.c',
         ZLIB + '/adler32.c',
@@ -456,5 +458,18 @@ sqlite3_pyd = env.SharedLibrary('_sqlite3',
         'sqlite3.lib', 
         'python3.lib',
     ],
+)
+
+#
+# lowlevel socket module: _socket.pyd
+#
+socket_pyd = env.SharedLibrary('_socket',
+    source = ['Modules/socketmodule.c'],
+    CPPDEFINES = [],
+    buildtarget = '_socket.pyd',
+    LIBS = [
+        'python3.lib',
+        'Rpcrt4', 'Iphlpapi', 'Ws2_32',
+    ]
 )
 
