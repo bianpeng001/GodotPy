@@ -28,6 +28,7 @@ class CityController(Controller):
             if flag_node:
                 #mesh_instance3d_load_material(flag_node, 0, 'res://models/Color/Green.tres')
                 #flag_node.load_material(1, 'res://models/Color/Green.tres')
+                # TODO: 这里还要读取数据, 加载正确的颜色
                 mat = OS.load_resource('res://models/Color/Green.tres')
                 flag_node.set_surface_material(1, mat)
 

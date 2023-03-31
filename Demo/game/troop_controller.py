@@ -74,13 +74,21 @@ class TroopController(Controller):
 
             elif self.get_unit().model_type == 4:
                 temp = node.find_node('Soldier5')
-                i = 0
-                for hero_item in self.get_unit().hero_list:
-                    obj = temp if i == 0 else temp.dup()
-                    i += 1
-                    row = hero_item.pos_index // 3 - 1
-                    col = hero_item.pos_index % 3 - 1
-                    obj.set_position(col*0.8, 0, row*0.8)
+                
+                if 0:
+                    i = 0
+                    for hero_item in self.get_unit().hero_list:
+                        obj = temp if i == 0 else temp.dup()
+                        i += 1
+                        row = hero_item.pos_index // 3 - 1
+                        col = hero_item.pos_index % 3 - 1
+                        obj.set_position(col*0.8, 0, row*0.8)
+                else:
+                    for i in range(4*4):
+                        row = i // 4 - 1.5
+                        col = i % 4 - 1.5
+                        obj = temp if i == 0 else temp.dup()
+                        obj.set_position(col*0.6, 0, row*0.6)
 
 
     def update(self):
