@@ -39,17 +39,17 @@ deselect_on_focus_loss_enabled = false
 
 [node name="Frame" type="ColorRect" parent="."]
 layout_mode = 0
-offset_left = -84.0
-offset_top = 10.0
-offset_right = -3.99999
-offset_bottom = 90.0
+offset_left = -64.0
+offset_top = 3.0
+offset_right = -4.0
+offset_bottom = 63.0
 color = Color(0.321569, 0.529412, 0.470588, 1)
 
 [node name="Avatar" type="TextureRect" parent="Frame"]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 2.0
-offset_right = 78.0
-offset_bottom = 78.0
+offset_right = 58.0
+offset_bottom = 58.0
 texture = ExtResource("3_fb7vc")
 expand_mode = 1

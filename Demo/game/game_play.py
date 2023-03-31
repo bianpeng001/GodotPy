@@ -10,6 +10,7 @@ from game.game_mgr import *
 from game.event_name import *
 from game.wait import *
 from game.base_type import UT_CITY, UT_TROOP
+from game.config_mgr import new_hero_name
 
 # 游戏的控制逻辑, 事件响应啥的，集中到这里来
 # 业务逻辑也放到这里来，脏活累活都放这
@@ -160,7 +161,7 @@ class GamePlay:
 
         log_util.debug('create main player')
         pm.main_player = pm.new_player()
-        pm.main_player.player_name = '刘备'
+        pm.main_player.player_name = new_hero_name()
         
         game_mgr.co_mgr.start(co_wait_for_ground())
         test_wait_1()
