@@ -135,9 +135,3 @@ def get_unit_name(unit_id):
     return unit.unit_name if unit else ''
 
 
-
-    
-        
-        
-    
-    

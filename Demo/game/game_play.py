@@ -112,7 +112,7 @@ class GamePlay:
 
             yield None
             game_mgr.event_mgr.emit(MAIN_PLAYER_READY)
-
+            
         # 等地图加载好,弹一个选择框,然后在分配城
         def co_wait_for_ground():
             #yield None
@@ -124,12 +124,7 @@ class GamePlay:
             def co_show_dialog():
                 yield WaitForSeconds(2.5)
                 
-                game_mgr.ui_mgr.story_panel_controller.show()
-                game_mgr.ui_mgr.story_panel_controller.show_chapter('第一回 治理安喜')
-                yield WaitForSeconds(2.5)
-                
-                game_mgr.ui_mgr.story_panel_controller.defer_close()
-                yield WaitForSeconds(1.5)
+                yield game_mgr.co_mgr.start(co_show_chapter('第一回 治理安喜'))
 
                 dlg = game_mgr.ui_mgr.npc_dialog_controller
                 dlg.init('现在各地经历兵乱, 破坏凋敝. 此处虽小, 只要用心经营, 也是个安身立命之处.', 2)

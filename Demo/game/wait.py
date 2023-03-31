@@ -2,7 +2,7 @@
 # 2023年2月9日 bianepng
 #
 from game.core import *
-from game.game_mgr import game_mgr
+from game.game_mgr import *
 from game.coroutine_mgr import Waitable
 
 # wait for seconds
@@ -31,3 +31,14 @@ def test_wait_1():
         
     game_mgr.co_mgr.start(co_print_number())
 
+
+# 章节
+def co_show_chapter(title):
+    game_mgr.ui_mgr.story_panel_controller.show()
+    game_mgr.ui_mgr.story_panel_controller.show_chapter(title)
+    yield WaitForSeconds(2.5)
+    
+    game_mgr.ui_mgr.story_panel_controller.defer_close()
+    yield WaitForSeconds(1.5)
+    
+    
