@@ -74,6 +74,7 @@ PYTHON_OBJS = [
     'Python/ceval.c',
     'Python/codecs.c',
     'Python/compile.c',
+    'Python/flowgraph.c',
     'Python/context.c',
     'Python/dynamic_annotations.c',
     'Python/errors.c',

@@ -22,7 +22,7 @@ class CreatePlayerController(UIController, PopupTrait):
         self.bind_ok_cancel_close(close=False)
 
         label = self.ui_obj.find_node('Panel/Label')
-        label.set_text('选一个名字')
+        label.set_text('阁下姿容甚伟, 非常人也, 请问尊姓大名?')
 
         self.ui_obj.find_node('Panel/BtnChange').connect(PRESSED, self.change_click)
         self.text_edit = self.ui_obj.find_node('Panel/TextEdit')

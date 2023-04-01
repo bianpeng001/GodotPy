@@ -54,13 +54,14 @@ offset_bottom = 115.0
 theme = ExtResource("1_287ib")
 text = "新建势力"
 vertical_alignment = 1
+autowrap_mode = 1
 
 [node name="TextEdit" type="TextEdit" parent="Panel"]
 layout_mode = 0
 offset_left = 81.0
 offset_top = 127.0
 offset_right = 234.0
-offset_bottom = 160.0
+offset_bottom = 167.0
 theme = ExtResource("1_287ib")
 text = "刘备"
 context_menu_enabled = false
@@ -70,9 +71,9 @@ middle_mouse_paste_enabled = false
 [node name="BtnChange" type="Button" parent="Panel"]
 layout_mode = 0
 offset_left = 245.0
-offset_top = 127.0
+offset_top = 131.0
 offset_right = 326.0
-offset_bottom = 156.0
+offset_bottom = 160.0
 theme = ExtResource("1_287ib")
 theme_override_font_sizes/font_size = 18
 text = "换一个"

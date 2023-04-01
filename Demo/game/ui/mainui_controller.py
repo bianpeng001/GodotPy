@@ -85,16 +85,16 @@ class MainUIController(UIController, PopupTrait):
     def on_refresh(self):
         self.update_fps()
 
-        config_mgr = game_mgr.config_mgr
-
         # 更新玩家资源
         mp = get_main_player()
+        if mp:
+            config_mgr = game_mgr.config_mgr
 
-        money_text = config_mgr.format_amount_label(mp.total_money_amount)
-        self.money_label.set_text(money_text)
+            money_text = config_mgr.format_amount_label(mp.total_money_amount)
+            self.money_label.set_text(money_text)
 
-        rice_text = config_mgr.format_amount_label(mp.total_rice_amount)
-        self.rice_label.set_text(rice_text)
+            rice_text = config_mgr.format_amount_label(mp.total_rice_amount)
+            self.rice_label.set_text(rice_text)
 
     def update_fps(self):
         delta_time = game_mgr.sec_time - self.refresh_time
