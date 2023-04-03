@@ -93,6 +93,7 @@ static void PyGDObj_dealloc(PyObject *o) {
 
 	PyObject_Free(o);
 }
+// 获取映射后的类型, 用于在python端, 支持一下不同类型下面的不同方法
 static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 	int type = 0;
 	static Dictionary ClassTypeDict;
@@ -621,7 +622,9 @@ enum class EResType {
 	Material,
 	Texture,
 };
-// 一个存Res的包装
+//
+// 一个存Res的包装, 后面得改善下这个接口, 用么也不是不能用...
+//
 struct ResCapsule {
 	int type;
 	Ref<Resource> res;
@@ -2042,7 +2045,7 @@ static PyObject *f_mesh_instance3d_load_albedo_tex(PyObject *module, PyObject *a
 
 	Py_RETURN_NONE;
 }
-//f_load_resource
+// 加载资源接口, 可以是任何资源
 static PyObject *f_load_resource(PyObject *module, PyObject *args) {
 	do {
 		const char *a_path;
@@ -2057,7 +2060,52 @@ static PyObject *f_load_resource(PyObject *module, PyObject *args) {
 
 		auto obj = PyCapsule_New(p_res, c_Resource,
 				&_capsule_delete_pointer<c_Resource, ResCapsule>);
+
 		return obj;
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+// f_resource_duplicate 资源复制
+static PyObject *f_resource_duplicate(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_src_obj;
+
+		if (!PyArg_ParseTuple(args, "O", &a_src_obj)) {
+			break;
+		}
+
+		auto p_src_obj = GetResCapsule(a_src_obj);
+		ResCapsule *p_res = memnew(ResCapsule);
+		p_res->type = 0;
+		p_res->res = p_src_obj->res->duplicate();
+
+		auto dst_obj = PyCapsule_New(p_res, c_Resource,
+				&_capsule_delete_pointer<c_Resource, ResCapsule>);
+
+		return dst_obj;
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+// f_material_set_color, 设置材质属性
+static PyObject *f_material_set_color(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		const char *a_str;
+		float a, r, g, b;
+
+		if (!PyArg_ParseTuple(args, "Osffff", &a_obj, &a_str, &r, &g, &b, &a)) {
+			break;
+		}
+
+		auto p_res = GetResCapsule(a_obj);
+		Ref<ShaderMaterial> mat = p_res->res;
+		if (mat.is_valid()) {
+			mat->set_shader_parameter(String::utf8(a_str), Color(r, g, b, a));
+		}
 
 	} while (0);
 
@@ -2474,6 +2522,8 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "instantiate", f_instantiate, METH_VARARGS, NULL },
 	{ "load_scene", f_load_scene, METH_VARARGS, NULL },
 	{ "load_resource", f_load_resource, METH_VARARGS, NULL },
+	{ "resource_duplicate", f_resource_duplicate, METH_VARARGS, NULL },
+	{ "material_set_color", f_material_set_color, METH_VARARGS, NULL },
 
 	// surface tool
 	{ "surface_tool_new", f_surface_tool_new, METH_VARARGS, NULL },

@@ -29,8 +29,16 @@ class CityController(Controller):
                 #mesh_instance3d_load_material(flag_node, 0, 'res://models/Color/Green.tres')
                 #flag_node.load_material(1, 'res://models/Color/Green.tres')
                 # TODO: 这里还要读取数据, 加载正确的颜色
-                mat = OS.load_resource('res://models/Color/Green.tres')
-                flag_node.set_surface_material(1, mat)
+                
+                player = game_mgr.player_mgr.get_player(self.get_unit().owner_player_id)
+                if not player.flag_mat:
+                    a = ResCapsule.load_resource('res://models/Color/White.tres')
+                    player.flag_mat = ResCapsule.resource_duplicate(a)
+                    ResCapsule.material_set_color(player.flag_mat, "_color", 1,0,0,1)
+                flag_node.set_surface_material(1, player.flag_mat)
+                    
+                #mat = ResCapsule.load_resource('res://models/Color/Green.tres')
+                #flag_node.set_surface_material(1, mat)
 
     # 计算资源增长
     def _calc_resource_grow(self, amount, growth_rate, delta_time, max_amount):

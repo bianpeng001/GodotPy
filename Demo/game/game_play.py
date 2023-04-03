@@ -176,7 +176,7 @@ class GamePlay:
         test_wait_1()
         # load cursor
         if not OS.is_editor_hint():
-            #cursor = OS.load_resource('res://Cursor.png')
+            #cursor = ResCapsule.load_resource('res://Cursor.png')
             #OS.set_custom_mouse_cursor(cursor, 0, 1, 1)
             pass
 
@@ -198,6 +198,10 @@ class GamePlay:
                 flag_node = city.model_node.find_node('Flag')
                 if flag_node:
                     flag_node.set_surface_material(1, None)
+        
+        # 释放材质
+        for player in game_mgr.player_mgr.get_player_iterator():
+            player.flag_mat = None
                 
     # API方法，业务代码
 
@@ -257,7 +261,7 @@ class GamePlay:
         for city in game_mgr.unit_mgr.each_city():
             city.get_controller().refresh_resource_amount(delta_time)
         
-        for player in game_mgr.player_mgr.each_player():
+        for player in game_mgr.player_mgr.get_player_iterator():
             player.total_money_amount = 0
             player.total_rice_amount = 0
 

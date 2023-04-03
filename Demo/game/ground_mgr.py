@@ -56,7 +56,7 @@ class Tile:
         
         mi = self.model_node.find_node('Mesh')
         self.generate_mesh(mi)
-        mat = OS.load_resource('res://models/Terrain/Terrain03Mat.tres')
+        mat = ResCapsule.load_resource('res://models/Terrain/Terrain03Mat.tres')
         mi.set_surface_material(0, mat)
 
     def test_mesh(self):

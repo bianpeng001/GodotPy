@@ -18,8 +18,9 @@ class Player:
         # 自己的英雄本体
         self.main_hero_id = 0
         
-        # 颜色
+        # 旗帜的颜色
         self.flag_color = (1,1,1)
+        self.flag_mat = None
 
         # 资源总数
         self.total_rice_amount = 0
@@ -62,7 +63,7 @@ class PlayerMgr:
             return None
         return player
 
-    def each_player(self):
+    def get_player_iterator(self):
         return self.player_dict.values()
 
 

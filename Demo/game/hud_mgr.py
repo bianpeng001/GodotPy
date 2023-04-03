@@ -28,10 +28,12 @@ class HUDItem:
         self.title_obj.set_text(text)
 
     def set_flag_text(self, text):
-        self.hud_obj.find_node('FlagLabel').set_text(text)
+        label = self.hud_obj.find_node('FlagLabel')
+        label.set_text(text)
 
     def set_flag_color(self, r,g,b):
-        self.hud_obj.find_node('Flag').set_self_modulate(r,g,b)
+        flag = self.hud_obj.find_node('Flag')
+        flag.set_self_modulate(r,g,b)
 
     # new_hud 是否新创建的, 少刷新一些东西
     def update(self, unit, new_hud):

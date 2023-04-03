@@ -364,9 +364,19 @@ class OS:
     def set_custom_mouse_cursor(cls, cursor,shape,x,y):
         gp.set_custom_mouse_cursor(cursor,shape,x,y)
 
+# ResCapsule 对应的方法
+class ResCapsule:
     @classmethod
     def load_resource(cls, path):
         return gp.load_resource(path)
+    
+    @classmethod
+    def resource_duplicate(cls, res):
+        return gp.resource_duplicate(res)
+    
+    @classmethod
+    def material_set_color(cls, res, name, r,g,b,a):
+        gp.material_set_color(res, name, r,g,b,a)
 
 #
 class Debug:
@@ -685,6 +695,7 @@ class FNode2D(FCanvasItem):
     def set_position(self, x,y):
         gp.node2d_set_position(self.get_gdobj(), x,y)
 
+# 多边形工具
 class FSurfaceTool:
     def __init__(self):
         self.st = gp.surface_tool_new()
@@ -718,6 +729,12 @@ class FSurfaceTool:
     # mi -> FMeshInstance3D
     def commit(self, mi):
         gp.surface_tool_commit(self.st, mi.get_gdobj())
+        
+
+# 后面这个得这么用      
+# class FResource(FObject):
+#     def dup(self):
+#         return GetWrappedObject(gp.resource_duplicate(self.get_gdobj()))
 
 
 # 类型到wrap类的映射
@@ -794,6 +811,5 @@ def GetWrappedObject(gdobj):
 
     return obj
 
-# 大话降龙
-# https://www.mm1316.com/maoxian/dahuajianglong
+
 
