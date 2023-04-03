@@ -67,6 +67,8 @@ ACT_NEIZHENG = 1
 ACT_CHUZHAN = 2
 # 受伤
 ACT_SHOUSHANG = 3
+# 旅途
+ACT_TRAVEL = 4
 
 #
 # 英雄(逻辑单位，没有实体)
@@ -105,6 +107,7 @@ class Hero:
         # 这个要用来做控制了,不能同时做两件事情
         # 军队，内政(政,农,商..)，空闲
         self.activity = 0
+        self.activity_time = 0
 
         # 行动力
         self.action_points = 80
@@ -148,17 +151,13 @@ class Hero:
     @property
     def meili(self):
         return self.get_attr(ATTR_MEI)
-
-# 武将活动, 持续一段时间,完成后,需要转成空闲
-class HeroActivity:
-    def __init__(self, hero_id, act, time):
-        self.hero_id = hero_id
-        self.act = act
-        self.time = time
-
-    def complete(self):
-        hero = get_hero(self.hero_id)
-        hero.activity = ACT_IDLE
+    
+    def update_activity(self, delta_time):
+        if self.activity != ACT_IDLE:
+            if self.activity_time > 0:
+                self.activity_time -= delta_time
+                if self.activity_time <= 0:
+                    self.activity = ACT_IDLE
 
 #
 # 武将管理器，所有的武将都在这里，就像一个数据库
@@ -173,9 +172,6 @@ class HeroMgr:
         self.back_hero_activity_list = []
 
     # 支持随机英雄和经典英雄
-    def new_hero1(self):
-        pass
-
     def new_hero(self):
         hero = Hero()
 
@@ -212,30 +208,18 @@ class HeroMgr:
     def get_hero(self, hero_id):
         return self.hero_dict.get(hero_id, None)
 
-    # 活动
-    def set_hero_activity(self, hero_id, activity):
+    # 英雄当前的活动, 安全调用, 判断是否存在
+    def set_hero_activity(self, hero_id, activity, duration = 0):
         if hero_id != 0:
             hero = self.get_hero(hero_id)
             hero.activity = activity
-
-    def add_activity(self, hero, time):
-        item = HeroActivity(hero.hero_id, hero.activity, time)
-        self.hero_activity_list.append(item)
-
-    # 刷新事件
-    def update(self, delta_time):
-        tmp = self.back_hero_activity_list
-        self.back_hero_activity_list = self.hero_activity_list
-        self.hero_activity_list = tmp
-
-        self.hero_activity_list.clear()
-        for item in self.back_hero_activity_list:
-            item.time -= delta_time
-            if item.time > 0:
-                self.hero_activity_list.append(item)
-            else:
-                item.complete()
-
+            hero.activity_time = duration
+    
+    # 这个英雄是否是主公?
+    def is_main_hero(self, hero_id):
+        hero = self.get_hero(hero_id)
+        player = game_mgr.player_mgr.get_player(hero.owner_player_id)
+        return hero.hero_id == player.main_hero_id
 
 if __name__ == '__main__':
     import json

@@ -69,7 +69,7 @@ class PopupTrait:
 class HeroListTrait:
     def init_header(self, header):
         name_label = header.find_node('Label')
-        column_list = ['姓名', '年龄','活动','武力','统率','智力','政治', '行动']
+        column_list = ['姓名','身份','年龄','活动','武力','统率','智力','政治', '行动']
 
         #name_label.set_minimum_size(80, 0)
         #name_label.set_text('姓名')
@@ -111,7 +111,14 @@ class HeroListTrait:
             name_label.set_minimum_size(80, 0)
             name_label.set_text(hero.hero_name)
             #name_label.connect(GUI_INPUT, bind_gui_input())
+            
+            # 身份
+            standing_label = name_label.dup()
+            standing_label.set_minimum_size(40, 0)
+            is_main_hero = game_mgr.hero_mgr.is_main_hero(hero.hero_id)
+            standing_label.set_text('主公' if is_main_hero else '武将')
 
+            # 身份
             age_label = name_label.dup()
             age_label.set_minimum_size(40, 0)
             age_label.set_text(f'{hero.age}')
