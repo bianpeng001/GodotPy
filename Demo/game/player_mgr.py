@@ -17,6 +17,9 @@ class Player:
         self.main_city_id = 0
         # 自己的英雄本体
         self.main_hero_id = 0
+        
+        # 颜色
+        self.flag_color = (1,1,1)
 
         # 资源总数
         self.total_rice_amount = 0

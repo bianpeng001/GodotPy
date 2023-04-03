@@ -89,6 +89,7 @@ class GameMgr():
         self.update_list.append(self.effect_mgr.update)
         self.update_list.append(self.camera_mgr.update)
         self.update_list.append(self.hud_mgr.update)
+        self.update_list.append(self.hero_mgr.update)
 
 game_mgr = GameMgr()
 

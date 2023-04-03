@@ -97,15 +97,17 @@ class GamePlay:
                     hero = game_mgr.hero_mgr.new_hero()
                     hero.hero_name = player.player_name
                     hero.owner_player_id = player.player_id
-                    hero.owner_city_id = city.unit_id
                     player.main_hero_id = hero.hero_id
                     player.hero_list.append(hero.hero_id)
 
                     # 把主公武将设置总督, 并进入城池
+                    hero.owner_city_id = city.unit_id
                     city.hero_list.append(hero.hero_id)
                     city.satrap = hero.hero_id
 
+                    # 旗帜颜色
                     city.get_controller().set_flag_color()
+                    # 镜头
                     cm.set_target_focus(*city.get_position())
                     cm.update_camera()
 
@@ -160,6 +162,7 @@ class GamePlay:
                 log_util.debug('create main player')
                 pm.main_player = pm.new_player()
                 pm.main_player.player_name = player_name
+                pm.main_player.flag_color = (0,1,0)
 
                 game_mgr.ui_mgr.story_panel_controller.play_story(
                     game_mgr.config_mgr.story.start_game_story,

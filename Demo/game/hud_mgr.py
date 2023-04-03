@@ -4,6 +4,7 @@
 
 from game.core import *
 from game.game_mgr import *
+from game.base_type import *
 
 # 一个HUD，封装一下，关联unit_id，和UI元素
 class HUDItem:
@@ -20,13 +21,6 @@ class HUDItem:
         # 可见度,加一个计数
         self.show_age = 1
 
-    # new_hud 是否新创建的, 少刷新一些东西
-    def update(self, unit, new_hud):
-        if unit:
-            x,y,z = unit.get_position()
-            x1,y1 = get_main_camera().world_to_screen(x,y+8,z)
-            self.hud_obj.set_position(x1+self.offset, y1)
-
     def set_visible(self, value):
         self.hud_obj.set_visible(value)
 
@@ -38,6 +32,22 @@ class HUDItem:
 
     def set_flag_color(self, r,g,b):
         self.hud_obj.find_node('Flag').set_self_modulate(r,g,b)
+
+    # new_hud 是否新创建的, 少刷新一些东西
+    def update(self, unit, new_hud):
+        if unit:
+            x,y,z = unit.get_position()
+            x1,y1 = get_main_camera().world_to_screen(x,y+8,z)
+            self.hud_obj.set_position(x1+self.offset, y1)
+            
+            if new_hud:
+                if unit.owner_player_id != 0:
+                    player = game_mgr.player_mgr.get_player(unit.owner_player_id)
+                    if player:
+                        self.set_flag_text(player.player_name[0])
+                        self.set_flag_color(*player.flag_color)
+                    else:
+                        pass
 
 # HUD的显示，刷新
 # 只分配已经在视野里面的，因为总体数量过于庞大，只在视野里面的，

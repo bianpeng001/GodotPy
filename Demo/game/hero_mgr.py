@@ -152,13 +152,6 @@ class Hero:
     def meili(self):
         return self.get_attr(ATTR_MEI)
     
-    def update_activity(self, delta_time):
-        if self.activity != ACT_IDLE:
-            if self.activity_time > 0:
-                self.activity_time -= delta_time
-                if self.activity_time <= 0:
-                    self.activity = ACT_IDLE
-
 #
 # 武将管理器，所有的武将都在这里，就像一个数据库
 #
@@ -220,6 +213,18 @@ class HeroMgr:
         hero = self.get_hero(hero_id)
         player = game_mgr.player_mgr.get_player(hero.owner_player_id)
         return hero.hero_id == player.main_hero_id
+    
+    # 刷新武将的活动
+    def update_activity(self, hero, delta_time):
+        if hero.activity != ACT_IDLE:
+            if hero.activity_time > 0:
+                hero.activity_time -= delta_time
+                if hero.activity_time <= 0:
+                    hero.activity = ACT_IDLE
+                    
+    def update(self, delta_time):
+        for hero in self.hero_dict.values():
+            self.update_activity(hero, delta_time)
 
 if __name__ == '__main__':
     import json
