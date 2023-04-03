@@ -209,7 +209,7 @@ cppdefines = [
     'Py_BUILD_CORE',
     'Py_BUILD_CORE_BUILTIN',
     'Py_ENABLE_SHARED',
-    '_Py_HAVE_ZLIB',
+    #'_Py_HAVE_ZLIB',
 
     #'_DEBUG',
 
@@ -256,6 +256,8 @@ incs = [
 
 
 env = Environment()
+env2 = env.Clone()
+
 env.Execute('echo begin frozen...')
 env.Append(CPPDEFINES = cppdefines)
 env.Append(CPPPATH = incs)
@@ -379,7 +381,6 @@ srcs = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + IOModules + Modules + [
         'Python/deepfreeze/deepfreeze.c',
         'Modules/getpath.c',
         
-
         'Modules/zlibmodule.c',
         ZLIB + '/adler32.c',
         ZLIB + '/crc32.c',
@@ -422,7 +423,7 @@ env.MSVSProject(target = ModuleName + env['MSVSPROJECTSUFFIX'],
 
 # build sqlite3
 # 单独的dll
-sqlite3 = env.SharedLibrary('sqlite3',
+sqlite3 = env2.SharedLibrary('sqlite3',
     source = [SQLITE3 +'/sqlite3.c'],
     buildtarget = 'sqlite3.dll',
     CPPDEFINES = [
@@ -438,7 +439,7 @@ sqlite3 = env.SharedLibrary('sqlite3',
 #
 # sqlit3 模块, 单独的dll(复制host.exe同目录下, sqlite3.pyd)
 #
-sqlite3_pyd = env.SharedLibrary('_sqlite3',
+sqlite3_pyd = env2.SharedLibrary('_sqlite3',
     source = [
         'Modules/_sqlite/module.c',
         'Modules/_sqlite/connection.c',
@@ -464,13 +465,22 @@ sqlite3_pyd = env.SharedLibrary('_sqlite3',
 #
 # lowlevel socket module: _socket.pyd
 #
-socket_pyd = env.SharedLibrary('_socket',
+socket_pyd = env2.SharedLibrary('_socket',
     source = ['Modules/socketmodule.c'],
     CPPDEFINES = [],
-    buildtarget = '_socket.pyd',
+    buildtarget = '_socket.dll',
     LIBS = [
         'python3.lib',
         'Rpcrt4', 'Iphlpapi', 'Ws2_32',
+    ]
+)
+
+asyncio_pyd = env2.SharedLibrary('_asyncio',
+    source = ['Modules/_asynciomodule.c'],
+    CPPDEFINES = [],
+    buildtarget = '_asyncio.dll',
+    LIBS = [
+        'python3.lib',
     ]
 )
 
