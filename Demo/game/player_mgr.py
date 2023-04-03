@@ -8,7 +8,7 @@ from game.core import *
 class Player:
     def __init__(self):
         self.player_id = 0
-        self.player_name = '无名氏'
+        self.player_name = '刘备'
 
         self.city_list = []
         self.troop_list = []
@@ -55,11 +55,11 @@ class PlayerMgr:
     def get_player(self, player_id):
         player = self.player_dict.get(player_id, None)
         if not player:
-            log_util.error(f'player not found: {player_id}')
+            log_debug(f'player not found: {player_id}')
             return None
         return player
 
     def each_player(self):
         return self.player_dict.values()
-            
+
 

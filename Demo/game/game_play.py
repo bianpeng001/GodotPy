@@ -88,10 +88,12 @@ class GamePlay:
 
                 if city:
                     city.unit_name = '安喜'
+                    # 城的归属
                     self.set_city_owner(city, player)
+                    # 治所
                     player.main_city_id = city.unit_id
 
-                    # 还要创建一个自己
+                    # 还要创建一个自己的, 武将实体
                     hero = game_mgr.hero_mgr.new_hero()
                     hero.hero_name = player.player_name
                     hero.owner_player_id = player.player_id
@@ -99,9 +101,9 @@ class GamePlay:
                     player.main_hero_id = hero.hero_id
                     player.hero_list.append(hero.hero_id)
 
-                    # 城池归属
-                    city.satrap = hero.hero_id
+                    # 把主公武将设置总督, 并进入城池
                     city.hero_list.append(hero.hero_id)
+                    city.satrap = hero.hero_id
 
                     city.get_controller().set_flag_color()
                     cm.set_target_focus(*city.get_position())
@@ -213,6 +215,8 @@ class GamePlay:
         # 城内武将的归属
         # TODO: 城中的武将的归属,现在做成直接归属. 以后做成俘虏
         for hero_id in city.hero_list:
+            hero = game_mgr.hero_mgr.get_hero(hero_id)
+            hero.owner_player_id = player.player_id
             player.hero_list.append(hero_id)
 
     # 队伍攻城
