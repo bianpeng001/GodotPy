@@ -366,17 +366,18 @@ class OS:
 
 # ResCapsule 对应的方法
 class ResCapsule:
+    def __init__(self, res):
+        self.res = res
+        
     @classmethod
     def load_resource(cls, path):
-        return gp.load_resource(path)
+        return ResCapsule(gp.load_resource(path))
     
-    @classmethod
-    def resource_duplicate(cls, res):
-        return gp.resource_duplicate(res)
+    def duplicate(self):
+        return ResCapsule(gp.resource_duplicate(self.res))
     
-    @classmethod
-    def material_set_color(cls, res, name, r,g,b,a):
-        gp.material_set_color(res, name, r,g,b,a)
+    def set_shader_color(self, name, r,g,b,a):
+        gp.material_set_color(self.res, name, r,g,b,a)
 
 #
 class Debug:

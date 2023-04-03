@@ -137,6 +137,8 @@ class GamePlay:
                 dlg.init('不错, 安喜虽小, 不妨碍我们励精图治.', 2)
                 yield WaitForSeconds(2.5)
                 dlg.init('大哥, 先看下城里的[color=red]内政[/color]情况吧.', 2)
+                yield WaitForSeconds(2.5)
+                game_mgr.ui_mgr.show_base_ui(True)
 
             # 游戏的第一个选择
             def confirm_start_option(index):
@@ -148,7 +150,6 @@ class GamePlay:
 
                 log_debug('select', index)
                 game_mgr.co_mgr.start(co_choose_base_city())
-                game_mgr.ui_mgr.show_base_ui(True)
                 game_mgr.co_mgr.start(co_show_dialog())
 
             def show_start_options():

@@ -195,10 +195,10 @@ class ChuZhanPanelController(UIController, PopupTrait):
             if hero_id % 3 == 0:
                 #avatar.load_tex('res://ui/face/XuShu.png')
                 tex = ResCapsule.load_resource('res://ui/face/XuShu.png')
-                avatar.set_tex(tex)
+                avatar.set_tex(tex.res)
             elif hero_id % 3 == 1:
                 tex = ResCapsule.load_resource('res://ui/face/DiaoChan.png')
-                avatar.set_tex(tex)
+                avatar.set_tex(tex.res)
 
             self.hero_item_list.append(hero_item)
 
