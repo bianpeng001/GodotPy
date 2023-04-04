@@ -8,7 +8,7 @@ from game.core import *
 from game.game_mgr import *
 from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
-from game.event_name import PRESSED, MAINUI_REFRESH
+from game.event_name import PRESSED, MAINUI_REFRESH, MAINUI_GM_CLICK
 
 # 头顶主界面逻辑
 class MainUIController(UIController, PopupTrait):
@@ -48,6 +48,8 @@ class MainUIController(UIController, PopupTrait):
         get_btn('地图').connect(PRESSED, self.on_map_click)
         get_btn('执行').connect(PRESSED, self.on_gm_click)
         get_btn('存档').connect(PRESSED, self.on_save_click)
+        
+        game_mgr.event_mgr.add(MAINUI_GM_CLICK, self.on_gm_click)
 
         # 事件
         game_mgr.event_mgr.add(MAINUI_REFRESH, self.on_refresh)

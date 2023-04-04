@@ -36,4 +36,4 @@ MAIN_PLAYER_READY = 'main_player_ready'
 
 # UI 面板事件
 MAINUI_REFRESH = 'mainui_refresh'
-
+MAINUI_GM_CLICK = 'mainui_gm'

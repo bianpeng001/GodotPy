@@ -14,6 +14,13 @@ MIDDLE_BUTTON = 3
 WHEEL_UP_BUTTON = 4
 WHEEL_DOWN_BUTTON = 5
 
+SPECIAL = 1 << 22
+KEY_F7 = SPECIAL | 0x22
+KEY_F8 = SPECIAL | 0x23
+KEY_F9 = SPECIAL | 0x24
+KEY_F10 = SPECIAL | 0x25
+
+
 # 滚轮的事件表 [button] = event_name
 wheel_events = (
     None,
@@ -66,7 +73,10 @@ class InputMgr(NodeObject):
 
     def on_key_pressed(self, keycode, pressed):
         is_pressed = pressed != 0
-        #print_line(f'key pressed: keycode={keycode} pressed={is_pressed}')
+        #log_debug(f'key pressed: keycode={keycode} pressed={is_pressed}')
+        if pressed:
+            if keycode == KEY_F9:
+                game_mgr.event_mgr.emit(MAINUI_GM_CLICK)
         
         self.key_dict[keycode] = is_pressed
 
