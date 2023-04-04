@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://csxv0c3byv55v"]
+
+[ext_resource type="PackedScene" uid="uid://436vq4oiy61i" path="res://models/Face/Face01.tscn" id="1_f4fv7"]
+[ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="2_j8u6n"]
+
+[node name="FacePanel" type="SubViewportContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1052.0
+offset_bottom = -548.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(100, 100)
+render_target_update_mode = 4
+
+[node name="Face01" parent="SubViewport" instance=ExtResource("1_f4fv7")]
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
+cull_mask = 1024
+environment = ExtResource("2_j8u6n")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 0.790946, 0.611886, 0, -0.611886, 0.790946, 0, 2.35037, 4.77962)
+layers = 1024

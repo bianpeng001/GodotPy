@@ -7,7 +7,6 @@ main_camera = game_mgr.camera_mgr.main_camera
 #game_mgr.enable_city_ai = True
 
 ui_mgr = game_mgr.ui_mgr
-print(ui_mgr)
 
 #print(ui_mgr.build_panel_controller.is_visible)
 
@@ -29,11 +28,11 @@ def show_story():
 
 import imp
 
-def trigger_base_ui():
+def trigger_mainui():
     global ui_mgr
     
     show = not ui_mgr.mainui_controller.is_show()
     ui_mgr.show_base_ui(show)
 
-trigger_base_ui()
+trigger_mainui()
 

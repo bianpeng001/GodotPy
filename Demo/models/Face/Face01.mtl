@@ -1,0 +1,22 @@
+# Blender 3.5.0 MTL File: 'Face01.blend'
+# www.blender.org
+
+newmtl BaseMat
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd pal.png
+
+newmtl EyeMat
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 2
+map_Kd eye01.png
+map_d eye01.png
