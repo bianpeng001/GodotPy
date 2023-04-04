@@ -118,7 +118,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         x,z = self.city_unit.get_xz()
         x = math.floor(x / 300)
         z = math.floor(z / 300)
-        log_debug('xx', x, z)
+        
         if x >= -1 and x <= 1 and z >= -1 and x <= 1:
             zhou_name = '雍冀兖豫徐青益荆扬'[(z+1)*3+(x+1)] + '州'
         else:
