@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://b4onkqre0v5ap"]
+[gd_scene load_steps=4 format=3 uid="uid://b4onkqre0v5ap"]
 
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_83fnq"]
-[ext_resource type="Texture2D" uid="uid://cu2kol32wfyce" path="res://ui/face/ZhuGeLiang.png" id="3_fb7vc"]
 [ext_resource type="Texture2D" uid="uid://cbfgi6tma1eyw" path="res://ui/img/bg2.png" id="3_ugj62"]
 [ext_resource type="PackedScene" uid="uid://csxv0c3byv55v" path="res://models/Face/HeroAvatar.tscn" id="4_txq8p"]
 
@@ -38,27 +37,9 @@ text = "诸葛亮：主公放心，此计必成。"
 autowrap_mode = 1
 deselect_on_focus_loss_enabled = false
 
-[node name="Frame" type="ColorRect" parent="."]
-layout_mode = 0
-offset_left = -64.0
-offset_top = 3.0
-offset_right = -4.0
-offset_bottom = 63.0
-color = Color(0.321569, 0.529412, 0.470588, 1)
-
-[node name="Avatar" type="TextureRect" parent="Frame"]
-layout_mode = 0
-offset_left = 2.0
-offset_top = 2.0
-offset_right = 58.0
-offset_bottom = 58.0
-texture = ExtResource("3_fb7vc")
-expand_mode = 1
-
 [node name="FacePanel" parent="." instance=ExtResource("4_txq8p")]
 layout_mode = 1
-offset_left = 3.0
-offset_top = -130.0
-offset_right = -241.0
-offset_bottom = 6.0
+offset_left = -127.0
+offset_right = -371.0
+offset_bottom = 136.0
 scale = Vector2(0.5, 0.5)
