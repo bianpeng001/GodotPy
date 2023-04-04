@@ -57,7 +57,8 @@ expand_mode = 1
 
 [node name="FacePanel" parent="." instance=ExtResource("4_txq8p")]
 layout_mode = 1
-offset_left = 8.0
-offset_top = -103.0
-offset_right = -392.0
-offset_bottom = -123.0
+offset_left = 3.0
+offset_top = -130.0
+offset_right = -241.0
+offset_bottom = 6.0
+scale = Vector2(0.5, 0.5)

@@ -7,25 +7,26 @@
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -1052.0
-offset_bottom = -548.0
+offset_right = -896.0
+offset_bottom = -392.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="SubViewport" type="SubViewport" parent="."]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(100, 100)
+msaa_3d = 2
+size = Vector2i(256, 256)
 render_target_update_mode = 4
 
 [node name="Face01" parent="SubViewport" instance=ExtResource("1_8oxw0")]
 
 [node name="Camera3D" type="Camera3D" parent="SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1.482, 2)
 cull_mask = 1024
 environment = ExtResource("2_cq5nb")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 0.790946, 0.611886, 0, -0.611886, 0.790946, 0, 2.35037, 4.77962)
+transform = Transform3D(1, 0, 0, 0, 0.790946, 0.611886, 0, -0.611886, 0.790946, 0, 3.58821, 4.77962)
 layers = 0
 light_cull_mask = 4293919744
