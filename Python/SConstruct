@@ -210,7 +210,6 @@ cppdefines = [
     'Py_BUILD_CORE_BUILTIN',
     'Py_ENABLE_SHARED',
     #'_Py_HAVE_ZLIB',
-
     #'_DEBUG',
 
     ('VPATH', f'\\"{ModuleName}\\"'),
@@ -400,19 +399,6 @@ Lib1 = env.SharedLibrary(ModuleName,
 )
 env.Requires(Lib1, [Gen1, Gen2])
 
-# 资源文件,包含app的图标
-PythonExeRes = env.RES('python3.rc')
-
-# python.exe
-PythonExe = env.Program('python.exe',
-    source = ['Programs/python.c', 'python3.res'],
-    resources = [],
-    cpppaths = incs,
-    LIBS = ['python3.lib',]
-)
-# 加一下依赖关系, 保证先后执行顺序
-env.Requires(PythonExe, [Lib1, PythonExeRes])
-
 # generate vsproject
 env.MSVSProject(target = ModuleName + env['MSVSPROJECTSUFFIX'],
     srcs = srcs,
@@ -421,12 +407,34 @@ env.MSVSProject(target = ModuleName + env['MSVSPROJECTSUFFIX'],
     variant = 'Debug|x64'
 )
 
+#
+# env2
+#
+
+env2.Append(CPPPATH = incs)
+if is_release:
+    env2.Append(CCFLAGS = ['/O2',])
+    
+# 资源文件,包含app的图标
+PythonExeRes = env2.RES('python3.rc')
+
+# python.exe
+PythonExe = env2.Program('python.exe',
+    source = ['Programs/python.c', 'python3.res'],
+    resources = [],
+    cpppaths = incs,
+    LIBS = ['python3.lib',]
+)
+# 加一下依赖关系, 保证先后执行顺序
+env2.Requires(PythonExe, [Lib1, PythonExeRes])
+
 # build sqlite3
 # 单独的dll
 sqlite3 = env2.SharedLibrary('sqlite3',
     source = [SQLITE3 +'/sqlite3.c'],
     buildtarget = 'sqlite3.dll',
     CPPDEFINES = [
+        'Py_ENABLE_SHARED',
         'SQLITE_ENABLE_MATH_FUNCTIONS',
         'SQLITE_ENABLE_FTS4',
         'SQLITE_ENABLE_FTS5',
@@ -452,6 +460,7 @@ sqlite3_pyd = env2.SharedLibrary('_sqlite3',
         'Modules/_sqlite/util.c',
     ],
     CPPDEFINES = [
+        'Py_ENABLE_SHARED',
         'PY_SQLITE_HAVE_SERIALIZE',
         'PY_SQLITE_ENABLE_LOAD_EXTENSION',
     ],
@@ -467,7 +476,9 @@ sqlite3_pyd = env2.SharedLibrary('_sqlite3',
 #
 socket_pyd = env2.SharedLibrary('_socket',
     source = ['Modules/socketmodule.c'],
-    CPPDEFINES = [],
+    CPPDEFINES = [
+        'Py_ENABLE_SHARED',
+    ],
     buildtarget = '_socket.dll',
     LIBS = [
         'python3.lib',
@@ -477,7 +488,9 @@ socket_pyd = env2.SharedLibrary('_socket',
 
 asyncio_pyd = env2.SharedLibrary('_asyncio',
     source = ['Modules/_asynciomodule.c'],
-    CPPDEFINES = [],
+    CPPDEFINES = [
+        'Py_ENABLE_SHARED',
+    ],
     buildtarget = '_asyncio.dll',
     LIBS = [
         'python3.lib',
