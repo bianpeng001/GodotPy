@@ -2428,6 +2428,26 @@ static PyObject *f_surface_tool_commit(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_viewport_set_update_mode(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		int mode;
+
+		if (!PyArg_ParseTuple(args, "Oi", &a_obj, &mode)) {
+			break;
+		}
+
+		auto p_viewport = GetObjPtr<SubViewport>(a_obj);
+		if (!p_viewport) {
+			break;
+		}
+
+		p_viewport->set_update_mode((SubViewport::UpdateMode)mode);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 
 // define godot api
 static PyMethodDef GodotPy_methods[] = {
@@ -2557,6 +2577,9 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "surface_tool_add_index", f_surface_tool_add_index, METH_VARARGS, NULL },
 	{ "surface_tool_set_custom", f_surface_tool_set_custom, METH_VARARGS, NULL },
 	{ "surface_tool_commit", f_surface_tool_commit, METH_VARARGS, NULL },
+
+	// viewport
+	{ "viewport_set_update_mode", f_viewport_set_update_mode, METH_VARARGS, NULL },
 
 	// godotpy
 	//{ "get_py_object", f_get_py_object, METH_VARARGS, NULL },

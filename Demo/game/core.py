@@ -696,6 +696,10 @@ class FNode2D(FCanvasItem):
     def set_position(self, x,y):
         gp.node2d_set_position(self.get_gdobj(), x,y)
 
+class FSubViewport(FNode):
+    def set_update_mode(self, mode):
+        gp.f_viewport_set_update_mode(self.get_gdobj(), mode)
+
 # 多边形工具
 class FSurfaceTool:
     def __init__(self):
@@ -781,6 +785,7 @@ _TypeMap = {
     'HBoxContainer' : FHBoxContainer,
     'VBoxContainer' : FVBoxContainer,
     'ItemList' : FItemList,
+    'SubViewport' : FSubViewport,
     
 }
 
