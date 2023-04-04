@@ -15,6 +15,8 @@ LEFT_BUTTON_CLICK = 'left_button_click'
 WHEEL_UP_PRESS = 'wheel_up_press'
 WHEEL_DOWN_PRESS = 'wheel_down_press'
 
+KEY_PRESS = 'key_press'
+
 # signal
 PRESSED = 'pressed'
 GUI_INPUT = 'gui_input'
@@ -36,4 +38,3 @@ MAIN_PLAYER_READY = 'main_player_ready'
 
 # UI 面板事件
 MAINUI_REFRESH = 'mainui_refresh'
-MAINUI_GM_CLICK = 'mainui_gm'

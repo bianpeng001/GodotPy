@@ -75,8 +75,8 @@ class InputMgr(NodeObject):
         is_pressed = pressed != 0
         #log_debug(f'key pressed: keycode={keycode} pressed={is_pressed}')
         if pressed:
-            if keycode == KEY_F9:
-                game_mgr.event_mgr.emit(MAINUI_GM_CLICK)
+            game_mgr.event_mgr.emit(KEY_PRESS, keycode)
+                
         
         self.key_dict[keycode] = is_pressed
 

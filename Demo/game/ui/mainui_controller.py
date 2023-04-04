@@ -8,7 +8,8 @@ from game.core import *
 from game.game_mgr import *
 from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
-from game.event_name import PRESSED, MAINUI_REFRESH, MAINUI_GM_CLICK
+from game.event_name import PRESSED, MAINUI_REFRESH, KEY_PRESS
+from game.input_mgr import KEY_F9
 
 # 头顶主界面逻辑
 class MainUIController(UIController, PopupTrait):
@@ -49,7 +50,7 @@ class MainUIController(UIController, PopupTrait):
         get_btn('执行').connect(PRESSED, self.on_gm_click)
         get_btn('存档').connect(PRESSED, self.on_save_click)
         
-        game_mgr.event_mgr.add(MAINUI_GM_CLICK, self.on_gm_click)
+        game_mgr.event_mgr.add(KEY_PRESS, self.on_key_press)
 
         # 事件
         game_mgr.event_mgr.add(MAINUI_REFRESH, self.on_refresh)
@@ -57,6 +58,11 @@ class MainUIController(UIController, PopupTrait):
         self.gm_file_path = os.path.join(game_mgr.game_path, 'gm.py')
         if not os.path.exists(self.gm_file_path):
             self.gm_file_path = None
+            
+            
+    def on_key_press(self, keycode):
+        if keycode == KEY_F9:
+            self.on_gm_click()
 
     def on_gm_click(self):
         if self.gm_file_path:
