@@ -94,6 +94,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     def init(self, city_unit):
         self.city_unit = city_unit
 
+        # 根据城的级别, 这个称呼有变化
         self.lbl_satrap.set_text('县令')
 
         # 缓存一些数据，用于修改，不是直接改
@@ -111,9 +112,22 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         # 这个不修改，只是这里用来计算的
         self.population = self.city_unit.population.get_value()
 
-        # 然后修改ui
-        self.lbl_name_obj.set_text(self.city_unit.unit_name)
+        # 下面初始化ui
+        
+        # 九州
+        x,z = self.city_unit.get_xz()
+        x = math.floor(x / 300)
+        z = math.floor(z / 300)
+        log_debug('xx', x, z)
+        if x >= -1 and x <= 1 and z >= -1 and x <= 1:
+            zhou_name = '雍冀兖豫徐青益荆扬'[(z+1)*3+(x+1)] + '州'
+        else:
+            zhou_name = '荒蛮'
+        
+        # 城市的名字
+        self.lbl_name_obj.set_text(f'{zhou_name} {self.city_unit.unit_name}')
 
+        # 官员负责人
         self.btn_satrap.set_text(get_hero_name(self.satrap))
         self.btn_order_incharge.set_text(get_hero_name(self.order_incharge))
         self.btn_farmer_incharge.set_text(get_hero_name(self.farmer_incharge))
