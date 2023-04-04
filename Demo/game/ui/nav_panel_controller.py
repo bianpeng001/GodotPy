@@ -12,17 +12,24 @@ from game.event_name import PRESSED
 #
 class NavPanelController(UIController, PopupTrait):
     def __init__(self):
-        pass
+        self.button_dict = []
     
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
-        self.ui_obj.find_node('ScrollContainer/VBoxContainer/BtnMainCity').connect(
-                PRESSED, self.on_main_city_click)
-
+        self.main_city_button = self.ui_obj.find_node('ScrollContainer/VBoxContainer/BtnMainCity')
+        self.main_city_button.connect(PRESSED, self.on_main_city_click)
 
     def on_main_city_click(self):
         p = get_main_player()
         city = game_mgr.unit_mgr.get_unit(p.main_city_id)
         game_mgr.camera_mgr.set_target_focus(*city.get_position())
+        
+    # 强制重建
+    def rebuild(self):
+        pass
+
+
+
+
 

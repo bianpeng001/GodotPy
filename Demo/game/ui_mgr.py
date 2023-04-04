@@ -143,7 +143,7 @@ class UIMgr(NodeObject):
         log_debug('ui panels load ok')
 
         # 菜单列表
-        self.menu_list = [
+        self.context_menu_list = [
             self.city_menu_controller,
             self.ground_menu_controller,
             self.troop_menu_controller,
@@ -194,9 +194,9 @@ class UIMgr(NodeObject):
             self.defer_close_queue.append(ui_controller)
 
     def show_menu(self, menu):
-        for item in self.menu_list:
+        for item in self.context_menu_list:
             if item == menu:
-                if item.is_visible:
+                if item.is_show():
                     item.defer_close()
                 else:
                     item.popup_at_mouse()
@@ -276,4 +276,4 @@ class UIMgr(NodeObject):
                 item.defer_close()
 
 
-                
+

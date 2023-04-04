@@ -209,7 +209,10 @@ cppdefines = [
     'Py_BUILD_CORE',
     'Py_BUILD_CORE_BUILTIN',
     'Py_ENABLE_SHARED',
-    #'_Py_HAVE_ZLIB',
+    
+    # 从python312.zip里面加载标准模块
+    '_Py_HAVE_ZLIB',
+    
     #'_DEBUG',
 
     ('VPATH', f'\\"{ModuleName}\\"'),

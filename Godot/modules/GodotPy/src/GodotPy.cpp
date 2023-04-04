@@ -785,7 +785,7 @@ static PyObject *f_set_process(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
-static PyObject *f_connect(PyObject *module, PyObject *args) {
+static PyObject *f_node_connect(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
 		const char *a_signal;
@@ -801,6 +801,27 @@ static PyObject *f_connect(PyObject *module, PyObject *args) {
 
 	} while (0);
 	
+	Py_RETURN_NONE;
+}
+static PyObject *f_node_disconnect(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		const char *a_signal;
+		PyObject *callback;
+
+		if (!PyArg_ParseTuple(args, "OsO", &a_obj, &a_signal, &callback)) {
+			break;
+		}
+
+		auto node = GetObjPtr<Node>(a_obj);
+		//auto ccb = memnew(CallableCustomCallback(node, callback, NULL));
+		//node->connect(String::utf8(a_signal), Callable(ccb));
+
+		// TODO:
+		//node->disconnect(String::utf8(a_signal), );
+
+	} while (0);
+
 	Py_RETURN_NONE;
 }
 static PyObject *f_node_set_name(PyObject *module, PyObject *args) {
@@ -2436,7 +2457,8 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "node_set_last", f_node_set_last, METH_VARARGS, NULL },
 	{ "node_dup", f_node_dup, METH_VARARGS, NULL },
 
-	{ "connect", f_connect, METH_VARARGS, NULL },
+	{ "node_connect", f_node_connect, METH_VARARGS, NULL },
+	{ "node_disconnect", f_node_disconnect, METH_VARARGS, NULL },
 	{ "node_set_name", f_node_set_name, METH_VARARGS, NULL },
 	
 	// node3d
