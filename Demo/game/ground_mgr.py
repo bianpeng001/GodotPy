@@ -259,19 +259,24 @@ class Tile:
 
     def load_items(self):
         pos_x, pos_z = self.get_center_pos()
+
         # 树
         for i in range(random.randrange(1, 10)):
-            if random.random() < 0.2:
-                path = 'res://models/Tree02.tscn'
-            elif random.random() < 0.4:
-                path = 'res://models/Tree03.tscn'
-            else:
-                path = 'res://models/Tree01.tscn'
+            dx = random_x() * 20
+            dy = random_x() * 20
 
-            self.load_res(path,
-                pos_x + random_x()*15,
-                pos_z + random_x()*15,
-                0.5 + random.random()*1.0)
+            if (dx*dx + dy*dy) > 10*10:
+                if random.random() < 0.2:
+                    path = 'res://models/Tree02.tscn'
+                elif random.random() < 0.4:
+                    path = 'res://models/Tree03.tscn'
+                else:
+                    path = 'res://models/Tree01.tscn'
+
+                self.load_res(path,
+                    pos_x + dx,
+                    pos_z + dy,
+                    0.3 + random.random()*0.7)
 
         # 草
         for i in range(random.randrange(1, 5)):
