@@ -186,8 +186,9 @@ Modules = [
     'Modules/posixmodule.c',
 
     'Modules/_io/winconsoleio.c',
+    'Modules/_winapi.c',
+
     'PC/invalid_parameter_handler.c',
-    
     'Python/dynload_win.c',
     'PC/dl_nt.c',
     'PC/winreg.c',
@@ -273,6 +274,7 @@ else:
 env.Append(LIBPATH = [
     
 ])
+
 Frozen = 'Programs/_frozen.exe'
 Program1 = env.Program(Frozen,
     source = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + IOModules + Modules + [
@@ -411,7 +413,7 @@ env.MSVSProject(target = ModuleName + env['MSVSPROJECTSUFFIX'],
 )
 
 #
-# env2
+# env2, 生成子模块, 区别一下编译选项
 #
 
 env2.Append(CPPPATH = incs)

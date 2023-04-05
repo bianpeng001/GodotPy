@@ -10,7 +10,7 @@ from game.event_name import PRESSED
 from game.config_mgr import new_hero_name
 
 #
-#
+# 创建新主公
 #
 class CreatePlayerController(UIController, PopupTrait):
     def __init__(self):

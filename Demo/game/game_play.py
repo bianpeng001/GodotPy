@@ -154,8 +154,8 @@ class GamePlay:
 
             def show_start_options():
                 dlg = game_mgr.ui_mgr.option_panel_controller
-                dlg.init('  朝廷安抚平乱有功者, 因此你除授定州安喜县令, 克日赴任. 你将作何选择?',
-                        ['遣散队伍回乡务农', '率众投军继续当兵', '听从安排上任县令'],
+                dlg.init('  朝廷安抚平乱有功者, 因此你除授定州安喜县令, 你将作何打算?',
+                        ['遣散队伍回乡务农', '率众投军继续当兵', '听从安排克日赴任'],
                         confirm_start_option)
                 dlg.push_panel()
 
