@@ -261,9 +261,13 @@ class Tile:
         pos_x, pos_z = self.get_center_pos()
         # 树
         for i in range(random.randrange(1, 10)):
-            path = 'res://models/Tree01.tscn'
             if random.random() < 0.2:
                 path = 'res://models/Tree02.tscn'
+            elif random.random() < 0.4:
+                path = 'res://models/Tree03.tscn'
+            else:
+                path = 'res://models/Tree01.tscn'
+
             self.load_res(path,
                 pos_x + random_x()*15,
                 pos_z + random_x()*15,
