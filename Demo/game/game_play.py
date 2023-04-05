@@ -145,7 +145,7 @@ class GamePlay:
                 # TODO: 这里要根据选项做一些区别对待
                 if index == 0:
                     dlg = game_mgr.ui_mgr.npc_dialog_controller
-                    dlg.init('认真点, 不要开玩笑', 3)
+                    dlg.init('认真点, 别开玩笑', 3)
                     return True
 
                 log_debug('select', index)
@@ -154,7 +154,7 @@ class GamePlay:
 
             def show_start_options():
                 dlg = game_mgr.ui_mgr.option_panel_controller
-                dlg.init('  朝廷安抚平乱有功者, 因此你除授定州安喜县令, 你将作何打算?',
+                dlg.init('朝廷安抚平乱有功者, 因此你除授定州安喜县令, 你将作何打算?',
                         ['遣散队伍回乡务农', '率众投军继续当兵', '听从安排克日赴任'],
                         confirm_start_option)
                 dlg.push_panel()

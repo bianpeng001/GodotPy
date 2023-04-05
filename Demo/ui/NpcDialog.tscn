@@ -39,7 +39,7 @@ deselect_on_focus_loss_enabled = false
 
 [node name="FacePanel" parent="." instance=ExtResource("4_txq8p")]
 layout_mode = 1
-offset_left = -127.0
-offset_right = -371.0
+offset_left = -102.0
+offset_right = -346.0
 offset_bottom = 136.0
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.4, 0.4)

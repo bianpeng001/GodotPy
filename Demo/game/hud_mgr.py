@@ -50,6 +50,9 @@ class HUDItem:
                         self.set_flag_color(*player.flag_color)
                     else:
                         pass
+                else:
+                    self.set_flag_text('')
+                    self.set_flag_color(1,1,1)
 
 # HUD的显示，刷新
 # 只分配已经在视野里面的，因为总体数量过于庞大，只在视野里面的，

@@ -22,9 +22,10 @@ render_target_update_mode = 4
 [node name="Face01" parent="SubViewport" instance=ExtResource("1_8oxw0")]
 
 [node name="Camera3D" type="Camera3D" parent="SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1.482, 2)
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 3.50002, 9.33609)
 cull_mask = 1024
 environment = ExtResource("2_cq5nb")
+fov = 15.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 0.790946, 0.611886, 0, -0.611886, 0.790946, 0, 3.58821, 4.77962)
