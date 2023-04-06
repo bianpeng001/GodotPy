@@ -1,0 +1,8 @@
+[gd_resource type="AnimationLibrary" load_steps=2 format=3 uid="uid://chghvsklo8enh"]
+
+[ext_resource type="Animation" uid="uid://dxa82io3f5rtm" path="res://models/Arm/BowAnim.res" id="1_hny7h"]
+
+[resource]
+_data = {
+"BowAnim": ExtResource("1_hny7h")
+}
