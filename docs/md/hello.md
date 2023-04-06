@@ -16,7 +16,7 @@
 ||||
 |-|-|-|
 |☱兑|☰乾|☴巽|
-|☲离|![BaGua](https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Yin_yang.svg/30px-Yin_yang.svg.png)|☵坎|
+|☲离|![太极](img/Tj.png)|☵坎|
 |☳震|☷坤|☶艮|
 
 
@@ -25,7 +25,7 @@
 ||||
 |-|-|-|
 |☴巽|☲离|☷坤|
-|☳震|![BaGua](https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Yin_yang.svg/30px-Yin_yang.svg.png)|☱兑|
+|☳震|![太极](img/Tj.png)|☱兑|
 |☶艮|☵坎|☰乾|
 
 对应到方位
