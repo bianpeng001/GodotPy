@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://models/Outline/Outline.gdshader" id="1_fvqag"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_fvqag")
+shader_parameter/outline_mode = 1
+shader_parameter/outline_intensity = 0.1
+shader_parameter/_round = false
+shader_parameter/outline_bias = 4.75e-07
+shader_parameter/outline_color = Color(0.0705882, 0.0705882, 0.0705882, 0.0705882)

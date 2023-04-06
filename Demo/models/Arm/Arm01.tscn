@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://6sgvsikcb5cg"]
+[gd_scene load_steps=5 format=3 uid="uid://6sgvsikcb5cg"]
 
 [ext_resource type="AnimationLibrary" uid="uid://chghvsklo8enh" path="res://models/Arm/ArmAnimLib.tres" id="1_4u5bj"]
-[ext_resource type="Material" uid="uid://bj3g46sr8mrnj" path="res://models/Arm/OutlineMat.tres" id="1_jp6w7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_si8kb"]
 resource_name = "Material"
@@ -38,8 +37,6 @@ bind/1/name = &"Bone.001"
 bind/1/bone = -1
 bind/1/pose = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.17941, 0)
 
-[sub_resource type="QuadMesh" id="QuadMesh_uf1nh"]
-
 [node name="Arm01" type="Node3D"]
 
 [node name="Arm" type="Node3D" parent="."]
@@ -70,8 +67,3 @@ skin = SubResource("Skin_gmkjy")
 libraries = {
 "ArmAnimLib": ExtResource("1_4u5bj")
 }
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(2, 0, 0, 0, 0.973891, 1.74686, 0, -1.74686, 0.973891, 0, 4.27355, 2.51567)
-mesh = SubResource("QuadMesh_uf1nh")
-surface_material_override/0 = ExtResource("1_jp6w7")

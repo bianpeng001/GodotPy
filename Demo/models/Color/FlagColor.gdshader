@@ -22,8 +22,9 @@ void vertex() {
 	NORMAL = normalize((MODELVIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
 }
 
-uniform vec3 _color : source_color;
+uniform vec3 _color : source_color = vec3(1.0, 1.0, 1.0);
 
 void fragment() {
 	ALBEDO = _color;
+	//ALPHA = 1.0;
 }

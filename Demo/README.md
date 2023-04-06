@@ -229,6 +229,8 @@ https://docs.godotengine.org/en/stable/tutorials/shaders/custom_postprocessing.h
 ![CameraEnv.res](../docs/img/CameraEnv.png "Camera Enviroment")
 
 
+### 自定义屏幕特效
+[屏幕特效](https://docs.godotengine.org/en/stable/tutorials/shaders/advanced_postprocessing.html)
 
 ### object上get，set数据
 ```c++

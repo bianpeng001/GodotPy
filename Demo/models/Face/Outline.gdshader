@@ -2,7 +2,7 @@
 //Extra Cull Margin on the quad should be turned up all the way!
 
 shader_type spatial;
-render_mode depth_test_disabled, unshaded, cull_disabled, skip_vertex_transform;
+render_mode unshaded;
 
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 uniform sampler2D DEPTH_TEXTURE : hint_depth_texture, filter_linear_mipmap;

@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://csxv0c3byv55v"]
+[gd_scene load_steps=5 format=3 uid="uid://csxv0c3byv55v"]
 
 [ext_resource type="PackedScene" uid="uid://436vq4oiy61i" path="res://models/Face/Face01.tscn" id="1_8oxw0"]
 [ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="2_cq5nb"]
+[ext_resource type="QuadMesh" uid="uid://bgvylfri1047g" path="res://models/Outline/ScreenRect.tres" id="3_6hjkw"]
+[ext_resource type="Material" path="res://models/Outline/OutlineMat.tres" id="4_huikq"]
 
 [node name="FacePanel" type="SubViewportContainer"]
 anchors_preset = 15
@@ -26,8 +28,17 @@ transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 
 cull_mask = 1024
 environment = ExtResource("2_cq5nb")
 fov = 15.0
+near = 1.0
+far = 20.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 0.790946, 0.611886, 0, -0.611886, 0.790946, 0, 3.58821, 4.77962)
-layers = 0
+layers = 1024
 light_cull_mask = 4293919744
+
+[node name="PP_Outline" type="MeshInstance3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+layers = 1024
+mesh = ExtResource("3_6hjkw")
+skeleton = NodePath("../Camera3D")
+surface_material_override/0 = ExtResource("4_huikq")
