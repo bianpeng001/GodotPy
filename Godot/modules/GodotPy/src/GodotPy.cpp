@@ -824,6 +824,31 @@ static PyObject *f_node_disconnect(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_node_clear_connection(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		const char *a_signal;
+
+		if (!PyArg_ParseTuple(args, "Os", &a_obj, &a_signal)) {
+			break;
+		}
+
+		auto node = GetObjPtr<Node>(a_obj);
+
+		StringName signal(a_signal);
+		List<Object::Connection> conn_list;
+		node->get_signal_connection_list(signal, &conn_list);
+		for (int i = 0; i < conn_list.size(); ++i) {
+			auto conn = conn_list[i];
+			auto c = conn.callable;
+
+			node->disconnect(signal, c);
+		}
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_node_set_name(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -2479,6 +2504,7 @@ static PyMethodDef GodotPy_methods[] = {
 
 	{ "node_connect", f_node_connect, METH_VARARGS, NULL },
 	{ "node_disconnect", f_node_disconnect, METH_VARARGS, NULL },
+	{ "node_clear_connection", f_node_clear_connection, METH_VARARGS, NULL },
 	{ "node_set_name", f_node_set_name, METH_VARARGS, NULL },
 	
 	// node3d

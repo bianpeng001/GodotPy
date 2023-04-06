@@ -452,6 +452,9 @@ class FObject:
 
     def connect(self, signal, callback):
         gp.node_connect(self.get_gdobj(), signal, callback)
+        
+    def clear_connection(self, signal):
+        gp.node_clear_connection(self.get_gdobj(), signal)
 
     # 重载，可以用条件语句， if a: xxx
     def __bool__(self):
