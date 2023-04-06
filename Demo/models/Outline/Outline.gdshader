@@ -22,9 +22,15 @@ void fragment() {
 	ALBEDO = outline_color.rgb;
 	
 	vec2 screen_size = vec2(textureSize(SCREEN_TEXTURE, 1));
+	//vec2 screen_size = vec2(textureSize(DEPTH_TEXTURE, 1));
+	// bianp+ test code
+	//vec2 screen_size = vec2(VIEWPORT_SIZE);
 	
 	float px = 0.5/screen_size.x;
 	float py = 0.5/screen_size.y;
+	// bianp+ test value
+	//float px = 1.0/screen_size.x;
+	//float py = 1.0/screen_size.y;
 	
 	float d = texture(DEPTH_TEXTURE, SCREEN_UV).x;
 	float du = texture(DEPTH_TEXTURE, SCREEN_UV+vec2(0.0, py)).x;

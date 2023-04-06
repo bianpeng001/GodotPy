@@ -213,8 +213,9 @@ void fragment() {
 ```
 
 - [Shader文档](https://docs.godotengine.org/en/latest/tutorials/shaders/shader_reference/=-shading_language.html)
+- [SpatialShader文档](https://docs.godotengine.org/en/stable/tutorials/shaders/shader_reference/spatial_shader.html)
 - [Shader举例](https://docs.godotengine.org/en/latest/tutorials/shaders/your_first_shader/index.html)
-- [Shader案例分享](https://godotshaders.com)
+- [Shader分享](https://godotshaders.com)
 - [Perlin Noise Texture](http://kitfox.com/projects/perlinNoiseMaker)
 [柏林噪声介绍](https://zhuanlan.zhihu.com/p/206271895):
 Ken Perlin提出了柏林噪声。柏林噪声基于随机，并在此基础上利用缓动曲线进行平滑插值，使得最终得到噪声效果更加趋于自然
