@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://436vq4oiy61i" path="res://models/Face/Face01.tscn" id="1_8oxw0"]
 [ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="2_cq5nb"]
 [ext_resource type="QuadMesh" uid="uid://bgvylfri1047g" path="res://models/Outline/ScreenRect.tres" id="3_6hjkw"]
-[ext_resource type="Material" path="res://models/Outline/OutlineMat.tres" id="4_huikq"]
+[ext_resource type="Material" uid="uid://d316njsfv56ci" path="res://models/Outline/OutlineV2Mat.tres" id="4_agv7d"]
 
 [node name="FacePanel" type="SubViewportContainer"]
 anchors_preset = 15
@@ -37,8 +37,7 @@ layers = 1024
 light_cull_mask = 4293919744
 
 [node name="PP_Outline" type="MeshInstance3D" parent="SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 layers = 1024
 mesh = ExtResource("3_6hjkw")
 skeleton = NodePath("../Camera3D")
-surface_material_override/0 = ExtResource("4_huikq")
+surface_material_override/0 = ExtResource("4_agv7d")

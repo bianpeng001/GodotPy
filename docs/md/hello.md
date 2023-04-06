@@ -12,6 +12,13 @@
 
 还是挺有感觉的, 但是shader的代码看着很简单, 运算量不大. 效果一般, 不够丝滑. 但这个代价还是挺划算的.
 
+深度图采样,差值, 用来确定边界
+[深度图采样](https://godotshaders.com/shader/screen-space-edge-detection-outline-shader/)
+
+进阶版本, 深度图采样, 并还原到view空间的线性深度, 比较周围点来确定边界.
+[深度图采样+线性解码](https://godotshaders.com/shader/depth-modulated-pixel-outline-in-screen-space/)
+
+
 <div class="date">2023年4月6日</div>
 
 ## 八卦河图洛书九宫

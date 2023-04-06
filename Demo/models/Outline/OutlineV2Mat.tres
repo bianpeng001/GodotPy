@@ -1,10 +1,10 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://difmgh0mcw5wj"]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://d316njsfv56ci"]
 
-[ext_resource type="Shader" path="res://models/Outline/Outline.gdshader" id="1_fvqag"]
+[ext_resource type="Shader" path="res://models/Outline/OutlineV2.gdshader" id="1_76jp5"]
 
 [resource]
 render_priority = 100
-shader = ExtResource("1_fvqag")
+shader = ExtResource("1_76jp5")
 shader_parameter/outline_mode = 1
 shader_parameter/outline_intensity = 0.1
 shader_parameter/_round = false

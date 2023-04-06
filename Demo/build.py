@@ -68,6 +68,7 @@ def build_publish():
         'sqlite3.dll',
         '_sqlite3.pyd',
         '_socket.pyd',
+        '_asyncio.pyd',
     )
     for item in file_list:
         shutil.copy(os.path.join(GODOT_BIN_DIR, item), os.path.join(BUILD_DIR, item))
