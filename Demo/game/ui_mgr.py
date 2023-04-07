@@ -243,11 +243,15 @@ class UIMgr(NodeObject):
             self.show_menu(None)
 
     # 界面的入栈出栈,用来恢复上级界面
-    def push_panel(self, cur_ui):
+    def push_panel(self, top_panel):
         if len(self.panel_stack) > 0:
+            if self.panel_stack[-1] == top_panel:
+                raise Exception('push repeat ui')
+            
             self.panel_stack[-1].defer_close()
-        self.panel_stack.append(cur_ui)
-        cur_ui.show()
+
+        self.panel_stack.append(top_panel)
+        top_panel.show()
 
     def pop_panel(self, cur_ui):
         # 判断只有自己能关闭自己,别人都不行
