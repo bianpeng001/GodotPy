@@ -29,30 +29,31 @@ class RaycastMgr(NodeObject):
         
         x,y,z = camera.screen_to_world(screen_x, screen_y)
         #self.reqs.append((wx, wy, wz))
-        #print_line(f'press: {wx},{wy},{wz}')
+        #log_debug(f'press: {wx},{wy},{wz}')
 
         # TODO: 找到点击的单位, 用距离找的,比较土, 但还能用
+        # 有可能点到多个单位, 难免会重叠
         tile = game_mgr.ground_mgr.get_tile(x, z)
         if tile:
-            click_on_unit = False
+            item_list = []
             for unit in tile.unit_list:
                 unit_x, _, unit_z = unit.get_position()
                 dx = unit_x - x
                 dz = unit_z - z
                 if dx*dx+dz*dz < unit.radius*unit.radius:
-                    #print_line(f'click: {unit.unit_name} {unit.unit_id}')
-                    game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, unit)
-                    click_on_unit = True
-                    break
+                    item_list.append(unit)
 
-            if not click_on_unit:
+            if len(item_list) == 0:
                 game_mgr.event_mgr.emit(SCENE_GROUND_CLICK)
+            else:
+                # TODO: 这里以后加条件
+                game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, item_list[0])
 
     def _physics_process(self):
         camera = game_mgr.camera_mgr.main_camera
         
         for a in self.reqs:
-            log_util.debug(f'raycast:{a}')
+            log_debug(f'raycast:{a}')
             shape = raycast_shape(camera, *a)
         self.reqs.clear()
 

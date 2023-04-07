@@ -55,11 +55,11 @@ class MainUIController(UIController, PopupTrait):
         # 事件
         game_mgr.event_mgr.add(MAINUI_REFRESH, self.on_refresh)
 
+        # gm文件的路径
         self.gm_file_path = os.path.join(game_mgr.game_path, 'gm.py')
         if not os.path.exists(self.gm_file_path):
             self.gm_file_path = None
-            
-            
+
     def on_key_press(self, keycode):
         if keycode == KEY_F9:
             self.on_gm_click()
@@ -118,5 +118,7 @@ class MainUIController(UIController, PopupTrait):
         self.fps_label.set_text(f'fps:{fps},{fps0} dc:{dc}')
     
     def on_save_click(self):
+        # TODO:
         game_mgr.game_data.save('01.db')
+        
     

@@ -52,6 +52,7 @@ class NavPanelController(UIController, PopupTrait):
     def on_lose_city(self, player_id, city_unit_id):
         if player_id != get_main_player_id():
             return
+        
         if city_unit_id in self.btn_dict:
             btn = self.btn_dict.pop(city_unit_id)
             btn.destroy()
