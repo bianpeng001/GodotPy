@@ -325,7 +325,10 @@ class AIState_TroopStart(AIState_Troop):
 
         if troop.target_unit_id > 0:
             blackboard.target_unit_id = troop.target_unit_id
-            controller.enter_state(AIState_MarchToCity())
+            unit = game_mgr.unit_mgr.get_unit(troop.target_unit_id)
+            blackboard.target_pos = unit.get_xz()
+            #controller.enter_state(AIState_MarchToCity())
+            controller.enter_state(AIState_MarchToPos())
         else:
             blackboard.target_pos = troop.target_pos
             controller.enter_state(AIState_MarchToPos())

@@ -34,7 +34,6 @@ class TroopMenuController(UIController, PopupTrait):
             btn_list.append(btn)
 
         btn_list[0].connect(PRESSED, self.on_select_target)
-        
 
     def init(self, troop_unit):
         self.troop_unit = troop_unit
