@@ -208,7 +208,7 @@ class AIState_MarchToCity(AIState_Troop):
 
         city = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
         troop = controller.get_unit()
-       
+
         req = ArcMoveReq()
         req.setup(*troop.get_position(),
             *city.get_position(),
@@ -315,6 +315,7 @@ class AIState_MarchToPos(AIState_Troop):
         if controller.move_req.is_done():
             controller.enter_state(AIState_Idle())
         else:
+            # 移动过程里, 还要检查周围的敌军, 有一个视野
             pass
 
 # 起始,根据目标的设置,进行跳转

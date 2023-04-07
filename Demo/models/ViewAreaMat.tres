@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bld17f6bbrwcd"]
+
+[ext_resource type="Texture2D" uid="uid://c3us160efdy6q" path="res://models/pal.png" id="1_84lg8"]
+
+[resource]
+render_priority = 50
+transparency = 1
+depth_draw_mode = 2
+no_depth_test = true
+albedo_color = Color(1, 1, 1, 0.470588)
+albedo_texture = ExtResource("1_84lg8")
+disable_receive_shadows = true

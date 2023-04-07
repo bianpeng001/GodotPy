@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dyvep4kgn5wyq"
+path="res://.godot/imported/ViewArea.obj-9a6965386aa9a732bc0f7d1ef6ac6f5f.mesh"
+
+[deps]
+
+files=["res://.godot/imported/ViewArea.obj-9a6965386aa9a732bc0f7d1ef6ac6f5f.mesh"]
+
+source_file="res://models/ViewArea.obj"
+dest_files=["res://.godot/imported/ViewArea.obj-9a6965386aa9a732bc0f7d1ef6ac6f5f.mesh", "res://.godot/imported/ViewArea.obj-9a6965386aa9a732bc0f7d1ef6ac6f5f.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
