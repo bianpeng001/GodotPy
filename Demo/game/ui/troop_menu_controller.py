@@ -51,7 +51,6 @@ class TroopMenuController(UIController, PopupTrait):
             self.troop_unit.get_controller().reset_ai()
 
         dialog.init_dialog(select_cb)
-        dialog.push_panel()
 
 
 
