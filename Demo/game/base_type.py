@@ -197,7 +197,7 @@ class UIController:
 #
 # 本方法在UI可见时才生效, 用于事件响应
 #
-def RequireShow(func):
+def WhenVisible(func):
     def _func(self, *args,**kwargs):
         if self.is_show():
             return func(self, *args, **kwargs)

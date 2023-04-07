@@ -144,7 +144,6 @@ class ChuZhanPanelController(UIController, PopupTrait):
             self.target_pos = dialog.target_pos
 
         dialog.init_dialog(select_cb)
-        dialog.push_panel()
 
     def on_slider_army_mass_changed(self, value):
         self.army_amount = round(value*0.01*self.max_army_amount)
@@ -161,6 +160,12 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.clear_form()
         self.lbl_members.set_text('')
         self.form_list.set_visible(False)
+        
+        # 初始化目标
+        self.target_unit_id = 0
+        x,z = city_unit.get_xz()
+        self.target_pos = (x, z+10)
+        self.btn_target.set_text('%d,%d' % self.target_pos)
 
     def clear_form(self):
         for item in self.hero_item_list:

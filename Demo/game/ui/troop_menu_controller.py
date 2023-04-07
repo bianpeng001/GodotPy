@@ -39,6 +39,7 @@ class TroopMenuController(UIController, PopupTrait):
     def init(self, troop_unit):
         self.troop_unit = troop_unit
 
+    # 选择目标, 可以是单位, 或者是建筑, 空地
     def on_select_target(self):
         self.defer_close()
 
