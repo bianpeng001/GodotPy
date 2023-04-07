@@ -16,6 +16,7 @@
 #include "core/os/time.h"
 #include "core/input/input.h"
 #include "core/math/plane.h"
+#include "core/math/transform_3d.h"
 
 #include "main/performance.h"
 
@@ -1183,7 +1184,29 @@ static PyObject *f_look_at(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_local_look_at(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		float x, y, z;
 
+		if (!PyArg_ParseTuple(args, "Offf", &a_obj, &x, &y, &z)) {
+			break;
+		}
+
+		Node3D *node = GetObjPtr<Node3D>(a_obj);
+		if (!node) {
+			break;
+		}
+		//auto transform = node->get_transform();
+		Transform3D transform;
+		// TODO:
+		//transform.set_look_at();
+		node->set_transform(transform);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_get_forward(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -2514,6 +2537,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "get_rotation", f_get_rotation, METH_VARARGS, NULL },
 	{ "set_scale", f_set_scale, METH_VARARGS, NULL },
 	{ "look_at", f_look_at, METH_VARARGS, NULL },
+	{ "local_look_at", f_local_look_at, METH_VARARGS, NULL },
 	{ "get_forward", f_get_forward, METH_VARARGS, NULL },
 	{ "local_to_world", f_local_to_world, METH_VARARGS, NULL },
 	{ "world_to_local", f_world_to_local, METH_VARARGS, NULL },
