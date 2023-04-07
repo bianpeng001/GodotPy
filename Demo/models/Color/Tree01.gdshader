@@ -25,7 +25,7 @@ void vertex() {
 	NORMAL = normalize((MODELVIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
 }
 
-uniform sampler2D albedomap;
+uniform sampler2D albedomap: filter_nearest;
 
 void fragment() {
 	ALBEDO = texture(albedomap, UV).xyz;
