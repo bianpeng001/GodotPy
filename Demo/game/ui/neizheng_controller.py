@@ -115,17 +115,10 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         # 下面初始化ui
         
         # 九州
-        x,z = self.city_unit.get_xz()
-        x = math.floor(x / 300)
-        z = math.floor(z / 300)
-        
-        if x >= -1 and x <= 1 and z >= -1 and z <= 1:
-            zhou_name = '雍冀兖豫徐青益荆扬'[(z+1)*3+(x+1)] + '州'
-        else:
-            zhou_name = '荒蛮'
+        province = game_mgr.unit_mgr.get_province(*self.city_unit.get_xz())
         
         # 城市的名字
-        self.lbl_name_obj.set_text(f'{zhou_name} {self.city_unit.unit_name}')
+        self.lbl_name_obj.set_text(f'{province} {self.city_unit.unit_name}')
 
         # 官员负责人
         self.btn_satrap.set_text(get_hero_name(self.satrap))
