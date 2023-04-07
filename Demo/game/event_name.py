@@ -26,15 +26,19 @@ ITEM_SELECTED = 'item_selected'
 
 
 # 场景事件
-SCENE_UNIT_CLICK = 'scene_unit_click'
-SCENE_GROUND_CLICK = 'scene_ground_click'
-
+SCENE_UNIT_CLICK = 'SCENE_UNIT_CLICK'
+SCENE_GROUND_CLICK = 'SCENE_GROUND_CLICK'
 
 # 开始游戏，三个事件
-APP_LAUNCH = 'app_launch'
-START_GAME = 'start_game'
-MAIN_PLAYER_READY = 'main_player_ready'
+APP_LAUNCH = 'APP_LAUNCH'
+START_GAME = 'START_GAME'
+MAIN_PLAYER_READY = 'MAIN_PLAYER_READY'
 
 
 # UI 面板事件
 MAINUI_REFRESH = 'mainui_refresh'
+
+NAV_PANEL_GAIN_CITY = 'NAV_PANEL_GAIN_CITY'
+NAV_PANEL_LOSE_CITY = 'NAV_PANEL_LOSE_CITY'
+
+

@@ -215,10 +215,12 @@ class GamePlay:
         if city.owner_player_id > 0:
             owner = game_mgr.player_mgr.get_player(city.owner_player_id)
             owner.city_list.remove(city.unit_id)
+            game_mgr.event_mgr.emit(NAV_PANEL_LOSE_CITY, owner.player_id, city.unit_id)
             city.owner_player_id = 0
 
         city.owner_player_id = player.player_id
         player.city_list.append(city.unit_id)
+        game_mgr.event_mgr.emit(NAV_PANEL_GAIN_CITY, player.player_id, city.unit_id)
 
         # 城内武将的归属
         # TODO: 城中的武将的归属,现在做成直接归属. 以后做成俘虏

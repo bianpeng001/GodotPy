@@ -5,8 +5,6 @@
 [resource]
 render_priority = 100
 shader = ExtResource("1_76jp5")
-shader_parameter/outline_mode = 1
 shader_parameter/outline_intensity = 0.1
-shader_parameter/_round = false
 shader_parameter/outline_bias = 4.75e-07
 shader_parameter/outline_color = Color(0.0705882, 0.0705882, 0.0705882, 0.0705882)
