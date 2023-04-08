@@ -89,7 +89,7 @@ class CityUnit(Unit, UnitTrait):
         self.model_type = 1
 
     def init(self):
-        for i in range(5):
+        for i in range(10):
             hero = game_mgr.hero_mgr.new_hero()
             hero.city_id = self.unit_id
             hero.hero_name = new_hero_name()

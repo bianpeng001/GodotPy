@@ -116,7 +116,7 @@ class HeroListTrait:
             standing_label = name_label.dup()
             standing_label.set_minimum_size(40, 0)
             is_main_hero = game_mgr.hero_mgr.is_main_hero(hero.hero_id)
-            standing_label.set_text('主公' if is_main_hero else '武将')
+            standing_label.set_text('主公' if is_main_hero else '')
 
             # 身份
             age_label = name_label.dup()
@@ -129,7 +129,7 @@ class HeroListTrait:
 
             zhili_label = name_label.dup()
             zhili_label.set_minimum_size(40, 0)
-            zhili_label.set_text(f'{hero.zhili}')
+            zhili_label.set_text(f'{hero.wuli}')
 
             tongshuai_label = name_label.dup()
             tongshuai_label.set_minimum_size(40, 0)
@@ -137,7 +137,7 @@ class HeroListTrait:
 
             wuli_label = name_label.dup()
             wuli_label.set_minimum_size(40, 0)
-            wuli_label.set_text(f'{hero.wuli}')
+            wuli_label.set_text(f'{hero.zhili}')
 
             zhengzhi_label = name_label.dup()
             zhengzhi_label.set_minimum_size(40, 0)

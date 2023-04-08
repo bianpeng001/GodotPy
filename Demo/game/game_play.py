@@ -96,13 +96,19 @@ class GamePlay:
                     # 还要创建一个自己的, 武将实体
                     hero = game_mgr.hero_mgr.new_hero()
                     hero.hero_name = player.player_name
+                    
+                    # 初始化主公
+                    hero.set_age(28)
+                    hero.attr[2] = 89
+                    hero.attr[4] = 88
+
                     hero.owner_player_id = player.player_id
                     player.main_hero_id = hero.hero_id
                     player.hero_list.append(hero.hero_id)
 
                     # 把主公武将设置总督, 并进入城池
                     hero.owner_city_id = city.unit_id
-                    city.hero_list.append(hero.hero_id)
+                    city.hero_list.insert(0, hero.hero_id)
                     city.satrap = hero.hero_id
 
                     # 旗帜颜色

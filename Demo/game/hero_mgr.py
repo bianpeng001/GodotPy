@@ -122,6 +122,9 @@ class Hero:
     def get_age(self):
         return game_mgr.game_data.cur_year - self.born_year + 1
 
+    def set_age(self, age):
+        self.born_year = game_mgr.game_data.cur_year - age + 1
+
     @property
     def age(self):
         return self.get_age()
