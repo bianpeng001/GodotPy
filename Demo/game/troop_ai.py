@@ -2,6 +2,8 @@
 # 2023年2月8日 bianpeng
 #
 
+import math
+
 from game.core import *
 from game.base_type import *
 from game.game_mgr import *
@@ -315,7 +317,6 @@ class AIState_MarchToPos(AIState_Troop):
         if controller.move_req.is_done():
             controller.enter_state(AIState_Idle())
         else:
-            # 移动过程里, 还要检查周围的敌军, 有一个视野
             pass
 
 # 起始,根据目标的设置,进行跳转

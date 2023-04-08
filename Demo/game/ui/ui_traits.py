@@ -70,10 +70,7 @@ class HeroListTrait:
     def init_header(self, header):
         name_label = header.find_node('Label')
         column_list = ['姓名','身份','年龄','活动','武力','统率','智力','政治', '行动']
-
-        #name_label.set_minimum_size(80, 0)
-        #name_label.set_text('姓名')
-        #name_label.set_text(column_list[0])
+        column_width_dict = { '姓名': 80, '活动': 60, }
 
         for index in range(len(column_list)):
             if index == 0:
@@ -83,13 +80,7 @@ class HeroListTrait:
             
             col_name = column_list[index]
             label_obj.set_text(col_name)
-
-            if col_name == '姓名':
-                label_obj.set_minimum_size(80, 0)
-            elif col_name == '活动':
-                label_obj.set_minimum_size(60, 0)
-            else:
-                label_obj.set_minimum_size(40, 0)
+            label_obj.set_minimum_size(column_width_dict.get(col_name, 40), 0)
 
     def init_items(self, item_node, hero_list):
         for item in self.item_list:
@@ -127,17 +118,17 @@ class HeroListTrait:
             action_label.set_minimum_size(60, 0)
             action_label.set_text('空闲')
 
-            zhili_label = name_label.dup()
-            zhili_label.set_minimum_size(40, 0)
-            zhili_label.set_text(f'{hero.wuli}')
+            wuli_label = name_label.dup()
+            wuli_label.set_minimum_size(40, 0)
+            wuli_label.set_text(f'{hero.wuli}')
 
             tongshuai_label = name_label.dup()
             tongshuai_label.set_minimum_size(40, 0)
             tongshuai_label.set_text(f'{hero.tongshuai}')
 
-            wuli_label = name_label.dup()
-            wuli_label.set_minimum_size(40, 0)
-            wuli_label.set_text(f'{hero.zhili}')
+            zhili_label = name_label.dup()
+            zhili_label.set_minimum_size(40, 0)
+            zhili_label.set_text(f'{hero.zhili}')
 
             zhengzhi_label = name_label.dup()
             zhengzhi_label.set_minimum_size(40, 0)

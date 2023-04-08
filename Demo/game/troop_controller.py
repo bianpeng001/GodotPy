@@ -61,6 +61,7 @@ class TroopController(Controller):
         self.get_unit().load_model()
 
         node = self.get_model_node()
+        self.viewarea_obj = node.find_node('ViewArea')
         if node:
             if self.get_unit().model_type == 2:
                 anim_name = "SoldierAnimLib/Run"
@@ -94,6 +95,13 @@ class TroopController(Controller):
     def update(self):
         self.update_move()
         self.update_ai()
+        self.update_viewarea()
+
+    def update_viewarea(self):
+        # 移动过程里, 还要检查周围的敌军, 有一个视野
+        self.viewarea_obj.set_rotation(0, 
+                30*math.sin(game_mgr.sec_time*1.2),
+                0)
 
     def look_at(self,x,y,z):
         node = self.get_model_node()
