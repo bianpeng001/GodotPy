@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://csxv0c3byv55v"]
+[gd_scene load_steps=5 format=3 uid="uid://diuv1071qfgrs"]
 
-[ext_resource type="PackedScene" uid="uid://436vq4oiy61i" path="res://models/Face/Face01.tscn" id="1_8oxw0"]
 [ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="2_cq5nb"]
 [ext_resource type="QuadMesh" uid="uid://bgvylfri1047g" path="res://models/Outline/ScreenRect.tres" id="3_6hjkw"]
 [ext_resource type="Material" uid="uid://d316njsfv56ci" path="res://models/Outline/OutlineV2Mat.tres" id="4_agv7d"]
+[ext_resource type="PackedScene" uid="uid://dxnuo57wgd8m0" path="res://models/Face02/Face02.tscn" id="4_q71mk"]
 
-[node name="FacePanel" type="SubViewportContainer"]
+[node name="HeroAvatar" type="SubViewportContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -20,8 +20,6 @@ handle_input_locally = false
 msaa_3d = 2
 size = Vector2i(256, 256)
 render_target_update_mode = 4
-
-[node name="Face01" parent="SubViewport" instance=ExtResource("1_8oxw0")]
 
 [node name="Camera3D" type="Camera3D" parent="SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 3.50002, 9.33609)
@@ -41,3 +39,5 @@ layers = 1024
 mesh = ExtResource("3_6hjkw")
 skeleton = NodePath("../Camera3D")
 surface_material_override/0 = ExtResource("4_agv7d")
+
+[node name="Face02" parent="SubViewport" instance=ExtResource("4_q71mk")]

@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://emaaa8ts3rue"]
+
+[ext_resource type="ArrayMesh" uid="uid://d1merxo8afmp5" path="res://models/Face01/Face01.obj" id="1_r3vnh"]
+[ext_resource type="Material" uid="uid://dgx4xn1qk3w6r" path="res://models/Face01/Face01Mat.tres" id="2_27mgf"]
+[ext_resource type="Material" path="res://models/Face01/Face01EyeMat.tres" id="3_07ees"]
+
+[node name="Face01" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+layers = 1024
+cast_shadow = 0
+mesh = ExtResource("1_r3vnh")
+surface_material_override/0 = ExtResource("2_27mgf")
+surface_material_override/1 = ExtResource("3_07ees")

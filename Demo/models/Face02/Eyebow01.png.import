@@ -2,26 +2,27 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://hixwyklqxeta"
-path="res://.godot/imported/eye01.png-c196875f68d2c5cc8393d01900131397.ctex"
+uid="uid://dit4v48eh2a7v"
+path.s3tc="res://.godot/imported/Eyebow01.png-fed7254e280a323fe801e95b7381d5dd.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
 }
 
 [deps]
 
-source_file="res://models/Face/eye01.png"
-dest_files=["res://.godot/imported/eye01.png-c196875f68d2c5cc8393d01900131397.ctex"]
+source_file="res://models/Face02/Eyebow01.png"
+dest_files=["res://.godot/imported/Eyebow01.png-fed7254e280a323fe801e95b7381d5dd.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bjl4tbqqumkwf"
+path="res://.godot/imported/Face02.obj-672a9576fe1a72268193fdf9ab37001b.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Face02.obj-672a9576fe1a72268193fdf9ab37001b.mesh"]
+
+source_file="res://models/Face02/Face02.obj"
+dest_files=["res://.godot/imported/Face02.obj-672a9576fe1a72268193fdf9ab37001b.mesh", "res://.godot/imported/Face02.obj-672a9576fe1a72268193fdf9ab37001b.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
