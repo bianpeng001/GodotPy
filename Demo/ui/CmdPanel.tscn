@@ -1,0 +1,221 @@
+[gd_scene load_steps=7 format=3 uid="uid://djgsmjyqtpj4o"]
+
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_td85v"]
+[ext_resource type="StyleBox" uid="uid://cs78tjnu0sn2w" path="res://ui/PanelStyle.tres" id="2_pdt85"]
+[ext_resource type="Texture2D" uid="uid://c4hqyefqdw1o" path="res://ui/img/Close.png" id="3_jen03"]
+[ext_resource type="Texture2D" uid="uid://dojr4gpmt4yed" path="res://ui/img/Close_hover.png" id="4_152jl"]
+[ext_resource type="Texture2D" uid="uid://ckbunyidmtipx" path="res://ui/img/Sword.png" id="5_1ja6y"]
+[ext_resource type="Texture2D" uid="uid://dbiioiqpsaq0u" path="res://ui/img/Rice.png" id="5_sp04k"]
+
+[node name="BuildPanel2" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -652.0
+offset_bottom = -488.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 500.0
+offset_bottom = 160.0
+theme = ExtResource("1_td85v")
+theme_override_styles/panel = ExtResource("2_pdt85")
+
+[node name="BtnClose" type="TextureButton" parent="Panel"]
+layout_mode = 0
+offset_left = 475.0
+offset_top = 5.0
+offset_right = 495.0
+offset_bottom = 25.0
+texture_normal = ExtResource("3_jen03")
+texture_pressed = ExtResource("3_jen03")
+texture_hover = ExtResource("4_152jl")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="GridContainer" type="GridContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 15.0
+offset_right = 452.0
+offset_bottom = 145.0
+columns = 4
+
+[node name="Element" type="Control" parent="Panel/GridContainer"]
+custom_minimum_size = Vector2(50, 60)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="Panel/GridContainer/Element"]
+layout_mode = 0
+offset_left = 5.0
+offset_right = 45.0
+offset_bottom = 40.0
+texture = ExtResource("5_1ja6y")
+
+[node name="Label" type="Label" parent="Panel/GridContainer/Element"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 43.0
+offset_right = 51.0
+offset_bottom = 63.0
+theme = ExtResource("1_td85v")
+theme_override_font_sizes/font_size = 16
+text = "移动"
+horizontal_alignment = 1
+
+[node name="Element2" type="Control" parent="Panel/GridContainer"]
+custom_minimum_size = Vector2(50, 60)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="Panel/GridContainer/Element2"]
+layout_mode = 0
+offset_left = 5.0
+offset_right = 45.0
+offset_bottom = 40.0
+texture = ExtResource("5_sp04k")
+
+[node name="Label" type="Label" parent="Panel/GridContainer/Element2"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 43.0
+offset_right = 51.0
+offset_bottom = 63.0
+theme = ExtResource("1_td85v")
+theme_override_font_sizes/font_size = 16
+text = "农田"
+horizontal_alignment = 1
+
+[node name="Element3" type="Control" parent="Panel/GridContainer"]
+custom_minimum_size = Vector2(50, 60)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="Panel/GridContainer/Element3"]
+layout_mode = 0
+offset_left = 5.0
+offset_right = 45.0
+offset_bottom = 40.0
+texture = ExtResource("5_sp04k")
+
+[node name="Label" type="Label" parent="Panel/GridContainer/Element3"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 43.0
+offset_right = 51.0
+offset_bottom = 63.0
+theme = ExtResource("1_td85v")
+theme_override_font_sizes/font_size = 16
+text = "农田"
+horizontal_alignment = 1
+
+[node name="Element4" type="Control" parent="Panel/GridContainer"]
+custom_minimum_size = Vector2(50, 60)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="Panel/GridContainer/Element4"]
+layout_mode = 0
+offset_left = 5.0
+offset_right = 45.0
+offset_bottom = 40.0
+texture = ExtResource("5_sp04k")
+
+[node name="Label" type="Label" parent="Panel/GridContainer/Element4"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 43.0
+offset_right = 51.0
+offset_bottom = 63.0
+theme = ExtResource("1_td85v")
+theme_override_font_sizes/font_size = 16
+text = "农田"
+horizontal_alignment = 1
+
+[node name="Element5" type="Control" parent="Panel/GridContainer"]
+custom_minimum_size = Vector2(50, 60)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="Panel/GridContainer/Element5"]
+layout_mode = 0
+offset_left = 5.0
+offset_right = 45.0
+offset_bottom = 40.0
+texture = ExtResource("5_sp04k")
+
+[node name="Label" type="Label" parent="Panel/GridContainer/Element5"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 43.0
+offset_right = 51.0
+offset_bottom = 63.0
+theme = ExtResource("1_td85v")
+theme_override_font_sizes/font_size = 16
+text = "农田"
+horizontal_alignment = 1
+
+[node name="Element6" type="Control" parent="Panel/GridContainer"]
+custom_minimum_size = Vector2(50, 60)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="Panel/GridContainer/Element6"]
+layout_mode = 0
+offset_left = 5.0
+offset_right = 45.0
+offset_bottom = 40.0
+texture = ExtResource("5_sp04k")
+
+[node name="Label" type="Label" parent="Panel/GridContainer/Element6"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 43.0
+offset_right = 51.0
+offset_bottom = 63.0
+theme = ExtResource("1_td85v")
+theme_override_font_sizes/font_size = 16
+text = "农田"
+horizontal_alignment = 1
+
+[node name="Element7" type="Control" parent="Panel/GridContainer"]
+custom_minimum_size = Vector2(50, 60)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="Panel/GridContainer/Element7"]
+layout_mode = 0
+offset_left = 5.0
+offset_right = 45.0
+offset_bottom = 40.0
+texture = ExtResource("5_sp04k")
+
+[node name="Label" type="Label" parent="Panel/GridContainer/Element7"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 43.0
+offset_right = 51.0
+offset_bottom = 63.0
+theme = ExtResource("1_td85v")
+theme_override_font_sizes/font_size = 16
+text = "农田"
+horizontal_alignment = 1
+
+[node name="Element8" type="Control" parent="Panel/GridContainer"]
+custom_minimum_size = Vector2(50, 60)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="Panel/GridContainer/Element8"]
+layout_mode = 0
+offset_left = 5.0
+offset_right = 45.0
+offset_bottom = 40.0
+texture = ExtResource("5_sp04k")
+
+[node name="Label" type="Label" parent="Panel/GridContainer/Element8"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 43.0
+offset_right = 51.0
+offset_bottom = 63.0
+theme = ExtResource("1_td85v")
+theme_override_font_sizes/font_size = 16
+text = "农田"
+horizontal_alignment = 1

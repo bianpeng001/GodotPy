@@ -43,15 +43,18 @@ class PopupTrait:
     def bind_ok_cancel_close(self, ok=True, cancel=True, close=True):
         if close:
             btn_close = self.ui_obj.find_node('Panel/BtnClose')
-            btn_close.connect(PRESSED, self.on_close_click)
+            if btn_close:
+                btn_close.connect(PRESSED, self.on_close_click)
         
         if cancel:
             btn_cancel = self.ui_obj.find_node('Panel/BtnCancel')
-            btn_cancel.connect(PRESSED, self.on_close_click)
+            if btn_cancel:
+                btn_cancel.connect(PRESSED, self.on_close_click)
 
         if ok:
             btn_ok = self.ui_obj.find_node('Panel/BtnOk')
-            btn_ok.connect(PRESSED, self.on_ok_click)
+            if btn_ok:
+                btn_ok.connect(PRESSED, self.on_ok_click)
 
     def push_panel(self):
         game_mgr.ui_mgr.push_panel(self)
