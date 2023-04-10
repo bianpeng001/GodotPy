@@ -15,6 +15,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Chapter" type="Control" parent="."]
+visible = false
 anchors_preset = 0
 offset_right = 800.0
 offset_bottom = 400.0
@@ -47,7 +48,6 @@ texture = ExtResource("1_jwy2h")
 stretch_mode = 2
 
 [node name="Text" type="Control" parent="."]
-visible = false
 anchors_preset = 0
 offset_right = 800.0
 offset_bottom = 400.0
