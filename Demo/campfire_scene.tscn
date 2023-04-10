@@ -1,8 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bgxydnkig3607"]
+[gd_scene load_steps=9 format=3 uid="uid://bgxydnkig3607"]
 
 [ext_resource type="Material" uid="uid://cosk2qqkfo1tu" path="res://models/CampfireScene/GrassMat.tres" id="1_324u3"]
 [ext_resource type="PackedScene" uid="uid://cr0tdlxelmibm" path="res://effects/Fire01/Fire01.tscn" id="2_8p7k6"]
+[ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="2_eadkp"]
+[ext_resource type="QuadMesh" uid="uid://bgvylfri1047g" path="res://models/Outline/ScreenRect.tres" id="3_5c57u"]
 [ext_resource type="ArrayMesh" uid="uid://ckt0olbsdulb" path="res://effects/Fire01/Fire01.obj" id="3_p3nrs"]
+[ext_resource type="Material" uid="uid://d316njsfv56ci" path="res://models/Outline/OutlineV2Mat.tres" id="4_c3gj4"]
 [ext_resource type="Material" uid="uid://dxacftfrekids" path="res://models/CampfireScene/StoneMat.tres" id="4_jugpq"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ptfy7"]
@@ -27,9 +30,15 @@ surface_material_override/0 = ExtResource("1_324u3")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 20, 20)
+environment = ExtResource("2_eadkp")
 fov = 10.0
 near = 1.0
 far = 1000.0
+
+[node name="PP_Outline" type="MeshInstance3D" parent="Camera3D"]
+transform = Transform3D(-0.707107, 0, 0.707107, 0.5, 0.707107, 0.5, -0.5, 0.707107, -0.5, 0, 0.857859, -29.1421)
+mesh = ExtResource("3_5c57u")
+surface_material_override/0 = ExtResource("4_c3gj4")
 
 [node name="Fire01" parent="." instance=ExtResource("2_8p7k6")]
 
