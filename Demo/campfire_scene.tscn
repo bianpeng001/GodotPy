@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bgxydnkig3607"]
+[gd_scene load_steps=12 format=3 uid="uid://bgxydnkig3607"]
 
 [ext_resource type="Script" path="res://CampFireScene.gd" id="1_3kydt"]
 [ext_resource type="Material" uid="uid://cosk2qqkfo1tu" path="res://models/CampfireScene/GrassMat.tres" id="1_324u3"]
@@ -8,7 +8,6 @@
 [ext_resource type="QuadMesh" uid="uid://bgvylfri1047g" path="res://models/Outline/ScreenRect.tres" id="3_5c57u"]
 [ext_resource type="ArrayMesh" uid="uid://ckt0olbsdulb" path="res://effects/Fire01/Fire01.obj" id="3_p3nrs"]
 [ext_resource type="Material" uid="uid://d316njsfv56ci" path="res://models/Outline/OutlineV2Mat.tres" id="4_c3gj4"]
-[ext_resource type="Material" uid="uid://dxacftfrekids" path="res://models/CampfireScene/StoneMat.tres" id="4_jugpq"]
 [ext_resource type="ArrayMesh" uid="uid://diq03gmuembok" path="res://models/Soldier03.obj" id="8_h1hqn"]
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="9_27ysd"]
 
@@ -50,32 +49,26 @@ surface_material_override/0 = ExtResource("4_c3gj4")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.43979, 0, -1.38816, 0, 2, 0, 1.38816, 0, 1.43979, 1.96602, 0, -1.75887)
 mesh = ExtResource("3_p3nrs")
-surface_material_override/0 = ExtResource("4_jugpq")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.30896, 0, 0.732544, 0, 1.5, 0, -0.732544, 0, 1.30896, -2.82069, 0, -1.60527)
 mesh = ExtResource("3_p3nrs")
-surface_material_override/0 = ExtResource("4_jugpq")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.34605, 0, 1.47924, 0, 2, 0, -1.47924, 0, 1.34605, -2.75151, 0, 0.271258)
 mesh = ExtResource("3_p3nrs")
-surface_material_override/0 = ExtResource("4_jugpq")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.06491, 0, 0.553151, 0, 1.2, 0, -0.553151, 0, 1.06491, -1.20024, 0, -2.58729)
 mesh = ExtResource("3_p3nrs")
-surface_material_override/0 = ExtResource("4_jugpq")
 
 [node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.6669, 0, 0.679299, 0, 1.8, 0, -0.679299, 0, 1.6669, -1.38493, 0, 1.75358)
 mesh = ExtResource("3_p3nrs")
-surface_material_override/0 = ExtResource("4_jugpq")
 
 [node name="MeshInstance3D6" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.2494, 0, 0.999494, 0, 1.6, 0, -0.999494, 0, 1.2494, 1.39509, 0, 0.61688)
 mesh = ExtResource("3_p3nrs")
-surface_material_override/0 = ExtResource("4_jugpq")
 
 [node name="Soldier03" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.442711, 0, -0.896664, 0, 1, 0, 0.896664, 0, 0.442711, 2.38111, -0.00994587, -1.11743)
