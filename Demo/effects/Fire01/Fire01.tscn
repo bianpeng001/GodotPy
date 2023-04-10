@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cr0tdlxelmibm"]
+[gd_scene load_steps=7 format=3 uid="uid://d0uwnhhx16lv3"]
 
 [ext_resource type="ArrayMesh" uid="uid://ckt0olbsdulb" path="res://effects/Fire01/Fire01.obj" id="1_hcmt3"]
 [ext_resource type="Material" uid="uid://bqyl1qoq6xit8" path="res://effects/Fire01/Fire01Mat.tres" id="1_x0fhb"]
+[ext_resource type="Material" uid="uid://dkwigo0r8etxg" path="res://effects/Fire01/Fire01AMat.tres" id="3_gh7la"]
 
 [sub_resource type="Curve" id="Curve_qk1hl"]
 min_value = 0.5
@@ -12,6 +13,8 @@ point_count = 2
 [sub_resource type="Gradient" id="Gradient_cvpbq"]
 offsets = PackedFloat32Array(0, 0.737143, 1)
 colors = PackedColorArray(1, 0.0564389, 0, 1, 1, 0.414167, 0.05, 1, 0.0820312, 0.0820312, 0.0820312, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_2hr2q"]
 
 [node name="Fire01" type="Node3D"]
 
@@ -68,3 +71,17 @@ initial_velocity_max = 0.6
 angle_max = 180.0
 scale_amount_curve = SubResource("Curve_qk1hl")
 color_ramp = SubResource("Gradient_cvpbq")
+
+[node name="CPUParticles3D4" type="CPUParticles3D" parent="."]
+material_override = ExtResource("3_gh7la")
+cast_shadow = 0
+lifetime = 5.0
+mesh = SubResource("QuadMesh_2hr2q")
+direction = Vector3(0, 1, 0)
+spread = 5.0
+gravity = Vector3(0, -0.2, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 1.0
+scale_amount_min = 0.1
+scale_amount_max = 0.1
+color = Color(1, 0.156863, 0, 1)
