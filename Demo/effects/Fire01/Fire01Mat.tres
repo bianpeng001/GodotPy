@@ -1,0 +1,5 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bqyl1qoq6xit8"]
+
+[resource]
+vertex_color_use_as_albedo = true
+disable_receive_shadows = true

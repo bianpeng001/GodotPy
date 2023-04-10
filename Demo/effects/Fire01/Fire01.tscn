@@ -1,0 +1,70 @@
+[gd_scene load_steps=5 format=3 uid="uid://cr0tdlxelmibm"]
+
+[ext_resource type="ArrayMesh" uid="uid://ckt0olbsdulb" path="res://effects/Fire01/Fire01.obj" id="1_hcmt3"]
+[ext_resource type="Material" uid="uid://bqyl1qoq6xit8" path="res://effects/Fire01/Fire01Mat.tres" id="1_x0fhb"]
+
+[sub_resource type="Curve" id="Curve_qk1hl"]
+min_value = 0.5
+max_value = 2.0
+_data = [Vector2(0, 0.8), 0.0, 0.0, 0, 0, Vector2(1, 1.63182), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_cvpbq"]
+offsets = PackedFloat32Array(0, 0.737143, 1)
+colors = PackedColorArray(1, 0.0564389, 0, 1, 1, 0.414167, 0.05, 1, 0.0820312, 0.0820312, 0.0820312, 1)
+
+[node name="Fire01" type="Node3D"]
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+material_override = ExtResource("1_x0fhb")
+cast_shadow = 0
+gi_mode = 0
+emitting = false
+amount = 12
+lifetime = 5.0
+mesh = ExtResource("1_hcmt3")
+direction = Vector3(0, 1, 0)
+spread = 10.0
+flatness = 0.5
+gravity = Vector3(0, -0.1, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 0.6
+angle_max = 180.0
+scale_amount_curve = SubResource("Curve_qk1hl")
+color_ramp = SubResource("Gradient_cvpbq")
+
+[node name="CPUParticles3D2" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1)
+material_override = ExtResource("1_x0fhb")
+cast_shadow = 0
+gi_mode = 0
+amount = 12
+lifetime = 5.0
+mesh = ExtResource("1_hcmt3")
+direction = Vector3(0, 1, 0)
+spread = 10.0
+flatness = 0.5
+gravity = Vector3(0, -0.1, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 0.6
+angle_max = 180.0
+scale_amount_curve = SubResource("Curve_qk1hl")
+color_ramp = SubResource("Gradient_cvpbq")
+
+[node name="CPUParticles3D3" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, 0)
+material_override = ExtResource("1_x0fhb")
+cast_shadow = 0
+gi_mode = 0
+amount = 12
+lifetime = 5.0
+mesh = ExtResource("1_hcmt3")
+direction = Vector3(0, 1, 0)
+spread = 10.0
+flatness = 0.5
+gravity = Vector3(0, -0.1, 0)
+initial_velocity_min = 0.5
+initial_velocity_max = 0.6
+angle_max = 180.0
+scale_amount_curve = SubResource("Curve_qk1hl")
+color_ramp = SubResource("Gradient_cvpbq")

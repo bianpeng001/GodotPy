@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://ckt0olbsdulb"
+path="res://.godot/imported/Fire01.obj-c7b334291b08e755e03aa1b6b36ea53a.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Fire01.obj-c7b334291b08e755e03aa1b6b36ea53a.mesh"]
+
+source_file="res://effects/Fire01/Fire01.obj"
+dest_files=["res://.godot/imported/Fire01.obj-c7b334291b08e755e03aa1b6b36ea53a.mesh", "res://.godot/imported/Fire01.obj-c7b334291b08e755e03aa1b6b36ea53a.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
