@@ -1,19 +1,22 @@
-[gd_scene load_steps=9 format=3 uid="uid://bgxydnkig3607"]
+[gd_scene load_steps=12 format=3 uid="uid://bgxydnkig3607"]
 
 [ext_resource type="Material" uid="uid://cosk2qqkfo1tu" path="res://models/CampfireScene/GrassMat.tres" id="1_324u3"]
+[ext_resource type="Script" path="res://start.gd" id="1_cdpyf"]
 [ext_resource type="PackedScene" uid="uid://d0uwnhhx16lv3" path="res://effects/Fire01/Fire01.tscn" id="2_8p7k6"]
 [ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="2_eadkp"]
 [ext_resource type="QuadMesh" uid="uid://bgvylfri1047g" path="res://models/Outline/ScreenRect.tres" id="3_5c57u"]
 [ext_resource type="ArrayMesh" uid="uid://ckt0olbsdulb" path="res://effects/Fire01/Fire01.obj" id="3_p3nrs"]
 [ext_resource type="Material" uid="uid://d316njsfv56ci" path="res://models/Outline/OutlineV2Mat.tres" id="4_c3gj4"]
 [ext_resource type="Material" uid="uid://dxacftfrekids" path="res://models/CampfireScene/StoneMat.tres" id="4_jugpq"]
+[ext_resource type="ArrayMesh" uid="uid://diq03gmuembok" path="res://models/Soldier03.obj" id="8_h1hqn"]
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="9_27ysd"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ptfy7"]
 size = Vector2(20, 20)
 subdivide_width = 10
 subdivide_depth = 10
 
-[node name="campfire_scene" type="Node3D"]
+[node name="CampFireScene" type="Node3D"]
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.20443, 0)
@@ -36,7 +39,7 @@ near = 1.0
 far = 1000.0
 
 [node name="PP_Outline" type="MeshInstance3D" parent="Camera3D"]
-transform = Transform3D(-0.707107, 0, 0.707107, 0.5, 0.707107, 0.5, -0.5, 0.707107, -0.5, 0, 0.857859, -29.1421)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.124177, -28.2647)
 mesh = ExtResource("3_5c57u")
 surface_material_override/0 = ExtResource("4_c3gj4")
 
@@ -71,3 +74,19 @@ surface_material_override/0 = ExtResource("4_jugpq")
 transform = Transform3D(1.2494, 0, 0.999494, 0, 1.6, 0, -0.999494, 0, 1.2494, 1.39509, 0, 0.61688)
 mesh = ExtResource("3_p3nrs")
 surface_material_override/0 = ExtResource("4_jugpq")
+
+[node name="Soldier03" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.442711, 0, -0.896664, 0, 1, 0, 0.896664, 0, 0.442711, 2.38111, -0.00994587, -1.11743)
+mesh = ExtResource("8_h1hqn")
+
+[node name="Start" type="Node2D" parent="."]
+script = ExtResource("1_cdpyf")
+
+[node name="EnterGame" type="Button" parent="Start"]
+offset_left = 496.0
+offset_top = 231.0
+offset_right = 656.0
+offset_bottom = 291.0
+theme = ExtResource("9_27ysd")
+theme_override_font_sizes/font_size = 28
+text = "开始游戏"
