@@ -1,9 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://dpk0obhmqrltl"]
+[gd_scene load_steps=3 format=3 uid="uid://dpk0obhmqrltl"]
 
 [ext_resource type="ArrayMesh" uid="uid://b28s7dw3l08rh" path="res://models/GrassModel.res" id="1_jdusy"]
+[ext_resource type="Material" uid="uid://dfpuyyn8vqt0l" path="res://models/GrassMat.tres" id="2_r84lr"]
 
 [node name="Grass01" type="Node3D"]
 
-[node name="GrassModel" type="MeshInstance3D" parent="."]
+[node name="Mesh" type="MeshInstance3D" parent="."]
+cast_shadow = 0
 mesh = ExtResource("1_jdusy")
 skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("2_r84lr")

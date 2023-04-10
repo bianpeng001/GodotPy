@@ -3,4 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://c3us160efdy6q" path="res://models/pal.png" id="1_fqyk3"]
 
 [resource]
+depth_draw_mode = 2
 albedo_texture = ExtResource("1_fqyk3")
+disable_receive_shadows = true
