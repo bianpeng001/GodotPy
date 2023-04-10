@@ -88,7 +88,10 @@ class ArcMoveReq(BaseMoveReq):
 
             p = self.start + \
                 self.delta * self.progress
-            p += self.right * y
+            
+            # TODO: 横向位移, 但感觉比较生硬, 暂时注掉
+            # 地图上相遇的话, 用敌对来进行控制, 发生战斗, 自然就会有错开的位移了
+            #p += self.right * y
         else:
             p = self.start + self.delta
             self.complete()

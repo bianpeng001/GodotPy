@@ -106,13 +106,15 @@ def play_editor_debug():
 
 def zipdir(dir_path, f):
     for root, dirs, files in os.walk(dir_path, followlinks=True):
+        if root.endswith('.vscode'):
+            continue
+        
         for file in files:
-            if root.endswith('.vscode'):
+            if file.endswith('.pyc'):
                 continue
 
-            if not file.endswith('.pyc'):
-                file_path = os.path.join(root, file)
-                f.write(file_path, os.path.relpath(file_path, dir_path))
+            file_path = os.path.join(root, file)
+            f.write(file_path, os.path.relpath(file_path, dir_path))
 
 def archive_python():
     path = f'{BUILD_DIR}\\python312.zip'
