@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 var enter_game_button
 
