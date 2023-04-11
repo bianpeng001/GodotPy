@@ -139,6 +139,11 @@ class UIMgr(NodeObject):
         from game.ui.create_player_controller import CreatePlayerController
         _, self.create_player_controller = self.load_panel(
                 'res://ui/InputPanel.tscn', CreatePlayerController)
+        
+        from game.ui.cmd_panel_controller import CmdPanelController
+        _, self.cmd_panel_controller = self.load_panel(
+                'res://ui/CmdPanel.tscn', CmdPanelController)
+        
         # load done
         log_debug('ui panels load ok')
 
@@ -207,6 +212,16 @@ class UIMgr(NodeObject):
     def on_begin_drag(self):
         self.show_menu(None)
         self.click_unit = None
+        
+        
+    def set_context_unit(self, unit):
+        self.context_unit = unit
+        # if unit:
+        #     self.cmd_panel_controller.popup_screen_bottom()
+        # else:
+        #     self.cmd_panel_controller.defer_close()
+            
+        pass
 
     # 点击空地
     def on_scene_ground_click(self):
@@ -214,6 +229,7 @@ class UIMgr(NodeObject):
             log_debug('top panel visible', self.get_top_panel())
             return
 
+        self.set_context_unit(None)
         self.show_menu(self.ground_menu_controller)
 
     # 点击场景中的单位
@@ -223,7 +239,7 @@ class UIMgr(NodeObject):
             return
 
         self.click_unit = unit
-        self.context_unit = unit
+        self.set_context_unit(unit)
         #print_line(f'click: {unit.unit_name}')
 
         if unit.unit_type == UT_CITY:

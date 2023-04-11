@@ -56,6 +56,9 @@ class HUDItem:
                 else:
                     self.set_flag_text('')
                     self.set_flag_color(1,1,1)
+                    
+            # 然后是刷新血量等参数
+            pass
 
 # HUD的显示，刷新
 # 只分配已经在视野里面的，因为总体数量过于庞大，只在视野里面的，
