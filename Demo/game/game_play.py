@@ -82,8 +82,8 @@ class GamePlay:
                         x.unit_type == UT_CITY and \
                         x.unit_id > 10020 and \
                         x.model_type == 2 and \
-                        in_range(x.get_x(), -300, 300) and \
-                        in_range(x.get_z(), -300, 300) and \
+                        in_range(x.get_x(), -120, 120) and \
+                        in_range(x.get_z(), -120, 120) and \
                         x.owner_player_id == 0)
 
                 if city:

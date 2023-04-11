@@ -47,7 +47,7 @@ surface_material_override/0 = ExtResource("4_c3gj4")
 [node name="Fire01" parent="." instance=ExtResource("2_8p7k6")]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.43979, 0, -1.38816, 0, 2, 0, 1.38816, 0, 1.43979, 1.96602, 0, -1.75887)
+transform = Transform3D(1.43979, 0, -1.38816, 0, 2.196, 0, 1.38816, 0, 1.43979, 1.96602, 0, -1.75887)
 mesh = ExtResource("3_p3nrs")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
@@ -55,7 +55,7 @@ transform = Transform3D(1.30896, 0, 0.732544, 0, 1.5, 0, -0.732544, 0, 1.30896, 
 mesh = ExtResource("3_p3nrs")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.34605, 0, 1.47924, 0, 2, 0, -1.47924, 0, 1.34605, -2.75151, 0, 0.271258)
+transform = Transform3D(1.34605, 0, 1.47924, 0, 2.266, 0, -1.47924, 0, 1.34605, -2.75151, 0, 0.271258)
 mesh = ExtResource("3_p3nrs")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
@@ -63,11 +63,11 @@ transform = Transform3D(1.06491, 0, 0.553151, 0, 1.2, 0, -0.553151, 0, 1.06491, 
 mesh = ExtResource("3_p3nrs")
 
 [node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.6669, 0, 0.679299, 0, 1.8, 0, -0.679299, 0, 1.6669, -1.38493, 0, 1.75358)
+transform = Transform3D(0.955689, 0, 0.389465, 0, 1.076, 0, -0.389465, 0, 0.955689, -1.38493, 0, 1.75358)
 mesh = ExtResource("3_p3nrs")
 
 [node name="MeshInstance3D6" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.2494, 0, 0.999494, 0, 1.6, 0, -0.999494, 0, 1.2494, 1.39509, 0, 0.61688)
+transform = Transform3D(1.2494, 0, 0.999496, 0, 1.863, 0, -0.999496, 0, 1.2494, 1.39509, 0, 0.61688)
 mesh = ExtResource("3_p3nrs")
 
 [node name="Soldier03" type="MeshInstance3D" parent="."]
@@ -79,9 +79,9 @@ script = ExtResource("9_k74p5")
 
 [node name="EnterGame" type="Button" parent="Start"]
 offset_left = 496.0
-offset_top = 231.0
+offset_top = 480.0
 offset_right = 656.0
-offset_bottom = 291.0
+offset_bottom = 540.0
 theme = ExtResource("9_27ysd")
 theme_override_font_sizes/font_size = 28
 text = "开始游戏"
