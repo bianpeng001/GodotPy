@@ -2,9 +2,10 @@
 # 2023年2月5日 bianpeng
 #
 
-from game.core import *
-from game.game_mgr import game_mgr
+from game.core import log_debug, NodeObject
+from game.game_mgr import *
 from game.event_name import LEFT_BUTTON_CLICK, SCENE_UNIT_CLICK, SCENE_GROUND_CLICK
+from game.base_type import UT_TROOP
 
 #
 # raycast管理, 在input的基础上

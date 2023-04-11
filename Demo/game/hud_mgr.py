@@ -18,6 +18,9 @@ class HUDItem:
         self.title_obj = None
         self.hp_obj = None
         
+        # 高度修正
+        self.hud_height = 8
+        
         # 可见度,加一个计数
         self.show_age = 1
 
@@ -39,7 +42,7 @@ class HUDItem:
     def update(self, unit, new_hud):
         if unit:
             x,y,z = unit.get_position()
-            x1,y1 = get_main_camera().world_to_screen(x,y+8,z)
+            x1,y1 = get_main_camera().world_to_screen(x,y+self.hud_height,z)
             self.hud_obj.set_position(x1+self.offset, y1)
             
             if new_hud:
@@ -135,7 +138,12 @@ class HUDMgr:
         hud_item.set_text(unit.unit_name)
         hud_item.set_visible(True)
         hud_item.show_age = 1
-
+        
+        if hud_item.unit_type == UT_TROOP:
+            hud_item.hud_height = 6.9
+        else:
+            hud_item.hud_height = 8
+            
         self.hud_item_dict[hud_item.unit_id] = hud_item
         return hud_item
 
