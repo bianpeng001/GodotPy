@@ -6,7 +6,7 @@
 
 [node name="Road02" type="Node3D"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="Mesh" type="MeshInstance3D" parent="."]
 material_override = ExtResource("1_xeduq")
 cast_shadow = 0
 mesh = SubResource("QuadMesh_bw8hf")

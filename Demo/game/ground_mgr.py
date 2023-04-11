@@ -76,7 +76,6 @@ class Tile:
         st.add_triangle(0, 2, 3)
 
         st.commit(mi)
-
     
     # 生成地形融合, 最好是用贴图来融合
     # 这个版本还是丑, 接下来, 还是老老实实, 用贴图融合吧
@@ -293,6 +292,9 @@ class Tile:
                 pos_x + math.cos(rad)*dis,
                 pos_z + math.sin(rad)*dis,
                 1.0)
+            
+            
+        self.create_load()
 
     def create_city(self):
         if not self.city_unit and \
@@ -330,6 +332,28 @@ class Tile:
 
     def remove_unit(self, unit):
         self.unit_list.remove(unit)
+        
+    def create_load(self):
+        pos_x, pos_z = self.get_center_pos()
+        road = FNode3D.instantiate('res://models/Road/Road02.tscn')
+        road.set_position(pos_x, 1, pos_z)
+        mi = road.find_node('Mesh')
+        st = FSurfaceTool()
+        
+        st.set_normal(0, 1, 0)
+        st.set_uv(0, 4)
+        st.add_vertex(0, 0, 0)
+        st.set_uv(1, 4)
+        st.add_vertex(1, 0, 0)
+        st.set_uv(1, 0)
+        st.add_vertex(1, 0, 12)
+        st.set_uv(0, 0)
+        st.add_vertex(0, 0, 12)
+        
+        st.add_triangle(0, 1, 2)
+        st.add_triangle(0, 2, 3)
+        
+        st.commit(mi)
 
 # 地面，管理
 class GroundMgr(NodeObject):
