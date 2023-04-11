@@ -128,10 +128,12 @@ class HUDMgr:
             hud_item.title_obj = hud_item.hud_obj.find_node('Title')
             hud_item.hp_obj = hud_item.hud_obj.find_node('HP')
 
-            if unit.unit_type == 2:
-                hud_item.offset = -50
+            if unit.unit_type == UT_TROOP:
+                hud_item.offset = -40
+                hud_item.hud_height = 6.8
             else:
                 hud_item.offset = -40
+                hud_item.hud_height = 8.2
 
         #log_debug('create hud', unit.unit_id, unit.unit_name)
         hud_item.unit_id = unit.unit_id
@@ -139,11 +141,6 @@ class HUDMgr:
         hud_item.set_visible(True)
         hud_item.show_age = 1
         
-        if hud_item.unit_type == UT_TROOP:
-            hud_item.hud_height = 6.9
-        else:
-            hud_item.hud_height = 8
-            
         self.hud_item_dict[hud_item.unit_id] = hud_item
         return hud_item
 
