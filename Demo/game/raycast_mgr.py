@@ -49,16 +49,21 @@ class RaycastMgr(NodeObject):
             if len(item_list) == 0:
                 game_mgr.event_mgr.emit(SCENE_GROUND_CLICK)
             else:
-                # TODO: 这里以后加条件
-                game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, item_list[0])
+                # TODO: 这里以后加条件, 优先点钟军队, 并且得是自己的
+                troops = list(filter(lambda x: x.unit_type == UT_TROOP, item_list))
+                if len(troops) > 0:
+                    game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, troops[0])
+                else:
+                    game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, item_list[0])
 
     def _physics_process(self):
-        camera = game_mgr.camera_mgr.main_camera
+        # camera = game_mgr.camera_mgr.main_camera
         
-        for a in self.reqs:
-            log_debug(f'raycast:{a}')
-            shape = raycast_shape(camera, *a)
-        self.reqs.clear()
+        # for a in self.reqs:
+        #     log_debug(f'raycast:{a}')
+        #     shape = raycast_shape(camera, *a)
+        # self.reqs.clear()
+        pass
 
 
 
