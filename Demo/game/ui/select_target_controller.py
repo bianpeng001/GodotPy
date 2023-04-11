@@ -9,7 +9,7 @@ from game.event_name import PRESSED,SCENE_GROUND_CLICK,SCENE_UNIT_CLICK
 from game.ui.ui_traits import PopupTrait
 
 #
-# 选择目标
+# 军队, 选择目标
 #
 class SelectTargetController(UIController, PopupTrait):
     def __init__(self):

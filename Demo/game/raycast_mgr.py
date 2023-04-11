@@ -6,7 +6,10 @@ from game.core import *
 from game.game_mgr import game_mgr
 from game.event_name import LEFT_BUTTON_CLICK, SCENE_UNIT_CLICK, SCENE_GROUND_CLICK
 
-# raycast场景中的物体的操作，并发事件
+#
+# raycast管理, 在input的基础上
+# 处理场景中的物体点击选中
+#
 class RaycastMgr(NodeObject):
     def __init__(self):
         super().__init__()
@@ -15,7 +18,7 @@ class RaycastMgr(NodeObject):
         self.reqs = []
     
     def _create(self):
-        self.get_obj().set_process(physics=True)
+        #self.get_obj().set_process(physics=True)
         pass
 
     def on_mouse_click(self):

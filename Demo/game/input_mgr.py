@@ -44,7 +44,9 @@ class MouseButtonData:
         # 是否有drag行为
         self.drag = False
 
-# 输入管理器
+#
+# 输入管理器, 处理鼠标键盘事件
+#
 class InputMgr(NodeObject):
     def __init__(self):
         super().__init__()

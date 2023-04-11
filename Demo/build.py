@@ -39,8 +39,6 @@ def run(cmd):
     os.system(cmd)
 
 def build_publish():
-    os.chdir(PROJECT_DIR)
-
     call_task('python')
     #run(f'{SCONS_EXE} p=windows vsproj=no bits=64 -j4 target=editor dev_build=false')
     call_task('editor_release')
@@ -48,7 +46,8 @@ def build_publish():
     call_task('package')
     # build player
     call_task('player_release')
-
+    
+    os.chdir(PROJECT_DIR)
     # version.txt
     with open(f'{PYTHON_DIR}\\python_ver.txt') as f:
         python_ver = f.read().strip()
