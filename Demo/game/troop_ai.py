@@ -9,11 +9,9 @@ from game.base_type import *
 from game.game_mgr import *
 from game.ground_mgr import pos_to_colrow
 
-#----------------------------------------------------------------------------
 #
-#----------------------------------------------------------------------------
-
 # 移动方式
+#
 class BaseMoveReq:
     def __init__(self):
         self._done = False
@@ -31,7 +29,9 @@ class BaseMoveReq:
     def is_done(self):
         return self._done
 
+#
 # 直线
+#
 class LineMoveReq(BaseMoveReq):
     def update(self, troop, delta_time):
         pass
@@ -50,8 +50,9 @@ class LineMoveReq(BaseMoveReq):
         self.delta = self.delta * (mag1 / mag)
         self.time_to_progress = speed / mag1
 
-
+#
 # 模拟弧线
+#
 class ArcMoveReq(BaseMoveReq):
     def __init__(self):
         super().__init__()
@@ -73,7 +74,7 @@ class ArcMoveReq(BaseMoveReq):
         duration = mag1 / speed
         self.delta = self.delta * (mag1 / mag)
         self.time_to_progress = 1.0 / duration
-        self.right = self.delta.cross(Vector3.up).normalized() * 2
+        self.right = self.delta.cross(Vector3.up).normalized() * 0.4
 
         # 转身
         self.rot_time = 0
@@ -86,12 +87,11 @@ class ArcMoveReq(BaseMoveReq):
         if self.progress < 1.0:
             y = 1 - (2*self.progress - 1)**2
 
-            p = self.start + \
-                self.delta * self.progress
+            p = self.start + self.delta * self.progress
             
             # TODO: 横向位移, 但感觉比较生硬, 暂时注掉
             # 地图上相遇的话, 用敌对来进行控制, 发生战斗, 自然就会有错开的位移了
-            #p += self.right * y
+            p += self.right * y
         else:
             p = self.start + self.delta
             self.complete()
@@ -105,7 +105,9 @@ class ArcMoveReq(BaseMoveReq):
             v2 = v0 + (v1 - v0) * (self.rot_time / 0.5)
             troop.get_controller().look_at(v2.x,v2.y,v2.z)
 
+#
 # 左右移动
+#
 class LeftRightMoveReq(BaseMoveReq):
     def setup(self, x0,y0,z0, x1,y1,z1, speed):
         v0 = Vector3(x0,y0,z0)
@@ -152,6 +154,20 @@ class LeftRightMoveReq(BaseMoveReq):
         else:
             self.reset(self.stop)
 
+#
+# 路径移动
+#
+class PathMoveReq(BaseMoveReq):
+    def update(self, troop, delta_time):
+        pass
+    
+    def setup(self):
+        pass
+
+#----------------------------------------------------------------------------
+# AI State
+#----------------------------------------------------------------------------
+
 # 黑板，用于读写信息，状态之间传递数据
 class TroopBlackboard(AIBlackboard):
     def __init__(self):
@@ -163,10 +179,6 @@ class TroopBlackboard(AIBlackboard):
     # 状态持续时间
     def get_state_time(self):
         return game_mgr.sec_time - self.state_start_time
-
-#----------------------------------------------------------------------------
-# AI State
-#----------------------------------------------------------------------------
 
 # troop的state的基类，在enter里面记录开始时间
 class AIState_Troop(AIState):

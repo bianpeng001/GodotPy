@@ -212,15 +212,13 @@ class UIMgr(NodeObject):
     def on_begin_drag(self):
         self.show_menu(None)
         self.click_unit = None
-        
-        
+
     def set_context_unit(self, unit):
         self.context_unit = unit
         # if unit:
         #     self.cmd_panel_controller.popup_screen_bottom()
         # else:
         #     self.cmd_panel_controller.defer_close()
-            
         pass
 
     # 点击空地
