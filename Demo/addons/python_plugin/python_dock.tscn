@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://b1emjfd61txmn"]
+[gd_scene load_steps=2 format=3 uid="uid://b1emjfd61txmn"]
+
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_dn272"]
 
 [node name="python_dock" type="Control"]
 layout_mode = 3
@@ -8,8 +10,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Button" type="Button" parent="."]
+[node name="BtnHello" type="Button" parent="."]
 layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
 text = "hello"
+
+[node name="BtnAbout" type="Button" parent="."]
+layout_mode = 0
+offset_top = 31.0
+offset_right = 47.0
+offset_bottom = 62.0
+theme = ExtResource("1_dn272")
+text = "关于"

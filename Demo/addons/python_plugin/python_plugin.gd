@@ -10,11 +10,11 @@ func _enter_tree():
 	dock = preload('res://addons/python_plugin/python_dock.tscn').instantiate()
 	add_control_to_dock(DOCK_SLOT_LEFT_UL, dock)
 	
-	var btn = dock.find_child("Button")
-	btn.pressed.connect(click) 
+	var btn = dock.find_child("BtnAbout")
+	btn.pressed.connect(about_click) 
 
-func click():
-	FPyObject.call_python_func("game.editor_plugin", "say_hello")
+func about_click():
+	FPyObject.call_python_func("game.editor_plugin", "about")
 	
 func _exit_tree():
 	remove_tool_menu_item("Exec Python")
