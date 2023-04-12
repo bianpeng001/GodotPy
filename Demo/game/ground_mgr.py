@@ -319,8 +319,8 @@ class Tile:
         item = FNode3D.instantiate(path)
         self.item_nodes.append(item)
 
-        item.set_position(x, 0, z)
-        item.set_scale(s, s, s)
+        item.set_position(x,0,z)
+        item.set_scale(s,s,s)
 
     def unload(self):
         pass
