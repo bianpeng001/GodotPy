@@ -76,6 +76,7 @@ def build_publish():
     shutil.copy(PLAYER, os.path.join(BUILD_DIR, 'Demo.exe'))
     shutil.copy(os.path.join(DEMO_DIR, 'gm.py'), os.path.join(BUILD_DIR, 'gm.py'))
     shutil.copy(os.path.join(PROJECT_DIR, 'LICENSE'), os.path.join(BUILD_DIR, 'LICENSE'))
+    shutil.copy(os.path.join(PROJECT_DIR, '3rd', 'vcruntime140.dll'), os.path.join(BUILD_DIR, 'vcruntime140.dll'))
     
     # replace app icon
     run(f'{RES_HACKER} -script {PROJECT_DIR}\\Godot\\replace_icon.txt')

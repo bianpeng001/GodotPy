@@ -267,7 +267,7 @@ env.Append(CPPDEFINES = cppdefines)
 env.Append(CPPPATH = incs)
 
 if is_release:
-    env.Append(CCFLAGS = ['/O2',])
+    env.Append(CCFLAGS = ['/O2','/MD'])
 else:
     env.Append(CCFLAGS = ['/Zi',])
     env.Append(LINKFLAGS = ['/DEBUG:FULL',])
@@ -419,7 +419,7 @@ env.MSVSProject(target = ModuleName + env['MSVSPROJECTSUFFIX'],
 
 env2.Append(CPPPATH = incs)
 if is_release:
-    env2.Append(CCFLAGS = ['/O2',])
+    env2.Append(CCFLAGS = ['/O2', '/MD'])
     
 # 资源文件,包含app的图标
 PythonExeRes = env2.RES('python3.rc')
