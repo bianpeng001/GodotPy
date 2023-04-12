@@ -65,14 +65,18 @@ class ArcMoveReq(BaseMoveReq):
         self.delta = self.stop - self.start
 
         mag = self.delta.magnitude()
+        if mag < 0.01:
+            self.complete()
+            return
+        
         # 减掉双方半径
-        mag1 = mag - radius
-        if mag1 < 0:
+        mag2 = mag - radius
+        if mag2 < 0:
             self.complete()
             return
 
-        duration = mag1 / speed
-        self.delta = self.delta * (mag1 / mag)
+        duration = mag2 / speed
+        self.delta = self.delta * (mag2 / mag)
         self.time_to_progress = 1.0 / duration
         self.right = self.delta.cross(Vector3.up).normalized() * 0.6
 
@@ -98,11 +102,12 @@ class ArcMoveReq(BaseMoveReq):
         troop.set_position(p.x,p.y,p.z)
 
         # rotate
-        if self.rot_time < 0.5:
+        rot_duration = 1.0
+        if self.rot_time < rot_duration:
             self.rot_time += delta_time
             v0 = self.rot_v0
             v1 = self.stop
-            v2 = v0 + (v1 - v0) * (self.rot_time / 0.5)
+            v2 = v0 + (v1 - v0) * (self.rot_time / rot_duration)
             troop.get_controller().look_at(v2.x,v2.y,v2.z)
 
 #
