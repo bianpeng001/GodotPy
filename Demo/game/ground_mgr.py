@@ -292,9 +292,6 @@ class Tile:
                 pos_x + math.cos(rad)*dis,
                 pos_z + math.sin(rad)*dis,
                 1.0)
-            
-            
-        self.create_load()
 
     def create_city(self):
         if not self.city_unit and \
@@ -312,6 +309,11 @@ class Tile:
                 0,
                 round(pos_z + random_x()*5))
             self.unit_list.append(self.city_unit)
+            
+            # 生成一段小路
+            if random_100() < 30:
+                x,z = self.city_unit.get_xz()
+                self.create_road(x,0.1,z+self.city_unit.radius)
 
     def load_res(self, path, x, z, s):
         item = FNode3D.instantiate(path)
@@ -333,22 +335,22 @@ class Tile:
     def remove_unit(self, unit):
         self.unit_list.remove(unit)
         
-    def create_load(self):
+    def create_road(self, x,y,z):
         pos_x, pos_z = self.get_center_pos()
         road = FNode3D.instantiate('res://models/Road/Road02.tscn')
-        road.set_position(pos_x, 0.1, pos_z)
+        road.set_position(x,y,z)
         mi = road.find_node('Mesh')
         st = FSurfaceTool()
         
         st.set_normal(0, 1, 0)
-        st.set_uv(0, 5)
+        st.set_uv(0, 10/4)
         st.add_vertex(0, 0, 0)
-        st.set_uv(1, 5)
+        st.set_uv(1, 10/4)
         st.add_vertex(1, 0, 0)
         st.set_uv(1, 0)
-        st.add_vertex(1, 0, 20)
+        st.add_vertex(1, 0, 10)
         st.set_uv(0, 0)
-        st.add_vertex(0, 0, 20)
+        st.add_vertex(0, 0, 10)
         
         st.add_triangle(0, 1, 2)
         st.add_triangle(0, 2, 3)
