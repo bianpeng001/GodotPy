@@ -18,8 +18,8 @@ class AISight:
         self.angle_speed = 0.3
         
         # 视野距离
-        self.radius = 5
-        self.lose_radius = 8
+        self.radius = 10
+        self.lose_radius = 15
         
         # 视野中的单位
         self.unit_dict = {}
@@ -33,6 +33,7 @@ class AISight:
         if self.angle >= 30 or self.angle <= -30:
             self.angle_speed *= -1
 
+        # sight
         self.tick_time += game_mgr.delta_time
         if self.tick_time > 0.1:
             self.tick_time = 0
@@ -40,10 +41,22 @@ class AISight:
             self.check_see_unit(controller)
 
     def check_see_unit(self, controller):
-        self_unit = controller.get_unit()
-        x,z = self_unit.get_xz()
+        src_unit = controller.get_unit()
+        x,z = src_unit.get_xz()
         sqr_radius = self.radius**2
         
+        if controller.owner_tile:
+            #log_debug('check_see_unit', src_unit.unit_name, len(controller.owner_tile.unit_list))
+            for unit in controller.owner_tile.unit_list:
+                if unit.unit_id != src_unit.unit_id and \
+                        unit.unit_id not in self.unit_dict:
+                    x1,z1 = unit.get_xz()
+                    dx,dz = x1-x,z1-z
+                    sqr_dis = dx*dx+dz*dz
+                    if sqr_dis <= sqr_radius:
+                        self.unit_dict[unit.unit_id] = unit
+                        log_debug('in sight', src_unit.unit_name, unit.unit_name)
+
         if len(self.unit_dict) > 0:
             self.lose_list.clear()
             
@@ -54,22 +67,11 @@ class AISight:
                 sqr_dis = dx*dx+dz*dz
                 if sqr_dis > sqr_lose_radius:
                     self.lose_list.append(unit.unit_id)
+                    log_debug('lose sight', src_unit.unit_name, unit.unit_name)
             
             for unit_id in self.lose_list:
                 self.unit_dict.pop(unit_id)
             self.lose_list.clear()
-        
-        if controller.owner_tile:
-            for unit in controller.owner_tile.unit_list:
-                if unit.unit_id != self_unit.unit_id and \
-                        unit.unit_id in self.unit_dict:
-                    x1,z1 = unit.get_xz()
-                    dx,dz = x1-x,z1-z
-                    sqr_dis = dx*dx+dz*dz
-                    if sqr_dis <= sqr_radius:
-                        self.unit_dict[unit.unit_id] = unit
-                        log_debug('in sight', self_unit.unit_name, unit.unit_name)
-
         
 
 #
@@ -159,14 +161,10 @@ class TroopController(Controller):
                         obj = temp if i == 0 else temp.dup()
                         obj.set_position(col*0.7, 0, row*0.7)
 
-
     def update(self):
         self.update_move()
         self.update_ai()
         self.sight.update(self)
-
-
-                    
 
     def look_at(self,x,y,z):
         node = self.get_model_node()

@@ -336,7 +336,7 @@ class AIState_MarchToPos(AIState_Troop):
         if controller.move_req.is_done():
             blackboard = controller.get_blackboard()
             if blackboard.target_unit_id != 0:
-                unit = game_mgr.unit_mgr.get_unit(troop.target_unit_id)
+                unit = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
                 if unit.unit_type == UT_CITY:
                     pass
                 else:

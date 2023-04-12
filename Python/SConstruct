@@ -75,6 +75,8 @@ PYTHON_OBJS = [
     'Python/codecs.c',
     'Python/compile.c',
     'Python/assemble.c',
+    'Python/instrumentation.c',
+    'Python/legacy_tracing.c',
     'Python/flowgraph.c',
     'Python/context.c',
     'Python/dynamic_annotations.c',
