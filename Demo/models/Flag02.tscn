@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://benjiw4ylsc4m"]
+
+[ext_resource type="ArrayMesh" uid="uid://7ljbpgjyaxoj" path="res://models/Flag02Mesh.res" id="1_155bv"]
+[ext_resource type="Material" uid="uid://ceumarsrls14p" path="res://models/Color/Red.tres" id="2_gwvf8"]
+
+[node name="Flag02" type="Node3D"]
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_155bv")
+surface_material_override/0 = ExtResource("2_gwvf8")

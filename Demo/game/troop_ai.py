@@ -4,7 +4,7 @@
 
 import math
 
-from game.core import *
+from game.core import log_debug
 from game.base_type import *
 from game.game_mgr import *
 from game.ground_mgr import pos_to_colrow
@@ -97,7 +97,7 @@ class ArcMoveReq(BaseMoveReq):
             self.complete()
         troop.set_position(p.x,p.y,p.z)
 
-        # rotate
+        # 缓动改朝向, 默认给1秒
         rot_duration = 1.0
         if self.rot_time < rot_duration:
             self.rot_time += delta_time
@@ -105,6 +105,9 @@ class ArcMoveReq(BaseMoveReq):
             v1 = self.stop
             v2 = v0 + (v1 - v0) * (self.rot_time / rot_duration)
             troop.get_controller().look_at(v2.x,v2.y,v2.z)
+            
+            if self.rot_time >= rot_duration:
+                troop.get_controller().look_at(v1.x,v1.y,v1.z)
 
 #
 # 左右移动

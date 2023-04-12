@@ -182,6 +182,7 @@ class UIController:
     def show(self):
         self.is_visible = True
         self.ui_obj.set_visible(True)
+        self.on_show(True)
 
     def is_show(self):
         return self.is_visible
@@ -189,6 +190,10 @@ class UIController:
     def hide(self):
         self.is_visible = False
         self.ui_obj.set_visible(False)
+        self.on_show(False)
+        
+    def on_show(self, show):
+        pass
 
 #
 # 本方法在UI可见时才生效, 用于事件响应

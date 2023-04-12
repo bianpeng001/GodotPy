@@ -2,7 +2,7 @@
 # 2023年3月16日 bianpeng
 #
 
-from game.core import log_debug
+from game.core import log_debug, OS
 from game.base_type import UIController, UT_CITY, WhenVisible
 from game.game_mgr import *
 from game.event_name import PRESSED,SCENE_GROUND_CLICK,SCENE_UNIT_CLICK
@@ -30,6 +30,12 @@ class SelectTargetController(UIController, PopupTrait):
 
         game_mgr.event_mgr.add(SCENE_UNIT_CLICK, self.on_scene_unit_click)
         game_mgr.event_mgr.add(SCENE_GROUND_CLICK, self.on_scene_ground_click)
+        
+        self.flag_obj = OS.instantiate('res://models/Flag02.tscn')
+        self.flag_obj.set_visible(False)
+        
+    def on_show(self, show):
+        self.flag_obj.set_visible(show)
 
     def set_target(self, unit_id, pos):
         self.target_unit_id = unit_id
@@ -52,11 +58,13 @@ class SelectTargetController(UIController, PopupTrait):
     @WhenVisible
     def on_scene_unit_click(self, unit):
         x,y,z = unit.get_position()
+        self.flag_obj.set_position(x,y,z)
         self.set_target(unit.unit_id, (round(x),round(z)))
 
     @WhenVisible
     def on_scene_ground_click(self):
         x,y,z = get_position_under_mouse()
+        self.flag_obj.set_position(x,y,z)
         self.set_target(0, (round(x), round(z)))
         
     def init_dialog(self, select_cb):
