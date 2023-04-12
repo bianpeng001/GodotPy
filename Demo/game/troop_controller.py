@@ -4,8 +4,73 @@
 
 from game.core import log_debug
 from game.game_mgr import *
-from game.base_type import Controller
+from game.base_type import *
 from game.troop_ai import *
+
+#
+# 视觉感知
+#
+class AISight:
+    def __init__(self):
+        self.tick_time = 0
+        
+        self.angle = 0
+        self.angle_speed = 0.3
+        
+        # 视野距离
+        self.radius = 5
+        self.lose_radius = 8
+        
+        # 视野中的单位
+        self.unit_dict = {}
+        # 等待离开
+        self.lose_list = []
+        
+    def update(self, controller):
+        # 移动过程里, 还要检查周围的敌军, 有一个视野
+        self.angle += self.angle_speed
+        controller.viewarea_obj.set_rotation(0, self.angle, 0)
+        if self.angle >= 30 or self.angle <= -30:
+            self.angle_speed *= -1
+
+        self.tick_time += game_mgr.delta_time
+        if self.tick_time > 0.1:
+            self.tick_time = 0
+            
+            self.check_see_unit(controller)
+
+    def check_see_unit(self, controller):
+        self_unit = controller.get_unit()
+        x,z = self_unit.get_xz()
+        sqr_radius = self.radius**2
+        
+        if len(self.unit_dict) > 0:
+            self.lose_list.clear()
+            
+            sqr_lose_radius = self.lose_radius**2
+            for unit in self.unit_dict.values():
+                x1,z1 = unit.get_xz()
+                dx,dz = x1-x,z1-z
+                sqr_dis = dx*dx+dz*dz
+                if sqr_dis > sqr_lose_radius:
+                    self.lose_list.append(unit.unit_id)
+            
+            for unit_id in self.lose_list:
+                self.unit_dict.pop(unit_id)
+            self.lose_list.clear()
+        
+        if controller.owner_tile:
+            for unit in controller.owner_tile.unit_list:
+                if unit.unit_id != self_unit.unit_id and \
+                        unit.unit_id in self.unit_dict:
+                    x1,z1 = unit.get_xz()
+                    dx,dz = x1-x,z1-z
+                    sqr_dis = dx*dx+dz*dz
+                    if sqr_dis <= sqr_radius:
+                        self.unit_dict[unit.unit_id] = unit
+                        log_debug('in sight', self_unit.unit_name, unit.unit_name)
+
+        
 
 #
 # 这是一个AIController
@@ -23,10 +88,8 @@ class TroopController(Controller):
         # 所在的地块
         self.owner_tile = None
         
-        #
-        self.sight_tick_time = 0
-        self.sight_angle = 0
-        self.sight_angle_speed = 0.3
+        # 视觉感知
+        self.sight = AISight()
 
     def reset_ai(self):
         self.ai_tick_time = 0
@@ -100,22 +163,10 @@ class TroopController(Controller):
     def update(self):
         self.update_move()
         self.update_ai()
-        self.update_sight()
+        self.sight.update(self)
 
-    # 视觉感知
-    def update_sight(self):
-        # 移动过程里, 还要检查周围的敌军, 有一个视野
-        self.sight_angle += self.sight_angle_speed
-        if self.sight_angle >= 30 or self.sight_angle <= -30:
-            self.sight_angle_speed *= -1
-        self.viewarea_obj.set_rotation(0, self.sight_angle, 0)
-        
-        self.sight_tick_time += game_mgr.delta_time
-        if self.sight_tick_time > 0.1:
-            self.sight_tick_time = 0
-            
-            if self.owner_tile:
-                pass
+
+                    
 
     def look_at(self,x,y,z):
         node = self.get_model_node()

@@ -308,7 +308,7 @@ class Tile:
                 round(pos_x + random_x()*5),
                 0,
                 round(pos_z + random_x()*5))
-            self.unit_list.append(self.city_unit)
+            self.add_unit(self.city_unit)
             
             # 生成一段小路
             if random_100() < 30:
