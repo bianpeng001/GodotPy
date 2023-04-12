@@ -43,10 +43,6 @@ class LineMoveReq(BaseMoveReq):
 
         mag = self.delta.magnitude()
         mag1 = mag - 6
-        if mag1 < 0:
-            self.complete()
-            return
-
         self.delta = self.delta * (mag1 / mag)
         self.time_to_progress = speed / mag1
 
@@ -65,13 +61,13 @@ class ArcMoveReq(BaseMoveReq):
         self.delta = self.stop - self.start
 
         mag = self.delta.magnitude()
-        if mag < 0.01:
+        if mag <= 0.01:
             self.complete()
             return
         
         # 减掉双方半径
         mag2 = mag - radius
-        if mag2 < 0:
+        if mag2 <= 0:
             self.complete()
             return
 
