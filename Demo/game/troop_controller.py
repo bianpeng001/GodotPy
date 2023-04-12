@@ -22,6 +22,11 @@ class TroopController(Controller):
 
         # 所在的地块
         self.owner_tile = None
+        
+        #
+        self.sight_tick_time = 0
+        self.sight_angle = 0
+        self.sight_angle_speed = 0.3
 
     def reset_ai(self):
         self.ai_tick_time = 0
@@ -36,8 +41,8 @@ class TroopController(Controller):
     def update_ai(self):
         self.ai_tick_time += game_mgr.delta_time
         if self.ai_tick_time > 0.1:
-            self.on_ai_tick(self.ai_tick_time)
             self.ai_tick_time = 0
+            self.on_ai_tick(self.ai_tick_time)
 
     def update_move(self):
         req = self.move_req
@@ -100,23 +105,31 @@ class TroopController(Controller):
     # 视觉感知
     def update_sight(self):
         # 移动过程里, 还要检查周围的敌军, 有一个视野
-        self.viewarea_obj.set_rotation(0,
-                30*math.sin(game_mgr.sec_time*1.2),
-                0)
+        self.sight_angle += self.sight_angle_speed
+        if self.sight_angle >= 30 or self.sight_angle <= -30:
+            self.sight_angle_speed *= -1
+        self.viewarea_obj.set_rotation(0, self.sight_angle, 0)
+        
+        self.sight_tick_time += game_mgr.delta_time
+        if self.sight_tick_time > 0.1:
+            self.sight_tick_time = 0
+            
+            if self.owner_tile:
+                pass
 
     def look_at(self,x,y,z):
         node = self.get_model_node()
         if node:
             node.look_at(x,y,z)
 
-    def get_forward(self):
-        node = self.get_model_node()
-        return node.get_forward()
-
     def look_at_unit(self, unit):
         x,y,z = unit.get_position()
         self.look_at(x,y,z)
-
+    
+    def get_forward(self):
+        node = self.get_model_node()
+        return node.get_forward()
+    
     def kill(self):
         if self.owner_tile:
             self.owner_tile.remove_unit(self.get_unit())

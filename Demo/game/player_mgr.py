@@ -61,6 +61,7 @@ class PlayerMgr:
         if not player:
             log_debug(f'player not found: {player_id}')
             return None
+        
         return player
 
     def get_player_iterator(self):

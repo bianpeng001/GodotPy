@@ -334,7 +334,17 @@ class AIState_MarchToPos(AIState_Troop):
 
     def update(self, controller):
         if controller.move_req.is_done():
-            controller.enter_state(AIState_Idle())
+            blackboard = controller.get_blackboard()
+            if blackboard.target_unit_id != 0:
+                unit = game_mgr.unit_mgr.get_unit(troop.target_unit_id)
+                if unit.unit_type == UT_CITY:
+                    pass
+                else:
+                    pass
+                
+                controller.enter_state(AIState_Idle())
+            else:
+                controller.enter_state(AIState_Idle())
         else:
             pass
 
@@ -351,6 +361,7 @@ class AIState_TroopStart(AIState_Troop):
             #controller.enter_state(AIState_MarchToCity())
             controller.enter_state(AIState_MarchToPos())
         else:
+            blackboard.target_unit_id = 0
             blackboard.target_pos = troop.target_pos
             controller.enter_state(AIState_MarchToPos())
         
