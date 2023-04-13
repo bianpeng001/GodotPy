@@ -53,6 +53,7 @@ class StepMoveReq(BaseMoveReq):
     def __init__(self):
         super().__init__()
     
+    # 这段这么恶心, 建议放到c++里面去算
     def update(self, troop, delta_time):
         s0 = Vector3(*troop.get_position())
         
@@ -75,6 +76,10 @@ class StepMoveReq(BaseMoveReq):
         v = delta * (troop.speed/dis)
         v.x += controller.rvo_x
         v.z += controller.rvo_z
+        
+        if v.dot(delta) < 0:
+            self.complete()
+            return
         
         s1 = s0 + v * delta_time
         troop.set_position(s1.x,s1.y,s1.z)
