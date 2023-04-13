@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://blmrbcyxuqf6d"]
+
+[ext_resource type="Texture2D" uid="uid://cc30s5tslacke" path="res://ui/img/bg4.png" id="1_csj3t"]
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="2_vyrf4"]
+
+[node name="Bubble01" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Bg" type="NinePatchRect" parent="."]
+self_modulate = Color(1, 0.992157, 0.819608, 1)
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 90.0
+texture = ExtResource("1_csj3t")
+region_rect = Rect2(0, 0, 64, 64)
+patch_margin_left = 15
+patch_margin_top = 15
+patch_margin_right = 15
+patch_margin_bottom = 15
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 5.0
+offset_right = 153.0
+offset_bottom = 85.0
+theme = ExtResource("2_vyrf4")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 16
+text = "兵无常势,水无常形,能因敌变化而取胜者. 小敌之坚,大敌之擒也."
+autowrap_mode = 1

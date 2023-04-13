@@ -4,7 +4,9 @@
 
 from game.core import log_debug, Vector3
 
+#
 # AI状态机
+#
 class AIMachine:
     def __init__(self):
         # ai state machine
@@ -25,18 +27,16 @@ class AIMachine:
     def get_blackboard(self):
         return self.blackboard
 
+#
 # AI状态之间交流数据的黑板
+#
 class AIBlackboard:
     def __init__(self):
-        self.value_dict = {}
+        pass
 
-    def get_value(self, key):
-        return self.value_dict.get(key, None)
-
-    def set_value(self, key, value):
-        self.value_dict[key] = value
-
+#
 # AI状态机的单独状态, 生命周期
+#
 class AIState:
     def __init__(self):
         pass

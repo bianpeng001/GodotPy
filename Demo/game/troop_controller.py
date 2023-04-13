@@ -23,8 +23,6 @@ class AISight:
         
         # 视野中的单位
         self.unit_dict = {}
-        # 等待离开
-        self.lose_list = []
         
     def update(self, controller):
         # 移动过程里, 还要检查周围的敌军, 有一个视野
@@ -58,21 +56,19 @@ class AISight:
                         log_debug('in sight', src_unit.unit_name, unit.unit_name)
 
         if len(self.unit_dict) > 0:
-            self.lose_list.clear()
-            
+            lose_list = []
             sqr_lose_radius = self.lose_radius**2
+            
             for unit in self.unit_dict.values():
                 x1,z1 = unit.get_xz()
                 dx,dz = x1-x,z1-z
                 sqr_dis = dx*dx+dz*dz
                 if sqr_dis > sqr_lose_radius:
-                    self.lose_list.append(unit.unit_id)
+                    lose_list.append(unit.unit_id)
                     log_debug('lose sight', src_unit.unit_name, unit.unit_name)
             
-            for unit_id in self.lose_list:
+            for unit_id in lose_list:
                 self.unit_dict.pop(unit_id)
-            self.lose_list.clear()
-        
 
 #
 # 这是一个AIController
