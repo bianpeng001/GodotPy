@@ -53,6 +53,9 @@ class GameMgr():
         self.play_time = 0
 
         self.enable_city_ai = False
+        
+        # 用于复用的一个公用的临时list, 反正是单线程的, 用完即丢
+        self.reuse_list = []
 
     @property
     def event_mgr(self):
@@ -90,6 +93,10 @@ class GameMgr():
         self.update_list.append(self.camera_mgr.update)
         self.update_list.append(self.hud_mgr.update)
         self.update_list.append(self.hero_mgr.update)
+        
+    def get_reuse_list(self):
+        self.reuse_list.clear()
+        return self.reuse_list
 
 game_mgr = GameMgr()
 

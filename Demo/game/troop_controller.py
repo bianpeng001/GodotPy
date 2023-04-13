@@ -56,7 +56,7 @@ class AISight:
                         log_debug('in sight', src_unit.unit_name, unit.unit_name)
 
         if len(self.unit_dict) > 0:
-            lose_list = []
+            lose_list = game_mgr.get_reuse_list()
             sqr_lose_radius = self.lose_radius**2
             
             for unit in self.unit_dict.values():
