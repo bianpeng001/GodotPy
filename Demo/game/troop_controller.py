@@ -95,6 +95,9 @@ class TroopController(Controller):
     def init_ai(self):
         self.ai_tick_time = 0
         self.blackboard = TroopBlackboard()
+        self.enter_state(AIState_Idle())
+        
+    def start_ai(self):
         self.enter_state(AIState_TroopStart())
 
     def on_ai_tick(self, tick_time):

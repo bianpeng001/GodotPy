@@ -44,12 +44,12 @@ class TroopMenuController(UIController, PopupTrait):
 
         dialog = game_mgr.ui_mgr.select_target_controller
         def select_cb():
-            #log_debug('target', dialog.target_unit_id, dialog.target_pos)
+            log_debug('target', dialog.target_unit_id, dialog.target_pos)
             self.troop_unit.target_unit_id = dialog.target_unit_id
             self.troop_unit.target_pos = dialog.target_pos
             
             controller = self.troop_unit.get_controller()
-            controller.init_ai()
+            controller.start_ai()
 
         dialog.init_dialog(select_cb)
 

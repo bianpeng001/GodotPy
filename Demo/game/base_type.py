@@ -34,8 +34,8 @@ class AIBlackboard:
     def __init__(self):
         pass
     
-    def __getattr__(self, key):
-        return None
+    # def __getattr__(self, key):
+    #     return None
 
 #
 # AI状态机的单独状态, 生命周期

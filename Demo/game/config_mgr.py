@@ -74,7 +74,7 @@ class ConfigMgr:
         self.load_chapter()
         
         
-        self.rvo_factor = 5.0
+        self.rvo_factor = 0.2
 
     def load_chapter(self):
         pass

@@ -77,9 +77,9 @@ class StepMoveReq(BaseMoveReq):
         v.x += controller.rvo_x
         v.z += controller.rvo_z
         
-        if v.dot(delta) < 0:
-            self.complete()
-            return
+        # if v.dot(delta) < 0:
+        #     self.complete()
+        #     return
         
         s1 = s0 + v * delta_time
         troop.set_position(s1.x,s1.y,s1.z)

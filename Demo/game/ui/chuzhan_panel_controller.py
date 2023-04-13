@@ -240,6 +240,8 @@ class ChuZhanPanelController(UIController, PopupTrait):
             # 设置目标,策略
             troop.target_unit_id = self.target_unit_id
             troop.target_pos = self.target_pos
+
+            troop.get_controller().start_ai()
             
         else:
             log_debug('no hero selected')

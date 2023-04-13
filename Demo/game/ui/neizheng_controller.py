@@ -18,7 +18,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         self.tabs = []
         self.tab_index = 0
-       
+
         self.item_list = []
         self.ignore_slider_change = False
 
