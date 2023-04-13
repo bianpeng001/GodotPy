@@ -79,13 +79,13 @@ class ArcMoveReq(BaseMoveReq):
             return
         
         # 减掉双方半径
-        mag2 = mag - radius
-        if mag2 <= 0:
+        dis = mag - radius
+        if dis <= 0:
             self.complete()
             return
 
-        duration = mag2 / speed
-        self.delta = self.delta * (mag2 / mag)
+        duration = dis / speed
+        self.delta = self.delta * (dis / mag)
         self.time_to_progress = 1.0 / duration
         self.right = self.delta.cross(Vector3.up).normalized() * 0.6
 
