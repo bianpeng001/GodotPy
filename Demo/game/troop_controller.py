@@ -78,7 +78,7 @@ class TroopController(Controller):
         super().__init__()
 
         # AI 相关
-        self.reset_ai()
+        self.init_ai()
         # 位移请求
         self.move_req = None
 
@@ -88,11 +88,11 @@ class TroopController(Controller):
         # 视觉感知
         self.sight = AISight()
         
-        # rvo
+        # rvo force
         self.rvo_x = 0
         self.rvo_z = 0
 
-    def reset_ai(self):
+    def init_ai(self):
         self.ai_tick_time = 0
         self.blackboard = TroopBlackboard()
         self.enter_state(AIState_TroopStart())

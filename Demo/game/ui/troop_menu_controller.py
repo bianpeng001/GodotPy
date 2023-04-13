@@ -47,7 +47,9 @@ class TroopMenuController(UIController, PopupTrait):
             #log_debug('target', dialog.target_unit_id, dialog.target_pos)
             self.troop_unit.target_unit_id = dialog.target_unit_id
             self.troop_unit.target_pos = dialog.target_pos
-            self.troop_unit.get_controller().reset_ai()
+            
+            controller = self.troop_unit.get_controller()
+            controller.init_ai()
 
         dialog.init_dialog(select_cb)
 

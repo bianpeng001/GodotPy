@@ -47,18 +47,38 @@ class LineMoveReq(BaseMoveReq):
         self.time_to_progress = speed / mag1
         
 #
-# 小步前进, 考虑斥力和障碍
+# 小步前进, 考虑rvo斥力和障碍
 #
-class ArcMoveReq(BaseMoveReq):
+class StepMoveReq(BaseMoveReq):
     def __init__(self):
         super().__init__()
-        
-    def setup(self):
-        pass
     
     def update(self, troop, delta_time):
-        pass
-
+        s0 = Vector3(*troop.get_position())
+        
+        blackboard = troop.get_controller().get_blackboard()
+        if blackboard.target_unit_id > 0:
+            unit = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
+            self.stop = Vector3(*unit.get_position())
+        else:
+            x,z = blackboard.target_pos
+            self.stop = Vector3(x,0,z)
+        
+        delta = self.stop - s0
+        dis = delta.magnitude()
+        if dis <= delta_time*troop.speed:
+            self.complete()
+            return
+        
+        controller = troop.get_controller()
+        
+        v = delta * (troop.speed/dis)
+        v.x += controller.rvo_x
+        v.z += controller.rvo_z
+        
+        s1 = s0 + v * delta_time
+        troop.set_position(s1.x,s1.y,s1.z)
+        
 #
 # 模拟弧线
 #
@@ -336,14 +356,14 @@ class AIState_MarchToPos(AIState_Troop):
         troop = controller.get_unit()
         blackboard = controller.get_blackboard()
 
-        x,z = blackboard.target_pos
-
-        req = ArcMoveReq()
-        req.setup(troop,
-            x,0,z,
-            troop.speed, 0)
+        # x,z = blackboard.target_pos
+        # req = ArcMoveReq()
+        # req.setup(troop,
+        #     x,0,z,
+        #     troop.speed, 0)
+        
+        req = StepMoveReq()
         controller.move_req = req
-        #controller.look_at(x,0,z)
 
     def update(self, controller):
         if controller.move_req.is_done():
