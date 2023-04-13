@@ -74,15 +74,13 @@ class StepMoveReq(BaseMoveReq):
         controller = troop.get_controller()
         
         v = delta * (troop.speed/dis)
-        v.x += controller.rvo_x
-        v.z += controller.rvo_z
-        
-        # if v.dot(delta) < 0:
-        #     self.complete()
-        #     return
+        v.x += controller.rvo_x / troop.mass
+        v.z += controller.rvo_z / troop.mass
         
         s1 = s0 + v * delta_time
+        controller.look_at(s1.x,s1.y,s1.z)
         troop.set_position(s1.x,s1.y,s1.z)
+
         
 #
 # 模拟弧线

@@ -15,4 +15,3 @@ def about():
     log_debug('https://github.com/bianpeng001/GodotPy')
 
 
-    

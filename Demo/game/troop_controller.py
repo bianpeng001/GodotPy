@@ -175,6 +175,8 @@ class TroopController(Controller):
         self.rvo_x = self.rvo_z = 0
         
         if len(self.sight.unit_dict) > 0:
+            rvo_sqr_dis = game_mgr.config_mgr.rvo_sqr_dis
+            rvo_factor = game_mgr.config_mgr.rvo_factor
             src_unit = self.get_unit()
             x,z = src_unit.get_xz()
             
@@ -183,8 +185,10 @@ class TroopController(Controller):
                     x1,z1 = unit.get_xz()
                     dx,dz = x-x1,z-z1
                     sqr_dis = dx*dx+dz*dz
-                    if sqr_dis > 0.001 and sqr_dis < 5*5:
-                        f = game_mgr.config_mgr.rvo_factor*unit.mass*src_unit.mass / sqr_dis
+                    if sqr_dis < 0.001:
+                        sqr_dis = 0.001
+                    if sqr_dis < rvo_sqr_dis:
+                        f = rvo_factor*unit.mass*src_unit.mass*(1.0/sqr_dis - 1.0/rvo_sqr_dis)
                         self.rvo_x += dx*f
                         self.rvo_z += dz*f
 

@@ -1,6 +1,7 @@
 from game.game_mgr import *
 
 main_camera = game_mgr.camera_mgr.main_camera
+
 #dust = main_camera.find_node('/root/MainScene/Dust01')
 #print(dust)
 
@@ -35,4 +36,11 @@ def trigger_mainui():
     ui_mgr.show_base_ui(show)
 
 trigger_mainui()
+
+def fix_config():
+    config_mgr = game_mgr.config_mgr
+    config_mgr.rvo_factor = 0.3
+
+
+fix_config()
 

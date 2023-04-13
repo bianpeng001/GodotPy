@@ -73,8 +73,9 @@ class ConfigMgr:
         self.chapter_dict = {}
         self.load_chapter()
         
-        
-        self.rvo_factor = 0.2
+        # rvo 参数
+        self.rvo_factor = 0.3
+        self.rvo_sqr_dis = 5*5
 
     def load_chapter(self):
         pass
