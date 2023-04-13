@@ -2,7 +2,7 @@
 # 2023年2月8日 bianpeng
 #
 
-from game.core import *
+from game.core import log_debug, Vector3
 
 # AI状态机
 class AIMachine:
