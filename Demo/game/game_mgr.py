@@ -9,7 +9,9 @@
 
 from game.core import log_util
 
-# 所有的系统的管理，单例
+#
+# 总管理器
+#
 class GameMgr():
     def __init__(self):
         super().__init__()

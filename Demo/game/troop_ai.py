@@ -45,6 +45,19 @@ class LineMoveReq(BaseMoveReq):
         mag1 = mag - 6
         self.delta = self.delta * (mag1 / mag)
         self.time_to_progress = speed / mag1
+        
+#
+# 小步前进, 考虑斥力和障碍
+#
+class ArcMoveReq(BaseMoveReq):
+    def __init__(self):
+        super().__init__()
+        
+    def setup(self):
+        pass
+    
+    def update(self, troop, delta_time):
+        pass
 
 #
 # 模拟弧线

@@ -72,6 +72,9 @@ class ConfigMgr:
 
         self.chapter_dict = {}
         self.load_chapter()
+        
+        
+        self.rvo_factor = 5.0
 
     def load_chapter(self):
         pass

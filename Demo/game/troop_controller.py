@@ -35,9 +35,8 @@ class AISight:
         self.tick_time += game_mgr.delta_time
         if self.tick_time > 0.1:
             self.tick_time = 0
-            
             self.check_see_unit(controller)
-
+            
     def check_see_unit(self, controller):
         src_unit = controller.get_unit()
         x,z = src_unit.get_xz()
@@ -88,6 +87,10 @@ class TroopController(Controller):
         
         # 视觉感知
         self.sight = AISight()
+        
+        # rvo
+        self.rvo_x = 0
+        self.rvo_z = 0
 
     def reset_ai(self):
         self.ai_tick_time = 0
@@ -106,6 +109,8 @@ class TroopController(Controller):
             self.on_ai_tick(self.ai_tick_time)
 
     def update_move(self):
+        self.add_rvo_force()
+        
         req = self.move_req
         if req and not req.is_done():
             troop = self.get_unit()
@@ -113,7 +118,7 @@ class TroopController(Controller):
             req.update(troop, game_mgr.delta_time)
 
             # 位置变更之后,刷新tile归属
-            x,z = troop.unit_position.get_xz()
+            x,z = troop.get_xz()
             tile = game_mgr.ground_mgr.get_tile(x, z)
             if self.owner_tile != tile:
                 if self.owner_tile:
@@ -161,6 +166,24 @@ class TroopController(Controller):
         self.update_move()
         self.update_ai()
         self.sight.update(self)
+        
+    # 对视野里面的单位, 加一个力, 改善重叠和穿插
+    def add_rvo_force(self):
+        self.rvo_x = self.rvo_z = 0
+        
+        if len(self.sight.unit_dict) > 0:
+            src_unit = self.get_unit()
+            x,z = src_unit.get_xz()
+            
+            for unit in self.sight.unit_dict.values():
+                if unit.unit_type == UT_TROOP:
+                    x1,z1 = unit.get_xz()
+                    dx,dz = x-x1,z-z1
+                    sqr_dis = dx*dx+dz*dz
+                    if sqr_dis > 0.001 and sqr_dis < 5*5:
+                        f = game_mgr.config_mgr.rvo_factor*unit.mass*src_unit.mass / sqr_dis
+                        self.rvo_x += dx*f
+                        self.rvo_z += dz*f
 
     def look_at(self,x,y,z):
         node = self.get_model_node()

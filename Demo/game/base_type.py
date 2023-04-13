@@ -99,6 +99,8 @@ class Unit:
         
         # 模型
         self.model_node = None
+        # 质量, 用于一些物理运算
+        self.mass = 10
 
     # 创建之后，初始化，这里身份信息已经确定了
     def init(self):
