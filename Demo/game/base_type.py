@@ -13,6 +13,8 @@ class AIMachine:
         self.ai_state = None
         # blackboard
         self.blackboard = None
+        #
+        self.state_dict = {}
 
     def enter_state(self, new_state):
         if self.ai_state:
@@ -26,6 +28,11 @@ class AIMachine:
 
     def get_blackboard(self):
         return self.blackboard
+    
+    def goto_state(self, name):
+        state = self.state_dict.get(name, None)
+        if state:
+            self.enter_state(state)
 
 #
 # AI状态之间交流数据的黑板
@@ -142,11 +149,12 @@ class Unit:
     def get_controller(self):
         return self._controller
 
+#
 # 角色单位的控制器
+#
 class Controller(AIMachine):
     def __init__(self):
         AIMachine.__init__(self)
-        
         self._unit = None
 
     @property

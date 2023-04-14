@@ -80,7 +80,7 @@ class TroopController(Controller):
         # AI 相关
         self.init_ai()
         # 位移请求
-        self.move_req = None
+        self.move_comp = None
 
         # 所在的地块
         self.owner_tile = None
@@ -88,16 +88,15 @@ class TroopController(Controller):
         # 视觉感知
         self.sight = AISight()
         
-        # rvo force, acce
+        # rvo 相关, 计算好的加速度
         self.rvo_acce_x = 0
         self.rvo_acce_y = 0
-        
 
     def init_ai(self):
         self.ai_tick_time = 0
         self.blackboard = TroopBlackboard()
         self.enter_state(AIState_Idle())
-        
+
     def start_ai(self):
         self.enter_state(AIState_TroopStart())
 
@@ -115,7 +114,7 @@ class TroopController(Controller):
     def update_move(self):
         self.add_rvo_force()
         
-        req = self.move_req
+        req = self.move_comp
         if req and not req.is_done():
             troop = self.get_unit()
             # 位置朝向

@@ -277,12 +277,12 @@ class AIState_MarchToCity(AIState_Troop):
             troop.speed,
             city.radius + troop.radius)
 
-        controller.move_req = req
+        controller.move_comp = req
         controller.look_at_unit(city)
         #print_line(f'enter state: {controller.unit_id}')
 
     def update(self, controller):
-        if controller.move_req.is_done():
+        if controller.move_comp.is_done():
             controller.enter_state(AIState_AttackCity())
 
         blackboard = controller.get_blackboard()
@@ -318,8 +318,8 @@ class AIState_AttackCity(AIState_Troop):
             blackboard.shoot_effect.set_rotation(0, 0, 0)
 
         # 左右横移
-        if not controller.move_req or \
-                controller.move_req.is_done():
+        if not controller.move_comp or \
+                controller.move_comp.is_done():
             city = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
             troop = controller.get_unit()
 
@@ -328,7 +328,7 @@ class AIState_AttackCity(AIState_Troop):
                 *city.get_position(),
                 troop.speed*0.25)
 
-            controller.move_req = req
+            controller.move_comp = req
             controller.look_at_unit(city)
 
         # 是否可以解散了
@@ -371,10 +371,10 @@ class AIState_MarchToPos(AIState_Troop):
         #     troop.speed, 0)
         
         req = StepMoveReq()
-        controller.move_req = req
+        controller.move_comp = req
 
     def update(self, controller):
-        if controller.move_req.is_done():
+        if controller.move_comp.is_done():
             blackboard = controller.get_blackboard()
             if blackboard.target_unit_id != 0:
                 unit = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
