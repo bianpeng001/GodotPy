@@ -77,9 +77,11 @@ class StepMoveReq(BaseMoveReq):
         v.x += controller.rvo_x / troop.mass
         v.z += controller.rvo_z / troop.mass
         
-        s1 = s0 + v * delta_time
-        controller.look_at(s1.x,s1.y,s1.z)
-        troop.set_position(s1.x,s1.y,s1.z)
+        d = v * delta_time
+        if d.sqr_magnitude() > 0.00001:
+            s1 = s0 + d
+            controller.look_at(s1.x,s1.y,s1.z)
+            troop.set_position(s1.x,s1.y,s1.z)
 
         
 #
