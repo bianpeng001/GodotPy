@@ -10,7 +10,7 @@ from game.troop_ai import *
 #
 # 视觉感知
 #
-class AISight:
+class AISightComponent(Component):
     def __init__(self):
         self.tick_time = 0
         
@@ -24,10 +24,15 @@ class AISight:
         # 视野中的单位
         self.unit_dict = {}
         
-    def update(self, controller):
+        self.controller = None
+        
+    def get_controller(self):
+        return self.controller
+        
+    def update(self):
         # 移动过程里, 还要检查周围的敌军, 有一个视野
         self.angle += self.angle_speed
-        controller.viewarea_obj.set_rotation(0, self.angle, 0)
+        get_controller().viewarea_obj.set_rotation(0, self.angle, 0)
         if self.angle >= 30 or self.angle <= -30:
             self.angle_speed *= -1
 
@@ -35,16 +40,16 @@ class AISight:
         self.tick_time += game_mgr.delta_time
         if self.tick_time > 0.1:
             self.tick_time = 0
-            self.check_see_unit(controller)
+            self.check_see_unit()
             
-    def check_see_unit(self, controller):
-        src_unit = controller.get_unit()
+    def check_see_unit(self):
+        src_unit = get_controller().get_unit()
         x,z = src_unit.get_xz()
         sqr_radius = self.radius**2
         
-        if controller.owner_tile:
+        if get_controller().owner_tile:
             #log_debug('check_see_unit', src_unit.unit_name, len(controller.owner_tile.unit_list))
-            for unit in controller.owner_tile.unit_list:
+            for unit in get_controller().owner_tile.unit_list:
                 if unit.unit_id != src_unit.unit_id and \
                         unit.unit_id not in self.unit_dict:
                     x1,z1 = unit.get_xz()
@@ -70,6 +75,20 @@ class AISight:
                 self.unit_dict.pop(unit_id)
 
 #
+# 管理战斗
+#
+class TroopFightComponent(Component):
+    def __init__(self):
+        self.skill_cooldown = 1.0
+        
+    def update(self):
+        if self.skill_cooldown > 0:
+            self.skill_cooldown -= game_mgr.delta_time
+        
+    def is_skill_ready(self):
+        return self.skill_cooldown <= 0
+
+#
 # 这是一个AIController
 # 部队控制，包括特效，动作，位置，朝向...
 #
@@ -81,12 +100,15 @@ class TroopController(Controller):
         self.init_ai()
         # 位移请求
         self.move_comp = None
-
+        # 战斗相关
+        self.fight_comp = TroopFightComponent()
+        self.fight_comp.controller = self
+        # 视觉感知
+        self.sight_comp = AISightComponent()
+        self.sight_comp.controller = self
+        
         # 所在的地块
         self.owner_tile = None
-        
-        # 视觉感知
-        self.sight = AISight()
         
         # rvo 相关, 计算好的加速度
         self.rvo_acce_x = 0
@@ -98,6 +120,7 @@ class TroopController(Controller):
         
         self.add_state('start', AIState_TroopStart())
         self.add_state('idle', AIState_Idle())
+        self.add_state('shoot', AIState_Shoot())
         
         self.goto_state('idle')
 
@@ -169,19 +192,20 @@ class TroopController(Controller):
     def update(self):
         self.update_move()
         self.update_ai()
-        self.sight.update(self)
+        self.sight_comp.update()
+        self.fight_comp.update()
         
     # 对视野里面的单位, 加一个力, 改善重叠和穿插
     def add_rvo_force(self):
         self.rvo_acce_x = self.rvo_acce_y = 0
         
-        if len(self.sight.unit_dict) > 0:
+        if len(self.sight_comp.unit_dict) > 0:
             rvo_sqrdis = game_mgr.config_mgr.rvo_sqrdis
             rvo_factor = game_mgr.config_mgr.rvo_factor
             src_unit = self.get_unit()
             x,z = src_unit.get_xz()
             
-            for unit in self.sight.unit_dict.values():
+            for unit in self.sight_comp.unit_dict.values():
                 if unit.unit_type == UT_TROOP:
                     x1,z1 = unit.get_xz()
                     dx,dz = x-x1,z-z1
@@ -212,6 +236,10 @@ class TroopController(Controller):
         if self.owner_tile:
             self.owner_tile.remove_unit(self.get_unit())
         self.get_unit().set_dead()
+        
+        
+    def get_fight_comp(self):
+        return self.fight_comp
 
 
 

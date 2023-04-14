@@ -10,16 +10,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="BtnHello" type="Button" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
-text = "hello"
+offset_right = 300.0
+offset_bottom = 40.0
 
-[node name="BtnAbout" type="Button" parent="."]
-layout_mode = 0
-offset_top = 31.0
-offset_right = 47.0
-offset_bottom = 62.0
+[node name="BtnAbout" type="Button" parent="HBoxContainer"]
+layout_mode = 2
 theme = ExtResource("1_dn272")
 text = "关于"
+
+[node name="BtnHello" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "hello"

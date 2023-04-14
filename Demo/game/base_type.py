@@ -187,7 +187,17 @@ class Controller(AIMachine):
         if node:
             node.set_position(*self.get_unit().get_position())
 
+
+#
+#
+#
+class Component:
+    def __init__(self):
+        pass
+    
+#
 # UI 面板控制器
+#
 class UIController:
     def __self__(self):
         self.is_visible = True

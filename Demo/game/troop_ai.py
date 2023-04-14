@@ -12,8 +12,10 @@ from game.ground_mgr import pos_to_colrow
 #
 # 移动方式
 #
-class BaseMoveReq:
+class MoveComponent(Component):
     def __init__(self):
+        super().__init__()
+        
         self._done = False
 
         self.start = None
@@ -32,7 +34,7 @@ class BaseMoveReq:
 #
 # 直线
 #
-class LineMoveReq(BaseMoveReq):
+class LineMoveReq(MoveComponent):
     def update(self, troop, delta_time):
         pass
 
@@ -49,29 +51,28 @@ class LineMoveReq(BaseMoveReq):
 #
 # 小步前进, 考虑rvo斥力和障碍
 #
-class StepMoveReq(BaseMoveReq):
+class StepMoveReq(MoveComponent):
     def __init__(self):
         super().__init__()
     
     # 这段这么恶心, 建议放到c++里面去算
     def update(self, troop, delta_time):
-        s0 = Vector3(*troop.get_position())
+        controller = troop.get_controller()
+        blackboard = controller.get_blackboard()
         
-        blackboard = troop.get_controller().get_blackboard()
         if blackboard.target_unit_id > 0:
             unit = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
-            self.stop = Vector3(*unit.get_position())
+            self.dst_pos = Vector3(*unit.get_position())
         else:
             x,z = blackboard.target_pos
-            self.stop = Vector3(x,0,z)
+            self.dst_pos = Vector3(x,0,z)
         
-        delta = self.stop - s0
+        cur_pos = Vector3(*troop.get_position())
+        delta = self.dst_pos - cur_pos
         dis = delta.magnitude()
         if dis <= delta_time*troop.speed:
             self.complete()
             return
-        
-        controller = troop.get_controller()
         
         v = delta * (troop.speed/dis)
         
@@ -82,15 +83,17 @@ class StepMoveReq(BaseMoveReq):
         
         d = v * delta_time
         if d.sqr_magnitude() > 0.00001:
-            s1 = s0 + d
-            controller.look_at(s1.x,s1.y,s1.z)
-            troop.set_position(s1.x,s1.y,s1.z)
+            new_pos = cur_pos + d
+            controller.look_at(new_pos.x,new_pos.y,new_pos.z)
+            troop.set_position(new_pos.x,new_pos.y,new_pos.z)
+        else:
+            # 卡住不动了
+            pass
 
-        
 #
 # 模拟弧线
 #
-class ArcMoveReq(BaseMoveReq):
+class ArcMoveReq(MoveComponent):
     def __init__(self):
         super().__init__()
         
@@ -153,7 +156,7 @@ class ArcMoveReq(BaseMoveReq):
 #
 # 左右移动
 #
-class LeftRightMoveReq(BaseMoveReq):
+class LeftRightMoveReq(MoveComponent):
     def setup(self, x0,y0,z0, x1,y1,z1, speed):
         v0 = Vector3(x0,y0,z0)
         v1 = Vector3(x1,y1,z1)
@@ -202,18 +205,21 @@ class LeftRightMoveReq(BaseMoveReq):
 #
 # 路径移动
 #
-class PathMoveReq(BaseMoveReq):
+class PathMoveReq(MoveComponent):
     def update(self, troop, delta_time):
         pass
     
     def setup(self):
         pass
+    
 
 #----------------------------------------------------------------------------
-# AI State
+# AI 节点
 #----------------------------------------------------------------------------
 
+#
 # 黑板，用于读写信息，状态之间传递数据
+#
 class TroopBlackboard(AIBlackboard):
     def __init__(self):
         super().__init__()
@@ -230,11 +236,14 @@ class TroopBlackboard(AIBlackboard):
     def get_state_time(self):
         return game_mgr.sec_time - self.state_start_time
 
+#
 # troop的state的基类，在enter里面记录开始时间
+#
 class AIState_Troop(AIState):
     def enter(self, controller):
         blackboard = controller.get_blackboard()
         blackboard.state_start_time = game_mgr.sec_time
+        
         self.do_enter(controller)
 
     def do_enter(self, controller):
@@ -307,9 +316,9 @@ class AIState_Idle(AIState_Troop):
             #log_util.debug(f'idle {controller.get_unit().unit_name}')
         pass
 
-#--------------------------------------------------------------------------------
+#
 # 攻城战
-#--------------------------------------------------------------------------------
+#
 class AIState_AttackCity(AIState_Troop):
     def update(self, controller):
         blackboard = controller.get_blackboard()
@@ -369,14 +378,8 @@ class AIState_MarchToPos(AIState_Troop):
         troop = controller.get_unit()
         blackboard = controller.get_blackboard()
 
-        # x,z = blackboard.target_pos
-        # req = ArcMoveReq()
-        # req.setup(troop,
-        #     x,0,z,
-        #     troop.speed, 0)
-        
-        req = StepMoveReq()
-        controller.move_comp = req
+        comp = StepMoveReq()
+        controller.move_comp = comp
 
     def update(self, controller):
         if controller.move_comp.is_done():
@@ -388,9 +391,9 @@ class AIState_MarchToPos(AIState_Troop):
                 else:
                     pass
                 
-                controller.enter_state(AIState_Idle())
+                controller.goto_state('idle')
             else:
-                controller.enter_state(AIState_Idle())
+                controller.goto_state('idle')
         else:
             pass
 
@@ -414,4 +417,13 @@ class AIState_TroopStart(AIState_Troop):
 
 
 
-
+#
+# 射箭
+#
+class AIState_Shoot(AIState_Troop):
+    def update(self, controller):
+        pass
+    
+    def do_enter(self, controller):
+        pass
+    

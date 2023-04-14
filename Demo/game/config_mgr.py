@@ -30,7 +30,8 @@ class HeroConfig(BaseConfig):
 class EffectConfig(BaseConfig):
     def __init__(self):
         self.life_time = 1.0
-        self.res_path = ''
+        #self.rpath = 'res://effects/Shoot01.tscn'
+        self.rpath = ''
 
 class DialogConfig(BaseConfig):
     def __init__(self):
@@ -69,17 +70,30 @@ class ConfigMgr:
 
         self.play_time_scale = 1000
         self.story = StoryConfig()
-
+        
         # 章节
         self.chapter_dict = {}
-        self.load_chapter()
+        self.init_chapter_config()
+        
+        # 特效
+        self.effect_dict = {}
+        self.init_effect_config()
         
         # rvo 参数
         self.rvo_factor = 18
         # rvo 斥力半径, 之外是不提供斥力的, 是距离**2
         self.rvo_sqrdis = 5*5
+        
+    def init_effect_config(self):
+        # 射箭
+        effect = EffectConfig()
+        effect.config_id = 2001
+        effect.life_time = 1.0
+        effect.rpath = 'res://effects/Shoot01.tscn'
+        self.effect_dict[effect.config_id] = effect
+        
 
-    def load_chapter(self):
+    def init_chapter_config(self):
         pass
 
     # 公式也都定义在此, 参数有点多
