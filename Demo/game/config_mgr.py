@@ -74,7 +74,8 @@ class ConfigMgr:
         self.load_chapter()
         
         # rvo 参数
-        self.rvo_factor = 0.3
+        self.rvo_factor = 18
+        # rvo 斥力半径, 之外是不提供斥力的, 是距离**2
         self.rvo_sqr_dis = 5*5
 
     def load_chapter(self):

@@ -74,8 +74,8 @@ class StepMoveReq(BaseMoveReq):
         controller = troop.get_controller()
         
         v = delta * (troop.speed/dis)
-        v.x += controller.rvo_x / troop.mass
-        v.z += controller.rvo_z / troop.mass
+        v.x += controller.rvo_acce_x*delta_time
+        v.z += controller.rvo_acce_y*delta_time
         
         d = v * delta_time
         if d.sqr_magnitude() > 0.00001:

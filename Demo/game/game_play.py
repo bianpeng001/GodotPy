@@ -305,9 +305,9 @@ class GamePlay:
         # 军队的名字, 跟随主将
         troop.chief_hero_id = chief_hero_id
         if chief_hero_id > 0:
-            troop.unit_name = f'{get_hero_name(chief_hero_id)}军'
+            troop.unit_name = f'{get_hero_name(chief_hero_id)}部'
         else:
-            troop.unit_name = f'{city_unit.unit_name}军'
+            troop.unit_name = f'{city_unit.unit_name}部'
 
         return troop
     
