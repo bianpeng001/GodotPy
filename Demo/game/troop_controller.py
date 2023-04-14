@@ -32,7 +32,7 @@ class AISightComponent(Component):
     def update(self):
         # 移动过程里, 还要检查周围的敌军, 有一个视野
         self.angle += self.angle_speed
-        get_controller().viewarea_obj.set_rotation(0, self.angle, 0)
+        self.get_controller().viewarea_obj.set_rotation(0, self.angle, 0)
         if self.angle >= 30 or self.angle <= -30:
             self.angle_speed *= -1
 
@@ -43,13 +43,13 @@ class AISightComponent(Component):
             self.check_see_unit()
             
     def check_see_unit(self):
-        src_unit = get_controller().get_unit()
+        src_unit = self.get_controller().get_unit()
         x,z = src_unit.get_xz()
         sqr_radius = self.radius**2
         
-        if get_controller().owner_tile:
+        if self.get_controller().owner_tile:
             #log_debug('check_see_unit', src_unit.unit_name, len(controller.owner_tile.unit_list))
-            for unit in get_controller().owner_tile.unit_list:
+            for unit in self.get_controller().owner_tile.unit_list:
                 if unit.unit_id != src_unit.unit_id and \
                         unit.unit_id not in self.unit_dict:
                     x1,z1 = unit.get_xz()
@@ -121,6 +121,7 @@ class TroopController(Controller):
         self.add_state('start', AIState_TroopStart())
         self.add_state('idle', AIState_Idle())
         self.add_state('shoot', AIState_Shoot())
+        self.add_state('move_to_pos', AIState_MoveToPos())
         
         self.goto_state('idle')
 

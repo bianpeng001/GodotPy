@@ -229,7 +229,7 @@ class TroopBlackboard(AIBlackboard):
         self.target_unit_id = 0
         self.target_pos = (0, 0)
         
-        self.shoot_effect = None
+        self.enemy_unit_id = 0
         self.attack_time = 0
 
     # 状态持续时间
@@ -373,7 +373,7 @@ class AIState_AttackCity(AIState_Troop):
 #
 # 移动到目标位置, 然后警戒, 现在停在那里即可
 #
-class AIState_MarchToPos(AIState_Troop):
+class AIState_MoveToPos(AIState_Troop):
     def do_enter(self, controller):
         troop = controller.get_unit()
         blackboard = controller.get_blackboard()
@@ -383,19 +383,17 @@ class AIState_MarchToPos(AIState_Troop):
 
     def update(self, controller):
         if controller.move_comp.is_done():
+            controller.goto_state('idle')
+        elif controller.get_fight_comp().is_skill_ready():
+            troop = controller.get_unit()
             blackboard = controller.get_blackboard()
-            if blackboard.target_unit_id != 0:
-                unit = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
-                if unit.unit_type == UT_CITY:
-                    pass
-                else:
-                    pass
-                
-                controller.goto_state('idle')
-            else:
-                controller.goto_state('idle')
-        else:
-            pass
+            
+            sight = controller.sight_comp
+            for unit in sight.unit_dict.values():
+                if not game_mgr.is_league(unit, troop):
+                    blackboard.enemy_unit_id = unit.unit_id
+                    controller.goto_state('shoot')
+                    break
 
 # 起始,根据目标的设置,进行跳转
 class AIState_TroopStart(AIState_Troop):
@@ -408,22 +406,34 @@ class AIState_TroopStart(AIState_Troop):
             unit = game_mgr.unit_mgr.get_unit(troop.target_unit_id)
             blackboard.target_pos = unit.get_xz()
             #controller.enter_state(AIState_MarchToCity())
-            controller.enter_state(AIState_MarchToPos())
+            #controller.enter_state(AIState_MoveToPos())
+            controller.goto_state('move_to_pos')
         else:
             blackboard.target_unit_id = 0
             blackboard.target_pos = troop.target_pos
-            controller.enter_state(AIState_MarchToPos())
-        
-
-
-
+            #controller.enter_state(AIState_MoveToPos())
+            controller.goto_state('move_to_pos')
+            
 #
 # 射箭
 #
 class AIState_Shoot(AIState_Troop):
     def update(self, controller):
-        pass
+        if controller.get_fight_comp().is_skill_ready():
+            controller.goto_state('start')
     
     def do_enter(self, controller):
-        pass
-    
+        blackboard = controller.get_blackboard()
+        fight_comp = controller.get_fight_comp()
+        troop = controller.get_unit()
+        
+        if blackboard.enemy_unit_id != 0:
+            enemy_unit = game_mgr.unit_mgr.get_unit(blackboard.enemy_unit_id)
+            
+            effect_item = game_mgr.effect_mgr.play_effect2(2001)
+            effect_item.set_position(*troop.get_position())
+            #effect_item.look_at()
+            fight_comp.skill_cooldown = 2.0
+            
+            
+            

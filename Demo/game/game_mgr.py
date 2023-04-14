@@ -99,6 +99,10 @@ class GameMgr():
     def get_reuse_list(self):
         self.reuse_list.clear()
         return self.reuse_list
+    
+    # 判断是否同盟
+    def is_league(self, unit_a, unit_b):
+        return unit_a.owner_player_id == unit_b.owner_player_id
 
 game_mgr = GameMgr()
 

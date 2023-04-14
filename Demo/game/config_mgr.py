@@ -31,7 +31,7 @@ class EffectConfig(BaseConfig):
     def __init__(self):
         self.life_time = 1.0
         #self.rpath = 'res://effects/Shoot01.tscn'
-        self.rpath = ''
+        self.res_path = ''
 
 class DialogConfig(BaseConfig):
     def __init__(self):
@@ -89,9 +89,11 @@ class ConfigMgr:
         effect = EffectConfig()
         effect.config_id = 2001
         effect.life_time = 1.0
-        effect.rpath = 'res://effects/Shoot01.tscn'
+        effect.res_path = 'res://effects/Shoot01.tscn'
         self.effect_dict[effect.config_id] = effect
         
+    def get_effect(self, config_id):
+        return self.effect_dict.get(config_id, None)
 
     def init_chapter_config(self):
         pass

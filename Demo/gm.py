@@ -41,6 +41,10 @@ def fix_config():
     config_mgr = game_mgr.config_mgr
     config_mgr.rvo_factor = 0.3
 
+#fix_config()
 
-fix_config()
+def play_effect():
+    effect_item = game_mgr.effect_mgr.play_effect2(2001)
+    effect_item.set_position(0, 0, 0)
 
+play_effect()
