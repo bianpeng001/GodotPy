@@ -49,8 +49,8 @@ class AISight:
                         unit.unit_id not in self.unit_dict:
                     x1,z1 = unit.get_xz()
                     dx,dz = x1-x,z1-z
-                    sqr_dis = dx*dx+dz*dz
-                    if sqr_dis <= sqr_radius:
+                    sqrdis = dx*dx+dz*dz
+                    if sqrdis <= sqr_radius:
                         self.unit_dict[unit.unit_id] = unit
                         log_debug('in sight', src_unit.unit_name, unit.unit_name)
 
@@ -61,8 +61,8 @@ class AISight:
             for unit in self.unit_dict.values():
                 x1,z1 = unit.get_xz()
                 dx,dz = x1-x,z1-z
-                sqr_dis = dx*dx+dz*dz
-                if sqr_dis > sqr_lose_radius:
+                sqrdis = dx*dx+dz*dz
+                if sqrdis > sqr_lose_radius:
                     lose_list.append(unit.unit_id)
                     log_debug('lose sight', src_unit.unit_name, unit.unit_name)
             
@@ -176,7 +176,7 @@ class TroopController(Controller):
         self.rvo_acce_x = self.rvo_acce_y = 0
         
         if len(self.sight.unit_dict) > 0:
-            rvo_sqr_dis = game_mgr.config_mgr.rvo_sqr_dis
+            rvo_sqrdis = game_mgr.config_mgr.rvo_sqrdis
             rvo_factor = game_mgr.config_mgr.rvo_factor
             src_unit = self.get_unit()
             x,z = src_unit.get_xz()
@@ -185,13 +185,13 @@ class TroopController(Controller):
                 if unit.unit_type == UT_TROOP:
                     x1,z1 = unit.get_xz()
                     dx,dz = x-x1,z-z1
-                    sqr_dis = dx*dx+dz*dz
-                    if sqr_dis < 0.0001:
-                        sqr_dis = 0.0001
+                    sqrdis = dx*dx+dz*dz
+                    if sqrdis < 0.0001:
+                        sqrdis = 0.0001
                         dx = random_num(0.001, 0.009)
                         dz = random_num(0.001, 0.009)
-                    if sqr_dis < rvo_sqr_dis:
-                        f = rvo_factor*unit.mass*(1.0/sqr_dis - 1.0/rvo_sqr_dis)
+                    if sqrdis < rvo_sqrdis:
+                        f = rvo_factor*unit.mass*(1.0/sqrdis - 1.0/rvo_sqrdis)
                         self.rvo_acce_x += dx*f
                         self.rvo_acce_y += dz*f
 

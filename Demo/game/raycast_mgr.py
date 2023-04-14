@@ -31,6 +31,7 @@ class RaycastMgr(NodeObject):
             #log_util.debug('click on control, ui event system take over', st=False)
             return
         
+        # 点击点在地面的位置
         x,y,z = camera.screen_to_world(screen_x, screen_y)
         #self.reqs.append((wx, wy, wz))
         #log_debug(f'press: {wx},{wy},{wz}')
@@ -39,13 +40,19 @@ class RaycastMgr(NodeObject):
         # 有可能点到多个单位, 难免会重叠
         tile = game_mgr.ground_mgr.get_tile(x, z)
         if tile:
+            last_sqrdis = 10000
             item_list = []
             for unit in tile.unit_list:
                 unit_x, _, unit_z = unit.get_position()
                 dx = unit_x - x
                 dz = unit_z - z
-                if dx*dx+dz*dz < unit.radius*unit.radius:
-                    item_list.append(unit)
+                sqrdis = dx*dx+dz*dz
+                if sqrdis < unit.radius*unit.radius:
+                    if len(item_list) == 0 or sqrdis < last_sqrdis:
+                        item_list.append(unit)
+                    else:
+                        item_list.insert(-1, unit)
+                    last_sqrdis = sqrdis
 
             if len(item_list) == 0:
                 game_mgr.event_mgr.emit(SCENE_GROUND_CLICK)
@@ -53,9 +60,9 @@ class RaycastMgr(NodeObject):
                 # TODO: 这里以后加条件, 优先点钟军队, 并且得是自己的
                 troops = list(filter(lambda x: x.unit_type == UT_TROOP, item_list))
                 if len(troops) > 0:
-                    game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, troops[0])
+                    game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, troops[-1])
                 else:
-                    game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, item_list[0])
+                    game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, item_list[-1])
 
     def _physics_process(self):
         # camera = game_mgr.camera_mgr.main_camera
