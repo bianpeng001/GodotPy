@@ -74,6 +74,9 @@ class StepMoveReq(BaseMoveReq):
         controller = troop.get_controller()
         
         v = delta * (troop.speed/dis)
+        
+        # 计算rvo的加速对速度增量, 
+        # 这里的*delta_time, 因为比较固定, 感觉可以当做常量合并到rvo_factor
         v.x += controller.rvo_acce_x*delta_time
         v.z += controller.rvo_acce_y*delta_time
         
