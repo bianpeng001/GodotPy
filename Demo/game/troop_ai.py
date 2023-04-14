@@ -216,8 +216,13 @@ class PathMoveReq(BaseMoveReq):
 # 黑板，用于读写信息，状态之间传递数据
 class TroopBlackboard(AIBlackboard):
     def __init__(self):
-        self.target_unit_id = 0
+        super().__init__()
+        
         self.state_start_time = 0
+        
+        self.target_unit_id = 0
+        self.target_pos = (0, 0)
+        
         self.shoot_effect = None
         self.attack_time = 0
 

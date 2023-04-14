@@ -95,10 +95,11 @@ class TroopController(Controller):
     def init_ai(self):
         self.ai_tick_time = 0
         self.blackboard = TroopBlackboard()
-        self.enter_state(AIState_Idle())
-
-    def start_ai(self):
-        self.enter_state(AIState_TroopStart())
+        
+        self.add_state('start', AIState_TroopStart())
+        self.add_state('idle', AIState_Idle())
+        
+        self.goto_state('idle')
 
     def on_ai_tick(self, tick_time):
         #unit = game_mgr.unit_mgr.get_unit(self.unit_id)

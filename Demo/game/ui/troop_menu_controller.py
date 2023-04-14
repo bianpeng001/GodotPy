@@ -49,7 +49,7 @@ class TroopMenuController(UIController, PopupTrait):
             self.troop_unit.target_pos = dialog.target_pos
             
             controller = self.troop_unit.get_controller()
-            controller.start_ai()
+            controller.goto_state('start')
 
         dialog.init_dialog(select_cb)
 

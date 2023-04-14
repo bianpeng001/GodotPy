@@ -16,6 +16,9 @@ class AIMachine:
         #
         self.state_dict = {}
 
+    def get_blackboard(self):
+        return self.blackboard
+    
     def enter_state(self, new_state):
         if self.ai_state:
             self.ai_state.leave(self)
@@ -26,13 +29,14 @@ class AIMachine:
         if self.ai_state:
             self.ai_state.enter(self)
 
-    def get_blackboard(self):
-        return self.blackboard
-    
     def goto_state(self, name):
         state = self.state_dict.get(name, None)
         if state:
             self.enter_state(state)
+
+    def add_state(self, name, state):
+        self.state_dict[name] = state
+        
 
 #
 # AI状态之间交流数据的黑板
