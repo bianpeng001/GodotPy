@@ -40,7 +40,6 @@ class RaycastMgr(NodeObject):
         # 有可能点到多个单位, 难免会重叠
         tile = game_mgr.ground_mgr.get_tile(x, z)
         if tile:
-            last_sqrdis = 10000
             item_list = []
             for unit in tile.unit_list:
                 unit_x, _, unit_z = unit.get_position()
@@ -48,21 +47,17 @@ class RaycastMgr(NodeObject):
                 dz = unit_z - z
                 sqrdis = dx*dx+dz*dz
                 if sqrdis < unit.radius*unit.radius:
-                    if len(item_list) == 0 or sqrdis < last_sqrdis:
-                        item_list.append(unit)
-                    else:
-                        item_list.insert(-1, unit)
-                    last_sqrdis = sqrdis
+                    item_list.append((unit, sqrdis))
 
             if len(item_list) == 0:
                 game_mgr.event_mgr.emit(SCENE_GROUND_CLICK)
             else:
-                # TODO: 这里以后加条件, 优先点钟军队, 并且得是自己的
-                troops = list(filter(lambda x: x.unit_type == UT_TROOP, item_list))
-                if len(troops) > 0:
-                    game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, troops[-1])
-                else:
-                    game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, item_list[-1])
+                item_list.sort(key=lambda x: x[1])
+                
+                a = next(filter(lambda x: x[0].unit_type == UT_TROOP, item_list), None)
+                if not a:
+                    a = item_list[0]
+                game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, a[0])
 
     def _physics_process(self):
         # camera = game_mgr.camera_mgr.main_camera
