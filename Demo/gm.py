@@ -35,7 +35,7 @@ def trigger_mainui():
     show = not ui_mgr.mainui_controller.is_show()
     ui_mgr.show_base_ui(show)
 
-trigger_mainui()
+#trigger_mainui()
 
 def fix_config():
     config_mgr = game_mgr.config_mgr

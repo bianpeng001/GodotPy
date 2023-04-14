@@ -20,7 +20,8 @@ class Effect:
         self.attach_unit = None
 
     def set_visible(self, value):
-        self.node.set_visible(value)
+        if self.node:
+            self.node.set_visible(value)
         
     def load(self):
         if not self.node:
@@ -45,14 +46,15 @@ class EffectMgr:
 
         self.cache_list = []
         self.effect_id_seed = 10000
-        
+    
+    # 从cache复用
     def revive_cache(self, config_id):
         index = -1
         for i in range(len(self.cache_list)):
             if self.cache_list[i].config_id == config_id:
                 index = i
                 break
-            
+        
         if index >= 0:
             return self.cache_list.pop(index)
 
@@ -64,13 +66,15 @@ class EffectMgr:
 
         effect.effect_id = self.effect_id_seed
         self.effect_id_seed += 1
+        effect.time = 0
         effect.set_visible(True)
         
         self.add(effect)
         return effect
     
     def play_effect2(self, config_id):
-        return self.new_effect(config_id)
+        effect_item = self.new_effect(config_id)
+        return effect_item
     
     def play_effect1(self, x,y,z, x1,y1,z1):
         effect = self.new_effect(0)

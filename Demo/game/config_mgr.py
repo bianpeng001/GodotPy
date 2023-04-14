@@ -88,7 +88,7 @@ class ConfigMgr:
         # 射箭
         effect = EffectConfig()
         effect.config_id = 2001
-        effect.life_time = 1.0
+        effect.life_time = 2.0
         effect.res_path = 'res://effects/Shoot01.tscn'
         self.effect_dict[effect.config_id] = effect
         

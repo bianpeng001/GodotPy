@@ -432,8 +432,8 @@ class AIState_Shoot(AIState_Troop):
             
             effect_item = game_mgr.effect_mgr.play_effect2(2001)
             effect_item.set_position(*troop.get_position())
-            #effect_item.look_at()
-            fight_comp.skill_cooldown = 2.0
+            effect_item.look_at(*enemy_unit.get_position())
+            fight_comp.skill_cooldown = 4.0
             
             
             

@@ -3,7 +3,6 @@
 [ext_resource type="ArrayMesh" uid="uid://b8rp43vj206hq" path="res://effects/Arrow01.obj" id="1_axbgf"]
 
 [node name="Shoot01" type="Node3D"]
-visible = false
 
 [node name="CPUParticles3D" type="CPUParticles3D" parent="."]
 cast_shadow = 0
