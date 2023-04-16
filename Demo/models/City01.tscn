@@ -41,6 +41,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.19374, 0, 1)
 mesh = ExtResource("8_om5q3")
 
 [node name="Flag" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.433013, 0, -0.25, 0, 0.5, 0, 0.25, 0, 0.433013, 0, 0, 0.955478)
+transform = Transform3D(0.34641, 0, -0.2, 0, 0.4, 0, 0.2, 0, 0.34641, 0.00880103, 0, 1.52146)
 mesh = ExtResource("7_iq06m")
 surface_material_override/1 = ExtResource("9_fhx6e")
