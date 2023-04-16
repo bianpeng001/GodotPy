@@ -300,6 +300,8 @@ class Tile:
             pos_x,pos_z = self.get_center_pos()
 
             self.city_unit = game_mgr.unit_mgr.create_city()
+            self.add_unit(self.city_unit)
+
             if random_100() < 50:
                 self.city_unit.model_type = 2
 
@@ -308,7 +310,6 @@ class Tile:
                 round(pos_x + random_x()*5),
                 0,
                 round(pos_z + random_x()*5))
-            self.add_unit(self.city_unit)
             
             # 生成一段小路
             if random_100() < 30:

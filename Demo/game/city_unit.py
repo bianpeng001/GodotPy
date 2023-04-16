@@ -113,6 +113,7 @@ class CityUnit(Unit, UnitTrait):
 
         self.get_controller().apply_position()
         self.get_controller().set_title(self.unit_name)
+        self.get_controller().set_flag_color()
 
 
 

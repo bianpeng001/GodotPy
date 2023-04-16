@@ -113,6 +113,9 @@ class CameraMgr(NodeObject):
     def get_focus_xz(self):
         return self.focus.x, self.focus.z
 
+    def get_focus_xyz(self):
+        return self.focus.x,self.focus.y,self.focus.z
+
     # 设置目标,然后快速飞过去
     def set_target_focus(self,x,y,z):
         self.target_focus.set(x,y,z)

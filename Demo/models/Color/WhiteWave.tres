@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cxntykwf1sxkq"]
+
+[ext_resource type="Shader" path="res://models/Color/FlagWave.gdshader" id="1_rajcc"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_rajcc")
+shader_parameter/_width = 0.16
+shader_parameter/_repeat = 2.5
+shader_parameter/_period = 3.0
+shader_parameter/_color = Color(1, 1, 1, 1)

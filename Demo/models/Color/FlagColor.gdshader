@@ -19,6 +19,7 @@ void vertex() {
 	mat_rot_y[2][2] = x;
 	
 	VERTEX = (MODELVIEW_MATRIX * mat_rot_y * vec4(VERTEX, 1.0)).xyz;
+	//VERTEX = (MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
 	NORMAL = normalize((MODELVIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
 }
 
