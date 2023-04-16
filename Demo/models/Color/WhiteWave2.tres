@@ -5,7 +5,7 @@
 [resource]
 render_priority = 0
 shader = ExtResource("1_h3a6w")
-shader_parameter/_width = 0.1
-shader_parameter/_repeat = 2.5
+shader_parameter/_width = 0.09
+shader_parameter/_repeat = 3.0
 shader_parameter/_period = 3.0
 shader_parameter/_color = Color(1, 1, 1, 1)
