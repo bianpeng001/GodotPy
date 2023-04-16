@@ -24,6 +24,7 @@ mesh = ExtResource("5_6bb84")
 
 [node name="Flag" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 1.7, 0)
+cast_shadow = 0
 mesh = ExtResource("5_3mvta")
 surface_material_override/1 = ExtResource("6_i4tqq")
 
