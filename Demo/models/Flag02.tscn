@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://mtuyndfhr7th"]
 
 [ext_resource type="ArrayMesh" uid="uid://juxul5g3riay" path="res://models/Flag05.obj" id="1_jweew"]
-[ext_resource type="Material" uid="uid://duggh4sh3fnm4" path="res://models/Color/FlagTroop.tres" id="2_twaan"]
+[ext_resource type="Material" uid="uid://dlux40th0ts88" path="res://models/Color/FlagTarget.tres" id="2_khwaw"]
 
 [node name="Flag02" type="Node3D"]
 
@@ -9,4 +9,4 @@
 transform = Transform3D(0.433013, 0, -0.25, 0, 0.5, 0, 0.25, 0, 0.433013, 0, 0, 0)
 cast_shadow = 0
 mesh = ExtResource("1_jweew")
-surface_material_override/1 = ExtResource("2_twaan")
+surface_material_override/1 = ExtResource("2_khwaw")
