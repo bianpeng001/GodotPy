@@ -144,6 +144,10 @@ class UIMgr(NodeObject):
         _, self.cmd_panel_controller = self.load_panel(
                 'res://ui/CmdPanel.tscn', CmdPanelController)
         
+        from game.ui.sys_panel_controller import SysPanelController
+        _, self.sys_panel_controller = self.load_panel(
+                'res://ui/SysPanel.tscn', SysPanelController)
+        
         # load done
         log_debug('ui panels load ok')
 

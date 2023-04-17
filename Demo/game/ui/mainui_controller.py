@@ -9,7 +9,7 @@ from game.game_mgr import *
 from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
 from game.event_name import PRESSED, MAINUI_REFRESH, KEY_PRESS
-from game.input_mgr import KEY_F9
+from game.input_mgr import KEY_F9, KEY_ESC
 
 # 头顶主界面逻辑
 class MainUIController(UIController, PopupTrait):
@@ -30,7 +30,7 @@ class MainUIController(UIController, PopupTrait):
         self.refresh_time = game_mgr.sec_time
         self.refresh_frame_number = game_mgr.frame_number
 
-        btn_labels = ['系统', '读档', '存档', '地图', '战报', '执行', '势力']
+        btn_labels = ['地图', '战报', '势力', '执行']
         btn_1 = self.ui_obj.find_node('Btn1')
         btn_list = [btn_1.dup() for i in range(len(btn_labels) - 1)]
         btn_list.append(btn_1)
@@ -45,10 +45,10 @@ class MainUIController(UIController, PopupTrait):
             index = btn_labels.index(s)
             return btn_list[index]
 
-        get_btn('系统').connect(PRESSED, self.on_setting_click)
+        #get_btn('系统').connect(PRESSED, self.on_setting_click)
         get_btn('地图').connect(PRESSED, self.on_map_click)
         get_btn('执行').connect(PRESSED, self.on_gm_click)
-        get_btn('存档').connect(PRESSED, self.on_save_click)
+        #get_btn('存档').connect(PRESSED, self.on_save_click)
         
         game_mgr.event_mgr.add(KEY_PRESS, self.on_key_press)
 
@@ -63,6 +63,14 @@ class MainUIController(UIController, PopupTrait):
     def on_key_press(self, keycode):
         if keycode == KEY_F9:
             self.on_gm_click()
+        elif keycode == KEY_ESC:
+            self.on_sys_panel()
+            
+    def on_sys_panel(self):
+        if game_mgr.ui_mgr.sys_panel_controller.is_show():
+            game_mgr.ui_mgr.sys_panel_controller.hide()
+        else:
+            game_mgr.ui_mgr.sys_panel_controller.popup_screen_center()
 
     def on_gm_click(self):
         if self.gm_file_path:

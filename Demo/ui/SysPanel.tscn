@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://dai8pd4v8ho0q"]
+
+[ext_resource type="Texture2D" uid="uid://cc30s5tslacke" path="res://ui/img/bg4.png" id="1_ewq1q"]
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="2_bwlot"]
+[ext_resource type="StyleBox" uid="uid://bn2js0rroor7y" path="res://ui/BtnEmptyStyle.tres" id="3_sgnbe"]
+
+[node name="SysPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -972.0
+offset_bottom = -408.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="NinePatchRect" parent="."]
+self_modulate = Color(0.156863, 0.156863, 0.156863, 1)
+layout_mode = 0
+offset_right = 180.0
+offset_bottom = 240.0
+texture = ExtResource("1_ewq1q")
+region_rect = Rect2(0, 0, 64, 64)
+patch_margin_left = 15
+patch_margin_top = 15
+patch_margin_right = 15
+patch_margin_bottom = 15
+
+[node name="Button1" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 20.0
+offset_right = 128.0
+offset_bottom = 43.0
+theme = ExtResource("2_bwlot")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/focus = ExtResource("3_sgnbe")
+text = "返回游戏"
