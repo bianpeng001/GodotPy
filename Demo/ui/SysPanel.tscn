@@ -9,16 +9,16 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -972.0
-offset_bottom = -408.0
+offset_right = -912.0
+offset_bottom = -348.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="NinePatchRect" parent="."]
 self_modulate = Color(0.156863, 0.156863, 0.156863, 1)
 layout_mode = 0
-offset_right = 180.0
-offset_bottom = 240.0
+offset_right = 240.0
+offset_bottom = 300.0
 texture = ExtResource("1_ewq1q")
 region_rect = Rect2(0, 0, 64, 64)
 patch_margin_left = 15
@@ -28,11 +28,11 @@ patch_margin_bottom = 15
 
 [node name="Button1" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 48.0
-offset_top = 20.0
-offset_right = 128.0
-offset_bottom = 43.0
+offset_left = 70.0
+offset_top = 40.0
+offset_right = 170.0
+offset_bottom = 70.0
 theme = ExtResource("2_bwlot")
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 20
 theme_override_styles/focus = ExtResource("3_sgnbe")
 text = "返回游戏"
