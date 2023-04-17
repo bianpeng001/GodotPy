@@ -27,7 +27,6 @@ python_class = "CameraMgr"
 
 [node name="MainCamera" type="Camera3D" parent="CameraMgr"]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 15, 20, 15)
-visible = false
 cull_mask = 1047551
 environment = ExtResource("1_53tvn")
 current = true
