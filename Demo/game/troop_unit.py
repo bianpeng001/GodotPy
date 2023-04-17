@@ -16,13 +16,14 @@ class TroopUnit(Unit, UnitTrait):
         self._controller = TroopController()
         self._controller._unit = self
 
+        # 基本特征参数
+        self.radius = 3
         # 所属城
         self.owner_city_id = None
-        self.radius = 3
         # 行军速度
         self.speed = 0.6
 
-        # 武将
+        # 武将列表
         self.hero_list = []
         # 主将
         self.chief_hero_id = 0
@@ -39,7 +40,6 @@ class TroopUnit(Unit, UnitTrait):
         # TODO: 这几个数据, 也许不应该放在这里
         self.target_pos = (0, 0)
         self.target_unit_id = 0
-        
         # 追逐目标
         self.chase_target = False
 

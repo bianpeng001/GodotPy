@@ -89,6 +89,20 @@ class TroopFightComponent(Component):
         return self.skill_cooldown <= 0
 
 #
+# 部队的思考组件
+#
+class TroopBrainComponent(Component):
+    def __init__(self):
+        pass
+    
+    def update(self):
+        pass
+    
+    def goto_state(self, name):
+        pass
+    
+
+#
 # 这是一个AIController
 # 部队控制，包括特效，动作，位置，朝向...
 #
@@ -106,6 +120,9 @@ class TroopController(Controller):
         # 视觉感知
         self.sight_comp = AISightComponent()
         self.sight_comp.controller = self
+        # brain
+        self.brain_comp = TroopBrainComponent()
+        self.brain_comp.controller = self
         
         # 所在的地块
         self.owner_tile = None
@@ -158,10 +175,12 @@ class TroopController(Controller):
 
     def start(self):
         self.get_unit().load_model()
-
         node = self.get_model_node()
-        self.viewarea_obj = node.find_node('ViewArea')
         if node:
+            # 视野显示
+            self.viewarea_obj = node.find_node('ViewArea')
+            
+            # 初始化士兵的数量
             if self.get_unit().model_type == 2:
                 anim_name = "SoldierAnimLib/Run"
                 for i in range(2, 11):
@@ -242,5 +261,8 @@ class TroopController(Controller):
     def get_fight_comp(self):
         return self.fight_comp
 
-
+    def get_brain_comp(self):
+        return self.brain_comp
+    
+    
 
