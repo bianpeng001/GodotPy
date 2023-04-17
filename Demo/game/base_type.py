@@ -14,7 +14,7 @@ class AIMachine:
         # blackboard
         self.blackboard = None
         #
-        self.state_dict = {}
+        self.state_dict = { }
 
     def get_blackboard(self):
         return self.blackboard
@@ -33,6 +33,9 @@ class AIMachine:
         state = self.state_dict.get(name, None)
         if state:
             self.enter_state(state)
+            
+        if state and self.get_unit():
+            log_debug(self.get_unit().unit_name, name)
 
     def add_state(self, name, state):
         self.state_dict[name] = state

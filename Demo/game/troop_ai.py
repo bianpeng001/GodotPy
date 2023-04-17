@@ -30,6 +30,9 @@ class MoveComponent(Component):
 
     def is_done(self):
         return self._done
+    
+    def restart(self):
+        self._done = False
 
 #
 # 直线
@@ -378,8 +381,9 @@ class AIState_MoveToPos(AIState_Troop):
         troop = controller.get_unit()
         blackboard = controller.get_blackboard()
 
-        comp = StepMoveReq()
-        controller.move_comp = comp
+        if not controller.move_comp:
+            controller.move_comp = StepMoveReq()
+        controller.move_comp.restart()
 
     def update(self, controller):
         if controller.move_comp.is_done():
@@ -392,10 +396,16 @@ class AIState_MoveToPos(AIState_Troop):
             for unit in sight.unit_dict.values():
                 if not game_mgr.is_league(unit, troop):
                     blackboard.enemy_unit_id = unit.unit_id
+                    
+                    # 停下来, 原地射击, 等到目标死亡,离开, 再决策
+                    controller.move_comp.complete()
                     controller.goto_state('shoot')
+                    
                     break
 
+#
 # 起始,根据目标的设置,进行跳转
+#
 class AIState_TroopStart(AIState_Troop):
     def update(self, controller):
         troop = controller.get_unit()
@@ -413,27 +423,36 @@ class AIState_TroopStart(AIState_Troop):
             blackboard.target_pos = troop.target_pos
             #controller.enter_state(AIState_MoveToPos())
             controller.goto_state('move_to_pos')
-            
+
 #
 # 射箭
 #
 class AIState_Shoot(AIState_Troop):
-    def update(self, controller):
-        if controller.get_fight_comp().is_skill_ready():
-            controller.goto_state('start')
-    
     def do_enter(self, controller):
         blackboard = controller.get_blackboard()
         fight_comp = controller.get_fight_comp()
         troop = controller.get_unit()
         
-        if blackboard.enemy_unit_id != 0:
+        # 检查技能cd, 攻击目标, 否则就结束
+        #log_debug('shoot', fight_comp.is_skill_ready(), blackboard.enemy_unit_id)
+        if fight_comp.is_skill_ready() and \
+                blackboard.enemy_unit_id != 0:
             enemy_unit = game_mgr.unit_mgr.get_unit(blackboard.enemy_unit_id)
-            
             effect_item = game_mgr.effect_mgr.play_effect2(2001)
             effect_item.set_position(*troop.get_position())
             effect_item.look_at(*enemy_unit.get_position())
             fight_comp.skill_cooldown = 4.0
             
-            
-            
+        blackboard.shoot_time = 0
+        
+    def update(self, controller):
+        blackboard = controller.get_blackboard()
+        blackboard.shoot_time += game_mgr.delta_time
+        
+        #log_debug(blackboard.shoot_time)
+        if blackboard.shoot_time > 0.3:
+            controller.goto_state('start')
+
+
+
+

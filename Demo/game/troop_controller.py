@@ -124,7 +124,7 @@ class TroopController(Controller):
         self.add_state('move_to_pos', AIState_MoveToPos())
         
         self.goto_state('idle')
-
+        
     def on_ai_tick(self, tick_time):
         #unit = game_mgr.unit_mgr.get_unit(self.unit_id)
         #print_line(unit.unit_name)
