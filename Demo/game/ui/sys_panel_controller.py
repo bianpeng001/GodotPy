@@ -27,6 +27,6 @@ class SysPanelController(UIController, PopupTrait):
             btn.set_text(label)
             btn.set_position(x,y)
             btn.set_visible(True)
-            y += 44
+            y += 48
             
 

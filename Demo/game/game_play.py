@@ -22,9 +22,10 @@ class GamePlay:
         from game.player_mgr import PlayerMgr
         from game.hero_mgr import HeroMgr
         from game.unit_mgr import UnitMgr
+        from game.skill_mgr import SkillMgr
         from game.effect_mgr import EffectMgr
-        from game.game_data import GameData
         from game.hud_mgr import HUDMgr
+        from game.game_data import GameData
         
         game_mgr.player_mgr = PlayerMgr()
         game_mgr.hero_mgr = HeroMgr()
@@ -33,6 +34,7 @@ class GamePlay:
         game_mgr.game_data = GameData()
         game_mgr.config_mgr = ConfigMgr()
         game_mgr.hud_mgr = HUDMgr()
+        game_mgr.skill_mgr = SkillMgr()
 
         game_mgr.hud_mgr.setup()
         
