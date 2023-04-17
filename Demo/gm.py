@@ -9,8 +9,6 @@ main_camera = game_mgr.camera_mgr.main_camera
 
 #game_mgr.enable_city_ai = True
 
-
-
 #print(ui_mgr.build_panel_controller.is_visible)
 
 def show_story():
@@ -34,7 +32,7 @@ def trigger_mainui():
     show = not ui_mgr.mainui_controller.is_show()
     ui_mgr.show_base_ui(show)
 
-#trigger_mainui()
+trigger_mainui()
 
 def fix_config():
     config_mgr = game_mgr.config_mgr
@@ -47,6 +45,6 @@ def play_effect():
     x,y,z = game_mgr.camera_mgr.get_focus_xyz()
     effect_item.set_position(x,y,z)
 
-play_effect()
+#play_effect()
 
 
