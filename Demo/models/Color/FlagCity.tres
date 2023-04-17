@@ -7,5 +7,5 @@ render_priority = 0
 shader = ExtResource("1_5q8xl")
 shader_parameter/_width = 0.12
 shader_parameter/_repeat = 1.8
-shader_parameter/_period = 3.0
+shader_parameter/_period = 8.0
 shader_parameter/_color = Color(1, 1, 1, 1)
