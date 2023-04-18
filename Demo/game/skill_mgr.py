@@ -27,7 +27,6 @@ class SkillItem:
         log_debug('skill complete', self.item_id, self.config_id)
         if self.on_complete_cb:
             self.on_complete_cb()
-    
 
 #
 # 技能管理
