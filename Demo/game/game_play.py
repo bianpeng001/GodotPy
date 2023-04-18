@@ -309,7 +309,7 @@ class GamePlay:
         if chief_hero_id > 0:
             troop.unit_name = f'{get_hero_name(chief_hero_id)}部'
         else:
-            troop.unit_name = f'{city_unit.unit_name}部'
+            troop.unit_name = f'{city_unit.unit_name}军'
 
         return troop
     
@@ -318,9 +318,6 @@ class GamePlay:
     # 释放技能, 伤害结算....
     def cast_skill(self, skill_config_id, src_unit, target_unit):
         cfg = game_mgr.config_mgr.get_skill(skill_config_id)
-        
-        # 技能的生命周期, 注册一个
-        game_mgr.skill_mgr.create_skill_item(skill_config_id)
         
         # 放特效
         effect_item = game_mgr.effect_mgr.play_effect2(cfg.effect_id)
@@ -332,17 +329,20 @@ class GamePlay:
         src_fight_comp = src_controller.get_fight_comp()
         src_fight_comp.skill_cooldown = cfg.cooldown
         
-        damage = game_mgr.config_mgr.calc_skill_damage(
-                skill_config_id,
-                src_unit,
-                target_unit)
+        def on_complete():
+            # 结算伤害, 或者是等结束再结算?
+            damage = game_mgr.config_mgr.calc_skill_damage(
+                    skill_config_id,
+                    src_unit,
+                    target_unit)
+            
+            target_unit.army_amount.add(-damage)
+            log_debug('skill damage', damage, target_unit.army_amount.get_value())
+            if target_unit.army_amount.get_value() <= 0:
+                log_debug('target die', target_unit.unit_name)
         
-        target_unit.army_amount.add(-damage)
-        log_debug('skill damage', damage, target_unit.army_amount.get_value())
-        if target_unit.army_amount.get_value() <= 0:
-            log_debug('target die', target_unit.unit_name)
+        # 技能的生命周期, 注册一个
+        game_mgr.skill_mgr.create_skill_item(skill_config_id, on_complete)
 
-        
-        
-    
+
 

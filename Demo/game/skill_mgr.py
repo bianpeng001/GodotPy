@@ -15,6 +15,7 @@ class SkillItem:
         self.config_id = config_id
         self.life_time = 1
         self.time = 0
+        self.on_complete_cb = None
 
     def update(self):
         pass
@@ -24,6 +25,8 @@ class SkillItem:
     
     def on_complete(self):
         log_debug('skill complete', self.item_id, self.config_id)
+        if self.on_complete_cb:
+            self.on_complete_cb()
     
 
 #
@@ -55,7 +58,7 @@ class SkillMgr:
         self.item_list.append(item)
         
     # 释放技能
-    def create_skill_item(self, config_id):
+    def create_skill_item(self, config_id, on_complete_cb = None):
         cfg = game_mgr.config_mgr.get_skill(config_id)
         self.next_item_id += 1
         
@@ -63,6 +66,7 @@ class SkillMgr:
         item.item_id = self.next_item_id
         item.time = 0
         item.life_time = cfg.life_time
+        item.on_complete_cb = on_complete_cb
         
         self.add_skill(item)
         item.on_start()
