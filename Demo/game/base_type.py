@@ -19,7 +19,7 @@ class AIMachine:
     def get_blackboard(self):
         return self.blackboard
     
-    def enter_state(self, new_state):
+    def _enter_state(self, new_state):
         if self.ai_state:
             self.ai_state.leave(self)
             self.ai_state = None
@@ -32,7 +32,7 @@ class AIMachine:
     def goto_state(self, name):
         state = self.state_dict.get(name, None)
         if state:
-            self.enter_state(state)
+            self._enter_state(state)
             
         if state and self.get_unit():
             log_debug(self.get_unit().unit_name, name)
@@ -77,34 +77,37 @@ class AISelector(AIState):
     def __init__(self):
         pass
 
-#------------------------------------------------------------
 #
-#------------------------------------------------------------
-
 # 单位类型
+#
+
 # 城池
 UT_CITY = 1
 # 军队
 UT_TROOP = 2
 
+#
 # 场景中的单位
+#
 class Unit:
     def __init__(self):
-        self.unit_type = None
-
         # 控制器
         self._controller = None
 
         # 身份
         self.unit_id = 0
         self.unit_name = ''
+        # 类型
+        self.unit_type = None
         # 所属君主
         self.owner_player_id = None
 
         # 伤害，防御
         self.damage = 0
         self.defense = 0
-        self.maxhp = self.hp = 100
+        self.level = 1
+        #self.maxhp = self.hp = 100
+        self.army_amount = LimitValue(0, 1000)
 
         # 生死存亡
         self.is_dead = False
@@ -247,8 +250,10 @@ class LimitValue:
 
     def add(self, delta):
         self.value += delta
-        if self.value >= self.value_limit:
+        if self.value > self.value_limit:
             self.value = self.value_limit
+        elif self.value < 0:
+            self.value = 0
 
     def get_value(self):
         return round(self.value)

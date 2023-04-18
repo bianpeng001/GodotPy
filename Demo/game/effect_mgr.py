@@ -5,7 +5,7 @@
 from game.core import log_debug, OS
 from game.game_mgr import *
 
-class Effect:
+class EffectItem:
     def __init__(self, config_id):
         self.config_id = config_id
         
@@ -13,7 +13,7 @@ class Effect:
         self.life_time = cfg.life_time
         self.res_path = cfg.res_path
         
-        self.effect_id = 0
+        self.item_id = 0
         self.node = None
         self.time = 0
         # 吸附到目标单位
@@ -45,7 +45,7 @@ class EffectMgr:
         self.back_effect_list = []
 
         self.cache_list = []
-        self.effect_id_seed = 10000
+        self.next_item_id = 10000
     
     # 从cache复用
     def revive_cache(self, config_id):
@@ -61,11 +61,11 @@ class EffectMgr:
     def new_effect(self, config_id):
         effect = self.revive_cache(config_id)
         if not effect:
-            effect = Effect(config_id)
+            effect = EffectItem(config_id)
             effect.load()
 
-        effect.effect_id = self.effect_id_seed
-        self.effect_id_seed += 1
+        self.next_item_id += 1
+        effect.item_id = self.next_item_id
         effect.time = 0
         effect.set_visible(True)
         
@@ -106,5 +106,5 @@ class EffectMgr:
                     effect.set_visible(False)
                     self.cache_list.append(effect)
             self.back_effect_list.clear()
-            
+
 

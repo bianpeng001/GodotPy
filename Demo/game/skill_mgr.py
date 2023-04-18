@@ -6,10 +6,12 @@ from game.core import log_debug
 from game.game_mgr import *
 
 #
-# 一个技能, 可能有多个阶段组成.
+# 一个技能, 可能有多个阶段组成
+# 用来控制技能的生命周期, 以及事件触发. 这个管理器后面可能会更加复杂一些.
 #
 class SkillItem:
     def __init__(self, config_id):
+        self.item_id = 0
         self.config_id = config_id
         self.life_time = 1
         self.time = 0
@@ -18,10 +20,10 @@ class SkillItem:
         pass
     
     def on_start(self):
-        pass
+        log_debug('skill start', self.item_id, self.config_id)
     
     def on_complete(self):
-        pass
+        log_debug('skill complete', self.item_id, self.config_id)
     
 
 #
@@ -31,6 +33,7 @@ class SkillMgr:
     def __init__(self):
         self.item_list = []
         self.back_item_list = []
+        self.next_item_id = 10000
 
     def update(self, delta_time):
         tmp = self.item_list
@@ -52,16 +55,16 @@ class SkillMgr:
         self.item_list.append(item)
         
     # 释放技能
-    def cast_skill(self, config_id):
+    def create_skill_item(self, config_id):
         cfg = game_mgr.config_mgr.get_skill(config_id)
+        self.next_item_id += 1
+        
         item = SkillItem(config_id)
+        item.item_id = self.next_item_id
         item.time = 0
         item.life_time = cfg.life_time
+        
         self.add_skill(item)
         item.on_start()
         
-        
-
-
-
-
+        return item

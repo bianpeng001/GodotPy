@@ -7,7 +7,7 @@ from game.base_type import Unit, LimitValue
 from game.troop_controller import TroopController
 
 #
-# 军团
+# 部队
 #
 class TroopUnit(Unit, UnitTrait):
     def __init__(self):
@@ -29,7 +29,8 @@ class TroopUnit(Unit, UnitTrait):
         self.chief_hero_id = 0
 
         # 军队数量
-        self.army_amount = 0
+        self.army_amount = LimitValue(0, 1000)
+        
         # 士气
         self.army_moral = 100
 

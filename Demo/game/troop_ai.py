@@ -438,10 +438,7 @@ class AIState_Shoot(AIState_Troop):
         if fight_comp.is_skill_ready() and \
                 blackboard.enemy_unit_id != 0:
             enemy_unit = game_mgr.unit_mgr.get_unit(blackboard.enemy_unit_id)
-            effect_item = game_mgr.effect_mgr.play_effect2(2001)
-            effect_item.set_position(*troop.get_position())
-            effect_item.look_at(*enemy_unit.get_position())
-            fight_comp.skill_cooldown = 4.0
+            game_mgr.game_play.cast_skill(3001, troop, enemy_unit)
             
         blackboard.shoot_time = 0
         

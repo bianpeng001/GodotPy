@@ -44,6 +44,8 @@ class CityUnit(Unit, UnitTrait):
 
         # 士气
         self.army_moral = 50
+        self.defense = 100
+        
         # 治安,农业，商业的发展程度
         self.order_points = 50
         self.farmer_points = 50

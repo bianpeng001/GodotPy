@@ -102,7 +102,9 @@ class ConfigMgr:
         skill = SkillConfig()
         skill.config_id = 3001
         skill.effect_id = 2001
-        skill.life_time = 5.0
+        skill.life_time = 1.0
+        skill.cooldown = 4.0
+        # 伤害每千人
         skill.damage = 200
         self.skill_dict[skill.config_id] = skill
         
@@ -124,6 +126,19 @@ class ConfigMgr:
         pass
 
     # 公式也都定义在此, 参数有点多
+    
+    def calc_skill_damage(self, skill_config_id, src_troop, target_unit):
+        cfg = self.get_skill(skill_config_id)
+        
+        f1 = src_troop.army_amount / 1000 + src_troop.level*0.8
+        f2 = src_troop.army_moral / 100
+        value = cfg.damage * f1 * f2
+        
+        value = round(value - target_unit.defense)
+        if value <= 0:
+            value = 1
+            
+        return value
 
     # 伤害结算
     def calc_damage(self, 
