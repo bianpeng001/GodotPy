@@ -2,7 +2,7 @@
 # 2023年2月6日 bianpeng
 #
 
-from game.core import *
+from game.core import log_debug, OS
 from game.game_mgr import game_mgr
 from game.base_type import UT_CITY, UT_TROOP
 
@@ -168,7 +168,7 @@ class UIMgr(NodeObject):
         self.load_complete = True
 
     def load_panel(self, path, cls):
-        ui_obj = FNode3D.instantiate(path)
+        ui_obj = OS.instantiate(path)
         ui_obj.reparent(self.get_obj())
 
         controller = cls()
