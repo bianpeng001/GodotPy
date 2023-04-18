@@ -2,7 +2,7 @@
 # 2023年2月6日 bianpeng
 #
 
-from game.core import log_debug, OS
+from game.core import log_debug, OS, NodeObject
 from game.game_mgr import game_mgr
 from game.base_type import UT_CITY, UT_TROOP
 
