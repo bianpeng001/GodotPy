@@ -89,7 +89,6 @@ class StepMoveReq(MoveComponent):
             new_pos = cur_pos + d
             controller.look_at(new_pos.x,new_pos.y,new_pos.z)
             troop.set_position(new_pos.x,new_pos.y,new_pos.z)
-        
 
 #
 # 模拟弧线
