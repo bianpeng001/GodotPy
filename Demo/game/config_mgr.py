@@ -130,7 +130,7 @@ class ConfigMgr:
     def calc_skill_damage(self, skill_config_id, src_troop, target_unit):
         cfg = self.get_skill(skill_config_id)
         
-        f1 = src_troop.army_amount / 1000 + src_troop.level*0.8
+        f1 = src_troop.army_amount.value / 1000 + src_troop.level*0.8
         f2 = src_troop.army_moral / 100
         value = cfg.damage * f1 * f2
         

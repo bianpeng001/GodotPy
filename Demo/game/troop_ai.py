@@ -84,14 +84,8 @@ class StepMoveReq(MoveComponent):
         v.x += controller.rvo_acce_x*delta_time
         v.z += controller.rvo_acce_y*delta_time
         
-        if v.sqr_magnitude() < 0.001:
-            # 卡住不动了, 需要一点点往右的力
-            right = delta.cross(Vector3(0, 1, 0)) * (1/dis)
-            v.x += right.x*0.01
-            v.z += right.z*0.01
-        
         d = v * delta_time
-        if d.sqr_magnitude() > 0.0001:
+        if d.sqr_magnitude() > 0.00005:
             new_pos = cur_pos + d
             controller.look_at(new_pos.x,new_pos.y,new_pos.z)
             troop.set_position(new_pos.x,new_pos.y,new_pos.z)

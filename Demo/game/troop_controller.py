@@ -2,7 +2,7 @@
 # 2023年2月1日 bianpeng
 #
 
-from game.core import log_debug
+from game.core import log_debug, random_num
 from game.game_mgr import *
 from game.base_type import *
 from game.troop_ai import *
