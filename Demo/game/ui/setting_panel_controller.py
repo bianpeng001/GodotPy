@@ -25,6 +25,8 @@ class SettingPanelController(UIController, PopupTrait):
     def init(self):
         self.enable_city_ai = game_mgr.enable_city_ai
         self.check_city_ai.set_pressed(self.enable_city_ai)
+        
+        self.popup_screen_center()
 
     def on_ok_click(self):
         #self.defer_close()

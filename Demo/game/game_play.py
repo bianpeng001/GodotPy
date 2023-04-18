@@ -339,10 +339,14 @@ class GamePlay:
             target_unit.army_amount.add(-damage)
             log_debug('skill damage', damage, target_unit.army_amount.get_value())
             if target_unit.army_amount.get_value() <= 0:
-                log_debug('target die', target_unit.unit_name)
+                
+                game_mgr.game_play.occupy_city(src_unit, target_unit)
         
         # 技能的生命周期, 注册一个
         game_mgr.skill_mgr.create_skill_item(skill_config_id, on_complete)
 
+    # 占领
+    def occupy_city(self, src_unit, target_unit):
+        log_debug('occupy', src_unit.unit_name, target_unit.unit_name)
 
 

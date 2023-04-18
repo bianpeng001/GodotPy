@@ -67,10 +67,11 @@ class MainUIController(UIController, PopupTrait):
             self.on_sys_panel()
             
     def on_sys_panel(self):
-        if game_mgr.ui_mgr.sys_panel_controller.is_show():
-            game_mgr.ui_mgr.sys_panel_controller.hide()
+        panel = game_mgr.ui_mgr.sys_panel_controller
+        if panel.is_show():
+            panel.hide()
         else:
-            game_mgr.ui_mgr.sys_panel_controller.popup_screen_center()
+            panel.init()
 
     def on_gm_click(self):
         if self.gm_file_path:
@@ -83,15 +84,6 @@ class MainUIController(UIController, PopupTrait):
         obj = game_mgr.ui_mgr.map_panel_controller
         if obj.is_show():
             #obj.defer_close()
-            game_mgr.ui_mgr.pop_panel(obj)
-        else:
-            obj.init()
-            obj.popup(150, 80)
-            game_mgr.ui_mgr.push_panel(obj)
-
-    def on_setting_click(self):
-        obj = game_mgr.ui_mgr.setting_panel_controller
-        if obj.is_show():
             game_mgr.ui_mgr.pop_panel(obj)
         else:
             obj.init()

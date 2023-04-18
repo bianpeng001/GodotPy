@@ -195,11 +195,11 @@ class Controller(AIMachine):
 
 
 #
-#
+# 基本组件
 #
 class Component:
     def __init__(self):
-        pass
+        self._owner_controller = None
     
 #
 # UI 面板控制器
@@ -238,11 +238,14 @@ def WhenVisible(fun):
     
     return _fun
 
-# 有上限的值
+#
+# 有上下限的值
+#
 class LimitValue:
-    def __init__(self, value, value_limit):
+    def __init__(self, value, max_value, min_value = 0):
         self.value = value
-        self.value_limit = value_limit
+        self.max_value = max_value
+        self.min_value = min_value
 
     def grow(self, growth_rate, delta_time):
         delta = growth_rate * delta_time
@@ -250,10 +253,10 @@ class LimitValue:
 
     def add(self, delta):
         self.value += delta
-        if self.value > self.value_limit:
-            self.value = self.value_limit
-        elif self.value < 0:
-            self.value = 0
+        if self.value > self.max_value:
+            self.value = self.max_value
+        elif self.value < self.min_value:
+            self.value = self.min_value
 
     def get_value(self):
         return round(self.value)
@@ -293,6 +296,9 @@ def narudo_range(n):
             yield a
         i += 1
 
+#
+# 漩涡
+#
 def narudo_range2(start, n):
     steps = ((0, 1),(1, 0),(0, -1),(-1, 0))
     step_index = 0
@@ -304,7 +310,7 @@ def narudo_range2(start, n):
         step_index = (step_index+1) % 4
         return dx,dy
 
-    def one_line():
+    def one_edge():
         nonlocal x,y
 
         dx,dy = next_step()
@@ -318,16 +324,15 @@ def narudo_range2(start, n):
     x,y = -start,-start
     i = start*2
     while i < n:
-        for a in one_line():
+        for a in one_edge():
             yield a
-        for a in one_line():
+        for a in one_edge():
             yield a
         i += 1
 
-
-
 #
-# 军队里面武将位置, 武将ID, 位置
+# 军队里面武将占位信息
+# 武将ID, 位置
 #
 class HeroSlot:
     def __init__(self):
