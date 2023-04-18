@@ -1,7 +1,7 @@
 #
 # 2023年2月10日 bianpeng
 #
-from game.core import *
+from game.core import log_debug, OS
 from game.game_mgr import game_mgr, UnitTrait
 from game.base_type import Unit, LimitValue
 from game.troop_controller import TroopController
@@ -48,7 +48,7 @@ class TroopUnit(Unit, UnitTrait):
         #path = 'res://models/Troop01.tscn'
         path = f'res://models/Troop{self.model_type:02}.tscn'
         
-        self.model_node = FNode3D.instantiate(path)
+        self.model_node = OS.instantiate(path)
         self.get_controller().apply_position()
 
 

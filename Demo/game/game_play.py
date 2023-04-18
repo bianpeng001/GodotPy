@@ -300,7 +300,7 @@ class GamePlay:
         troop.hero_list = hero_list
         troop.owner_city_id = city_unit.unit_id
         troop.owner_player_id = city_unit.owner_player_id
-        troop.army_amount = army_amount
+        troop.army_amount.value = army_amount
         troop.model_type = model_type
         troop.set_position(x,y,z)
 

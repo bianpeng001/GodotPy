@@ -4,9 +4,10 @@
 
 import random
 
-from game.core import *
+from game.core import log_debug, ResCapsule
 from game.game_mgr import *
-from game.base_type import Controller
+from game.base_type import Controller, narudo_range, UT_CITY
+from game.ground_mgr import pos_to_colrow
 
 #
 # 城池
@@ -98,20 +99,38 @@ class CityController(Controller):
 
     def on_ai_tick(self, tick_time):
         city_unit = self.get_unit()
+        
+        def find_enemy_city(col,row):
+            owner_player_id = self.get_unit().owner_player_id
+            
+            for dx,dy in narudo_range(4):
+                tile = game_mgr.ground_mgr.get_tile_colrow(col+dx, row+dy)
+                if not tile:
+                    continue
+                for unit in tile.unit_list:
+                    if unit.unit_type == UT_CITY and \
+                            (unit.owner_player_id == 0 or \
+                            unit.owner_player_id != owner_player_id):
+                        return unit
 
         # TODO: 这个要改,细化行为,要有各种行为
         # 测试行为，不断招兵，军队数量达到1000，就出兵征讨
         army_amount = city_unit.army_amount.value
         if army_amount > 1000:
-            city_unit.army_amount.value -= 1000
+            amount = city_unit.army_amount.get_value()
+            city_unit.army_amount.value = 0
 
             x,y,z = city_unit.get_position()
-
-            troop = game_mgr.game_play.create_troop(city_unit,
+            col,row = pos_to_colrow(x,z)
+            target_city = find_enemy_city(col,row)
+            if target_city:
+                troop = game_mgr.game_play.create_troop(city_unit,
                     [],
                     x,y,z,
                     1000,
                     4)
+                troop.target_unit_id = target_city.unit_id
+                troop.get_controller().goto_state('start')
 
     # 驱动 ai tick
     def drive_ai_tick(self):
@@ -126,8 +145,5 @@ class CityController(Controller):
 
     def start(self):
         self.get_unit().load_model()
-        
-
-
         
 

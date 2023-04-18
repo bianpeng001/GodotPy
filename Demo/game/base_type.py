@@ -34,8 +34,8 @@ class AIMachine:
         if state:
             self._enter_state(state)
             
-        if state and self.get_unit():
-            log_debug(self.get_unit().unit_name, name)
+        # if state and self.get_unit():
+        #     log_debug(self.get_unit().unit_name, name)
 
     def add_state(self, name, state):
         self.state_dict[name] = state
