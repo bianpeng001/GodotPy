@@ -37,7 +37,9 @@ class DialogConfig(BaseConfig):
     def __init__(self):
         pass
 
+#
 # 回目, 章节
+#
 class ChapterConfig(BaseConfig):
     def __init__(self):
         self.num = 1
@@ -56,11 +58,11 @@ class StoryConfig(BaseConfig):
         
 #
 # 技能, 一个state
-# 一次结算
+# 一次结算, 技能伤害, 需要一个公式, 这里配一个基础伤害
 #
 class SkillConfig(BaseConfig):
     def __init__(self):
-        pass
+        self.damage = 10
 
 # 配置信息
 class ConfigMgr:
@@ -101,6 +103,7 @@ class ConfigMgr:
         skill.config_id = 3001
         skill.effect_id = 2001
         skill.life_time = 5.0
+        skill.damage = 200
         self.skill_dict[skill.config_id] = skill
         
     def get_skill(self, config_id):
@@ -140,6 +143,7 @@ class ConfigMgr:
         else:
             return 0.3
 
+    # 治安公式
     def calc_order_growth_rate(self, satrap, hero):
         value = 0
 
@@ -154,6 +158,7 @@ class ConfigMgr:
 
         return round(value)
 
+    # 大米增长公式
     def calc_rice_growth_rate(self, satrap, hero):
         value = 0
 
@@ -168,6 +173,7 @@ class ConfigMgr:
 
         return round(value)
 
+    # 银两增长公式
     def calc_money_growth_rate(self, satrap, hero):
         value = 0
         
@@ -181,6 +187,7 @@ class ConfigMgr:
 
         return round(value)
 
+    # 人口
     def calc_population_growth_rate(self, satrap):
         value = 0
 
@@ -191,6 +198,7 @@ class ConfigMgr:
 
         return round(value)
 
+    # 军队增长
     def calc_army_growth_rate(self, satrap):
         value = 50
 
@@ -210,7 +218,7 @@ class ConfigMgr:
         if value > 0.01:
             return f'[color=green]+{value}[/color]'
         elif value < -0.01:
-            return f'[color=red]{value}[/color]'
+            return f'[color=red]-{value}[/color]'
         else:
             return ''
 
@@ -219,11 +227,11 @@ class ConfigMgr:
         if value < 100000:
             return str(value)
         elif value < 100000000:
-            value //= 10000
-            return f'{value}万'
+            value /= 10000
+            return f'{value:.2f}万'
         else:
-            value //= 100000000
-            return f'{value}亿'
+            value /= 100000000
+            return f'{value:.2f}亿'
 
 def select_one(item_list, delete=False):
     count = len(item_list)
@@ -431,31 +439,31 @@ _name_data = [
 '赵熊','赵绅','赵触','赵锤','赵明','赵大','赵二',
 
 # 历史人物, 用来丰富名字
-'宋江','武松','林冲','李逵','公孙胜',
+'宋江','李逵','武松','鲁达','林冲','杨志','秦明','公孙胜','晁盖','吴用',
 '卫青','霍去病','辛弃疾','沈约','叶开',
 '李雄','潘金莲','李瓶儿','李二娘',
 '王猛','王镇恶','刘裕','赵匡胤','魏无忌','田文','黄歇','赵胜','赵奢','赵括',
 '姜尚','李牧',
-'赵奢','赵括','白起','吴起','孙武','王翦','廉颇','伍子胥','庞涓','孙膑','田忌','庞涓',
-'项羽','项梁','英布','龙且','章邯','雍齿','夏侯婴','萧何','张良','韩信',
+'赵奢','赵括','白起','吴起','孙武','王翦','廉颇','伍子胥','庞涓','孙膑','田忌',
+'项羽','项梁','英布','龙且','章邯','雍齿','夏侯婴','萧何','张良','韩信','樊哙',
 '刘如意','刘兴居',
 '李靖','秦琼','薛礼','尉迟恭','杨林','杨素','韩擒虎',
 '李元霸','裴元庆','李绩','李密','单胸信','罗士信',
 '郭威','柴荣','寇准',
 '杨业','杨延昭','杨文广','孟良','焦赞',
-'岳飞','韩世忠','梁红玉','赵佶','赵构',
-'徐达','常遇春','刘基','李文忠','傅友德','汤和',
+'宗泽','岳飞','牛皋','汤怀','韩世忠','梁红玉','赵佶','赵构',
+'徐达','常遇春','刘基','李文忠','傅友德','汤和','花云','俞通海','张士诚','陈友谅',
 '吕四娘','秦良玉','花木兰',
-'刘德华','李小龙','叶问','甄子丹',
-'黄麒英','黄飞鸿','梁宽','霍元甲','马永贞','方世玉','洪熙官',
+'刘德华','李连杰','李小龙','甄子丹','张曼玉','林青霞','朱茵',
+'黄麒英','黄飞鸿','梁宽','霍元甲','马永贞','方世玉','洪熙官','叶问',
 '李逍遥','林月如','赵灵儿',
 '杨过','张无忌','黄药师','欧阳锋','洪七','段誉','乔峰',
 '沈浪','王怜花','李寻欢',
-'李狗儿','杨大眼','俞白眉','邓超',
+'李狗儿','杨大眼',
+'俞白眉','邓超',
 '寿春','慕容垂','萧何','陆机',
-'张三','李四','王五','赵六',
-'张龙','赵虎','王朝','马汉',
-'贾贵','黄金标',
+'张三','李四','王五','赵六','张龙','赵虎','王朝','马汉',
+'贾贵','黄金标','石青山',
 
 # 补充姓氏
 '令狐正','公羊龙','第五伦','纳兰光','公冶平','东野泰','南宫杰','新垣虎',
