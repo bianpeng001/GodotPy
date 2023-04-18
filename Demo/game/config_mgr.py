@@ -36,7 +36,7 @@ class EffectConfig(BaseConfig):
 class DialogConfig(BaseConfig):
     def __init__(self):
         pass
-    
+
 # 回目, 章节
 class ChapterConfig(BaseConfig):
     def __init__(self):
@@ -53,6 +53,14 @@ class StoryConfig(BaseConfig):
             '然后打开的书就合不上了, 四方豪杰蠢蠢欲动',
             '这几年你出生入死, 颇有军功, 该何去何从',
         ]
+        
+#
+# 技能, 一个state
+# 一次结算
+#
+class SkillConfig(BaseConfig):
+    def __init__(self):
+        pass
 
 # 配置信息
 class ConfigMgr:
@@ -79,10 +87,24 @@ class ConfigMgr:
         self.effect_dict = {}
         self.init_effect_config()
         
+        # 技能
+        self.skill_dict = {}
+        self.init_skill_config()
+        
         # rvo 参数
         self.rvo_factor = 18
         # rvo 斥力半径, 之外是不提供斥力的, 是距离**2
         self.rvo_sqrdis = 5*5
+        
+    def init_skill_config(self):
+        skill = SkillConfig()
+        skill.config_id = 3001
+        skill.effect_id = 2001
+        skill.life_time = 5.0
+        self.skill_dict[skill.config_id] = skill
+        
+    def get_skill(self, config_id):
+        return self.skill_dict.get(config_id, None)
         
     def init_effect_config(self):
         # 射箭
