@@ -111,9 +111,9 @@ class CityController(Controller):
                     [],
                     x,y,z,
                     1000,
-                    3)
+                    4)
 
-     # 驱动 ai tick
+    # 驱动 ai tick
     def drive_ai_tick(self):
         self.ai_tick_time += game_mgr.delta_time
         if self.ai_tick_time > 0.3:
