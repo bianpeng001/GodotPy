@@ -49,9 +49,8 @@ class AISightComponent(Component):
         
         if self.get_controller().owner_tile:
             #log_debug('check_see_unit', src_unit.unit_name, len(controller.owner_tile.unit_list))
-            for unit in self.get_controller().owner_tile.unit_list:
+            for unit in self.get_controller().owner_tile.get_unit_list():
                 if unit.unit_id != src_unit.unit_id and \
-                        unit.owner_player_id != src_unit.owner_player_id and \
                         unit.unit_id not in self.unit_dict:
                     x1,z1 = unit.get_xz()
                     dx,dz = x1-x,z1-z
@@ -227,7 +226,7 @@ class TroopController(Controller):
             x,z = src_unit.get_xz()
             
             for unit in self.sight_comp.unit_dict.values():
-                if unit.unit_type == UT_TROOP:
+                if unit.owner_player_id != src_unit.owner_player_id:
                     x1,z1 = unit.get_xz()
                     dx,dz = x-x1,z-z1
                     sqrdis = dx*dx+dz*dz

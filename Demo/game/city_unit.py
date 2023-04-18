@@ -89,6 +89,8 @@ class CityUnit(Unit, UnitTrait):
 
         # 模型
         self.model_type = 1
+        # 质量
+        self.mass = 500
 
     def init(self):
         for i in range(10):

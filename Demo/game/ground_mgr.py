@@ -336,6 +336,9 @@ class Tile:
     def remove_unit(self, unit):
         self.unit_list.remove(unit)
         
+    def get_unit_list(self):
+        return self.unit_list
+        
     def create_road(self, x,y,z):
         pos_x, pos_z = self.get_center_pos()
         road = FNode3D.instantiate('res://models/Road/Road02.tscn')
