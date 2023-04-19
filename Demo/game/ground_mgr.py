@@ -107,9 +107,6 @@ class TileItem:
 
         vertex_index = 0
         for x,z in grid_xz():
-            # if x == 0 or z == 0:
-            #     continue
-            
             cz = -1 + z*z_step
             cx = -1 + x*step
             if z % 2 != 0:
