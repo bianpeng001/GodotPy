@@ -15,6 +15,9 @@
 
 ![screenshot07](img/screenshot07.png)
 
+
+描边方案, 是需要用深度图的, 目前这个参数, 要求terrain的深度图不要写入, 不然边界不够清晰. 所以地面的深度写入关闭, 这样就要求地面的渲染要最早进行. 所以需要调整优先级, 材质上面的render priority:= -50.
+
 <div class="date">2023年4月19日</div>
 
 ## 特点

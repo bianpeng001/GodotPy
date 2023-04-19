@@ -79,11 +79,11 @@ class TileItem:
         st.commit(mi)
 
     def generate_mesh(self, mi):
+        
         def get_color(px, py):
-            if px >= 0 and px < 300 and py >= 0 and py < 300:
+            if px >= 0 and px < 300 and \
+                    py >= 0 and py < 300:
                 b,g,r = bmp.get_color(px, py)
-                
-                r = 0 if r < 100 else 255
                 return r,g,b
             else:
                 return 0,0,0
@@ -115,11 +115,13 @@ class TileItem:
             if z % 2 != 0:
                 cx += half_width
             
-            # color for terrain
+            # 找到对应的像素, 颜色
             px,py = x+(self.col+15)*10-5, z+(self.row+15)*10-5
             r,_,_ = get_color(px, py)
-            if r > 100:
+            if r > 150:
                 st.set_uv(0.11,0.11)
+            elif r > 100:
+                st.set_uv(0.09,0.40)
             else:
                 st.set_uv(0.36,0.88)
             
@@ -358,7 +360,7 @@ class TileItem:
     def create_city(self):
         if not self.city_unit and \
                 self.color == 255 and \
-                random_100() < 35:
+                random_100() < 45:
             pos_x,pos_z = self.get_center_pos()
 
             self.city_unit = game_mgr.unit_mgr.create_city()
@@ -522,7 +524,7 @@ class GroundMgr(NodeObject):
                 row = y - cy
 
                 tile, _ = self.create_tile(col, row)
-                tile.color = 255 if r > 199 else 0
+                tile.color = 255 if r > 190 else 0
                 tile.create_city()
         log_util.enable_debug = True
 
