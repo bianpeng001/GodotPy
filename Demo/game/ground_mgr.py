@@ -19,7 +19,7 @@ def pos_to_colrow(x, z):
 # tile内部，a*寻路
 # tile外部，大a*寻路
 # 打仗过程里面，走直线, 加一点弧度或者干扰, 别笔直就好了
-class Tile:
+class TileItem:
     def __init__(self, col, row):
         # 区块的ID，坐标/TILE_SIZE, 取整
         self.col = col
@@ -79,6 +79,16 @@ class Tile:
         st.commit(mi)
 
     def generate_mesh(self, mi):
+        def get_color(px, py):
+            if px >= 0 and px < 300 and py >= 0 and py < 300:
+                b,g,r = bmp.get_color(px, py)
+                
+                r = 0 if r < 100 else 255
+                return r,g,b
+            else:
+                return 0,0,0
+            
+        bmp = game_mgr.ground_mgr.terrain_map
         
         st = FSurfaceTool()
         st.set_uv(0.11,0.11)
@@ -97,10 +107,21 @@ class Tile:
 
         vertex_index = 0
         for x,z in grid_xz():
+            # if x == 0 or z == 0:
+            #     continue
+            
             cx = -1 + x*step
             cz = -1 + z*z_step
             if z % 2 != 0:
                 cx += half_width
+            
+            # color for terrain
+            px,py = x+(self.col+13)*10, z+(self.row+15)*10
+            r,_,_ = get_color(px, py)
+            if r == 255:
+                st.set_uv(0.11,0.11)
+            else:
+                st.set_uv(0.36,0.88)
             
             st.add_vertex(cx, 0, cz-radius)
             st.add_vertex(cx-half_width, 0, cz-radius*0.5)
@@ -161,7 +182,7 @@ class Tile:
             return r, pat
             
         def get_uv(r):
-            if r == 255:
+            if r > 200:
                 return 0.11,0.11
             else:
                 return 0.36, 0.86
@@ -236,7 +257,7 @@ class Tile:
             if r == 255:
                 st.set_uv(0.11,0.11)
             else:
-                st.set_uv(0.36, 0.86)
+                st.set_uv(0.07, 0.18)
                 
         STEP = 0.2
         st = FSurfaceTool()
@@ -437,29 +458,29 @@ class GroundMgr(NodeObject):
 
     def update(self, delta_time):
         x,z = game_mgr.camera_mgr.get_focus_xz()
-
-        cx = math.floor((x / TILE_SIZE) + 0.5)
-        cz = math.floor((z / TILE_SIZE) + 0.5)
+        col,row = pos_to_colrow(x,z)
+        #cx = math.floor((x / TILE_SIZE) + 0.5)
+        #cz = math.floor((z / Z_TILE_SIZE) + 0.5)
 
         # 中心九宫格
-        self.update_tile(cx    , cz    )
-        self.update_tile(cx - 1, cz    )
-        self.update_tile(cx + 1, cz    )
+        self.update_tile(col    , row    )
+        self.update_tile(col - 1, row    )
+        self.update_tile(col + 1, row    )
 
-        self.update_tile(cx    , cz - 1)
-        self.update_tile(cx - 1, cz - 1)
-        self.update_tile(cx + 1, cz - 1)
+        self.update_tile(col    , row - 1)
+        self.update_tile(col - 1, row - 1)
+        self.update_tile(col + 1, row - 1)
 
-        self.update_tile(cx    , cz + 1)
-        self.update_tile(cx - 1, cz + 1)
-        self.update_tile(cx + 1, cz + 1)
+        self.update_tile(col    , row + 1)
+        self.update_tile(col - 1, row + 1)
+        self.update_tile(col + 1, row + 1)
 
         # 左右远角，视觉上面有坑
-        self.update_tile(cx    , cz - 2)
-        self.update_tile(cx + 1, cz - 2)
+        self.update_tile(col    , row - 2)
+        self.update_tile(col + 1, row - 2)
 
-        self.update_tile(cx - 2, cz    )
-        self.update_tile(cx - 2, cz + 1)
+        self.update_tile(col - 2, row    )
+        self.update_tile(col - 2, row + 1)
 
         self.show_tile_list.clear()
 
@@ -467,13 +488,12 @@ class GroundMgr(NodeObject):
         game_mgr.hud_mgr.update_hud_items()
 
     def create_tile(self,col,row):
-        key = (col, row)
         tile = self.get_tile_colrow(col, row)
         if tile:
             return tile, False
 
-        tile = Tile(col, row)
-        self.tile_dict[key] = tile
+        tile = TileItem(col, row)
+        self.tile_dict[(col, row)] = tile
 
         return tile, True
 

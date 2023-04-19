@@ -13,7 +13,7 @@ void fragment() {
 	ALBEDO = color1 * blend + color2 * (vec3(1,1,1) - blend);
 	//ALBEDO = color1;
 	//ALBEDO= color1*blend;
-	ALPHA = 1.0;
+	//ALPHA = 1.0;
 	
 }
 
