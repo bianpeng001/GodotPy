@@ -110,15 +110,15 @@ class TileItem:
             # if x == 0 or z == 0:
             #     continue
             
-            cx = -1 + x*step
             cz = -1 + z*z_step
+            cx = -1 + x*step
             if z % 2 != 0:
                 cx += half_width
             
             # color for terrain
-            px,py = x+(self.col+13)*10, z+(self.row+15)*10
+            px,py = x+(self.col+15)*10-5, z+(self.row+15)*10-5
             r,_,_ = get_color(px, py)
-            if r == 255:
+            if r > 100:
                 st.set_uv(0.11,0.11)
             else:
                 st.set_uv(0.36,0.88)
