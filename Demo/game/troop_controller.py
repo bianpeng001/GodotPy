@@ -57,7 +57,7 @@ class AISightComponent(Component):
                     sqrdis = dx*dx+dz*dz
                     if sqrdis <= sqr_radius:
                         self.unit_dict[unit.unit_id] = unit
-                        log_debug('in sight', src_unit.unit_name, unit.unit_name)
+                        #log_debug('in sight', src_unit.unit_name, unit.unit_name)
 
         if len(self.unit_dict) > 0:
             lose_list = game_mgr.get_reuse_list()
@@ -69,7 +69,7 @@ class AISightComponent(Component):
                 sqrdis = dx*dx+dz*dz
                 if sqrdis > sqr_lose_radius:
                     lose_list.append(unit.unit_id)
-                    log_debug('lose sight', src_unit.unit_name, unit.unit_name)
+                    #log_debug('lose sight', src_unit.unit_name, unit.unit_name)
             
             for unit_id in lose_list:
                 self.unit_dict.pop(unit_id)
@@ -100,15 +100,14 @@ class TroopBrainComponent(Component):
     
     def goto_state(self, name):
         pass
-    
 
 #
 # 这是一个AIController
 # 部队控制，包括特效，动作，位置，朝向...
 #
 class TroopController(Controller):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, unit):
+        super().__init__(unit)
 
         # AI 相关
         self.init_ai()

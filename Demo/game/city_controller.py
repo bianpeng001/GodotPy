@@ -13,8 +13,8 @@ from game.ground_mgr import pos_to_colrow
 # 城池
 #
 class CityController(Controller):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, unit):
+        super().__init__(unit)
 
         # 控制属性
         self.ai_tick_time = 0

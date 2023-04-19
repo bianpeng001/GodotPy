@@ -13,8 +13,7 @@ class TroopUnit(Unit, UnitTrait):
     def __init__(self):
         super().__init__()
 
-        self._controller = TroopController()
-        self._controller._unit = self
+        self._controller = TroopController(self)
 
         # 基本特征参数
         self.radius = 3

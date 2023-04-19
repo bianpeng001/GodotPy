@@ -20,8 +20,7 @@ class CityUnit(Unit, UnitTrait):
         super().__init__()
 
         # 控制器
-        self._controller = CityController()
-        self._controller._unit = self
+        self._controller = CityController(self)
 
         self.radius = 3
         self.unit_name = new_city_name()

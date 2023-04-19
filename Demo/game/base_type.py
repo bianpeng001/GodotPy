@@ -163,9 +163,9 @@ class Unit:
 # 角色单位的控制器
 #
 class Controller(AIMachine):
-    def __init__(self):
+    def __init__(self, unit):
+        self._unit = unit
         AIMachine.__init__(self)
-        self._unit = None
 
     @property
     def unit_id(self):
