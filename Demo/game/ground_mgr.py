@@ -10,10 +10,11 @@ from game.game_mgr import *
 from game.load_world_map import Bmp
 
 TILE_SIZE = 30
+Z_TILE_SIZE = TILE_SIZE*math.sqrt(3)/2
 
 # col,row
 def pos_to_colrow(x, z):
-    return round(x / TILE_SIZE), round(z / TILE_SIZE)
+    return round(x / TILE_SIZE), round(z / Z_TILE_SIZE)
 
 # tile内部，a*寻路
 # tile外部，大a*寻路
@@ -39,7 +40,7 @@ class Tile:
         self.color = -1
 
     def get_center_pos(self):
-        return self.col*TILE_SIZE,self.row*TILE_SIZE
+        return self.col*TILE_SIZE,self.row*Z_TILE_SIZE
 
     def load(self):
         #log_debug(f'load tile: ({self.col},{self.row})')
@@ -56,8 +57,8 @@ class Tile:
         
         mi = self.model_node.find_node('Mesh')
         self.generate_mesh(mi)
-        mat = ResCapsule.load_resource('res://models/Terrain/Terrain03Mat.tres')
-        mi.set_surface_material(0, mat.res)
+        #mat = ResCapsule.load_resource('res://models/Terrain/Terrain03Mat.tres')
+        #mi.set_surface_material(0, mat.res)
 
     def test_mesh(self):
         mi = self.model_node.find_node('Mesh')
@@ -77,20 +78,49 @@ class Tile:
 
         st.commit(mi)
 
-    def generate_mesh3(self, mi):
+    def generate_mesh(self, mi):
+        
         st = FSurfaceTool()
-        st.set_color(0.11,0.11,0.36,0.86)
+        st.set_uv(0.11,0.11)
         st.set_normal(0, 1, 0)
+        
+        step = 0.2
+        half_width = step*0.5
+        radius = half_width*2/math.sqrt(3)
+        z_step = 1.5*radius
+        
+        def grid_xz():
+            i = 0
+            while i < 100:
+                yield i % 10, i // 10
+                i += 1
 
-        for i in range(100):
-            y = i // 10
-            x = i % 10
+        vertex_index = 0
+        for x,z in grid_xz():
+            cx = -1 + x*step
+            cz = -1 + z*z_step
+            if z % 2 != 0:
+                cx += half_width
+            
+            st.add_vertex(cx, 0, cz-radius)
+            st.add_vertex(cx-half_width, 0, cz-radius*0.5)
+            st.add_vertex(cx-half_width, 0, cz+radius*0.5)
+            st.add_vertex(cx, 0, cz+radius)
+            st.add_vertex(cx+half_width, 0, cz+radius*0.5)
+            st.add_vertex(cx+half_width, 0, cz-radius*0.5)
+            
+            st.add_triangle(vertex_index, vertex_index+2, vertex_index+1)
+            st.add_triangle(vertex_index, vertex_index+3, vertex_index+2)
+            st.add_triangle(vertex_index, vertex_index+4, vertex_index+3)
+            st.add_triangle(vertex_index, vertex_index+5, vertex_index+4)
+            
+            vertex_index += 6
             
         st.commit(mi)
     
     # 生成地形融合, 最好是用贴图来融合
     # 这个版本还是丑, 接下来, 还是老老实实, 用贴图融合吧
-    def generate_mesh(self, mi):
+    def generate_mesh2(self, mi):
         
         def get_color(col,row):
             if col >= 0 and col < 300 and row >= 0 and row < 300:
