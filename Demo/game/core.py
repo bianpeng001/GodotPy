@@ -257,6 +257,11 @@ class NodeObject:
 def random_x():
     return 2*(random.random()-0.5)
 
+# 环状区域内随机
+def random_xx(mid):
+    v = random_x()
+    return v + min if v >= 0 else v - min
+
 # [(-1,-1,-1), (1,1,1)]
 def random_x3(x, y, z):
     return random_x()*x, random_x()*y, random_x()*z

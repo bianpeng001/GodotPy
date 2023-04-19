@@ -46,7 +46,7 @@ class TileItem:
         #log_debug(f'load tile: ({self.col},{self.row})')
         pos_x, pos_z = self.get_center_pos()
 
-        self.model_node = FNode3D.instantiate('res://models/Tile01.tscn')
+        self.model_node = OS.instantiate('res://models/Tile01.tscn')
         self.model_node.set_position(pos_x, 0, pos_z)
 
         #self.test_mesh()
@@ -325,36 +325,45 @@ class TileItem:
 
         # 树
         for i in range(random.randrange(1, 10)):
-            dx = random_x() * 20
-            dy = random_x() * 20
+            if random.random() < 0.2:
+                path = 'res://models/Tree02.tscn'
+            elif random.random() < 0.4:
+                path = 'res://models/Tree03.tscn'
+            else:
+                path = 'res://models/Tree01.tscn'
 
-            if (dx*dx + dy*dy) > 10*10:
-                if random.random() < 0.2:
-                    path = 'res://models/Tree02.tscn'
-                elif random.random() < 0.4:
-                    path = 'res://models/Tree03.tscn'
-                else:
-                    path = 'res://models/Tree01.tscn'
-
-                self.load_res(path,
-                    pos_x + dx,
-                    pos_z + dy,
-                    0.3 + random.random()*0.7)
+            rad = random_x()*math.pi
+            dis = 6 + random.random()*10
+            dx = math.cos(rad)*dis
+            dz = math.sin(rad)*dis
+            
+            self.load_res(path,
+                pos_x + dx,
+                pos_z + dz,
+                0.3 + random.random()*0.7)
 
         # 草
         for i in range(random.randrange(1, 5)):
+            rad = random_x()*math.pi
+            dis = 6 + random.random()*10
+            dx = math.cos(rad)*dis
+            dz = math.sin(rad)*dis
+            
             self.load_res('res://models/Grass01.tscn',
-                pos_x + random_x()*15,
-                pos_z + random_x()*15,
+                pos_x + dx,
+                pos_z + dz,
                 0.8 + random.random()*0.7)
 
         # 亭
         if random_100() < 30:
             rad = random_x()*math.pi
             dis = 6 + random.random()*10
+            dx = math.cos(rad)*dis
+            dz = math.sin(rad)*dis
+            
             self.load_res('res://models/Pavilion01.tscn',
-                pos_x + math.cos(rad)*dis,
-                pos_z + math.sin(rad)*dis,
+                pos_x + dx,
+                pos_z + dz,
                 1.0)
 
     def create_city(self):
@@ -381,7 +390,7 @@ class TileItem:
                 self.create_road(x,0.1,z+self.city_unit.radius)
 
     def load_res(self, path, x, z, s):
-        item = FNode3D.instantiate(path)
+        item = OS.instantiate(path)
         self.item_nodes.append(item)
 
         item.set_position(x,0,z)
@@ -405,7 +414,7 @@ class TileItem:
         
     def create_road(self, x,y,z):
         pos_x, pos_z = self.get_center_pos()
-        road = FNode3D.instantiate('res://models/Road/Road02.tscn')
+        road = OS.instantiate('res://models/Road/Road02.tscn')
         road.set_position(x,y,z)
         mi = road.find_node('Mesh')
         st = FSurfaceTool()
