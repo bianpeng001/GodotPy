@@ -13,7 +13,7 @@
 
 此外, 地图显示尝试使用六边形格子, 六边形对地形的拼接友好一些. 不用考虑过度了. 看下效果.
 
-[!screenshot07](img/screenshot07.png)
+![screenshot07](img/screenshot07.png)
 
 <div class="date">2023年4月19日</div>
 
