@@ -76,6 +76,17 @@ class Tile:
         st.add_triangle(0, 2, 3)
 
         st.commit(mi)
+
+    def generate_mesh3(self, mi):
+        st = FSurfaceTool()
+        st.set_color(0.11,0.11,0.36,0.86)
+        st.set_normal(0, 1, 0)
+
+        for i in range(100):
+            y = i // 10
+            x = i % 10
+            
+        st.commit(mi)
     
     # 生成地形融合, 最好是用贴图来融合
     # 这个版本还是丑, 接下来, 还是老老实实, 用贴图融合吧
