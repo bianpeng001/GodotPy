@@ -3,7 +3,7 @@
 #
 from game.core import *
 from game.game_mgr import *
-from game.base_type import Unit, LimitValue
+from game.base_type import *
 from game.config_mgr import new_city_name, new_hero_name
 
 from game.city_controller import CityController
@@ -21,12 +21,15 @@ class CityUnit(Unit, UnitTrait):
 
         # 控制器
         self._controller = CityController(self)
-
+        # 半径
         self.radius = 3
+        # 名字
         self.unit_name = new_city_name()
+        # 级别
+        self.city_type = CT_XIAN
 
         # 军团，城市组合，某个城作为首府，控制周围的其他城
-        self.leader_city = 0
+        self.lead_city_id = 0
         self.city_group = []
 
         # 城内武将
@@ -84,7 +87,7 @@ class CityUnit(Unit, UnitTrait):
         self.enable_ai = True
         
         # 友好城市,通商
-        self.friend_city_list = []
+        #self.friend_city_list = []
 
         # 模型
         self.model_type = 1
@@ -103,12 +106,12 @@ class CityUnit(Unit, UnitTrait):
     def load_model(self):
         is_gate = self.unit_name.endswith('关')
 
-        if self.model_type == 1:
+        if self.city_type == CT_XIAN:
+            path = 'res://models/City02.tscn'
+        else:
             path = 'res://models/City01.tscn'
             if is_gate:
                 path = 'res://models/Gate01.tscn'
-        else:
-            path = 'res://models/City02.tscn'
         
         self.model_node = FNode3D.instantiate(path)
         if is_gate:

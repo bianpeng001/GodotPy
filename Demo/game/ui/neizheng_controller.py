@@ -27,8 +27,6 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         self.bind_ok_cancel_close()
 
-        
-
         self.tab_bar = self.ui_obj.find_node('TabBar')
         self.tab_bar.connect(TAB_CHANGED, self.on_tab_changed)
 
@@ -95,7 +93,8 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.city_unit = city_unit
 
         # 根据城的级别, 这个称呼有变化
-        self.lbl_satrap.set_text('县令')
+        satrap_labels = ['首长','县令','太守','州牧']
+        self.lbl_satrap.set_text(satrap_labels[self.city_unit.city_type])
 
         # 缓存一些数据，用于修改，不是直接改
         self.satrap = self.city_unit.satrap

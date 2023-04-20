@@ -30,7 +30,8 @@ class MainUIController(UIController, PopupTrait):
         self.refresh_time = game_mgr.sec_time
         self.refresh_frame_number = game_mgr.frame_number
 
-        btn_labels = ['地图', '战报', '势力', '执行']
+        #btn_labels = ['地图', '战报', '势力', '执行']
+        btn_labels = ['地图']
         btn_1 = self.ui_obj.find_node('Btn1')
         btn_list = [btn_1.dup() for i in range(len(btn_labels) - 1)]
         btn_list.append(btn_1)
@@ -47,12 +48,11 @@ class MainUIController(UIController, PopupTrait):
 
         #get_btn('系统').connect(PRESSED, self.on_setting_click)
         get_btn('地图').connect(PRESSED, self.on_map_click)
-        get_btn('执行').connect(PRESSED, self.on_gm_click)
+        #get_btn('执行').connect(PRESSED, self.on_gm_click)
         #get_btn('存档').connect(PRESSED, self.on_save_click)
         
-        game_mgr.event_mgr.add(KEY_PRESS, self.on_key_press)
-
         # 事件
+        game_mgr.event_mgr.add(KEY_PRESS, self.on_key_press)
         game_mgr.event_mgr.add(MAINUI_REFRESH, self.on_refresh)
 
         # gm文件的路径

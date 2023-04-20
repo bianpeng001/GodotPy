@@ -81,10 +81,9 @@ class CameraMgr(NodeObject):
     def process_zoom(self, delta):
         if game_mgr.ui_mgr.is_point_at_gui():
             return
-
+        
         input_mgr = game_mgr.input_mgr
         x, y = input_mgr.get_mouse_pos()
-
         
         prev_norm = 1 + self.arm_scale
         self.arm_scale = clamp(self.arm_scale + delta)
@@ -125,7 +124,7 @@ class CameraMgr(NodeObject):
         if self.is_chase_target:
             delta = self.focus - self.target_focus
             sqr_mag = delta.sqr_magnitude()
-            if sqr_mag < 0.01:
+            if sqr_mag < 0.001:
                 self.focus.copy(self.target_focus)
                 self.is_chase_target = False
             else:

@@ -9,7 +9,7 @@ from game.core import *
 from game.game_mgr import *
 from game.event_name import *
 from game.wait import *
-from game.base_type import UT_CITY, UT_TROOP
+from game.base_type import *
 from game.config_mgr import new_hero_name
 
 # 游戏的控制逻辑, 事件响应啥的，集中到这里来
@@ -90,6 +90,12 @@ class GamePlay:
 
                 if city:
                     city.unit_name = '安喜'
+                    city.city_type = CT_XIAN
+                    if city.model_node:
+                        city.model_node.destroy()
+                        city.model_node = None
+                        city.load_model()
+                    
                     # 城的归属
                     self.set_city_owner(city, player)
                     # 治所
@@ -97,9 +103,8 @@ class GamePlay:
 
                     # 还要创建一个自己的, 武将实体
                     hero = game_mgr.hero_mgr.new_hero()
+                    # 初始化主公, 调整一些数值
                     hero.hero_name = player.player_name
-                    
-                    # 初始化主公
                     hero.set_age(28)
                     hero.attr[2] = 89
                     hero.attr[4] = 88

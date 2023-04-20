@@ -86,6 +86,15 @@ UT_CITY = 1
 # 军队
 UT_TROOP = 2
 
+
+# 城市的级别
+# 县
+CT_XIAN = 1
+# 郡
+CT_JUN = 2
+# 州
+CT_ZHOU = 3
+
 #
 # 场景中的单位
 #

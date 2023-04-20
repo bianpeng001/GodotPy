@@ -7,6 +7,7 @@ import struct
 
 from game.core import *
 from game.game_mgr import *
+from game.base_type import *
 from game.load_world_map import Bmp
 
 TILE_SIZE = 30
@@ -115,7 +116,9 @@ class TileItem:
             # 找到对应的像素, 颜色
             px,py = x+(self.col+15)*10-5, z+(self.row+15)*10-5
             r,_,_ = get_color(px, py)
-            if r > 150:
+            if x == 0 or z == 0:
+                st.set_uv(0.86,0.39)
+            elif r > 150:
                 st.set_uv(0.11,0.11)
             elif r > 100:
                 st.set_uv(0.09,0.40)
@@ -381,8 +384,17 @@ class TileItem:
                 0,
                 round(pos_z + random_x()*5))
             
+            # 级别
+            v = random_100()
+            if v < 50:
+                self.city_unit.city_type = CT_XIAN
+            elif v < 85:
+                self.city_unit.city_type = CT_JUN
+            else:
+                self.city_unit.city_type = CT_ZHOU
+            
             # 生成一段小路
-            if random_100() < 30:
+            if random_100() < 10:
                 x,z = self.city_unit.get_xz()
                 self.create_road(x,0.1,z+self.city_unit.radius)
 
