@@ -338,6 +338,11 @@ class TileItem:
                 pos_x + dx,
                 pos_z + dz,
                 0.3 + random.random()*0.7)
+            
+        self.load_res('res://models/Flag01.tscn',
+                pos_x - TILE_SIZE*0.5,
+                pos_z - Z_TILE_SIZE*0.5,
+                1)
 
         # 草
         for i in range(random.randrange(1, 5)):
