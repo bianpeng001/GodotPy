@@ -116,9 +116,7 @@ class TileItem:
             # 找到对应的像素, 颜色
             px,py = x+(self.col+15)*10-5, z+(self.row+15)*10-5
             r,_,_ = get_color(px, py)
-            if x == 0 or z == 0:
-                st.set_uv(0.86,0.39)
-            elif r > 150:
+            if r > 150:
                 st.set_uv(0.11,0.11)
             elif r > 100:
                 st.set_uv(0.09,0.40)
@@ -136,7 +134,6 @@ class TileItem:
             st.add_triangle(vertex_index, vertex_index+3, vertex_index+2)
             st.add_triangle(vertex_index, vertex_index+4, vertex_index+3)
             st.add_triangle(vertex_index, vertex_index+5, vertex_index+4)
-            
             vertex_index += 6
             
         st.commit(mi)

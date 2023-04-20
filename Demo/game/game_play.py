@@ -90,12 +90,13 @@ class GamePlay:
 
                 if city:
                     city.unit_name = '安喜'
-                    city.city_type = CT_XIAN
-                    if city.model_node:
-                        city.model_node.destroy()
-                        city.model_node = None
-                        city.load_model()
-                    
+                    if city.city_type != CT_XIAN:
+                        city.city_type = CT_XIAN
+                        if city.model_node:
+                            city.model_node.destroy()
+                            city.model_node = None
+                            city.load_model()
+                        
                     # 城的归属
                     self.set_city_owner(city, player)
                     # 治所
