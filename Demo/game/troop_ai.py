@@ -76,16 +76,16 @@ class StepMoveReq(MoveComponent):
         delta = dst_pos - cur_pos
         
         dis = delta.magnitude()
-        if self.block_count > 1:
-            right = delta.cross(Vector3(0, 1, 0)) * (0.8/dis)
-            delta.x += right.x*self.block_count
-            delta.z += right.z*self.block_count
-            
-        dis = delta.magnitude()
         if dis <= delta_time*troop.speed:
             self.complete()
             return
         
+        if self.block_count > 1:
+            right = delta.cross(Vector3.y_axis) * (self.block_count*1/dis)
+            delta.x += right.x
+            delta.z += right.z
+            
+        dis = delta.magnitude()
         v = delta * (troop.speed/dis)
         
         # 计算rvo的加速对速度增量, 
@@ -96,11 +96,13 @@ class StepMoveReq(MoveComponent):
         d = v * delta_time
         if d.sqr_magnitude() > 0.00005:
             new_pos = cur_pos + d
-            controller.look_at(new_pos.x,new_pos.y,new_pos.z)
-            troop.set_position(new_pos.x,new_pos.y,new_pos.z)
             
-            if self.block_count > 0:
+            if self.block_count == 0:
+                controller.look_at(new_pos.x,new_pos.y,new_pos.z)
+            else:
                 self.block_count -= 1
+
+            troop.set_position(new_pos.x,new_pos.y,new_pos.z)
         else:
             self.block_count += 1
 
