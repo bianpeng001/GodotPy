@@ -195,9 +195,8 @@ class GamePlay:
         test_wait_1()
         # load cursor
         if not OS.is_editor_hint():
-            cursor = ResCapsule.load_resource('res://Cursor.png')
+            cursor = ResCapsule.load_resource(game_mgr.config_mgr.default_cursor)
             OS.set_custom_mouse_cursor(cursor.res, 0, 1, 1)
-            pass
 
     def on_player_ready(self):
         mp = game_mgr.player_mgr.main_player

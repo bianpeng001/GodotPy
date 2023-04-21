@@ -69,6 +69,8 @@ class ConfigMgr:
     def __init__(self):
         
         self.app_title = '豪杰是怎样练成的'
+        self.default_cursor = 'res://DefaultCursor.png'
+        
         # 太守的发言
         self.neizheng_strap_dialog_list = [
             '为政之道，务于多闻。', 
