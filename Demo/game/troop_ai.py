@@ -74,15 +74,17 @@ class StepMoveReq(MoveComponent):
             
         cur_pos = Vector3(*troop.get_position())
         delta = dst_pos - cur_pos
+        
+        dis = delta.magnitude()
+        if self.block_count > 1:
+            right = delta.cross(Vector3(0, 1, 0)) * (0.8/dis)
+            delta.x += right.x*self.block_count
+            delta.z += right.z*self.block_count
+            
         dis = delta.magnitude()
         if dis <= delta_time*troop.speed:
             self.complete()
             return
-        
-        if self.block_count > 10:
-            right = delta.cross(Vector3(0, 1, 0)) * (0.01/dis)
-            delta.x += right.x*self.block_count
-            delta.z += right.z*self.block_count
         
         v = delta * (troop.speed/dis)
         
@@ -96,7 +98,9 @@ class StepMoveReq(MoveComponent):
             new_pos = cur_pos + d
             controller.look_at(new_pos.x,new_pos.y,new_pos.z)
             troop.set_position(new_pos.x,new_pos.y,new_pos.z)
-            self.block_count = 0
+            
+            if self.block_count > 0:
+                self.block_count -= 1
         else:
             self.block_count += 1
 

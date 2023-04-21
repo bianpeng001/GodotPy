@@ -225,7 +225,9 @@ class TroopController(Controller):
             x,z = src_unit.get_xz()
             
             for unit in self.sight_comp.unit_dict.values():
-                if unit.owner_player_id != src_unit.owner_player_id:
+                # if unit.unit_type == UT_TROOP and \
+                #         unit.owner_player_id != src_unit.owner_player_id:
+                if unit.unit_type == UT_TROOP:
                     x1,z1 = unit.get_xz()
                     dx,dz = x-x1,z-z1
                     sqrdis = dx*dx+dz*dz
