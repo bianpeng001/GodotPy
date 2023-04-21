@@ -89,8 +89,6 @@ class CityUnit(Unit, UnitTrait):
         # 友好城市,通商
         #self.friend_city_list = []
 
-        # 模型
-        self.model_type = 1
         # 质量
         self.mass = 500
 
@@ -113,13 +111,15 @@ class CityUnit(Unit, UnitTrait):
             if is_gate:
                 path = 'res://models/Gate01.tscn'
         
-        self.model_node = FNode3D.instantiate(path)
+        self.model_node = OS.instantiate(path)
         if is_gate:
-            self.model_node.set_scale(1.8,1.8,1.8)
+            self.model_node.set_scale(1.5,1.5,1.5)
 
-        self.get_controller().apply_position()
-        self.get_controller().set_title(self.unit_name)
-        self.get_controller().set_flag_color()
+        controller = self.get_controller()
+        controller.apply_position()
+        controller.set_title(self.unit_name)
+        controller.set_flag_color()
+        
 
 
 

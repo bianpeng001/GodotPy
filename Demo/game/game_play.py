@@ -83,7 +83,6 @@ class GamePlay:
                 city = game_mgr.unit_mgr.find_unit(lambda x:
                         x.unit_type == UT_CITY and \
                         x.unit_id > 10020 and \
-                        x.model_type == 2 and \
                         in_range(x.get_x(), -120, 120) and \
                         in_range(x.get_z(), -120, 120) and \
                         x.owner_player_id == 0)

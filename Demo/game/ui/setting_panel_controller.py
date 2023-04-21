@@ -9,7 +9,9 @@ from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
 from game.event_name import PRESSED
 
+#
 # 设置界面
+#
 class SettingPanelController(UIController, PopupTrait):
     def __init__(self):
         pass
