@@ -98,9 +98,9 @@ class ConfigMgr:
         self.init_skill_config()
         
         # rvo 参数
-        self.rvo_factor = 180
+        self.rvo_factor = 8
         # rvo 斥力半径, 之外是不提供斥力的, 是距离**2
-        self.rvo_sqrdis = 5*5
+        self.rvo_sqrdis = 6*6
         
     def init_skill_config(self):
         skill = SkillConfig()

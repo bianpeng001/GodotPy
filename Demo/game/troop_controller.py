@@ -128,7 +128,7 @@ class TroopController(Controller):
         
         # rvo 相关, 计算好的加速度
         self.rvo_acce_x = 0
-        self.rvo_acce_y = 0
+        self.rvo_acce_z = 0
 
     def init_ai(self):
         self.ai_tick_time = 0
@@ -216,11 +216,12 @@ class TroopController(Controller):
         
     # 对视野里面的单位, 加一个力, 改善重叠和穿插
     def add_rvo_force(self):
-        self.rvo_acce_x = self.rvo_acce_y = 0
+        self.rvo_acce_x = self.rvo_acce_z = 0
         
         if len(self.sight_comp.unit_dict) > 0:
             rvo_sqrdis = game_mgr.config_mgr.rvo_sqrdis
             rvo_factor = game_mgr.config_mgr.rvo_factor
+            
             src_unit = self.get_unit()
             x,z = src_unit.get_xz()
             
@@ -231,14 +232,15 @@ class TroopController(Controller):
                     x1,z1 = unit.get_xz()
                     dx,dz = x-x1,z-z1
                     sqrdis = dx*dx+dz*dz
-                    if sqrdis < 0.0001:
-                        sqrdis = 0.0001
-                        dx = random_num(0.001, 0.009)
-                        dz = random_num(0.001, 0.009)
+                    if sqrdis < 0.001:
+                        sqrdis = 0.001
+                        dx = random_num(0.001, 0.002)
+                        dz = random_num(0.001, 0.002)
+
                     if sqrdis < rvo_sqrdis:
                         f = rvo_factor*unit.mass*(1.0/sqrdis - 1.0/rvo_sqrdis)
                         self.rvo_acce_x += dx*f
-                        self.rvo_acce_y += dz*f
+                        self.rvo_acce_z += dz*f
 
     def look_at(self,x,y,z):
         node = self.get_model_node()
