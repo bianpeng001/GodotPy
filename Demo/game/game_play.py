@@ -195,8 +195,8 @@ class GamePlay:
         test_wait_1()
         # load cursor
         if not OS.is_editor_hint():
-            #cursor = ResCapsule.load_resource('res://Cursor.png')
-            #OS.set_custom_mouse_cursor(cursor, 0, 1, 1)
+            cursor = ResCapsule.load_resource('res://Cursor.png')
+            OS.set_custom_mouse_cursor(cursor.res, 0, 1, 1)
             pass
 
     def on_player_ready(self):
@@ -250,6 +250,8 @@ class GamePlay:
             hero = game_mgr.hero_mgr.get_hero(hero_id)
             hero.owner_player_id = player.player_id
             player.hero_list.append(hero_id)
+            
+        OS.set_custom_mouse_cursor(None, 0, 1, 1)
 
     # 队伍攻城
     def troop_attack_city(self, troop, city):

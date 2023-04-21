@@ -731,9 +731,14 @@ static PyObject *f_set_custom_mouse_cursor(PyObject *module, PyObject *args) {
 		if (!PyArg_ParseTuple(args, "Oiii", &p_cursor,&shape,&x,&y)) {
 			break;
 		}
-		auto p_res = GetResCapsule(p_cursor);
 		const auto input = Input::get_singleton();
-		input->set_custom_mouse_cursor(p_res->res, (Input::CursorShape)shape, Vector2(x,y));
+		if (!p_cursor) {
+			input->set_custom_mouse_cursor(Ref<Resource>(), (Input::CursorShape)shape, Vector2(x, y));
+		} else {
+			auto p_res = GetResCapsule(p_cursor);
+			input->set_custom_mouse_cursor(p_res->res, (Input::CursorShape)shape, Vector2(x, y));
+		}
+		
 
 	} while (0);
 
