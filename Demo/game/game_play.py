@@ -92,10 +92,6 @@ class GamePlay:
                     if city.city_type != CT_XIAN:
                         city.city_type = CT_XIAN
                         if city.model_node:
-                            flag_node = city.model_node.find_node('Flag')
-                            if flag_node:
-                                flag_node.set_surface_material(1, None)
-                                
                             city.model_node.destroy()
                             city.model_node = None
                             city.load_model()
@@ -225,6 +221,7 @@ class GamePlay:
         for player in game_mgr.player_mgr.get_player_iterator():
             player.flag_mat = None
         
+        # reset cursor, or cursor texture2d asset leak error
         OS.set_custom_mouse_cursor(None, 0, 1, 1)
         
     # API方法，业务代码
