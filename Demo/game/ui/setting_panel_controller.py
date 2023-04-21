@@ -29,7 +29,7 @@ class SettingPanelController(UIController, PopupTrait):
         self.check_city_ai.set_pressed(self.enable_city_ai)
         
         self.popup_screen_center()
-        panel.push_panel()
+        self.push_panel()
 
     def on_ok_click(self):
         #self.defer_close()

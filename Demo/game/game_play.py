@@ -80,6 +80,8 @@ class GamePlay:
             player = pm.main_player
 
             while True:
+                yield None
+                
                 city = game_mgr.unit_mgr.find_unit(lambda x:
                         x.unit_type == UT_CITY and \
                         x.unit_id > 10020 and \
@@ -127,9 +129,6 @@ class GamePlay:
 
                     break
 
-                yield None
-
-            yield None
             game_mgr.event_mgr.emit(MAIN_PLAYER_READY)
             
         
