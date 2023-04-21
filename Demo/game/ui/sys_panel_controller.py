@@ -44,6 +44,5 @@ class SysPanelController(UIController, PopupTrait):
         
     def init(self):
         self.popup_screen_center()
-        
-        
+
 

@@ -57,6 +57,8 @@ class LineMoveReq(MoveComponent):
 class StepMoveReq(MoveComponent):
     def __init__(self):
         super().__init__()
+        # 卡主的数量, 如果卡主次数太多了, 还是需要缓缓方向
+        self.block_count = 0
     
     # 这段这么恶心, 建议放到c++里面去算
     def update(self, troop, delta_time):
@@ -65,17 +67,22 @@ class StepMoveReq(MoveComponent):
         
         if blackboard.target_unit_id > 0:
             unit = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
-            self.dst_pos = Vector3(*unit.get_position())
+            dst_pos = Vector3(*unit.get_position())
         else:
             x,z = blackboard.target_pos
-            self.dst_pos = Vector3(x,0,z)
-        
+            dst_pos = Vector3(x,0,z)
+            
         cur_pos = Vector3(*troop.get_position())
-        delta = self.dst_pos - cur_pos
+        delta = dst_pos - cur_pos
         dis = delta.magnitude()
         if dis <= delta_time*troop.speed:
             self.complete()
             return
+        
+        if self.block_count > 10:
+            right = delta.cross(Vector3(0, 1, 0)) * (0.01/dis)
+            delta.x += right.x*self.block_count
+            delta.z += right.z*self.block_count
         
         v = delta * (troop.speed/dis)
         
@@ -89,6 +96,9 @@ class StepMoveReq(MoveComponent):
             new_pos = cur_pos + d
             controller.look_at(new_pos.x,new_pos.y,new_pos.z)
             troop.set_position(new_pos.x,new_pos.y,new_pos.z)
+            self.block_count = 0
+        else:
+            self.block_count += 1
 
 #
 # 模拟弧线
