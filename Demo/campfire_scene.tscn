@@ -1,15 +1,50 @@
-[gd_scene load_steps=12 format=3 uid="uid://bgxydnkig3607"]
+[gd_scene load_steps=17 format=3 uid="uid://bgxydnkig3607"]
 
 [ext_resource type="Script" path="res://CampFireScene.gd" id="1_3kydt"]
 [ext_resource type="Material" uid="uid://cosk2qqkfo1tu" path="res://models/CampfireScene/GrassMat.tres" id="1_324u3"]
 [ext_resource type="PackedScene" uid="uid://d0uwnhhx16lv3" path="res://effects/Fire01/Fire01.tscn" id="2_8p7k6"]
-[ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="2_eadkp"]
 [ext_resource type="QuadMesh" uid="uid://bgvylfri1047g" path="res://models/Outline/ScreenRect.tres" id="3_5c57u"]
 [ext_resource type="ArrayMesh" uid="uid://ckt0olbsdulb" path="res://effects/Fire01/Fire01.obj" id="3_p3nrs"]
 [ext_resource type="Material" uid="uid://d316njsfv56ci" path="res://models/Outline/OutlineV2Mat.tres" id="4_c3gj4"]
 [ext_resource type="ArrayMesh" uid="uid://diq03gmuembok" path="res://models/Soldier03.obj" id="8_h1hqn"]
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="9_27ysd"]
 [ext_resource type="Script" path="res://enter_game.gd" id="9_k74p5"]
+[ext_resource type="ArrayMesh" uid="uid://cnt8jx4bsf3fv" path="res://models/Tree02.obj" id="11_i4bgr"]
+[ext_resource type="ArrayMesh" uid="uid://br1vhvt7knvs2" path="res://models/Soldier02.obj" id="11_ilyw1"]
+[ext_resource type="ArrayMesh" uid="uid://c5q1mlnribi58" path="res://models/Tree03.obj" id="12_nswy6"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_r70ee"]
+sky_top_color = Color(0.34902, 0.458824, 0.580392, 1)
+sky_horizon_color = Color(0.65098, 0.654902, 0.679412, 1)
+ground_bottom_color = Color(0.254902, 0.160784, 0.137255, 1)
+ground_horizon_color = Color(0.65098, 0.654902, 0.679412, 1)
+
+[sub_resource type="Sky" id="Sky_2fvt1"]
+sky_material = SubResource("ProceduralSkyMaterial_r70ee")
+
+[sub_resource type="Environment" id="Environment_4gdtx"]
+background_mode = 2
+sky = SubResource("Sky_2fvt1")
+ambient_light_color = Color(0.0235294, 0.254902, 0.290196, 1)
+ambient_light_sky_contribution = 0.7
+tonemap_mode = 3
+tonemap_exposure = 2.5
+ssao_enabled = true
+ssao_power = 2.43676
+ssao_horizon = 0.03
+ssao_light_affect = 0.14
+ssao_ao_channel_affect = 0.13
+ssil_radius = 5.13
+ssil_intensity = 2.68
+ssil_sharpness = 0.93
+glow_enabled = true
+glow_normalized = true
+fog_light_color = Color(0.0588235, 0.0470588, 0.0745098, 1)
+fog_light_energy = 4.32
+fog_density = 0.0281
+volumetric_fog_enabled = true
+volumetric_fog_gi_inject = 0.63
+volumetric_fog_anisotropy = 0.9
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ptfy7"]
 size = Vector2(20, 20)
@@ -19,14 +54,30 @@ subdivide_depth = 10
 [node name="CampFireScene" type="Node3D"]
 script = ExtResource("1_3kydt")
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_4gdtx")
+
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.20443, 0)
-light_color = Color(1, 0.603922, 0.45098, 1)
-light_energy = 3.0
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.121644, 0.383607, 0.252065)
+light_color = Color(0.698039, 0.25098, 0, 1)
+light_energy = 3.663
+light_volumetric_fog_energy = 5.734
 light_size = 0.5
+light_specular = 4.45
 shadow_enabled = true
 shadow_opacity = 0.5
 shadow_blur = 0.5
+omni_range = 3.677
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.121644, 1.47787, 0.252065)
+light_color = Color(0.698039, 0.25098, 0, 1)
+light_energy = 4.98
+light_volumetric_fog_energy = 0.0
+light_size = 0.258
+light_specular = 4.45
+shadow_enabled = true
+omni_range = 7.731
 
 [node name="GrassFloor" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_ptfy7")
@@ -34,8 +85,8 @@ surface_material_override/0 = ExtResource("1_324u3")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 20, 20)
-environment = ExtResource("2_eadkp")
-fov = 10.0
+environment = SubResource("Environment_4gdtx")
+fov = 15.0
 near = 1.0
 far = 1000.0
 
@@ -59,19 +110,39 @@ transform = Transform3D(1.34605, 0, 1.47924, 0, 2.266, 0, -1.47924, 0, 1.34605, 
 mesh = ExtResource("3_p3nrs")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
-transform = Transform3D(1.06491, 0, 0.553151, 0, 1.2, 0, -0.553151, 0, 1.06491, -1.20024, 0, -2.58729)
+transform = Transform3D(1.06486, 0, 0.553124, 0, 1.19994, 0, -0.553124, 0, 1.06486, -1.20024, 0, -2.58729)
 mesh = ExtResource("3_p3nrs")
 
 [node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.955689, 0, 0.389465, 0, 1.076, 0, -0.389465, 0, 0.955689, -1.38493, 0, 1.75358)
 mesh = ExtResource("3_p3nrs")
 
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.773312, 0.288472, -0.75002, -0.105584, 1.25369, 0.213437, 1.03294, -0.0878155, 0.58332, 3.00272, -0.0657253, -1.19816)
+mesh = ExtResource("3_p3nrs")
+
 [node name="MeshInstance3D6" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.2494, 0, 0.999496, 0, 1.863, 0, -0.999496, 0, 1.2494, 1.39509, 0, 0.61688)
 mesh = ExtResource("3_p3nrs")
 
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.32883, 0, 3.3277, 0, 4.41151, 0, -4.39058, 0, -0.249226, 2.72192, 0.233179, -2.69693)
+mesh = ExtResource("3_p3nrs")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.43416, -5.6918, 5.61282, 0.501384, -17.8046, -1.7795, -5.0905, -0.150095, -1.75658, 3.18744, -0.522439, -3.74799)
+mesh = ExtResource("3_p3nrs")
+
 [node name="Soldier03" type="MeshInstance3D" parent="."]
-transform = Transform3D(-0.731187, 0, 0.682177, 0, 1, 0, -0.682177, 0, -0.731187, -1.76154, -0.00994587, 1.39867)
+transform = Transform3D(0.785414, 0, -0.61897, 0, 1, 0, 0.61897, 0, 0.785414, 1.59457, -0.00994539, -0.692398)
+mesh = ExtResource("8_h1hqn")
+
+[node name="Soldier04" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.424752, 0, 0.905309, 0, 1, 0, -0.905309, 0, -0.424752, -1.99141, -0.00994587, 0.757293)
+mesh = ExtResource("8_h1hqn")
+
+[node name="Soldier05" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.849193, 0, 0.528083, 0, 1, 0, -0.528083, 0, 0.849193, -1.03072, -0.00994539, -1.86964)
 mesh = ExtResource("8_h1hqn")
 
 [node name="Start" type="Node2D" parent="."]
@@ -85,3 +156,63 @@ offset_bottom = 540.0
 theme = ExtResource("9_27ysd")
 theme_override_font_sizes/font_size = 28
 text = "开始游戏"
+
+[node name="Soldier02" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.581984, 0, -0.219484, 0, 0.621996, 0, 0.219484, 0, 0.581984, 1.67592, 0.0073514, -4.69614)
+mesh = ExtResource("11_ilyw1")
+
+[node name="Soldier06" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.482718, 0, 0.392253, 0, 0.621996, 0, -0.392253, 0, 0.482718, 4.83629, 0.00735283, 1.29213)
+mesh = ExtResource("11_ilyw1")
+
+[node name="Soldier09" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.265275, 0, 0.562591, 0, 0.621996, 0, -0.562591, 0, 0.265275, 3.81709, 0.00862408, -1.51202)
+mesh = ExtResource("11_ilyw1")
+
+[node name="Soldier10" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.601741, 0, 0.157437, 0, 0.621996, 0, -0.157437, 0, -0.601741, 0.378133, -0.0519376, -4.30742)
+mesh = ExtResource("11_ilyw1")
+
+[node name="Soldier07" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.326259, 0, 0.52956, 0, 0.621996, 0, -0.52956, 0, 0.326259, 5.07686, -0.130924, -2.68638)
+mesh = ExtResource("11_ilyw1")
+
+[node name="Soldier08" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.581984, 0, -0.219484, 0, 0.621996, 0, 0.219484, 0, 0.581984, -4.36701, 0.00735331, 1.98103)
+mesh = ExtResource("11_ilyw1")
+
+[node name="Tree02" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.75039, 0.0610347, -3.59506)
+mesh = ExtResource("11_i4bgr")
+
+[node name="Tree04" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.16268, 0, -1.5355, 0, 1.92602, 0, 1.5355, 0, 1.16268, 3.15904, 0.0610352, -5.17157)
+mesh = ExtResource("11_i4bgr")
+
+[node name="Tree05" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1.06212, 0.0390147, -0.733764, 0.0266246, 1.2909, 0.0300989, 0.734318, 0.00962627, -1.06241, -4.0748, -0.0211902, -2.51165)
+mesh = ExtResource("11_i4bgr")
+
+[node name="Tree09" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.848579, 0, -1.2322, 0, 1.49613, 0, 1.2322, 0, 0.848579, -4.08565, -0.0211902, -3.93912)
+mesh = ExtResource("11_i4bgr")
+
+[node name="Tree06" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.075133, 0.304883, -1.25277, 0, 1.2549, 0.3054, 1.28934, 0.0177663, -0.0730022, -5.24306, -0.0211902, -0.207892)
+mesh = ExtResource("11_i4bgr")
+
+[node name="Tree10" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.40272, -0.369552, -0.792786, 0.401236, 1.44009, -0.137231, 0.852991, -0.0696867, 1.36826, 5.37721, -0.086621, 4.24232)
+mesh = ExtResource("11_i4bgr")
+
+[node name="Tree07" type="MeshInstance3D" parent="."]
+transform = Transform3D(2.67547, 0, 1.60108, 0, 2.30495, 0, -2.34385, 0, 1.82761, -6.14127, -0.194669, -1.31434)
+mesh = ExtResource("11_i4bgr")
+
+[node name="Tree08" type="MeshInstance3D" parent="."]
+transform = Transform3D(2.39224, 0, -0.115029, 0, 1.88172, 0, 0.0982148, 0, 2.80177, 6.05217, -0.194669, -3.49533)
+mesh = ExtResource("11_i4bgr")
+
+[node name="Tree03" type="MeshInstance3D" parent="."]
+transform = Transform3D(2.42864, 0, 0, 0, 4.34832, 0, 0, 0, 2.43687, -5.0662, 0, -4.19074)
+mesh = ExtResource("12_nswy6")
