@@ -225,7 +225,9 @@ class GamePlay:
         # 释放材质
         for player in game_mgr.player_mgr.get_player_iterator():
             player.flag_mat = None
-                
+        
+        OS.set_custom_mouse_cursor(None, 0, 1, 1)
+        
     # API方法，业务代码
 
     # 修改城城池归属
@@ -251,7 +253,7 @@ class GamePlay:
             hero.owner_player_id = player.player_id
             player.hero_list.append(hero_id)
             
-        OS.set_custom_mouse_cursor(None, 0, 1, 1)
+        
 
     # 队伍攻城
     def troop_attack_city(self, troop, city):

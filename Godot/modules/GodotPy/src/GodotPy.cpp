@@ -732,7 +732,7 @@ static PyObject *f_set_custom_mouse_cursor(PyObject *module, PyObject *args) {
 			break;
 		}
 		const auto input = Input::get_singleton();
-		if (!p_cursor) {
+		if (Py_IsNone(p_cursor)) {
 			input->set_custom_mouse_cursor(Ref<Resource>(), (Input::CursorShape)shape, Vector2(x, y));
 		} else {
 			auto p_res = GetResCapsule(p_cursor);
