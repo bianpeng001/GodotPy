@@ -80,8 +80,8 @@ class StepMoveReq(MoveComponent):
             self.complete()
             return
         
-        if self.block_count > 1:
-            right = delta.cross(Vector3.y_axis) * (self.block_count*1/dis)
+        if self.block_count > 0:
+            right = delta.cross(Vector3.y_axis) * (self.block_count*0.8/dis)
             delta.x += right.x
             delta.z += right.z
             
@@ -97,12 +97,19 @@ class StepMoveReq(MoveComponent):
         if d.sqr_magnitude() > 0.00005:
             new_pos = cur_pos + d
             
+            if self.block_count <= 5:
+                controller.look_at(new_pos.x,new_pos.y,new_pos.z)
+            troop.set_position(new_pos.x,new_pos.y,new_pos.z)
+            
             if self.block_count > 0:
                 self.block_count -= 1
-            else:
-                controller.look_at(new_pos.x,new_pos.y,new_pos.z)
+            
+            # if self.block_count > 0:
+            #     self.block_count -= 1
+            # else:
+            #     controller.look_at(new_pos.x,new_pos.y,new_pos.z)
 
-            troop.set_position(new_pos.x,new_pos.y,new_pos.z)
+            # troop.set_position(new_pos.x,new_pos.y,new_pos.z)
         else:
             self.block_count += 1
 
