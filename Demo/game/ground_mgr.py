@@ -36,7 +36,8 @@ class TileItem:
         self.show_age = 1
 
         self.city_unit = None
-
+        self.corner_flag = None
+        
         # 颜色
         self.color = -1
 
@@ -50,16 +51,8 @@ class TileItem:
         self.model_node = OS.instantiate('res://models/Tile01.tscn')
         self.model_node.set_position(pos_x, 0, pos_z)
 
-        #self.test_mesh()
-        # if self.color == 0:
-        #     mi.load_material(0, 'res://models/Terrain/WaterMat.tres')
-        # else:
-        #     mi.load_material(0, 'res://models/Terrain/GrassMat.tres')
-        
         mi = self.model_node.find_node('Mesh')
         self.generate_mesh(mi)
-        #mat = ResCapsule.load_resource('res://models/Terrain/Terrain03Mat.tres')
-        #mi.set_surface_material(0, mat.res)
 
     def test_mesh(self):
         mi = self.model_node.find_node('Mesh')
@@ -339,11 +332,11 @@ class TileItem:
                 pos_z + dz,
                 0.3 + random.random()*0.7)
             
-        self.load_res('res://models/Flag01.tscn',
+        self.corner_flag = self.load_res('res://models/Flag01.tscn',
                 pos_x - TILE_SIZE*0.5,
                 pos_z - Z_TILE_SIZE*0.5,
                 1)
-
+        
         # 草
         for i in range(random.randrange(1, 5)):
             rad = random_x()*math.pi
@@ -403,8 +396,16 @@ class TileItem:
 
         item.set_position(x,0,z)
         item.set_scale(s,s,s)
+        return item
 
     def unload(self):
+        if self.corner_flag:
+            # mesh_node = self.corner_flag.find_node('Mesh')
+            # if mesh_node:
+            #     mesh_node.set_surface_material(0, None)
+            #     mesh_node.set_surface_material(1, None)
+            pass
+        
         pass
 
     def update_hud(self):
@@ -548,5 +549,6 @@ class GroundMgr(NodeObject):
         self.terrain_map = Bmp(r'game\data\world_terrain.bmp')
         self.load_complete = True
 
-
+    def iterate_tiles(self):
+        return self.tile_dict.values()
 

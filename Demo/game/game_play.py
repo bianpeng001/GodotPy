@@ -92,9 +92,14 @@ class GamePlay:
                     if city.city_type != CT_XIAN:
                         city.city_type = CT_XIAN
                         if city.model_node:
+                            flag_node = city.model_node.find_node('Flag')
+                            if flag_node:
+                                flag_node.set_surface_material(1, None)
+                                
                             city.model_node.destroy()
                             city.model_node = None
                             city.load_model()
+                            
                         
                     # 城的归属
                     self.set_city_owner(city, player)
@@ -211,8 +216,12 @@ class GamePlay:
             if city.model_node:
                 flag_node = city.model_node.find_node('Flag')
                 if flag_node:
+                    flag_node.set_surface_material(0, None)
                     flag_node.set_surface_material(1, None)
         
+        for tile in game_mgr.ground_mgr.iterate_tiles():
+            tile.unload()
+            
         # 释放材质
         for player in game_mgr.player_mgr.get_player_iterator():
             player.flag_mat = None
