@@ -59,7 +59,7 @@ class GamePlay:
                 OS.set_window_rect(*obj['window'])
 
         # 标题
-        OS.set_window_title('豪杰是怎样练成的')
+        OS.set_window_title(game_mgr.config_mgr.app_title)
 
         # 起始块, 不加载物件，因为这块可能会有一些特效残留的bug，
         # 弄一个建筑物挡一挡，毕竟是天下之中

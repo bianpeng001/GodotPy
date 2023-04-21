@@ -67,6 +67,8 @@ class SkillConfig(BaseConfig):
 # 配置信息
 class ConfigMgr:
     def __init__(self):
+        
+        self.app_title = '豪杰是怎样练成的'
         # 太守的发言
         self.neizheng_strap_dialog_list = [
             '为政之道，务于多闻。', 
