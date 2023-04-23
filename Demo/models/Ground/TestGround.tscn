@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://dyixunk0utliu"]
+
+[ext_resource type="PackedScene" uid="uid://co0t02uiuq8i7" path="res://models/Ground/Ground_Path_V.glb" id="1_dpmqy"]
+[ext_resource type="PackedScene" uid="uid://dd07sxygwalr6" path="res://models/Ground/Ground_Stone_Path_Ending_B.glb" id="2_rmgv2"]
+[ext_resource type="PackedScene" uid="uid://midilc7prqj3" path="res://models/Ground/Ground_Stone_Path_Ending_L.glb" id="3_0c6me"]
+[ext_resource type="PackedScene" uid="uid://bgp2r6k5coo2r" path="res://models/Ground/Water_Round_LB.glb" id="4_w3h4y"]
+
+[node name="TestGround" type="Node3D"]
+
+[node name="Ground_Path_V" parent="." instance=ExtResource("1_dpmqy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.201742, -1.19209e-07, -0.206173)
+
+[node name="Ground_Stone_Path_Ending_B" parent="." instance=ExtResource("2_rmgv2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.187202, 0, 1.68818)
+
+[node name="Ground_Stone_Path_Ending_L" parent="." instance=ExtResource("3_0c6me")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.34458, 1.19209e-07, 0.354499)
+
+[node name="Water_Round_LB" parent="." instance=ExtResource("4_w3h4y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.00428, -1.19209e-07, 1.36302)

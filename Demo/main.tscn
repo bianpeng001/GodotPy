@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://6dfqy46nfjvv"]
+[gd_scene load_steps=12 format=3 uid="uid://6dfqy46nfjvv"]
 
 [ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="1_53tvn"]
 [ext_resource type="QuadMesh" uid="uid://bgvylfri1047g" path="res://models/Outline/ScreenRect.tres" id="2_3c4m5"]
@@ -10,6 +10,7 @@
 [ext_resource type="ArrayMesh" uid="uid://dtbgwxqjieh4p" path="res://models/River02.obj" id="8_ulrcq"]
 [ext_resource type="Material" uid="uid://vnh10gues45c" path="res://models/Water/Water02Mat.tres" id="9_7rrpb"]
 [ext_resource type="PackedScene" uid="uid://d0uwnhhx16lv3" path="res://effects/Fire01/Fire01.tscn" id="10_v1a41"]
+[ext_resource type="PackedScene" uid="uid://midilc7prqj3" path="res://models/Ground/Ground_Stone_Path_Ending_L.glb" id="11_yupv6"]
 
 [node name="MainScene" type="FPyObject"]
 python_module = "game.mainloop"
@@ -90,3 +91,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18009, 0, -0.252639)
 
 [node name="Fire01" parent="." instance=ExtResource("10_v1a41")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.15436, 0, 11.7753)
+
+[node name="Ground_Stone_Path_Ending_L" parent="." instance=ExtResource("11_yupv6")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -10, 0, 0)
+
+[node name="Ground_Stone_Path_Ending_L2" parent="." instance=ExtResource("11_yupv6")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -10, 0, -15)

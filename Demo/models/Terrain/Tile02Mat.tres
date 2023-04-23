@@ -6,3 +6,4 @@
 render_priority = -50
 depth_draw_mode = 2
 albedo_texture = ExtResource("1_ths7b")
+texture_repeat = false
