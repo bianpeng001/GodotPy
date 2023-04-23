@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://2lhyrmn3yh1q"]
+
+[ext_resource type="PackedScene" uid="uid://dxmu8e7pi3f36" path="res://models/Rocks/rock_3.tscn" id="1_fk7iv"]
+
+[node name="ground" instance=ExtResource("1_fk7iv")]
+
+[node name="Water_Turn_RB" parent="." index="112"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.9812, 0, -9.42248)
+
+[node name="Water_Turn_RU" parent="." index="113"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.9944, 0, -10.8696)
