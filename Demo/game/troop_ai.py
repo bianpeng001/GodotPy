@@ -81,7 +81,7 @@ class StepMoveReq(MoveComponent):
             return
         
         if self.block_count > 0:
-            right = delta.cross(Vector3.y_axis) * (self.block_count*0.2)
+            right = delta.cross(Vector3.y_axis) * (self.block_count*0.8)
             delta.x += right.x
             delta.z += right.z
             dis = delta.magnitude()
