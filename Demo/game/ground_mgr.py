@@ -48,7 +48,7 @@ class TileItem:
         #log_debug(f'load tile: ({self.col},{self.row})')
         pos_x, pos_z = self.get_center_pos()
 
-        self.model_node = OS.instantiate('res://models/Tile01.tscn')
+        self.model_node = OS.instantiate('res://models/Terrain/Tile02.tscn')
         self.model_node.set_position(pos_x, 0, pos_z)
 
         mi = self.model_node.find_node('Mesh')
@@ -108,13 +108,18 @@ class TileItem:
             
             # 找到对应的像素, 颜色
             px,py = x+(self.col+15)*10-5, z+(self.row+15)*10-5
-            r,_,_ = get_color(px, py)
-            if r > 150:
-                st.set_uv(0.11,0.11)
-            elif r > 100:
-                st.set_uv(0.09,0.40)
-            else:
-                st.set_uv(0.36,0.88)
+            
+            # 这是用300x300位图, 点采样方式生成世界地图
+            st.set_uv(px/300, py/300)
+            
+            # 这个是原来的方式, 根据颜色, 映射到色卡, 感觉还是直接给一个300x300的图所见即所得
+            # r,_,_ = get_color(px, py)
+            # if r > 150:
+            #     st.set_uv(0.11,0.11)
+            # elif r > 100:
+            #     st.set_uv(0.09,0.40)
+            # else:
+            #     st.set_uv(0.36,0.88)
             
             st.add_vertex(cx, 0, cz-radius)
             st.add_vertex(cx-half_width, 0, cz-radius*0.5)

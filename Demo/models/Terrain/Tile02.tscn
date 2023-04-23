@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://c5qk1fdvaag5i"]
+
+[ext_resource type="Material" uid="uid://dpxlegpfaw68e" path="res://models/Terrain/Tile02Mat.tres" id="1_1xm4x"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ac5k1"]
+resource_name = "Material"
+cull_mode = 2
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.906332, 0.906332, 0.906332, 1)
+roughness = 0.5
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_hd05r"]
+_surfaces = [{
+"aabb": AABB(-1, 0, -1, 2.00001, 1e-05, 2),
+"format": 4097,
+"index_count": 6,
+"index_data": PackedByteArray(3, 0, 0, 0, 2, 0, 3, 0, 1, 0, 0, 0),
+"name": "Material",
+"primitive": 3,
+"vertex_count": 4,
+"vertex_data": PackedByteArray(0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 63)
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_y8rsx"]
+resource_name = "Square_Square"
+_surfaces = [{
+"aabb": AABB(-1, 0, -1, 2.00001, 1e-05, 2),
+"attribute_data": PackedByteArray(0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63),
+"format": 4119,
+"index_count": 6,
+"index_data": PackedByteArray(3, 0, 0, 0, 2, 0, 3, 0, 1, 0, 0, 0),
+"material": SubResource("StandardMaterial3D_ac5k1"),
+"name": "Material",
+"primitive": 3,
+"vertex_count": 4,
+"vertex_data": PackedByteArray(0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 191, 255, 127, 255, 255, 255, 255, 255, 191, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 191, 255, 127, 255, 255, 255, 255, 255, 191, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 255, 127, 255, 255, 255, 255, 255, 191, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 63, 255, 127, 255, 255, 255, 255, 255, 191)
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_hd05r")
+
+[node name="Tile02" type="Node3D"]
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 0, 0)
+mesh = SubResource("ArrayMesh_y8rsx")
+surface_material_override/0 = ExtResource("1_1xm4x")
