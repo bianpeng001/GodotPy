@@ -18,16 +18,16 @@ class AISightComponent(Component):
         self.angle_speed = 0.3
         
         # 视野距离
-        self.radius = 10
-        self.lose_radius = 15
+        self.radius = 8
+        self.lose_radius = 12
         
         # 视野中的单位
         self.unit_dict = {}
         
-        self.controller = None
+        self._controller = None
         
     def get_controller(self):
-        return self.controller
+        return self._controller
         
     def update(self):
         # 移动过程里, 还要检查周围的敌军, 有一个视野
@@ -47,17 +47,38 @@ class AISightComponent(Component):
         x,z = src_unit.get_xz()
         sqr_radius = self.radius**2
         
-        if self.get_controller().owner_tile:
-            #log_debug('check_see_unit', src_unit.unit_name, len(controller.owner_tile.unit_list))
-            for unit in self.get_controller().owner_tile.get_unit_list():
-                if unit.unit_id != src_unit.unit_id and \
-                        unit.unit_id not in self.unit_dict:
-                    x1,z1 = unit.get_xz()
-                    dx,dz = x1-x,z1-z
-                    sqrdis = dx*dx+dz*dz
-                    if sqrdis <= sqr_radius:
-                        self.unit_dict[unit.unit_id] = unit
-                        #log_debug('in sight', src_unit.unit_name, unit.unit_name)
+        def check_tile_unit(tile):
+            if tile:
+                #log_debug('check owner tile', src_unit.unit_name, len(tile.get_unit_list()))
+                for unit in tile.get_unit_list():
+                    if unit.unit_id != src_unit.unit_id and \
+                            unit.unit_id not in self.unit_dict:
+                        x1,z1 = unit.get_xz()
+                        dx,dz = x1-x,z1-z
+                        sqrdis = dx*dx+dz*dz
+                        #log_debug('src unit', src_unit.unit_name, x, z, src_unit.get_position())
+                        #log_debug('unit', unit.unit_name, x1, z1)
+                        #log_debug('delta', dx, dz)
+                        #log_debug('check see unit', src_unit.unit_name, dx,dz, sqr_radius, unit.unit_name)
+                        if sqrdis <= sqr_radius:
+                            self.unit_dict[unit.unit_id] = unit
+                            #log_debug('see unit', src_unit.unit_name, '->', unit.unit_name)
+            
+        # 要扫描周围几个tile
+        owner_tile = self.get_controller().owner_tile
+        if owner_tile:
+            #check_tile_unit(tile)
+            row = owner_tile.row
+            col = owner_tile.col
+            check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col,row-1))
+            check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col,row))
+            check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col,row+1))
+            check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col+1,row-1))
+            check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col+1,row))
+            check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col+1,row+1))
+            check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col-1,row-1))
+            check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col-1,row))
+            check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col-1,row+1))
 
         if len(self.unit_dict) > 0:
             lose_list = game_mgr.get_reuse_list()
@@ -67,6 +88,7 @@ class AISightComponent(Component):
                 x1,z1 = unit.get_xz()
                 dx,dz = x1-x,z1-z
                 sqrdis = dx*dx+dz*dz
+                #log_debug(src_unit.unit_name, unit.unit_name, dx, dz, sqrdis, sqr_lose_radius)
                 if sqrdis > sqr_lose_radius:
                     lose_list.append(unit.unit_id)
                     #log_debug('lose sight', src_unit.unit_name, unit.unit_name)
@@ -118,7 +140,7 @@ class TroopController(Controller):
         self.fight_comp.controller = self
         # 视觉感知
         self.sight_comp = AISightComponent()
-        self.sight_comp.controller = self
+        self.sight_comp._controller = self
         # brain
         self.brain_comp = TroopBrainComponent()
         self.brain_comp.controller = self
@@ -241,6 +263,7 @@ class TroopController(Controller):
                         f = rvo_factor*unit.mass*(1.0/sqrdis - 1.0/rvo_sqrdis)
                         self.rvo_acce_x += dx*f
                         self.rvo_acce_z += dz*f
+            #log_debug('rvo force', src_unit.unit_name, self.rvo_acce_x, self.rvo_acce_z)
 
     def look_at(self,x,y,z):
         node = self.get_model_node()

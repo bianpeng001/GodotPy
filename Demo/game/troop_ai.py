@@ -99,6 +99,7 @@ class StepMoveReq(MoveComponent):
             
             if self.block_count == 0:
                 controller.look_at(new_pos.x,new_pos.y,new_pos.z)
+            #controller.look_at(new_pos.x,new_pos.y,new_pos.z)
             troop.set_position(new_pos.x,new_pos.y,new_pos.z)
             
             if self.block_count > 0:

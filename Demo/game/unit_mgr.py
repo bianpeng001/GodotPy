@@ -128,9 +128,15 @@ class UnitMgr:
         if x >= -1 and x <= 1 and z >= -1 and z <= 1:
             province = '雍冀兖豫徐青益荆扬'[(z+1)*3+(x+1)] + '州'
         else:
-            province = '荒蛮'
+            province = '化外'
             
         return province
+    
+    def get_unit_by_name(self, name):
+        for unit in self.update_list:
+            if unit.unit_name == name:
+                return unit
+            
     
 
 

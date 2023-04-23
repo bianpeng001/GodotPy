@@ -32,7 +32,7 @@ def trigger_mainui():
     show = not ui_mgr.mainui_controller.is_show()
     ui_mgr.show_base_ui(show)
 
-trigger_mainui()
+#trigger_mainui()
 
 def fix_config():
     config_mgr = game_mgr.config_mgr
@@ -47,4 +47,18 @@ def play_effect():
 
 #play_effect()
 
+
+def test_pos():
+    #unit1 = game_mgr.unit_mgr.get_unit_by_name('王世玉部')
+    unit2 = game_mgr.unit_mgr.get_unit_by_name('安喜')
+
+    #print(unit1.get_position())
+    print(unit2.get_position())
+    
+    x,z = unit2.get_xz()
+    tile = game_mgr.ground_mgr.get_tile(x,z)
+    for unit in tile.get_unit_list():
+        print(unit.unit_name, unit.get_position())
+
+test_pos()
 
