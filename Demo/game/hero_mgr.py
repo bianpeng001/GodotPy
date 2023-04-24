@@ -12,7 +12,7 @@ FEMAIL = 0
 MALE = 1
 
 # attrs [0, 100]
-# 忠义，智力，武力，统率，政治，魅力，敏捷
+# 忠义，智力，武力，统率，政治，魅力，敏捷, 野心
 ATTR_ZHONG = 0
 ATTR_ZHI = 1
 ATTR_WU = 2
@@ -20,10 +20,11 @@ ATTR_TONG = 3
 ATTR_ZHENG = 4
 ATTR_MEI = 5
 ATTR_MIN = 6
+ATTR_YEXIN = 7 
 
 MAX = 8
 
-# tags
+# tags 部分武将拥有特殊属性
 
 # 武圣，单挑无敌
 TAG_WU_SHENG = 0
