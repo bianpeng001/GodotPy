@@ -5,6 +5,14 @@
 ## 无题
 <div class="date">xxxx年x月xx日</div>
 
+## 日志
+
+1. 基于effect做伤害飘字
+2. AI玩家
+
+
+<div class="date">2023年4月24日</div>
+
 ## 野战攻城
 
 地图的改进
