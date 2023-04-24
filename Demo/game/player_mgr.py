@@ -2,7 +2,7 @@
 # 2023年2月4日 bianpeng
 #
 
-from game.core import *
+from game.core import log_debug
 
 # 一个玩家
 class Player:
@@ -64,7 +64,7 @@ class PlayerMgr:
         
         return player
 
-    def get_player_iterator(self):
+    def loop_player(self):
         return self.player_dict.values()
 
 

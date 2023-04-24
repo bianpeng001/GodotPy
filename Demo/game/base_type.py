@@ -113,9 +113,13 @@ class Unit:
 
         # 伤害，防御
         self.damage = 0
+        # 暴击率10%
+        self.critical_strike = 0
+        # 防御
         self.defense = 0
+        # 等级
         self.level = 1
-        #self.maxhp = self.hp = 100
+        # 血量(主要是指军队数量)
         self.army_amount = LimitValue(0, 1000)
 
         # 生死存亡

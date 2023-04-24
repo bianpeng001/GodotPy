@@ -84,17 +84,13 @@ class ConfigMgr:
 
         self.play_time_scale = 1000
         self.story = StoryConfig()
-        
+        # 剧情
+        self.init_story_config()
         # 章节
-        self.chapter_dict = {}
         self.init_chapter_config()
-        
         # 特效
-        self.effect_dict = {}
         self.init_effect_config()
-        
         # 技能
-        self.skill_dict = {}
         self.init_skill_config()
         
         # rvo 参数
@@ -102,7 +98,12 @@ class ConfigMgr:
         # rvo 斥力半径, 之外是不提供斥力的, 是距离**2
         self.rvo_sqrdis = 6*6
         
+    def init_story_config(self):
+        self.story_dict = {}
+        
     def init_skill_config(self):
+        self.skill_dict = {}
+        
         skill = SkillConfig()
         skill.config_id = 3001
         skill.effect_id = 2001
@@ -116,6 +117,8 @@ class ConfigMgr:
         return self.skill_dict.get(config_id, None)
         
     def init_effect_config(self):
+        self.effect_dict = {}
+        
         # 射箭
         effect = EffectConfig()
         effect.config_id = 2001
@@ -134,7 +137,7 @@ class ConfigMgr:
         return self.effect_dict.get(config_id, None)
 
     def init_chapter_config(self):
-        pass
+        self.chapter_dict = {}
 
     # 公式也都定义在此, 参数有点多
     
@@ -146,6 +149,13 @@ class ConfigMgr:
         value = cfg.damage * f1 * f2
         
         value = round(value - target_unit.defense)
+        
+        # 暴击率
+        if src_troop.critical_strike > 0 and \
+                random_100() < src_troop.critical_strike:
+            value *= 2
+        
+        # 保底伤害, 不能给加血吧?
         if value <= 0:
             value = 1
             

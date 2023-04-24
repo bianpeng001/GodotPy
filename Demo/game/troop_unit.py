@@ -32,6 +32,7 @@ class TroopUnit(Unit, UnitTrait):
         
         # 士气
         self.army_moral = 100
+        self.critical_strike = 50
 
         # 模型的类型
         self.model_type = 3

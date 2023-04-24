@@ -2,11 +2,13 @@
 # 2023年2月8日 bianpeng
 #
 
-from game.core import *
+from game.core import log_debug, OS
 from game.game_mgr import *
 from game.base_type import *
 
+#
 # 一个HUD，封装一下，关联unit_id，和UI元素
+#
 class HUDItem:
     def __init__(self):
         self.unit_id = 0
@@ -99,10 +101,10 @@ class HUDMgr:
         if not self.template_list:
             self.template_list = [ None, None, None ]
 
-            hud_obj = FNode3D.instantiate('res://ui/CityHUD.tscn')
+            hud_obj = OS.instantiate('res://ui/CityHUD.tscn')
             self.template_list[1] = hud_obj
             
-            hud_obj = FNode3D.instantiate('res://ui/TroopHUD.tscn')
+            hud_obj = OS.instantiate('res://ui/TroopHUD.tscn')
             self.template_list[2] = hud_obj
             
             for hud_obj in self.template_list:

@@ -217,7 +217,7 @@ class GamePlay:
             tile.unload()
             
         # 释放材质
-        for player in game_mgr.player_mgr.get_player_iterator():
+        for player in game_mgr.player_mgr.loop_player():
             player.flag_mat = None
         
         # reset cursor, or cursor texture2d asset leak error
@@ -249,7 +249,6 @@ class GamePlay:
             player.hero_list.append(hero_id)
             
         
-
     # 队伍攻城
     def troop_attack_city(self, troop, city):
         if troop.owner_player_id == 0:
@@ -285,7 +284,7 @@ class GamePlay:
         for city in game_mgr.unit_mgr.each_city():
             city.get_controller().refresh_resource_amount(delta_time)
         
-        for player in game_mgr.player_mgr.get_player_iterator():
+        for player in game_mgr.player_mgr.loop_player():
             player.total_money_amount = 0
             player.total_rice_amount = 0
 
@@ -349,6 +348,7 @@ class GamePlay:
                     src_unit,
                     target_unit)
             
+            # 掉血飘字
             game_mgr.effect_mgr.play_damage(damage, target_unit)
             
             target_unit.army_amount.add(-damage)

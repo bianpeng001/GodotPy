@@ -71,6 +71,7 @@ class TextEffectItem(EffectItem):
         self.node.set_position(x1-40,y1)
     
     def set_text(self, value):
+        self.text_node.set_color(0,1,0,1)
         self.text_node.set_text(str(value))
 
 #

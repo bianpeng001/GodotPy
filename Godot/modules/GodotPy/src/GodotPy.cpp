@@ -1730,7 +1730,7 @@ static PyObject *f_label_set_text(PyObject *module, PyObject *args) {
 		if (!PyArg_ParseTuple(args, "Os", &a_obj, &s)) {
 			break;
 		}
-
+		
 		auto label = GetObjPtr<Label>(a_obj);
 		if (!label) {
 			break;
@@ -1738,6 +1738,26 @@ static PyObject *f_label_set_text(PyObject *module, PyObject *args) {
 
 		auto text = String::utf8(s);
 		label->set_text(text);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_label_set_color(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		float r, g, b, a;
+		if (!PyArg_ParseTuple(args, "Offff", &a_obj, &r, &g, &b, &a)) {
+			break;
+		}
+
+		auto label = GetObjPtr<Label>(a_obj);
+		if (!label) {
+			break;
+		}
+
+		Color color(r, g, b, a);
+		label->add_theme_color_override(StringName("font_color"), color);
 
 	} while (0);
 
@@ -2585,6 +2605,7 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// label
 	{ "label_set_text", f_label_set_text, METH_VARARGS, NULL },
+	{ "label_set_color", f_label_set_color, METH_VARARGS, NULL },
 	{ "label_set_minimum_size", f_label_set_minimum_size, METH_VARARGS, NULL },
 
 	// texture rect
