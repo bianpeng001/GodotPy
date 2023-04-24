@@ -580,9 +580,6 @@ class FAnimationPlayer(FNode):
 class FLabel3D(FNode3D):
     def set_text(self, text):
         gp.label3d_set_text(self.get_gdobj(), text)
-        
-    def set_color(self, r,g,b,a):
-        gp.label_set_color(self.get_gdobj(), r,g,b,a)
 
 class FCPUParticles3D(FVisualInstance3D):
     def set_emitting(self, value):
@@ -625,6 +622,9 @@ class FLabel(FControl):
         if self.text != text:
             self.text = text
             gp.label_set_text(self.get_gdobj(), text)
+            
+    def set_color(self, r,g,b,a):
+        gp.label_set_color(self.get_gdobj(), r,g,b,a)
 
     def set_minimum_size(self, w, h):
         gp.label_set_minimum_size(self.get_gdobj(), w, h)

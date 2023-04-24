@@ -5,8 +5,11 @@
 import math
 import random
 
-from game.core import log_debug
+from game.core import log_debug, random_100
 
+#
+#
+#
 class BaseConfig:
     def __init__(self):
         self.config_id = 0
@@ -46,7 +49,9 @@ class ChapterConfig(BaseConfig):
         self.title = ''
         self.script = []
 
+#
 # 剧情
+#
 class StoryConfig(BaseConfig):
     def __init__(self):
         self.start_game_story = [
@@ -64,7 +69,9 @@ class SkillConfig(BaseConfig):
     def __init__(self):
         self.damage = 10
 
-# 配置信息
+#
+# 配置管理器
+#
 class ConfigMgr:
     def __init__(self):
         

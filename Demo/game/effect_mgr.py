@@ -75,7 +75,7 @@ class TextEffectItem(EffectItem):
         self.text_node.set_text(str(value))
 
 #
-#
+# 普通特效
 #
 class SimpleEffectItem(EffectItem):
     pass
