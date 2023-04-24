@@ -10,11 +10,12 @@ from game.game_mgr import *
 from game.event_name import *
 from game.wait import *
 from game.base_type import *
-from game.config_mgr import new_hero_name
 
+#
 # 游戏的控制逻辑, 事件响应啥的，集中到这里来
 # 业务逻辑也放到这里来，脏活累活都放这
 # 有一些业务逻辑是好几个单位相互作用的
+#
 class GamePlay:
     def __init__(self):
         # init sub systems
@@ -206,7 +207,7 @@ class GamePlay:
     def on_leave_scene(self):
         # 这是要清理surface material override
         # 不然就有报错, 所以, 虽然不太合理,但还是可以做一下
-        for city in game_mgr.unit_mgr.get_city_iterator():
+        for city in game_mgr.unit_mgr.loop_city():
             if city.model_node:
                 flag_node = city.model_node.find_node('Flag')
                 if flag_node:
@@ -248,7 +249,6 @@ class GamePlay:
             hero.owner_player_id = player.player_id
             player.hero_list.append(hero_id)
             
-        
     # 队伍攻城
     def troop_attack_city(self, troop, city):
         if troop.owner_player_id == 0:

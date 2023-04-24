@@ -115,7 +115,7 @@ class UnitMgr:
             if unit.unit_type == UT_CITY:
                 yield unit
 
-    def get_city_iterator(self):
+    def loop_city(self):
         for unit in self.update_list:
             if unit.unit_type == UT_CITY:
                 yield unit
