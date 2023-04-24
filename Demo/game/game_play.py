@@ -99,7 +99,6 @@ class GamePlay:
                             city.model_node = None
                             city.load_model()
                             
-                        
                     # 城的归属
                     self.set_city_owner(city, player)
                     # 治所
@@ -364,5 +363,30 @@ class GamePlay:
     # 占领
     def occupy_city(self, src_unit, target_unit):
         log_debug('occupy', src_unit.unit_name, target_unit.unit_name)
+
+
+    # 在城里, 创建一个玩家
+    def create_player(city_unit):
+        pm = game_mgr.player_mgr
+        
+        player = pm.new_player()
+        player.player_name = new_hero_name()
+        
+        # 玩家自己
+        hero = game_mgr.hero_mgr.new_hero()
+        hero.hero_name = player.player_name
+        
+        # 武将的从属
+        hero.owner_player_id = player.player_id
+        player.main_hero_id = hero.hero_id
+        player.hero_list.append(hero.hero_id)
+        
+        # 城市的从属
+        self.set_city_owner(city_unit, player)
+        player.main_city_id = city_unit.unit_id
+        hero.owner_city_id = city_unit.unit_id
+        city_unit.hero_list.insert(0, hero.hero_id)
+        
+        return player
 
 

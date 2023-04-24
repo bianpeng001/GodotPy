@@ -71,27 +71,7 @@ test_damage()
 
 # 创建一个诸侯, 拥有一个城
 def create_player(city_name1):
-    pm = game_mgr.player_mgr
-    game_play = game_mgr.game_play
-    
-    player = pm.new_player()
-    player.player_name = new_hero_name()
-    
-    hero = game_mgr.hero_mgr.new_hero()
-    hero.hero_name = player.player_name
-    
-    hero.owner_player_id = player.player_id
-    player.main_hero_id = hero.hero_id
-    player.hero_list.append(hero.hero_id)
-    
-    city_unit1 = game_mgr.unit_mgr.get_unit_by_name(city_name1)
-    if city_unit1:
-        game_play.set_city_owner(city_unit1, player)
-        
-        player.main_city_id = city_unit1.unit_id
-        hero.owner_city_id = city_unit1.unit_id
-        city_unit1.hero_list.insert(0, hero.hero_id)
-
-    
+    city_unit = game_mgr.unit_mgr.get_unit_by_name(city_name1)
+    player = game_mgr.game_play.create_player(city_unit)
 
 #create_player()
