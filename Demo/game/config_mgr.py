@@ -123,6 +123,13 @@ class ConfigMgr:
         effect.res_path = 'res://effects/Shoot01.tscn'
         self.effect_dict[effect.config_id] = effect
         
+        # 飘字
+        effect = EffectConfig()
+        effect.config_id = 2002
+        effect.life_time = 1.5
+        effect.res_path = 'res://ui/TextEffect.tscn'
+        self.effect_dict[effect.config_id] = effect
+        
     def get_effect(self, config_id):
         return self.effect_dict.get(config_id, None)
 

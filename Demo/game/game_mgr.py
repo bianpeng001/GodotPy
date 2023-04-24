@@ -88,11 +88,11 @@ class GameMgr():
             self.input_mgr.update,
             self.game_play.update,
             self.unit_mgr.update,
+            
             self.ground_mgr.update,
             self.ui_mgr.update,
-
-            self.effect_mgr.update,
             self.skill_mgr.update,
+            self.effect_mgr.update,
             self.camera_mgr.update,
             self.hud_mgr.update,
             self.hero_mgr.update,

@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkalagxm38bcx"]
+
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_iucwd"]
+
+[node name="TextEffect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1072.0
+offset_bottom = -622.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_iucwd")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 80.0
+offset_bottom = 26.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_font_sizes/font_size = 22
+text = "1000"
+horizontal_alignment = 1

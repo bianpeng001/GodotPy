@@ -60,5 +60,10 @@ def test_pos():
     for unit in tile.get_unit_list():
         print(unit.unit_name, unit.get_position())
 
-test_pos()
+#test_pos()
 
+def test_damage():
+    unit1 = game_mgr.unit_mgr.get_unit_by_name('安喜')
+    game_mgr.effect_mgr.play_damage(1234, unit1)
+
+test_damage()

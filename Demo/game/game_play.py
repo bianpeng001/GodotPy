@@ -349,11 +349,14 @@ class GamePlay:
                     src_unit,
                     target_unit)
             
+            game_mgr.effect_mgr.play_damage(damage, target_unit)
+            
             target_unit.army_amount.add(-damage)
             log_debug('skill damage', damage, target_unit.army_amount.get_value())
             if target_unit.army_amount.get_value() <= 0:
-                
                 game_mgr.game_play.occupy_city(src_unit, target_unit)
+                
+            
         
         # 技能的生命周期, 注册一个
         game_mgr.skill_mgr.create_skill_item(skill_config_id, on_complete)
