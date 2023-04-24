@@ -59,6 +59,7 @@ class StepMoveReq(MoveComponent):
         super().__init__()
         # 卡主的数量, 如果卡主次数太多了, 还是需要缓缓方向
         self.block_count = 0
+        self.accu_time = 0
     
     # 这段这么恶心, 建议放到c++里面去算
     def update(self, troop, delta_time):
@@ -74,32 +75,34 @@ class StepMoveReq(MoveComponent):
             
         cur_pos = Vector3(*troop.get_position())
         delta = dst_pos - cur_pos
+
+        unit_time = 1.0/60
         
         dis = delta.magnitude()
-        if dis <= delta_time*troop.speed:
+        if dis <= unit_time*troop.speed:
             self.complete()
             return
         
-        if self.block_count > 0:
+        if self.block_count > 5:
             right = delta.cross(Vector3.y_axis) * (self.block_count*0.8)
             delta.x += right.x
             delta.z += right.z
             dis = delta.magnitude()
             pass
 
+        self.accu_time += unit_time
         v = delta * (troop.speed/dis)
         # 计算rvo的加速对速度增量, 
         # 这里的*delta_time, 因为比较固定, 感觉可以当做常量合并到rvo_factor
-        v.x += controller.rvo_acce_x*delta_time
-        v.z += controller.rvo_acce_z*delta_time
-        
-        d = v * delta_time
-        if d.sqr_magnitude() > 0.0001:
-            new_pos = cur_pos + d
+        v.x += controller.rvo_acce_x*unit_time
+        v.z += controller.rvo_acce_z*unit_time
 
-            controller.look_at(new_pos.x,new_pos.y,new_pos.z)
-            troop.set_position(new_pos.x,new_pos.y,new_pos.z)
+        d = v * self.accu_time
+        if d.sqr_magnitude() > 0.00005:
+            controller.look_at(cur_pos.x+d.x, cur_pos.y, cur_pos.z+d.z)
+            troop.set_position(cur_pos.x+d.x, cur_pos.y, cur_pos.z+d.z)
             
+            self.accu_time = 0
             if self.block_count > 0:
                 self.block_count -= 1
         else:
