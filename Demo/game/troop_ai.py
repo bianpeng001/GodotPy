@@ -57,8 +57,11 @@ class LineMoveReq(MoveComponent):
 class StepMoveReq(MoveComponent):
     def __init__(self):
         super().__init__()
+        
         # 卡主的数量, 如果卡主次数太多了, 还是需要缓缓方向
+        # 卡主的次数
         self.block_count = 0
+        # 卡主后的累计时长
         self.accu_time = 0
     
     # 这段这么恶心, 建议放到c++里面去算

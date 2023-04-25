@@ -89,7 +89,9 @@ class ConfigMgr:
             '大丈夫岂郁郁久居人下。',
         ]
 
+        # 游戏时长跟现实时长的单位转换, 用来更新游戏内日历
         self.play_time_scale = 1000
+        
         self.story = StoryConfig()
         # 剧情
         self.init_story_config()
@@ -105,8 +107,11 @@ class ConfigMgr:
         # rvo 斥力半径, 之外是不提供斥力的, 是距离**2
         self.rvo_sqrdis = 6*6
         
-        # 每帧的时长
+        # 单位秒, 每帧的时长, 有时候用固定值就挺好的
         self.frame_seconds = 1.0/60
+        
+        # 修正走路卡主的参数
+        
         # 行军过程里block住, 停了n帧不动, 则开始转转弯
         self.start_fix_block = 8
         # 修正block的步长
@@ -123,6 +128,7 @@ class ConfigMgr:
         skill.effect_id = 2001
         skill.life_time = 1.0
         skill.cooldown = 4.0
+        
         # 伤害每千人
         skill.damage = 200
         self.skill_dict[skill.config_id] = skill
