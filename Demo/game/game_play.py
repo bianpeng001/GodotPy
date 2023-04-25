@@ -72,59 +72,50 @@ class GamePlay:
         pm = game_mgr.player_mgr
         cm = game_mgr.camera_mgr
         cm.update_camera()
+        
+        # 记录一些数据
+        ctx_data = {}
 
         def in_range(x, min, max):
             return x >= min and x < max
 
         # 默认创建一个空城
         def co_choose_base_city():
-            player = pm.main_player
-
             while True:
                 yield None
                 
-                city = game_mgr.unit_mgr.find_unit(lambda x:
+                city_unit = game_mgr.unit_mgr.find_unit(lambda x:
                         x.unit_type == UT_CITY and \
                         x.unit_id > 10020 and \
                         in_range(x.get_x(), -120, 120) and \
                         in_range(x.get_z(), -120, 120) and \
                         x.owner_player_id == 0)
 
-                if city:
-                    city.unit_name = '安喜'
-                    if city.city_type != CT_XIAN:
-                        city.city_type = CT_XIAN
-                        if city.model_node:
-                            city.model_node.destroy()
-                            city.model_node = None
-                            city.load_model()
-                            
-                    # 城的归属
-                    self.set_city_owner(city, player)
-                    # 治所
-                    player.main_city_id = city.unit_id
-
-                    # 还要创建一个自己的, 武将实体
-                    hero = game_mgr.hero_mgr.new_hero()
-                    # 初始化主公, 调整一些数值
-                    hero.hero_name = player.player_name
+                if city_unit:
+                    city_unit.unit_name = '安喜'
+                    if city_unit.city_type != CT_XIAN:
+                        city_unit.city_type = CT_XIAN
+                        if city_unit.model_node:
+                            city_unit.model_node.destroy()
+                            city_unit.model_node = None
+                            city_unit.load_model()
+                    
+                    player = self.create_player(city_unit,
+                            player_name=ctx_data['player_name'],
+                            is_main_player=True)
+                    
+                    player.flag_color = (1, 0, 0)
+                    pm.main_player = player
+                    
+                    hero = get_hero(player.main_hero_id)
                     hero.set_age(28)
                     hero.attr[2] = 89
                     hero.attr[4] = 88
 
-                    hero.owner_player_id = player.player_id
-                    player.main_hero_id = hero.hero_id
-                    player.hero_list.append(hero.hero_id)
-
-                    # 把主公武将设置总督, 并进入城池
-                    hero.owner_city_id = city.unit_id
-                    city.hero_list.insert(0, hero.hero_id)
-                    city.satrap = hero.hero_id
-
                     # 旗帜颜色
-                    city.get_controller().set_flag_color()
+                    city_unit.get_controller().set_flag_color()
                     # 镜头
-                    cm.set_target_focus(*city.get_position())
+                    cm.set_target_focus(*city_unit.get_position())
                     cm.update_camera()
 
                     break
@@ -174,10 +165,7 @@ class GamePlay:
 
             def on_create_player(player_name):
                 log_util.debug('create main player')
-                pm.main_player = pm.new_player()
-                pm.main_player.player_name = player_name
-                pm.main_player.flag_color = (0,1,0)
-
+                ctx_data['player_name'] = player_name
                 game_mgr.ui_mgr.story_panel_controller.play_story(
                     game_mgr.config_mgr.story.start_game_story,
                     show_start_options)
@@ -236,18 +224,16 @@ class GamePlay:
             owner.city_list.remove(city.unit_id)
             game_mgr.event_mgr.emit(NAV_PANEL_LOSE_CITY, owner.player_id, city.unit_id)
             city.owner_player_id = 0
-
         city.owner_player_id = player.player_id
         player.city_list.append(city.unit_id)
         game_mgr.event_mgr.emit(NAV_PANEL_GAIN_CITY, player.player_id, city.unit_id)
-
         # 城内武将的归属
         # TODO: 城中的武将的归属,现在做成直接归属. 以后做成俘虏
         for hero_id in city.hero_list:
             hero = game_mgr.hero_mgr.get_hero(hero_id)
             hero.owner_player_id = player.player_id
             player.hero_list.append(hero_id)
-            
+
     # 队伍攻城
     def troop_attack_city(self, troop, city):
         if troop.owner_player_id == 0:
@@ -366,15 +352,21 @@ class GamePlay:
 
 
     # 在城里, 创建一个玩家
-    def create_player(city_unit):
+    def create_player(self,
+            city_unit,
+            player_name=None,
+            is_main_player=False):
+        player_name = player_name or new_hero_name()
+        
         pm = game_mgr.player_mgr
         
         player = pm.new_player()
-        player.player_name = new_hero_name()
-        
+        if is_main_player:
+            pm.main_player = player
+        player.player_name = player_name
         # 玩家自己
         hero = game_mgr.hero_mgr.new_hero()
-        hero.hero_name = player.player_name
+        hero.hero_name = player_name
         
         # 武将的从属
         hero.owner_player_id = player.player_id
@@ -386,6 +378,7 @@ class GamePlay:
         player.main_city_id = city_unit.unit_id
         hero.owner_city_id = city_unit.unit_id
         city_unit.hero_list.insert(0, hero.hero_id)
+        city_unit.satrap = hero.hero_id
         
         return player
 

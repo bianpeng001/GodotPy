@@ -3,6 +3,7 @@
 #
 
 import traceback
+import sys
 
 #
 # 既然用了python，还是要做一下协程。发现用Iterator来做比较方便。
@@ -62,10 +63,12 @@ class _Coroutine(Waitable):
         except Exception as err:
             self.done = True
             self.error = True
-            print(err)
+            #print('coroutine error', err)
+            print('exception in coroutine:', err)
             traceback.print_exc()
-
-
+            #a,b,c = sys.exc_info()
+            #print(a,b, c)
+            #traceback.print_exception(a,b,c)
 
 # 用Iterator来做Coroutine
 class CoroutineMgr:

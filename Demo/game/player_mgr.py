@@ -4,7 +4,9 @@
 
 from game.core import log_debug
 
+#
 # 一个玩家
+#
 class Player:
     def __init__(self):
         self.player_id = 0
@@ -35,11 +37,13 @@ class Player:
     def save(self):
         pass
 
+#
 # 玩家管理器
+#
 class PlayerMgr:
     def __init__(self):
         self.player_dict = {}
-        self.player_id_seed = 100
+        self.next_player_id = 100
 
         self.main_player = None
 
@@ -50,10 +54,10 @@ class PlayerMgr:
     def new_player(self):
         player = Player()
 
-        self.player_id_seed += 1
-        player.player_id = self.player_id_seed
-
+        self.next_player_id += 1
+        player.player_id = self.next_player_id
         self.player_dict[player.player_id] = player
+        
         return player
 
     def get_player(self, player_id):
