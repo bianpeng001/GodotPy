@@ -103,7 +103,7 @@ class ConfigMgr:
         self.init_skill_config()
         
         # rvo 参数
-        self.rvo_factor = 8
+        self.rvo_factor = 12
         # rvo 斥力半径, 之外是不提供斥力的, 是距离**2
         self.rvo_sqrdis = 6*6
         
@@ -113,7 +113,7 @@ class ConfigMgr:
         # 修正走路卡主的参数
         
         # 行军过程里block住, 停了n帧不动, 则开始转转弯
-        self.start_fix_block = 8
+        self.start_fix_time = 0.8
         # 修正block的步长
         self.fix_block_step = 0.4
         

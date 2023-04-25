@@ -63,6 +63,7 @@ class StepMoveReq(MoveComponent):
         self.block_count = 0
         # 卡主后的累计时长
         self.accu_time = 0
+        self.block_time = 0
     
     # 这段这么恶心, 建议放到c++里面去算
     def update(self, troop, delta_time):
@@ -81,7 +82,7 @@ class StepMoveReq(MoveComponent):
 
         # 参数
         unit_time = game_mgr.config_mgr.frame_seconds
-        start_fix_block = game_mgr.config_mgr.start_fix_block
+        start_fix_time = game_mgr.config_mgr.start_fix_time
         fix_block_step = game_mgr.config_mgr.fix_block_step
         
         dis = delta.magnitude()
@@ -89,15 +90,13 @@ class StepMoveReq(MoveComponent):
             self.complete()
             return
         
-        num_block = self.block_count-start_fix_block
-        if num_block > 0:
+        num_time = self.block_time-start_fix_time
+        if num_time > 0:
             right = delta.cross(Vector3.y_axis) * \
-                    (num_block * fix_block_step)
+                    (num_time * fix_block_step)
             delta.x += right.x
             delta.z += right.z
             dis = delta.magnitude()
-            
-            pass
 
         self.accu_time += unit_time
         v = delta * (troop.speed/dis)
@@ -115,15 +114,9 @@ class StepMoveReq(MoveComponent):
             troop.set_position(x, y, z)
             
             self.accu_time = 0
-            self.block_count = max(0, self.block_count-1)
+            self.block_time = max(0, self.block_time-2*unit_time)
         else:
-            if num_block > 0:
-                x = cur_pos.x+delta.x
-                y = cur_pos.y
-                z = cur_pos.z+delta.z
-                controller.look_at(x, y, z)
-                
-            self.block_count += 1
+            self.block_time += unit_time
             
 #
 # 模拟弧线
