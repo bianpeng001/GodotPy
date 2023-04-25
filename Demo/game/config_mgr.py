@@ -105,6 +105,13 @@ class ConfigMgr:
         # rvo 斥力半径, 之外是不提供斥力的, 是距离**2
         self.rvo_sqrdis = 6*6
         
+        # 每帧的时长
+        self.frame_seconds = 1.0/60
+        # 行军过程里block住, 停了n帧不动, 则开始转转弯
+        self.start_fix_block = 8
+        # 修正block的步长
+        self.fix_block_step = 0.4
+        
     def init_story_config(self):
         self.story_dict = {}
         

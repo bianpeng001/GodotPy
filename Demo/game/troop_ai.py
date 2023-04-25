@@ -76,18 +76,24 @@ class StepMoveReq(MoveComponent):
         cur_pos = Vector3(*troop.get_position())
         delta = dst_pos - cur_pos
 
-        unit_time = 1.0/60
+        # 参数
+        unit_time = game_mgr.config_mgr.frame_seconds
+        start_fix_block = game_mgr.config_mgr.start_fix_block
+        fix_block_step = game_mgr.config_mgr.fix_block_step
         
         dis = delta.magnitude()
         if dis <= unit_time*troop.speed:
             self.complete()
             return
         
-        if self.block_count > 5:
-            right = delta.cross(Vector3.y_axis) * (self.block_count*0.8)
+        num_block = self.block_count-start_fix_block
+        if num_block > 0:
+            right = delta.cross(Vector3.y_axis) * \
+                    (num_block * fix_block_step)
             delta.x += right.x
             delta.z += right.z
             dis = delta.magnitude()
+            
             pass
 
         self.accu_time += unit_time
@@ -108,8 +114,14 @@ class StepMoveReq(MoveComponent):
             self.accu_time = 0
             self.block_count = max(0, self.block_count-1)
         else:
+            if num_block > 0:
+                x = cur_pos.x+delta.x
+                y = cur_pos.y
+                z = cur_pos.z+delta.z
+                controller.look_at(x, y, z)
+                
             self.block_count += 1
-
+            
 #
 # 模拟弧线
 #
