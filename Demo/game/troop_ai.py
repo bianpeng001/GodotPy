@@ -99,8 +99,11 @@ class StepMoveReq(MoveComponent):
 
         d = v * self.accu_time
         if d.sqr_magnitude() > 0.00005:
-            controller.look_at(cur_pos.x+d.x, cur_pos.y, cur_pos.z+d.z)
-            troop.set_position(cur_pos.x+d.x, cur_pos.y, cur_pos.z+d.z)
+            x = cur_pos.x+d.x
+            y = cur_pos.y
+            z = cur_pos.z+d.z
+            controller.look_at(x, y, z)
+            troop.set_position(x, y, z)
             
             self.accu_time = 0
             self.block_count = max(0, self.block_count-1)
