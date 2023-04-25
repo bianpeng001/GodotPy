@@ -46,5 +46,3 @@ class CreatePlayerController(UIController, PopupTrait):
 
 
 
-        
-

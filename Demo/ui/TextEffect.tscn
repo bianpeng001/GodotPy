@@ -17,7 +17,6 @@ theme = ExtResource("1_iucwd")
 layout_mode = 0
 offset_right = 80.0
 offset_bottom = 26.0
-theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_font_sizes/font_size = 22
 text = "1000"
 horizontal_alignment = 1

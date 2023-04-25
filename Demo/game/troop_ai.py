@@ -103,8 +103,7 @@ class StepMoveReq(MoveComponent):
             troop.set_position(cur_pos.x+d.x, cur_pos.y, cur_pos.z+d.z)
             
             self.accu_time = 0
-            if self.block_count > 0:
-                self.block_count -= 1
+            self.block_count = max(0, self.block_count-1)
         else:
             self.block_count += 1
 
