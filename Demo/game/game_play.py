@@ -84,6 +84,8 @@ class GamePlay:
             while True:
                 yield None
                 
+                # 找一个合适的城市, 改一下名字
+                # 或者找一个空地, 新建一个城
                 city_unit = game_mgr.unit_mgr.find_unit(lambda x:
                         x.unit_type == UT_CITY and \
                         x.unit_id > 10020 and \
@@ -93,6 +95,8 @@ class GamePlay:
 
                 if city_unit:
                     city_unit.unit_name = '安喜'
+                    
+                    # 这个后面看看咋办, 主要是要替换模型
                     if city_unit.city_type != CT_XIAN:
                         city_unit.city_type = CT_XIAN
                         if city_unit.model_node:
@@ -107,9 +111,10 @@ class GamePlay:
                     player.flag_color = (1, 0, 0)
                     pm.main_player = player
                     
-                    hero = get_hero(player.main_hero_id)
+                    #hero = get_hero(player.main_hero_id)
+                    hero = player.get_main_hero()
                     hero.set_age(28)
-                    hero.attr[2] = 89
+                    hero.attr[2] = 88
                     hero.attr[4] = 88
 
                     # 旗帜颜色

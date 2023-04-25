@@ -3,6 +3,8 @@
 #
 
 from game.core import log_debug
+from game.game_mgr import *
+from game.player_ai import PlayerAIComponent
 
 #
 # 一个玩家
@@ -30,6 +32,15 @@ class Player:
         self.total_stone_amount = 0
         self.total_wood_amount = 0
         self.total_money_amount = 0
+        
+        # ai 组件
+        self.ai_comp = PlayerAIComponent(self)
+
+    def get_ai_comp(self):
+        return self.ai_comp
+        
+    def get_main_hero(self):
+        return game_mgr.hero_mgr.get_hero(self.main_hero_id)
 
     def load(self):
         pass
@@ -46,6 +57,8 @@ class PlayerMgr:
         self.next_player_id = 100
 
         self.main_player = None
+        
+        self.update_list = []
 
     @property
     def main_player_id(self):
@@ -70,5 +83,10 @@ class PlayerMgr:
 
     def loop_player(self):
         return self.player_dict.values()
+    
+    def update(self, delta_time):
+        for player in self.update_list:
+            player.update(self, delta_time)
+        
 
 

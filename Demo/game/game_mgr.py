@@ -84,18 +84,23 @@ class GameMgr():
             cb(delta_time)
 
     def init_update_list(self):
+        # 这里的顺序的原则, 消息生产者在前, 消息处理者在后
         self.update_list = [
             self.input_mgr.update,
+            
             self.game_play.update,
+            self.player_mgr.update,
             self.unit_mgr.update,
+            self.hero_mgr.update,
+            self.skill_mgr.update,
             
             self.ground_mgr.update,
             self.ui_mgr.update,
-            self.skill_mgr.update,
+            
             self.effect_mgr.update,
             self.camera_mgr.update,
             self.hud_mgr.update,
-            self.hero_mgr.update,
+            
         ]
 
     def get_reuse_list(self):
