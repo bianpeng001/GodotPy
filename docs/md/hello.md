@@ -18,6 +18,11 @@
 
 还要加一个附加质量, 防止来回弹. 让密集的区域, 往稀疏的方向扩散.
 
+队伍的行军避让规则完成, StepMoveComponent效果感觉可以了. 所以做一个优化的版本NewtonMoveComponent, 作为正式使用.
+功能一样, 局部做一些微调, 以及更少的内存开销. 跑了一个10个队伍的, 看到了预期中的大漩涡.
+各个队伍转向, 移动, 看得到一些灵气, 区别于之前的呆滞生硬.
+
+
 
 stable diffusion
 - [stable diffusion](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
