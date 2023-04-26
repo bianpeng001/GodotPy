@@ -417,7 +417,7 @@ class AIState_MoveToPos(AIState_Troop):
             blackboard = controller.get_blackboard()
             
             sight = controller.sight_comp
-            for unit in sight.unit_dict.values():
+            for unit in sight.loop_units():
                 if not game_mgr.is_league(unit, troop):
                     blackboard.enemy_unit_id = unit.unit_id
                     

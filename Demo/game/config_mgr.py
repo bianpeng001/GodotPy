@@ -103,9 +103,9 @@ class ConfigMgr:
         self.init_skill_config()
         
         # rvo 参数
-        self.rvo_factor = 12
+        self.rvo_factor = 15
         # rvo 斥力半径, 之外是不提供斥力的, 是距离**2
-        self.rvo_sqrdis = 6*6
+        self.rvo_sqrdis = 7*7
         
         # 单位秒, 每帧的时长, 有时候用固定值就挺好的
         self.frame_seconds = 1.0/60

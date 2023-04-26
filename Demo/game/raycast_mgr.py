@@ -6,6 +6,7 @@ from game.core import log_debug, NodeObject
 from game.game_mgr import *
 from game.event_name import LEFT_BUTTON_CLICK, SCENE_UNIT_CLICK, SCENE_GROUND_CLICK
 from game.base_type import UT_TROOP
+from game.ground_mgr import pos_to_colrow
 
 #
 # raycast管理, 在input的基础上
@@ -38,17 +39,46 @@ class RaycastMgr(NodeObject):
 
         # TODO: 找到点击的单位, 用距离找的,比较土, 但还能用
         # 有可能点到多个单位, 难免会重叠
+        
         tile = game_mgr.ground_mgr.get_tile(x, z)
         if tile:
             item_list = []
-            for unit in tile.unit_list:
-                unit_x, _, unit_z = unit.get_position()
-                dx = unit_x - x
-                dz = unit_z - z
-                sqrdis = dx*dx+dz*dz
-                if sqrdis < unit.radius*unit.radius:
-                    item_list.append((unit, sqrdis))
-
+            
+            def check_tile_unit(col, row):
+                tile = game_mgr.ground_mgr.get_tile_colrow(col,row)
+                if tile:
+                    for unit in tile.unit_list:
+                        unit_x, _, unit_z = unit.get_position()
+                        dx = unit_x - x
+                        dz = unit_z - z
+                        sqrdis = dx*dx+dz*dz
+                        if sqrdis < unit.radius*unit.radius:
+                            item_list.append((unit, sqrdis))
+            
+            col, row = tile.col, tile.row
+            # 这里根据位置, 少找一些相邻块, 点击的那边也是
+            loc_x, loc_z = tile.get_local_pos(x,z)
+            
+            check_tile_unit(col, row)
+            if loc_z < -0.4:
+                check_tile_unit(col,row-1)
+            if loc_z > 0.4:
+                check_tile_unit(col,row+1)
+            if loc_x > 0.4:
+                check_tile_unit(col+1,row)
+            if loc_x < -0.4:
+                check_tile_unit(col-1,row)
+            
+            if loc_x > 0.4 and loc_z < -0.4:
+                check_tile_unit(col+1,row-1)
+            if loc_x > 0.4 and loc_z > 0.4:
+                check_tile_unit(col+1,row+1)
+            if loc_x < -0.4 and loc_z < -0.4:
+                check_tile_unit(col-1,row-1)
+            if loc_x < -0.4 and loc_z > 0.4:
+                check_tile_unit(col-1,row+1)
+            
+            # 最后, 处理结果
             if len(item_list) == 0:
                 game_mgr.event_mgr.emit(SCENE_GROUND_CLICK)
             else:

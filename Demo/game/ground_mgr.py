@@ -17,9 +17,11 @@ Z_TILE_SIZE = TILE_SIZE*math.sqrt(3)/2
 def pos_to_colrow(x, z):
     return round(x / TILE_SIZE), round(z / Z_TILE_SIZE)
 
+#
 # tile内部，a*寻路
 # tile外部，大a*寻路
 # 打仗过程里面，走直线, 加一点弧度或者干扰, 别笔直就好了
+#
 class TileItem:
     def __init__(self, col, row):
         # 区块的ID，坐标/TILE_SIZE, 取整
@@ -43,6 +45,10 @@ class TileItem:
 
     def get_center_pos(self):
         return self.col*TILE_SIZE,self.row*Z_TILE_SIZE
+
+    def get_local_pos(self, x,z):
+        cx,cz = self.get_center_pos()
+        return (x-cx)/TILE_SIZE,(z-cz)/TILE_SIZE
 
     def load(self):
         #log_debug(f'load tile: ({self.col},{self.row})')

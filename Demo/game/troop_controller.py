@@ -22,12 +22,16 @@ class AISightComponent(Component):
         self.lose_radius = 12
         
         # 视野中的单位
-        self.unit_dict = {}
+        self._unit_dict = {}
         
         self._controller = None
         
     def get_controller(self):
         return self._controller
+    
+    def loop_units(self):
+        for unit in self._unit_dict.values():
+            yield unit
         
     def update(self):
         # 移动过程里, 还要检查周围的敌军, 有一个视野
@@ -47,12 +51,13 @@ class AISightComponent(Component):
         x,z = src_unit.get_xz()
         sqr_radius = self.radius**2
         
-        def check_tile_unit(tile):
+        def check_tile_unit(col,row):
+            tile = game_mgr.ground_mgr.get_tile_colrow(col,row)
             if tile:
                 #log_debug('check owner tile', src_unit.unit_name, len(tile.get_unit_list()))
                 for unit in tile.get_unit_list():
                     if unit.unit_id != src_unit.unit_id and \
-                            unit.unit_id not in self.unit_dict:
+                            unit.unit_id not in self._unit_dict:
                         x1,z1 = unit.get_xz()
                         dx,dz = x1-x,z1-z
                         sqrdis = dx*dx+dz*dz
@@ -61,31 +66,41 @@ class AISightComponent(Component):
                         #log_debug('delta', dx, dz)
                         #log_debug('check see unit', src_unit.unit_name, dx,dz, sqr_radius, unit.unit_name)
                         if sqrdis <= sqr_radius:
-                            self.unit_dict[unit.unit_id] = unit
+                            self._unit_dict[unit.unit_id] = unit
                             #log_debug('see unit', src_unit.unit_name, '->', unit.unit_name)
             
         # 要扫描周围几个tile
         owner_tile = self.get_controller().owner_tile
         if owner_tile:
-            #check_tile_unit(tile)
-            row = owner_tile.row
-            col = owner_tile.col
-            # TODO: 这里根据位置, 少找一些相邻块, 点击的那边也是
-            check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col,row-1))
-            check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col,row))
-            check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col,row+1))
-            check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col+1,row-1))
-            check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col+1,row))
-            check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col+1,row+1))
-            check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col-1,row-1))
-            check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col-1,row))
-            check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col-1,row+1))
+            col, row = owner_tile.col, owner_tile.row
+            # 这里根据位置, 少找一些相邻块, 点击的那边也是
+            loc_x, loc_z = owner_tile.get_local_pos(x,z)
+            
+            check_tile_unit(col,row)
+            
+            if loc_z < -0.4:
+                check_tile_unit(col,row-1)
+            if loc_z > 0.4:
+                check_tile_unit(col,row+1)
+            if loc_x > 0.4:
+                check_tile_unit(col+1,row)
+            if loc_x < -0.4:
+                check_tile_unit(col-1,row)
+            
+            if loc_x > 0.4 and loc_z < -0.4:
+                check_tile_unit(col+1,row-1)
+            if loc_x > 0.4 and loc_z > 0.4:
+                check_tile_unit(col+1,row+1)
+            if loc_x < -0.4 and loc_z < -0.4:
+                check_tile_unit(col-1,row-1)
+            if loc_x < -0.4 and loc_z > 0.4:
+                check_tile_unit(col-1,row+1)
 
-        if len(self.unit_dict) > 0:
+        if len(self._unit_dict) > 0:
             lose_list = game_mgr.get_reuse_list()
             sqr_lose_radius = self.lose_radius**2
             
-            for unit in self.unit_dict.values():
+            for unit in self.loop_units():
                 x1,z1 = unit.get_xz()
                 dx,dz = x1-x,z1-z
                 sqrdis = dx*dx+dz*dz
@@ -95,7 +110,7 @@ class AISightComponent(Component):
                     #log_debug('lose sight', src_unit.unit_name, unit.unit_name)
             
             for unit_id in lose_list:
-                self.unit_dict.pop(unit_id)
+                self._unit_dict.pop(unit_id)
 
 #
 # 管理战斗
@@ -241,14 +256,14 @@ class TroopController(Controller):
     def add_rvo_force(self):
         self.rvo_acce_x = self.rvo_acce_z = 0
         
-        if len(self.sight_comp.unit_dict) > 0:
+        if len(self.sight_comp._unit_dict) > 0:
             rvo_sqrdis = game_mgr.config_mgr.rvo_sqrdis
             rvo_factor = game_mgr.config_mgr.rvo_factor
             
             src_unit = self.get_unit()
             x,z = src_unit.get_xz()
             
-            for unit in self.sight_comp.unit_dict.values():
+            for unit in self.sight_comp.loop_units():
                 # if unit.unit_type == UT_TROOP and \
                 #         unit.owner_player_id != src_unit.owner_player_id:
                 if unit.unit_type == UT_TROOP:
