@@ -11,6 +11,18 @@
 1. 调整避让的参数, 让转弯更加柔和
 2. 减少碰撞遍历的单位数量, 根据相对位置来判断是否要处理相邻地块
 
+
+如果避让多次没有停下来, 则需要停在原地. 这个可以留着, 以后再处理, 主要还没有想好怎么停下来, 停下来以后的行为.
+
+队伍内的单位, 互相不做碰撞, 用组件精确控制各个单位的位置, 队内天网自动导航. 对外用碰撞互斥来做分散.
+
+还要加一个附加质量, 防止来回弹. 让密集的区域, 往稀疏的方向扩散.
+
+
+stable diffusion
+- [stable diffusion](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
+- [生成法线](https://cpetry.github.io/NormalMap-Online)
+
 <div class="date">2023年4月26日</div>
 
 ## 战役解说员
