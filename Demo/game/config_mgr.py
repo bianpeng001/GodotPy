@@ -115,7 +115,7 @@ class ConfigMgr:
         # 行军过程里block住, 停了n帧不动, 则开始转转弯
         self.start_fix_time = 0.8
         # 修正block的步长
-        self.fix_block_step = 0.4
+        self.fix_block_step = 0.1
         
     def init_story_config(self):
         self.story_dict = {}

@@ -70,6 +70,7 @@ class AISightComponent(Component):
             #check_tile_unit(tile)
             row = owner_tile.row
             col = owner_tile.col
+            # TODO: 这里根据位置, 少找一些相邻块, 点击的那边也是
             check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col,row-1))
             check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col,row))
             check_tile_unit(game_mgr.ground_mgr.get_tile_colrow(col,row+1))
