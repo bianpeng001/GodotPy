@@ -51,10 +51,81 @@ class LineMoveReq(MoveComponent):
         self.delta = self.delta * (mag1 / mag)
         self.time_to_progress = speed / mag1
         
+        
+#
+# 牛顿移动组件, 用物理来实现
+#        
+class NewtonMoveComponent(MoveComponent):
+    def __init__(self):
+        super().__init__()
+        
+        # 目标点
+        self._dst_pos = Vector3()
+        self._cur_pos = Vector3()
+        # 额外速度
+        self.v_x = 0
+        self.v_z = 0
+        
+        # 累加时长
+        self.accu_time = 0
+        self.block_time = 0
+        
+    def update(self, troop, delta_time):
+        controller = troop.get_controller()
+        blackboard = controller.get_blackboard()
+        
+        if blackboard.target_unit_id > 0:
+            unit = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
+            self._dst_pos.set(*unit.get_position())
+        else:
+            x,z = blackboard.target_pos
+            self._dst_pos.set(x,0,z)
+        
+        self._cur_pos.set(*troop.get_position())
+        
+        # 参数
+        speed = troop.speed
+        unit_time = game_mgr.config_mgr.frame_seconds
+        fix_block_speed = 2.0
+        
+        delta = self._dst_pos - self._cur_pos
+        dis = delta.magnitude()
+        if dis <= unit_time * speed:
+            self.complete()
+            return
+        
+        v_x = delta.x*(speed/dis) + controller.rvo_acce_x*unit_time
+        v_z = delta.z*(speed/dis) + controller.rvo_acce_z*unit_time
+        
+        if self.block_time > 0:
+            right = delta.cross(Vector3.y_axis) * \
+                    (self.block_time*fix_block_speed/dis)
+            v_x += right.x
+            v_z += right.z
+        
+        self.accu_time += unit_time
+        dx = v_x * self.accu_time
+        dz = v_z * self.accu_time
+        
+        if dx*dx+dz*dz > 0.00005:
+            x = self._cur_pos.x+dx
+            y = self._cur_pos.y
+            z = self._cur_pos.z+dz
+            controller.look_at(x,y,z)
+            troop.set_position(x,y,z)
+            
+            self.accu_time = 0
+            self.block_time = max(0, self.block_time-unit_time*0.02)
+        else:
+            # 动不了
+            if self.accu_time > 0.0:
+                self.block_time += unit_time
+
+
 #
 # 小步前进, 考虑rvo斥力和障碍
 #
-class StepMoveReq(MoveComponent):
+class StepMoveComponent(MoveComponent):
     def __init__(self):
         super().__init__()
         
@@ -406,7 +477,8 @@ class AIState_MoveToPos(AIState_Troop):
         blackboard = controller.get_blackboard()
 
         if not controller.move_comp:
-            controller.move_comp = StepMoveReq()
+            #controller.move_comp = StepMoveComponent()
+            controller.move_comp = NewtonMoveComponent()
         controller.move_comp.restart()
 
     def update(self, controller):

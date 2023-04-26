@@ -269,7 +269,7 @@ class GamePlay:
             self.data_tick_time = 0
 
     # 刷新所有的资源增长, 这个开销也不大
-    # delta_time：间隔时长，单位秒
+    # delta_time: 间隔时长，单位秒
     def refresh_player_resource(self, delta_time):
         for city in game_mgr.unit_mgr.each_city():
             city.get_controller().refresh_resource_amount(delta_time)
