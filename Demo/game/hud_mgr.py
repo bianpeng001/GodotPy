@@ -78,6 +78,8 @@ class HUDMgr:
         self.hud_item_cache = []
         self.hud_item_dict = {}
         self.template_list = None
+        
+        self.hide_queue = []
 
     def setup(self):
         self.hud_root_obj = game_mgr.scene_root_obj.find_node('HUDRoot')
@@ -99,14 +101,10 @@ class HUDMgr:
     def _create_hud(self, unit):
         # load template
         if not self.template_list:
-            self.template_list = [ None, None, None ]
+            self.template_list = [ None for i in range(10) ]
+            self.template_list[1] = OS.instantiate('res://ui/CityHUD.tscn')
+            self.template_list[2] = OS.instantiate('res://ui/TroopHUD.tscn')
 
-            hud_obj = OS.instantiate('res://ui/CityHUD.tscn')
-            self.template_list[1] = hud_obj
-            
-            hud_obj = OS.instantiate('res://ui/TroopHUD.tscn')
-            self.template_list[2] = hud_obj
-            
             for hud_obj in self.template_list:
                 if hud_obj:
                     hud_obj.reparent(self.hud_root_obj)
@@ -117,11 +115,12 @@ class HUDMgr:
 
         if len(self.hud_item_cache) > 0:
             index = -1
-            for i in range(len(self.hud_item_cache)):
-                if self.hud_item_cache[i].unit_type == unit.unit_type:
-                    index = i
-                    break
-
+            count = len(self.hud_item_cache)
+            if count > 0:
+                for i in range(-1, -count-1, -1):
+                    if self.hud_item_cache[i].unit_type == unit.unit_type:
+                        index = i
+                        break
             if index >= 0:
                 hud_item = self.hud_item_cache.pop(index)
                 #log_debug('reuse hud item', len(self.hud_item_dict), len(self.hud_item_cache))
@@ -168,7 +167,8 @@ class HUDMgr:
     # 把本次没被刷新的,清理掉
     def update_hud_items(self):
         # 需要隐藏的排队
-        hide_queue = game_mgr.get_reuse_list()
+        hide_queue = self.hide_queue
+        hide_queue.clear()
         
         # 刷新可见性
         for hud_item in self.hud_item_dict.values():
