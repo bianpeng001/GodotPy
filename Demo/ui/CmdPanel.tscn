@@ -66,3 +66,13 @@ theme = ExtResource("1_td85v")
 theme_override_font_sizes/font_size = 16
 text = "移动"
 horizontal_alignment = 1
+
+[node name="LabelName" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 65.0
+offset_top = 7.0
+offset_right = 165.0
+offset_bottom = 27.0
+theme = ExtResource("1_td85v")
+theme_override_font_sizes/font_size = 16
+text = "襄阳"

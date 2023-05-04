@@ -17,21 +17,32 @@ class CmdPanelController(UIController, PopupTrait):
     
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
+        cmd_list = [
+            '移动','攻击','驻扎','驻扎',
+            '驻扎','驻扎','驻扎','驻扎',
+        ]
         btn_template = self.ui_obj.find_node('Panel/GridContainer/BtnCmd')
-        self.btn_list = [btn_template.dup() for i in range(7)]
-        self.btn_list.append(btn_template)
-        
-        def make_btn_handler(btn):
+
+        def make_btn_handler(cmd, btn):
             def fun():
-                log_debug(btn.get_name())
+                log_debug(cmd)
             return fun
+        
+        for cmd in cmd_list:
+            btn = btn_template.dup()
+            btn.find_node('Label').set_text(cmd)
+            btn.connect(PRESSED, make_btn_handler(cmd, btn))
+            btn.set_visible(True)
+            self.btn_list.append((cmd, btn))
             
-        for btn in self.btn_list:
-            btn.connect(PRESSED, make_btn_handler(btn))
+        btn_template.set_visible(False)
+        
+        self.label_name = self.ui_obj.find_node('Panel/LabelName')
 
     def init(self, unit):
         #self.cmd_panel_controller.popup_screen_bottom_left()
         game_mgr.co_mgr.start(self.co_show_panel())
+        self.label_name.set_text(unit.unit_name)
 
     def co_show_panel(self):
         screen_width,screen_height = OS.viewport_get_size()
