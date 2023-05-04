@@ -870,6 +870,22 @@ static PyObject *f_node_set_name(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_node_get_name(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+
+		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
+			break;
+		}
+
+		auto node = GetObjPtr<Node>(a_obj);
+		String name = node->get_name();
+
+		return PyUnicode_FromString(name.utf8());
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 //
 static PyObject *f_get_parent(PyObject *module, PyObject *args) {
 	do {
@@ -2554,6 +2570,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "node_disconnect", f_node_disconnect, METH_VARARGS, NULL },
 	{ "node_clear_connection", f_node_clear_connection, METH_VARARGS, NULL },
 	{ "node_set_name", f_node_set_name, METH_VARARGS, NULL },
+	{ "node_get_name", f_node_get_name, METH_VARARGS, NULL },
 	
 	// node3d
 	{ "set_position", f_set_position, METH_VARARGS, NULL },

@@ -20,11 +20,14 @@ class HUDItem:
         self.title_obj = None
         self.hp_obj = None
         
+        self.flag_label_obj = None
+        self.flag_obj = None
+        
         # 高度修正
         self.hud_height = 8
         
         # 可见度,加一个计数
-        self.show_age = 1
+        self.show_count = 1
 
     def set_visible(self, value):
         self.hud_obj.set_visible(value)
@@ -33,12 +36,14 @@ class HUDItem:
         self.title_obj.set_text(text)
 
     def set_flag_text(self, text):
-        label = self.hud_obj.find_node('FlagLabel')
-        label.set_text(text)
+        if not self.flag_label_obj:
+            self.flag_label_obj = self.hud_obj.find_node('FlagLabel')
+        self.flag_label_obj.set_text(text)
 
     def set_flag_color(self, r,g,b):
-        flag = self.hud_obj.find_node('Flag')
-        flag.set_self_modulate(r,g,b)
+        if not self.flag_obj:
+            self.flag_obj = self.hud_obj.find_node('Flag')
+        self.flag_obj.set_self_modulate(r,g,b)
 
     # new_hud 是否新创建的, 少刷新一些东西
     def update(self, unit, new_hud):
@@ -72,17 +77,14 @@ class HUDMgr:
         # 缓存起来，永不销毁，尤其是 self.template_obj
         self.hud_item_cache = []
         self.hud_item_dict = {}
-
         self.template_list = None
-        # 需要隐藏的排队
+        
         self.hide_queue = []
 
     def setup(self):
         self.hud_root_obj = game_mgr.scene_root_obj.find_node('HUDRoot')
 
     def update(self, delta_time):
-        # for item in self.hud_item_dict.values():
-        #     item.update()
         pass
 
     def show(self):
@@ -99,14 +101,10 @@ class HUDMgr:
     def _create_hud(self, unit):
         # load template
         if not self.template_list:
-            self.template_list = [ None, None, None ]
+            self.template_list = [ None for i in range(10) ]
+            self.template_list[1] = OS.instantiate('res://ui/CityHUD.tscn')
+            self.template_list[2] = OS.instantiate('res://ui/TroopHUD.tscn')
 
-            hud_obj = OS.instantiate('res://ui/CityHUD.tscn')
-            self.template_list[1] = hud_obj
-            
-            hud_obj = OS.instantiate('res://ui/TroopHUD.tscn')
-            self.template_list[2] = hud_obj
-            
             for hud_obj in self.template_list:
                 if hud_obj:
                     hud_obj.reparent(self.hud_root_obj)
@@ -117,11 +115,12 @@ class HUDMgr:
 
         if len(self.hud_item_cache) > 0:
             index = -1
-            for i in range(len(self.hud_item_cache)):
-                if self.hud_item_cache[i].unit_type == unit.unit_type:
-                    index = i
-                    break
-
+            count = len(self.hud_item_cache)
+            if count > 0:
+                for i in range(-1, -count-1, -1):
+                    if self.hud_item_cache[i].unit_type == unit.unit_type:
+                        index = i
+                        break
             if index >= 0:
                 hud_item = self.hud_item_cache.pop(index)
                 #log_debug('reuse hud item', len(self.hud_item_dict), len(self.hud_item_cache))
@@ -135,16 +134,16 @@ class HUDMgr:
 
             if unit.unit_type == UT_TROOP:
                 hud_item.offset = -40
-                hud_item.hud_height = 6.8
+                hud_item.hud_height = 6.0
             else:
                 hud_item.offset = -40
-                hud_item.hud_height = 8.2
+                hud_item.hud_height = 7.0
 
         #log_debug('create hud', unit.unit_id, unit.unit_name)
         hud_item.unit_id = unit.unit_id
         hud_item.set_text(unit.unit_name)
         hud_item.set_visible(True)
-        hud_item.show_age = 1
+        hud_item.show_count = 1
         
         self.hud_item_dict[hud_item.unit_id] = hud_item
         return hud_item
@@ -163,20 +162,24 @@ class HUDMgr:
             hud_item = self._create_hud(unit)
             hud_item.update(unit, True)
         # 增加可见计数
-        hud_item.show_age += 1
+        hud_item.show_count += 1
 
     # 把本次没被刷新的,清理掉
     def update_hud_items(self):
+        # 需要隐藏的排队
+        hide_queue = self.hide_queue
+        hide_queue.clear()
+        
         # 刷新可见性
         for hud_item in self.hud_item_dict.values():
-            hud_item.show_age -= 1
-            if hud_item.show_age <= 0:
-                self.hide_queue.append(hud_item.unit_id)
+            hud_item.show_count -= 1
+            if hud_item.show_count <= 0:
+                hide_queue.append(hud_item.unit_id)
 
         # 清空没有关联的
-        if len(self.hide_queue) > 0:
-            for unit_id in self.hide_queue:
+        if len(hide_queue) > 0:
+            for unit_id in hide_queue:
                 self._free_hud(unit_id)
-            self.hide_queue.clear()
+            hide_queue.clear()
 
 

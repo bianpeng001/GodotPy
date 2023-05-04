@@ -513,6 +513,9 @@ class FNode(FObject):
         
     def set_name(self, name):
         gp.node_set_name(self.get_gdobj(), name)
+        
+    def get_name(self):
+        return gp.node_get_name(self.get_gdobj())
 
 class FNode3D(FNode):
     def set_position(self, x,y,z):

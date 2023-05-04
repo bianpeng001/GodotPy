@@ -36,6 +36,7 @@ class TroopUnit(Unit, UnitTrait):
 
         # 模型的类型
         self.model_type = 3
+        self.mass = 10
 
         # 战斗策略
         # TODO: 这几个数据, 也许不应该放在这里
