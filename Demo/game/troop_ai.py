@@ -121,7 +121,6 @@ class NewtonMoveComponent(MoveComponent):
             if self.accu_time > 0.0:
                 self.block_time += unit_time
 
-
 #
 # 小步前进, 考虑rvo斥力和障碍
 #

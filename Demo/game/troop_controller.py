@@ -279,6 +279,9 @@ class TroopController(Controller):
                         f = rvo_factor*unit.mass*(1.0/sqrdis - 1.0/rvo_sqrdis)
                         self.rvo_acce_x += dx*f
                         self.rvo_acce_z += dz*f
+            
+            self.rvo_acce_x /= src_unit.mass
+            self.rvo_acce_z /= src_unit.mass
             #log_debug('rvo force', src_unit.unit_name, self.rvo_acce_x, self.rvo_acce_z)
 
     def look_at(self,x,y,z):

@@ -119,6 +119,8 @@ class Unit:
         self.defense = 0
         # 等级
         self.level = 1
+        # 护甲(城防)
+        self.armor_amount = LimitValue(100, 100)
         # 血量(主要是指军队数量)
         self.army_amount = LimitValue(0, 1000)
 
@@ -127,13 +129,14 @@ class Unit:
         
         # 场景里面的属性
         self.unit_position = Vector3()
-        self.rotation = Vector3()
+        self.unit_rotation = Vector3()
         self.radius = 1
         
         # 模型
         self.model_node = None
         # 质量, 用于一些物理运算
-        self.mass = 10
+        self.mass = 1
+        self.speed = 1
 
     # 创建之后，初始化，这里身份信息已经确定了
     def init(self):

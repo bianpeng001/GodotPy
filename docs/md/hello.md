@@ -5,6 +5,20 @@
 ## 无题
 <div class="date">xxxx年x月xx日</div>
 
+## 开发日志
+
+做战役讲解, 需要包含几个元素
+1. 地图
+2. 城市
+3. 军队
+4. 路线
+5. 编辑器, 包括地图,武将等的灵活定制
+
+其他:
+1. 武将要分男女
+2. 单位要有护甲, 对城来说, 就是城防
+
+<div class="date">2023年5月4日</div>
 
 ## 开发日志
 
@@ -21,8 +35,6 @@
 队伍的行军避让规则完成, StepMoveComponent效果感觉可以了. 所以做一个优化的版本NewtonMoveComponent, 作为正式使用.
 功能一样, 局部做一些微调, 以及更少的内存开销. 跑了一个10个队伍的, 看到了预期中的大漩涡.
 各个队伍转向, 移动, 看得到一些灵气, 区别于之前的呆滞生硬.
-
-
 
 stable diffusion
 - [stable diffusion](https://github.com/AUTOMATIC1111/stable-diffusion-webui)
