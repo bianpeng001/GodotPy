@@ -44,11 +44,11 @@ offset_right = 452.0
 offset_bottom = 115.0
 columns = 4
 
-[node name="Element" type="Button" parent="Panel/GridContainer"]
+[node name="BtnCmd" type="Button" parent="Panel/GridContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 
-[node name="Icon" type="TextureRect" parent="Panel/GridContainer/Element"]
+[node name="Icon" type="TextureRect" parent="Panel/GridContainer/BtnCmd"]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 2.0
@@ -57,7 +57,7 @@ offset_bottom = 32.0
 texture = ExtResource("5_1ja6y")
 expand_mode = 1
 
-[node name="Label" type="Label" parent="Panel/GridContainer/Element"]
+[node name="Label" type="Label" parent="Panel/GridContainer/BtnCmd"]
 layout_mode = 0
 offset_top = 30.0
 offset_right = 50.0

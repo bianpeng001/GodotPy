@@ -219,8 +219,9 @@ class UIMgr(NodeObject):
 
     def set_context_unit(self, unit):
         self.context_unit = unit
+        # 显示单位指令菜单
         if unit:
-            self.cmd_panel_controller.popup_screen_bottom_left()
+            self.cmd_panel_controller.init(unit)
         else:
             self.cmd_panel_controller.defer_close()
 
