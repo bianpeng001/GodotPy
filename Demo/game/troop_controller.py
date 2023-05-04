@@ -276,12 +276,12 @@ class TroopController(Controller):
                         dz = random_num(0.001, 0.002)
 
                     if sqrdis < rvo_sqrdis:
-                        f = rvo_factor*unit.mass*(1.0/sqrdis - 1.0/rvo_sqrdis)
+                        f = unit.mass*(1.0/sqrdis - 1.0/rvo_sqrdis)
                         self.rvo_acce_x += dx*f
                         self.rvo_acce_z += dz*f
             
-            self.rvo_acce_x /= src_unit.mass
-            self.rvo_acce_z /= src_unit.mass
+            self.rvo_acce_x *= rvo_factor/src_unit.mass
+            self.rvo_acce_z *= rvo_factor/src_unit.mass
             #log_debug('rvo force', src_unit.unit_name, self.rvo_acce_x, self.rvo_acce_z)
 
     def look_at(self,x,y,z):

@@ -118,7 +118,7 @@ class NewtonMoveComponent(MoveComponent):
             self.block_time = max(0, self.block_time-unit_time*0.02)
         else:
             # 动不了
-            if self.accu_time > 0.0:
+            if self.accu_time > 0:
                 self.block_time += unit_time
 
 #
