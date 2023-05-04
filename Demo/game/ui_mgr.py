@@ -91,7 +91,7 @@ class UIMgr(NodeObject):
         from game.ui.msg_panel_controller import MsgPanelController
         _, self.msg_panel_controller = self.load_panel(
                 'res://ui/MsgPanel.tscn', MsgPanelController)
-        self.msg_panel_controller.popup(4, 484)
+        self.msg_panel_controller.popup(4, 150)
 
         # 下面是按需弹出
         from game.ui.build_panel_controller import BuildPanelController
@@ -219,11 +219,10 @@ class UIMgr(NodeObject):
 
     def set_context_unit(self, unit):
         self.context_unit = unit
-        # if unit:
-        #     self.cmd_panel_controller.popup_screen_bottom()
-        # else:
-        #     self.cmd_panel_controller.defer_close()
-        pass
+        if unit:
+            self.cmd_panel_controller.popup_screen_bottom_left()
+        else:
+            self.cmd_panel_controller.defer_close()
 
     # 点击空地
     def on_scene_ground_click(self):
