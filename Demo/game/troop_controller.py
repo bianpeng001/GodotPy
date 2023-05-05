@@ -12,6 +12,8 @@ from game.troop_ai import *
 #
 class AISightComponent(Component):
     def __init__(self):
+        super().__init__()
+        
         self.tick_time = 0
         
         self.angle = 0
@@ -24,11 +26,6 @@ class AISightComponent(Component):
         # 视野中的单位
         self._unit_dict = {}
         
-        self._controller = None
-        
-    def get_controller(self):
-        return self._controller
-    
     def loop_units(self):
         for unit in self._unit_dict.values():
             yield unit
@@ -117,6 +114,7 @@ class AISightComponent(Component):
 #
 class TroopFightComponent(Component):
     def __init__(self):
+        super().__init__()
         self.skill_cooldown = 1.0
         
     def update(self):
@@ -127,17 +125,26 @@ class TroopFightComponent(Component):
         return self.skill_cooldown <= 0
 
 #
-# 部队的思考组件
+# 部队的AI驱动组件
 #
-class TroopBrainComponent(Component):
+class TroopBrainComponent(Component, AIMachine):
     def __init__(self):
-        pass
+        super().__init__()
+        AIMachine.__init__(self)
+        
+        self.tick_time = 0
     
     def update(self):
-        pass
-    
-    def goto_state(self, name):
-        pass
+        self.tick_time += game_mgr.delta_time
+        if self.tick_time > 0.1:
+            self.on_tick(self.tick_time)
+            self.tick_time = 0
+            
+    def on_tick(self, tick_time):
+        self.ai_state.update(self)
+        
+    def get_unit(self):
+        return get_controller().get_unit()
 
 #
 # 这是一个AIController
@@ -147,19 +154,18 @@ class TroopController(Controller):
     def __init__(self, unit):
         super().__init__(unit)
 
-        # AI 相关
-        self.init_ai()
         # 位移请求
         self.move_comp = None
         # 战斗相关
         self.fight_comp = TroopFightComponent()
-        self.fight_comp.controller = self
+        self.fight_comp._controller = self
         # 视觉感知
         self.sight_comp = AISightComponent()
         self.sight_comp._controller = self
-        # brain
+        # AI 相关
         self.brain_comp = TroopBrainComponent()
-        self.brain_comp.controller = self
+        self.brain_comp._controller = self
+        self.init_ai()
         
         # 所在的地块
         self.owner_tile = None
@@ -169,26 +175,15 @@ class TroopController(Controller):
         self.rvo_acce_z = 0
 
     def init_ai(self):
-        self.ai_tick_time = 0
-        self.blackboard = TroopBlackboard()
+        brain_comp = self.get_brain_comp()
+        brain_comp.blackboard = TroopBlackboard()
         
-        self.add_state('start', AIState_TroopStart())
-        self.add_state('idle', AIState_Idle())
-        self.add_state('shoot', AIState_Shoot())
-        self.add_state('move_to_pos', AIState_MoveToPos())
+        brain_comp.add_state('start', AIState_TroopStart())
+        brain_comp.add_state('idle', AIState_Idle())
+        brain_comp.add_state('shoot', AIState_Shoot())
+        brain_comp.add_state('move_to_pos', AIState_MoveToPos())
         
-        self.goto_state('idle')
-        
-    def on_ai_tick(self, tick_time):
-        #unit = game_mgr.unit_mgr.get_unit(self.unit_id)
-        #print_line(unit.unit_name)
-        self.ai_state.update(self)
-
-    def update_ai(self):
-        self.ai_tick_time += game_mgr.delta_time
-        if self.ai_tick_time > 0.1:
-            self.ai_tick_time = 0
-            self.on_ai_tick(self.ai_tick_time)
+        brain_comp.goto_state('idle')
 
     def update_move(self):
         self.add_rvo_force()
@@ -248,9 +243,9 @@ class TroopController(Controller):
 
     def update(self):
         self.update_move()
-        self.update_ai()
         self.sight_comp.update()
         self.fight_comp.update()
+        self.brain_comp.update()
         
     # 对视野里面的单位, 加一个力, 改善重叠和穿插
     def add_rvo_force(self):

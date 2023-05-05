@@ -11,14 +11,14 @@ class AIMachine:
     def __init__(self):
         # ai state machine
         self.ai_state = None
-        # blackboard
-        self.blackboard = None
-        #
+        # state
         self.state_dict = { }
-
+        
+        self.blackboard = None
+        
     def get_blackboard(self):
         return self.blackboard
-    
+
     def _enter_state(self, new_state):
         if self.ai_state:
             self.ai_state.leave(self)
@@ -47,9 +47,6 @@ class AIMachine:
 class AIBlackboard:
     def __init__(self):
         pass
-    
-    # def __getattr__(self, key):
-    #     return None
 
 #
 # AI状态机的单独状态, 生命周期
@@ -178,14 +175,12 @@ class Unit:
 #
 # 角色单位的控制器
 #
-class Controller(AIMachine):
+class Controller:
     def __init__(self, unit):
         self._unit = unit
         
-        AIMachine.__init__(self)
-        
         self.hud_comp = HUDComponent()
-        self.hud_comp._owner_controller = self
+        self.hud_comp._controller = self
         
     def get_hud_comp(self):
         return self.hud_comp
@@ -222,8 +217,10 @@ class Controller(AIMachine):
 #
 class Component:
     def __init__(self):
-        self._owner_controller = None
-        
+        self._controller = None
+    
+    def get_controller(self):
+        return self._controller
 #
 # 控制hud
 #

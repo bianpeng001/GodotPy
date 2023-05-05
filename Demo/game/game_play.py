@@ -369,22 +369,21 @@ class GamePlay:
             controller.get_hud_comp().set_valid(False)
             controller.set_flag_color()
 
-
     # 在城里, 创建一个玩家
     def create_player(self,
             city_unit,
             player_name=None,
             is_main_player=False):
         player_name = player_name or new_hero_name()
-        
         pm = game_mgr.player_mgr
         
         player = pm.new_player()
         if is_main_player:
             pm.main_player = player
         player.player_name = player_name
-        player.first_name,_ = parse_name(player_name)
-        # 玩家自己
+        player.first_name = player_name[0]
+        
+        # 玩家自己对应的武将
         hero = game_mgr.hero_mgr.new_hero()
         hero.hero_name = player_name
         

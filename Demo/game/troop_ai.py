@@ -72,7 +72,7 @@ class NewtonMoveComponent(MoveComponent):
         
     def update(self, troop, delta_time):
         controller = troop.get_controller()
-        blackboard = controller.get_blackboard()
+        blackboard = controller.get_brain_comp().get_blackboard()
         
         if blackboard.target_unit_id > 0:
             unit = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
@@ -138,7 +138,7 @@ class StepMoveComponent(MoveComponent):
     # 这段这么恶心, 建议放到c++里面去算
     def update(self, troop, delta_time):
         controller = troop.get_controller()
-        blackboard = controller.get_blackboard()
+        blackboard = controller.get_brain_comp().get_blackboard()
         
         if blackboard.target_unit_id > 0:
             unit = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
@@ -338,20 +338,20 @@ class TroopBlackboard(AIBlackboard):
 # troop的state的基类，在enter里面记录开始时间
 #
 class AIState_Troop(AIState):
-    def enter(self, controller):
-        blackboard = controller.get_blackboard()
+    def enter(self, brain_comp):
+        blackboard = brain_comp.get_blackboard()
         blackboard.state_start_time = game_mgr.sec_time
         
-        self.do_enter(controller)
+        self.do_enter(brain_comp)
 
-    def do_enter(self, controller):
+    def do_enter(self, brain_comp):
         pass
 
 # 寻找一个目标城池
 class AIState_FindCity(AIState_Troop):
     # 从内而外的一圈圈的找目标
-    def find_enemy_city(self,controller,col,row):
-        owner_player_id = controller.get_unit().owner_player_id
+    def find_enemy_city(self,brain_comp,col,row):
+        owner_player_id = brain_comp.get_unit().owner_player_id
         
         for dx,dy in narudo_range(4):
             tile = game_mgr.ground_mgr.get_tile_colrow(col+dx, row+dy)
@@ -363,24 +363,24 @@ class AIState_FindCity(AIState_Troop):
                         unit.owner_player_id != owner_player_id):
                     return unit
 
-    def update(self, controller):
-        x,y,z = controller.get_unit().get_position()
+    def update(self, brain_comp):
+        x,y,z = brain_comp.get_unit().get_position()
         col,row = pos_to_colrow(x, z)
-        city = self.find_enemy_city(controller,col,row)
+        city = self.find_enemy_city(brain_comp,col,row)
         if city:
-            log_util.debug(f'find emeny: {controller.unit_id} -> {city.unit_name}')
-            controller.get_blackboard().target_unit_id = city.unit_id
-            controller.enter_state(AIState_MarchToCity())
+            log_util.debug(f'find emeny: {brain_comp.get_unit().unit_id} -> {city.unit_name}')
+            brain_comp.get_blackboard().target_unit_id = city.unit_id
+            brain_comp.enter_state(AIState_MarchToCity())
         else:
-            controller.enter_state(AIState_TroopDie())
+            brain_comp.enter_state(AIState_TroopDie())
 
 # 行军, 先寻路，然后监控周围的敌人
 class AIState_MarchToCity(AIState_Troop):
-    def do_enter(self, controller):
-        blackboard = controller.get_blackboard()
+    def do_enter(self, brain_comp):
+        blackboard = brain_comp.get_blackboard()
 
         city = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
-        troop = controller.get_unit()
+        troop = brain_comp.get_unit()
 
         req = ArcMoveReq()
         req.setup(*troop.get_position(),
@@ -388,27 +388,27 @@ class AIState_MarchToCity(AIState_Troop):
             troop.speed,
             city.radius + troop.radius)
 
-        controller.move_comp = req
-        controller.look_at_unit(city)
+        brain_comp.get_controller().move_comp = req
+        brain_comp.get_controller().look_at_unit(city)
         #print_line(f'enter state: {controller.unit_id}')
 
-    def update(self, controller):
-        if controller.move_comp.is_done():
-            controller.enter_state(AIState_AttackCity())
+    def update(self, brain_comp):
+        if brain_comp.get_controller().move_comp.is_done():
+            brain_comp.enter_state(AIState_AttackCity())
 
-        blackboard = controller.get_blackboard()
+        blackboard = brain_comp.get_blackboard()
         city = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
-        controller.look_at_unit(city)
+        brain_comp.get_controller().look_at_unit(city)
 
 # 解散
 class AIState_TroopDie(AIState_Troop):
-    def do_enter(self, controller):
-        log_util.debug(f'kill {controller.unit_id}')
-        controller.kill()
+    def do_enter(self, brain_comp):
+        log_util.debug(f'kill {brain_comp.get_unit().unit_id}')
+        brain_comp.get_controller().kill()
 
 # 空闲
 class AIState_Idle(AIState_Troop):
-    def update(self, controller):
+    def update(self, brain_comp):
         #if random_100() < 4:
             #log_util.debug(f'idle {controller.get_unit().unit_name}')
         pass
@@ -417,8 +417,9 @@ class AIState_Idle(AIState_Troop):
 # 攻城战
 #
 class AIState_AttackCity(AIState_Troop):
-    def update(self, controller):
-        blackboard = controller.get_blackboard()
+    def update(self, brain_comp):
+        blackboard = brain_comp.get_blackboard()
+        controller = brain_comp.get_controller()
 
         # 射箭
         if not blackboard.shoot_effect:
@@ -471,21 +472,24 @@ class AIState_AttackCity(AIState_Troop):
 # 移动到目标位置, 然后警戒, 现在停在那里即可
 #
 class AIState_MoveToPos(AIState_Troop):
-    def do_enter(self, controller):
+    def do_enter(self, brain_comp):
+        controller = brain_comp.get_controller()
         troop = controller.get_unit()
-        blackboard = controller.get_blackboard()
+        blackboard = brain_comp.get_blackboard()
 
         if not controller.move_comp:
             #controller.move_comp = StepMoveComponent()
             controller.move_comp = NewtonMoveComponent()
         controller.move_comp.restart()
 
-    def update(self, controller):
+    def update(self, brain_comp):
+        controller = brain_comp.get_controller()
+        
         if controller.move_comp.is_done():
-            controller.goto_state('idle')
+            brain_comp.goto_state('idle')
         elif controller.get_fight_comp().is_skill_ready():
             troop = controller.get_unit()
-            blackboard = controller.get_blackboard()
+            blackboard = brain_comp.get_blackboard()
             
             sight_comp = controller.sight_comp
             for unit in sight_comp.loop_units():
@@ -494,7 +498,7 @@ class AIState_MoveToPos(AIState_Troop):
                     
                     # 停下来, 原地射击, 等到目标死亡,离开, 再决策
                     controller.move_comp.complete()
-                    controller.goto_state('shoot')
+                    brain_comp.goto_state('shoot')
                     
                     break
 
@@ -502,9 +506,10 @@ class AIState_MoveToPos(AIState_Troop):
 # 起始,根据目标的设置,进行跳转
 #
 class AIState_TroopStart(AIState_Troop):
-    def update(self, controller):
+    def update(self, brain_comp):
+        controller = brain_comp.get_controller()
         troop = controller.get_unit()
-        blackboard = controller.get_blackboard()
+        blackboard = controller.get_brain_comp().get_blackboard()
 
         if troop.target_unit_id > 0:
             blackboard.target_unit_id = troop.target_unit_id
@@ -512,19 +517,20 @@ class AIState_TroopStart(AIState_Troop):
             blackboard.target_pos = unit.get_xz()
             #controller.enter_state(AIState_MarchToCity())
             #controller.enter_state(AIState_MoveToPos())
-            controller.goto_state('move_to_pos')
+            brain_comp.goto_state('move_to_pos')
         else:
             blackboard.target_unit_id = 0
             blackboard.target_pos = troop.target_pos
             #controller.enter_state(AIState_MoveToPos())
-            controller.goto_state('move_to_pos')
+            brain_comp.goto_state('move_to_pos')
 
 #
 # 射箭
 #
 class AIState_Shoot(AIState_Troop):
-    def do_enter(self, controller):
-        blackboard = controller.get_blackboard()
+    def do_enter(self, brain_comp):
+        controller = brain_comp.get_controller()
+        blackboard = brain_comp.get_blackboard()
         fight_comp = controller.get_fight_comp()
         troop = controller.get_unit()
         
@@ -538,12 +544,12 @@ class AIState_Shoot(AIState_Troop):
         blackboard.shoot_time = 0
         
     def update(self, controller):
-        blackboard = controller.get_blackboard()
+        blackboard = controller.get_brain_comp().get_blackboard()
         blackboard.shoot_time += game_mgr.delta_time
         
         #log_debug(blackboard.shoot_time)
         if blackboard.shoot_time > 0.3:
-            controller.goto_state('start')
+            brain_comp.goto_state('start')
 
 
 

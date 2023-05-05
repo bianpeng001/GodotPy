@@ -13,10 +13,12 @@ class Player:
     def __init__(self):
         self.player_id = 0
         self.player_name = '刘备'
+        self.first_name = '刘'
 
         self.city_list = []
         self.troop_list = []
         self.hero_list = []
+        
         # 主城
         self.main_city_id = 0
         # 自己的英雄本体

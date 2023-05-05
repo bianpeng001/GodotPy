@@ -241,7 +241,8 @@ class ChuZhanPanelController(UIController, PopupTrait):
             troop.target_unit_id = self.target_unit_id
             troop.target_pos = self.target_pos
 
-            troop.get_controller().goto_state('start')
+            brain_comp = troop.get_controller().get_brain_comp()
+            brain_comp.goto_state('start')
             
         else:
             log_debug('no hero selected')
