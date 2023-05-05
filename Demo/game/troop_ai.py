@@ -379,9 +379,9 @@ class AIState_FindCity(AIState_Troop):
 class AIState_MarchToCity(AIState_Troop):
     def do_enter(self, brain_comp):
         blackboard = brain_comp.get_blackboard()
+        troop = brain_comp.get_unit()
 
         city = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
-        troop = brain_comp.get_unit()
 
         req = ArcMoveReq()
         req.setup(*troop.get_position(),
@@ -487,11 +487,12 @@ class AIState_MoveToPos(AIState_Troop):
     def update(self, brain_comp):
         controller = brain_comp.get_controller()
         
+        
         if controller.move_comp.is_done():
             brain_comp.goto_state('idle')
         elif controller.get_fight_comp().is_skill_ready():
-            troop = controller.get_unit()
             blackboard = brain_comp.get_blackboard()
+            troop = controller.get_unit()
             
             sight_comp = controller.sight_comp
             for unit in sight_comp.loop_units():
