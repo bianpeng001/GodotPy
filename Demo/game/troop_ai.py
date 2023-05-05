@@ -62,9 +62,6 @@ class NewtonMoveComponent(MoveComponent):
         # 目标点
         self._dst_pos = Vector3()
         self._cur_pos = Vector3()
-        # 额外速度
-        self.v_x = 0
-        self.v_z = 0
         
         # 累加时长
         self.accu_time = 0

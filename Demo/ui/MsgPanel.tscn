@@ -14,11 +14,10 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Bg" type="ColorRect" parent="."]
-visible = false
 layout_mode = 0
 offset_right = 320.0
 offset_bottom = 160.0
-color = Color(0.160784, 0.160784, 0.160784, 0.784314)
+color = Color(0.09375, 0.09375, 0.09375, 0.784314)
 
 [node name="BtnSetting" type="TextureButton" parent="."]
 layout_mode = 0
