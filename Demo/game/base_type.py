@@ -9,11 +9,11 @@ from game.core import log_debug, Vector3
 #
 class AIMachine:
     def __init__(self):
-        # ai state machine
+        # 当前活动状态
         self.ai_state = None
-        # state
+        # 状态集合
         self.state_dict = { }
-        
+        # 数据共享
         self.blackboard = None
         
     def get_blackboard(self):
@@ -33,9 +33,6 @@ class AIMachine:
         state = self.state_dict.get(name, None)
         if state:
             self._enter_state(state)
-            
-        # if state and self.get_unit():
-        #     log_debug(self.get_unit().unit_name, name)
 
     def add_state(self, name, state):
         self.state_dict[name] = state
