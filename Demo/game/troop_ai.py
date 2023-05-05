@@ -70,8 +70,9 @@ class NewtonMoveComponent(MoveComponent):
         self.accu_time = 0
         self.block_time = 0
         
-    def update(self, troop, delta_time):
-        controller = troop.get_controller()
+    def update(self, delta_time):
+        controller = self.get_controller()
+        troop = controller.get_unit()
         blackboard = controller.get_brain_comp().get_blackboard()
         
         if blackboard.target_unit_id > 0:
@@ -480,6 +481,7 @@ class AIState_MoveToPos(AIState_Troop):
         if not controller.move_comp:
             #controller.move_comp = StepMoveComponent()
             controller.move_comp = NewtonMoveComponent()
+            controller.move_comp.setup(controller)
         controller.move_comp.restart()
 
     def update(self, brain_comp):
@@ -543,8 +545,8 @@ class AIState_Shoot(AIState_Troop):
             
         blackboard.shoot_time = 0
         
-    def update(self, controller):
-        blackboard = controller.get_brain_comp().get_blackboard()
+    def update(self, brain_comp):
+        blackboard = brain_comp.get_blackboard()
         blackboard.shoot_time += game_mgr.delta_time
         
         #log_debug(blackboard.shoot_time)

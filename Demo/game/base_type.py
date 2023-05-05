@@ -218,6 +218,10 @@ class Component:
     
     def get_controller(self):
         return self._controller
+    
+    def setup(self, controller):
+        self._controller = controller
+        
 #
 # 控制hud
 #

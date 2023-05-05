@@ -188,13 +188,13 @@ class TroopController(Controller):
     def update_move(self):
         self.add_rvo_force()
         
-        req = self.move_comp
-        if req and not req.is_done():
-            troop = self.get_unit()
+        move_comp = self.move_comp
+        if move_comp and not move_comp.is_done():
             # 位置朝向
-            req.update(troop, game_mgr.delta_time)
+            move_comp.update(game_mgr.delta_time)
 
             # 位置变更之后,刷新tile归属
+            troop = self.get_unit()
             x,z = troop.get_xz()
             tile = game_mgr.ground_mgr.get_tile(x, z)
             if self.owner_tile != tile:
@@ -297,12 +297,14 @@ class TroopController(Controller):
             self.owner_tile.remove_unit(self.get_unit())
         self.get_unit().set_dead()
         
-        
     def get_fight_comp(self):
         return self.fight_comp
 
     def get_brain_comp(self):
         return self.brain_comp
+    
+    def get_move_comp(self):
+        return self.move_comp
     
     
 

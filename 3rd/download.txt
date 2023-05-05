@@ -33,3 +33,7 @@ https://gitlab.com/eldskald/3d-toon-resources
 // markdown, 这两个库应该都可以用. 目前用的marked
 https://github.com/markedjs/marked
 https://github.com/markdown-it/markdown-it
+
+// 中文字体
+[中文字体](https://fonts.google.com/?subset=chinese-simplified&noto.script=Hans)
+
