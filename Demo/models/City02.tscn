@@ -2,7 +2,7 @@
 
 [ext_resource type="ArrayMesh" uid="uid://blbfw86ajb7p0" path="res://models/House01.obj" id="3_s621r"]
 [ext_resource type="ArrayMesh" uid="uid://crcugkxd4vcf2" path="res://models/Flag03.obj" id="5_60rg5"]
-[ext_resource type="Material" uid="uid://cxntykwf1sxkq" path="res://models/Color/FlagCity.tres" id="5_rqr85"]
+[ext_resource type="Material" uid="uid://cxntykwf1sxkq" path="res://models/Color/FlagCityMat.tres" id="5_rqr85"]
 [ext_resource type="ArrayMesh" uid="uid://d0p8ns1eso5hb" path="res://models/Road01.obj" id="5_vm4ah"]
 [ext_resource type="ArrayMesh" uid="uid://dkrgkg360dir7" path="res://models/City02.obj" id="6_gvndv"]
 

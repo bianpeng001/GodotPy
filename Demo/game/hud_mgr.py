@@ -24,7 +24,7 @@ class HUDItem:
         self.flag_obj = None
         
         # 高度修正
-        self.hud_height = 8
+        self.hud_height = 0
         
         # 可见度,加一个计数
         self.show_count = 1
@@ -51,6 +51,8 @@ class HUDItem:
         if unit:
             hud_comp = unit.get_controller().get_hud_comp()
             hud_comp.set_valid(False)
+            
+        self.unit_id = 0
 
     # new_hud 是否新创建的, 少刷新一些东西
     def update(self, unit, new_hud):
@@ -69,7 +71,7 @@ class HUDItem:
                     self.set_flag_color(*player.flag_color)
                 else:
                     self.set_flag_text('')
-                    self.set_flag_color(1,1,1)
+                    self.set_flag_color(0.8,0.8,0.8)
                     
             # 然后是刷新血量等参数
             pass
@@ -175,7 +177,7 @@ class HUDMgr:
     def update_hud_items(self):
         # 需要隐藏的排队
         hide_queue = self.hide_queue
-        hide_queue.clear()
+        #hide_queue.clear()
         
         # 刷新可见性
         for hud_item in self.hud_item_dict.values():

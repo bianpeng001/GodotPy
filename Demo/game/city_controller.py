@@ -31,15 +31,17 @@ class CityController(Controller):
                 #flag_node.load_material(1, 'res://models/Color/Green.tres')
                 # TODO: 这里还要读取数据, 加载正确的颜色
                 
+                path = 'res://models/Color/FlagCityMat.tres'
+                
                 if self.get_unit().owner_player_id != 0:
                     player = game_mgr.player_mgr.get_player(self.get_unit().owner_player_id)
                     if not player.flag_mat:
-                        a = ResCapsule.load_resource('res://models/Color/FlagCity.tres')
+                        a = ResCapsule.load_resource(path)
                         player.flag_mat = a.duplicate()
                         player.flag_mat.set_shader_color("_color", 1,0,0,1)
                     flag_node.set_surface_material(1, player.flag_mat.res)
                 else:
-                    a = ResCapsule.load_resource('res://models/Color/FlagCity.tres')
+                    a = ResCapsule.load_resource(path)
                     flag_node.set_surface_material(1, a.res)
 
     # 计算资源增长

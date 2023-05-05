@@ -8,7 +8,8 @@
 [ext_resource type="ArrayMesh" uid="uid://dj2o1pomje1l3" path="res://models/House03.obj" id="7_4s7aa"]
 [ext_resource type="ArrayMesh" uid="uid://crcugkxd4vcf2" path="res://models/Flag03.obj" id="7_iq06m"]
 [ext_resource type="ArrayMesh" uid="uid://br1vhvt7knvs2" path="res://models/Soldier02.obj" id="8_om5q3"]
-[ext_resource type="Material" uid="uid://cxntykwf1sxkq" path="res://models/Color/FlagCity.tres" id="9_yknkx"]
+[ext_resource type="Material" uid="uid://cxntykwf1sxkq" path="res://models/Color/FlagCityMat.tres" id="9_yknkx"]
+
 
 [node name="City01" type="Node3D"]
 

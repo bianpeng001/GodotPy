@@ -63,7 +63,7 @@ class SelectTargetController(UIController, PopupTrait):
 
     @WhenVisible
     def on_scene_ground_click(self):
-        x,y,z = get_position_under_mouse()
+        x,y,z = get_cursor_position()
         self.flag_obj.set_position(x,y,z)
         self.set_target(0, (round(x), round(z)))
         

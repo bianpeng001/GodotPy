@@ -65,7 +65,7 @@ class BuildPanelController(UIController, PopupTrait):
 
     def update(self):
         if self.is_show() and self.active_obj:
-            x,y,z = get_position_under_mouse()
+            x,y,z = get_cursor_position()
             x = round(x)
             z = round(z)
             self.active_obj.set_position(x,0,z)
