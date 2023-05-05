@@ -52,14 +52,14 @@ class HUDItem:
             x1,y1 = get_main_camera().world_to_screen(x,y+self.hud_height,z)
             self.hud_obj.set_position(x1+self.offset, y1)
             
-            if new_hud:
+            hud_comp = unit.get_controller().hud_comp
+            if new_hud or not hud_comp.is_valid():
+                hud_comp.set_valid()
+                
                 if unit.owner_player_id != 0:
                     player = game_mgr.player_mgr.get_player(unit.owner_player_id)
-                    if player:
-                        self.set_flag_text(player.player_name[0])
-                        self.set_flag_color(*player.flag_color)
-                    else:
-                        pass
+                    self.set_flag_text(player.first_name)
+                    self.set_flag_color(*player.flag_color)
                 else:
                     self.set_flag_text('')
                     self.set_flag_color(1,1,1)

@@ -10,6 +10,7 @@ from game.game_mgr import *
 from game.event_name import *
 from game.wait import *
 from game.base_type import *
+from game.config_mgr import parse_name
 
 #
 # 游戏的控制逻辑, 事件响应啥的，集中到这里来
@@ -229,6 +230,7 @@ class GamePlay:
             owner.city_list.remove(city.unit_id)
             game_mgr.event_mgr.emit(NAV_PANEL_LOSE_CITY, owner.player_id, city.unit_id)
             city.owner_player_id = 0
+            
         city.owner_player_id = player.player_id
         player.city_list.append(city.unit_id)
         game_mgr.event_mgr.emit(NAV_PANEL_GAIN_CITY, player.player_id, city.unit_id)
@@ -240,6 +242,7 @@ class GamePlay:
             player.hero_list.append(hero_id)
 
     # 队伍攻城
+    @obstacle
     def troop_attack_city(self, troop, city):
         if troop.owner_player_id == 0:
             return
@@ -357,8 +360,13 @@ class GamePlay:
             self.occupy_city(src_unit, target_unit)
     
     # 占领
-    def occupy_city(self, src_unit, target_unit):
-        log_debug('occupy', src_unit.unit_name, target_unit.unit_name)
+    def occupy_city(self, src_unit, city_unit):
+        log_debug('occupy', src_unit.unit_name, city_unit.unit_name)
+        if src_unit.owner_player_id != 0:
+            player = game_mgr.player_mgr.get_player(src_unit.owner_player_id)
+            self.set_city_owner(city_unit, player)
+            city_unit.get_controller().hud_comp.invalidate()
+            city_unit.get_controller().set_flag_color()
 
 
     # 在城里, 创建一个玩家
@@ -374,6 +382,7 @@ class GamePlay:
         if is_main_player:
             pm.main_player = player
         player.player_name = player_name
+        player.first_name,_ = parse_name(player_name)
         # 玩家自己
         hero = game_mgr.hero_mgr.new_hero()
         hero.hero_name = player_name

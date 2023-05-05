@@ -87,6 +87,7 @@ class PlayerMgr:
     def update(self, delta_time):
         for player in self.update_list:
             player.update(self, delta_time)
-        
+            
+
 
 

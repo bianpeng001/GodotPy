@@ -181,7 +181,11 @@ class Unit:
 class Controller(AIMachine):
     def __init__(self, unit):
         self._unit = unit
+        
         AIMachine.__init__(self)
+        
+        self.hud_comp = HUDComponent()
+        self.hud_comp._owner_controller = self
 
     @property
     def unit_id(self):
@@ -216,7 +220,24 @@ class Controller(AIMachine):
 class Component:
     def __init__(self):
         self._owner_controller = None
+        
+#
+# 控制hud
+#
+class HUDComponent(Component):
+    def __init__(self):
+        super().__init__()
+        self._valid = False
+        
+    def invalidate(self):
+        self._valid = False
+        
+    def is_valid(self):
+        return self._valid
     
+    def set_valid(self):
+        self._valid = True
+
 #
 # UI 面板控制器
 #

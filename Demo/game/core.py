@@ -833,3 +833,6 @@ def GetWrappedObject(gdobj):
 
 
 
+def obstacle(fun):
+    return fun
+
