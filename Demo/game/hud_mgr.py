@@ -49,7 +49,7 @@ class HUDItem:
         self.set_visible(False)
         unit = get_unit(self.unit_id)
         if unit:
-            hud_comp = unit.get_controller().hud_comp
+            hud_comp = unit.get_controller().get_hud_comp()
             hud_comp.set_valid(False)
 
     # new_hud 是否新创建的, 少刷新一些东西
@@ -59,7 +59,7 @@ class HUDItem:
             x1,y1 = get_main_camera().world_to_screen(x,y+self.hud_height,z)
             self.hud_obj.set_position(x1+self.offset, y1)
             
-            hud_comp = unit.get_controller().hud_comp
+            hud_comp = unit.get_controller().get_hud_comp()
             if new_hud or not hud_comp.is_valid():
                 hud_comp.set_valid(True)
                 

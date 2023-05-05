@@ -186,6 +186,9 @@ class Controller(AIMachine):
         
         self.hud_comp = HUDComponent()
         self.hud_comp._owner_controller = self
+        
+    def get_hud_comp(self):
+        return self.hud_comp
 
     @property
     def unit_id(self):

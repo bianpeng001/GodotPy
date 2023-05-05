@@ -365,8 +365,9 @@ class GamePlay:
         if src_unit.owner_player_id != 0:
             player = game_mgr.player_mgr.get_player(src_unit.owner_player_id)
             self.set_city_owner(city_unit, player)
-            city_unit.get_controller().hud_comp.invalidate()
-            city_unit.get_controller().set_flag_color()
+            controller = city_unit.get_controller()
+            controller.get_hud_comp().set_valid(False)
+            controller.set_flag_color()
 
 
     # 在城里, 创建一个玩家
