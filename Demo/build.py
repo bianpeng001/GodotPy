@@ -153,6 +153,7 @@ def build_player_release():
     run(f'{GIT_EXE} log -1 --format=%H > godot_ver.txt')
 
 def verinfo():
+    os.chdir(GODOT_DIR)
     run(f'{GIT_EXE} log -1 --format=%H')
     os.chdir(PYTHON_DIR)
     run(f'{GIT_EXE} log -1 --format=%h')
