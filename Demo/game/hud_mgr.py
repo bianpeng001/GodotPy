@@ -44,6 +44,13 @@ class HUDItem:
         if not self.flag_obj:
             self.flag_obj = self.hud_obj.find_node('Flag')
         self.flag_obj.set_self_modulate(r,g,b)
+        
+    def recycle(self):
+        self.set_visible(False)
+        unit = get_unit(self.unit_id)
+        if unit:
+            hud_comp = unit.get_controller().hud_comp
+            hud_comp.set_valid(False)
 
     # new_hud 是否新创建的, 少刷新一些东西
     def update(self, unit, new_hud):
@@ -54,7 +61,7 @@ class HUDItem:
             
             hud_comp = unit.get_controller().hud_comp
             if new_hud or not hud_comp.is_valid():
-                hud_comp.set_valid()
+                hud_comp.set_valid(True)
                 
                 if unit.owner_player_id != 0:
                     player = game_mgr.player_mgr.get_player(unit.owner_player_id)
@@ -151,7 +158,7 @@ class HUDMgr:
     def _free_hud(self, unit_id):
         if unit_id in self.hud_item_dict:
             hud_item = self.hud_item_dict.pop(unit_id)
-            hud_item.set_visible(False)
+            hud_item.recycle()
             self.hud_item_cache.append(hud_item)
 
     def update_hud(self, unit):

@@ -145,10 +145,27 @@ def get_hero_name(hero_id):
     hero = get_hero(hero_id)
     return hero.hero_name if hero else ''
 
-def get_unit_name(unit_id):
+def get_unit(unit_id):
     if unit_id == 0:
-        return ''
+        return None
     unit = game_mgr.unit_mgr.get_unit(unit_id)
+    return unit
+
+def get_unit_name(unit_id):
+    unit = get_unit(unit_id)
     return unit.unit_name if unit else ''
+
+__all__ = [
+    'UnitTrait',
+    'game_mgr',
+    'get_main_player',
+    'get_main_player_id',
+    'get_main_camera',
+    'get_position_under_mouse',
+    'get_hero',
+    'get_hero_name',
+    'get_unit',
+    'get_unit_name',
+]
 
 

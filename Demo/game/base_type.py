@@ -228,15 +228,12 @@ class HUDComponent(Component):
     def __init__(self):
         super().__init__()
         self._valid = False
-        
-    def invalidate(self):
-        self._valid = False
-        
+
     def is_valid(self):
         return self._valid
     
-    def set_valid(self):
-        self._valid = True
+    def set_valid(self, value):
+        self._valid = value
 
 #
 # UI 面板控制器
