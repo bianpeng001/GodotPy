@@ -21,10 +21,10 @@ class SkillItem:
         pass
     
     def on_start(self):
-        log_debug('skill start', self.item_id, self.config_id)
+        log_debug('skill start', self.skill_name, self.item_id, self.config_id)
     
     def on_complete(self):
-        log_debug('skill complete', self.item_id, self.config_id)
+        log_debug('skill complete', self.skill_name, self.item_id, self.config_id)
         if self.on_complete_cb:
             self.on_complete_cb()
 
@@ -47,27 +47,30 @@ class SkillMgr:
                 item.time += delta_time
                 item.update()
                 if item.time < item.life_time:
-                    self.add_skill(item)
+                    self._add_skill(item)
                 else:
                     item.on_complete()
                     
             self.back_item_list.clear()
 
-    def add_skill(self, item):
+    def _add_skill(self, item):
         self.item_list.append(item)
         
     # 释放技能
-    def create_skill_item(self, config_id, on_complete_cb = None):
-        cfg = game_mgr.config_mgr.get_skill(config_id)
+    def cast_skill(self, config_id, on_complete_cb = None):
         self.next_item_id += 1
+        cfg = game_mgr.config_mgr.get_skill(config_id)
         
         item = SkillItem(config_id)
-        item.item_id = self.next_item_id
-        item.time = 0
+        item.skill_name = cfg.skill_name
         item.life_time = cfg.life_time
         item.on_complete_cb = on_complete_cb
         
-        self.add_skill(item)
+        item.item_id = self.next_item_id
+        item.time = 0
+        
+        self._add_skill(item)
         item.on_start()
         
         return item
+

@@ -342,13 +342,20 @@ class GamePlay:
             game_mgr.effect_mgr.play_damage(damage, target_unit)
             
             target_unit.army_amount.add(-damage)
-            log_debug('skill damage', damage, target_unit.army_amount.get_value())
-            if target_unit.army_amount.get_value() <= 0:
-                game_mgr.game_play.occupy_city(src_unit, target_unit)
+            hp = target_unit.army_amount.get_value()
+            log_debug('skill damage', damage, hp)
+            # 如果目标被击败了
+            if hp <= 0:
+                self.defeat(src_unit, target_unit)
         
-        # 技能的生命周期, 注册一个
-        game_mgr.skill_mgr.create_skill_item(skill_config_id, on_complete)
+        # 释放一个技能, 传入一个结束回调
+        game_mgr.skill_mgr.cast_skill(skill_config_id, on_complete)
 
+    # 击败
+    def defeat(self, src_unit, target_unit):
+        if target_unit.unit_type == UT_CITY:
+            self.occupy_city(src_unit, target_unit)
+    
     # 占领
     def occupy_city(self, src_unit, target_unit):
         log_debug('occupy', src_unit.unit_name, target_unit.unit_name)
