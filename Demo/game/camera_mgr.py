@@ -88,14 +88,13 @@ class CameraMgr(NodeObject):
         if game_mgr.ui_mgr.is_point_at_gui():
             return
         
-        input_mgr = game_mgr.input_mgr
-        x, y = input_mgr.get_mouse_pos()
+        mx,my = game_mgr.input_mgr.get_mouse_pos()
         
         prev_norm = 1 + self.arm_scale
         self.arm_scale = clamp(self.arm_scale + delta)
         f = (1 + self.arm_scale) / prev_norm
         
-        x1,y1,z1 = self.main_camera.screen_to_world(input_mgr.x, input_mgr.y)
+        x1,y1,z1 = self.main_camera.screen_to_world(mx,my)
         dx = (self.focus.x - x1) * f
         dy = (self.focus.y - y1) * f
         dz = (self.focus.z - z1) * f

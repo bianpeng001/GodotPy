@@ -17,6 +17,7 @@ grow_vertical = 2
 layout_mode = 0
 offset_right = 320.0
 offset_bottom = 160.0
+mouse_filter = 2
 color = Color(0.09375, 0.09375, 0.09375, 0.784314)
 
 [node name="BtnSetting" type="TextureButton" parent="."]
@@ -30,12 +31,14 @@ stretch_mode = 0
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
 offset_left = 20.0
-offset_right = 340.0
+offset_right = 320.0
 offset_bottom = 160.0
+mouse_filter = 2
 
 [node name="Item" type="RichTextLabel" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
+mouse_filter = 2
 theme = ExtResource("1_qao50")
 theme_override_font_sizes/normal_font_size = 13
 bbcode_enabled = true

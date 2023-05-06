@@ -16,6 +16,7 @@ layout_mode = 0
 offset_top = 20.0
 offset_right = 100.0
 offset_bottom = 42.0
+mouse_filter = 2
 theme = ExtResource("1_l8j2c")
 color = Color(0.160784, 0.160784, 0.160784, 0.784314)
 
@@ -36,6 +37,7 @@ layout_mode = 0
 offset_top = 42.0
 offset_right = 100.0
 offset_bottom = 45.0
+mouse_filter = 2
 color = Color(0, 1, 0, 1)
 
 [node name="Flag" type="TextureRect" parent="."]
@@ -43,6 +45,7 @@ layout_mode = 0
 offset_top = -1.0
 offset_right = 27.0
 offset_bottom = 19.0
+mouse_filter = 2
 texture = ExtResource("2_ubyry")
 expand_mode = 1
 

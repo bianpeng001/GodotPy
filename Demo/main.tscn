@@ -54,6 +54,14 @@ python_class = "RaycastMgr"
 python_module = "game.ui_mgr"
 python_class = "UIMgr"
 
+[node name="SelectRect" type="ColorRect" parent="UIMgr"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 110.0
+offset_bottom = 110.0
+mouse_filter = 2
+color = Color(0, 1, 0, 0.313726)
+
 [node name="DrawRect" type="Node2D" parent="."]
 script = ExtResource("4_okre0")
 
