@@ -62,26 +62,26 @@ class GamePlay:
         self.select_rect_obj.set_visible(False)
         self.select_rect_obj.set_size(100, 100)
         
-        game_mgr.event_mgr.add(LEFT_BUTTON_PRESS, self.on_show_select_rect)
-        game_mgr.event_mgr.add(LEFT_BUTTON_RELEASE, self.on_hide_select_rect)
-        game_mgr.event_mgr.add(LEFT_BUTTON_DRAG, self.on_drag_select_rect)
-    
-    def on_show_select_rect(self,x,y):
-        self.s_x, self.s_y = x,y
-        
-    def on_drag_select_rect(self, x,y):
-        if not self.show_select_rect:
-            self.show_select_rect = True
-            self.select_rect_obj.set_visible(True)
+        def on_show_select_rect(x,y):
+            self.s_x, self.s_y = x,y
             
-        self.select_rect_obj.set_position(min(self.s_x,x), min(self.s_y,y))
-        self.select_rect_obj.set_size(abs(self.s_x-x), abs(self.s_y-y))
-    
-    def on_hide_select_rect(self):
-        if self.show_select_rect:
-            self.show_select_rect = False
-            self.select_rect_obj.set_visible(False)
-            # TODO: 框选操作单位
+        def on_drag_select_rect(x,y):
+            if not self.show_select_rect:
+                self.show_select_rect = True
+                self.select_rect_obj.set_visible(True)
+                
+            self.select_rect_obj.set_position(min(self.s_x,x), min(self.s_y,y))
+            self.select_rect_obj.set_size(abs(self.s_x-x), abs(self.s_y-y))
+        
+        def on_hide_select_rect():
+            if self.show_select_rect:
+                self.show_select_rect = False
+                self.select_rect_obj.set_visible(False)
+                # TODO: 框选操作单位
+        
+        game_mgr.event_mgr.add(LEFT_BUTTON_PRESS, on_show_select_rect)
+        game_mgr.event_mgr.add(LEFT_BUTTON_RELEASE, on_hide_select_rect)
+        game_mgr.event_mgr.add(LEFT_BUTTON_DRAG, on_drag_select_rect)
     
     #-------------------------------------------------------------------------
     # endregion
