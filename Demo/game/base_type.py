@@ -269,7 +269,7 @@ class UIController:
 # 本方法在UI可见时才生效, 用于事件响应
 #
 def WhenVisible(fun):
-    def _fun(self, *args,**kwargs):
+    def _fun(self, *args, **kwargs):
         if self.is_show():
             return fun(self, *args, **kwargs)
     
