@@ -228,6 +228,8 @@ class Component:
 class HUDComponent(Component):
     def __init__(self):
         super().__init__()
+        
+        # 用于强制重建hud
         self._valid = False
 
     def is_valid(self):
