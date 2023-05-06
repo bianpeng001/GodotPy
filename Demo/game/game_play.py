@@ -182,10 +182,20 @@ class GamePlay:
         game_mgr.co_mgr.start(co_wait_for_ground())
 
         test_wait_1()
+        
         # load cursor
-        if not OS.is_editor_hint():
-            cursor = ResCapsule.load_resource(game_mgr.config_mgr.default_cursor)
-            OS.set_custom_mouse_cursor(cursor.res, 0, 1, 1)
+        self.cursor_list = [
+            None,
+            ResCapsule.load_resource(game_mgr.config_mgr.default_cursor),
+            ResCapsule.load_resource('res://DragCursor.png'),
+        ]
+        self.set_cursor(1)
+                
+    def set_cursor(self, index):
+        if index == 0:
+            OS.set_custom_mouse_cursor(None, 0, 0, 0)
+        else:
+            OS.set_custom_mouse_cursor(self.cursor_list[index].res, 0, 1, 1)
 
     def on_player_ready(self):
         mp = game_mgr.player_mgr.main_player
@@ -215,6 +225,7 @@ class GamePlay:
             player.flag_mat = None
         
         # reset cursor, or cursor texture2d asset leak error
+        self.cursor_list = None
         OS.set_custom_mouse_cursor(None, 0, 1, 1)
         
     # API方法，业务代码

@@ -51,6 +51,8 @@ class CameraMgr(NodeObject):
     def on_mouse_button_down(self, x, y):
         x,y,z = self.main_camera.screen_to_world(x, y)
         self.drag_start.set(x, y, z)
+        
+        game_mgr.game_play.set_cursor(2)
 
     # TODO： begin_drag(), end_drag(), drag()
     def on_mouse_drag(self, x, y):
@@ -80,7 +82,7 @@ class CameraMgr(NodeObject):
             self.focus.z)
 
     def on_mouse_button_up(self):
-        pass
+        game_mgr.game_play.set_cursor(1)
 
     def process_zoom(self, delta):
         if game_mgr.ui_mgr.is_point_at_gui():
