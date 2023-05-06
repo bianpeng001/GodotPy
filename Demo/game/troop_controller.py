@@ -165,13 +165,13 @@ class TroopController(Controller):
         self.move_comp = None
         # 战斗相关
         self.fight_comp = TroopFightComponent()
-        self.fight_comp._controller = self
+        self.fight_comp.setup(self)
         # 视觉感知
         self.sight_comp = AISightComponent()
-        self.sight_comp._controller = self
+        self.sight_comp.setup(self)
         # AI 相关
         self.brain_comp = TroopBrainComponent()
-        self.brain_comp._controller = self
+        self.brain_comp.setup(self)
         self.init_ai()
         
         # 所在的地块
@@ -304,7 +304,7 @@ class TroopController(Controller):
     def kill(self):
         if self.owner_tile:
             self.owner_tile.remove_unit(self.get_unit())
-        self.get_unit().set_dead()
+        self.get_unit().set_death()
         
     def get_fight_comp(self):
         return self.fight_comp

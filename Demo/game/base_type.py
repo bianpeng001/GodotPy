@@ -140,12 +140,10 @@ class Unit:
         pass
 
     def get_position(self):
-        pos = self.unit_position
-        return pos.x,pos.y,pos.z
+        return self.unit_position.get_xyz()
 
     def get_xz(self):
-        pos = self.unit_position
-        return pos.x,pos.z
+        return self.unit_position.get_xz()
 
     def get_x(self):
         return self.unit_position.x
@@ -156,6 +154,12 @@ class Unit:
     def set_position(self, x,y,z):
         self.unit_position.set(x,y,z)
         self.get_controller().apply_position()
+        
+    def get_rotation(self):
+        return self.unit_rotation.get_xyz()
+    
+    def set_rotation(self, x,y,z):
+        self.unit_rotation.set(x,y,z)
 
     # 最后清除的时候，回调
     def on_dead(self):
@@ -163,7 +167,7 @@ class Unit:
             self.model_node.destroy()
             self.model_node = None
 
-    def set_dead(self):
+    def set_death(self):
         self.is_dead = True
 
     def get_controller(self):
@@ -177,7 +181,7 @@ class Controller:
         self._unit = unit
         
         self.hud_comp = HUDComponent()
-        self.hud_comp._controller = self
+        self.hud_comp.setup(self)
         
     def get_hud_comp(self):
         return self.hud_comp
@@ -200,6 +204,7 @@ class Controller:
     def start(self):
         pass
 
+    # 每帧调用
     def update(self):
         pass
 
@@ -207,10 +212,20 @@ class Controller:
         node = self.get_model_node()
         if node:
             node.set_position(*self.get_unit().get_position())
+            
+    def apply_transform(self):
+        node = self.get_model_node()
+        if node:
+            node.set_position(*self.get_unit().get_position())
+            node.set_rotation(*self.get_unit().get_rotation())
 
-
+    def apply_rotation(self):
+        node = self.get_model_node()
+        if node:
+            node.set_rotation(*self.get_unit().get_rotation())
+            
 #
-# 基本组件
+# 基本组件, 根据功能管理数据和代码, 避免Controller膨胀
 #
 class Component:
     def __init__(self):
@@ -219,6 +234,7 @@ class Component:
     def get_controller(self):
         return self._controller
     
+    # 用方法初始化
     def setup(self, controller):
         self._controller = controller
         
@@ -237,6 +253,10 @@ class HUDComponent(Component):
     
     def set_valid(self, value):
         self._valid = value
+    
+    # 用来刷新UI
+    def refresh_hud(self, hud_item):
+        pass
 
 #
 # UI 面板控制器
@@ -268,7 +288,7 @@ class UIController:
 #
 # 本方法在UI可见时才生效, 用于事件响应
 #
-def WhenVisible(fun):
+def when_visible(fun):
     def _fun(self, *args, **kwargs):
         if self.is_show():
             return fun(self, *args, **kwargs)

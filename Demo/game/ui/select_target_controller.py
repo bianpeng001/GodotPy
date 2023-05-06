@@ -3,7 +3,7 @@
 #
 
 from game.core import log_debug, OS
-from game.base_type import UIController, UT_CITY, WhenVisible
+from game.base_type import UIController, UT_CITY, when_visible
 from game.game_mgr import *
 from game.event_name import PRESSED,SCENE_GROUND_CLICK,SCENE_UNIT_CLICK
 from game.ui.ui_traits import PopupTrait
@@ -55,13 +55,13 @@ class SelectTargetController(UIController, PopupTrait):
         self.target_name = target_name
         self.lbl_target.set_text(target_name)
 
-    @WhenVisible
+    @when_visible
     def on_scene_unit_click(self, unit):
         x,y,z = unit.get_position()
         self.flag_obj.set_position(x,y,z)
         self.set_target(unit.unit_id, (round(x),round(z)))
 
-    @WhenVisible
+    @when_visible
     def on_scene_ground_click(self):
         x,y,z = get_cursor_position()
         self.flag_obj.set_position(x,y,z)
