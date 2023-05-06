@@ -29,12 +29,14 @@ class UIMgr(NodeObject):
         self.click_unit = None
         self.context_unit = None
 
+        # 控制tick频率
         self.tick_time = 0
 
         # 鼠标是否停留在ui上面
         self.last_x, self.last_y = 0, 0
         self.control_under_mouse = False
         
+        # 加载完毕
         self.load_complete = False
 
     def is_point_at_gui(self):
@@ -45,6 +47,9 @@ class UIMgr(NodeObject):
         if dx*dx + dy*dy > 10:
             camera = game_mgr.camera_mgr.main_camera
             self.control_under_mouse = camera.find_control(x, y)
+            
+            self.last_x = x
+            self.last_y = y
 
         return self.control_under_mouse != None
         

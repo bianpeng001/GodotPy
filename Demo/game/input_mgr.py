@@ -3,11 +3,12 @@
 #
 
 from game.core import *
-from game.game_mgr import game_mgr
-
+from game.game_mgr import *
 from game.event_name import *
 
+#
 # 定义按钮
+#
 LEFT_BUTTON = 1
 RIGHT_BUTTON = 2
 MIDDLE_BUTTON = 3
@@ -28,18 +29,21 @@ KEY_F8 = SPECIAL | 0x23
 KEY_F9 = SPECIAL | 0x24
 KEY_F10 = SPECIAL | 0x25
 
-
+#
 # 滚轮的事件表 [button] = event_name
+#
 wheel_events = (
     None,
     LEFT_BUTTON_PRESS,
-    None,
+    RIGHT_BUTTON_PRESS,
     None,
     WHEEL_UP_PRESS,
     WHEEL_DOWN_PRESS,
 )
 
+#
 # 鼠标操作的几个状态
+#
 class MouseButtonData:
     def __init__(self):
         # 是否按下
@@ -67,6 +71,21 @@ class InputMgr(NodeObject):
 
         # handle left button
         self.left_button = MouseButtonData()
+        self.left_button.event_press = LEFT_BUTTON_PRESS
+        self.left_button.event_release = LEFT_BUTTON_RELEASE
+        self.left_button.event_begin_drag = LEFT_BUTTON_BEGIN_DRAG
+        self.left_button.event_drag = LEFT_BUTTON_DRAG
+        self.left_button.event_end_drag = LEFT_BUTTON_END_DRAG
+        self.left_button.event_click = LEFT_BUTTON_CLICK
+        # handle right button
+        self.right_button = MouseButtonData()
+        self.right_button.event_press = RIGHT_BUTTON_PRESS
+        self.right_button.event_release = RIGHT_BUTTON_RELEASE
+        self.right_button.event_begin_drag = RIGHT_BUTTON_BEGIN_DRAG
+        self.right_button.event_drag = RIGHT_BUTTON_DRAG
+        self.right_button.event_end_drag = RIGHT_BUTTON_END_DRAG
+        self.right_button.event_click = RIGHT_BUTTON_CLICK
+
 
     def _create(self):
         self.get_obj().set_process(input=True)
@@ -106,9 +125,43 @@ class InputMgr(NodeObject):
         self.y = y
 
     def update(self, delta_time):
-        #self.process_input_events()
-        self.process_left_button()
+        #self.process_left_button()
+        self.process_mouse_button(LEFT_BUTTON, self.left_button)
+        self.process_mouse_button(RIGHT_BUTTON, self.right_button)
+    
+    # 支持左右键的通用版本
+    def process_mouse_button(self, button_id, mouse_data):
+        event_mgr = game_mgr.event_mgr
+        
+        last = mouse_data.pressed
+        curr = self.mouse_pressed[button_id]
+        mouse_data.pressed = curr
+        if last != curr:
+            if curr:
+                event_mgr.emit(mouse_data.event_press, self.x, self.y)
+                mouse_data.press_x = self.x
+                mouse_data.press_y = self.y
+                mouse_data.press_time = game_mgr.time
+            else:
+                if mouse_data.drag:
+                    mouse_data.drag = False
+                    event_mgr.emit(mouse_data.event_end_drag)
+                    event_mgr.emit(mouse_data.event_release)
+                else:
+                    # 从按下后，从没有进行过drag，则当做click事件
+                    event_mgr.emit(mouse_data.event_release)
+                    event_mgr.emit(mouse_data.event_click)
+        else:
+            if curr:
+                dx = self.x - mouse_data.press_x
+                if dx*dx > 4 and self.can_drag():
+                    if not mouse_data.drag:
+                        mouse_data.drag = True
+                        event_mgr.emit(mouse_data.event_begin_drag)
+                    else:
+                        event_mgr.emit(mouse_data.event_drag, self.x, self.y)
 
+    # 这个是原先的, 只处理左键的版本
     def process_left_button(self):
         last = self.left_button.pressed
         curr = self.mouse_pressed[LEFT_BUTTON]
@@ -144,4 +197,5 @@ class InputMgr(NodeObject):
         #control = camera.find_control(self.x, self.y)
         #return control == None
         return not game_mgr.ui_mgr.is_point_at_gui()
+
 
