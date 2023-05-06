@@ -56,9 +56,6 @@ class GameMgr():
         self.play_time = 0
 
         self.enable_city_ai = False
-        
-        # 用于复用的一个公用的临时list, 反正是单线程的, 用完即丢
-        self.reuse_list = []
 
     @property
     def event_mgr(self):
@@ -103,10 +100,6 @@ class GameMgr():
             
         ]
 
-    def get_reuse_list(self):
-        self.reuse_list.clear()
-        return self.reuse_list
-    
     # 判断是否同盟
     def is_league(self, unit_a, unit_b):
         return unit_a.owner_player_id == unit_b.owner_player_id

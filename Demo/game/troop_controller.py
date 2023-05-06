@@ -7,6 +7,9 @@ from game.game_mgr import *
 from game.base_type import *
 from game.troop_ai import *
 
+# 公用的list, 减少分配. 因为每帧每个单位都要用到
+g_lose_list = []
+
 #
 # 视觉感知
 #
@@ -16,6 +19,7 @@ class AISightComponent(Component):
         
         self.tick_time = 0
         
+        # 视觉扇形片的角速度
         self.angle = 0
         self.angle_speed = 0.3
         
@@ -30,15 +34,15 @@ class AISightComponent(Component):
         for unit in self._unit_dict.values():
             yield unit
         
-    def update(self):
+    def update(self, delta_time):
         # 移动过程里, 还要检查周围的敌军, 有一个视野
         self.angle += self.angle_speed
         self.get_controller().viewarea_obj.set_rotation(0, self.angle, 0)
-        if self.angle >= 30 or self.angle <= -30:
+        if abs(self.angle) > 30:
             self.angle_speed *= -1
 
         # sight
-        self.tick_time += game_mgr.delta_time
+        self.tick_time += delta_time
         if self.tick_time > 0.1:
             self.tick_time = 0
             self.check_see_unit()
@@ -94,8 +98,9 @@ class AISightComponent(Component):
                 check_tile_unit(col-1,row+1)
 
         if len(self._unit_dict) > 0:
-            lose_list = game_mgr.get_reuse_list()
             sqr_lose_radius = self.lose_radius**2
+            lose_list = g_lose_list
+            lose_list.clear()
             
             for unit in self.loop_units():
                 x1,z1 = unit.get_xz()
@@ -106,8 +111,10 @@ class AISightComponent(Component):
                     lose_list.append(unit.unit_id)
                     #log_debug('lose sight', src_unit.unit_name, unit.unit_name)
             
-            for unit_id in lose_list:
-                self._unit_dict.pop(unit_id)
+            if len(lose_list) > 0:
+                for unit_id in lose_list:
+                    self._unit_dict.pop(unit_id)
+                lose_list.clear()
 
 #
 # 管理战斗
@@ -117,9 +124,9 @@ class TroopFightComponent(Component):
         super().__init__()
         self.skill_cooldown = 1.0
         
-    def update(self):
+    def update(self, delta_time):
         if self.skill_cooldown > 0:
-            self.skill_cooldown -= game_mgr.delta_time
+            self.skill_cooldown -= delta_time
         
     def is_skill_ready(self):
         return self.skill_cooldown <= 0
@@ -134,8 +141,8 @@ class TroopBrainComponent(Component, AIMachine):
         
         self.tick_time = 0
     
-    def update(self):
-        self.tick_time += game_mgr.delta_time
+    def update(self, delta_time):
+        self.tick_time += delta_time
         if self.tick_time > 0.1:
             self.on_tick(self.tick_time)
             self.tick_time = 0
@@ -185,13 +192,13 @@ class TroopController(Controller):
         
         brain_comp.goto_state('idle')
 
-    def update_move(self):
+    def update_move(self, delta_time):
         self.add_rvo_force()
         
         move_comp = self.move_comp
         if move_comp and not move_comp.is_done():
             # 位置朝向
-            move_comp.update(game_mgr.delta_time)
+            move_comp.update(delta_time)
 
             # 位置变更之后,刷新tile归属
             troop = self.get_unit()
@@ -242,10 +249,12 @@ class TroopController(Controller):
                         obj.set_position(col*0.7, 0, row*0.7)
 
     def update(self):
-        self.update_move()
-        self.sight_comp.update()
-        self.fight_comp.update()
-        self.brain_comp.update()
+        delta_time = game_mgr.delta_time
+        
+        self.update_move(delta_time)
+        self.sight_comp.update(delta_time)
+        self.fight_comp.update(delta_time)
+        self.brain_comp.update(delta_time)
         
     # 对视野里面的单位, 加一个力, 改善重叠和穿插
     def add_rvo_force(self):
