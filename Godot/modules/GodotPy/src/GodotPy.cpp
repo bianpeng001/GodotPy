@@ -1512,7 +1512,59 @@ static PyObject *f_canvas_item_set_self_modulate(PyObject *module, PyObject *arg
 	} while (0);
 	Py_RETURN_NONE;
 }
+// queue a signal: _draw
+static PyObject *f_canvas_item_queue_redraw(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
 
+		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
+			break;
+		}
+
+		CanvasItem *canvas_item = GetObjPtr<CanvasItem>(a_obj);
+		if (!canvas_item) {
+			break;
+		}
+
+		canvas_item->queue_redraw();
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_canvas_item_draw_polyline(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		PyObject *a_points;
+		float r, g, b;
+		float width;
+
+		if (!PyArg_ParseTuple(args, "OOffff", &a_obj, &a_points, &r, &g, &b, &width)) {
+			break;
+		}
+
+		CanvasItem *canvas_item = GetObjPtr<CanvasItem>(a_obj);
+		if (!canvas_item) {
+			break;
+		}
+
+		const int length = PyList_Size(a_points);
+		PackedVector2Array points;
+
+		for (int i = 0; i < length; i += 2)
+		{
+			auto x = PyList_GetItem(a_points, i);
+			auto y = PyList_GetItem(a_points, i + 1);
+
+			points.append(Vector2((float)PyFloat_AsDouble(x), (float)PyFloat_AsDouble(y)));
+		}
+
+		canvas_item->draw_polyline(points, Color(r, g, b), width, false);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_find_control(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -2611,6 +2663,10 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "canvas_item_set_visible", f_canvas_item_set_visible, METH_VARARGS, NULL },
 	{ "canvas_item_set_modulate", f_canvas_item_set_modulate, METH_VARARGS, NULL },
 	{ "canvas_item_set_self_modulate", f_canvas_item_set_self_modulate, METH_VARARGS, NULL },
+	// TODO:
+	{ "canvas_item_queue_redraw", f_canvas_item_queue_redraw, METH_VARARGS, NULL },
+	{ "canvas_item_draw_polyline", f_canvas_item_draw_polyline, METH_VARARGS, NULL },
+	// draw_polyline, queue_redraw
 
 	{ "find_control", f_find_control, METH_VARARGS, NULL },
 	{ "base_button_set_disabled", f_base_button_set_disabled, METH_VARARGS, NULL },

@@ -592,6 +592,15 @@ class FCanvasItem(FNode):
     def set_visible(self, value):
         self.visible = value
         gp.canvas_item_set_visible(self.get_gdobj(), value)
+        
+    def queue_redraw(self):
+        gp.canvas_item_queue_redraw(self.get_gdobj())
+    
+    def draw_line(self, x1,y1,x2,y2, color, width):
+        pass
+    
+    def draw_polyline(self, points, r,g,b, width):
+        gp.canvas_item_draw_polyline(self.get_gdobj(), points, r,g,b, width)
 
 class FControl(FCanvasItem):
     def set_position(self, x,y):
