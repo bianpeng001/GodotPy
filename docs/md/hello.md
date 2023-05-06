@@ -16,6 +16,7 @@
 3. 画框的方案
    1. 用Node2D的_draw机制, 详见[Custom drawing in 2D](https://docs.godotengine.org/en/stable/tutorials/2d/custom_drawing_in_2d.html). 接口我加了, 但是不想用, 看起来是构造图元的方式, 来实现矢量绘制接口. 效率还是不太高的.
    2. 用UI的方块缩放. 这个比较适合这个使用场合, 比较难受的是UI上面, 我开始做的是在UI上面不能拖动, 所以, 需要把选择框的尺寸控制一下, 方块的边缘空出来.
+4. 然后, 越来越像星际了, 需要再想一想
 
 
 

@@ -33,20 +33,16 @@ class CameraMgr(NodeObject):
     def _create(self):
         self.get_obj().connect("ready", self._ready)
         self.main_camera = self.get_obj().find_node("MainCamera")
-
+        
         game_mgr.event_mgr.add(WHEEL_UP_PRESS, self.on_wheel_up)
         game_mgr.event_mgr.add(WHEEL_DOWN_PRESS, self.on_wheel_down)
-
-        # game_mgr.event_mgr.add(LEFT_BUTTON_PRESS, self.on_mouse_button_down)
-        # game_mgr.event_mgr.add(LEFT_BUTTON_RELEASE, self.on_mouse_button_up)
-        # game_mgr.event_mgr.add(LEFT_BUTTON_DRAG, self.on_mouse_drag)
         
         game_mgr.event_mgr.add(RIGHT_BUTTON_PRESS, self.on_mouse_button_down)
         game_mgr.event_mgr.add(RIGHT_BUTTON_RELEASE, self.on_mouse_button_up)
         game_mgr.event_mgr.add(RIGHT_BUTTON_DRAG, self.on_mouse_drag)
 
     def _ready(self):
-        log_util.debug("CameraMgr ready")
+        log_debug("CameraMgr ready")
 
     def on_mouse_button_down(self, x, y):
         x,y,z = self.main_camera.screen_to_world(x, y)

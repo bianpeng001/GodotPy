@@ -48,13 +48,13 @@ class GamePlay:
         game_mgr.event_mgr.add(START_GAME, self.on_start_game)
         game_mgr.event_mgr.add(MAIN_PLAYER_READY, self.on_player_ready)
         
-        # 初始化选择框
         self.init_select_rect()
     
     #-------------------------------------------------------------------------
     # region select rect
     #-------------------------------------------------------------------------
     
+    # 初始化选择框
     def init_select_rect(self):
         self.show_select_rect = False
         self.s_x = self.s_y = 0
@@ -78,8 +78,10 @@ class GamePlay:
         self.select_rect_obj.set_size(abs(self.s_x-x), abs(self.s_y-y))
     
     def on_hide_select_rect(self):
-        self.show_select_rect = False
-        self.select_rect_obj.set_visible(False)
+        if self.show_select_rect:
+            self.show_select_rect = False
+            self.select_rect_obj.set_visible(False)
+            # TODO: 框选操作单位
     
     #-------------------------------------------------------------------------
     # endregion
