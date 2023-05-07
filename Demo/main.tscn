@@ -60,9 +60,10 @@ offset_top = 10.0
 offset_right = 110.0
 offset_bottom = 110.0
 mouse_filter = 2
-color = Color(0, 1, 0, 0.313726)
+color = Color(0, 1, 0, 0.156863)
 
 [node name="DrawRect" type="Node2D" parent="."]
+visible = false
 script = ExtResource("4_okre0")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
