@@ -106,7 +106,7 @@ class CityController(Controller):
                 tile = game_mgr.ground_mgr.get_tile_colrow(col+dx, row+dy)
                 if not tile:
                     continue
-                for unit in tile.unit_list:
+                for unit in tile.get_unit_list():
                     if unit.unit_type == UT_CITY and \
                             (unit.owner_player_id == 0 or \
                             unit.owner_player_id != owner_player_id):

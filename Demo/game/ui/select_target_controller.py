@@ -31,6 +31,7 @@ class SelectTargetController(UIController, PopupTrait):
         game_mgr.event_mgr.add(SCENE_UNIT_CLICK, self.on_scene_unit_click)
         game_mgr.event_mgr.add(SCENE_GROUND_CLICK, self.on_scene_ground_click)
         
+        # 指示目标用的小红旗
         self.flag_obj = OS.instantiate('res://models/Flag02.tscn')
         self.flag_obj.set_visible(False)
         
@@ -47,7 +48,7 @@ class SelectTargetController(UIController, PopupTrait):
             x,z = pos
             target_name = f'{x},{z}'
             tile = game_mgr.ground_mgr.get_tile(x,z)
-            for unit in tile.unit_list:
+            for unit in tile.get_unit_list():
                 if unit.unit_type == UT_CITY:
                     target_name = f'{unit.unit_name} {target_name}'
                     break
@@ -70,7 +71,7 @@ class SelectTargetController(UIController, PopupTrait):
     def init_dialog(self, select_cb):
         self.select_cb = select_cb
         self.set_target(0, (0,0))
-        self.set_position(240, 70)
+        self.set_position(400, 70)
         self.push_panel()
     
     def on_ok_click(self):

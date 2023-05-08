@@ -32,7 +32,7 @@ class TileItem:
         # 附属模型
         self.item_nodes = []
         # 上面的单位列表
-        self.unit_list = []
+        self._unit_list = []
 
         # 用来控制可见列表
         self.show_age = 1
@@ -420,17 +420,17 @@ class TileItem:
         pass
 
     def update_hud(self):
-        for unit in self.unit_list:
+        for unit in self._unit_list:
             game_mgr.hud_mgr.update_hud(unit)
 
     def add_unit(self, unit):
-        self.unit_list.append(unit)
+        self._unit_list.append(unit)
 
     def remove_unit(self, unit):
-        self.unit_list.remove(unit)
+        self._unit_list.remove(unit)
         
     def get_unit_list(self):
-        return self.unit_list
+        return self._unit_list
         
     def create_road(self, x,y,z):
         pos_x, pos_z = self.get_center_pos()

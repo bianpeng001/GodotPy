@@ -260,6 +260,7 @@ class GamePlay:
                     flag_node.set_surface_material(0, None)
                     flag_node.set_surface_material(1, None)
         
+        # 清理tile
         for tile in game_mgr.ground_mgr.loop_tiles():
             tile.unload()
             
