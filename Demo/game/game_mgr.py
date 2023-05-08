@@ -15,17 +15,20 @@ from game.core import log_util
 class GameMgr():
     def __init__(self):
         super().__init__()
-
+        
+        # 游戏路径
         self.game_path = log_util.game_path
-
+        # 场景的根节点
+        self.scene_root_obj = None
+        
         # 底层管理器
         from game.event_mgr import EventMgr
         self._event_mgr = EventMgr()
         from game.coroutine_mgr import CoroutineMgr
         self._coroutine_mgr = CoroutineMgr()
-
-        # 上层管理器
         self._input_mgr = None
+        
+        # 上层管理器
         self.camera_mgr = None
         self.ground_mgr = None
         self.troop_mgr = None
@@ -35,18 +38,16 @@ class GameMgr():
         self.effect_mgr = None
         self.hud_mgr = None
         self.skill_mgr = None
-
-        # 场景的根节点
-        self.scene_root_obj = None
-
+        
         # 玩法业务逻辑
         self.game_play = None
-
+        
+        # update的列表
         self.update_list = []
-
+        
         # 游戏数据管理
         self.game_data = None
-
+        
         # 时间和帧数信息, time -> ms, sec_time -> s
         self.time = 0
         self.sec_time = 0
@@ -54,7 +55,8 @@ class GameMgr():
         self.frame_number = 0
         self.paused = False
         self.play_time = 0
-
+        
+        # 城市AI
         self.enable_city_ai = False
 
     @property
@@ -97,7 +99,6 @@ class GameMgr():
             self.effect_mgr.update,
             self.camera_mgr.update,
             self.hud_mgr.update,
-            
         ]
 
     # 判断是否同盟
@@ -129,7 +130,7 @@ def get_cursor_position():
     return camera.screen_to_world(x,y)
 
 def get_hero(hero_id):
-    if hero_id == 0:
+    if hero_id <= 0:
         return None
     hero = game_mgr.hero_mgr.get_hero(hero_id)
     return hero
@@ -139,7 +140,7 @@ def get_hero_name(hero_id):
     return hero.hero_name if hero else ''
 
 def get_unit(unit_id):
-    if unit_id == 0:
+    if unit_id <= 0:
         return None
     unit = game_mgr.unit_mgr.get_unit(unit_id)
     return unit

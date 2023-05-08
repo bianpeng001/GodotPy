@@ -78,6 +78,7 @@ class GamePlay:
                 self.show_select_rect = False
                 self.select_rect_obj.set_visible(False)
                 # TODO: 框选操作单位
+                log_debug()
         
         game_mgr.event_mgr.add(LEFT_BUTTON_PRESS, on_show_select_rect)
         game_mgr.event_mgr.add(LEFT_BUTTON_RELEASE, on_hide_select_rect)
@@ -226,7 +227,7 @@ class GamePlay:
         self.cursor_list = [
             None,
             ResCapsule.load_resource(game_mgr.config_mgr.default_cursor),
-            ResCapsule.load_resource('res://DragCursor.png'),
+            ResCapsule.load_resource(game_mgr.config_mgr.drag_cursor),
         ]
         self.set_cursor(1)
                 
@@ -245,7 +246,10 @@ class GamePlay:
         city_count = len([x for x in game_mgr.unit_mgr.each_city()])
         log_debug('city count =', city_count)
 
-    # 离开场景前, 需要做一些清理
+    # 离开场景前, 需要做一些清理. 这个引擎还是有一些小瑕疵的, 这些问题有待解决.
+    # 确保资源清理干净, 是一个优秀引擎的基本要求. 
+    # 因此, godot离优秀, 还差那么一点点. 而我的游戏, 离优秀还差不止一点点.
+    # 秉承严于律己, 宽以待人. 感谢godot已经做了很多, 我们自己做一点点清理, 也不算过.
     def on_leave_scene(self):
         # 这是要清理surface material override
         # 不然就有报错, 所以, 虽然不太合理,但还是可以做一下
@@ -259,11 +263,11 @@ class GamePlay:
         for tile in game_mgr.ground_mgr.iterate_tiles():
             tile.unload()
             
-        # 释放材质
+        # 清理角色
         for player in game_mgr.player_mgr.loop_player():
-            player.flag_mat = None
+            player.on_leave_scene()
         
-        # reset cursor, or cursor texture2d asset leak error
+        # reset cursor, othewise when exit app the console report leak error of the cursor texture2d asset
         self.cursor_list = None
         OS.set_custom_mouse_cursor(None, 0, 1, 1)
         

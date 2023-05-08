@@ -43,6 +43,10 @@ class Player:
         
     def get_main_hero(self):
         return game_mgr.hero_mgr.get_hero(self.main_hero_id)
+    
+    
+    def on_leave_scene(self):
+        self.flag_mag = None
 
     def load(self):
         pass
