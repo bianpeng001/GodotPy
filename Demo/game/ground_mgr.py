@@ -12,6 +12,7 @@ from game.load_world_map import Bmp
 
 TILE_SIZE = 30
 Z_TILE_SIZE = TILE_SIZE*math.sqrt(3)/2
+Z_RATIO = Z_TILE_SIZE/TILE_SIZE
 
 # col,row
 def pos_to_colrow(x, z):
@@ -104,6 +105,16 @@ class TileItem:
             while i < 100:
                 yield i % 10, i // 10
                 i += 1
+        
+        # uv跟每一个六边形的坐标有关, 这样以后就可以用更加精细的地图了
+        # has bug...
+        def add_vertex_2(x,y,z):
+            st.set_uv((px+x*0.5)/(300),(pz*Z_RATIO+z*0.5)/(300*Z_RATIO))
+            st.add_vertex(x,y,z)
+        
+        # uv的获取的方式, 我希望是适配像素地图, 以中心点的uv
+        # 真实地图, 各个顶点的真实uv
+        uv_type = 1
 
         vertex_index = 0
         for x,z in grid_xz():
@@ -112,27 +123,27 @@ class TileItem:
             if z % 2 != 0:
                 cx += half_width
             
-            # 找到对应的像素, 颜色
-            px,py = x+(self.col+15)*10-5, z+(self.row+15)*10-5
-            
-            # 这是用300x300位图, 点采样方式生成世界地图
-            st.set_uv(px/300, py/300)
-            
-            # 这个是原来的方式, 根据颜色, 映射到色卡, 感觉还是直接给一个300x300的图所见即所得
-            # r,_,_ = get_color(px, py)
-            # if r > 150:
-            #     st.set_uv(0.11,0.11)
-            # elif r > 100:
-            #     st.set_uv(0.09,0.40)
-            # else:
-            #     st.set_uv(0.36,0.88)
-            
-            st.add_vertex(cx, 0, cz-radius)
-            st.add_vertex(cx-half_width, 0, cz-radius*0.5)
-            st.add_vertex(cx-half_width, 0, cz+radius*0.5)
-            st.add_vertex(cx, 0, cz+radius)
-            st.add_vertex(cx+half_width, 0, cz+radius*0.5)
-            st.add_vertex(cx+half_width, 0, cz-radius*0.5)
+            if uv_type == 1:
+                # 六边形的中心点对应的位置, 要取像素颜色
+                px,pz = x+(self.col+15)*10-5, z+(self.row+15)*10-5
+                # 这是用300x300位图, 点采样方式生成世界地图
+                st.set_uv(px/300, pz/300)
+                
+                st.add_vertex(cx, 0, cz-radius)
+                st.add_vertex(cx-half_width, 0, cz-radius*0.5)
+                st.add_vertex(cx-half_width, 0, cz+radius*0.5)
+                st.add_vertex(cx, 0, cz+radius)
+                st.add_vertex(cx+half_width, 0, cz+radius*0.5)
+                st.add_vertex(cx+half_width, 0, cz-radius*0.5)
+                
+            if uv_type == 2:
+                px,pz = x+(self.col+15)*10-5, z+(self.row+15)*10-5
+                add_vertex_2(cx, 0, cz-radius)
+                add_vertex_2(cx-half_width, 0, cz-radius*0.5)
+                add_vertex_2(cx-half_width, 0, cz+radius*0.5)
+                add_vertex_2(cx, 0, cz+radius)
+                add_vertex_2(cx+half_width, 0, cz+radius*0.5)
+                add_vertex_2(cx+half_width, 0, cz-radius*0.5)
             
             st.add_triangle(vertex_index, vertex_index+2, vertex_index+1)
             st.add_triangle(vertex_index, vertex_index+3, vertex_index+2)
