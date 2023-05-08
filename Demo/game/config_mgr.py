@@ -75,8 +75,12 @@ class SkillConfig(BaseConfig):
 class ConfigMgr:
     def __init__(self):
         
+        # 标题栏
         self.app_title = '豪杰是怎样练成的'
+        
+        # 光标资源
         self.default_cursor = 'res://DefaultCursor.png'
+        self.drag_cursor = 'res://DragCursor.png'
         
         # 太守的发言
         self.neizheng_strap_dialog_list = [

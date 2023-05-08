@@ -78,6 +78,7 @@ class GamePlay:
                 self.show_select_rect = False
                 self.select_rect_obj.set_visible(False)
                 # TODO: 框选操作单位
+                log_debug('select rectangle')
         
         game_mgr.event_mgr.add(LEFT_BUTTON_PRESS, on_show_select_rect)
         game_mgr.event_mgr.add(LEFT_BUTTON_RELEASE, on_hide_select_rect)
@@ -226,44 +227,47 @@ class GamePlay:
         self.cursor_list = [
             None,
             ResCapsule.load_resource(game_mgr.config_mgr.default_cursor),
-            ResCapsule.load_resource('res://DragCursor.png'),
+            ResCapsule.load_resource(game_mgr.config_mgr.drag_cursor),
         ]
         self.set_cursor(1)
-                
+
     def set_cursor(self, index):
-        if index == 0:
-            OS.set_custom_mouse_cursor(None, 0, 0, 0)
-        else:
+        #OS.set_custom_mouse_cursor(None, 0, 0, 0)
+        if index > 0:
             OS.set_custom_mouse_cursor(self.cursor_list[index].res, 0, 1, 1)
 
     def on_player_ready(self):
         mp = game_mgr.player_mgr.main_player
         log_debug('on_player_ready')
-
+        
         self.refresh_player_resource(0)
-
-        city_count = len([x for x in game_mgr.unit_mgr.each_city()])
+        
+        city_count = len(list(game_mgr.unit_mgr.loop_cities()))
         log_debug('city count =', city_count)
 
-    # 离开场景前, 需要做一些清理
+    # 离开场景前, 需要做一些清理. 这个引擎还是有一些小瑕疵的, 这些问题有待解决.
+    # 确保资源清理干净, 是一个优秀引擎的基本要求. 
+    # 因此, godot离优秀, 还差那么一点点. 而我的游戏, 离优秀还差不止一点点.
+    # 秉承严于律己, 宽以待人. 感谢godot已经做了很多, 我们自己做一点点清理, 也不算过.
     def on_leave_scene(self):
         # 这是要清理surface material override
         # 不然就有报错, 所以, 虽然不太合理,但还是可以做一下
-        for city in game_mgr.unit_mgr.loop_city():
+        for city in game_mgr.unit_mgr.loop_cities():
             if city.model_node:
                 flag_node = city.model_node.find_node('Flag')
                 if flag_node:
                     flag_node.set_surface_material(0, None)
                     flag_node.set_surface_material(1, None)
         
-        for tile in game_mgr.ground_mgr.iterate_tiles():
+        # 清理tile
+        for tile in game_mgr.ground_mgr.loop_tiles():
             tile.unload()
             
-        # 释放材质
-        for player in game_mgr.player_mgr.loop_player():
-            player.flag_mat = None
+        # 清理角色
+        for player in game_mgr.player_mgr.loop_players():
+            player.on_leave_scene()
         
-        # reset cursor, or cursor texture2d asset leak error
+        # reset cursor, othewise when exit app the console report leak error of the cursor texture2d asset
         self.cursor_list = None
         OS.set_custom_mouse_cursor(None, 0, 1, 1)
         
@@ -324,10 +328,10 @@ class GamePlay:
     # 刷新所有的资源增长, 这个开销也不大
     # delta_time: 间隔时长，单位秒
     def refresh_player_resource(self, delta_time):
-        for city in game_mgr.unit_mgr.each_city():
+        for city in game_mgr.unit_mgr.loop_cities():
             city.get_controller().refresh_resource_amount(delta_time)
         
-        for player in game_mgr.player_mgr.loop_player():
+        for player in game_mgr.player_mgr.loop_players():
             player.total_money_amount = 0
             player.total_rice_amount = 0
 

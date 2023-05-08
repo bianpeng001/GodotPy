@@ -43,6 +43,9 @@ class Player:
         
     def get_main_hero(self):
         return game_mgr.hero_mgr.get_hero(self.main_hero_id)
+    
+    def on_leave_scene(self):
+        self.flag_mat = None
 
     def load(self):
         pass
@@ -83,7 +86,7 @@ class PlayerMgr:
         
         return player
 
-    def loop_player(self):
+    def loop_players(self):
         return self.player_dict.values()
     
     def update(self, delta_time):

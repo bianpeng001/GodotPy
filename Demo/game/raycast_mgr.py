@@ -47,7 +47,7 @@ class RaycastMgr(NodeObject):
             def check_tile_unit(col, row):
                 tile = game_mgr.ground_mgr.get_tile_colrow(col,row)
                 if tile:
-                    for unit in tile.unit_list:
+                    for unit in tile.get_unit_list():
                         unit_x, _, unit_z = unit.get_position()
                         dx = unit_x - x
                         dz = unit_z - z

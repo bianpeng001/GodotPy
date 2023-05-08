@@ -66,6 +66,7 @@ WIN32 is still required for the locale module.
 
 #define MS_WIN32 /* only support win32 and greater. */
 #define MS_WINDOWS
+#define HAVE_WINDOWS_CONSOLE_IO
 #define NT_THREADS
 #define WITH_THREAD
 #ifndef NETSCAPE_PI
