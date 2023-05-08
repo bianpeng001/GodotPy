@@ -78,7 +78,7 @@ class GamePlay:
                 self.show_select_rect = False
                 self.select_rect_obj.set_visible(False)
                 # TODO: 框选操作单位
-                log_debug()
+                log_debug('select rectangle')
         
         game_mgr.event_mgr.add(LEFT_BUTTON_PRESS, on_show_select_rect)
         game_mgr.event_mgr.add(LEFT_BUTTON_RELEASE, on_hide_select_rect)
@@ -230,20 +230,19 @@ class GamePlay:
             ResCapsule.load_resource(game_mgr.config_mgr.drag_cursor),
         ]
         self.set_cursor(1)
-                
+
     def set_cursor(self, index):
-        if index == 0:
-            OS.set_custom_mouse_cursor(None, 0, 0, 0)
-        else:
+        #OS.set_custom_mouse_cursor(None, 0, 0, 0)
+        if index > 0:
             OS.set_custom_mouse_cursor(self.cursor_list[index].res, 0, 1, 1)
 
     def on_player_ready(self):
         mp = game_mgr.player_mgr.main_player
         log_debug('on_player_ready')
-
+        
         self.refresh_player_resource(0)
-
-        city_count = len([game_mgr.unit_mgr.loop_cities()])
+        
+        city_count = len(list(game_mgr.unit_mgr.loop_cities()))
         log_debug('city count =', city_count)
 
     # 离开场景前, 需要做一些清理. 这个引擎还是有一些小瑕疵的, 这些问题有待解决.
