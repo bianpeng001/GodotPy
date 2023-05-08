@@ -560,6 +560,6 @@ class GroundMgr(NodeObject):
         self.terrain_map = Bmp(r'game\data\world_terrain.bmp')
         self.load_complete = True
 
-    def iterate_tiles(self):
+    def loop_tiles(self):
         return self.tile_dict.values()
 

@@ -9,7 +9,7 @@ from game.base_type import *
 #
 class PlayerAIComponent(Component):
     def __init__(self, player):
-        super().__init__(self)
+        super().__init__()
         
         self.player = player
         self.enabled = True

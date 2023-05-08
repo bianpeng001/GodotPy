@@ -243,7 +243,7 @@ class GamePlay:
 
         self.refresh_player_resource(0)
 
-        city_count = len([x for x in game_mgr.unit_mgr.each_city()])
+        city_count = len([game_mgr.unit_mgr.loop_cities()])
         log_debug('city count =', city_count)
 
     # 离开场景前, 需要做一些清理. 这个引擎还是有一些小瑕疵的, 这些问题有待解决.
@@ -253,18 +253,18 @@ class GamePlay:
     def on_leave_scene(self):
         # 这是要清理surface material override
         # 不然就有报错, 所以, 虽然不太合理,但还是可以做一下
-        for city in game_mgr.unit_mgr.loop_city():
+        for city in game_mgr.unit_mgr.loop_cities():
             if city.model_node:
                 flag_node = city.model_node.find_node('Flag')
                 if flag_node:
                     flag_node.set_surface_material(0, None)
                     flag_node.set_surface_material(1, None)
         
-        for tile in game_mgr.ground_mgr.iterate_tiles():
+        for tile in game_mgr.ground_mgr.loop_tiles():
             tile.unload()
             
         # 清理角色
-        for player in game_mgr.player_mgr.loop_player():
+        for player in game_mgr.player_mgr.loop_players():
             player.on_leave_scene()
         
         # reset cursor, othewise when exit app the console report leak error of the cursor texture2d asset
@@ -328,10 +328,10 @@ class GamePlay:
     # 刷新所有的资源增长, 这个开销也不大
     # delta_time: 间隔时长，单位秒
     def refresh_player_resource(self, delta_time):
-        for city in game_mgr.unit_mgr.each_city():
+        for city in game_mgr.unit_mgr.loop_cities():
             city.get_controller().refresh_resource_amount(delta_time)
         
-        for player in game_mgr.player_mgr.loop_player():
+        for player in game_mgr.player_mgr.loop_players():
             player.total_money_amount = 0
             player.total_rice_amount = 0
 

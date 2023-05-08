@@ -87,7 +87,7 @@ class PlayerMgr:
         
         return player
 
-    def loop_player(self):
+    def loop_players(self):
         return self.player_dict.values()
     
     def update(self, delta_time):
