@@ -17,14 +17,15 @@ class RaycastMgr(NodeObject):
         super().__init__()
 
         game_mgr.event_mgr.add(LEFT_BUTTON_CLICK, self.on_mouse_click)
-        self.reqs = []
+        #self.reqs = []
     
     def _create(self):
         #self.get_obj().set_process(physics=True)
         pass
 
     def on_mouse_click(self):
-        camera = game_mgr.camera_mgr.main_camera
+        #camera = game_mgr.camera_mgr.main_camera
+        camera = get_main_camera()
         screen_x,screen_y = game_mgr.input_mgr.get_mouse_pos()
 
         #if camera.find_control(x, y):

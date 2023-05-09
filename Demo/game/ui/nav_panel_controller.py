@@ -31,12 +31,12 @@ class NavPanelController(UIController, PopupTrait):
         game_mgr.camera_mgr.set_target_focus(*unit.get_position())
 
     def on_main_city_click(self):
-        log_debug('11111111111111')
+        log_debug('back to main city')
         mp = get_main_player()
         city_unit = game_mgr.unit_mgr.get_unit(mp.main_city_id)
         self.goto_unit(city_unit)
         
-        
+    # 获得一个城市
     def on_gain_city(self, player_id, city_unit_id):
         if player_id != get_main_player_id():
             return
@@ -51,6 +51,7 @@ class NavPanelController(UIController, PopupTrait):
         btn.set_visible(True)
         self.btn_dict[city_unit_id] = btn
     
+    # 失去一个城市
     def on_lose_city(self, player_id, city_unit_id):
         if player_id != get_main_player_id():
             return
@@ -62,6 +63,5 @@ class NavPanelController(UIController, PopupTrait):
     # 强制重建
     def rebuild(self):
         pass
-        # TODO:
         
 
