@@ -3,7 +3,7 @@
 #
 
 from game.core import log_debug, OS, NodeObject
-from game.game_mgr import game_mgr
+from game.game_mgr import *
 from game.base_type import UT_CITY, UT_TROOP
 
 #
@@ -45,7 +45,7 @@ class UIMgr(NodeObject):
         dy = y - self.last_y
 
         if dx*dx + dy*dy > 10:
-            camera = game_mgr.camera_mgr.main_camera
+            camera = get_main_camera()
             self.control_under_mouse = camera.find_control(x, y)
             
             self.last_x = x

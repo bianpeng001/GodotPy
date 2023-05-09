@@ -24,7 +24,6 @@ class RaycastMgr(NodeObject):
         pass
 
     def on_mouse_click(self):
-        #camera = game_mgr.camera_mgr.main_camera
         camera = get_main_camera()
         screen_x,screen_y = game_mgr.input_mgr.get_mouse_pos()
 
@@ -91,7 +90,7 @@ class RaycastMgr(NodeObject):
                 game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, a[0])
 
     def _physics_process(self):
-        # camera = game_mgr.camera_mgr.main_camera
+        # camera = get_main_camera()
         
         # for a in self.reqs:
         #     log_debug(f'raycast:{a}')
