@@ -7,7 +7,7 @@ import math
 from game.core import log_debug
 from game.base_type import *
 from game.game_mgr import *
-from game.ground_mgr import pos_to_colrow
+from game.ground_mgr import xz_to_colrow
 
 #
 # 移动方式
@@ -363,7 +363,7 @@ class AIState_FindCity(AIState_Troop):
 
     def update(self, brain_comp):
         x,y,z = brain_comp.get_unit().get_position()
-        col,row = pos_to_colrow(x, z)
+        col,row = xz_to_colrow(x, z)
         city = self.find_enemy_city(brain_comp,col,row)
         if city:
             log_util.debug(f'find emeny: {brain_comp.get_unit().unit_id} -> {city.unit_name}')

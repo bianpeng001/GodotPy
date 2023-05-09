@@ -7,6 +7,7 @@ from game.game_mgr import *
 from game.base_type import UIController
 from game.event_name import *
 from game.ui.ui_traits import PopupTrait
+from game.ground_mgr import xz_to_colrow
 
 #
 # 框选
@@ -15,10 +16,14 @@ class RectSelectController(UIController, PopupTrait):
     def __init__(self):
         super().__init__()
         
+        # 起始点击位置
         self.start_x = self.start_y = 0
         
+        # 方框的参数
         self.left = self.left = 0
         self.width = self.height = 100
+        
+        self.select_list = []
     
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
@@ -51,11 +56,49 @@ class RectSelectController(UIController, PopupTrait):
         
     # 框选操作单位
     def do_select(self):
+        def in_rect(x,y):
+            return x > self.left and \
+                x < self.left + self.width and \
+                y > self.top and \
+                y < self.top + self.height
+                
+        def check_tile_unit(col, row):
+            tile = game_mgr.ground_mgr.get_tile_colrow(col, row)
+            if tile:
+                for unit in tile.get_unit_list():
+                    screen_x,screen_y = camera.world_to_screen(*unit.get_position())
+                    if in_rect(screen_x,screen_y):
+                        self.select_list.append(unit)
+            
         center_x = self.left + self.width*0.5
         center_y = self.top + self.height*0.5
-        log_debug('select', center_x, center_y, self.width, self.height)
         
         camera = get_main_camera()
         x,y,z = camera.screen_to_world(center_x, center_y)
+        col,row = xz_to_colrow(x, z)
+
+        self.select_list.clear()
         
+        # 找视野内的九个格子
+        check_tile_unit(col, row)
+        check_tile_unit(col, row-1)
+        check_tile_unit(col, row+1)
+
+        check_tile_unit(col-1, row)
+        check_tile_unit(col-1, row-1)
+        check_tile_unit(col-1, row+1)
+        
+        check_tile_unit(col+1, row)
+        check_tile_unit(col+1, row-1)
+        check_tile_unit(col+1, row+1)
+        
+        if len(self.select_list) > 0:
+            log_debug('select rect', center_x, center_y, self.width, self.height)
+            for unit in self.select_list:
+                log_debug(unit.unit_name, unit.get_position())
+                
+
+
+
+
 

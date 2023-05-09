@@ -7,7 +7,7 @@ import random
 from game.core import log_debug, ResCapsule
 from game.game_mgr import *
 from game.base_type import Controller, narudo_range, UT_CITY
-from game.ground_mgr import pos_to_colrow
+from game.ground_mgr import xz_to_colrow
 
 #
 # 城池
@@ -120,7 +120,7 @@ class CityController(Controller):
             city_unit.army_amount.value = 0
 
             x,y,z = city_unit.get_position()
-            col,row = pos_to_colrow(x,z)
+            col,row = xz_to_colrow(x,z)
             target_city = find_enemy_city(col,row)
             if target_city:
                 troop = game_mgr.game_play.create_troop(city_unit,

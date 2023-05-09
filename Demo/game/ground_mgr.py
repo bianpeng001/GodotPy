@@ -15,7 +15,7 @@ Z_TILE_SIZE = TILE_SIZE*math.sqrt(3)/2
 Z_RATIO = Z_TILE_SIZE/TILE_SIZE
 
 # col,row
-def pos_to_colrow(x, z):
+def xz_to_colrow(x, z):
     return round(x / TILE_SIZE), round(z / Z_TILE_SIZE)
 
 #
@@ -488,7 +488,7 @@ class GroundMgr(NodeObject):
 
     # create new tile , if not exists
     def get_tile(self, x, z):
-        col,row = pos_to_colrow(x, z)
+        col,row = xz_to_colrow(x, z)
         #return self.get_tile_colrow(col, row)
         tile, _ = self.create_tile(col, row)
         return tile
@@ -500,7 +500,7 @@ class GroundMgr(NodeObject):
 
     def update(self, delta_time):
         x,z = game_mgr.camera_mgr.get_focus_xz()
-        col,row = pos_to_colrow(x,z)
+        col,row = xz_to_colrow(x, z)
         #cx = math.floor((x / TILE_SIZE) + 0.5)
         #cz = math.floor((z / Z_TILE_SIZE) + 0.5)
 
