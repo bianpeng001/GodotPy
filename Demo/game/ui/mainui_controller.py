@@ -61,6 +61,7 @@ class MainUIController(UIController, PopupTrait):
             self.gm_file_path = None
 
     def on_key_press(self, keycode):
+        log_debug('key press', keycode)
         if keycode == KEY_F9:
             self.on_gm_click()
         elif keycode == KEY_ESC:

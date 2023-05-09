@@ -19,9 +19,7 @@ theme = ExtResource("1_n1cbr")
 tab_count = 3
 tab_0/title = "城"
 tab_1/title = "将"
-tab_1/disabled = true
 tab_2/title = "军"
-tab_2/disabled = true
 
 [node name="Bg" type="ColorRect" parent="."]
 layout_mode = 0

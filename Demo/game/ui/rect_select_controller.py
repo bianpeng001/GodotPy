@@ -79,7 +79,10 @@ class RectSelectController(UIController, PopupTrait):
 
         self.select_list.clear()
         
-        # 找视野内的九个格子
+        #
+        # 找视野内的九个格子, 有点丑, 但是正确性有保证. 看看如何优化下.
+        # 减少一些world_to_screen 计算, 用世界坐标的距离, 先大体做一个过滤
+        #
         check_tile_unit(col, row)
         check_tile_unit(col, row-1)
         check_tile_unit(col, row+1)
