@@ -48,46 +48,6 @@ class GamePlay:
         game_mgr.event_mgr.add(START_GAME, self.on_start_game)
         game_mgr.event_mgr.add(MAIN_PLAYER_READY, self.on_player_ready)
         
-        self.init_select_rect()
-    
-    #-------------------------------------------------------------------------
-    # region select rect
-    #-------------------------------------------------------------------------
-    
-    # 初始化选择框
-    def init_select_rect(self):
-        self.show_select_rect = False
-        self.s_x = self.s_y = 0
-        self.select_rect_obj = game_mgr.scene_root_obj.find_node('UIMgr/SelectRect')
-        self.select_rect_obj.set_visible(False)
-        self.select_rect_obj.set_size(100, 100)
-        
-        def on_show_select_rect(x,y):
-            self.s_x, self.s_y = x,y
-            
-        def on_drag_select_rect(x,y):
-            if not self.show_select_rect:
-                self.show_select_rect = True
-                self.select_rect_obj.set_visible(True)
-                
-            self.select_rect_obj.set_position(min(self.s_x,x), min(self.s_y,y))
-            self.select_rect_obj.set_size(abs(self.s_x-x), abs(self.s_y-y))
-        
-        def on_hide_select_rect():
-            if self.show_select_rect:
-                self.show_select_rect = False
-                self.select_rect_obj.set_visible(False)
-                # TODO: 框选操作单位
-                log_debug('select rectangle')
-        
-        game_mgr.event_mgr.add(LEFT_BUTTON_PRESS, on_show_select_rect)
-        game_mgr.event_mgr.add(LEFT_BUTTON_RELEASE, on_hide_select_rect)
-        game_mgr.event_mgr.add(LEFT_BUTTON_DRAG, on_drag_select_rect)
-    
-    #-------------------------------------------------------------------------
-    # endregion
-    #-------------------------------------------------------------------------
-    
     # 事件
     def on_app_launch(self):
         log_util.debug('on_app_launch')

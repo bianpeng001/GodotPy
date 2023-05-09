@@ -263,22 +263,22 @@ class HUDComponent(Component):
 #
 class UIController:
     def __self__(self):
-        self.is_visible = True
+        self._show = True
         self.ui_obj = None
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
     def show(self):
-        self.is_visible = True
+        self._show = True
         self.ui_obj.set_visible(True)
         self.on_show(True)
 
     def is_show(self):
-        return self.is_visible
+        return self._show
 
     def hide(self):
-        self.is_visible = False
+        self._show = False
         self.ui_obj.set_visible(False)
         self.on_show(False)
         

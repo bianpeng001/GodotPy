@@ -153,6 +153,8 @@ class UIMgr(NodeObject):
         _, self.sys_panel_controller = self.load_panel(
                 'res://ui/SysPanel.tscn', SysPanelController)
         
+        self.init_select_rect()
+        
         # load done
         log_debug('ui panels load ok')
 
@@ -303,4 +305,11 @@ class UIMgr(NodeObject):
                 item.defer_close()
 
 
-
+    def init_select_rect(self):
+        from game.ui.rect_select_controller import RectSelectController
+        
+        ui_obj = game_mgr.scene_root_obj.find_node('UIMgr/SelectRect')
+        self.rect_select_controller = RectSelectController()
+        self.rect_select_controller.setup(ui_obj)
+        self.rect_select_controller.hide()
+        

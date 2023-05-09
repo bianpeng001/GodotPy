@@ -35,7 +35,7 @@ class BuildPanelController(UIController, PopupTrait):
 
     # 是否正在建设激活状态
     def is_building(self):
-        return self.is_visible and self.active_obj
+        return self.is_show() and self.active_obj
 
     def set_active_obj(self, obj):
         if self.active_obj:

@@ -19,6 +19,7 @@ class NavPanelController(UIController, PopupTrait):
 
         self.main_city_button = self.ui_obj.find_node('ScrollContainer/VBoxContainer/BtnMainCity')
         self.main_city_button.connect(PRESSED, self.on_main_city_click)
+        self.main_city_button.set_visible(False)
         #self.main_city_button.connect(PRESSED, self.on_main_city_click)
         #self.main_city_button.clear_connection(PRESSED)
         #self.main_city_button.connect(PRESSED, self.on_main_city_click)
@@ -47,6 +48,7 @@ class NavPanelController(UIController, PopupTrait):
         btn = self.main_city_button.dup()
         btn.connect(PRESSED, make_on_click)
         btn.set_text(get_unit_name(city_unit_id))
+        btn.set_visible(True)
         self.btn_dict[city_unit_id] = btn
     
     def on_lose_city(self, player_id, city_unit_id):
