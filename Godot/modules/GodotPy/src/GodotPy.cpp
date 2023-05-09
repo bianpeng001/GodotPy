@@ -49,6 +49,7 @@
 #include "scene/resources/mesh.h"
 #include "scene/resources/primitive_meshes.h"
 #include "scene/resources/immediate_mesh.h"
+#include "scene/resources/environment.h"
 
 // server headers
 #include "servers/display_server.h"
@@ -723,6 +724,42 @@ static PyObject *f_get_scene_root(PyObject *module, PyObject *args) {
 static PyObject *f_is_editor_hint(PyObject *module, PyObject *args) {
 	auto value = Engine::get_singleton()->is_editor_hint();
 	return PyBool_FromLong(value);
+}
+static PyObject *f_camera_set_fov_near_far(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_camera;
+		float a_fov, a_near, a_far;
+
+		if (!PyArg_ParseTuple(args, "Offf", &a_camera, &a_fov, &a_near, &a_far)) {
+			break;
+		}
+
+		auto camera = GetObjPtr<Camera3D>(a_camera);
+		camera->set_fov(a_fov);
+		camera->set_near(a_near);
+		camera->set_far(a_far);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_camera_set_bgcolor(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_camera;
+		float r,g,b;
+
+		if (!PyArg_ParseTuple(args, "Offf", &a_camera, &r, &g, &b)) {
+			break;
+		}
+
+		auto camera = GetObjPtr<Camera3D>(a_camera);
+		auto env = camera->get_environment();
+		env->set_background(Environment::BG_COLOR);
+		env->set_bg_color(Color(r, g, b));
+
+	} while (0);
+
+	Py_RETURN_NONE;
 }
 static PyObject *f_set_custom_mouse_cursor(PyObject *module, PyObject *args) {
 	do {
@@ -2603,6 +2640,10 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "get_scene_root", f_get_scene_root, METH_VARARGS, NULL },
 	{ "is_editor_hint", f_is_editor_hint, METH_VARARGS, NULL },
 	{ "set_custom_mouse_cursor", f_set_custom_mouse_cursor, METH_VARARGS, NULL },
+
+	// camera
+	{ "camera_set_fov_near_far", f_camera_set_fov_near_far, METH_VARARGS, NULL },
+	{ "camera_set_bgcolor", f_camera_set_bgcolor, METH_VARARGS, NULL },
 
 	// node
 	{ "set_process", f_set_process, METH_VARARGS, NULL },
