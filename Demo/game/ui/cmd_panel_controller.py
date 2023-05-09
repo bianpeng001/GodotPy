@@ -73,7 +73,7 @@ class CmdPanelController(UIController, PopupTrait):
             yield None
 
     def on_rect_select_units_changed(self, unit_list):
-        if len(unit_list) > 0:
+        if len(unit_list) > 0 and not self.is_show():
             game_mgr.co_mgr.start(self.co_show_panel())
         
         for i in range(len(self.target_list)):
