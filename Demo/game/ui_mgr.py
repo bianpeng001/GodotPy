@@ -226,11 +226,13 @@ class UIMgr(NodeObject):
 
     def set_context_unit(self, unit):
         self.context_unit = unit
+        
+        # 去掉点选功能对指令面板的影响
         # 显示单位指令菜单
-        if unit:
-            self.cmd_panel_controller.init(unit)
-        else:
-            self.cmd_panel_controller.defer_close()
+        # if unit:
+        #     self.cmd_panel_controller.init(unit)
+        # else:
+        #     self.cmd_panel_controller.defer_close()
 
     # 点击空地
     def on_scene_ground_click(self):

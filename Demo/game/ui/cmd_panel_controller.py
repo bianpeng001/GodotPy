@@ -60,6 +60,7 @@ class CmdPanelController(UIController, PopupTrait):
         game_mgr.co_mgr.start(self.co_show_panel())
         self.unit_name_obj.set_text(unit.unit_name)
 
+    # TODO: 这种动画效果, 后面再说吧
     def co_show_panel(self):
         screen_width,screen_height = OS.viewport_get_size()
         _,_,width,height = self.ui_obj.get_rect()
@@ -71,10 +72,20 @@ class CmdPanelController(UIController, PopupTrait):
             time += game_mgr.delta_time * speed
             self.set_position(2, screen_height-(height+2)*time)
             yield None
+            
+    def show_panel(self):
+        screen_width,screen_height = OS.viewport_get_size()
+        _,_,width,height = self.ui_obj.get_rect()
+        self.set_position(2, screen_height-(height+2))
+        self.show()
 
     def on_rect_select_units_changed(self, unit_list):
-        if len(unit_list) > 0 and not self.is_show():
-            game_mgr.co_mgr.start(self.co_show_panel())
+        if len(unit_list) > 0:
+            if not self.is_show():
+                self.show_panel()
+        else:
+            if self.is_show():
+                self.hide()
         
         for i in range(len(self.target_list)):
             item = self.target_list[i]

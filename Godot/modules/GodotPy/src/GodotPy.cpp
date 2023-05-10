@@ -735,6 +735,9 @@ static PyObject *f_camera_set_fov_near_far(PyObject *module, PyObject *args) {
 		}
 
 		auto camera = GetObjPtr<Camera3D>(a_camera);
+		if (!camera) {
+			break;
+		}
 		camera->set_fov(a_fov);
 		camera->set_near(a_near);
 		camera->set_far(a_far);
@@ -746,14 +749,20 @@ static PyObject *f_camera_set_fov_near_far(PyObject *module, PyObject *args) {
 static PyObject *f_camera_set_bgcolor(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_camera;
-		float r,g,b;
+		float r, g, b;
 
 		if (!PyArg_ParseTuple(args, "Offf", &a_camera, &r, &g, &b)) {
 			break;
 		}
 
 		auto camera = GetObjPtr<Camera3D>(a_camera);
+		if (!camera) {
+			break;
+		}
 		auto env = camera->get_environment();
+		if (!env.is_valid()) {
+			break;
+		}
 		env->set_background(Environment::BG_COLOR);
 		env->set_bg_color(Color(r, g, b));
 
