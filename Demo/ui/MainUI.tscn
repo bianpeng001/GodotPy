@@ -53,15 +53,27 @@ text = "0"
 
 [node name="FPSLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 501.0
-offset_top = 10.0
-offset_right = 637.0
-offset_bottom = 46.0
+offset_left = 1014.0
+offset_top = 61.0
+offset_right = 1150.0
+offset_bottom = 97.0
 theme = ExtResource("5_dnccb")
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 28
 text = "fps:0 dc:0"
+
+[node name="DateLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 405.0
+offset_top = 12.0
+offset_right = 541.0
+offset_bottom = 48.0
+theme = ExtResource("5_dnccb")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/font_size = 22
+text = "建康十一年 春"
 
 [node name="Btn1" type="Button" parent="."]
 layout_mode = 0
