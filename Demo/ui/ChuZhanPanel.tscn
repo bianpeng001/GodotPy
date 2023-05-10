@@ -64,18 +64,18 @@ stretch_mode = 0
 
 [node name="FormBg" type="ColorRect" parent="Panel"]
 layout_mode = 0
-offset_left = 308.0
-offset_top = 108.0
-offset_right = 552.0
-offset_bottom = 352.0
+offset_left = 307.0
+offset_top = 84.0
+offset_right = 551.0
+offset_bottom = 328.0
 color = Color(0.12549, 0.12549, 0.12549, 1)
 
 [node name="FormRoot" type="Control" parent="Panel"]
 anchors_preset = 0
-offset_left = 310.0
-offset_top = 110.0
-offset_right = 554.0
-offset_bottom = 354.0
+offset_left = 309.0
+offset_top = 86.0
+offset_right = 553.0
+offset_bottom = 330.0
 
 [node name="HeroItem" type="Control" parent="Panel/FormRoot"]
 anchors_preset = 0
@@ -121,19 +121,19 @@ vertical_alignment = 1
 
 [node name="Label" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 30.0
-offset_top = 43.0
-offset_right = 82.0
-offset_bottom = 70.0
+offset_left = 29.0
+offset_top = 19.0
+offset_right = 81.0
+offset_bottom = 46.0
 theme = ExtResource("1_beg0d")
 text = "武将"
 
 [node name="LblMembers" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 82.0
-offset_top = 43.0
-offset_right = 222.0
-offset_bottom = 85.0
+offset_left = 81.0
+offset_top = 19.0
+offset_right = 221.0
+offset_bottom = 61.0
 theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 14
 text = "关羽,张飞,赵云,马超,黄忠"
@@ -142,10 +142,10 @@ text_overrun_behavior = 3
 
 [node name="BtnHeros" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 222.0
-offset_top = 43.0
-offset_right = 262.0
-offset_bottom = 66.0
+offset_left = 221.0
+offset_top = 19.0
+offset_right = 261.0
+offset_bottom = 42.0
 theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("7_1lycp")
@@ -153,44 +153,44 @@ text = "选择"
 
 [node name="Label3" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 30.0
-offset_top = 85.0
-offset_right = 82.0
-offset_bottom = 112.0
+offset_left = 29.0
+offset_top = 61.0
+offset_right = 81.0
+offset_bottom = 88.0
 theme = ExtResource("1_beg0d")
 text = "兵力"
 
 [node name="LblArmy" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 202.0
-offset_top = 85.0
-offset_right = 254.0
-offset_bottom = 112.0
+offset_left = 201.0
+offset_top = 61.0
+offset_right = 278.0
+offset_bottom = 88.0
 theme = ExtResource("1_beg0d")
 text = "10000/10000人"
 
 [node name="SliderArmyMass" type="HSlider" parent="Panel"]
 layout_mode = 0
-offset_left = 84.0
-offset_top = 85.0
-offset_right = 193.0
-offset_bottom = 109.0
+offset_left = 83.0
+offset_top = 61.0
+offset_right = 192.0
+offset_bottom = 85.0
 
 [node name="Label2" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 30.0
-offset_top = 126.0
-offset_right = 82.0
-offset_bottom = 153.0
+offset_left = 29.0
+offset_top = 102.0
+offset_right = 81.0
+offset_bottom = 129.0
 theme = ExtResource("1_beg0d")
 text = "阵型"
 
 [node name="BtnForm" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 82.0
-offset_top = 126.0
-offset_right = 172.0
-offset_bottom = 149.0
+offset_left = 81.0
+offset_top = 102.0
+offset_right = 171.0
+offset_bottom = 125.0
 theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("7_1lycp")
@@ -198,19 +198,19 @@ text = "方阵"
 
 [node name="Label5" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 30.0
-offset_top = 168.0
-offset_right = 82.0
-offset_bottom = 195.0
+offset_left = 29.0
+offset_top = 144.0
+offset_right = 81.0
+offset_bottom = 171.0
 theme = ExtResource("1_beg0d")
 text = "目标"
 
 [node name="BtnTarget" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 82.0
-offset_top = 168.0
-offset_right = 172.0
-offset_bottom = 191.0
+offset_left = 81.0
+offset_top = 144.0
+offset_right = 171.0
+offset_bottom = 167.0
 theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("7_1lycp")
@@ -218,19 +218,19 @@ text = "无"
 
 [node name="Label4" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 30.0
-offset_top = 263.0
-offset_right = 82.0
-offset_bottom = 290.0
+offset_left = 29.0
+offset_top = 239.0
+offset_right = 81.0
+offset_bottom = 266.0
 theme = ExtResource("1_beg0d")
 text = "策略"
 
 [node name="FormList" type="ItemList" parent="Panel"]
 layout_mode = 0
-offset_left = 172.0
-offset_top = 126.0
-offset_right = 276.0
-offset_bottom = 216.0
+offset_left = 171.0
+offset_top = 102.0
+offset_right = 275.0
+offset_bottom = 192.0
 theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 14
 item_count = 2
@@ -239,10 +239,10 @@ item_1/text = "长蛇阵"
 
 [node name="CheckGreedy" type="CheckBox" parent="Panel"]
 layout_mode = 0
-offset_left = 30.0
-offset_top = 293.0
-offset_right = 105.0
-offset_bottom = 322.0
+offset_left = 29.0
+offset_top = 269.0
+offset_right = 141.0
+offset_bottom = 298.0
 theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("7_1lycp")
@@ -250,10 +250,10 @@ text = "无视其他目标"
 
 [node name="CheckGreedy2" type="CheckBox" parent="Panel"]
 layout_mode = 0
-offset_left = 30.0
-offset_top = 322.0
-offset_right = 142.0
-offset_bottom = 351.0
+offset_left = 29.0
+offset_top = 298.0
+offset_right = 141.0
+offset_bottom = 327.0
 theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("7_1lycp")
@@ -261,10 +261,10 @@ text = "追击目标"
 
 [node name="CheckGreedy3" type="CheckBox" parent="Panel"]
 layout_mode = 0
-offset_left = 30.0
-offset_top = 351.0
-offset_right = 142.0
-offset_bottom = 380.0
+offset_left = 29.0
+offset_top = 327.0
+offset_right = 155.0
+offset_bottom = 356.0
 theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("7_1lycp")
@@ -272,10 +272,10 @@ text = "失去目标即撤兵"
 
 [node name="CheckGreedy4" type="CheckBox" parent="Panel"]
 layout_mode = 0
-offset_left = 30.0
-offset_top = 380.0
-offset_right = 142.0
-offset_bottom = 409.0
+offset_left = 29.0
+offset_top = 356.0
+offset_right = 141.0
+offset_bottom = 385.0
 theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("7_1lycp")
