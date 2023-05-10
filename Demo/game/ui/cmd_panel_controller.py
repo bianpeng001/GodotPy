@@ -27,9 +27,10 @@ class CmdItem:
         self.btn_obj.set_visible(True)
 
     def on_click(self):
-        unit_list = list(map(lambda x: get_unit(x.unit_id),
-                            filter(lambda x: x.unit_id != 0, 
-                            game_mgr.ui_mgr.cmd_panel_controller.target_list)))
+        # unit_list = list(map(lambda x: get_unit(x.unit_id),
+        #                     filter(lambda x: x.unit_id != 0, 
+        #                     game_mgr.ui_mgr.cmd_panel_controller.target_list)))
+        unit_list = game_mgr.ui_mgr.cmd_panel_controller.unit_list
         log_debug('cmd', self.cmd)
         
         if self.cmd == '目标':
@@ -71,12 +72,13 @@ class CmdPanelController(UIController, PopupTrait):
     def __init__(self):
         self.btn_list = []
         self.target_list = []
+        self.unit_list = []
     
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
         
         cmd_list = [
-            '目标','撤退','','',
+            '目标','移动','','',
             '内政','出战','','',
         ]
         btn_cmd_obj = self.ui_obj.find_node('Panel/GridContainer/BtnCmd')
@@ -123,9 +125,9 @@ class CmdPanelController(UIController, PopupTrait):
 
     def on_rect_select_units_changed(self, unit_list):
         # 只能操作自己的单位
-        unit_list = list(filter(lambda x: x.owner_is_main_player(), unit_list))
+        self.unit_list = list(filter(lambda x: x.owner_is_main_player(), unit_list))
         
-        if len(unit_list) > 0:
+        if len(self.unit_list) > 0:
             if not self.is_show():
                 self.show_panel()
         else:
@@ -134,8 +136,8 @@ class CmdPanelController(UIController, PopupTrait):
         
         for i in range(len(self.target_list)):
             item = self.target_list[i]
-            if i < len(unit_list):
-                unit = unit_list[i]
+            if i < len(self.unit_list):
+                unit = self.unit_list[i]
                 item.unit_id = unit.unit_id
                 item.btn_obj.set_visible(True)
             else:
