@@ -9,15 +9,25 @@ from game.event_name import *
 from game.ui.ui_traits import PopupTrait
 
 #
-# 操作目标
+# 目标
 #
 class TargetItem:
-    def __init__(self, btn_obj):
-        self.unit_id = 0
+    def __init__(self, unit_id, btn_obj):
+        self.unit_id = unit_id
         self.btn_obj = btn_obj
         self.btn_obj.set_visible(False)
 
+#
+# 指令
+#
+class CmdItem:
+    def __init__(self, cmd, btn_obj):
+        self.cmd = cmd
+        self.btn_obj = btn_obj
+        self.btn_obj.set_visible(True)
 
+    def on_click(self):
+        log_debug('cmd', self.cmd)
 #
 # 指令界面
 #
@@ -32,26 +42,27 @@ class CmdPanelController(UIController, PopupTrait):
             '移动','攻击','驻扎','驻扎',
             '驻扎','驻扎','驻扎','驻扎',
         ]
-        btn_template = self.ui_obj.find_node('Panel/GridContainer/BtnCmd')
-        btn_template.set_visible(False)
+        btn_cmd_obj = self.ui_obj.find_node('Panel/GridContainer/BtnCmd')
+        btn_cmd_obj.set_visible(False)
 
-        def make_btn_handler(cmd, btn):
-            def fun():
-                log_debug(cmd)
-            return fun
+        # def make_btn_handler(cmd, btn):
+        #     def fun():
+        #         log_debug(cmd, btn)
+        #     return fun
         
         for cmd in cmd_list:
-            btn = btn_template.dup()
+            btn = btn_cmd_obj.dup()
+            cmd_item = CmdItem(cmd, btn)
+            #btn.connect(PRESSED, make_btn_handler(cmd, btn))
             btn.find_node('Label').set_text(cmd)
-            btn.connect(PRESSED, make_btn_handler(cmd, btn))
-            btn.set_visible(True)
-            self.btn_list.append((cmd, btn))
+            btn.connect(PRESSED, cmd_item.on_click)
+            self.btn_list.append(cmd_item)
         
         self.unit_name_obj = self.ui_obj.find_node('Panel/UnitInfo/Name')
         self.target_units_obj = self.ui_obj.find_node('Panel/TargetUnits')
         self.btn_unit_obj = self.ui_obj.find_node('Panel/TargetUnits/BtnUnit')
         self.btn_unit_obj.set_visible(False)
-        self.target_list = [ TargetItem(self.btn_unit_obj.dup()) for i in range(9)]
+        self.target_list = [ TargetItem(0, self.btn_unit_obj.dup()) for i in range(9) ]
         
         game_mgr.event_mgr.add(RECT_SELECT_UNITS_CHANGE, self.on_rect_select_units_changed)
 
