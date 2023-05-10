@@ -31,7 +31,7 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
         self.select_callback = select_callback
 
         self.init_hero_list()
-        self.set_position(250, 134)
+        self.set_position(250, 114)
 
     def on_ok_click(self):
         self.pop_panel()
