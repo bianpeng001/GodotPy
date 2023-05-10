@@ -15,23 +15,23 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -552.0
-offset_bottom = -168.0
+offset_bottom = -218.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
 offset_right = 600.0
-offset_bottom = 480.0
+offset_bottom = 420.0
 theme = ExtResource("1_beg0d")
 theme_override_styles/panel = ExtResource("2_ncryx")
 
 [node name="BtnOk" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 432.0
-offset_top = 436.0
-offset_right = 492.0
-offset_bottom = 465.0
+offset_left = 434.0
+offset_top = 380.0
+offset_right = 494.0
+offset_bottom = 409.0
 theme = ExtResource("1_beg0d")
 theme_override_styles/normal = ExtResource("2_42owk")
 theme_override_styles/hover = ExtResource("2_42owk")
@@ -40,10 +40,10 @@ text = "确定"
 
 [node name="BtnCancel" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 512.0
-offset_top = 436.0
-offset_right = 572.0
-offset_bottom = 465.0
+offset_left = 514.0
+offset_top = 380.0
+offset_right = 574.0
+offset_bottom = 409.0
 theme = ExtResource("1_beg0d")
 theme_override_styles/normal = ExtResource("3_jqp0i")
 theme_override_styles/hover = ExtResource("3_jqp0i")
@@ -65,17 +65,17 @@ stretch_mode = 0
 [node name="FormBg" type="ColorRect" parent="Panel"]
 layout_mode = 0
 offset_left = 308.0
-offset_top = 126.0
+offset_top = 108.0
 offset_right = 552.0
-offset_bottom = 370.0
+offset_bottom = 352.0
 color = Color(0.12549, 0.12549, 0.12549, 1)
 
 [node name="FormRoot" type="Control" parent="Panel"]
 anchors_preset = 0
 offset_left = 310.0
-offset_top = 128.0
+offset_top = 110.0
 offset_right = 554.0
-offset_bottom = 372.0
+offset_bottom = 354.0
 
 [node name="HeroItem" type="Control" parent="Panel/FormRoot"]
 anchors_preset = 0

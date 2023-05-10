@@ -45,27 +45,31 @@ class CmdItem:
                         
                         brain_comp = unit.get_controller().get_brain_comp()
                         brain_comp.goto_state('start')
-            dlg.init(on_select_target_cb)
+
+            if not dlg.is_show():
+                dlg.init(on_select_target_cb)
         
         elif self.cmd == '内政':
             dlg = game_mgr.ui_mgr.neizheng_controller
             
-            for unit in unit_list:
-                if unit.unit_type == UT_CITY:
-                    dlg.init(unit)
-                    dlg.set_position(250, 100)
-                    dlg.push_panel()
-                    break
+            if not dlg.is_show():
+                for unit in unit_list:
+                    if unit.unit_type == UT_CITY:
+                        dlg.init(unit)
+                        dlg.set_position(250, 100)
+                        dlg.push_panel()
+                        break
         
         elif self.cmd == '出战':
             dlg = game_mgr.ui_mgr.chuzhan_panel_controller
             
-            for unit in unit_list:
-                if unit.unit_type == UT_CITY:
-                    dlg.init(unit)
-                    dlg.popup(250, 100)
-                    dlg.push_panel()
-                    break
+            if not dlg.is_show():
+                for unit in unit_list:
+                    if unit.unit_type == UT_CITY:
+                        dlg.init(unit)
+                        dlg.popup(250, 100)
+                        dlg.push_panel()
+                        break
 #
 # 指令界面
 #
@@ -148,7 +152,8 @@ class CmdPanelController(UIController, PopupTrait):
                 item.btn_obj.set_visible(False)
     
     def on_scene_unit_click(self, unit):
-        self.on_rect_select_units_changed([unit])
+        if unit.owner_is_main_player():
+            self.on_rect_select_units_changed([unit])
         
 
 

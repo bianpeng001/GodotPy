@@ -28,7 +28,7 @@ class _Coroutine(Waitable):
     def __init__(self, iterator):
         self.done = False
         self.error = False
-        self.yield_value = None
+        self.last_yield_value = None
 
         self.iterator = iterator
 
@@ -37,38 +37,35 @@ class _Coroutine(Waitable):
 
     def next(self):
         # 这个我最喜欢了
-        if self.yield_value and \
-                isinstance(self.yield_value, Waitable):
-            if not self.yield_value.is_done():
-                return
+        if self.last_yield_value and \
+                isinstance(self.last_yield_value, Waitable) and \
+                not self.last_yield_value.is_done():
+            return
 
         try:
             while(True):
-                self.yield_value = next(self.iterator)
+                self.last_yield_value = next(self.iterator)
                 
-                if self.yield_value:
-                    if isinstance(self.yield_value, Waitable):
-                        if not self.yield_value.is_done():
+                if self.last_yield_value:
+                    if isinstance(self.last_yield_value, Waitable):
+                        if not self.last_yield_value.is_done():
                             break
                     else:
-                        # TODO: 加一个自动把浮点转成waitforseconds
+                        # TODO: 加一个自动把浮点转成时间的语法糖, yield 1.0 => yield WaitForSeconds(1.0)
                         break
                 else:
-                    self.yield_value = None
+                    self.last_yield_value = None
                     break
             
         except StopIteration:
             self.done = True
             self.error = False
+            
         except Exception as err:
             self.done = True
             self.error = True
-            #print('coroutine error', err)
             print('exception in coroutine:', err)
             traceback.print_exc()
-            #a,b,c = sys.exc_info()
-            #print(a,b, c)
-            #traceback.print_exception(a,b,c)
 
 # 用Iterator来做Coroutine
 class CoroutineMgr:
