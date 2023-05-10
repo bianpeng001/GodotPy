@@ -4,7 +4,7 @@
 
 from game.core import log_debug, OS
 from game.game_mgr import *
-from game.base_type import UIController
+from game.base_type import UIController, UT_TROOP, UT_CITY
 from game.event_name import *
 from game.ui.ui_traits import PopupTrait
 
@@ -25,9 +25,28 @@ class CmdItem:
         self.cmd = cmd
         self.btn_obj = btn_obj
         self.btn_obj.set_visible(True)
+        
+    def on_select_target_cb(self):
+        dlg = game_mgr.ui_mgr.select_target_controller
+        
+        for item in game_mgr.ui_mgr.cmd_panel_controller.target_list:
+            if item.unit_id != 0:
+                unit = get_unit(item.unit_id)
+                if unit.unit_type == UT_TROOP:
+                    unit.target_unit_id = dlg.target_unit_id
+                    unit.target_pos = dlg.target_pos
+                    
+                    brain_comp = unit.get_controller().get_brain_comp()
+                    brain_comp.goto_state('start')
+        
 
     def on_click(self):
+        
         log_debug('cmd', self.cmd)
+        
+        if self.cmd == '目标':
+            dlg = game_mgr.ui_mgr.select_target_controller
+            dlg.init_dialog(self.on_select_target_cb)
 #
 # 指令界面
 #
@@ -38,22 +57,17 @@ class CmdPanelController(UIController, PopupTrait):
     
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
+        
         cmd_list = [
-            '移动','攻击','驻扎','驻扎',
-            '驻扎','驻扎','驻扎','驻扎',
+            '目标','','','',
+            '内政','出战','','',
         ]
         btn_cmd_obj = self.ui_obj.find_node('Panel/GridContainer/BtnCmd')
         btn_cmd_obj.set_visible(False)
 
-        # def make_btn_handler(cmd, btn):
-        #     def fun():
-        #         log_debug(cmd, btn)
-        #     return fun
-        
         for cmd in cmd_list:
             btn = btn_cmd_obj.dup()
             cmd_item = CmdItem(cmd, btn)
-            #btn.connect(PRESSED, make_btn_handler(cmd, btn))
             btn.find_node('Label').set_text(cmd)
             btn.connect(PRESSED, cmd_item.on_click)
             self.btn_list.append(cmd_item)
