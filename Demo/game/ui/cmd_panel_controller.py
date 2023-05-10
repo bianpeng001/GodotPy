@@ -98,6 +98,7 @@ class CmdPanelController(UIController, PopupTrait):
         self.target_list = [ TargetItem(0, self.btn_unit_obj.dup()) for i in range(9) ]
         
         game_mgr.event_mgr.add(RECT_SELECT_UNITS_CHANGE, self.on_rect_select_units_changed)
+        game_mgr.event_mgr.add(SCENE_UNIT_CLICK, self.on_scene_unit_click)
 
     def init(self, unit):
         #self.cmd_panel_controller.popup_screen_bottom_left()
@@ -143,6 +144,9 @@ class CmdPanelController(UIController, PopupTrait):
             else:
                 item.unit_id = 0
                 item.btn_obj.set_visible(False)
+    
+    def on_scene_unit_click(self, unit):
+        self.on_rect_select_units_changed([unit])
         
 
 
