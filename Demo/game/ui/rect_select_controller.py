@@ -56,6 +56,9 @@ class RectSelectController(UIController, PopupTrait):
         
     # 框选操作单位
     def do_select(self):
+        if not game_mgr.player_mgr.main_player:
+            return
+        
         def in_rect(x,y):
             return x > self.left and \
                 x < self.left + self.width and \

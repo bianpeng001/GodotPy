@@ -91,6 +91,9 @@ class CmdPanelController(UIController, PopupTrait):
         self.show()
 
     def on_rect_select_units_changed(self, unit_list):
+        # 只能操作自己的单位
+        unit_list = list(filter(lambda x: x.owner_is_main_player(), unit_list))
+        
         if len(unit_list) > 0:
             if not self.is_show():
                 self.show_panel()
@@ -108,8 +111,5 @@ class CmdPanelController(UIController, PopupTrait):
                 item.unit_id = 0
                 item.btn_obj.set_visible(False)
         
-
-
-
 
 
