@@ -1717,6 +1717,24 @@ static PyObject *f_control_get_rect(PyObject *module, PyObject *args) {
 	} while (0);
 	Py_RETURN_NONE;
 }
+static PyObject *f_control_set_tooltip(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		const char *a_str;
+
+		if (!PyArg_ParseTuple(args, "Os", &a_obj, &a_str)) {
+			break;
+		}
+
+		auto control = GetObjPtr<Control>(a_obj);
+		if (!control) {
+			break;
+		}
+		control->set_tooltip_text(String::utf8(a_str));
+
+	} while (0);
+	Py_RETURN_NONE;
+}
 // raycast一个物体
 static PyObject *f_raycast_shape(PyObject *module, PyObject *args) {
 	do {
@@ -2709,6 +2727,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "control_set_position", f_control_set_position, METH_VARARGS, NULL },
 	{ "control_set_size", f_control_set_size, METH_VARARGS, NULL },
 	{ "control_get_rect", f_control_get_rect, METH_VARARGS, NULL },
+	{ "control_set_tooltip", f_control_set_tooltip, METH_VARARGS, NULL },
 
 	{ "canvas_item_set_visible", f_canvas_item_set_visible, METH_VARARGS, NULL },
 	{ "canvas_item_set_modulate", f_canvas_item_set_modulate, METH_VARARGS, NULL },

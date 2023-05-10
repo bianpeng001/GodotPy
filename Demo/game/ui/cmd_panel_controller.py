@@ -25,6 +25,7 @@ class CmdItem:
         self.cmd = cmd
         self.btn_obj = btn_obj
         self.btn_obj.set_visible(True)
+        self.btn_obj.set_tooltip(cmd)
 
     def on_click(self):
         # unit_list = list(map(lambda x: get_unit(x.unit_id),
@@ -89,6 +90,7 @@ class CmdPanelController(UIController, PopupTrait):
             cmd_item = CmdItem(cmd, btn)
             btn.find_node('Label').set_text(cmd)
             btn.connect(PRESSED, cmd_item.on_click)
+            
             self.btn_list.append(cmd_item)
         
         self.unit_name_obj = self.ui_obj.find_node('Panel/UnitInfo/Name')

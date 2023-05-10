@@ -617,6 +617,9 @@ class FControl(FCanvasItem):
 
     def set_self_modulate(self, r,g,b):
         gp.canvas_item_set_self_modulate(self.get_gdobj(), r,g,b)
+        
+    def set_tooltip(self, text):
+        gp.control_set_tooltip(self.get_gdobj(), text)
 
 class FTabBar(FControl):
     def get_current_tab(self):

@@ -31,7 +31,7 @@ class MainUIController(UIController, PopupTrait):
         self.refresh_frame_number = game_mgr.frame_number
 
         #btn_labels = ['地图', '战报', '势力', '执行']
-        btn_labels = ['地图']
+        btn_labels = ['地图', '建设']
         btn_1 = self.ui_obj.find_node('Btn1')
         btn_list = [btn_1.dup() for i in range(len(btn_labels) - 1)]
         btn_list.append(btn_1)
@@ -48,6 +48,7 @@ class MainUIController(UIController, PopupTrait):
 
         #get_btn('系统').connect(PRESSED, self.on_setting_click)
         get_btn('地图').connect(PRESSED, self.on_map_click)
+        get_btn('地图').connect(PRESSED, self.on_build_click)
         #get_btn('执行').connect(PRESSED, self.on_gm_click)
         #get_btn('存档').connect(PRESSED, self.on_save_click)
         
@@ -67,6 +68,11 @@ class MainUIController(UIController, PopupTrait):
         elif keycode == KEY_ESC:
             self.on_sys_panel()
             
+    def on_build_click(self):
+        dlg = game_mgr.ui_mgr.build_panel_controller
+        dlg.popup(250, 100)
+        dlg.push_panel()
+    
     def on_sys_panel(self):
         panel = game_mgr.ui_mgr.sys_panel_controller
         if panel.is_show():

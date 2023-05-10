@@ -62,8 +62,8 @@ class UIMgr(NodeObject):
                 SCENE_GROUND_CLICK
 
         #game_mgr.event_mgr.add(SCENE_UNIT_CLICK, self.on_scene_unit_click)
-        game_mgr.event_mgr.add(SCENE_GROUND_CLICK, self.on_scene_ground_click)
-        game_mgr.event_mgr.add(LEFT_BUTTON_BEGIN_DRAG, self.on_begin_drag)
+        #game_mgr.event_mgr.add(SCENE_GROUND_CLICK, self.on_scene_ground_click)
+        #game_mgr.event_mgr.add(LEFT_BUTTON_BEGIN_DRAG, self.on_begin_drag)
 
     # 因为ready里面，scene_tree的限制，还不让加载对象
     # 所以，用一个coroutine，等一帧
@@ -227,7 +227,7 @@ class UIMgr(NodeObject):
     def set_context_unit(self, unit):
         self.context_unit = unit
         
-        # 去掉点选功能对指令面板的影响
+        # 去掉单位身上的菜单交互. 菜单太丑恶了.
         # 显示单位指令菜单
         # if unit:
         #     self.cmd_panel_controller.init(unit)
