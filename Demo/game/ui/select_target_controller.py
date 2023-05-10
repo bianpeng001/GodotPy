@@ -68,7 +68,7 @@ class SelectTargetController(UIController, PopupTrait):
         self.flag_obj.set_position(x,y,z)
         self.set_target(0, (round(x), round(z)))
         
-    def init_dialog(self, select_cb):
+    def init(self, select_cb):
         self.select_cb = select_cb
         self.set_target(0, (0,0))
         self.set_position(400, 70)

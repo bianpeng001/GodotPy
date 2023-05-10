@@ -51,7 +51,7 @@ class TroopMenuController(UIController, PopupTrait):
             brain_comp = self.troop_unit.get_controller().get_brain_comp()
             brain_comp.goto_state('start')
 
-        dialog.init_dialog(select_cb)
+        dialog.init(select_cb)
 
 
 

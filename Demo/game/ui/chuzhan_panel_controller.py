@@ -143,7 +143,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
             self.target_unit_id = dialog.target_unit_id
             self.target_pos = dialog.target_pos
 
-        dialog.init_dialog(select_cb)
+        dialog.init(select_cb)
 
     def on_slider_army_mass_changed(self, value):
         self.army_amount = round(value*0.01*self.max_army_amount)

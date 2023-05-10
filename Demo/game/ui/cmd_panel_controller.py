@@ -25,28 +25,45 @@ class CmdItem:
         self.cmd = cmd
         self.btn_obj = btn_obj
         self.btn_obj.set_visible(True)
-        
-    def on_select_target_cb(self):
-        dlg = game_mgr.ui_mgr.select_target_controller
-        
-        for item in game_mgr.ui_mgr.cmd_panel_controller.target_list:
-            if item.unit_id != 0:
-                unit = get_unit(item.unit_id)
-                if unit.unit_type == UT_TROOP:
-                    unit.target_unit_id = dlg.target_unit_id
-                    unit.target_pos = dlg.target_pos
-                    
-                    brain_comp = unit.get_controller().get_brain_comp()
-                    brain_comp.goto_state('start')
-        
 
     def on_click(self):
-        
+        unit_list = list(map(lambda x: get_unit(x.unit_id),
+                            filter(lambda x: x.unit_id != 0, 
+                            game_mgr.ui_mgr.cmd_panel_controller.target_list)))
         log_debug('cmd', self.cmd)
         
         if self.cmd == '目标':
             dlg = game_mgr.ui_mgr.select_target_controller
-            dlg.init_dialog(self.on_select_target_cb)
+            
+            def on_select_target_cb():
+                for unit in unit_list:
+                    if unit.unit_type == UT_TROOP:
+                        unit.target_unit_id = dlg.target_unit_id
+                        unit.target_pos = dlg.target_pos
+                        
+                        brain_comp = unit.get_controller().get_brain_comp()
+                        brain_comp.goto_state('start')
+            dlg.init(on_select_target_cb)
+        
+        elif self.cmd == '内政':
+            dlg = game_mgr.ui_mgr.neizheng_controller
+            
+            for unit in unit_list:
+                if unit.unit_type == UT_CITY:
+                    dlg.init(unit)
+                    dlg.set_position(250, 100)
+                    dlg.push_panel()
+                    break
+        
+        elif self.cmd == '出战':
+            dlg = game_mgr.ui_mgr.chuzhan_panel_controller
+            
+            for unit in unit_list:
+                if unit.unit_type == UT_CITY:
+                    dlg.init(unit)
+                    dlg.popup(250, 100)
+                    dlg.push_panel()
+                    break
 #
 # 指令界面
 #
@@ -59,7 +76,7 @@ class CmdPanelController(UIController, PopupTrait):
         self.ui_obj = ui_obj
         
         cmd_list = [
-            '目标','','','',
+            '目标','撤退','','',
             '内政','出战','','',
         ]
         btn_cmd_obj = self.ui_obj.find_node('Panel/GridContainer/BtnCmd')
