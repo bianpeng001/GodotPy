@@ -162,7 +162,8 @@ class CmdPanelController(UIController, PopupTrait):
     def on_scene_unit_click(self, unit):
         if unit.owner_is_main_player():
             self.on_rect_select_units_changed([unit])
-            
+    
+    @when_visible
     def on_scene_ground_click(self):
         x,y,z = get_cursor_position()
         for unit in filter(lambda x: x.unit_type == UT_TROOP, self.unit_list):
