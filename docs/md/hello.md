@@ -15,6 +15,9 @@
 2. 用面板链条, 代替原来的面板栈. prev_panel replace panel_stack
 3. 然后发现有部队原地转圈的现象, 原因不明. 感觉修正的时候, 需要有个上限, 不行了就原地停一会.
 
+<video width="342" height="300" controls>
+   <source src="img/demo.mp4" type="video/mp4">
+</video>
 
 <div class="date">2023年5月11日</div>
 
