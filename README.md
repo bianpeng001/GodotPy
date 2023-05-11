@@ -6,12 +6,6 @@
 
 本人对python非常喜欢，不过之前在工作中都是用lua的。想做一个简单的python绑定，没啥太多的追求，当简单的脚本使用，也是一个自我学的习的。如果我的一些不成熟的idea，对别人产生一点点帮助甚至启发，将不胜荣幸。
 
-
-<video width="342" height="300" controls>
-   <source src="https://bianpeng001.github.io/GodotPy/img/demo.mp4" type="video/mp4">
-</video>
-
-
 ## 对Godot的提升
 利用Python的语言特性，给godot引擎做一些方便的功能。比如，协程。
 ```python
