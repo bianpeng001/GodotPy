@@ -10,6 +10,8 @@ from game.ui.ui_traits import PopupTrait
 # npc对话框
 class NpcDialogController(UIController, PopupTrait):
     def __init__(self):
+        super().__init__()
+        
         self.show_time = 0
 
     def setup(self, ui_obj):

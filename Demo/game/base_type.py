@@ -262,9 +262,10 @@ class HUDComponent(Component):
 # UI 面板控制器
 #
 class UIController:
-    def __self__(self):
+    def __init__(self):
         self._show = True
         self.ui_obj = None
+        self.prev_panel = None
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
@@ -281,6 +282,14 @@ class UIController:
         self._show = False
         self.ui_obj.set_visible(False)
         self.on_show(False)
+        
+        if self.prev_panel:
+            self.prev_panel.show()
+            self.prev_panel = None
+            
+    def set_prev_panel(self, prev_panel):
+        self.prev_panel = prev_panel
+        prev_panel.defer_close()
         
     def on_show(self, show):
         pass

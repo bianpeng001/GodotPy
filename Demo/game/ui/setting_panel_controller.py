@@ -14,6 +14,7 @@ from game.event_name import PRESSED
 #
 class SettingPanelController(UIController, PopupTrait):
     def __init__(self):
+        super().__init__()
         pass
 
     def setup(self, ui_obj):

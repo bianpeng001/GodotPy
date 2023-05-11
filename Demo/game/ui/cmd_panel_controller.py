@@ -70,6 +70,8 @@ class CmdItem:
 #
 class CmdPanelController(UIController, PopupTrait):
     def __init__(self):
+        super().__init__()
+        
         self.btn_list = []
         self.target_list = []
         self.unit_list = []

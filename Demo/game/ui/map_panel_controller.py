@@ -11,6 +11,7 @@ from game.event_name import PRESSED
 # 世界地图
 class MapPanelController(UIController, PopupTrait):
     def __init__(self):
+        super().__init__()
         pass
 
     def setup(self, ui_obj):

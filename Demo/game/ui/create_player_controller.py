@@ -14,6 +14,7 @@ from game.config_mgr import new_hero_name
 #
 class CreatePlayerController(UIController, PopupTrait):
     def __init__(self):
+        super().__init__()
         pass
 
     def setup(self, ui_obj):

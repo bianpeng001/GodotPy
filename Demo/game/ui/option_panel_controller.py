@@ -16,6 +16,8 @@ from game.event_name import PRESSED
 #
 class OptionPanelController(UIController, PopupTrait):
     def __init__(self):
+        super().__init__()
+        
         self.btn_list = []
         self.btn_pool = []
 

@@ -12,6 +12,8 @@ from game.event_name import PRESSED, NAV_PANEL_LOSE_CITY, NAV_PANEL_GAIN_CITY
 #
 class NavPanelController(UIController, PopupTrait):
     def __init__(self):
+        super().__init__()
+        
         self.btn_dict = {}
     
     def setup(self, ui_obj):

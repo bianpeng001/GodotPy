@@ -14,6 +14,7 @@ from game.input_mgr import KEY_F9, KEY_ESC
 # 头顶主界面逻辑
 class MainUIController(UIController, PopupTrait):
     def __init__(self):
+        super().__init__()
         pass
 
     def setup(self, ui_obj):

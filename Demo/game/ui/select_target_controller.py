@@ -13,6 +13,8 @@ from game.ui.ui_traits import PopupTrait
 #
 class SelectTargetController(UIController, PopupTrait):
     def __init__(self):
+        super().__init__()
+        
         # 返回的数据
         self.target_name = ''
         self.target_unit_id = 0
@@ -72,11 +74,9 @@ class SelectTargetController(UIController, PopupTrait):
         self.select_cb = select_cb
         self.set_target(0, (0,0))
         self.set_position(400, 70)
-        #self.push_panel()
-        #self.show()
     
     def on_ok_click(self):
-        self.pop_panel()
+        self.defer_close()
         
         if self.select_cb:
             self.select_cb()

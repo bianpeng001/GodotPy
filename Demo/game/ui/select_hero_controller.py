@@ -26,15 +26,15 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
         header = self.ui_obj.find_node('Panel/HeroList/Header')
         self.init_header(header)
 
-    def init_dialog(self, city_unit, select_callback):
+    def init(self, city_unit, select_callback):
         self.city_unit = city_unit
         self.select_callback = select_callback
 
         self.init_hero_list()
         self.set_position(250, 114)
-
+        
     def on_ok_click(self):
-        self.pop_panel()
+        self.defer_close()
 
         hero_list = self.get_selected()
         if self.select_callback:

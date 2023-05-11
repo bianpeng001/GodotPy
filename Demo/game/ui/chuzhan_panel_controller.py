@@ -15,6 +15,7 @@ ITEM_SIZE = 80
 class HeroItem(HeroSlot):
     def __init__(self):
         super().__init__()
+        
         self.hero_item_obj = None
 
     def get_position(self):
@@ -29,6 +30,8 @@ class HeroItem(HeroSlot):
 #
 class ChuZhanPanelController(UIController, PopupTrait):
     def __init__(self):
+        super().__init__()
+        
         self.max_army_mass = 1000
         self.hero_item_list = []
         self.back_hero_item_list = []
@@ -130,20 +133,23 @@ class ChuZhanPanelController(UIController, PopupTrait):
                 text = ''
             self.lbl_members.set_text(text)
 
-        select_hero = game_mgr.ui_mgr.select_hero_controller
-        select_hero.init_dialog(self.city_unit, select_cb)
-        select_hero.select([ item.hero_id for item in self.hero_item_list ])
-        select_hero.push_panel()
+        dlg = game_mgr.ui_mgr.select_hero_controller
+        dlg.init(self.city_unit, select_cb)
+        dlg.select([ item.hero_id for item in self.hero_item_list ])
+        dlg.show()
+        dlg.set_prev_panel(self)
 
     # 选择目标
     def on_select_target(self):
-        dialog = game_mgr.ui_mgr.select_target_controller
+        dlg = game_mgr.ui_mgr.select_target_controller
         def select_cb():
-            self.btn_target.set_text(dialog.target_name)
-            self.target_unit_id = dialog.target_unit_id
-            self.target_pos = dialog.target_pos
-
-        dialog.init(select_cb)
+            self.btn_target.set_text(dlg.target_name)
+            self.target_unit_id = dlg.target_unit_id
+            self.target_pos = dlg.target_pos
+            
+        dlg.init(select_cb)
+        dlg.show()
+        dlg.set_prev_panel(self)
 
     def on_slider_army_mass_changed(self, value):
         self.army_amount = round(value*0.01*self.max_army_amount)

@@ -13,6 +13,8 @@ from game.event_name import PRESSED, SCENE_GROUND_CLICK
 #
 class BuildPanelController(UIController, PopupTrait):
     def __init__(self):
+        super().__init__()
+        
         self.item_list = []
         self.active_obj = None
 
