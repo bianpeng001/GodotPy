@@ -48,3 +48,7 @@ Demo: 测试用的工程，写一个小游戏
 ![icon](https://godotengine.org/assets/logo_dark.svg)
 
 
+<video width="342" height="300" controls>
+   <source src="https://bianpeng001.github.io/GodotPy/img/demo.mp4" type="video/mp4">
+</video>
+
