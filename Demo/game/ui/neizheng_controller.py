@@ -308,8 +308,8 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.init_items(item_node, self.city_unit.hero_list)
 
     def on_ok_click(self):
-        #self.defer_close()
-        self.pop_panel()
+        #self.pop_panel()
+        self.defer_close()
 
         # 弹一个对话
         if self.city_unit.satrap != 0 and self.satrap == 0:

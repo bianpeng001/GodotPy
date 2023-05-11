@@ -73,10 +73,12 @@ class PopupTrait:
         game_mgr.ui_mgr.pop_panel(self)
 
     def on_close_click(self):
-        self.pop_panel()
+        #self.pop_panel()
+        self.defer_close()
 
     def on_ok_click(self):
-        self.pop_panel()
+        #self.pop_panel()
+        self.defer_close()
 
 # 武将列表
 class HeroListTrait:

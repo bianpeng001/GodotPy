@@ -26,50 +26,45 @@ class CmdItem:
         self.btn_obj = btn_obj
         self.btn_obj.set_visible(True)
         self.btn_obj.set_tooltip(cmd)
-
+        
+    def set_cur_dlg(self, dlg):
+        return game_mgr.ui_mgr.cmd_panel_controller.set_cur_dlg(dlg)
+        
     def on_click(self):
-        # unit_list = list(map(lambda x: get_unit(x.unit_id),
-        #                     filter(lambda x: x.unit_id != 0, 
-        #                     game_mgr.ui_mgr.cmd_panel_controller.target_list)))
         unit_list = game_mgr.ui_mgr.cmd_panel_controller.unit_list
         log_debug('cmd', self.cmd)
         
         if self.cmd == '目标':
             dlg = game_mgr.ui_mgr.select_target_controller
-            
-            def on_select_target_cb():
-                for unit in unit_list:
-                    if unit.unit_type == UT_TROOP:
+            if not self.set_cur_dlg(dlg):
+                def on_select_target_cb():
+                    for unit in filter(lambda x: x.unit_type == UT_TROOP, unit_list):
                         unit.target_unit_id = dlg.target_unit_id
                         unit.target_pos = dlg.target_pos
                         
                         brain_comp = unit.get_controller().get_brain_comp()
                         brain_comp.goto_state('start')
 
-            if not dlg.is_show():
                 dlg.init(on_select_target_cb)
+                dlg.show()
         
         elif self.cmd == '内政':
             dlg = game_mgr.ui_mgr.neizheng_controller
-            
-            if not dlg.is_show():
-                for unit in unit_list:
-                    if unit.unit_type == UT_CITY:
-                        dlg.init(unit)
-                        dlg.set_position(250, 100)
-                        dlg.push_panel()
-                        break
+            if not self.set_cur_dlg(dlg):
+                unit = next(filter(lambda x: x.unit_type == UT_CITY, unit_list), None)
+                if unit:
+                    dlg.init(unit)
+                    dlg.set_position(250, 80)
+                    dlg.show()
         
         elif self.cmd == '出战':
             dlg = game_mgr.ui_mgr.chuzhan_panel_controller
-            
-            if not dlg.is_show():
-                for unit in unit_list:
-                    if unit.unit_type == UT_CITY:
-                        dlg.init(unit)
-                        dlg.popup(250, 100)
-                        dlg.push_panel()
-                        break
+            if not self.set_cur_dlg(dlg):
+                unit = next(filter(lambda x: x.unit_type == UT_CITY, unit_list), None)
+                if unit:
+                    dlg.init(unit)
+                    dlg.set_position(250, 106)
+                    dlg.show()
 #
 # 指令界面
 #
@@ -78,6 +73,8 @@ class CmdPanelController(UIController, PopupTrait):
         self.btn_list = []
         self.target_list = []
         self.unit_list = []
+        
+        self.cur_dlg = None
     
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
@@ -154,6 +151,18 @@ class CmdPanelController(UIController, PopupTrait):
     def on_scene_unit_click(self, unit):
         if unit.owner_is_main_player():
             self.on_rect_select_units_changed([unit])
-        
+            
+    def set_cur_dlg(self, dlg):
+        if self.cur_dlg and self.cur_dlg.is_show():
+            log_debug('close cur dlg', self.cur_dlg)
+            self.cur_dlg.defer_close()
+            self.cur_dlg = None
+        self.cur_dlg = dlg
+        if self.cur_dlg and self.cur_dlg.is_show():
+            self.cur_dlg.defer_close()
+            return True
+
+
+
 
 

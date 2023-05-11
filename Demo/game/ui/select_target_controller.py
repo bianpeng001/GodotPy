@@ -72,7 +72,8 @@ class SelectTargetController(UIController, PopupTrait):
         self.select_cb = select_cb
         self.set_target(0, (0,0))
         self.set_position(400, 70)
-        self.push_panel()
+        #self.push_panel()
+        #self.show()
     
     def on_ok_click(self):
         self.pop_panel()

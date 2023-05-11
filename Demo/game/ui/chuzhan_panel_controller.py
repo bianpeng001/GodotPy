@@ -215,7 +215,8 @@ class ChuZhanPanelController(UIController, PopupTrait):
 
     def on_ok_click(self):
         if len(self.hero_item_list) > 0:
-            self.pop_panel()
+            #self.pop_panel()
+            self.defer_close()
             log_debug(f'chuzhan ok', self.hero_item_list)
 
             x,y,z = self.city_unit.get_position()
