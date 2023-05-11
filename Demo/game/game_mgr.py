@@ -123,11 +123,13 @@ def get_main_player_id():
 def get_main_camera():
     return game_mgr.camera_mgr.main_camera
 
+#
 # 鼠标位置, raycast到地面的世界坐标
+#
 def get_cursor_position():
     camera = get_main_camera()
-    x,y = game_mgr.input_mgr.get_mouse_pos()
-    return camera.screen_to_world(x,y)
+    screen_xy = game_mgr.input_mgr.get_mouse_pos()
+    return camera.screen_to_world(*screen_xy)
 
 def get_hero(hero_id):
     if hero_id <= 0:

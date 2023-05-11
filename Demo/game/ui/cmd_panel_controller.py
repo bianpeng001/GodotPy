@@ -104,6 +104,7 @@ class CmdPanelController(UIController, PopupTrait):
         
         game_mgr.event_mgr.add(RECT_SELECT_UNITS_CHANGE, self.on_rect_select_units_changed)
         game_mgr.event_mgr.add(SCENE_UNIT_CLICK, self.on_scene_unit_click)
+        game_mgr.event_mgr.add(SCENE_GROUND_CLICK, self.on_scene_ground_click)
         
         self.city_icon = ResCapsule.load_resource('res://ui/img/Template.png')
         self.troop_icon = ResCapsule.load_resource('res://ui/img/Man2.png')
@@ -149,6 +150,7 @@ class CmdPanelController(UIController, PopupTrait):
                 unit = self.unit_list[i]
                 item.unit_id = unit.unit_id
                 item.btn_obj.set_visible(True)
+                
                 if unit.unit_type == UT_TROOP:
                     item.btn_obj.set_normal_tex(self.troop_icon.res)
                 else:
@@ -161,6 +163,15 @@ class CmdPanelController(UIController, PopupTrait):
         if unit.owner_is_main_player():
             self.on_rect_select_units_changed([unit])
             
+    def on_scene_ground_click(self):
+        x,y,z = get_cursor_position()
+        for unit in filter(lambda x: x.unit_type == UT_TROOP, self.unit_list):
+            unit.target_unit_id = 0
+            unit.target_pos = (x,z)
+            
+            brain_comp = unit.get_controller().get_brain_comp()
+            brain_comp.goto_state('start')
+    
     def set_cur_dlg(self, dlg):
         if self.cur_dlg and self.cur_dlg.is_show():
             log_debug('close cur dlg', self.cur_dlg)
@@ -170,6 +181,7 @@ class CmdPanelController(UIController, PopupTrait):
         if self.cur_dlg and self.cur_dlg.is_show():
             self.cur_dlg.defer_close()
             return True
+        
 
 
 
