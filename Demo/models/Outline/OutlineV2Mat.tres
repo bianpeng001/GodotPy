@@ -1,10 +1,10 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://d316njsfv56ci"]
 
-[ext_resource type="Shader" path="res://models/Outline/OutlineV2.gdshader" id="1_76jp5"]
+[ext_resource type="Shader" path="res://models/Outline/OutlineV2.gdshader" id="1_dvmh8"]
 
 [resource]
 render_priority = 100
-shader = ExtResource("1_76jp5")
+shader = ExtResource("1_dvmh8")
 shader_parameter/outline_intensity = 0.11
 shader_parameter/outline_bias = 4.75e-07
 shader_parameter/outline_color = Color(0.109804, 0.109804, 0.109804, 0.0705882)

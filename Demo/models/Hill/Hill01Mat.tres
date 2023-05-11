@@ -1,13 +1,13 @@
 [gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://imhhb7jmnvl5"]
 
-[ext_resource type="Shader" path="res://models/Hill/Hill01.gdshader" id="1_y3teg"]
-[ext_resource type="Texture2D" uid="uid://d25h0i34iia81" path="res://models/Hill/Hill_d.png" id="2_njih6"]
-[ext_resource type="Texture2D" uid="uid://cch5rpuagqxq7" path="res://models/Hill/Hill_h.png" id="2_p1xyt"]
-[ext_resource type="Texture2D" uid="uid://byjgn4wqiocsp" path="res://models/Hill/Hill_n.png" id="3_iwpoa"]
+[ext_resource type="Shader" path="res://models/Hill/Hill01.gdshader" id="1_p7mmk"]
+[ext_resource type="Texture2D" uid="uid://d25h0i34iia81" path="res://models/Hill/Hill_d.png" id="2_s7hm3"]
+[ext_resource type="Texture2D" uid="uid://cch5rpuagqxq7" path="res://models/Hill/Hill_h.png" id="3_fakw0"]
+[ext_resource type="Texture2D" uid="uid://byjgn4wqiocsp" path="res://models/Hill/Hill_n.png" id="4_y54oj"]
 
 [resource]
 render_priority = 0
-shader = ExtResource("1_y3teg")
-shader_parameter/heightmap = ExtResource("2_p1xyt")
-shader_parameter/normalmap = ExtResource("3_iwpoa")
-shader_parameter/albedomap = ExtResource("2_njih6")
+shader = ExtResource("1_p7mmk")
+shader_parameter/heightmap = ExtResource("3_fakw0")
+shader_parameter/normalmap = ExtResource("4_y54oj")
+shader_parameter/albedomap = ExtResource("2_s7hm3")

@@ -57,10 +57,10 @@ class UIMgr(NodeObject):
         #self.get_obj().connect("ready", self._ready)
         game_mgr.co_mgr.start(self.co_init_panels())
 
-        from game.event_name import SCENE_UNIT_CLICK,\
-                LEFT_BUTTON_BEGIN_DRAG,\
-                SCENE_GROUND_CLICK
-
+        # from game.event_name import \
+        #         SCENE_UNIT_CLICK,\
+        #         LEFT_BUTTON_BEGIN_DRAG,\
+        #         SCENE_GROUND_CLICK
         #game_mgr.event_mgr.add(SCENE_UNIT_CLICK, self.on_scene_unit_click)
         #game_mgr.event_mgr.add(SCENE_GROUND_CLICK, self.on_scene_ground_click)
         #game_mgr.event_mgr.add(LEFT_BUTTON_BEGIN_DRAG, self.on_begin_drag)

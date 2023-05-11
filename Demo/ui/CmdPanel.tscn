@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://djgsmjyqtpj4o"]
 
-[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_td85v"]
-[ext_resource type="StyleBox" uid="uid://cs78tjnu0sn2w" path="res://ui/PanelStyle.tres" id="2_pdt85"]
-[ext_resource type="Texture2D" uid="uid://c70k22psnr87o" path="res://ui/img/Man2.png" id="4_twhhh"]
-[ext_resource type="Texture2D" uid="uid://ckbunyidmtipx" path="res://ui/img/Sword.png" id="5_1ja6y"]
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_mldwk"]
+[ext_resource type="StyleBox" uid="uid://cs78tjnu0sn2w" path="res://ui/PanelStyle.tres" id="2_1pj5b"]
+[ext_resource type="Texture2D" uid="uid://ckbunyidmtipx" path="res://ui/img/Sword.png" id="3_qb5bk"]
+[ext_resource type="Texture2D" uid="uid://c70k22psnr87o" path="res://ui/img/Man2.png" id="4_dponq"]
 
 [node name="BuildPanel2" type="Control"]
 layout_mode = 3
@@ -19,8 +19,8 @@ grow_vertical = 2
 layout_mode = 0
 offset_right = 340.0
 offset_bottom = 120.0
-theme = ExtResource("1_td85v")
-theme_override_styles/panel = ExtResource("2_pdt85")
+theme = ExtResource("1_mldwk")
+theme_override_styles/panel = ExtResource("2_1pj5b")
 
 [node name="GridContainer" type="GridContainer" parent="Panel"]
 layout_mode = 0
@@ -40,7 +40,7 @@ offset_left = 10.0
 offset_top = 2.0
 offset_right = 40.0
 offset_bottom = 32.0
-texture = ExtResource("5_1ja6y")
+texture = ExtResource("3_qb5bk")
 expand_mode = 1
 
 [node name="Label" type="Label" parent="Panel/GridContainer/BtnCmd"]
@@ -48,7 +48,7 @@ layout_mode = 0
 offset_top = 30.0
 offset_right = 50.0
 offset_bottom = 50.0
-theme = ExtResource("1_td85v")
+theme = ExtResource("1_mldwk")
 theme_override_font_sizes/font_size = 16
 text = "移动"
 horizontal_alignment = 1
@@ -64,7 +64,7 @@ columns = 3
 [node name="BtnUnit" type="TextureButton" parent="Panel/TargetUnits"]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
-texture_normal = ExtResource("4_twhhh")
+texture_normal = ExtResource("4_dponq")
 ignore_texture_size = true
 stretch_mode = 4
 
@@ -80,6 +80,6 @@ offset_left = 10.0
 offset_top = 7.0
 offset_right = 90.0
 offset_bottom = 27.0
-theme = ExtResource("1_td85v")
+theme = ExtResource("1_mldwk")
 theme_override_font_sizes/font_size = 16
 text = "襄阳"
