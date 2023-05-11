@@ -219,6 +219,8 @@ class GamePlay:
                     flag_node.set_surface_material(0, None)
                     flag_node.set_surface_material(1, None)
         
+        game_mgr.ui_mgr.cmd_panel_controller.on_leave_scene()
+
         # 清理tile
         for tile in game_mgr.ground_mgr.loop_tiles():
             tile.unload()

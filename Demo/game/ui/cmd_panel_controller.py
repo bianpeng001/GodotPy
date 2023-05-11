@@ -77,6 +77,10 @@ class CmdPanelController(UIController, PopupTrait):
         self.unit_list = []
         
         self.cur_dlg = None
+
+    def on_leave_scene(self):
+        self.troop_icon = None
+        self.city_icon = None
     
     def setup(self, ui_obj):
         self.ui_obj = ui_obj

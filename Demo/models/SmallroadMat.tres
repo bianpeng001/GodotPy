@@ -1,8 +1,8 @@
 [gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bidwmr472e0a6"]
 
-[ext_resource type="Texture2D" uid="uid://b0bfqnd3mltjg" path="res://models/small_road.png" id="1_kgaur"]
+[ext_resource type="Texture2D" uid="uid://b0bfqnd3mltjg" path="res://models/small_road.png" id="1_flfql"]
 
 [resource]
 transparency = 1
 blend_mode = 1
-albedo_texture = ExtResource("1_kgaur")
+albedo_texture = ExtResource("1_flfql")
