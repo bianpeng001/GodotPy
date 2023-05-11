@@ -34,6 +34,7 @@
 #include "scene/gui/control.h"
 #include "scene/gui/base_button.h"
 #include "scene/gui/button.h"
+#include "scene/gui/texture_button.h"
 #include "scene/gui/label.h"
 #include "scene/gui/rich_text_label.h"
 #include "scene/gui/tab_bar.h"
@@ -2170,6 +2171,35 @@ static PyObject *f_button_set_text(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_texture_button_set_texture(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		PyObject *a_tex;
+		int a_tex_id;
+
+		if (!PyArg_ParseTuple(args, "OiO", &a_obj, &a_tex_id, & a_tex)) {
+			break;
+		}
+
+		auto btn = GetObjPtr<TextureButton>(a_obj);
+		if (!btn) {
+			break;
+		}
+
+		auto p_res = GetResCapsule(a_tex);
+		Ref<Texture2D> tex = p_res->res;
+		if (tex.is_valid()) {
+			switch (a_tex_id) {
+				case 0:
+					btn->set_texture_normal(tex);
+					break;
+			}
+		}
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_slider_get_value(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -2742,6 +2772,8 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "base_button_is_pressed", f_base_button_is_pressed, METH_VARARGS, NULL },
 	{ "base_button_set_pressed", f_base_button_set_pressed, METH_VARARGS, NULL },
 	{ "button_set_text", f_button_set_text, METH_VARARGS, NULL },
+	{ "texture_button_set_texture", f_texture_button_set_texture, METH_VARARGS, NULL },
+
 	{ "slider_get_value", f_slider_get_value, METH_VARARGS, NULL },
 	{ "slider_set_value", f_slider_set_value, METH_VARARGS, NULL },
 

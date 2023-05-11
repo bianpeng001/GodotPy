@@ -269,6 +269,9 @@ class UIMgr(NodeObject):
         else:
             self.show_menu(None)
 
+    # region panel stack, 
+    # TODO: 这个准备去掉了, 改用面板链, 那个更简单方便好控制
+    
     # 界面的入栈出栈,用来恢复上级界面
     def push_panel(self, top_panel):
         if len(self.panel_stack) > 0:
@@ -297,6 +300,8 @@ class UIMgr(NodeObject):
     def get_top_panel(self):
         if len(self.panel_stack) > 0:
             return self.panel_stack[-1]
+        
+    # endregion
 
     def show_base_ui(self, show):
         if show:

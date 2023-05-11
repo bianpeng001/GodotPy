@@ -648,6 +648,9 @@ class FRichTextLabel(FControl):
     def set_text(self, text):
         gp.rich_text_label_set_text(self.get_gdobj(), text)
 
+#
+# button
+#
 class FBaseButton(FControl):
     def set_disabled(self, value):
         gp.base_button_set_disabled(self.get_gdobj(), value)
@@ -666,6 +669,15 @@ class FBaseButton(FControl):
         # TODO: 目前直接把缓存的返回就好
         return self.text
 
+class FButton(FBaseButton):
+    pass
+
+class FTextureButton(FBaseButton):
+    def set_normal_tex(self, res):
+        gp.texture_button_set_texture(self.get_gdobj(), 0, res)
+        
+class FCheckBox(FBaseButton):
+    pass
 
 class FTextEdit(FControl):
     def get_text(self):
@@ -673,12 +685,6 @@ class FTextEdit(FControl):
 
     def set_text(self, s):
         gp.text_edit_set_text(self.get_gdobj(), s)
-
-class FButton(FBaseButton):
-    pass
-
-class FCheckBox(FBaseButton):
-    pass
 
 class FPanel(FControl):
     pass
@@ -797,7 +803,7 @@ _TypeMap = {
     'Control' : FControl,
     'TextureRect' : FTextureRect,
     'ColorRect' : FColorRect,
-    'TextureButton' : FBaseButton,
+    'TextureButton' : FTextureButton,
     'Button' : FButton,
     'TabBar' : FTabBar,
     'CheckBox' : FCheckBox,

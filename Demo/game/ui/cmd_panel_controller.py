@@ -2,7 +2,7 @@
 # 2023年4月11日 bianpeng
 #
 
-from game.core import log_debug, OS
+from game.core import log_debug, OS, ResCapsule
 from game.game_mgr import *
 from game.base_type import UIController, UT_TROOP, UT_CITY
 from game.event_name import *
@@ -104,6 +104,9 @@ class CmdPanelController(UIController, PopupTrait):
         
         game_mgr.event_mgr.add(RECT_SELECT_UNITS_CHANGE, self.on_rect_select_units_changed)
         game_mgr.event_mgr.add(SCENE_UNIT_CLICK, self.on_scene_unit_click)
+        
+        self.city_icon = ResCapsule.load_resource('res://ui/img/Template.png')
+        self.troop_icon = ResCapsule.load_resource('res://ui/img/Man2.png')
 
     def init(self, unit):
         #self.cmd_panel_controller.popup_screen_bottom_left()
@@ -146,6 +149,10 @@ class CmdPanelController(UIController, PopupTrait):
                 unit = self.unit_list[i]
                 item.unit_id = unit.unit_id
                 item.btn_obj.set_visible(True)
+                if unit.unit_type == UT_TROOP:
+                    item.btn_obj.set_normal_tex(self.troop_icon.res)
+                else:
+                    item.btn_obj.set_normal_tex(self.city_icon.res)
             else:
                 item.unit_id = 0
                 item.btn_obj.set_visible(False)
