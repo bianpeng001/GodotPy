@@ -62,16 +62,16 @@ class SelectTargetController(UIController, PopupTrait):
     @when_visible
     def on_scene_unit_click(self, unit):
         x,y,z = unit.get_position()
-        effect_item = game_mgr.effect_mgr.play_effect2(2003)
-        effect_item.set_position(x,y,z)
+        #effect_item = game_mgr.effect_mgr.play_effect2(2003)
+        #effect_item.set_position(x,y,z)
         #self.flag_obj.set_position(x,y,z)
         self.set_target(unit.unit_id, (round(x),round(z)))
         
     @when_visible
     def on_scene_ground_click(self):
         x,y,z = get_cursor_position()
-        effect_item = game_mgr.effect_mgr.play_effect2(2003)
-        effect_item.set_position(x,y,z)
+        #effect_item = game_mgr.effect_mgr.play_effect2(2003)
+        #effect_item.set_position(x,y,z)
         #self.flag_obj.set_position(x,y,z)
         self.set_target(0, (round(x), round(z)))
         
