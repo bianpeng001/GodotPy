@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bkalagxm38bcx"]
 
-[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_iucwd"]
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_uw1bn"]
 
 [node name="TextEffect" type="Control"]
 layout_mode = 3
@@ -11,7 +11,7 @@ offset_right = -1072.0
 offset_bottom = -622.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_iucwd")
+theme = ExtResource("1_uw1bn")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0

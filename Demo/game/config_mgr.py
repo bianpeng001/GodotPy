@@ -168,6 +168,13 @@ class ConfigMgr:
         effect.res_path = 'res://models/Flag02.tscn'
         add(effect)
         
+        # 技能飘字
+        effect = EffectConfig()
+        effect.config_id = 2004
+        effect.life_time = 1.5
+        effect.res_path = 'res://ui/BigTextEffect.tscn'
+        add(effect)
+        
     def get_effect(self, config_id):
         return self.effect_dict.get(config_id, None)
 

@@ -79,8 +79,7 @@ class CmdPanelController(UIController, PopupTrait):
         self.cur_dlg = None
 
     def on_leave_scene(self):
-        self.troop_icon = None
-        self.city_icon = None
+        self.icon_list = []
     
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
@@ -110,8 +109,11 @@ class CmdPanelController(UIController, PopupTrait):
         game_mgr.event_mgr.add(SCENE_UNIT_CLICK, self.on_scene_unit_click)
         game_mgr.event_mgr.add(SCENE_GROUND_CLICK, self.on_scene_ground_click)
         
-        self.city_icon = ResCapsule.load_resource('res://ui/img/Template.png')
-        self.troop_icon = ResCapsule.load_resource('res://ui/img/Man2.png')
+        self.icon_list = [
+            None,
+            ResCapsule.load_resource('res://ui/img/Template.png'),
+            ResCapsule.load_resource('res://ui/img/Man2.png')
+        ]
 
     def init(self, unit):
         #self.cmd_panel_controller.popup_screen_bottom_left()
@@ -154,23 +156,24 @@ class CmdPanelController(UIController, PopupTrait):
                 unit = self.unit_list[i]
                 item.unit_id = unit.unit_id
                 item.btn_obj.set_visible(True)
-                
-                if unit.unit_type == UT_TROOP:
-                    item.btn_obj.set_normal_tex(self.troop_icon.res)
-                else:
-                    item.btn_obj.set_normal_tex(self.city_icon.res)
+                item.btn_obj.set_tooltip(unit.unit_name)
+                item.btn_obj.set_normal_tex(self.icon_list[unit.unit_type].res)
             else:
                 item.unit_id = 0
                 item.btn_obj.set_visible(False)
     
     def on_scene_unit_click(self, unit):
+        # 插旗表示目标位置
+        x,y,z = get_cursor_position()
+        effect_item = game_mgr.effect_mgr.play_effect2(2003)
+        effect_item.set_position(x,y,z)
+
         if unit.owner_is_main_player():
             self.on_rect_select_units_changed([unit])
     
     @when_visible
     def on_scene_ground_click(self):
         x,y,z = get_cursor_position()
-        
         # 插旗表示目标位置
         effect_item = game_mgr.effect_mgr.play_effect2(2003)
         effect_item.set_position(x,y,z)

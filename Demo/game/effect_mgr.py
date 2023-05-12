@@ -62,7 +62,7 @@ class TextEffectItem(EffectItem):
     def do_load(self):
         super().do_load()
         
-        self.node.reparent(game_mgr.ui_mgr.get_obj())
+        self.node.reparent(game_mgr.ui_mgr.text_effect_layer)
         self.text_node = self.node.find_node('Label')
         
     def update(self):
@@ -73,6 +73,27 @@ class TextEffectItem(EffectItem):
     def set_text(self, value):
         self.text_node.set_color(1,0,0,1)
         self.text_node.set_text(str(value))
+
+class BigTextEffectItem(EffectItem):
+    def __init__(self, config_id):
+        super().__init__(config_id)
+        
+        self.attach_unit = None
+        self.text_node = None
+        
+    def do_load(self):
+        super().do_load()
+        
+        self.node.reparent(game_mgr.ui_mgr.text_effect_layer)
+        self.text_node = self.node.find_node('Label')
+        
+    def set_text(self, value):
+        self.text_node.set_text(str(value))
+        
+    def update(self):
+        x,y,z = self.attach_unit.get_position()
+        x1,y1 = get_main_camera().world_to_screen(x,y+10-(self.time*2)**2,z)
+        self.node.set_position(x1-72,y1)
 
 #
 # 普通特效
@@ -95,6 +116,7 @@ class EffectMgr:
         self.effect_class_dict = {
             2001: ParticleEffectItem,
             2002: TextEffectItem,
+            2004: BigTextEffectItem,
         }
     
     # 从cache复用

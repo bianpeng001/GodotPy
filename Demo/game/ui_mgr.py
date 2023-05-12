@@ -64,6 +64,7 @@ class UIMgr(NodeObject):
         #game_mgr.event_mgr.add(SCENE_UNIT_CLICK, self.on_scene_unit_click)
         #game_mgr.event_mgr.add(SCENE_GROUND_CLICK, self.on_scene_ground_click)
         #game_mgr.event_mgr.add(LEFT_BUTTON_BEGIN_DRAG, self.on_begin_drag)
+        self.text_effect_layer = self.get_obj().find_node('TextEffectLayer')
 
     # 因为ready里面，scene_tree的限制，还不让加载对象
     # 所以，用一个coroutine，等一帧
