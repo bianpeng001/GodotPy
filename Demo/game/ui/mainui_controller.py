@@ -30,6 +30,9 @@ class MainUIController(UIController, PopupTrait):
         self.fps_label = self.ui_obj.find_node('FPSLabel')
         self.refresh_time = game_mgr.sec_time
         self.refresh_frame_number = game_mgr.frame_number
+        
+        self.date_label = self.ui_obj.find_node('DateLabel')
+        self.date_label.set_text('公元184年 春')
 
         #btn_labels = ['地图', '战报', '势力', '执行']
         btn_labels = ['地图', '建设']
