@@ -170,6 +170,11 @@ class CmdPanelController(UIController, PopupTrait):
     @when_visible
     def on_scene_ground_click(self):
         x,y,z = get_cursor_position()
+        
+        # 插旗表示目标位置
+        effect_item = game_mgr.effect_mgr.play_effect2(2003)
+        effect_item.set_position(x,y,z)
+        
         for unit in filter(lambda x: x.unit_type == UT_TROOP, self.unit_list):
             unit.target_unit_id = 0
             unit.target_pos = (x,z)

@@ -34,11 +34,12 @@ class SelectTargetController(UIController, PopupTrait):
         game_mgr.event_mgr.add(SCENE_GROUND_CLICK, self.on_scene_ground_click)
         
         # 指示目标用的小红旗
-        self.flag_obj = OS.instantiate('res://models/Flag02.tscn')
-        self.flag_obj.set_visible(False)
+        #self.flag_obj = OS.instantiate('res://models/Flag02.tscn')
+        #self.flag_obj.set_visible(False)
         
     def on_show(self, show):
-        self.flag_obj.set_visible(show)
+        #self.flag_obj.set_visible(show)
+        pass
 
     def set_target(self, unit_id, pos):
         self.target_unit_id = unit_id
@@ -61,13 +62,17 @@ class SelectTargetController(UIController, PopupTrait):
     @when_visible
     def on_scene_unit_click(self, unit):
         x,y,z = unit.get_position()
-        self.flag_obj.set_position(x,y,z)
+        effect_item = game_mgr.effect_mgr.play_effect2(2003)
+        effect_item.set_position(x,y,z)
+        #self.flag_obj.set_position(x,y,z)
         self.set_target(unit.unit_id, (round(x),round(z)))
-
+        
     @when_visible
     def on_scene_ground_click(self):
         x,y,z = get_cursor_position()
-        self.flag_obj.set_position(x,y,z)
+        effect_item = game_mgr.effect_mgr.play_effect2(2003)
+        effect_item.set_position(x,y,z)
+        #self.flag_obj.set_position(x,y,z)
         self.set_target(0, (round(x), round(z)))
         
     def init(self, select_cb):

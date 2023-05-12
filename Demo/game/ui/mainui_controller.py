@@ -31,6 +31,7 @@ class MainUIController(UIController, PopupTrait):
         self.refresh_time = game_mgr.sec_time
         self.refresh_frame_number = game_mgr.frame_number
         
+        # 年份
         self.date_label = self.ui_obj.find_node('DateLabel')
         self.date_label.set_text('公元184年 春')
 

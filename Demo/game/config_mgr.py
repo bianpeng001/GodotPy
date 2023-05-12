@@ -144,19 +144,29 @@ class ConfigMgr:
     def init_effect_config(self):
         self.effect_dict = {}
         
+        def add(effect):
+            self.effect_dict[effect.config_id] = effect
+        
         # 射箭
         effect = EffectConfig()
         effect.config_id = 2001
         effect.life_time = 2.0
         effect.res_path = 'res://effects/Shoot01.tscn'
-        self.effect_dict[effect.config_id] = effect
+        add(effect)
         
         # 飘字
         effect = EffectConfig()
         effect.config_id = 2002
         effect.life_time = 1.5
         effect.res_path = 'res://ui/TextEffect.tscn'
-        self.effect_dict[effect.config_id] = effect
+        add(effect)
+        
+        # 地上插旗
+        effect = EffectConfig()
+        effect.config_id = 2003
+        effect.life_time = 0.8
+        effect.res_path = 'res://models/Flag02.tscn'
+        add(effect)
         
     def get_effect(self, config_id):
         return self.effect_dict.get(config_id, None)
