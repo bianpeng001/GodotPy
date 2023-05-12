@@ -92,8 +92,8 @@ class BigTextEffectItem(EffectItem):
         
     def update(self):
         x,y,z = self.attach_unit.get_position()
-        x1,y1 = get_main_camera().world_to_screen(x,y+10-(self.time*2)**2,z)
-        self.node.set_position(x1-72,y1)
+        x1,y1 = get_main_camera().world_to_screen(x,y+2-2*((self.time/self.life_time))**2,z)
+        self.node.set_position(x1-56,y1+32)
 
 #
 # 普通特效

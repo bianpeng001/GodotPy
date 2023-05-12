@@ -127,16 +127,18 @@ class ConfigMgr:
     def init_skill_config(self):
         self.skill_dict = {}
         
+        def add(skill):
+            self.skill_dict[skill.config_id] = skill
+            
         skill = SkillConfig()
         skill.config_id = 3001
         skill.skill_name = '普通攻击'
         skill.effect_id = 2001
         skill.life_time = 1.0
         skill.cooldown = 4.0
-        
         # 伤害每千人
         skill.damage = 200
-        self.skill_dict[skill.config_id] = skill
+        add(skill)
         
     def get_skill(self, config_id):
         return self.skill_dict.get(config_id, None)
@@ -189,6 +191,9 @@ class ConfigMgr:
         f1 = src_troop.army_amount.value / 1000 + src_troop.level*0.8
         f2 = src_troop.army_moral / 100
         value = cfg.damage * f1 * f2
+        
+        # 伤害跟军队人数正比
+        value *= src_troop.army_amount.value/100
         
         value = round(value - target_unit.defense)
         
