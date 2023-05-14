@@ -813,12 +813,14 @@ _TypeMap = {
     'RichTextLabel' : FRichTextLabel,
     'TextEdit' : FTextEdit,
     'Panel' : FPanel,
+    
     'ScrollContainer' : FContainer,
     'HBoxContainer' : FHBoxContainer,
     'VBoxContainer' : FVBoxContainer,
+    'GridContainer' : FContainer,
+
     'ItemList' : FItemList,
     'SubViewport' : FSubViewport,
-    
 }
 
 # 传给c++,那边,当新增一个类型的时候,需要注册到py端,关键需要保持type_id一致
