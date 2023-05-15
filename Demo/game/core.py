@@ -833,7 +833,7 @@ _TypeMap = {
     'RichTextLabel' : FRichTextLabel,
     'TextEdit' : FTextEdit,
     'Panel' : FPanel,
-    
+
     'ScrollContainer' : FContainer,
     'HBoxContainer' : FHBoxContainer,
     'VBoxContainer' : FVBoxContainer,

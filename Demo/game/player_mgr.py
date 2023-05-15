@@ -2,7 +2,7 @@
 # 2023年2月4日 bianpeng
 #
 
-from game.core import log_debug
+from game.core import log_debug, hsv_to_rgb
 from game.game_mgr import *
 from game.player_ai import PlayerAIComponent
 
@@ -77,6 +77,9 @@ class PlayerMgr:
         player.player_id = self.next_player_id
         self.player_dict[player.player_id] = player
         self.update_list.append(player)
+
+        player.flag_color = hsv_to_rgb((player.player_id - 10000)*30/360,
+            0.7, 1)
         
         return player
     

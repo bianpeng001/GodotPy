@@ -95,7 +95,7 @@ class GamePlay:
                     player = self.create_player(city_unit,
                             player_name=None,
                             is_main_player=False)
-                    player.flag_color = (random_1(), 0.4, 1)
+                    #player.flag_color = (random_1(), 0.4, 1)
                     log_debug('create player', player.player_name, city_unit.unit_name)
 
         # 默认创建一个空城
@@ -127,7 +127,7 @@ class GamePlay:
                             player_name=ctx_data['player_name'],
                             is_main_player=True)
                     
-                    player.flag_color = (1, 0, 0)
+                    #player.flag_color = (1, 0, 0)
                     
                     #hero = get_hero(player.main_hero_id)
                     hero = player.get_main_hero()
