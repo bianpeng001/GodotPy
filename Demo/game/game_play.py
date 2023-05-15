@@ -128,7 +128,6 @@ class GamePlay:
                             is_main_player=True)
                     
                     player.flag_color = (1, 0, 0)
-                    pm.main_player = player
                     
                     #hero = get_hero(player.main_hero_id)
                     hero = player.get_main_hero()
@@ -406,7 +405,7 @@ class GamePlay:
     def occupy_city(self, src_unit, city_unit):
         log_debug('occupy', src_unit.unit_name, city_unit.unit_name)
         if city_unit.owner_player_id != 0:
-            player = get_player(src_unit.owner_player_id)
+            player = get_player(city_unit.owner_player_id)
             # TODO: 转移到最近的城, 如果城丢光了, 就算灭了
             pass
         
@@ -427,7 +426,7 @@ class GamePlay:
         
         player = pm.new_player()
         if is_main_player:
-            pm.main_player = player
+            pm.set_main_player(player)
         player.player_name = player_name
         player.first_name = player_name[0]
         

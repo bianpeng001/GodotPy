@@ -3,6 +3,8 @@
 #
 
 from game.base_type import *
+from game.core import *
+from game.game_mgr import *
 
 #
 # 玩家的AI组件
@@ -14,9 +16,17 @@ class PlayerAIComponent(Component):
         self.player = player
         self.enabled = True
         
+        self.tick_time = 0
+        
     def update(self, delta_time):
-        if self.enabled:
-            pass
+        self.tick_time += delta_time
+        if self.tick_time > 0.1:
+            self.on_tick(self.tick_time)
+            self.tick_time = 0
+    
+    # 驱动一次ai
+    def on_tick(self, delta_time):
+        pass
     
 
 

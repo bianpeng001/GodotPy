@@ -160,6 +160,7 @@ def get_effect_config(config_id):
 __all__ = [
     'UnitTrait',
     'game_mgr',
+    'get_player',
     'get_main_player',
     'get_main_player_id',
     'get_main_camera',

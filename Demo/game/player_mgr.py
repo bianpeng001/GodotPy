@@ -52,31 +52,38 @@ class Player:
 
     def save(self):
         pass
-
+    
+    def update(self, delta_time):
+        if self.get_ai_comp().enabled:
+            self.get_ai_comp().update(delta_time)
+            
 #
 # 玩家管理器
 #
 class PlayerMgr:
     def __init__(self):
         self.player_dict = {}
-        self.next_player_id = 100
-
-        self.main_player = None
+        self.next_player_id = 10000
         
         self.update_list = []
-
-    @property
-    def main_player_id(self):
-        return self.main_player.player_id
-
+        
+        self.main_player = None
+        self.main_player_id = 0
+        
     def new_player(self):
         player = Player()
-
+        
         self.next_player_id += 1
         player.player_id = self.next_player_id
         self.player_dict[player.player_id] = player
+        self.update_list.append(player)
         
         return player
+    
+    def set_main_player(self, player):
+        self.main_player = player
+        self.main_player_id = player.player_id
+        player.get_ai_comp().enabled = False
 
     def get_player(self, player_id):
         player = self.player_dict.get(player_id, None)
@@ -91,8 +98,8 @@ class PlayerMgr:
     
     def update(self, delta_time):
         for player in self.update_list:
-            player.update(self, delta_time)
-            
+            player.update(delta_time)
+
 
 
 
