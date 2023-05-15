@@ -341,13 +341,13 @@ class GamePlay:
         cfg = game_mgr.config_mgr.get_skill(skill_config_id)
         
         # 放特效
-        effect_item = game_mgr.effect_mgr.play_effect2(cfg.effect_id)
+        effect_item = game_mgr.effect_mgr.play_effect3(src_unit.unit_id, cfg.effect_id)
         effect_item.set_position(*src_unit.get_position())
         effect_item.look_at(*target_unit.get_position())
         
         
         # 放技能名字的特效
-        effect_item = game_mgr.effect_mgr.play_effect2(2004)
+        effect_item = game_mgr.effect_mgr.play_effect3(src_unit.unit_id, 2004)
         effect_item.attach_unit = target_unit
         #effect_item.set_text(cfg.skill_name)
         effect_item.set_text(game_mgr.config_mgr.get_skill_word())

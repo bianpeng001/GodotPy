@@ -323,7 +323,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             self.popup_dialog(msg, 1.5)
         elif self.satrap != 0:
             hero = game_mgr.hero_mgr.get_hero(self.satrap)
-            dlg = random_select_item(game_mgr.config_mgr.neizheng_strap_dialog_list)
+            dlg, _ = random_select_item(game_mgr.config_mgr.neizheng_strap_dialog_list)
             msg = f'{hero.hero_name}: {dlg}'
             self.popup_dialog(msg, 1.5)
 

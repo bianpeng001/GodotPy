@@ -151,6 +151,9 @@ def get_unit_name(unit_id):
     unit = get_unit(unit_id)
     return unit.unit_name if unit else ''
 
+def get_effect_config(config_id):
+    return game_mgr.config_mgr.get_effect(config_id)
+    
 __all__ = [
     'UnitTrait',
     'game_mgr',
@@ -162,6 +165,7 @@ __all__ = [
     'get_hero_name',
     'get_unit',
     'get_unit_name',
+    'get_effect_config',
 ]
 
 

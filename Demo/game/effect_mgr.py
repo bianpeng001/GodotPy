@@ -5,19 +5,17 @@
 from game.core import log_debug, OS, obstacle
 from game.game_mgr import *
 
-
-def get_config(config_id):
-    return game_mgr.config_mgr.get_effect(config_id)
-
 #
 # effect实例
 #
-class EffectItem:
+class EffectItemBase:
     def __init__(self, config_id):
         self.config_id = config_id
-        self.life_time = get_config(self.config_id).life_time
+        self.life_time = get_effect_config(self.config_id).life_time
         
         self.item_id = 0
+        # 释放者
+        self.caster_unit_id = 0
         self.node = None
         self.time = 0
         
@@ -36,7 +34,7 @@ class EffectItem:
             self.do_load()
             
     def do_load(self):
-        self.node = OS.instantiate(get_config(self.config_id).res_path)
+        self.node = OS.instantiate(get_effect_config(self.config_id).res_path)
         
     def update(self):
         pass
@@ -44,14 +42,14 @@ class EffectItem:
 #
 # 粒子特效
 #
-class ParticleEffectItem(EffectItem):
+class ParticleEffectItem(EffectItemBase):
     def update(self):
         pass
 
 #
 # 飘字, 也是个特效
 #
-class TextEffectItem(EffectItem):
+class TextEffectItem(EffectItemBase):
     def __init__(self, config_id):
         super().__init__(config_id)
         
@@ -77,7 +75,7 @@ class TextEffectItem(EffectItem):
 #
 #
 #
-class BigTextEffectItem(EffectItem):
+class BigTextEffectItem(EffectItemBase):
     def __init__(self, config_id):
         super().__init__(config_id)
         
@@ -101,8 +99,9 @@ class BigTextEffectItem(EffectItem):
 #
 # 普通特效
 #
-class SimpleEffectItem(EffectItem):
-    pass
+class SimpleEffectItem(EffectItemBase):
+    def update(self):
+        pass
 
 
 #
@@ -110,15 +109,17 @@ class SimpleEffectItem(EffectItem):
 #
 class EffectMgr:
     def __init__(self):
+        self.next_item_id = 10000
+        
         self.effect_list = []
         self.back_effect_list = []
 
         self.cache_list = []
-        self.next_item_id = 10000
         
         self.effect_class_dict = {
             2001: ParticleEffectItem,
             2002: TextEffectItem,
+            2003: SimpleEffectItem,
             2004: BigTextEffectItem,
         }
     
@@ -145,6 +146,7 @@ class EffectMgr:
 
         self.next_item_id += 1
         effect.item_id = self.next_item_id
+        
         effect.time = 0
         effect.set_visible(True)
         
@@ -153,6 +155,11 @@ class EffectMgr:
     
     def play_effect2(self, config_id):
         effect_item = self.new_effect(config_id)
+        return effect_item
+    
+    def play_effect3(self, caster_unit_id, config_id):
+        effect_item = self.new_effect(config_id)
+        effect_item.caster_unit_id = caster_unit_id
         return effect_item
     
     @obstacle

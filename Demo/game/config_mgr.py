@@ -5,7 +5,7 @@
 import math
 import random
 
-from game.core import log_debug, random_100
+from game.core import log_debug, random_100, random_select_item
 
 #
 #
@@ -141,40 +141,17 @@ class ConfigMgr:
         add(skill)
         
         self.skill_words = [
-            '赤膊上阵',
-            '战鼓雷鸣',
-            '出生入死',
-            '暗渡陈仓',
-            '势如破竹',
-            '狼烟滚滚',
-            '你死我活',
-            '烽烟四起',
-            '擒贼先擒王',
-            '杀声震天',
-            '枪林弹雨',
-            '奋不顾身',
-            '尸骨遍地',
-            '刀光剑影',
-            '机智勇敢',
-            '硝烟弥漫',
-            '狂轰乱炸',
-            '一马当先',
-            '血流成河',
-            '智勇双全',
-            '战火纷飞',
-            '出其不意',
-            '前赴后继',
-            '炮火连天',
-            '腥风血雨',
-            '浩浩荡荡',
-            '冲锋陷阵',
-            '孤军奋战',
-            '奋勇杀敌',
-            '千军万马',
-            '白刃相接',
-            '金鼓连天',
-            '攻其不备',
+            '赤膊上阵','战鼓雷鸣','出生入死','暗渡陈仓','势如破竹',
+            '狼烟滚滚','你死我活','烽烟四起','擒贼先擒王','杀声震天',
+            '枪林弹雨','奋不顾身','尸骨遍地','刀光剑影','机智勇敢',
+            '硝烟弥漫','狂轰乱炸','一马当先','血流成河','智勇双全',
+            '战火纷飞','出其不意','前赴后继','炮火连天','腥风血雨',
+            '浩浩荡荡','冲锋陷阵','孤军奋战','奋勇杀敌','千军万马',
+            '撒豆成兵','毁天灭地','引天雷击','突击斩首','快马重刀',
+            '一决生死','日不移影',
+            '单挑','三板斧',
         ]
+        
     def get_skill_word(self):
         return select_one(self.skill_words)
         
@@ -204,7 +181,7 @@ class ConfigMgr:
         # 地上插旗
         effect = EffectConfig()
         effect.config_id = 2003
-        effect.life_time = 0.8
+        effect.life_time = 1.5
         effect.res_path = 'res://models/Flag02.tscn'
         add(effect)
         
@@ -355,15 +332,10 @@ class ConfigMgr:
             return f'{value:.2f}亿'
 
 def select_one(item_list, delete=False):
-    count = len(item_list)
-
-    index = math.floor(random.random()*count)
-    item = item_list[index]
-
+    item, index = random_select_item(item_list)
     if delete:
-        item_list[index] = item_list[count - 1]
+        item_list[index] = item_list[-1]
         item_list.pop()
-
     return item
 
 # https://zh.wikipedia.org/wiki/%E4%B8%89%E5%9B%BD%E8%A1%8C%E6%94%BF%E5%8C%BA%E5%88%92
