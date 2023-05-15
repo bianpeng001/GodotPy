@@ -10,7 +10,7 @@ from game.game_mgr import *
 from game.event_name import *
 from game.wait import *
 from game.base_type import *
-from game.config_mgr import parse_name
+from game.config_mgr import parse_name, new_hero_name
 
 #
 # 游戏的控制逻辑, 事件响应啥的，集中到这里来
@@ -79,9 +79,27 @@ class GamePlay:
 
         def in_range(x, min, max):
             return x >= min and x < max
+        
+        def co_create_robot_player():
+            while not pm.main_player:
+                yield None
+                
+            for i in range(30):
+                yield None
+                city_unit = game_mgr.unit_mgr.find_unit(lambda x:
+                        x.unit_type == UT_CITY and \
+                        in_range(x.get_x(), -120, 120) and \
+                        in_range(x.get_z(), -120, 120) and \
+                        x.owner_player_id == 0)
+                if city_unit:
+                    player = self.create_player(city_unit,
+                            player_name=None,
+                            is_main_player=False)
+                    player.flag_color = (random_1(), 0.4, 1)
+                    log_debug('create player', player.player_name, city_unit.unit_name)
 
         # 默认创建一个空城
-        def co_choose_base_city():
+        def co_create_main_player():
             while True:
                 yield None
                 
@@ -159,7 +177,8 @@ class GamePlay:
                     return True
 
                 log_debug('select', index)
-                game_mgr.co_mgr.start(co_choose_base_city())
+                game_mgr.co_mgr.start(co_create_main_player())
+                game_mgr.co_mgr.start(co_create_robot_player())
                 game_mgr.co_mgr.start(co_show_dialog())
 
             def show_start_options():
@@ -336,7 +355,9 @@ class GamePlay:
     
         #log_debug('create troop', troop.unit_id, troop.unit_name)
 
-    # 释放技能, 伤害结算....
+    #
+    # 释放技能, 伤害结算. 目前这个是伤害的唯一方式
+    #
     def cast_skill(self, skill_config_id, src_unit, target_unit):
         cfg = game_mgr.config_mgr.get_skill(skill_config_id)
         
@@ -344,7 +365,6 @@ class GamePlay:
         effect_item = game_mgr.effect_mgr.play_effect3(src_unit.unit_id, cfg.effect_id)
         effect_item.set_position(*src_unit.get_position())
         effect_item.look_at(*target_unit.get_position())
-        
         
         # 放技能名字的特效
         effect_item = game_mgr.effect_mgr.play_effect3(src_unit.unit_id, 2004)

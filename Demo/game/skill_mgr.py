@@ -56,7 +56,9 @@ class SkillMgr:
     def _add_skill(self, item):
         self.item_list.append(item)
         
-    # 释放技能
+    #   
+    # 释放技能, 以及在技能的阶段放特效!!!
+    #
     def cast_skill(self, config_id, on_complete_cb = None):
         self.next_item_id += 1
         cfg = game_mgr.config_mgr.get_skill(config_id)
@@ -73,4 +75,6 @@ class SkillMgr:
         item.on_start()
         
         return item
+
+
 

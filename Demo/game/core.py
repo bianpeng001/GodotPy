@@ -279,6 +279,8 @@ def random_100():
     return random_int(0, 100)
 
 # random.random() => [0, 1)
+def random_1():
+    return random.random()
 
 # => [min, max], 包括头尾
 def random_int(min, max):
@@ -287,7 +289,7 @@ def random_int(min, max):
 def random_select_item(item_list):
     if not item_list or len(item_list) == 0:
         return None, -1
-    index = random.randint(0, len(item_list) - 1)
+    index = random.randint(0, len(item_list)-1)
     return item_list[index], index
 
 def clamp(v):
@@ -321,7 +323,25 @@ def raycast_shape(camera, x,y,z):
 def set_surface_color(node, index, r, g, b):
     gp.material_set_albedo_color(node, index, r, g, b)
 
-
+def hsv_to_rgb(h,s,v):
+    if s == 0:
+        return (v,v,v)
+    f, i = math.modf(h*6)
+    p,q,t = v*(1-s), v*(1-s*f), v*(1-s*(1-f))
+    i = round(i) % 6
+    if i == 0:
+        return (v,t,p)
+    elif i == 1:
+        return (q,v,p)
+    elif i == 2:
+        return (p,v,t)
+    elif i == 3:
+        return (p,q,v)
+    elif i == 4:
+        return (t,p,v)
+    elif i == 5:
+        return (v,p,q)
+    
 #------------------------------------------------------------
 # api
 #------------------------------------------------------------

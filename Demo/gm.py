@@ -1,7 +1,8 @@
-import imp
+import importlib
 
 from game.game_mgr import *
 from game.config_mgr import new_hero_name
+from game.core import *
 
 main_camera = game_mgr.camera_mgr.main_camera
 
@@ -65,7 +66,8 @@ def test_pos():
 
 def test_damage():
     unit1 = game_mgr.unit_mgr.get_unit_by_name('安喜')
-    game_mgr.effect_mgr.play_damage(1234, unit1)
+    if unit1:
+        game_mgr.effect_mgr.play_damage(1234, unit1)
 
 test_damage()
 
@@ -75,3 +77,5 @@ def create_player(city_name1):
     player = game_mgr.game_play.create_player(city_unit)
 
 #create_player()
+
+print(hsv_to_rgb(1,1,1))

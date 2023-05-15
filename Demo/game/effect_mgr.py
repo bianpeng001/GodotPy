@@ -10,14 +10,19 @@ from game.game_mgr import *
 #
 class EffectItemBase:
     def __init__(self, config_id):
+        # 配置id
         self.config_id = config_id
+        # 生命周期
         self.life_time = get_effect_config(self.config_id).life_time
         
+        # 实例id
         self.item_id = 0
         # 释放者
         self.caster_unit_id = 0
-        self.node = None
+        # 特效时间
         self.time = 0
+        # 特效对应的节点
+        self.node = None
         
     def set_visible(self, value):
         if self.node:
@@ -141,7 +146,8 @@ class EffectMgr:
     def new_effect(self, config_id):
         effect = self.revive_cache(config_id)
         if not effect:
-            effect = self.get_effect_class(config_id)(config_id)
+            effect_class = self.get_effect_class(config_id)
+            effect = effect_class(config_id)
             effect.load()
 
         self.next_item_id += 1
@@ -155,6 +161,7 @@ class EffectMgr:
     
     def play_effect2(self, config_id):
         effect_item = self.new_effect(config_id)
+        effect_item.caster_unit_id = 0
         return effect_item
     
     def play_effect3(self, caster_unit_id, config_id):
@@ -179,6 +186,7 @@ class EffectMgr:
     def play_damage(self, value, attach_unit):
         effect_item = self.new_effect(2002)
         
+        effect_item.caster_unit_id = 0
         effect_item.set_text(value)
         effect_item.attach_unit = attach_unit
         
