@@ -425,10 +425,10 @@ class GamePlay:
         pm = game_mgr.player_mgr
         
         player = pm.new_player()
-        if is_main_player:
-            pm.set_main_player(player)
         player.player_name = player_name
         player.first_name = player_name[0]
+        if is_main_player:
+            pm.set_main_player(player)
         
         # 玩家自己对应的武将
         hero = game_mgr.hero_mgr.new_hero()
