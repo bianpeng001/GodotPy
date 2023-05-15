@@ -405,8 +405,13 @@ class GamePlay:
     # 占领
     def occupy_city(self, src_unit, city_unit):
         log_debug('occupy', src_unit.unit_name, city_unit.unit_name)
+        if city_unit.owner_player_id != 0:
+            player = get_player(src_unit.owner_player_id)
+            # TODO: 转移到最近的城, 如果城丢光了, 就算灭了
+            pass
+        
         if src_unit.owner_player_id != 0:
-            player = game_mgr.player_mgr.get_player(src_unit.owner_player_id)
+            player = get_player(src_unit.owner_player_id)
             self.set_city_owner(city_unit, player)
             controller = city_unit.get_controller()
             controller.get_hud_comp().set_valid(False)

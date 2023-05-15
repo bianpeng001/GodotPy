@@ -114,6 +114,9 @@ class UnitTrait:
 
 # 一些简化工具方法
 
+def get_player(player_id):
+    return game_mgr.player_mgr.get_player(player_id)
+
 def get_main_player():
     return game_mgr.player_mgr.main_player
 
