@@ -349,7 +349,8 @@ class GamePlay:
         # 放技能名字的特效
         effect_item = game_mgr.effect_mgr.play_effect2(2004)
         effect_item.attach_unit = target_unit
-        effect_item.set_text(cfg.skill_name)
+        #effect_item.set_text(cfg.skill_name)
+        effect_item.set_text(game_mgr.config_mgr.get_skill_word())
         
         # 修改战斗单位
         src_controller = src_unit.get_controller()

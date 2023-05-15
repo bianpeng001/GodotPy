@@ -140,6 +140,44 @@ class ConfigMgr:
         skill.damage = 200
         add(skill)
         
+        self.skill_words = [
+            '赤膊上阵',
+            '战鼓雷鸣',
+            '出生入死',
+            '暗渡陈仓',
+            '势如破竹',
+            '狼烟滚滚',
+            '你死我活',
+            '烽烟四起',
+            '擒贼先擒王',
+            '杀声震天',
+            '枪林弹雨',
+            '奋不顾身',
+            '尸骨遍地',
+            '刀光剑影',
+            '机智勇敢',
+            '硝烟弥漫',
+            '狂轰乱炸',
+            '一马当先',
+            '血流成河',
+            '智勇双全',
+            '战火纷飞',
+            '出其不意',
+            '前赴后继',
+            '炮火连天',
+            '腥风血雨',
+            '浩浩荡荡',
+            '冲锋陷阵',
+            '孤军奋战',
+            '奋勇杀敌',
+            '千军万马',
+            '白刃相接',
+            '金鼓连天',
+            '攻其不备',
+        ]
+    def get_skill_word(self):
+        return select_one(self.skill_words)
+        
     def get_skill(self, config_id):
         return self.skill_dict.get(config_id, None)
         

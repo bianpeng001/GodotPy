@@ -851,8 +851,10 @@ def GetWrappedObject(gdobj):
 
     return obj
 
-
-
+# 标记即将过时的内容
 def obstacle(fun):
-    return fun
+    def _fun(*args, **kw_args):
+        log_debug('obstacle func', fun)
+        return fun(*args, **kw_args)
+    return _fun
 

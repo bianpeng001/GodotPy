@@ -301,6 +301,8 @@ def when_visible(fun):
     def _fun(self, *args, **kwargs):
         if self.is_show():
             return fun(self, *args, **kwargs)
+        else:
+            log_debug('ignore func when not visible', self)
     
     return _fun
 

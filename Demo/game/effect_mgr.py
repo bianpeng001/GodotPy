@@ -2,7 +2,7 @@
 # 2023年2月20日 bianpeng
 #
 
-from game.core import log_debug, OS
+from game.core import log_debug, OS, obstacle
 from game.game_mgr import *
 
 
@@ -74,6 +74,9 @@ class TextEffectItem(EffectItem):
         self.text_node.set_color(1,0,0,1)
         self.text_node.set_text(str(value))
 
+#
+#
+#
 class BigTextEffectItem(EffectItem):
     def __init__(self, config_id):
         super().__init__(config_id)
@@ -92,7 +95,7 @@ class BigTextEffectItem(EffectItem):
         
     def update(self):
         x,y,z = self.attach_unit.get_position()
-        x1,y1 = get_main_camera().world_to_screen(x,y+2-2*((self.time/self.life_time))**2,z)
+        x1,y1 = get_main_camera().world_to_screen(x,y+8-5*((self.time/self.life_time))**2,z)
         self.node.set_position(x1-56,y1+32)
 
 #
@@ -145,23 +148,14 @@ class EffectMgr:
         effect.time = 0
         effect.set_visible(True)
         
-        self.add(effect)
+        self.effect_list.append(effect)
         return effect
     
     def play_effect2(self, config_id):
         effect_item = self.new_effect(config_id)
         return effect_item
     
-    # 伤害飘字
-    def play_damage(self, value, attach_unit):
-        effect_item = self.new_effect(2002)
-        
-        effect_item.set_text(value)
-        effect_item.attach_unit = attach_unit
-        
-        return effect_item
-    
-    # deprecated
+    @obstacle
     def play_effect1(self, x,y,z, x1,y1,z1):
         effect = self.new_effect(0)
         
@@ -173,10 +167,16 @@ class EffectMgr:
         effect.node.look_at(x1,y1,z1)
         ps = effect.node.find_node('CPUParticles3D')
         ps.set_emitting(True)
-
-    def add(self, effect):
-        self.effect_list.append(effect)
-
+        
+    # 伤害飘字
+    def play_damage(self, value, attach_unit):
+        effect_item = self.new_effect(2002)
+        
+        effect_item.set_text(value)
+        effect_item.attach_unit = attach_unit
+        
+        return effect_item
+        
     def update(self, delta_time):
         # swap buffer
         tmp = self.effect_list
@@ -188,7 +188,7 @@ class EffectMgr:
                 effect.time += delta_time
                 effect.update()
                 if effect.time < effect.life_time:
-                    self.add(effect)
+                    self.effect_list.append(effect)
                 else:
                     effect.set_visible(False)
                     self.cache_list.append(effect)
