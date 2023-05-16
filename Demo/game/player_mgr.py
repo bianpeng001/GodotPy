@@ -22,10 +22,14 @@ class PlayerController:
         brain_comp.blackboard = PlayerBlackboard()
         
         brain_comp.add_state('start', AIState_PlayerStart())
+        brain_comp.add_state('develop', AIState_PlayerDevelop())
         brain_comp.goto_state('start')
     
     def get_brain_comp(self):
         return self.brain_comp
+    
+    def get_player(self):
+        return self.player
     
     def update(self, delta_time):
         if self.get_brain_comp().enabled:

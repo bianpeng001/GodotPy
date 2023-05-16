@@ -137,7 +137,7 @@ class ConfigMgr:
         skill.life_time = 1.0
         skill.cooldown = 4.0
         # 伤害每千人
-        skill.damage = 200
+        skill.damage = 60
         add(skill)
         
         self.skill_words = [
