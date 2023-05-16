@@ -168,8 +168,8 @@ class CmdPanelController(UIController, PopupTrait):
         effect_item = game_mgr.effect_mgr.play_effect2(2003)
         effect_item.set_position(x,y,z)
 
-        if unit.owner_is_main_player():
-            self.on_rect_select_units_changed([unit])
+        # if unit.owner_is_main_player():
+        #     self.on_rect_select_units_changed([unit])
     
     @when_visible
     def on_scene_ground_click(self):

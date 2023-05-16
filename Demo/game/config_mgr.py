@@ -107,7 +107,7 @@ class ConfigMgr:
         self.init_skill_config()
         
         # rvo 参数
-        self.rvo_factor = 150
+        self.rvo_factor = 85
         # rvo 斥力半径, 之外是不提供斥力的, 是距离**2
         self.rvo_sqrdis = 7*7
         
@@ -137,7 +137,7 @@ class ConfigMgr:
         skill.life_time = 1.0
         skill.cooldown = 4.0
         # 伤害每千人
-        skill.damage = 200
+        skill.damage = 60
         add(skill)
         
         self.skill_words = [

@@ -61,6 +61,7 @@ OBJECT_OBJS = [
     'Objects/unicodectype.c',
     'Objects/unionobject.c',
     'Objects/weakrefobject.c',
+    'Objects/typevarobject.c',
 ]
 PYTHON_OBJS = [
     'Python/_warnings.c',
