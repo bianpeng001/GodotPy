@@ -41,28 +41,30 @@ class PlayerController:
 class Player:
     def __init__(self):
         self.player_id = 0
+        
         self.player_name = '刘备'
         self.first_name = '刘'
-
-        self.city_list = []
-        self.troop_list = []
-        self.hero_list = []
         
-        # 主城
+        # 资产列表, 城池,武将, 以及军队
+        self.city_list = []
+        self.hero_list = []
+        self.troop_list = []
+        
+        # 主城, 治所
         self.main_city_id = 0
-        # 自己的英雄本体
+        # 玩家对应的英雄
         self.main_hero_id = 0
         
-        # 旗帜的颜色
-        self.flag_color = (1,1,1)
-        self.flag_mat = None
-
         # 资源总数
         self.total_rice_amount = 0
         self.total_iron_amount = 0
         self.total_stone_amount = 0
         self.total_wood_amount = 0
         self.total_money_amount = 0
+        
+        # 旗帜的颜色
+        self.flag_color = (1,1,1)
+        self.flag_mat = None
         
         # 控制器, AI等
         self._controller = PlayerController(self)
@@ -96,14 +98,15 @@ class PlayerMgr:
         self.main_player_id = 0
         
     def new_player(self):
-        player = Player()
-        
         self.next_player_id += 1
+        
+        player = Player()
         player.player_id = self.next_player_id
         self.player_dict[player.player_id] = player
         self.update_list.append(player.get_controller())
 
-        player.flag_color = hsv_to_rgb((player.player_id - 10000)*30/360,
+        player.flag_color = hsv_to_rgb(
+            (player.player_id - 10000)*30/360,
             0.7, 1)
         
         return player
