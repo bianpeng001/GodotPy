@@ -23,6 +23,7 @@ class PlayerController:
         
         brain_comp.add_state('start', AIState_PlayerStart())
         brain_comp.add_state('develop', AIState_PlayerDevelop())
+        
         brain_comp.goto_state('start')
     
     def get_brain_comp(self):

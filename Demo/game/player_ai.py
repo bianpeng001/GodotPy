@@ -3,7 +3,7 @@
 #
 
 from game.base_type import *
-from game.core import log_debug
+from game.core import log_debug, random_1
 from game.game_mgr import *
 
 
@@ -31,7 +31,6 @@ class AIState_Player(AIState):
     def do_enter(self, brain_comp):
         pass
 
-
 #
 # 发展, 经济, 出战等等
 #
@@ -58,7 +57,7 @@ class PlayerBrainComponent(Component, AIMachine):
         AIMachine.__init__(self)
         
         self.enabled = True
-        self.tick_time = 0
+        self.tick_time = random_1() * 3
         
     def update(self, delta_time):
         self.tick_time += delta_time
