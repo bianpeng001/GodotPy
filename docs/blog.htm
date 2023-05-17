@@ -63,6 +63,7 @@
 		</video>
 	-->
 
+		<a href="#" id="main-line">主线</a>
 		<div id="markedDiv" class="markdown-body">
 			loading
 		</div>
@@ -75,7 +76,7 @@
 		<div id="debugLog"></div>
 
 		<!-- jquery -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 		<!-- marked -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
 		
@@ -87,6 +88,12 @@
 					// marked js, js based markdown viewer
 					// https://github.com/markedjs/marked
 					$('#markedDiv').html(marked.parse(data))
+				})
+
+				$('#main-line').click(() => {
+					$.get('md/mainline.md?_=' + new Date().getTime(), data => {
+						$('#markedDiv').html(marked.parse(data))
+					})
 				})
 				
 				let a='m1111o:bianpeng112-113.com'

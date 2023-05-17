@@ -104,12 +104,13 @@ class CityUnit(Unit, UnitTrait):
     def load_model(self):
         is_gate = self.unit_name.endswith('关')
 
-        if self.city_type == CT_XIAN:
+        if is_gate:
+            path = 'res://models/Gate01.tscn'
+        elif self.city_type == CT_XIAN:
             path = 'res://models/City02.tscn'
         else:
             path = 'res://models/City01.tscn'
-            if is_gate:
-                path = 'res://models/Gate01.tscn'
+            
         
         self.model_node = OS.instantiate(path)
         if is_gate:

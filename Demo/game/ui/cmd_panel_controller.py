@@ -161,7 +161,8 @@ class CmdPanelController(UIController, PopupTrait):
             else:
                 item.unit_id = 0
                 item.btn_obj.set_visible(False)
-    
+                
+    @when_visible
     def on_scene_unit_click(self, unit):
         # 插旗表示目标位置
         x,y,z = get_cursor_position()
