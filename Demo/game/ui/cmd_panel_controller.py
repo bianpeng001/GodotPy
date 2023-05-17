@@ -185,8 +185,8 @@ class CmdPanelController(UIController, PopupTrait):
     
     @when_visible
     def on_scene_ground_click(self):
-        x,y,z = get_cursor_position()
         # 插旗表示目标位置
+        x,y,z = get_cursor_position()
         effect_item = game_mgr.effect_mgr.play_effect2(2003)
         effect_item.set_position(x,y,z)
         
@@ -194,12 +194,14 @@ class CmdPanelController(UIController, PopupTrait):
     
     def set_cur_dlg(self, dlg):
         if self.cur_dlg and self.cur_dlg.is_show():
-            log_debug('close cur dlg', self.cur_dlg)
             self.cur_dlg.defer_close()
             self.cur_dlg = None
+            
         self.cur_dlg = dlg
+        
         if self.cur_dlg and self.cur_dlg.is_show():
             self.cur_dlg.defer_close()
+            self.cur_dlg = None
             return True
         
 
