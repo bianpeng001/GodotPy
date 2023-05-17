@@ -15,7 +15,7 @@ from game.city_controller import CityController
 #
 # 城池, 根据发展也是有级别的. 可以是, 县郡州
 #
-class CityUnit(Unit, UnitTrait):
+class CityUnit(Unit):
     def __init__(self):
         super().__init__()
 

@@ -2,14 +2,14 @@
 # 2023年2月10日 bianpeng
 #
 from game.core import log_debug, OS
-from game.game_mgr import game_mgr, UnitTrait
+from game.game_mgr import *
 from game.base_type import Unit, LimitValue
 from game.troop_controller import TroopController
 
 #
 # 部队
 #
-class TroopUnit(Unit, UnitTrait):
+class TroopUnit(Unit):
     def __init__(self):
         super().__init__()
 

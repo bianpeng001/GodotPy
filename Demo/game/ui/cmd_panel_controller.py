@@ -141,7 +141,7 @@ class CmdPanelController(UIController, PopupTrait):
 
     def on_rect_select_units_changed(self, unit_list):
         # 只能操作自己的单位
-        self.unit_list = list(filter(lambda x: x.owner_is_main_player(), unit_list))
+        self.unit_list = list(filter(lambda x: check_main_owner(x), unit_list))
         
         if len(self.unit_list) > 0:
             if not self.is_show():
@@ -165,15 +165,14 @@ class CmdPanelController(UIController, PopupTrait):
     # 这里的限制要去掉           
     #@when_visible
     def on_scene_unit_click(self, unit):
-        # 插旗表示目标位置
-        x,y,z = get_cursor_position()
-        effect_item = game_mgr.effect_mgr.play_effect2(2003)
-        effect_item.set_position(x,y,z)
-        
-        if len(self.unit_list) == 0:
-            if unit.owner_is_main_player():
-                self.on_rect_select_units_changed([unit])
+        if len(self.unit_list) == 0 and check_main_owner(unit):
+            self.on_rect_select_units_changed([unit])
         else:
+            # 插旗表示目标位置
+            x,y,z = get_cursor_position()
+            effect_item = game_mgr.effect_mgr.play_effect2(2003)
+            effect_item.set_position(x,y,z)
+            
             self.set_troop_target_pos(x,z)
     
     def set_troop_target_pos(self, x,z):

@@ -255,13 +255,13 @@ class UIMgr(NodeObject):
         #print_line(f'click: {unit.unit_name}')
 
         if unit.unit_type == UT_CITY:
-            if unit.owner_is_main_player():
+            if check_main_owner(unit):
                 self.city_menu_controller.init(unit)
                 self.show_menu(self.city_menu_controller)
             else:
                 pass
         elif unit.unit_type == UT_TROOP:
-            if unit.owner_is_main_player():
+            if check_main_owner(unit):
                 self.troop_menu_controller.init(unit)
                 self.show_menu(self.troop_menu_controller)
             else:

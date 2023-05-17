@@ -107,11 +107,6 @@ class GameMgr():
 
 game_mgr = GameMgr()
 
-# 角色单位的共享实现
-class UnitTrait:
-    def owner_is_main_player(self):
-        return self.owner_player_id == get_main_player_id()
-
 # 一些简化工具方法
 
 def get_player(player_id):
@@ -126,6 +121,13 @@ def get_main_player_id():
 def get_main_camera():
     return game_mgr.camera_mgr.main_camera
 
+# 
+def check_owner(unit, player):
+    return unit.owner_player_id == player.player_id
+
+def check_main_owner(unit):
+    return unit.owner_player_id == get_main_player_id()
+    
 #
 # 鼠标位置, raycast到地面的世界坐标
 #
@@ -158,7 +160,6 @@ def get_effect_config(config_id):
     return game_mgr.config_mgr.get_effect(config_id)
     
 __all__ = [
-    'UnitTrait',
     'game_mgr',
     'get_player',
     'get_main_player',
@@ -170,6 +171,8 @@ __all__ = [
     'get_unit',
     'get_unit_name',
     'get_effect_config',
+    'check_owner',
+    'check_main_owner',
 ]
 
 
