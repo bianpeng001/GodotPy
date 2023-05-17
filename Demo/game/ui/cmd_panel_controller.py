@@ -199,5 +199,3 @@ class CmdPanelController(UIController, PopupTrait):
 
 
 
-
-
