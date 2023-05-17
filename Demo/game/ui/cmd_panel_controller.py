@@ -161,16 +161,28 @@ class CmdPanelController(UIController, PopupTrait):
             else:
                 item.unit_id = 0
                 item.btn_obj.set_visible(False)
-                
-    @when_visible
+
+    # 这里的限制要去掉           
+    #@when_visible
     def on_scene_unit_click(self, unit):
         # 插旗表示目标位置
         x,y,z = get_cursor_position()
         effect_item = game_mgr.effect_mgr.play_effect2(2003)
         effect_item.set_position(x,y,z)
-
-        # if unit.owner_is_main_player():
-        #     self.on_rect_select_units_changed([unit])
+        
+        if len(self.unit_list) == 0:
+            if unit.owner_is_main_player():
+                self.on_rect_select_units_changed([unit])
+        else:
+            self.set_troop_target_pos(x,z)
+    
+    def set_troop_target_pos(self, x,z):
+        for unit in filter(lambda x: x.unit_type == UT_TROOP, self.unit_list):
+            unit.target_unit_id = 0
+            unit.target_pos = (x,z)
+            
+            brain_comp = unit.get_controller().get_brain_comp()
+            brain_comp.goto_state('start')
     
     @when_visible
     def on_scene_ground_click(self):
@@ -179,12 +191,7 @@ class CmdPanelController(UIController, PopupTrait):
         effect_item = game_mgr.effect_mgr.play_effect2(2003)
         effect_item.set_position(x,y,z)
         
-        for unit in filter(lambda x: x.unit_type == UT_TROOP, self.unit_list):
-            unit.target_unit_id = 0
-            unit.target_pos = (x,z)
-            
-            brain_comp = unit.get_controller().get_brain_comp()
-            brain_comp.goto_state('start')
+        self.set_troop_target_pos(x,z)
     
     def set_cur_dlg(self, dlg):
         if self.cur_dlg and self.cur_dlg.is_show():
