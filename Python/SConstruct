@@ -426,7 +426,7 @@ env2.Append(CPPPATH = incs)
 if is_release:
     env2.Append(CCFLAGS = ['/O2', '/MD'])
     
-# 资源文件,包含app的图标
+# 资源文件,包含app的图标 -> python3.res
 PythonExeRes = env2.RES('python3.rc')
 
 # python.exe
