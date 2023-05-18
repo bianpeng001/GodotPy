@@ -27,8 +27,8 @@ class BuildPanelController(UIController, PopupTrait):
 
         game_mgr.event_mgr.add(SCENE_GROUND_CLICK, self.on_scene_ground_click)
 
-        farm_obj = FNode3D.instantiate('res://models/Farm01.tscn')
-        work_house_obj = FNode3D.instantiate('res://models/WorkHouse01.tscn')
+        farm_obj = OS.instantiate('res://models/Farm01.tscn')
+        work_house_obj = OS.instantiate('res://models/WorkHouse01.tscn')
         self.item_list.append(farm_obj)
         self.item_list.append(work_house_obj)
 

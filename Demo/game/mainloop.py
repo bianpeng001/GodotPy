@@ -3,12 +3,14 @@
 #
 
 from game.core import *
-from game.game_mgr import game_mgr
+from game.game_mgr import *
 from game.event_name import APP_LAUNCH, START_GAME
 
+#
 # 主循环, 控制主游戏生命周期
 # enter_tree, up to down
 # ready, down to up, 当mainloop收到ready的时候，整个场景都ready过了
+#
 class MainLoop(NodeObject):
     def __init__(self):
         super().__init__()

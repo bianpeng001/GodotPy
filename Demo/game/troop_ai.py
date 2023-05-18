@@ -423,7 +423,7 @@ class AIState_AttackCity(AIState_Troop):
         # 射箭
         if not blackboard.shoot_effect:
             path = 'res://effects/Shoot01.tscn'
-            blackboard.shoot_effect = FNode3D.instantiate(path)
+            blackboard.shoot_effect = OS.instantiate(path)
             blackboard.shoot_effect.reparent(controller.get_model_node())
             blackboard.shoot_effect.set_position(0, 0, 0)
             blackboard.shoot_effect.set_rotation(0, 0, 0)

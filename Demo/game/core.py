@@ -11,10 +11,12 @@ import os
 import GodotPy as gp
 
 #------------------------------------------------------------
-#
+# 简单的数学库
 #------------------------------------------------------------
 
+#
 # Plane
+#
 class Plane:
     def __init__(self, x0, y0 ,z0, n_x, n_y, n_z):
         self.x0 = x0
@@ -25,7 +27,9 @@ class Plane:
         self.n_y = n_y
         self.n_z = n_z
 
+#
 # Ray
+#
 class Ray:
     def __init__(self, x0, y0, z0, n_x, n_y, n_z):
         self.x0 = x0
@@ -49,6 +53,9 @@ class Ray:
     def get_point(self, d):
         return self.x0+self.n_x*d, self.y0+self.n_y*d, self.z0+self.n_z*d
 
+#
+#
+#
 class Vector4:
     def __init__(self):
         self.x = 0
@@ -56,7 +63,9 @@ class Vector4:
         self.z = 0
         self.w = 0
 
+#
 # 四元组
+#
 class Quaternion:
     def __init__(self):
         self.s = 0
@@ -67,7 +76,9 @@ class Quaternion:
         # TODO:
         return v
 
+#
 # 向量
+#
 class Vector3:
     up = None
     x_ais = None
@@ -187,7 +198,7 @@ Vector3.z_axis = Vector3(0, 0, 1)
 Vector3.up = Vector3.y_axis
 
 #------------------------------------------------------------
-# pattern
+# 模式相关的
 #------------------------------------------------------------
 
 # 单例
@@ -201,15 +212,6 @@ class Singleton:
 
     def __init__(self):
         pass
-
-# 管理器的基类，提供一个空的update
-class BaseMgr:
-    def update(self):
-        pass
-
-#------------------------------------------------------------
-#
-#------------------------------------------------------------
 
 # 对应于godot场景树的节点，的容器
 class NodeObject:
@@ -248,10 +250,6 @@ class NodeObject:
     # 构造函数之后回调
     def _create(self):
         pass
-
-#------------------------------------------------------------
-# api
-#------------------------------------------------------------
 
 # [-1, 1]
 def random_x():
@@ -562,10 +560,10 @@ class FNode3D(FNode):
     def get_forward(self):
         return gp.get_forward(self.get_gdobj())
 
-    @classmethod
-    def instantiate(cls, path):
-        gdobj = gp.instantiate(path)
-        return GetWrappedObject(gdobj)
+    # @classmethod
+    # def instantiate(cls, path):
+    #     gdobj = gp.instantiate(path)
+    #     return GetWrappedObject(gdobj)
 
 class FCamera3D(FNode3D):
     def screen_to_world(self, x,y):

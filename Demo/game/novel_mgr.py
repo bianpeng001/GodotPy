@@ -5,7 +5,7 @@
 from game.core import *
 
 # 剧情引擎
-class NovelMgr(BaseMgr):
+class NovelMgr(object):
     def __init__(self):
         pass
         
