@@ -127,6 +127,7 @@ PYTHON_OBJS = [
     'Python/fileutils.c',
     'Python/suggestions.c',
     'Python/perf_trampoline.c',
+    'Python/tracemalloc.c',
 ]
 MODULE_OBJS = [
     'Modules/main.c',
