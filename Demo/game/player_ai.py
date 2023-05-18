@@ -36,7 +36,8 @@ class AIState_Player(AIState):
 #
 class AIState_PlayerDevelop(AIState_Player):
     def update(self, brain_comp):
-        log_debug('AIState_PlayerDevelop', brain_comp.get_player().player_name)
+        #log_debug('AIState_PlayerDevelop', brain_comp.get_player().player_name)
+        pass
 
 #
 # 开始节点, 开始一阵以后, 应该进入内政
