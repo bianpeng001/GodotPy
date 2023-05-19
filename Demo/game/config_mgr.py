@@ -122,6 +122,7 @@ class ConfigMgr:
         self.fix_block_step = 0.1
         
         self.first_city_name = '平安'
+        self.new_player_text = '兄台姿容甚伟, 定非常人也, 请问尊姓大名?'
         
     def init_story_config(self):
         self.story_dict = {}
