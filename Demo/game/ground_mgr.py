@@ -11,7 +11,8 @@ from game.base_type import *
 from game.load_world_map import Bmp
 
 TILE_SIZE = 30
-Z_TILE_SIZE = TILE_SIZE*math.sqrt(3)/2
+#Z_TILE_SIZE = TILE_SIZE*math.sqrt(3)/2
+Z_TILE_SIZE = TILE_SIZE*2/math.sqrt(3)
 Z_RATIO = Z_TILE_SIZE/TILE_SIZE
 
 # col,row
@@ -77,6 +78,14 @@ class TileItem:
         st.add_triangle(0, 1, 2)
         st.add_triangle(0, 2, 3)
 
+        st.commit(mi)
+        
+    def generate_mesh3(self, mi):
+        st = FSurfaceTool()
+        st.set_uv(0.11,0.11)
+        st.set_normal(0, 1, 0)
+        
+        
         st.commit(mi)
 
     def generate_mesh(self, mi):

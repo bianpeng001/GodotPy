@@ -12,14 +12,14 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -472.0
+offset_right = -672.0
 offset_bottom = -248.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_right = 680.0
+offset_right = 480.0
 offset_bottom = 400.0
 theme_override_styles/panel = ExtResource("1_e50yn")
 
@@ -27,18 +27,18 @@ theme_override_styles/panel = ExtResource("1_e50yn")
 layout_mode = 0
 offset_left = 40.0
 offset_top = 60.0
-offset_right = 640.0
+offset_right = 440.0
 offset_bottom = 320.0
 theme = ExtResource("3_ehj5n")
-theme_override_font_sizes/normal_font_size = 30
+theme_override_font_sizes/normal_font_size = 24
 text = "军令"
 
 [node name="BtnOk" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 510.0
-offset_top = 360.0
-offset_right = 570.0
-offset_bottom = 389.0
+offset_left = 319.0
+offset_top = 357.0
+offset_right = 379.0
+offset_bottom = 386.0
 theme = ExtResource("3_ehj5n")
 theme_override_styles/normal = ExtResource("4_quock")
 theme_override_styles/hover = ExtResource("4_quock")
@@ -47,10 +47,10 @@ text = "确定"
 
 [node name="BtnCancel" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 590.0
-offset_top = 360.0
-offset_right = 650.0
-offset_bottom = 389.0
+offset_left = 399.0
+offset_top = 357.0
+offset_right = 459.0
+offset_bottom = 386.0
 theme = ExtResource("3_ehj5n")
 theme_override_styles/normal = ExtResource("5_5img4")
 theme_override_styles/hover = ExtResource("5_5img4")
@@ -59,10 +59,10 @@ text = "取消"
 
 [node name="BtnClose" type="TextureButton" parent="Panel"]
 layout_mode = 0
-offset_left = 655.0
-offset_top = 5.0
-offset_right = 675.0
-offset_bottom = 25.0
+offset_left = 448.0
+offset_top = 13.0
+offset_right = 468.0
+offset_bottom = 33.0
 texture_normal = ExtResource("6_qwk13")
 texture_pressed = ExtResource("6_qwk13")
 texture_hover = ExtResource("7_v7ipb")

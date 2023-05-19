@@ -204,19 +204,19 @@ class HeroMgr:
 
     def get_hero(self, hero_id):
         return self.hero_dict.get(hero_id, None)
-
-    # 英雄当前的活动, 安全调用, 判断是否存在
-    def set_hero_activity(self, hero_id, activity, duration = 0):
-        if hero_id != 0:
-            hero = self.get_hero(hero_id)
-            hero.activity = activity
-            hero.activity_time = duration
     
     # 这个英雄是否是主公?
     def is_main_hero(self, hero_id):
         hero = self.get_hero(hero_id)
         player = game_mgr.player_mgr.get_player(hero.owner_player_id)
         return hero.hero_id == player.main_hero_id
+    
+    # 英雄当前的活动, 安全调用, 判断是否存在
+    def set_hero_activity(self, hero_id, activity, duration = 0):
+        if hero_id != 0:
+            hero = self.get_hero(hero_id)
+            hero.activity = activity
+            hero.activity_time = duration
     
     # 刷新武将的活动
     def update_activity(self, hero, delta_time):

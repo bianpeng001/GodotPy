@@ -257,7 +257,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     def setup_btn_select_hero(self, btn_name, set_hero_cb):
         btn_obj = self.tab_zheng_obj.find_node(btn_name)
 
-        def select_cb(hero_list):
+        def on_select_cb(hero_list):
             #log_util.debug(hero_list)
             if len(hero_list) > 0:
                 hero = get_hero(hero_list[0])
@@ -269,7 +269,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         def on_btn_click():
             dlg = game_mgr.ui_mgr.select_hero_controller
-            dlg.init(self.city_unit, select_cb)
+            dlg.init(self.city_unit, on_select_cb)
             dlg.select([])
             dlg.set_prev_panel(self)
             dlg.show()
@@ -300,6 +300,10 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             def on_confirmed_cb():
                 speaker_name = hero_list[0].hero_name
                 self.popup_dialog(f'{speaker_name}: 任重而道远,贵在持之以恒', 1.5)
+                
+                # 扣体力, 并刷新
+                
+                
                 
             text = f'''命令
 {','.join(map(lambda x: x.hero_name, hero_list))} 诸将
