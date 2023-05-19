@@ -68,6 +68,7 @@ class StoryPanelController(UIController, PopupTrait):
         label.set_text(text)
         
     def show_chapter(self, text):
+        self.chapter.find_node('Label').set_text(text)
         self.chapter.set_visible(True)
 
     

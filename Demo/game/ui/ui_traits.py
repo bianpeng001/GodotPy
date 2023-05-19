@@ -80,7 +80,9 @@ class PopupTrait:
         #self.pop_panel()
         self.defer_close()
 
+#
 # 武将列表
+#
 class HeroListTrait:
     def init_header(self, header):
         name_label = header.find_node('Label')
@@ -161,4 +163,19 @@ class HeroListTrait:
                 hero_list.append(hero_id)
         
         return hero_list
+    
+    def get_selected_hero_list(self):
+        hero_list = self.get_selected()
+        return list(map(get_hero, hero_list))
+        
+        
+
+
+
+
+
+
+
+
+
 

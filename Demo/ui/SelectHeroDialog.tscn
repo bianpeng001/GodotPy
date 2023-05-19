@@ -1,12 +1,12 @@
 [gd_scene load_steps=8 format=3 uid="uid://5r28swhk31p3"]
 
-[ext_resource type="PackedScene" uid="uid://cnaoeuea0v1ua" path="res://ui/HeroList.tscn" id="1_5h4xd"]
-[ext_resource type="StyleBox" uid="uid://cs78tjnu0sn2w" path="res://ui/PanelStyle.tres" id="1_170bu"]
-[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="2_y5fyj"]
-[ext_resource type="Texture2D" uid="uid://c4hqyefqdw1o" path="res://ui/img/Close.png" id="4_mj00g"]
-[ext_resource type="StyleBox" uid="uid://ihq43j8tlee2" path="res://ui/BtnOkStyle.tres" id="4_srp36"]
-[ext_resource type="StyleBox" uid="uid://mkp6hswesryo" path="res://ui/BtnCancelStyle.tres" id="5_6rcox"]
-[ext_resource type="Texture2D" uid="uid://dojr4gpmt4yed" path="res://ui/img/Close_hover.png" id="5_s528q"]
+[ext_resource type="StyleBox" uid="uid://cs78tjnu0sn2w" path="res://ui/PanelStyle.tres" id="1_nn11f"]
+[ext_resource type="PackedScene" uid="uid://cnaoeuea0v1ua" path="res://ui/HeroList.tscn" id="2_pjwhr"]
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="3_p41yw"]
+[ext_resource type="StyleBox" uid="uid://ihq43j8tlee2" path="res://ui/BtnOkStyle.tres" id="4_rlj10"]
+[ext_resource type="StyleBox" uid="uid://mkp6hswesryo" path="res://ui/BtnCancelStyle.tres" id="5_uin8h"]
+[ext_resource type="Texture2D" uid="uid://c4hqyefqdw1o" path="res://ui/img/Close.png" id="6_rehsj"]
+[ext_resource type="Texture2D" uid="uid://dojr4gpmt4yed" path="res://ui/img/Close_hover.png" id="7_q3cx2"]
 
 [node name="SelectHeroDialog" type="Control"]
 layout_mode = 3
@@ -14,7 +14,7 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -472.0
-offset_bottom = -214.0
+offset_bottom = -248.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -22,9 +22,9 @@ grow_vertical = 2
 layout_mode = 0
 offset_right = 680.0
 offset_bottom = 400.0
-theme_override_styles/panel = ExtResource("1_170bu")
+theme_override_styles/panel = ExtResource("1_nn11f")
 
-[node name="HeroList" parent="Panel" instance=ExtResource("1_5h4xd")]
+[node name="HeroList" parent="Panel" instance=ExtResource("2_pjwhr")]
 layout_mode = 1
 offset_left = 10.0
 offset_top = 10.0
@@ -37,10 +37,10 @@ offset_left = 510.0
 offset_top = 360.0
 offset_right = 570.0
 offset_bottom = 389.0
-theme = ExtResource("2_y5fyj")
-theme_override_styles/normal = ExtResource("4_srp36")
-theme_override_styles/hover = ExtResource("4_srp36")
-theme_override_styles/pressed = ExtResource("4_srp36")
+theme = ExtResource("3_p41yw")
+theme_override_styles/normal = ExtResource("4_rlj10")
+theme_override_styles/hover = ExtResource("4_rlj10")
+theme_override_styles/pressed = ExtResource("4_rlj10")
 text = "确定"
 
 [node name="BtnCancel" type="Button" parent="Panel"]
@@ -49,10 +49,10 @@ offset_left = 590.0
 offset_top = 360.0
 offset_right = 650.0
 offset_bottom = 389.0
-theme = ExtResource("2_y5fyj")
-theme_override_styles/normal = ExtResource("5_6rcox")
-theme_override_styles/hover = ExtResource("5_6rcox")
-theme_override_styles/pressed = ExtResource("5_6rcox")
+theme = ExtResource("3_p41yw")
+theme_override_styles/normal = ExtResource("5_uin8h")
+theme_override_styles/hover = ExtResource("5_uin8h")
+theme_override_styles/pressed = ExtResource("5_uin8h")
 text = "取消"
 
 [node name="BtnClose" type="TextureButton" parent="Panel"]
@@ -61,8 +61,8 @@ offset_left = 655.0
 offset_top = 5.0
 offset_right = 675.0
 offset_bottom = 25.0
-texture_normal = ExtResource("4_mj00g")
-texture_pressed = ExtResource("4_mj00g")
-texture_hover = ExtResource("5_s528q")
+texture_normal = ExtResource("6_rehsj")
+texture_pressed = ExtResource("6_rehsj")
+texture_hover = ExtResource("7_q3cx2")
 ignore_texture_size = true
 stretch_mode = 0

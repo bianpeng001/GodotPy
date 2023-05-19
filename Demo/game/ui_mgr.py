@@ -154,6 +154,10 @@ class UIMgr(NodeObject):
         _, self.sys_panel_controller = self.load_panel(
                 'res://ui/SysPanel.tscn', SysPanelController)
         
+        from game.ui.cmd_dialog_controller import CmdDialogController
+        _, self.cmd_dialog_controller = self.load_panel(
+                'res://ui/CmdDialog.tscn', CmdDialogController)
+        
         self.init_select_rect()
         
         # load done

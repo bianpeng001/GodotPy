@@ -294,10 +294,18 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.lbl_fax_rate_value.set_text(f'{self.fax_rate}%')
 
     def on_rm_btn_click(self):
-        hero_list = self.get_selected()
+        hero_list = self.get_selected_hero_list()
+        
         if len(hero_list) > 0:
-            speaker_name = get_hero_name(hero_list[0])
-            self.popup_dialog(f'{speaker_name}: 任重而道远,贵在持之以恒', 1.5)
+            def on_confirmed_cb():
+                speaker_name = hero_list[0].hero_name
+                self.popup_dialog(f'{speaker_name}: 任重而道远,贵在持之以恒', 1.5)
+                
+            text = f'''命令
+{','.join(map(lambda x: x.hero_name, hero_list))} 诸将
+执行 征兵 任务
+'''
+            game_mgr.ui_mgr.cmd_dialog_controller.show_dialog(text, on_confirmed_cb)
 
     def on_tab_changed(self, index):
         self.tab_index = index
