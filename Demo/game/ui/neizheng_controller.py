@@ -305,7 +305,9 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 {','.join(map(lambda x: x.hero_name, hero_list))} 诸将
 执行 征兵 任务
 '''
-            game_mgr.ui_mgr.cmd_dialog_controller.show_dialog(text, on_confirmed_cb)
+            dlg = game_mgr.ui_mgr.cmd_dialog_controller
+            dlg.set_prev_panel(self)
+            dlg.show_dialog(text, on_confirmed_cb)
 
     def on_tab_changed(self, index):
         self.tab_index = index
