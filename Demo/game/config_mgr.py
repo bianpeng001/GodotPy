@@ -121,6 +121,8 @@ class ConfigMgr:
         # 修正block的步长
         self.fix_block_step = 0.1
         
+        self.first_city_name = '平安'
+        
     def init_story_config(self):
         self.story_dict = {}
         

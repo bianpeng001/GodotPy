@@ -85,7 +85,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         for i in range(len(rm_btns)):
             btn = rm_btns[i]
             btn.set_text(rm_texts[i])
-            btn.set_position(20+(50+10)*i, 294)
+            btn.set_position(20+(50+6)*i, 300)
             btn.connect(PRESSED, self.on_rm_btn_click)
 
     # 根据实际情况初始化
@@ -93,7 +93,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.city_unit = city_unit
 
         # 根据城的级别, 这个称呼有变化
-        satrap_labels = ['首长','县令','太守','州牧']
+        satrap_labels = ['','县令','太守','州牧']
         self.lbl_satrap.set_text(satrap_labels[self.city_unit.city_type])
 
         # 缓存一些数据，用于修改，不是直接改

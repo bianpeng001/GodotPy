@@ -115,17 +115,17 @@ class GamePlay:
                         x.owner_player_id == 0)
 
                 if city_unit:
-                    city_unit.unit_name = '安喜'
+                    city_unit.unit_name = game_mgr.config_mgr.first_city_name
                     
                     # 这个后面看看咋办, 主要是要替换模型
-                    if city_unit.city_type != CT_XIAN:
-                        city_unit.city_type = CT_XIAN
-                        if city_unit.model_node:
-                            city_unit.model_node.destroy()
-                            city_unit.model_node = None
-                            city_unit.load_model()
+                    city_unit.city_type = CT_XIAN
+                    if city_unit.model_node:
+                        city_unit.model_node.destroy()
+                        city_unit.model_node = None
+                        city_unit.load_model()
                     
-                    player = self.create_player(city_unit,
+                    player = self.create_player(
+                            city_unit,
                             player_name=ctx_data['player_name'],
                             is_main_player=True)
                     
@@ -153,17 +153,17 @@ class GamePlay:
             while not game_mgr.ui_mgr.load_complete or \
                         not game_mgr.ground_mgr.load_complete:
                 yield None
+                
+            city_name = game_mgr.config_mgr.first_city_name
             
             # 到达之后, 显示一段对话
             def co_show_dialog():
                 yield WaitForSeconds(2.5)
                 
-                yield game_mgr.co_mgr.start(co_show_chapter('第一回 治理安喜'))
+                yield game_mgr.co_mgr.start(co_show_chapter(f'第一回 治理{city_name}'))
 
                 dlg = game_mgr.ui_mgr.npc_dialog_controller
-                dlg.init('现在各地经历兵乱, 破坏凋敝. 此处虽小, 只要用心经营, 也是个安身立命之处.', 2)
-                yield WaitForSeconds(2.5)
-                dlg.init('不错, 安喜虽小, 不妨碍我们励精图治.', 2)
+                dlg.init('如今各处历经兵乱, 民生凋敝, 此处虽小, 唯持仁义, 用心经营, 方可报效国家.', 2)
                 yield WaitForSeconds(2.5)
                 dlg.init('大哥, 先看下城里的[color=red]内政[/color]情况吧.', 2)
                 yield WaitForSeconds(2.5)
@@ -184,7 +184,7 @@ class GamePlay:
 
             def show_start_options():
                 dlg = game_mgr.ui_mgr.option_panel_controller
-                dlg.init('朝廷安抚平乱有功者, 因此你除授定州安喜县令, 你将作何打算?',
+                dlg.init(f'朝廷安抚平乱有功者, 因此你获授{city_name}县令, 将作何打算?',
                         ['遣散队伍回乡务农', '率众投军继续当兵', '听从安排克日赴任'],
                         confirm_start_option)
                 dlg.push_panel()
