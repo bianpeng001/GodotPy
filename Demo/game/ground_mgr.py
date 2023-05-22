@@ -20,6 +20,24 @@ Z_RATIO = Z_TILE_SIZE/TILE_SIZE
 def xz_to_colrow(x, z):
     return round(x / TILE_SIZE), round(z / Z_TILE_SIZE)
 
+
+#
+# 定义地图, 方便地图的切换
+#
+class TileMap:
+    def __init__(self, row_c, col_c, tile_size):
+        self.row_c = row_c
+        self.col_c = col_c
+        
+        self.tile_size = tile_size
+        self.z_tile_size = self.tile_size*Z_RATIO
+        
+        self.width = col_c * self.tile_size
+        self.height = row_c * self.z_tile_size
+        
+    def load_tile(self, tile):
+        pass
+
 #
 # tile内部，a*寻路
 # tile外部，大a*寻路
@@ -83,7 +101,7 @@ class TileItem:
         
     def generate_mesh3(self, mi):
         s = TILE_SIZE
-        #s += -0.4
+        s += -0.4
         mi.set_scale(s,s,s)
         
         st = FSurfaceTool()
