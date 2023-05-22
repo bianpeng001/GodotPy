@@ -57,7 +57,7 @@ class TileItem:
         #log_debug(f'load tile: ({self.col},{self.row})')
         pos_x, pos_z = self.get_center_pos()
 
-        self.model_node = OS.instantiate('res://models/Terrain/Tile02.tscn')
+        self.model_node = OS.instantiate('res://models/Terrain/Tile03.tscn')
         self.model_node.set_position(pos_x, 0, pos_z)
 
         mi = self.model_node.find_node('Mesh')

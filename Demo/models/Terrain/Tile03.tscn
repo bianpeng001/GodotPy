@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://comksoyoild1v"]
+[gd_scene load_steps=5 format=3 uid="uid://bi0twpcuwogos"]
 
-[ext_resource type="Material" uid="uid://c00shy6yrlcf1" path="res://models/Terrain/Terrain01Mat.tres" id="1_3geln"]
+[ext_resource type="Material" uid="uid://b00xxceb7ox3i" path="res://models/Terrain/Tile03Mat.tres" id="1_ncs0r"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ac5k1"]
 resource_name = "Material"
@@ -39,9 +39,9 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_hd05r")
 
-[node name="Tile01" type="Node3D"]
+[node name="Tile03" type="Node3D"]
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(15, 0, 0, 0, 15, 0, 0, 0, 15, 0, 0, 0)
 mesh = SubResource("ArrayMesh_y8rsx")
-surface_material_override/0 = ExtResource("1_3geln")
+surface_material_override/0 = ExtResource("1_ncs0r")
