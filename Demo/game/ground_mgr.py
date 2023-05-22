@@ -95,6 +95,9 @@ class TileItem:
         z_step = half_x_step*SQRT_3
         radius = x_step/SQRT_3
         
+        width = 900
+        height = 900*Z_RATIO
+        
         left = -0.5
         bottom = -0.5*SQRT_3/2
         
@@ -105,10 +108,9 @@ class TileItem:
                 yield x,z
                 i += 1
                 
-        pos_x, pos_z = self.get_center_pos()        
+        pos_x, pos_z = self.get_center_pos()
         def add_vertex(x,y,z):
-            
-            st.set_uv((pos_x+x*s+150)/300, (pos_z+z*s+150)/300)
+            st.set_uv((pos_x+x*s)/width+0.5, (pos_z+z*s)/height+0.5)
             st.add_vertex(x, y, z)
         
         vertex_index = 0
