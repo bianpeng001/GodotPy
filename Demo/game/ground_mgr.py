@@ -10,9 +10,10 @@ from game.game_mgr import *
 from game.base_type import *
 from game.load_world_map import Bmp
 
+SQRT_3 = math.sqrt(3)
+
 TILE_SIZE = 30
-#Z_TILE_SIZE = TILE_SIZE*math.sqrt(3)/2
-Z_TILE_SIZE = TILE_SIZE*2/math.sqrt(3)
+Z_TILE_SIZE = TILE_SIZE*SQRT_3/2
 Z_RATIO = Z_TILE_SIZE/TILE_SIZE
 
 # col,row
@@ -60,7 +61,7 @@ class TileItem:
         self.model_node.set_position(pos_x, 0, pos_z)
 
         mi = self.model_node.find_node('Mesh')
-        self.generate_mesh(mi)
+        self.generate_mesh3(mi)
 
     def test_mesh(self):
         mi = self.model_node.find_node('Mesh')
@@ -85,8 +86,43 @@ class TileItem:
         st.set_uv(0.11,0.11)
         st.set_normal(0, 1, 0)
         
+        x_step = 1.0/10
+        half_x_step = x_step*0.5
+        z_step = half_x_step*SQRT_3
+        radius = x_step/SQRT_3
+        
+        left = -0.5
+        bottom = -0.5*SQRT_3/2
+        
+        def loop_cells():
+            i = 0
+            while i < 100:
+                z,x = divmod(i, 10)
+                yield x,z
+                i += 1
+        
+        vertex_index = 0
+        for x,z in loop_cells():
+            cx, cz = left+x*x_step, bottom+z*z_step
+            if z % 2 != 0:
+                cx += half_x_step
+                
+            st.add_vertex(cx, 0, cz-radius)
+            st.add_vertex(cx-half_x_step, 0, cz-radius*0.5)
+            st.add_vertex(cx-half_x_step, 0, cz+radius*0.5)
+            st.add_vertex(cx, 0, cz+radius)
+            st.add_vertex(cx+half_x_step, 0, cz+radius*0.5)
+            st.add_vertex(cx+half_x_step, 0, cz-radius*0.5)
+            
+            st.add_triangle(vertex_index, vertex_index+2, vertex_index+1)
+            st.add_triangle(vertex_index, vertex_index+3, vertex_index+2)
+            st.add_triangle(vertex_index, vertex_index+4, vertex_index+3)
+            st.add_triangle(vertex_index, vertex_index+5, vertex_index+4)
+            vertex_index += 6
         
         st.commit(mi)
+        s = TILE_SIZE-0.4
+        mi.set_scale(s,s,s)
 
     def generate_mesh(self, mi):
         
@@ -105,8 +141,8 @@ class TileItem:
         st.set_normal(0, 1, 0)
         
         step = 0.2
-        half_width = step*0.5
-        radius = half_width*2/math.sqrt(3)
+        half_x_step = step*0.5
+        radius = half_x_step*2/math.sqrt(3)
         z_step = 1.5*radius
         
         def grid_xz():
@@ -130,7 +166,7 @@ class TileItem:
             cz = -1 + z*z_step
             cx = -1 + x*step
             if z % 2 != 0:
-                cx += half_width
+                cx += half_x_step
             
             if uv_type == 1:
                 # 六边形的中心点对应的位置, 要取像素颜色
@@ -139,20 +175,20 @@ class TileItem:
                 st.set_uv(px/300, pz/300)
                 
                 st.add_vertex(cx, 0, cz-radius)
-                st.add_vertex(cx-half_width, 0, cz-radius*0.5)
-                st.add_vertex(cx-half_width, 0, cz+radius*0.5)
+                st.add_vertex(cx-half_x_step, 0, cz-radius*0.5)
+                st.add_vertex(cx-half_x_step, 0, cz+radius*0.5)
                 st.add_vertex(cx, 0, cz+radius)
-                st.add_vertex(cx+half_width, 0, cz+radius*0.5)
-                st.add_vertex(cx+half_width, 0, cz-radius*0.5)
+                st.add_vertex(cx+half_x_step, 0, cz+radius*0.5)
+                st.add_vertex(cx+half_x_step, 0, cz-radius*0.5)
                 
             if uv_type == 2:
                 px,pz = x+(self.col+15)*10-5, z+(self.row+15)*10-5
                 add_vertex_2(cx, 0, cz-radius)
-                add_vertex_2(cx-half_width, 0, cz-radius*0.5)
-                add_vertex_2(cx-half_width, 0, cz+radius*0.5)
+                add_vertex_2(cx-half_x_step, 0, cz-radius*0.5)
+                add_vertex_2(cx-half_x_step, 0, cz+radius*0.5)
                 add_vertex_2(cx, 0, cz+radius)
-                add_vertex_2(cx+half_width, 0, cz+radius*0.5)
-                add_vertex_2(cx+half_width, 0, cz-radius*0.5)
+                add_vertex_2(cx+half_x_step, 0, cz+radius*0.5)
+                add_vertex_2(cx+half_x_step, 0, cz-radius*0.5)
             
             st.add_triangle(vertex_index, vertex_index+2, vertex_index+1)
             st.add_triangle(vertex_index, vertex_index+3, vertex_index+2)
@@ -362,11 +398,12 @@ class TileItem:
                 pos_x + dx,
                 pos_z + dz,
                 0.3 + random.random()*0.7)
-            
+        
+        # 角旗
         self.corner_flag = self.load_res('res://models/Flag01.tscn',
                 pos_x - TILE_SIZE*0.5,
                 pos_z - Z_TILE_SIZE*0.5,
-                1)
+                1.0)
         
         # 草
         for i in range(random.randrange(1, 5)):
