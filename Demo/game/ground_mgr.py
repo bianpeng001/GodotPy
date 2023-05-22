@@ -82,6 +82,10 @@ class TileItem:
         st.commit(mi)
         
     def generate_mesh3(self, mi):
+        s = TILE_SIZE
+        #s += -0.4
+        mi.set_scale(s,s,s)
+        
         st = FSurfaceTool()
         st.set_uv(0.11,0.11)
         st.set_normal(0, 1, 0)
@@ -100,6 +104,12 @@ class TileItem:
                 z,x = divmod(i, 10)
                 yield x,z
                 i += 1
+                
+        pos_x, pos_z = self.get_center_pos()        
+        def add_vertex(x,y,z):
+            
+            st.set_uv((pos_x+x*s+150)/300, (pos_z+z*s+150)/300)
+            st.add_vertex(x, y, z)
         
         vertex_index = 0
         for x,z in loop_cells():
@@ -107,12 +117,12 @@ class TileItem:
             if z % 2 != 0:
                 cx += half_x_step
                 
-            st.add_vertex(cx, 0, cz-radius)
-            st.add_vertex(cx-half_x_step, 0, cz-radius*0.5)
-            st.add_vertex(cx-half_x_step, 0, cz+radius*0.5)
-            st.add_vertex(cx, 0, cz+radius)
-            st.add_vertex(cx+half_x_step, 0, cz+radius*0.5)
-            st.add_vertex(cx+half_x_step, 0, cz-radius*0.5)
+            add_vertex(cx, 0, cz-radius)
+            add_vertex(cx-half_x_step, 0, cz-radius*0.5)
+            add_vertex(cx-half_x_step, 0, cz+radius*0.5)
+            add_vertex(cx, 0, cz+radius)
+            add_vertex(cx+half_x_step, 0, cz+radius*0.5)
+            add_vertex(cx+half_x_step, 0, cz-radius*0.5)
             
             st.add_triangle(vertex_index, vertex_index+2, vertex_index+1)
             st.add_triangle(vertex_index, vertex_index+3, vertex_index+2)
@@ -121,8 +131,6 @@ class TileItem:
             vertex_index += 6
         
         st.commit(mi)
-        s = TILE_SIZE-0.4
-        mi.set_scale(s,s,s)
 
     def generate_mesh(self, mi):
         
