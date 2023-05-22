@@ -109,8 +109,9 @@ class TileItem:
                 i += 1
                 
         pos_x, pos_z = self.get_center_pos()
-        def add_vertex(x,y,z):
-            st.set_uv((pos_x+x*s)/width+0.5, (pos_z+z*s)/height+0.5)
+        def add_vertex(x,y,z, update_uv=True):
+            if update_uv:
+                st.set_uv((pos_x+x*s)/width+0.5, (pos_z+z*s)/height+0.5)
             st.add_vertex(x, y, z)
         
         vertex_index = 0
@@ -119,7 +120,7 @@ class TileItem:
             if z % 2 != 0:
                 cx += half_x_step
                 
-            add_vertex(cx, 0, cz-radius)
+            add_vertex(cx, 0, cz-radius, True)
             add_vertex(cx-half_x_step, 0, cz-radius*0.5)
             add_vertex(cx-half_x_step, 0, cz+radius*0.5)
             add_vertex(cx, 0, cz+radius)
