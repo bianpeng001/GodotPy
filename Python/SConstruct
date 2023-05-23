@@ -212,6 +212,7 @@ is_release = ARGUMENTS.get('release', True)
 
 # module
 ModuleName = 'python3'
+PY_VER = '3.12'
 cppdefines = [
     'Py_BUILD_CORE',
     'Py_BUILD_CORE_BUILTIN',
@@ -224,10 +225,10 @@ cppdefines = [
 
     ('VPATH', f'\\"{ModuleName}\\"'),
     ('PY3_DLLNAME', f'\\"{ModuleName}\\"'),
-    ('MS_DLL_ID', 'TEXT(\\"3.12\\")'),
+    ('MS_DLL_ID', 'TEXT(\\"{PY_VER}\\")'),
     ('PREFIX', f'\\"prefix\\"'),
     ('EXEC_PREFIX', f'\\"exec_prefix\\"'),
-    ('VERSION', f'\\"3.12\\"'),
+    ('VERSION', f'\\"{PY_VER}\\"'),
     ('PLATLIBDIR', f'\\"GodotPyLib\\"'),
     ]
 if not is_release:
