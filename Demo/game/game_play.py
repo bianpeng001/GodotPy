@@ -158,7 +158,7 @@ class GamePlay:
             
             # 到达之后, 显示一段对话
             def co_show_dialog():
-                yield WaitForSeconds(2.5)
+                yield WaitForSeconds(1.5)
                 
                 yield game_mgr.co_mgr.start(co_show_chapter(f'第一回 治理{city_name}'))
 

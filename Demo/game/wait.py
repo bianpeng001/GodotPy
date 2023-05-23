@@ -36,7 +36,7 @@ def test_wait_1():
 def co_show_chapter(title):
     game_mgr.ui_mgr.story_panel_controller.show()
     game_mgr.ui_mgr.story_panel_controller.show_chapter(title)
-    yield WaitForSeconds(2.5)
+    yield WaitForSeconds(1.5)
     
     game_mgr.ui_mgr.story_panel_controller.defer_close()
     yield WaitForSeconds(1.5)
