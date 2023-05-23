@@ -212,7 +212,7 @@ is_release = ARGUMENTS.get('release', True)
 
 # module
 ModuleName = 'python3'
-PY_VER = '3.12'
+PY_VER = '3.13'
 cppdefines = [
     'Py_BUILD_CORE',
     'Py_BUILD_CORE_BUILTIN',

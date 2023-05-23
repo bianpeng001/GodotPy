@@ -122,7 +122,7 @@ def zipdir(dir_path, f):
             f.write(file_path, os.path.relpath(file_path, dir_path))
 
 def archive_python():
-    path = f'{BUILD_DIR}\\python312.zip'
+    path = f'{BUILD_DIR}\\python313.zip'
     if os.path.exists(path):
         os.remove(path)
 
