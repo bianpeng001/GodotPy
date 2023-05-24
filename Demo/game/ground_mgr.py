@@ -13,10 +13,12 @@ from game.load_world_map import Bmp
 SQRT_3 = math.sqrt(3)
 Z_RATIO = SQRT_3/2
 
+def get_tile_map():
+    return game_mgr.ground_mgr.tile_map
+
 # col,row
 def xz_to_colrow(x, z):
-    tile_map = game_mgr.ground_mgr.tile_map
-    #return round(x / TILE_SIZE), round(z / Z_TILE_SIZE)
+    tile_map = get_tile_map()
     return round(x / tile_map.tile_size), round(z / tile_map.z_tile_size)
 
 #
@@ -62,13 +64,13 @@ class TileItem:
 
     def get_center_pos(self):
         #return self.col*TILE_SIZE,self.row*Z_TILE_SIZE
-        tile_map = game_mgr.ground_mgr.tile_map
+        tile_map = get_tile_map()
         return self.col*tile_map.tile_size, self.row*tile_map.z_tile_size
 
     def get_local_pos(self, x,z):
         cx,cz = self.get_center_pos()
         #return (x-cx)/TILE_SIZE,(z-cz)/TILE_SIZE
-        tile_map = game_mgr.ground_mgr.tile_map
+        tile_map = get_tile_map()
         return (x-cx)/tile_map.tile_size,(z-cz)/tile_map.z_tile_size
 
     def load(self):
@@ -100,7 +102,7 @@ class TileItem:
         st.commit(mi)
         
     def generate_mesh3(self, mi):
-        tile_map = game_mgr.ground_mgr.tile_map
+        tile_map = get_tile_map()
         
         s = tile_map.tile_size
         s += -0.5
@@ -436,7 +438,7 @@ class TileItem:
                 pos_z + dz,
                 0.3 + random.random()*0.7)
         
-        tile_map = game_mgr.ground_mgr.tile_map
+        tile_map = get_tile_map()
         # 角旗
         self.corner_flag = self.load_res('res://models/Flag01.tscn',
                 pos_x - tile_map.tile_size*0.5,
@@ -492,9 +494,9 @@ class TileItem:
                 self.city_unit.city_type = CT_ZHOU
             
             # 生成一段小路
-            if random_100() < 10:
-                x,z = self.city_unit.get_xz()
-                self.create_road(x,0.1,z+self.city_unit.radius)
+            # if random_100() < 10:
+            #     x,z = self.city_unit.get_xz()
+            #     self.create_road(x,0.1,z+self.city_unit.radius)
 
     def load_res(self, path, x, z, s):
         item = OS.instantiate(path)
@@ -505,13 +507,6 @@ class TileItem:
         return item
 
     def unload(self):
-        if self.corner_flag:
-            # mesh_node = self.corner_flag.find_node('Mesh')
-            # if mesh_node:
-            #     mesh_node.set_surface_material(0, None)
-            #     mesh_node.set_surface_material(1, None)
-            pass
-        
         pass
 
     def update_hud(self):
