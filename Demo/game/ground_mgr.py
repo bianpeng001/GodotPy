@@ -18,8 +18,9 @@ Z_RATIO = Z_TILE_SIZE/TILE_SIZE
 
 # col,row
 def xz_to_colrow(x, z):
-    return round(x / TILE_SIZE), round(z / Z_TILE_SIZE)
-
+    tile_map = game_mgr.ground_mgr.tile_map
+    #return round(x / TILE_SIZE), round(z / Z_TILE_SIZE)
+    return round(x / tile_map.tile_size), round(z / tile_map.z_tile_size)
 
 #
 # 定义地图, 方便地图的切换
@@ -65,11 +66,15 @@ class TileItem:
         self.color = -1
 
     def get_center_pos(self):
-        return self.col*TILE_SIZE,self.row*Z_TILE_SIZE
+        #return self.col*TILE_SIZE,self.row*Z_TILE_SIZE
+        tile_map = game_mgr.ground_mgr.tile_map
+        return self.col*tile_map.tile_size, self.row*tile_map.z_tile_size
 
     def get_local_pos(self, x,z):
         cx,cz = self.get_center_pos()
-        return (x-cx)/TILE_SIZE,(z-cz)/TILE_SIZE
+        #return (x-cx)/TILE_SIZE,(z-cz)/TILE_SIZE
+        tile_map = game_mgr.ground_mgr.tile_map
+        return (x-cx)/tile_map.tile_size,(z-cz)/tile_map.z_tile_size
 
     def load(self):
         #log_debug(f'load tile: ({self.col},{self.row})')
@@ -113,8 +118,12 @@ class TileItem:
         z_step = half_x_step*SQRT_3
         radius = x_step/SQRT_3
         
-        width = 900
-        height = 900*Z_RATIO
+        tile_map = game_mgr.ground_mgr.tile_map
+        #width = 900
+        #height = 900*Z_RATIO
+        # 弄一个倍数, 是repeat的tile机制
+        width = tile_map.width/4
+        height = tile_map.height/4
         
         left = -0.5
         bottom = -0.5*SQRT_3/2
@@ -129,6 +138,8 @@ class TileItem:
         pos_x, pos_z = self.get_center_pos()
         def add_vertex(x,y,z, update_uv=True):
             if update_uv:
+                # 映射到世界坐标, 去计算UV, 现在世界对应一个大图, 所以映射到0-1
+                # 后面应该可以做成多个大图拼接的世界, 这样映射到对应的范围即可
                 st.set_uv((pos_x+x*s)/width+0.5, (pos_z+z*s)/height+0.5)
             st.add_vertex(x, y, z)
         
@@ -627,20 +638,22 @@ class GroundMgr(NodeObject):
 
     # 从数据中加载
     def load_data(self):
-        w,h = 30,30
+        self.tile_map = TileMap(30, 30, 30)
+        #w,h = 30,30
+        w,h = self.tile_map.col_c, self.tile_map.row_c
         cx,cy = w//2,h//2
 
         log_util.enable_debug = False
         bmp = Bmp(r'game\data\world_map.bmp')
-        for y in range(h):
-            for x in range(w):
-                _,_,r = bmp.get_color(x,y)
-                col = x - cx
-                row = y - cy
+        for i in range(h*w):
+            y, x = divmod(i, w)
+            _,_,r = bmp.get_color(x,y)
+            col = x - cx
+            row = y - cy
 
-                tile, _ = self.create_tile(col, row)
-                tile.color = 255 if r > 190 else 0
-                tile.create_city()
+            tile, _ = self.create_tile(col, row)
+            tile.color = 255 if r > 190 else 0
+            tile.create_city()
         log_util.enable_debug = True
 
         self.terrain_map = Bmp(r'game\data\world_terrain.bmp')
