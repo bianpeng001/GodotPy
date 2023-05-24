@@ -101,7 +101,7 @@ class TileItem:
         
     def generate_mesh3(self, mi):
         s = TILE_SIZE
-        #s += -0.4
+        s += -0.2
         mi.set_scale(s,s,s)
         
         st = FSurfaceTool()

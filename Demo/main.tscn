@@ -1,14 +1,14 @@
 [gd_scene load_steps=10 format=3 uid="uid://6dfqy46nfjvv"]
 
-[ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="1_v6nps"]
-[ext_resource type="QuadMesh" uid="uid://bgvylfri1047g" path="res://models/Outline/ScreenRect.tres" id="2_hw2ne"]
-[ext_resource type="Material" uid="uid://d316njsfv56ci" path="res://models/Outline/OutlineV2Mat.tres" id="3_tpgtt"]
-[ext_resource type="Script" path="res://DrawRect.gd" id="4_4i855"]
-[ext_resource type="PackedScene" path="res://effects/Dust01.tscn" id="5_606gp"]
-[ext_resource type="PackedScene" uid="uid://cpyomosvj7tyk" path="res://models/Hill/Hill01.tscn" id="6_m4342"]
-[ext_resource type="PackedScene" uid="uid://eimxflua5ypg" path="res://models/Park01.tscn" id="7_mpyi4"]
-[ext_resource type="PackedScene" uid="uid://6sgvsikcb5cg" path="res://models/Arm/Arm01.tscn" id="8_jtauk"]
-[ext_resource type="PackedScene" uid="uid://d0uwnhhx16lv3" path="res://effects/Fire01/Fire01.tscn" id="9_w3cnl"]
+[ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="1_547mm"]
+[ext_resource type="QuadMesh" uid="uid://bgvylfri1047g" path="res://models/Outline/ScreenRect.tres" id="2_q8g6t"]
+[ext_resource type="Material" uid="uid://d316njsfv56ci" path="res://models/Outline/OutlineV2Mat.tres" id="3_v4gk3"]
+[ext_resource type="Script" path="res://DrawRect.gd" id="4_8b5oj"]
+[ext_resource type="PackedScene" path="res://effects/Dust01.tscn" id="5_rj8nt"]
+[ext_resource type="PackedScene" uid="uid://cpyomosvj7tyk" path="res://models/Hill/Hill01.tscn" id="6_2j1mq"]
+[ext_resource type="PackedScene" uid="uid://eimxflua5ypg" path="res://models/Park01.tscn" id="7_km61t"]
+[ext_resource type="PackedScene" uid="uid://6sgvsikcb5cg" path="res://models/Arm/Arm01.tscn" id="8_6tg6t"]
+[ext_resource type="PackedScene" uid="uid://d0uwnhhx16lv3" path="res://effects/Fire01/Fire01.tscn" id="9_asjou"]
 
 [node name="MainScene" type="FPyObject"]
 python_module = "game.mainloop"
@@ -27,7 +27,7 @@ python_class = "CameraMgr"
 [node name="MainCamera" type="Camera3D" parent="CameraMgr"]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 15, 20, 15)
 cull_mask = 1047551
-environment = ExtResource("1_v6nps")
+environment = ExtResource("1_547mm")
 current = true
 fov = 28.0
 near = 5.0
@@ -35,8 +35,8 @@ far = 100.0
 
 [node name="PP_Outline" type="MeshInstance3D" parent="CameraMgr/MainCamera"]
 transform = Transform3D(-0.707107, 0, 0.707107, 0.5, 0.707107, 0.5, -0.5, 0.707107, -0.5, 0, 0.857859, -29.1421)
-mesh = ExtResource("2_hw2ne")
-surface_material_override/0 = ExtResource("3_tpgtt")
+mesh = ExtResource("2_q8g6t")
+surface_material_override/0 = ExtResource("3_v4gk3")
 
 [node name="InputMgr" type="FPyObject" parent="."]
 python_module = "game.input_mgr"
@@ -70,26 +70,26 @@ color = Color(0, 1, 0, 0.156863)
 
 [node name="DrawRect" type="Node2D" parent="."]
 visible = false
-script = ExtResource("4_4i855")
+script = ExtResource("4_8b5oj")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.906308, -0.365998, 0.211309, 9.86487e-09, 0.5, 0.866025, -0.422618, -0.784886, 0.453154, 0, 20, 0)
 shadow_enabled = true
 shadow_opacity = 0.5
 
-[node name="Dust01" parent="." instance=ExtResource("5_606gp")]
+[node name="Dust01" parent="." instance=ExtResource("5_rj8nt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.676337, 10.3015, 1.07973)
 visible = false
 
-[node name="Hill01" parent="." instance=ExtResource("6_m4342")]
+[node name="Hill01" parent="." instance=ExtResource("6_2j1mq")]
 transform = Transform3D(-4.96934, 0, -0.552835, 0, 5, 0, 0.552835, 0, -4.96934, 0, -0.1, 0)
 visible = false
 
-[node name="Park01" parent="." instance=ExtResource("7_mpyi4")]
+[node name="Park01" parent="." instance=ExtResource("7_km61t")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.3645, 0, 4.6021)
 
-[node name="Arm01" parent="." instance=ExtResource("8_jtauk")]
+[node name="Arm01" parent="." instance=ExtResource("8_6tg6t")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18009, 0, -0.252639)
 
-[node name="Fire01" parent="." instance=ExtResource("9_w3cnl")]
+[node name="Fire01" parent="." instance=ExtResource("9_asjou")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.15436, 0, 11.7753)
