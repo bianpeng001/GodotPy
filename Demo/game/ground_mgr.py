@@ -11,10 +11,7 @@ from game.base_type import *
 from game.load_world_map import Bmp
 
 SQRT_3 = math.sqrt(3)
-
-TILE_SIZE = 30
-Z_TILE_SIZE = TILE_SIZE*SQRT_3/2
-Z_RATIO = Z_TILE_SIZE/TILE_SIZE
+Z_RATIO = SQRT_3/2
 
 # col,row
 def xz_to_colrow(x, z):
@@ -36,9 +33,7 @@ class TileMap:
         self.width = col_c * self.tile_size
         self.height = row_c * self.z_tile_size
         
-    def load_tile(self, tile):
-        pass
-
+        
 #
 # tile内部，a*寻路
 # tile外部，大a*寻路
@@ -105,7 +100,9 @@ class TileItem:
         st.commit(mi)
         
     def generate_mesh3(self, mi):
-        s = TILE_SIZE
+        tile_map = game_mgr.ground_mgr.tile_map
+        
+        s = tile_map.tile_size
         s += -0.5
         mi.set_scale(s,s,s)
         
@@ -118,7 +115,7 @@ class TileItem:
         z_step = half_x_step*SQRT_3
         radius = x_step/SQRT_3
         
-        tile_map = game_mgr.ground_mgr.tile_map
+        
         #width = 900
         #height = 900*Z_RATIO
         # 弄一个倍数, 是repeat的tile机制
@@ -439,10 +436,11 @@ class TileItem:
                 pos_z + dz,
                 0.3 + random.random()*0.7)
         
+        tile_map = game_mgr.ground_mgr.tile_map
         # 角旗
         self.corner_flag = self.load_res('res://models/Flag01.tscn',
-                pos_x - TILE_SIZE*0.5,
-                pos_z - Z_TILE_SIZE*0.5,
+                pos_x - tile_map.tile_size*0.5,
+                pos_z - tile_map.z_tile_size*0.5,
                 1.0)
         
         # 草
@@ -559,11 +557,13 @@ class GroundMgr(NodeObject):
 
         # 地块
         self.tile_dict = {}
+        # 地图
+        self.tile_map = None
 
         # 可见的地块, 用来卸载不可见的地块, 或者还要加一个age
         self.show_tile_list = []
         
-        #
+        # 保留一个加载完成的标记
         self.load_complete = False
 
     def _create(self):
@@ -661,4 +661,7 @@ class GroundMgr(NodeObject):
 
     def loop_tiles(self):
         return self.tile_dict.values()
+
+
+
 
