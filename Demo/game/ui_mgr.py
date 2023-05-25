@@ -128,7 +128,7 @@ class UIMgr(NodeObject):
         from game.ui.npc_dialog_controller import NpcDialogController
         _, self.npc_dialog_controller = self.load_panel(
                 'res://ui/NpcDialog.tscn', NpcDialogController)
-        self.auto_close_queue.append(self.npc_dialog_controller)
+        #self.auto_close_queue.append(self.npc_dialog_controller)
 
         from game.ui.option_panel_controller import OptionPanelController
         _, self.option_panel_controller = self.load_panel(

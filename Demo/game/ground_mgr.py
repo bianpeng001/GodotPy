@@ -35,7 +35,7 @@ class TileMap:
         self.width = col_c * self.tile_size
         self.height = row_c * self.z_tile_size
         
-        
+        self.tile_type = 1
 #
 # tile内部，a*寻路
 # tile外部，大a*寻路
@@ -63,13 +63,12 @@ class TileItem:
         self.color = -1
 
     def get_center_pos(self):
-        #return self.col*TILE_SIZE,self.row*Z_TILE_SIZE
         tile_map = get_tile_map()
         return self.col*tile_map.tile_size, self.row*tile_map.z_tile_size
 
     def get_local_pos(self, x,z):
         cx,cz = self.get_center_pos()
-        #return (x-cx)/TILE_SIZE,(z-cz)/TILE_SIZE
+
         tile_map = get_tile_map()
         return (x-cx)/tile_map.tile_size,(z-cz)/tile_map.z_tile_size
 
@@ -77,7 +76,12 @@ class TileItem:
         #log_debug(f'load tile: ({self.col},{self.row})')
         pos_x, pos_z = self.get_center_pos()
 
-        self.model_node = OS.instantiate('res://models/Terrain/Tile03.tscn')
+        tile_map = get_tile_map()
+        if tile_map.tile_type == 2:
+            self.model_node = OS.instantiate('res://models/Terrain/Tile02.tscn')
+        else:
+            self.model_node = OS.instantiate('res://models/Terrain/Tile03.tscn')
+            
         self.model_node.set_position(pos_x, 0, pos_z)
 
         mi = self.model_node.find_node('Mesh')
@@ -117,12 +121,15 @@ class TileItem:
         z_step = half_x_step*SQRT_3
         radius = x_step/SQRT_3
         
-        
         #width = 900
         #height = 900*Z_RATIO
         # 弄一个倍数, 是repeat的tile机制
-        width = tile_map.width/4
-        height = tile_map.height/4
+        width = tile_map.width
+        height = tile_map.height
+        
+        if tile_map.tile_type == 3:
+            width *= 0.25
+            height *= 0.25
         
         left = -0.5
         bottom = -0.5*SQRT_3/2
@@ -634,6 +641,8 @@ class GroundMgr(NodeObject):
     # 从数据中加载
     def load_data(self):
         self.tile_map = TileMap(30, 30, 30)
+        self.tile_map.tile_type = 2
+        
         #w,h = 30,30
         w,h = self.tile_map.col_c, self.tile_map.row_c
         cx,cy = w//2,h//2

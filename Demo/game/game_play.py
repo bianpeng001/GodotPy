@@ -163,10 +163,14 @@ class GamePlay:
                 yield game_mgr.co_mgr.start(co_show_chapter(f'第一回 治理{city_name}'))
 
                 dlg = game_mgr.ui_mgr.npc_dialog_controller
-                dlg.init('如今各处历经兵乱, 民生凋敝, 此处虽小, 唯持仁义, 用心经营, 方可报效国家.', 2)
+                dlg.init('')
+                
+                dlg.show_text('如今各处历经兵乱, 民生凋敝, 此处虽小, 唯持仁义, 用心经营, 方可报效国家.')
                 yield WaitForSeconds(2.5)
-                dlg.init('大哥, 先看下城里的[color=red]内政[/color]情况吧.', 2)
+                dlg.show_text('大哥, 先看下城里的[color=red]内政[/color]情况吧.')
                 yield WaitForSeconds(2.5)
+                dlg.defer_close()
+                
                 game_mgr.ui_mgr.show_base_ui(True)
 
             # 游戏的第一个选择
@@ -187,7 +191,7 @@ class GamePlay:
                 dlg.init(f'朝廷安抚平乱有功者, 因此你获授{city_name}县令, 将作何打算?',
                         ['遣散队伍回乡务农', '率众投军继续当兵', '听从安排克日赴任'],
                         confirm_start_option)
-                dlg.push_panel()
+                dlg.show()
 
             def on_create_player(player_name):
                 log_util.debug('create main player')
@@ -195,10 +199,63 @@ class GamePlay:
                 game_mgr.ui_mgr.story_panel_controller.play_story(
                     game_mgr.config_mgr.story.start_game_story,
                     show_start_options)
+                
+            def co_create_player():
+                dlg = game_mgr.ui_mgr.npc_dialog_controller
+                dlg.init('如今各处历经兵乱, 民生凋敝, 此处虽小, 唯持仁义, 用心经营, 方可报效国家.', 2)
 
-            game_mgr.ui_mgr.show_base_ui(False)
-            game_mgr.ui_mgr.create_player_controller.show_dialog(on_create_player)
-    
+            def co_story1():
+                game_mgr.ui_mgr.show_base_ui(False)
+                
+                dlg1 = game_mgr.ui_mgr.story_panel_controller
+                dlg1.init()
+                
+                dlg1.show_text('经历了桓灵二帝的反复捶打, 已经到了那个年份')
+                yield WaitForSeconds(1.5)
+                
+                dlg1.show_text('这天你正在大街上晃荡, 走得不算快. 突然, 斜里过来一人, 一把将你拉住')
+                yield WaitForSeconds(1.5)
+                
+                dlg1.defer_close()
+                
+                dlg2 = game_mgr.ui_mgr.npc_dialog_controller
+                dlg2.init('')
+                
+                dlg2.show_text("陌生人: 你别走")
+                yield WaitForSeconds(1.5)
+                
+                dlg2.show_text("我: 我没钱")
+                yield WaitForSeconds(1.5)
+                
+                dlg2.show_text("陌生人: 不是问你要钱, 我给你钱!")
+                yield WaitForSeconds(1.5)
+                
+                dlg2.show_text("我: 还有这好事?")
+                yield WaitForSeconds(1.5)
+                
+                dlg2.show_text("陌生人: 请问尊姓大名?")
+                yield WaitForSeconds(1.5)
+                
+                dlg2.defer_close()
+                
+                dlg3 = game_mgr.ui_mgr.create_player_controller
+                #game_mgr.ui_mgr.create_player_controller.show_dialog(on_create_player)
+                dlg3.show_dialog(None)
+                yield WaitForClose(dlg3)
+                ctx_data['player_name'] = dlg3.player_name
+                
+                log_debug('player name', dlg3.player_name)
+                
+                dlg1.init()
+                dlg1.show_text('这就是我被拉壮丁的经过. 在大街上, 陌生人问你姓名, 千万不要接茬')
+                yield WaitForSeconds(2.5)
+                dlg1.defer_close()
+                
+                game_mgr.co_mgr.start(co_create_main_player())
+                game_mgr.co_mgr.start(co_create_robot_player())
+                game_mgr.co_mgr.start(co_show_dialog())
+            
+            game_mgr.co_mgr.start(co_story1())
         game_mgr.co_mgr.start(co_wait_for_ground())
 
         test_wait_1()

@@ -191,11 +191,11 @@ Modules = [
     'Modules/cjkcodecs/_codecs_cn.c',
     'Modules/posixmodule.c',
 
+    # PC平台相关的几个文件
     'Modules/_io/winconsoleio.c',
     'Modules/_winapi.c',
-
-    'PC/invalid_parameter_handler.c',
     'Python/dynload_win.c',
+    'PC/invalid_parameter_handler.c',
     'PC/dl_nt.c',
     'PC/winreg.c',
 ]
@@ -204,7 +204,7 @@ LIBRARY_OBJS_OMIT_FROZEN = [
     'Modules/getbuildinfo.c'
 ] + PARSER_OBJS + OBJECT_OBJS + PYTHON_OBJS 
 
-
+# 第三方依赖
 ZLIB = 'd:/OpenSource/zlib'
 SQLITE3 = 'd:/OpenSource/sqlite3'
 
@@ -225,7 +225,7 @@ cppdefines = [
 
     ('VPATH', f'\\"{ModuleName}\\"'),
     ('PY3_DLLNAME', f'\\"{ModuleName}\\"'),
-    ('MS_DLL_ID', 'TEXT(\\"{PY_VER}\\")'),
+    ('MS_DLL_ID', f'TEXT(\\"{PY_VER}\\")'),
     ('PREFIX', f'\\"prefix\\"'),
     ('EXEC_PREFIX', f'\\"exec_prefix\\"'),
     ('VERSION', f'\\"{PY_VER}\\"'),

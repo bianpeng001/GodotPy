@@ -15,7 +15,7 @@ from game.config_mgr import new_hero_name
 class CreatePlayerController(UIController, PopupTrait):
     def __init__(self):
         super().__init__()
-        pass
+        self.player_name = ''
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
@@ -36,6 +36,8 @@ class CreatePlayerController(UIController, PopupTrait):
         
         self.popup_screen_center()
         self.ok_cb = ok_cb
+        
+        log_debug('xxx', self.is_show())
         
     def on_ok_click(self):
         self.defer_close()

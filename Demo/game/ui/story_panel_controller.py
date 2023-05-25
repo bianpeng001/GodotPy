@@ -27,7 +27,6 @@ class StoryPanelController(UIController, PopupTrait):
         
         self.init()
         
-        
     def hide_all(self):
         self.chapter.set_visible(False)
         self.picture.set_visible(False)
@@ -36,6 +35,7 @@ class StoryPanelController(UIController, PopupTrait):
     def init(self):
         self.hide_all()
         self.set_position(176, 100)
+        self.show()
 
     def play_story(self, text_list, on_complete=None):
         game_mgr.co_mgr.start(self.co_play_story(text_list, on_complete))
