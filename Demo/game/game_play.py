@@ -376,7 +376,7 @@ class GamePlay:
         game_mgr.event_mgr.emit(MAINUI_REFRESH)
 
     # 创建队伍
-    def create_troop(self, city_unit, hero_list, x,y,z, army_amount, model_type):
+    def create_troop(self, city_unit, hero_list, x:float,y:float,z:float, army_amount, model_type):
         # 主将
         chief_hero_id = 0
         for item in hero_list:
@@ -409,7 +409,7 @@ class GamePlay:
     #
     # 释放技能, 伤害结算. 目前这个是伤害的唯一方式
     #
-    def cast_skill(self, skill_config_id, src_unit, target_unit):
+    def cast_skill(self, skill_config_id: int, src_unit, target_unit):
         cfg = game_mgr.config_mgr.get_skill(skill_config_id)
         
         # 放特效

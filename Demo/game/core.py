@@ -536,25 +536,25 @@ class FNode(FObject):
         return gp.node_get_name(self.get_gdobj())
 
 class FNode3D(FNode):
-    def set_position(self, x,y,z):
+    def set_position(self, x:float, y:float, z:float):
         gp.set_position(self.get_gdobj(), x,y,z)
 
-    def set_rotation(self, x,y,z):
+    def set_rotation(self, x:float, y:float, z:float):
         gp.set_rotation(self.get_gdobj(), x,y,z)
 
-    def set_scale(self, sx,sy,sz):
+    def set_scale(self, sx: float,sy: float,sz: float):
         gp.set_scale(self.get_gdobj(), sx,sy,sz)
 
-    def set_scale1(self, s):
+    def set_scale1(self, s: float):
         gp.set_scale(self.get_gdobj(), s, s, s)
 
     def get_position(self):
         return gd.get_position(self.get_gdobj())
 
-    def look_at(self, x,y,z):
+    def look_at(self, x:float, y:float, z:float):
         gp.look_at(self.get_gdobj(), x,y,z)
 
-    def set_visible(self, value):
+    def set_visible(self, value: bool):
         gp.node3d_set_visible(self.get_gdobj(), value)
 
     def get_forward(self):
@@ -566,17 +566,17 @@ class FNode3D(FNode):
     #     return GetWrappedObject(gdobj)
 
 class FCamera3D(FNode3D):
-    def screen_to_world(self, x,y):
+    def screen_to_world(self, x:float, y:float):
         return gp.screen_to_world(self.get_gdobj(), x, y)
 
-    def world_to_screen(self, x,y,z):
+    def world_to_screen(self, x:float, y:float, z:float):
         return gp.world_to_screen(self.get_gdobj(), x,y,z)
 
 class FVisualInstance3D(FNode3D):
     pass
 
 class FMeshInstance3D(FVisualInstance3D):
-    def load_material(self, index, path):
+    def load_material(self, index: int, path: str):
         gp.mesh_instance3d_load_material(self.get_gdobj(), index, path)
 
     def set_albedo_color(self, r,g,b):
