@@ -31,13 +31,11 @@ class CreatePlayerController(UIController, PopupTrait):
         self.player_name = new_hero_name()
         self.text_edit.set_text(self.player_name)
         
-    def show_dialog(self, ok_cb):
+    def show_dialog(self, ok_cb=None):
         self.change_click()
         
         self.popup_screen_center()
         self.ok_cb = ok_cb
-        
-        log_debug('xxx', self.is_show())
         
     def on_ok_click(self):
         self.defer_close()

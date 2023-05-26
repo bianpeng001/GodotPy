@@ -150,7 +150,7 @@ Modules = [
     'Modules/atexitmodule.c',
     'Modules/_abc.c',
     'Modules/arraymodule.c',
-    'Modules/audioop.c',
+    #'Modules/audioop.c',
     'Modules/binascii.c',
     'Modules/cmathmodule.c',
     'Modules/errnomodule.c',

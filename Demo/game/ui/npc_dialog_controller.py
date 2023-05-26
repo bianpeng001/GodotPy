@@ -18,7 +18,7 @@ class NpcDialogController(UIController, PopupTrait):
         self.ui_obj = ui_obj
         self.dialog_label = self.ui_obj.find_node('Label')
 
-    def init(self, text, show_time = 1):
+    def init(self, text='', show_time = 1):
         self.show_time = show_time
         self.dialog_label.set_text(text)
 
