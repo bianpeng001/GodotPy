@@ -229,7 +229,7 @@ class GamePlay:
                 yield WaitForSeconds(1.5)
                 dlg1.show_text('然后我认识了几个兄弟, 出生入生好几年')
                 yield WaitForSeconds(1.5)
-                dlg1.show_text('不过我武功还可以, 加上运气不错')
+                dlg1.show_text('我们几个武功还可以, 加上运气不错')
                 yield WaitForSeconds(1.5)
                 dlg1.show_text('没在某场战斗里,被箭射死,被刀砍死,被马踩死,落河淹死...')
                 yield WaitForSeconds(1.5)
