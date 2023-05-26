@@ -566,10 +566,10 @@ class FNode3D(FNode):
     #     return GetWrappedObject(gdobj)
 
 class FCamera3D(FNode3D):
-    def screen_to_world(self, x:float, y:float):
+    def screen_to_world(self, x:float, y:float) -> None:
         return gp.screen_to_world(self.get_gdobj(), x, y)
 
-    def world_to_screen(self, x:float, y:float, z:float):
+    def world_to_screen(self, x:float, y:float, z:float) -> None:
         return gp.world_to_screen(self.get_gdobj(), x,y,z)
 
 class FVisualInstance3D(FNode3D):
@@ -586,7 +586,7 @@ class FMeshInstance3D(FVisualInstance3D):
         gp.mesh_instance3d_set_surface_material(self.get_gdobj(), surface, mat)
 
 class FAnimationPlayer(FNode):
-    def play(self, anim_name):
+    def play(self, anim_name: str) -> None:
         gp.animation_player_play(self.get_gdobj(), anim_name)
 
     def stop(self):
@@ -595,19 +595,19 @@ class FAnimationPlayer(FNode):
     def pause(self):
         pass
 
-    def set_speed_scale(self, speed):
+    def set_speed_scale(self, speed: float) -> None:
         gp.animation_player_set_speed_scale(self.get_gdobj(), speed)
 
 class FLabel3D(FNode3D):
-    def set_text(self, text):
+    def set_text(self, text: str) -> None:
         gp.label3d_set_text(self.get_gdobj(), text)
 
 class FCPUParticles3D(FVisualInstance3D):
-    def set_emitting(self, value):
+    def set_emitting(self, value: bool) -> None:
         gp.cpu_particle_set_emitting(self.get_gdobj(), value)
 
 class FCanvasItem(FNode):
-    def set_visible(self, value):
+    def set_visible(self, value: bool) -> None:
         self.visible = value
         gp.canvas_item_set_visible(self.get_gdobj(), value)
         
@@ -617,26 +617,26 @@ class FCanvasItem(FNode):
     def draw_line(self, x1,y1,x2,y2, color, width):
         pass
     
-    def draw_polyline(self, points, r,g,b, width):
+    def draw_polyline(self, points, r: float, g: float, b: float, width):
         gp.canvas_item_draw_polyline(self.get_gdobj(), points, r,g,b, width)
 
 class FControl(FCanvasItem):
-    def set_position(self, x,y):
+    def set_position(self, x: float,y: float) -> None:
         gp.control_set_position(self.get_gdobj(), x,y)
 
-    def set_size(self, w,h):
+    def set_size(self, w: float,h: float) -> None:
         gp.control_set_size(self.get_gdobj(), w,h)
 
     def get_rect(self):
         return gp.control_get_rect(self.get_gdobj())
 
-    def set_modulate(self,r,g,b):
+    def set_modulate(self, r: float, g: float, b: float) -> None:
         gp.canvas_item_set_modulate(self.get_gdobj(), r,g,b)
 
-    def set_self_modulate(self, r,g,b):
+    def set_self_modulate(self, r: float, g: float, b: float) -> None:
         gp.canvas_item_set_self_modulate(self.get_gdobj(), r,g,b)
         
-    def set_tooltip(self, text):
+    def set_tooltip(self, text: str) -> None:
         gp.control_set_tooltip(self.get_gdobj(), text)
 
 class FTabBar(FControl):
@@ -656,14 +656,14 @@ class FLabel(FControl):
             self.text = text
             gp.label_set_text(self.get_gdobj(), text)
             
-    def set_color(self, r,g,b,a):
+    def set_color(self, r: float, g: float, b: float, a: float) -> None:
         gp.label_set_color(self.get_gdobj(), r,g,b,a)
 
-    def set_minimum_size(self, w, h):
+    def set_minimum_size(self, w: float, h: float) -> None:
         gp.label_set_minimum_size(self.get_gdobj(), w, h)
 
 class FRichTextLabel(FControl):
-    def set_text(self, text):
+    def set_text(self, text: str) -> None:
         gp.rich_text_label_set_text(self.get_gdobj(), text)
 
 #

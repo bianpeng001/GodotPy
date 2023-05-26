@@ -17,16 +17,16 @@ class WaitForSeconds(Waitable):
         return game_mgr.sec_time >= self.stop
     
 #
-#
+# 等待面板关闭
 #
 class WaitForClose(Waitable):
-    def __init__(self, panel):
+    def __init__(self, pnl):
         super().__init__()
-        self.panel = panel
+        self.pnl = pnl
         
     def is_done(self):
-        #log_debug('wait', self.panel.is_show())
-        return not self.panel.is_show()
+        return not self.pnl.is_show()
+    
 
 def test_wait_1():
     def co_print_number():
