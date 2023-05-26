@@ -876,3 +876,5 @@ def obstacle(fun):
         return fun(*args, **kw_args)
     return _fun
 
+
+
