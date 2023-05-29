@@ -510,51 +510,51 @@ class FNode(FObject):
         gdobj = gp.find_node(self.get_gdobj(), path)
         return GetWrappedObject(gdobj)
 
-    def reparent(self, new_parent_obj):
+    def reparent(self, new_parent_obj) -> None:
         gp.reparent(self.get_gdobj(), new_parent_obj.get_gdobj())
 
     def get_parent(self):
         parent_gdobj = gp.get_parent(self.get_gdobj())
         return GetWrappedObject(parent_gdobj)
 
-    def set_process(self, process=False,input=False,physics=False):
+    def set_process(self, process=False,input=False,physics=False) -> None:
         gp.set_process(self.get_gdobj(), process)
         gp.set_process_input(self.get_gdobj(), input)
         gp.set_physics_process(self.get_gdobj(), physics)
     
-    def find_control(self, x,y):
+    def find_control(self, x:float,y:float):
         gdobj = gp.find_control(self.get_gdobj(), x, y)
         return GetWrappedObject(gdobj)
 
     def set_last(self):
         gp.node_set_last(self.get_gdobj())
         
-    def set_name(self, name):
+    def set_name(self, name: str) -> None:
         gp.node_set_name(self.get_gdobj(), name)
         
     def get_name(self):
         return gp.node_get_name(self.get_gdobj())
 
 class FNode3D(FNode):
-    def set_position(self, x:float, y:float, z:float):
+    def set_position(self, x:float, y:float, z:float) -> None:
         gp.set_position(self.get_gdobj(), x,y,z)
 
-    def set_rotation(self, x:float, y:float, z:float):
+    def set_rotation(self, x:float, y:float, z:float) -> None:
         gp.set_rotation(self.get_gdobj(), x,y,z)
 
-    def set_scale(self, sx: float,sy: float,sz: float):
+    def set_scale(self, sx:float,sy:float,sz:float) -> None:
         gp.set_scale(self.get_gdobj(), sx,sy,sz)
 
-    def set_scale1(self, s: float):
+    def set_scale1(self, s:float) -> None:
         gp.set_scale(self.get_gdobj(), s, s, s)
 
     def get_position(self):
         return gd.get_position(self.get_gdobj())
 
-    def look_at(self, x:float, y:float, z:float):
+    def look_at(self, x:float, y:float, z:float) -> None:
         gp.look_at(self.get_gdobj(), x,y,z)
 
-    def set_visible(self, value: bool):
+    def set_visible(self, value: bool) -> None:
         gp.node3d_set_visible(self.get_gdobj(), value)
 
     def get_forward(self):
@@ -595,7 +595,7 @@ class FAnimationPlayer(FNode):
     def pause(self):
         pass
 
-    def set_speed_scale(self, speed: float) -> None:
+    def set_speed_scale(self, speed:float) -> None:
         gp.animation_player_set_speed_scale(self.get_gdobj(), speed)
 
 class FLabel3D(FNode3D):
@@ -611,29 +611,29 @@ class FCanvasItem(FNode):
         self.visible = value
         gp.canvas_item_set_visible(self.get_gdobj(), value)
         
-    def queue_redraw(self):
+    def queue_redraw(self) -> None:
         gp.canvas_item_queue_redraw(self.get_gdobj())
     
     def draw_line(self, x1,y1,x2,y2, color, width):
         pass
     
-    def draw_polyline(self, points, r: float, g: float, b: float, width):
+    def draw_polyline(self, points, r:float, g:float, b:float, width:float) -> None:
         gp.canvas_item_draw_polyline(self.get_gdobj(), points, r,g,b, width)
 
 class FControl(FCanvasItem):
-    def set_position(self, x: float,y: float) -> None:
+    def set_position(self, x:float,y:float) -> None:
         gp.control_set_position(self.get_gdobj(), x,y)
 
-    def set_size(self, w: float,h: float) -> None:
+    def set_size(self, w:float,h:float) -> None:
         gp.control_set_size(self.get_gdobj(), w,h)
 
     def get_rect(self):
         return gp.control_get_rect(self.get_gdobj())
 
-    def set_modulate(self, r: float, g: float, b: float) -> None:
+    def set_modulate(self, r:float, g:float, b:float) -> None:
         gp.canvas_item_set_modulate(self.get_gdobj(), r,g,b)
 
-    def set_self_modulate(self, r: float, g: float, b: float) -> None:
+    def set_self_modulate(self, r:float, g:float, b:float) -> None:
         gp.canvas_item_set_self_modulate(self.get_gdobj(), r,g,b)
         
     def set_tooltip(self, text: str) -> None:
@@ -643,7 +643,7 @@ class FTabBar(FControl):
     def get_current_tab(self):
         return gp.tab_bar_get_current_tab(self.get_gdobj())
 
-    def set_current_tab(self, index):
+    def set_current_tab(self, index:int) -> None:
         gp.tab_bar_set_current_tab(self.get_gdobj(), index)
 
 class FLabel(FControl):
@@ -656,10 +656,10 @@ class FLabel(FControl):
             self.text = text
             gp.label_set_text(self.get_gdobj(), text)
             
-    def set_color(self, r: float, g: float, b: float, a: float) -> None:
+    def set_color(self, r:float, g:float, b:float, a:float) -> None:
         gp.label_set_color(self.get_gdobj(), r,g,b,a)
 
-    def set_minimum_size(self, w: float, h: float) -> None:
+    def set_minimum_size(self, w:float, h:float) -> None:
         gp.label_set_minimum_size(self.get_gdobj(), w, h)
 
 class FRichTextLabel(FControl):
@@ -670,16 +670,16 @@ class FRichTextLabel(FControl):
 # button
 #
 class FBaseButton(FControl):
-    def set_disabled(self, value):
+    def set_disabled(self, value: bool) -> None:
         gp.base_button_set_disabled(self.get_gdobj(), value)
 
-    def is_pressed(self):
+    def is_pressed(self) -> bool:
         return gp.base_button_is_pressed(self.get_gdobj())
 
-    def set_pressed(self, value):
-        return gp.base_button_set_pressed(self.get_gdobj(), value)
+    def set_pressed(self, value: bool) -> None:
+        gp.base_button_set_pressed(self.get_gdobj(), value)
 
-    def set_text(self, text):
+    def set_text(self, text: str) -> None:
         self.text = text
         gp.button_set_text(self.get_gdobj(), text)
 
@@ -698,10 +698,10 @@ class FCheckBox(FBaseButton):
     pass
 
 class FTextEdit(FControl):
-    def get_text(self):
+    def get_text(self) -> str:
         return gp.text_edit_get_text(self.get_gdobj())
 
-    def set_text(self, s):
+    def set_text(self, s: str) -> None:
         gp.text_edit_set_text(self.get_gdobj(), s)
 
 class FPanel(FControl):
@@ -718,10 +718,10 @@ class FContainer(FControl):
     pass
 
 class FTextureRect(FControl):
-    def load_tex(self, path):
+    def load_tex(self, path: str) -> None:
         gp.texture_rect_load_texture(self.get_gdobj(), path)
 
-    def set_tex(self, tex):
+    def set_tex(self, tex) -> None:
         gp.texture_rect_set_texture(self.get_gdobj(), tex)
 
 class FColorRect(FControl):
@@ -738,12 +738,12 @@ class FSlider(FControl):
         #return gp.slider_get_value(self.get_gdobj())
         return self.value
 
-    def set_value(self, value):
+    def set_value(self, value) -> None:
         self.value = value
         gp.slider_set_value(self.get_gdobj(), value)
 
 class FNode2D(FCanvasItem):
-    def set_position(self, x,y):
+    def set_position(self, x:float,y:float) -> None:
         gp.node2d_set_position(self.get_gdobj(), x,y)
 
 class FSubViewport(FNode):
@@ -755,28 +755,28 @@ class FSurfaceTool:
     def __init__(self):
         self.st = gp.surface_tool_new()
 
-    def set_uv(self, x,y):
+    def set_uv(self, x:float,y:float) -> None:
         gp.surface_tool_set_uv(self.st, x,y)
         
-    def set_uv2(self, x,y):
+    def set_uv2(self, x:float,y:float) -> None:
         gp.surface_tool_set_uv2(self.st, x,y)
 
-    def set_color(self, r,g,b,a):
+    def set_color(self, r:float,g:float,b:float,a:float) -> None:
         gp.surface_tool_set_color(self.st, r,g,b,a)
         
-    def set_custom(self, channel_index, r,g,b,a):
+    def set_custom(self, channel_index:int, r:float,g:float,b:float,a:float) -> None:
         gp.surface_tool_set_custom(self.st, r,g,b,a)
 
-    def set_normal(self, x,y,z):
+    def set_normal(self, x:float,y:float,z:float) -> None:
         gp.surface_tool_set_normal(self.st, x,y,z)
     
-    def add_vertex(self, x,y,z):
+    def add_vertex(self, x:float,y:float,z:float) -> None:
         gp.surface_tool_add_vertex(self.st, x,y,z)
 
-    def add_index(self, i):
+    def add_index(self, i:int) -> None:
         gp.surface_tool_add_index(self.st, i)
 
-    def add_triangle(self, a,b,c):
+    def add_triangle(self, a:int, b:int ,c:int) -> None:
         self.add_index(a)
         self.add_index(b)
         self.add_index(c)
@@ -842,7 +842,7 @@ _TypeMap = {
 }
 
 # 传给c++,那边,当新增一个类型的时候,需要注册到py端,关键需要保持type_id一致
-def _reg_type(type_name, type_id):
+def _reg_type(type_name: str, type_id: int)  -> None:
     f_type = _TypeMap.get(type_name, FNode)
     _FTypeList[type_id] = f_type
     log_util.debug(f'_reg_type: {type_name} -> {type_id} {f_type}')
