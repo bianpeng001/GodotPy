@@ -192,9 +192,11 @@ class GamePlay:
                 game_mgr.ui_mgr.show_base_ui(False)
                 
                 dlg1.init()
-                dlg1.show_text('经历了桓灵二帝的反复捶打, 来到了那个年份')
+                dlg1.show_text('这天, 我正在街上闲逛')
                 yield WaitForSeconds(1.5)
-                dlg1.show_text('这天你正在大街上晃荡, 走得不算快. 突然, 斜里过来一人, 一把将你拉住')
+                dlg1.show_text('暗暗发愁晚饭还没着落, 只好走慢点节省体力')
+                yield WaitForSeconds(1.5)
+                dlg1.show_text('突然, 斜里过来一人, 一把将我拉住')
                 yield WaitForSeconds(1.5)
                 dlg1.defer_close()
                 
@@ -207,7 +209,7 @@ class GamePlay:
                 yield WaitForSeconds(1.5)
                 dlg2.show_text("(我): 还有这好事?")
                 yield WaitForSeconds(1.5)
-                dlg2.show_text("(陌生人): 请问尊姓大名?")
+                dlg2.show_text("(陌生人): 未请教尊姓大名?")
                 yield WaitForSeconds(1.5)
                 dlg2.defer_close()
                 
@@ -220,6 +222,8 @@ class GamePlay:
                 yield WaitForSeconds(1.5)
                 dlg2.show_text("(我): 真的吗?")
                 yield WaitForSeconds(1.5)
+                dlg2.show_text("(陌生人): 吾看你走路姿势气质不凡, 眼下虽然时运不济, 他日风云际会前途不可限量")
+                yield WaitForSeconds(2.5)
                 dlg2.defer_close()
                 
                 #log_debug('player name', dlg3.player_name)
@@ -231,9 +235,11 @@ class GamePlay:
                 yield WaitForSeconds(1.5)
                 dlg1.show_text('我们几个武功还可以, 加上运气不错')
                 yield WaitForSeconds(1.5)
-                dlg1.show_text('没在某场战斗里,被箭射死,被刀砍死,被马踩死,落河淹死...')
-                yield WaitForSeconds(1.5)
-                dlg1.show_text('总之, 现在这里做了一个普通的县尉')
+                dlg1.show_text('没在某场战斗里, 被箭射死, 被刀砍死, 被马踩死, 落河淹死...')
+                yield WaitForSeconds(2.5)
+                dlg1.show_text('后来仗打完了, 上头论功行赏')
+                yield WaitForSeconds(2.5)
+                dlg1.show_text('我和两位兄弟, 来到此处当了个普通县尉')
                 yield WaitForSeconds(1.5)
                 dlg1.defer_close()
                 

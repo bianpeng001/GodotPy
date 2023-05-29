@@ -199,6 +199,6 @@ if __name__ == '__main__':
         cmd = sys.argv[1]
         call_task(cmd)
     else:
-        pass
+        print('cmd required')
     
 
