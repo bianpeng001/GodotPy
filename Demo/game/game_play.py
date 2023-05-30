@@ -294,6 +294,8 @@ class GamePlay:
     # 因此, godot离优秀, 还差那么一点点. 而我的游戏, 离优秀还差不止一点点.
     # 秉承严于律己, 宽以待人. 感谢godot已经做了很多, 我们自己做一点点清理, 也不算过.
     def on_leave_scene(self):
+        game_mgr.ui_mgr.cmd_panel_controller.on_leave_scene()
+        
         # 这是要清理surface material override
         # 不然就有报错, 所以, 虽然不太合理,但还是可以做一下
         for city in game_mgr.unit_mgr.loop_cities():
@@ -303,8 +305,6 @@ class GamePlay:
                     flag_node.set_surface_material(0, None)
                     flag_node.set_surface_material(1, None)
         
-        game_mgr.ui_mgr.cmd_panel_controller.on_leave_scene()
-
         # 清理tile
         for tile in game_mgr.ground_mgr.loop_tiles():
             tile.unload()
@@ -315,7 +315,8 @@ class GamePlay:
         
         # reset cursor, othewise when exit app the console report leak error of the cursor texture2d asset
         self.cursor_list = None
-        OS.set_custom_mouse_cursor(None, 0, 1, 1)
+        self.set_cursor(0)
+        #OS.set_custom_mouse_cursor(None, 0, 1, 1)
         
     # API方法，业务代码
 
@@ -356,7 +357,7 @@ class GamePlay:
             self.set_city_owner(city, player)
             city.get_controller().set_flag_color()
 
-    def update(self, delta_time):
+    def update(self, delta_time: float) -> None:
         # 游戏时间
         game_data = game_mgr.game_data
         time_scale = game_mgr.config_mgr.play_time_scale
@@ -373,7 +374,7 @@ class GamePlay:
 
     # 刷新所有的资源增长, 这个开销也不大
     # delta_time: 间隔时长，单位秒
-    def refresh_player_resource(self, delta_time: float):
+    def refresh_player_resource(self, delta_time: float) -> None:
         for city in game_mgr.unit_mgr.loop_cities():
             city.get_controller().refresh_resource_amount(delta_time)
         
@@ -391,9 +392,10 @@ class GamePlay:
 
     # 创建队伍
     def create_troop(self,
-            city_unit: object, hero_list:[object], 
-            x:float, y:float, z:float,
-            army_amount:int , model_type: int):
+            city_unit: object,
+            hero_list:[object],
+            x:float,y:float,z:float,
+            army_amount:int , model_type: int) -> object:
         # 主将
         chief_hero_id = 0
         for item in hero_list:

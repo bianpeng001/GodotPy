@@ -76,6 +76,7 @@ class CmdPanelController(UIController, PopupTrait):
         self.target_list = []
         self.unit_list = []
         
+        # 当前子面板
         self.cur_dlg = None
 
     def on_leave_scene(self):
