@@ -192,9 +192,9 @@ class GamePlay:
                 game_mgr.ui_mgr.show_base_ui(False)
                 
                 dlg1.init()
-                dlg1.show_text('这天, 我正在街上闲逛')
+                dlg1.show_text('有一天, 我在街上漫无目的的闲逛')
                 yield WaitForSeconds(1.5)
-                dlg1.show_text('暗暗发愁晚饭还没着落, 只好走慢点节省体力')
+                dlg1.show_text('发愁晚饭还没着落, 只好走慢点节省体力')
                 yield WaitForSeconds(1.5)
                 dlg1.show_text('突然, 斜里过来一人, 一把将我拉住')
                 yield WaitForSeconds(1.5)
@@ -226,8 +226,6 @@ class GamePlay:
                 yield WaitForSeconds(2.5)
                 dlg2.defer_close()
                 
-                #log_debug('player name', dlg3.player_name)
-                
                 dlg1.init()
                 dlg1.show_text('这就是我被拉壮丁的经过')
                 yield WaitForSeconds(1.5)
@@ -237,10 +235,12 @@ class GamePlay:
                 yield WaitForSeconds(1.5)
                 dlg1.show_text('没在某场战斗里, 被箭射死, 被刀砍死, 被马踩死, 落河淹死...')
                 yield WaitForSeconds(2.5)
-                dlg1.show_text('后来仗打完了, 上头论功行赏')
-                yield WaitForSeconds(2.5)
-                dlg1.show_text('我和两位兄弟, 来到此处当了个普通县尉')
+                dlg1.show_text('再后来, 仗打完了')
                 yield WaitForSeconds(1.5)
+                dlg1.show_text('我跟两位兄弟, 安排来到此处当了个普通县尉')
+                yield WaitForSeconds(1.5)
+                dlg1.show_text('故事便从这里开始')
+                yield WaitForSeconds(2.5)
                 dlg1.defer_close()
                 
                 game_mgr.co_mgr.start(co_create_main_player(player_name))
@@ -249,15 +249,15 @@ class GamePlay:
                 yield
                 
                 dlg1.init()
-                dlg1.show_chapter(f'第一回 治理{city_name}')
-                yield WaitForSeconds(3.5)
+                dlg1.show_chapter(f'第一回 赴任{city_name}')
+                yield WaitForSeconds(2.5)
                 dlg1.defer_close()
                 
                 dlg2.init()
-                dlg2.show_text('如今各处历经兵乱, 民生凋敝, 此处虽小, 唯持仁义, 用心经营, 方可报效国家.')
-                yield WaitForSeconds(2.5)
-                dlg2.show_text('大哥, 先看下城里的[color=red]内政[/color]情况吧.')
-                yield WaitForSeconds(2.5)
+                dlg2.show_text('(关羽): 如今各处刚历经兵乱, 此处虽小, 也可以励精图治')
+                yield WaitForSeconds(1.5)
+                dlg2.show_text('(张飞): 大哥, 先看下城里的[color=red]内政[/color]情况吧')
+                yield WaitForSeconds(1.5)
                 dlg2.defer_close()
                 
                 game_mgr.ui_mgr.show_base_ui(True)
@@ -277,8 +277,8 @@ class GamePlay:
 
     def set_cursor(self, index):
         #OS.set_custom_mouse_cursor(None, 0, 0, 0)
-        if index > 0:
-            OS.set_custom_mouse_cursor(self.cursor_list[index].res, 0, 1, 1)
+        OS.set_custom_mouse_cursor(self.cursor_list[index].res if index > 0 else None,\
+                0, 1, 1)
 
     def on_player_ready(self):
         mp = game_mgr.player_mgr.main_player

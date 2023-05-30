@@ -13,6 +13,8 @@ from game.load_world_map import Bmp
 SQRT_3 = math.sqrt(3)
 Z_RATIO = SQRT_3/2
 
+
+# 获取当前的tile_map实例
 def get_tile_map():
     return game_mgr.ground_mgr.tile_map
 
@@ -35,8 +37,16 @@ class TileMap:
         self.width = col_c * self.tile_size
         self.height = row_c * self.z_tile_size
         
+        # 地块类型, 用来决定材质
         self.tile_type = 1
+        # 格子的类型, 点采样, 线性采样
+        self.cell_type = 1
+        # 循环次数, 用于计算UV时, repeat次数
         self.repeat_count = 1
+        
+    def load(self):
+        pass
+        
 #
 # tile内部，a*寻路
 # tile外部，大a*寻路
@@ -110,7 +120,7 @@ class TileItem:
         tile_map = get_tile_map()
         
         s = tile_map.tile_size
-        s += -0.5
+        # s += -0.5
         mi.set_scale(s,s,s)
         
         st = FSurfaceTool()
@@ -131,6 +141,9 @@ class TileItem:
         left = -0.5
         bottom = -0.5*SQRT_3/2
         
+        # 六边形里面是否需要计算线性uv
+        cell_linear_uv = tile_map.cell_type == 1
+        
         def loop_cells():
             i = 0
             while i < 100:
@@ -143,21 +156,23 @@ class TileItem:
             if update_uv:
                 # 映射到世界坐标, 去计算UV, 现在世界对应一个大图, 所以映射到0-1
                 # 后面应该可以做成多个大图拼接的世界, 这样映射到对应的范围即可
-                st.set_uv((pos_x+x*s)/width+0.5, (pos_z+z*s)/height+0.5)
-            st.add_vertex(x, y, z)
+                st.set_uv((pos_x+x*s)/width+0.5,
+                        (pos_z+z*s)/height+0.5)
+            st.add_vertex(x,y,z)
         
         vertex_index = 0
         for x,z in loop_cells():
             cx, cz = left+x*x_step, bottom+z*z_step
             if z % 2 != 0:
                 cx += half_x_step
-                
+            
+            # 生成六边形
             add_vertex(cx, 0, cz-radius, True)
-            add_vertex(cx-half_x_step, 0, cz-radius*0.5)
-            add_vertex(cx-half_x_step, 0, cz+radius*0.5)
-            add_vertex(cx, 0, cz+radius)
-            add_vertex(cx+half_x_step, 0, cz+radius*0.5)
-            add_vertex(cx+half_x_step, 0, cz-radius*0.5)
+            add_vertex(cx-half_x_step, 0, cz-radius*0.5, cell_linear_uv)
+            add_vertex(cx-half_x_step, 0, cz+radius*0.5, cell_linear_uv)
+            add_vertex(cx, 0, cz+radius, cell_linear_uv)
+            add_vertex(cx+half_x_step, 0, cz+radius*0.5, cell_linear_uv)
+            add_vertex(cx+half_x_step, 0, cz-radius*0.5, cell_linear_uv)
             
             st.add_triangle(vertex_index, vertex_index+2, vertex_index+1)
             st.add_triangle(vertex_index, vertex_index+3, vertex_index+2)
@@ -548,21 +563,22 @@ class TileItem:
         
         st.commit(mi)
 
+#
 # 地面，管理
+#
 class GroundMgr(NodeObject):
     def __init__(self):
         super().__init__()
         game_mgr.ground_mgr = self
 
-        # 地块
-        self.tile_dict = {}
         # 地图
         self.tile_map = None
-
+        # 地块
+        self.tile_dict = {}
         # 可见的地块, 用来卸载不可见的地块, 或者还要加一个age
         self.show_tile_list = []
         
-        # 保留一个加载完成的标记
+        # 加载完成的标记
         self.load_complete = False
 
     def _create(self):
@@ -638,8 +654,9 @@ class GroundMgr(NodeObject):
     # 从数据中加载
     def load_data(self):
         self.tile_map = TileMap(30, 30, 30)
-        self.tile_map.tile_type = 1
-        self.tile_map.repeat_count = 4
+        self.tile_map.tile_type = 2
+        self.tile_map.cell_type = 2
+        #self.tile_map.repeat_count = 4
         
         #w,h = 30,30
         w,h = self.tile_map.col_c, self.tile_map.row_c

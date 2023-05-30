@@ -11,7 +11,9 @@ from game.ui.ui_traits import PopupTrait
 from game.event_name import PRESSED, MAINUI_REFRESH, KEY_PRESS
 from game.input_mgr import KEY_F9, KEY_ESC
 
+#
 # 头顶主界面逻辑
+#
 class MainUIController(UIController, PopupTrait):
     def __init__(self):
         super().__init__()
