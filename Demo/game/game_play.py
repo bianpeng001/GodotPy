@@ -275,7 +275,7 @@ class GamePlay:
         ]
         self.set_cursor(1)
 
-    def set_cursor(self, index):
+    def set_cursor(self, index:int) -> None:
         #OS.set_custom_mouse_cursor(None, 0, 0, 0)
         OS.set_custom_mouse_cursor(
                 self.cursor_list[index].res if index > 0 else None,
@@ -295,7 +295,7 @@ class GamePlay:
     # 因此, godot离优秀, 还差那么一点点. 而我的游戏, 离优秀还差不止一点点.
     # 秉承严于律己, 宽以待人. 感谢godot已经做了很多, 我们自己做一点点清理, 也不算过.
     def on_leave_scene(self):
-        game_mgr.ui_mgr.cmd_panel_controller.on_leave_scene()
+        game_mgr.event_mgr.emit(LEAVE_SCENE)
         
         # 这是要清理surface material override
         # 不然就有报错, 所以, 虽然不太合理,但还是可以做一下
@@ -376,8 +376,8 @@ class GamePlay:
     # 刷新所有的资源增长, 这个开销也不大
     # delta_time: 间隔时长，单位秒
     def refresh_player_resource(self, delta_time:float) -> None:
-        for city in game_mgr.unit_mgr.loop_cities():
-            city.get_controller().refresh_resource_amount(delta_time)
+        for city_unit in game_mgr.unit_mgr.loop_cities():
+            city_unit.get_controller().refresh_resource_amount(delta_time)
         
         for player in game_mgr.player_mgr.loop_players():
             total_money_amount = 0
@@ -399,7 +399,8 @@ class GamePlay:
             city_unit:object,
             hero_list:[object],
             x:float,y:float,z:float,
-            army_amount:int , model_type:int) -> object:
+            army_amount:int,
+            model_type:int) -> object:
         # 主将
         chief_hero_id = 0
         for item in hero_list:

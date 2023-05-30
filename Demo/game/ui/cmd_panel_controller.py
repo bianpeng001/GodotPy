@@ -82,6 +82,7 @@ class CmdPanelController(UIController, PopupTrait):
         self.cur_dlg = None
 
     def on_leave_scene(self):
+        log_debug('cmd panel cleanup')
         self.icon_list = []
     
     def setup(self, ui_obj):
@@ -111,6 +112,7 @@ class CmdPanelController(UIController, PopupTrait):
         game_mgr.event_mgr.add(RECT_SELECT_UNITS_CHANGE, self.on_rect_select_units_changed)
         game_mgr.event_mgr.add(SCENE_UNIT_CLICK, self.on_scene_unit_click)
         game_mgr.event_mgr.add(SCENE_GROUND_CLICK, self.on_scene_ground_click)
+        game_mgr.event_mgr.add(LEAVE_SCENE, self.on_leave_scene)
         
         self.icon_list = [
             None,
