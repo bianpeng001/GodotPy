@@ -237,7 +237,7 @@ class GamePlay:
                 yield WaitForSeconds(2.5)
                 dlg1.show_text('再后来, 仗打完了')
                 yield WaitForSeconds(1.5)
-                dlg1.show_text('我跟两位兄弟, 安排来到此处当了个普通县尉')
+                dlg1.show_text('我跟两位兄弟, 被安排来到此处当了个普通县尉')
                 yield WaitForSeconds(1.5)
                 dlg1.show_text('故事便从这里开始')
                 yield WaitForSeconds(2.5)

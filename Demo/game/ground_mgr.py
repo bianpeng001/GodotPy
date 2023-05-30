@@ -663,7 +663,7 @@ class GroundMgr(NodeObject):
         cx,cy = w//2,h//2
 
         log_util.enable_debug = False
-        bmp = Bmp(r'game\data\world_map.bmp')
+        bmp = Bmp(r'game/data/world_map.bmp')
         for i in range(h*w):
             y, x = divmod(i, w)
             _,_,r = bmp.get_color(x,y)
@@ -675,7 +675,7 @@ class GroundMgr(NodeObject):
             tile.create_city()
         log_util.enable_debug = True
 
-        self.terrain_map = Bmp(r'game\data\world_terrain.bmp')
+        #self.terrain_map = Bmp(r'game\data\world_terrain.bmp')
         self.load_complete = True
 
     def loop_tiles(self):
