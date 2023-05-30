@@ -62,9 +62,9 @@ class PlayerBrainComponent(Component, AIMachine):
         
     def update(self, delta_time):
         self.tick_time += delta_time
-        if self.tick_time > 3:
+        if self.tick_time > 3.0:
             self.on_tick(self.tick_time)
-            self.tick_time = 0
+            self.tick_time = 0.0
             
     def get_player(self):
         return self.get_controller().get_player()
