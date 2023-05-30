@@ -36,6 +36,7 @@ class TileMap:
         self.height = row_c * self.z_tile_size
         
         self.tile_type = 1
+        self.repeat_count = 1
 #
 # tile内部，a*寻路
 # tile外部，大a*寻路
@@ -124,12 +125,8 @@ class TileItem:
         #width = 900
         #height = 900*Z_RATIO
         # 弄一个倍数, 是repeat的tile机制
-        width = tile_map.width
-        height = tile_map.height
-        
-        if tile_map.tile_type == 3:
-            width *= 0.25
-            height *= 0.25
+        width = tile_map.width / tile_map.repeat_count
+        height = tile_map.height / tile_map.repeat_count
         
         left = -0.5
         bottom = -0.5*SQRT_3/2
@@ -641,7 +638,8 @@ class GroundMgr(NodeObject):
     # 从数据中加载
     def load_data(self):
         self.tile_map = TileMap(30, 30, 30)
-        self.tile_map.tile_type = 2
+        self.tile_map.tile_type = 1
+        self.tile_map.repeat_count = 4
         
         #w,h = 30,30
         w,h = self.tile_map.col_c, self.tile_map.row_c

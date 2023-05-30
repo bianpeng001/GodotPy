@@ -373,7 +373,7 @@ class GamePlay:
 
     # 刷新所有的资源增长, 这个开销也不大
     # delta_time: 间隔时长，单位秒
-    def refresh_player_resource(self, delta_time):
+    def refresh_player_resource(self, delta_time: float):
         for city in game_mgr.unit_mgr.loop_cities():
             city.get_controller().refresh_resource_amount(delta_time)
         
@@ -390,7 +390,10 @@ class GamePlay:
         game_mgr.event_mgr.emit(MAINUI_REFRESH)
 
     # 创建队伍
-    def create_troop(self, city_unit, hero_list, x:float,y:float,z:float, army_amount, model_type):
+    def create_troop(self,
+            city_unit: object, hero_list:[object], 
+            x:float, y:float, z:float,
+            army_amount:int , model_type: int):
         # 主将
         chief_hero_id = 0
         for item in hero_list:
@@ -485,8 +488,8 @@ class GamePlay:
     # 在城里, 创建一个玩家
     def create_player(self,
             city_unit,
-            player_name=None,
-            is_main_player=False):
+            player_name = None,
+            is_main_player = False):
         player_name = player_name or new_hero_name()
         pm = game_mgr.player_mgr
         
