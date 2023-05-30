@@ -278,7 +278,7 @@ class GamePlay:
     def set_cursor(self, index):
         #OS.set_custom_mouse_cursor(None, 0, 0, 0)
         OS.set_custom_mouse_cursor(
-                self.cursor_list[index].res if index > 0 else None,\
+                self.cursor_list[index].res if index > 0 else None,
                 0, 1, 1)
 
     def on_player_ready(self):
@@ -375,28 +375,31 @@ class GamePlay:
 
     # 刷新所有的资源增长, 这个开销也不大
     # delta_time: 间隔时长，单位秒
-    def refresh_player_resource(self, delta_time: float) -> None:
+    def refresh_player_resource(self, delta_time:float) -> None:
         for city in game_mgr.unit_mgr.loop_cities():
             city.get_controller().refresh_resource_amount(delta_time)
         
         for player in game_mgr.player_mgr.loop_players():
-            player.total_money_amount = 0
-            player.total_rice_amount = 0
-
+            total_money_amount = 0
+            total_rice_amount = 0
+            
             for city_id in player.city_list:
-                city = game_mgr.unit_mgr.get_unit(city_id)
-                player.total_money_amount += city.money_amount.value
-                player.total_rice_amount += city.rice_amount.value
-        
+                city_unit = get_unit(city_id)
+                total_money_amount += city_unit.money_amount.value
+                total_rice_amount += city_unit.rice_amount.value
+                
+            player.total_money_amount = total_money_amount
+            player.total_rice_amount = total_rice_amount
+            
         # 完成，刷新界面
         game_mgr.event_mgr.emit(MAINUI_REFRESH)
 
     # 创建队伍
     def create_troop(self,
-            city_unit: object,
+            city_unit:object,
             hero_list:[object],
             x:float,y:float,z:float,
-            army_amount:int , model_type: int) -> object:
+            army_amount:int , model_type:int) -> object:
         # 主将
         chief_hero_id = 0
         for item in hero_list:
