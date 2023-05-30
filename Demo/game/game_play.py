@@ -277,12 +277,13 @@ class GamePlay:
 
     def set_cursor(self, index):
         #OS.set_custom_mouse_cursor(None, 0, 0, 0)
-        OS.set_custom_mouse_cursor(self.cursor_list[index].res if index > 0 else None,\
+        OS.set_custom_mouse_cursor(
+                self.cursor_list[index].res if index > 0 else None,\
                 0, 1, 1)
 
     def on_player_ready(self):
-        mp = game_mgr.player_mgr.main_player
-        log_debug('on_player_ready')
+        player = game_mgr.player_mgr.main_player
+        log_debug('on_player_ready', player.player_name)
         
         self.refresh_player_resource(0)
         

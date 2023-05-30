@@ -76,6 +76,8 @@ class CmdPanelController(UIController, PopupTrait):
         self.target_list = []
         self.unit_list = []
         
+        self.icon_list = []
+        
         # 当前子面板
         self.cur_dlg = None
 
