@@ -4,7 +4,7 @@
 IDI_ICON1               ICON    DISCARDABLE     "PC\icons\python.ico"
 
 #define VER_DBG 0
-#define PYTHON_VERSION "3.12.0a"
+#define PYTHON_VERSION "3.13.0a0"
 
 VS_VERSION_INFO VERSIONINFO
 FILEVERSION             1,0,0,0
@@ -24,7 +24,7 @@ BEGIN
 		VALUE "FileDescription",  "Godot Python"
 		VALUE "FileVersion",      PYTHON_VERSION
 		VALUE "InternalName",     "Godot Python"
-		VALUE "LegalCopyright",   "(C)2023 bianpeng001"
+		VALUE "LegalCopyright",   "(C)2023 Godot Python"
 		VALUE "OriginalFilename", ""
 		VALUE "ProductName",      ""
 		VALUE "ProductVersion",	  PYTHON_VERSION
