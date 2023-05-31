@@ -15,7 +15,9 @@ import sys
 # 即，子co先执行，父co后执行，这样当子co都已经完成的话，则父co可以本帧判断完成
 # 否则，需要下一帧判断完毕。
 
+#
 # 可以等待的，用来yield的
+#
 class Waitable:
     def __init__(self):
         pass
@@ -23,17 +25,20 @@ class Waitable:
     def is_done(self):
         return True
 
+#
 # 协程
+#
 class _Coroutine(Waitable):
     def __init__(self, iterator):
         self.done = False
         self.error = False
+        self.cancel = False
         self.last_yield_value = None
 
         self.iterator = iterator
 
     def is_done(self):
-        return self.done
+        return self.done or self.cancel
 
     def next(self):
         # 这个我最喜欢了
@@ -85,12 +90,16 @@ class CoroutineMgr:
         tmp = self.co_list
         self.co_list = self.back_co_list
         self.back_co_list = tmp
-
+        
+        
         for a in self.back_co_list:
             a.next()
             if not a.is_done():
                 self.co_list.append(a)
         self.back_co_list.clear()
+        
+    def cancel(self, co):
+        co.cancel = True
     
 
 if __name__ == '__main__':

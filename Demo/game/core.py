@@ -846,7 +846,7 @@ _TypeMap = {
 def _reg_type(type_name: str, type_id: int)  -> None:
     f_type = _TypeMap.get(type_name, FNode)
     _FTypeList[type_id] = f_type
-    log_util.debug(f'_reg_type: {type_name} -> {type_id} {f_type}')
+    log_debug(f'_reg_type: {type_name} -> {type_id} {f_type}')
 
 # 对原始的gdobj,做一个包装的对象,包装好的对象里,有对应Node类型的方法
 # gdobj的职责,是对c++端对象的一个弱引用
