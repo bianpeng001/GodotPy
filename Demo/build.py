@@ -156,6 +156,7 @@ def build_pck():
 def build_player_release():
     run(f'{SCONS_EXE} p=windows tools=no bits=64 -j{THREADS} target=template_release')
     run(f'{GIT_EXE} log -1 --format=%H > godot_ver.txt')
+    run(f'{GIT_EXE} archive -o Build/src.tgz HEAD Demo')
 
 def verinfo():
     os.chdir(GODOT_DIR)
