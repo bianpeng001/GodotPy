@@ -7,14 +7,16 @@
 
 # |¦
 class GuaItem:
-    def __init__(self, digits, name, detail):
-        self.digits = digits
+    def __init__(self, sname, name, digits, detail):
+        self.sname = sname
         self.name = name
+        self.digits = digits
         self.detail = detail
 
-guaci_list = [ i for i in range(64)]
+guaci_list = [ i for i in range(64) ]
 
-guaci_list[0] = GuaItem('000', '¦¦¦', '''坤：元亨。利牝马之贞。
+guaci_list[0b000000] = GuaItem('坤', '坤为地', '¦¦¦ ¦¦¦',\
+'''坤：元亨。利牝马之贞。
 君子有攸往，先迷后得，主利。
 西南得朋，东北丧朋。安贞，吉。
 初六：履霜，坚冰至。

@@ -85,7 +85,6 @@ class GamePlay:
             x1,z1 = main_city_unit.get_xz()
                 
             for i in range(50):
-                yield None
                 city_unit = game_mgr.unit_mgr.find_unit(lambda x:
                         x.unit_type == UT_CITY and \
                         in_range(x.get_x()-x1, -180, 180) and \
@@ -279,9 +278,9 @@ class GamePlay:
         #OS.set_custom_mouse_cursor(None, 0, 0, 0)
         OS.set_custom_mouse_cursor(
                 self.cursor_list[index].res if index > 0 else None,
-                0, 1, 1)
+                0, 2, 2)
 
-    def on_player_ready(self):
+    def on_player_ready(self) -> None:
         player = game_mgr.player_mgr.main_player
         log_debug('on_player_ready', player.player_name)
         
@@ -433,7 +432,7 @@ class GamePlay:
     #
     # 释放技能, 伤害结算. 目前这个是伤害的唯一方式
     #
-    def cast_skill(self, skill_config_id: int, src_unit, target_unit):
+    def cast_skill(self, skill_config_id:int, src_unit, target_unit) -> int:
         cfg = game_mgr.config_mgr.get_skill(skill_config_id)
         
         # 放特效
@@ -471,14 +470,18 @@ class GamePlay:
         
         # 释放一个技能, 传入一个结束回调
         game_mgr.skill_mgr.cast_skill(skill_config_id, on_complete)
+        
+        return 0
 
     # 击败
-    def defeat(self, src_unit, target_unit):
+    def defeat(self, src_unit, target_unit) -> int:
         if target_unit.unit_type == UT_CITY:
             self.occupy_city(src_unit, target_unit)
+            
+        return 0
     
     # 占领
-    def occupy_city(self, src_unit, city_unit):
+    def occupy_city(self, src_unit, city_unit) -> int:
         log_debug('occupy', src_unit.unit_name, city_unit.unit_name)
         if city_unit.owner_player_id != 0:
             player = get_player(city_unit.owner_player_id)
@@ -491,12 +494,14 @@ class GamePlay:
             controller = city_unit.get_controller()
             controller.get_hud_comp().set_valid(False)
             controller.set_flag_color()
+            
+        return 0
 
     # 在城里, 创建一个玩家
     def create_player(self,
             city_unit,
             player_name = None,
-            is_main_player = False):
+            is_main_player = False) -> object:
         player_name = player_name or new_hero_name()
         pm = game_mgr.player_mgr
         
