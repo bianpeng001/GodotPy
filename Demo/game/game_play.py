@@ -93,7 +93,7 @@ class GamePlay:
                 if city_unit:
                     player = self.create_player(city_unit,
                             player_name=None,
-                            is_main_player=False)
+                            set_main_player=False)
                     log_debug('create robot player', player.player_name, city_unit.unit_name)
 
         # 默认创建一个空城
@@ -125,7 +125,7 @@ class GamePlay:
                     player = self.create_player(
                             city_unit,
                             player_name=player_name,
-                            is_main_player=True)
+                            set_main_player=True)
                     
                     hero = player.get_main_hero()
                     hero.set_age(15+int(random_1()*20))
@@ -462,7 +462,7 @@ class GamePlay:
             
             target_unit.army_amount.add(-damage)
             hp = target_unit.army_amount.get_value()
-            log_debug('skill damage', damage, hp)
+            log_debug('skill damage', damage, 'remain', hp)
             # 如果目标被击败了
             if hp <= 0:
                 self.defeat(src_unit, target_unit)
@@ -500,14 +500,14 @@ class GamePlay:
     def create_player(self,
             city_unit:object,
             player_name:str = None,
-            is_main_player:bool = False) -> object:
+            set_main_player:bool = False) -> object:
         player_name = player_name or new_hero_name()
         pm = game_mgr.player_mgr
         
         player = pm.new_player()
         player.player_name = player_name
         player.first_name = player_name[0]
-        if is_main_player:
+        if set_main_player:
             pm.set_main_player(player)
         
         # 玩家自己对应的武将

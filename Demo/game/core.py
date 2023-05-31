@@ -284,6 +284,7 @@ def random_1():
 def random_int(min, max):
     return random.randint(min, max)
 
+#
 def random_select_item(item_list):
     if not item_list or len(item_list) == 0:
         return None, -1

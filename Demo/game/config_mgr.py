@@ -348,12 +348,14 @@ class ConfigMgr:
 
 def select_one(item_list, delete=False):
     item, index = random_select_item(item_list)
-    if delete:
+    if delete and index >= 0:
         item_list[index] = item_list[-1]
         item_list.pop()
     return item
 
+#
 # https://zh.wikipedia.org/wiki/%E4%B8%89%E5%9B%BD%E8%A1%8C%E6%94%BF%E5%8C%BA%E5%88%92
+#
 _city_name_data = [
 '洛阳','建业','成都','汉中','南皮','北平','武威','天水',
 '庐江','会稽','江陵','长沙','零陵','桂阳','建宁','云南',
@@ -383,8 +385,11 @@ _city_name_data = [
 '玉门关','昭关','铁门关','居庸关','剑门关','娄山关','阳关',
 '瞿塘关','仙霞关','汜水关','潼关','萧关','金堤关','昆仑关',
 '崤关','绵竹关','涪水关','壹关','阳平关','蒲津关','天门关',
+'逍遥津',
 
-'逍遥津','风陵渡','米仓山','牛头山',
+'烂柯山','芒砀山','牛头山','四明山','终南山','峨眉山',
+'风陵渡','米仓山','瓦岗寨',
+
 ]
 
 def new_city_name():
