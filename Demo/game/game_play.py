@@ -7,9 +7,9 @@ import json
 
 from game.core import *
 from game.game_mgr import *
+from game.base_type import *
 from game.event_name import *
 from game.wait import *
-from game.base_type import *
 from game.config_mgr import parse_name, new_hero_name
 
 #
@@ -37,12 +37,12 @@ class GamePlay:
         game_mgr.config_mgr = ConfigMgr()
         game_mgr.hud_mgr = HUDMgr()
         game_mgr.skill_mgr = SkillMgr()
-
+        
         game_mgr.hud_mgr.setup()
         
         # 资源刷新tick
         self.data_tick_time = 0
-
+        
         # 处理事件
         game_mgr.event_mgr.add(APP_LAUNCH, self.on_app_launch)
         game_mgr.event_mgr.add(START_GAME, self.on_start_game)
@@ -94,10 +94,12 @@ class GamePlay:
                     player = self.create_player(city_unit,
                             player_name=None,
                             is_main_player=False)
-                    log_debug('create player', player.player_name, city_unit.unit_name)
+                    log_debug('create robot player', player.player_name, city_unit.unit_name)
 
         # 默认创建一个空城
         def co_create_main_player(player_name):
+            yield None
+            
             while True:
                 yield None
                 
@@ -125,11 +127,8 @@ class GamePlay:
                             player_name=player_name,
                             is_main_player=True)
                     
-                    #player.flag_color = (1, 0, 0)
-                    
-                    #hero = get_hero(player.main_hero_id)
                     hero = player.get_main_hero()
-                    hero.set_age(28)
+                    hero.set_age(15+int(random_1()*20))
                     hero.attr[2] = 88
                     hero.attr[4] = 88
 
@@ -357,7 +356,7 @@ class GamePlay:
             self.set_city_owner(city, player)
             city.get_controller().set_flag_color()
 
-    def update(self, delta_time: float) -> None:
+    def update(self, delta_time:float) -> None:
         # 游戏时间
         game_data = game_mgr.game_data
         time_scale = game_mgr.config_mgr.play_time_scale
@@ -499,9 +498,9 @@ class GamePlay:
 
     # 在城里, 创建一个玩家
     def create_player(self,
-            city_unit,
-            player_name = None,
-            is_main_player = False) -> object:
+            city_unit:object,
+            player_name:str = None,
+            is_main_player:bool = False) -> object:
         player_name = player_name or new_hero_name()
         pm = game_mgr.player_mgr
         
