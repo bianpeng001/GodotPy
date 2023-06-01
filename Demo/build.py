@@ -53,7 +53,13 @@ def build_publish():
     call_task('player_release')
     
     os.chdir(PROJECT_DIR)
+    
+    # tar demo source
     run(f'{GIT_EXE} archive -o Build\\src.tgz HEAD Demo')
+    
+    python_tag = '3.13.0a0'
+    godot_tag = '4.1dev'
+    demo_tag = '0.9.0'
     
     # version.txt
     with open(f'{PYTHON_DIR}\\python_ver.txt') as f:
@@ -62,10 +68,12 @@ def build_publish():
         godot_ver = f.read().strip()
     with open(f'{PROJECT_DIR}\\demo_ver.txt') as f:
         demo_ver = f.read().strip()
+        
+    # 写一个版本信息
     with open(f'{BUILD_DIR}\\verion.txt', 'w') as f:
-        f.write(f'python\t{python_ver}\n')
-        f.write(f'godot\t{godot_ver}\n')
-        f.write(f'demo\t{demo_ver}\n')
+        f.write(f'python {python_tag} {python_ver}\n')
+        f.write(f'godot {godot_tag} {godot_ver}\n')
+        f.write(f'demo {demo_tag} {demo_ver}\n')
     
     # copy files
     file_list = (
