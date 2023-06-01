@@ -507,7 +507,7 @@ class GamePlay:
         player = pm.new_player()
         player.player_name = player_name
         player.first_name = player_name[0]
-        if set_main_player:
+        if set_main_player and not get_main_player():
             pm.set_main_player(player)
         
         # 玩家自己对应的武将

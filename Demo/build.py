@@ -123,7 +123,7 @@ def zipdir(dir_path, f):
         for file in files:
             if file.endswith('.pyc'):
                 continue
-
+            
             file_path = os.path.join(root, file)
             f.write(file_path, os.path.relpath(file_path, dir_path))
 
@@ -139,7 +139,7 @@ def archive_python():
 def archive_demo():
     path1 = f'{BUILD_DIR}\\..\\Demo.zip'
     path2 = f'{BUILD_DIR}\\Demo.zip'
-
+    
     if os.path.exists(path1):
         os.remove(path1)
     if os.path.exists(path2):
