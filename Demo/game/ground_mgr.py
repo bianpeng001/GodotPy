@@ -88,11 +88,12 @@ class TileItem:
         pos_x, pos_z = self.get_center_pos()
 
         tile_map = get_tile_map()
-        if tile_map.tile_type == 2:
-            self.model_node = OS.instantiate('res://models/Terrain/Tile02.tscn')
-        else:
-            self.model_node = OS.instantiate('res://models/Terrain/Tile03.tscn')
-            
+        match tile_map.tile_type:
+            case 2:
+                self.model_node = OS.instantiate('res://models/Terrain/Tile02.tscn')
+            case _:
+                self.model_node = OS.instantiate('res://models/Terrain/Tile03.tscn')
+        
         self.model_node.set_position(pos_x, 0, pos_z)
 
         mi = self.model_node.find_node('Mesh')
@@ -654,7 +655,9 @@ class GroundMgr(NodeObject):
     # 从数据中加载
     def load_data(self):
         self.tile_map = TileMap(30, 30, 30)
+        # 1 真实地图 2 绿色
         self.tile_map.tile_type = 2
+        # 1: 平滑 2 六边形
         self.tile_map.cell_type = 2
         #self.tile_map.repeat_count = 4
         
