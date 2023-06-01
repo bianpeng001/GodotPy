@@ -2,9 +2,9 @@
 # 2023年4月25日 bianpeng
 #
 
-from game.base_type import *
 from game.core import log_debug, random_1
 from game.game_mgr import *
+from game.base_type import *
 
 
 #

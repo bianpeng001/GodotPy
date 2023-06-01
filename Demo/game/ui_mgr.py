@@ -321,7 +321,7 @@ class UIMgr(NodeObject):
         from game.ui.rect_select_controller import RectSelectController
         
         ui_obj = game_mgr.scene_root_obj.find_node('UIMgr/SelectRect')
-        self.rect_select_controller = RectSelectController()
-        self.rect_select_controller.setup(ui_obj)
-        self.rect_select_controller.hide()
+        dlg = self.rect_select_controller = RectSelectController()
+        dlg.setup(ui_obj)
+        dlg.hide()
         
