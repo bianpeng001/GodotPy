@@ -58,7 +58,7 @@ def build_publish():
     run(f'{GIT_EXE} archive -o Build\\src.tgz HEAD Demo')
     
     python_tag = '3.13.0a0'
-    godot_tag = '4.1dev'
+    godot_tag = '4.1.dev.custom_build'
     demo_tag = '0.9.0'
     
     # version.txt
@@ -75,7 +75,7 @@ def build_publish():
         f.write(f'godot {godot_tag} {godot_ver}\n')
         f.write(f'demo {demo_tag} {demo_ver}\n')
     
-    # copy files
+    # 需要从bin里面复制的文件
     file_list = (
         'python.exe',
         'python3.dll',
@@ -99,11 +99,6 @@ def build_publish():
     # zip python312.zip
     call_task('archive_python')
 
-    # 这步不需要了, zipdir 的时候, 会跳过pyc
-    # remove pyc
-    # for f in glob.iglob(f'{DEMO_DIR}\\game\\**\\*.pyc'):
-    #     os.remove(f)
-
     # zip Demo.zip
     call_task('archive_demo')
 
@@ -119,6 +114,7 @@ def run_editor_release():
 def play_editor_debug():
     run(f'{EDITOR_DEBUG} -w --path {DEMO_DIR}')
 
+# 打包一个目录, 过滤文件
 def zipdir(dir_path, f):
     for root, dirs, files in os.walk(dir_path, followlinks=True):
         if root.endswith('.vscode'):
