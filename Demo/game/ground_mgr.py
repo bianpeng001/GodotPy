@@ -39,7 +39,7 @@ class TileMap:
         
         # 地块类型, 用来决定材质
         self.tile_type = 1
-        # 格子的类型, 点采样, 线性采样
+        # 格子的类型, 1: 点采样(六边形方块), 2: 线性采样(平滑过渡)
         self.cell_type = 1
         # 循环次数, 用于计算UV时, repeat次数
         self.repeat_count = 1
@@ -111,10 +111,10 @@ class TileItem:
         st.add_vertex(1, 0, 1)
         st.set_uv(0, 1)
         st.add_vertex(-1, 0, 1)
-
+        
         st.add_triangle(0, 1, 2)
         st.add_triangle(0, 2, 3)
-
+        
         st.commit(mi)
         
     def generate_mesh3(self, mi):
@@ -219,7 +219,7 @@ class TileItem:
         # uv的获取的方式, 我希望是适配像素地图, 以中心点的uv
         # 真实地图, 各个顶点的真实uv
         uv_type = 1
-
+        
         vertex_index = 0
         for x,z in grid_xz():
             cz = -1 + z*z_step
@@ -508,7 +508,7 @@ class TileItem:
             v = random_100()
             if v < 50:
                 self.city_unit.city_type = CT_XIAN
-            elif v < 85:
+            elif v < 90:
                 self.city_unit.city_type = CT_JUN
             else:
                 self.city_unit.city_type = CT_ZHOU
