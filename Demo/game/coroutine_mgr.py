@@ -31,14 +31,14 @@ class Waitable:
 class _Coroutine(Waitable):
     def __init__(self, iterator):
         self.done = False
-        self.error = False
-        self.cancel = False
+        self.canceled = False
+        self.error = None
+        
         self.last_yield_value = None
-
         self.iterator = iterator
 
     def is_done(self):
-        return self.done or self.cancel
+        return self.done or self.canceled
 
     def next(self):
         # 这个我最喜欢了
@@ -48,7 +48,7 @@ class _Coroutine(Waitable):
             return
 
         try:
-            while(True):
+            while True:
                 self.last_yield_value = next(self.iterator)
                 
                 if self.last_yield_value:
@@ -64,11 +64,11 @@ class _Coroutine(Waitable):
             
         except StopIteration:
             self.done = True
-            self.error = False
+            self.error = None
             
         except Exception as err:
             self.done = True
-            self.error = True
+            self.error = err
             print('exception in coroutine:', err)
             traceback.print_exc()
 
@@ -79,9 +79,9 @@ class CoroutineMgr:
         self.back_co_list = []
 
     def start_coroutine(self, co):
-        w = _Coroutine(co)
-        self.co_list.append(w)
-        return w
+        co1 = _Coroutine(co)
+        self.co_list.append(co1)
+        return co1
 
     def start(self, co):
         return self.start_coroutine(co)
@@ -91,15 +91,14 @@ class CoroutineMgr:
         self.co_list = self.back_co_list
         self.back_co_list = tmp
         
-        
-        for a in self.back_co_list:
-            a.next()
-            if not a.is_done():
-                self.co_list.append(a)
+        for co in self.back_co_list:
+            co.next()
+            if not co.is_done():
+                self.co_list.append(co)
         self.back_co_list.clear()
         
     def cancel(self, co):
-        co.cancel = True
+        co.canceled = True
     
 
 if __name__ == '__main__':
