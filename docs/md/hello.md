@@ -11,7 +11,33 @@
 
 ## 开发日志
 
-<div class="date">2023年6月01日</div>
+<div class="date">2023年6月02日</div>
+
+## coroutine,async,await
+找到之前写错的基于async/await没成功的原因了, 需要把iterator标记成coroutine, 才能被await
+```python
+from types import coroutine
+
+@coroutine
+def stop():
+   yield 1234
+   yield 4321
+   
+async def test1():
+   await stop()
+   await stop()
+
+c = test1()
+for i in range(10):
+    a = c.send(None)
+    print(f'{i}. yield', a)
+```
+细看coroutine里面的实现,只是对func打了个标记,硬改成了coroutine,就可以当做coroutine用了.
+
+但是, 感觉还是迭代器用作游戏内协程, 比较简单好用. 也不用关键字. 所以就不改了, 这个毕竟只是一个语法糖.
+鸡肋鸡肋,食之无肉,弃之有味.
+
+<div class="date">2023年6月02日</div>
 
 ## 开发日志
 
