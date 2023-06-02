@@ -9,9 +9,11 @@ from game.game_mgr import *
 from game.base_type import UIController
 from game.hero_mgr import *
 from game.ui.ui_traits import *
-from game.event_name import GUI_INPUT, PRESSED, VALUE_CHANGED, TAB_CHANGED
+from game.event_name import *
 
+#
 # 内政，农商将
+#
 class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     def __init__(self):
         super().__init__()
@@ -301,10 +303,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
                 speaker_name = hero_list[0].hero_name
                 self.popup_dialog(f'{speaker_name}: 任重而道远,贵在持之以恒', 1.5)
                 
-                # 扣体力, 并刷新
-                
-                
-                
+                # TODO: 扣体力, 并刷新
             text = f'''命令
 {','.join(map(lambda x: x.hero_name, hero_list))} 诸将
 执行 征兵 任务

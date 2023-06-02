@@ -20,14 +20,14 @@ ATTR_TONG = 3
 ATTR_ZHENG = 4
 ATTR_MEI = 5
 ATTR_MIN = 6
-ATTR_YEXIN = 7 
+ATTR_YEXIN = 7
 
 MAX = 8
 
 # tags 部分武将拥有特殊属性
 
-# 武圣，单挑无敌
-TAG_WU_SHENG = 0
+# 的卢的卢, 今日妨吾; 的卢的卢, 檀溪救主.
+TAG_DILU = 0
 
 # 雄心壮志（决定称帝）
 TAG_DA_ZHI = 1
@@ -47,16 +47,18 @@ TAG_YIN_REN = 8
 # 反骨
 TAG_FAN_GU = 9
 
-# 好运
+# 好运, 成功率*10
 TAG_LUCKY = 10
-# 好运
+# 霉运, 三国拉姆. 成功率*0.1
 TAG_UNLUCKY = 11
+
+# 武圣，单挑无敌
+TAG_WU_SHENG = 12
 
 # 健康状态
 JK_HEALTH = 0
 JK_INJURED = 1
 JK_DEAD = 2
-
 
 # 活动
 
@@ -254,4 +256,5 @@ if __name__ == '__main__':
 
     b = decode_hero(json.loads(s))
     print(b)
+
 
