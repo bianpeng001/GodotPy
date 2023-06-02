@@ -69,7 +69,8 @@ class _Coroutine(Waitable):
         except Exception as err:
             self.done = True
             self.error = err
-            print('exception in coroutine:', err)
+            
+            print('coroutine exception', err)
             #traceback.print_exc()
             traceback.print_exception(err)
 
