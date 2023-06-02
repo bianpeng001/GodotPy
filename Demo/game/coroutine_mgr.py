@@ -70,7 +70,8 @@ class _Coroutine(Waitable):
             self.done = True
             self.error = err
             print('exception in coroutine:', err)
-            traceback.print_exc()
+            #traceback.print_exc()
+            traceback.print_exception(err)
 
 # 用Iterator来做Coroutine
 class CoroutineMgr:

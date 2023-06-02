@@ -16,6 +16,6 @@ except StopIteration as ex:
     pass
 except Exception as err:
     print(err)
-    traceback.print_exc()
+    traceback.print_exception(err)
     
     
