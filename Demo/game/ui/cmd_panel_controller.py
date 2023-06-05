@@ -197,7 +197,8 @@ class CmdPanelController(UIController, PopupTrait):
         
         self.set_troop_target_pos(x,z)
     
-    def set_cur_dlg(self, dlg:object):
+    # 当前弹出面板, 在cmd下面, 统一管理, 只能弹出一个
+    def set_cur_dlg(self, dlg):
         if self.cur_dlg and self.cur_dlg.is_show():
             self.cur_dlg.defer_close()
             self.cur_dlg = None
@@ -208,7 +209,7 @@ class CmdPanelController(UIController, PopupTrait):
             self.cur_dlg.defer_close()
             self.cur_dlg = None
             return True
-        
+
 
 
 
