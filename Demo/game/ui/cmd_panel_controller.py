@@ -197,7 +197,7 @@ class CmdPanelController(UIController, PopupTrait):
         
         self.set_troop_target_pos(x,z)
     
-    def set_cur_dlg(self, dlg):
+    def set_cur_dlg(self, dlg:object):
         if self.cur_dlg and self.cur_dlg.is_show():
             self.cur_dlg.defer_close()
             self.cur_dlg = None
