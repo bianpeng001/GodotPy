@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bkalagxm38bcx"]
+[gd_scene load_steps=3 format=3 uid="uid://bkalagxm38bcx"]
 
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_uw1bn"]
+[ext_resource type="FontFile" uid="uid://cdianj0bm12bb" path="res://font/JetBrainsMono.ttf" id="2_e8wr4"]
 
 [node name="TextEffect" type="Control"]
 layout_mode = 3
@@ -17,6 +18,7 @@ theme = ExtResource("1_uw1bn")
 layout_mode = 0
 offset_right = 80.0
 offset_bottom = 26.0
+theme_override_fonts/font = ExtResource("2_e8wr4")
 theme_override_font_sizes/font_size = 22
 text = "1000"
 horizontal_alignment = 1

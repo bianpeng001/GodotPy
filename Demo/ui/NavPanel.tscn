@@ -16,6 +16,7 @@ layout_mode = 0
 offset_right = 120.0
 offset_bottom = 30.0
 theme = ExtResource("1_n1cbr")
+theme_override_font_sizes/font_size = 20
 tab_count = 3
 tab_0/title = "城"
 tab_1/title = "将"

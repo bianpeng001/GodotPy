@@ -1,7 +1,7 @@
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://cxdn407m8jo4q"]
 
-[ext_resource type="FontFile" uid="uid://ccq8fha74r7nj" path="res://font/LongCang.ttf" id="1_35go3"]
+[ext_resource type="FontFile" uid="uid://ck2gq487wyu7q" path="res://font/SIMLI.TTF" id="1_wchdr"]
 
 [resource]
-default_font = ExtResource("1_35go3")
-default_font_size = 20
+default_font = ExtResource("1_wchdr")
+default_font_size = 22
