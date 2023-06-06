@@ -129,7 +129,7 @@ class MainUIController(UIController, PopupTrait):
         fps = int(delta_frame_number/delta_time) if delta_time > 0 else 0
         dc = Debug.get_drawcall()
         
-        self.fps_label.set_text(f'fps:{fps},{fps0} dc:{dc}')
+        self.fps_label.set_text(f'{fps} {fps0} {dc}')
     
     def on_save_click(self):
         # TODO:
