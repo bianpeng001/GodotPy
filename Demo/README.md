@@ -38,7 +38,7 @@ lua性能好,语言核心小,仅几百k,语言机制简单,使用者变少,开�
    1. d:/godot/modules/GodotPy -> d:/GodotPy/Godot/modules/GodotPy
    2. NOTIFICATION_PREDELETE消息末尾加入
 ```c++
-// bianp+2
+// bianp+2: NOTIFICATION_PREDELETE
 extern void delete_gdobj(Node *);
 delete_gdobj(this);
 ```
