@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://ck2gq487wyu7q"
-path="res://.godot/imported/SIMLI.TTF-3c6c4905636ab6cc0d750135a07f5ce9.fontdata"
+uid="uid://bq7qf6gfcwpsr"
+path="res://.godot/imported/RussoOne.ttf-03c62160cba85bd3318c2653a4b93a16.fontdata"
 
 [deps]
 
-source_file="res://font/SIMLI.TTF"
-dest_files=["res://.godot/imported/SIMLI.TTF-3c6c4905636ab6cc0d750135a07f5ce9.fontdata"]
+source_file="res://font/RussoOne.ttf"
+dest_files=["res://.godot/imported/RussoOne.ttf-03c62160cba85bd3318c2653a4b93a16.fontdata"]
 
 [params]
 
@@ -24,7 +24,7 @@ hinting=1
 subpixel_positioning=1
 oversampling=0.0
 Fallbacks=null
-fallbacks=[]
+fallbacks=[Resource("res://font/SIMLI.TTF")]
 Compress=null
 compress=true
 preload=[{

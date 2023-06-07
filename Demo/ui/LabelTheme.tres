@@ -1,7 +1,7 @@
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://cxdn407m8jo4q"]
 
-[ext_resource type="FontFile" uid="uid://ck2gq487wyu7q" path="res://font/SIMLI.TTF" id="1_wchdr"]
+[ext_resource type="FontFile" uid="uid://bq7qf6gfcwpsr" path="res://font/RussoOne.ttf" id="1_ebydy"]
 
 [resource]
-default_font = ExtResource("1_wchdr")
+default_font = ExtResource("1_ebydy")
 default_font_size = 22

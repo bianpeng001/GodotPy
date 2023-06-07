@@ -58,10 +58,10 @@ autowrap_mode = 1
 
 [node name="TextEdit" type="TextEdit" parent="Panel"]
 layout_mode = 0
-offset_left = 81.0
-offset_top = 127.0
-offset_right = 234.0
-offset_bottom = 167.0
+offset_left = 80.0
+offset_top = 126.0
+offset_right = 233.0
+offset_bottom = 171.0
 theme = ExtResource("1_287ib")
 text = "刘备"
 context_menu_enabled = false

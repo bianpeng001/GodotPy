@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://cdianj0bm12bb"
-path="res://.godot/imported/JetBrainsMono.ttf-e28591f6d1cbd39147360afbf51871df.fontdata"
+uid="uid://cv0cwsy2xq0"
+path="res://.godot/imported/LilitaOne.ttf-73cec786cb2ae4d66c2d39947274bca7.fontdata"
 
 [deps]
 
-source_file="res://font/JetBrainsMono.ttf"
-dest_files=["res://.godot/imported/JetBrainsMono.ttf-e28591f6d1cbd39147360afbf51871df.fontdata"]
+source_file="res://font/LilitaOne.ttf"
+dest_files=["res://.godot/imported/LilitaOne.ttf-73cec786cb2ae4d66c2d39947274bca7.fontdata"]
 
 [params]
 
@@ -24,10 +24,15 @@ hinting=1
 subpixel_positioning=1
 oversampling=0.0
 Fallbacks=null
-fallbacks=[]
+fallbacks=[Resource("res://font/SIMLI.TTF")]
 Compress=null
 compress=true
-preload=[]
+preload=[{
+"chars": [],
+"glyphs": [],
+"name": "New Configuration",
+"size": Vector2i(16, 0)
+}]
 language_support={}
 script_support={}
 opentype_features={}
