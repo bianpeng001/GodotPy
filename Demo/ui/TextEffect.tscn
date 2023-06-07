@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bkalagxm38bcx"]
 
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_uw1bn"]
-[ext_resource type="FontFile" uid="uid://bq7qf6gfcwpsr" path="res://font/RussoOne.ttf" id="2_7euv4"]
+[ext_resource type="FontFile" uid="uid://nu5qk2cr3u0a" path="res://font/ArchitectsDaughter.ttf" id="2_igysg"]
 
 [node name="TextEffect" type="Control"]
 layout_mode = 3
@@ -18,7 +18,7 @@ theme = ExtResource("1_uw1bn")
 layout_mode = 0
 offset_right = 80.0
 offset_bottom = 26.0
-theme_override_fonts/font = ExtResource("2_7euv4")
+theme_override_fonts/font = ExtResource("2_igysg")
 theme_override_font_sizes/font_size = 22
 text = "数字12345678(90)"
 horizontal_alignment = 1

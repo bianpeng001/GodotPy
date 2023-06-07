@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://cv0cwsy2xq0"
-path="res://.godot/imported/LilitaOne.ttf-73cec786cb2ae4d66c2d39947274bca7.fontdata"
+uid="uid://nu5qk2cr3u0a"
+path="res://.godot/imported/ArchitectsDaughter.ttf-72498af3bd48319a32f375da00cdcb4f.fontdata"
 
 [deps]
 
-source_file="res://font/LilitaOne.ttf"
-dest_files=["res://.godot/imported/LilitaOne.ttf-73cec786cb2ae4d66c2d39947274bca7.fontdata"]
+source_file="res://font/ArchitectsDaughter.ttf"
+dest_files=["res://.godot/imported/ArchitectsDaughter.ttf-72498af3bd48319a32f375da00cdcb4f.fontdata"]
 
 [params]
 
