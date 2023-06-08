@@ -16,12 +16,12 @@ if not os.path.exists(PYTHON_HOME):
 def copy_if_expired(src_path, dst_path):
     dst_path = os.path.abspath(dst_path)
     
-    if not os.path.exists(dst_path) or\
+    if not os.path.exists(dst_path) or \
             os.path.getmtime(dst_path) < os.path.getmtime(src_path):
-        print('copy', dst_path, 'done')
+        print('copy', dst_path)
         shutil.copyfile(src_path, dst_path)
     else:
-        print('copy', dst_path)
+        print('copy', dst_path, 'skip')
 
 # 准备工作, 复制python3.lib，因为后缀跟平台环境有关，但是我懒得弄了，复制改名算了
 def GetReady():
