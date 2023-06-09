@@ -53,7 +53,7 @@ text = "0"
 
 [node name="FPSLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 966.0
+offset_left = 1022.0
 offset_top = 61.0
 offset_right = 1150.0
 offset_bottom = 97.0
