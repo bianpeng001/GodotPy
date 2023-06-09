@@ -82,7 +82,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.676337, 10.3015, 1.07973)
 visible = false
 
 [node name="Hill01" parent="." instance=ExtResource("6_hx2sq")]
-transform = Transform3D(-4.96934, 0, -0.552835, 0, 5, 0, 0.552835, 0, -4.96934, 0, -0.1, 0)
+transform = Transform3D(-4.96934, 0, -0.552835, 0, 5, 0, 0.552835, 0, -4.96934, 0, 0.2, 0)
 visible = false
 
 [node name="Park01" parent="." instance=ExtResource("7_afvhy")]
@@ -90,6 +90,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 0, 100)
 
 [node name="Arm01" parent="." instance=ExtResource("8_v3q38")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18009, 0, -0.252639)
+visible = false
 
 [node name="Fire01" parent="." instance=ExtResource("9_jbm0d")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.15436, 0, 11.7753)
