@@ -108,7 +108,7 @@ class PlayerMgr:
         self.player_dict[player.player_id] = player
         self.update_list.append(player.get_controller())
 
-        h,_ = math.modf(((player.player_id - 10000 + 120)*30) / 360)
+        h,_ = math.modf(((player.player_id - 10000)*30 + 100) / 360)
         player.flag_color = hsv_to_rgb(
             h,
             0.7 + 0.2*(1-1/h),
