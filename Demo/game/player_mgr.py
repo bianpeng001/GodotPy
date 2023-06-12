@@ -2,6 +2,8 @@
 # 2023年2月4日 bianpeng
 #
 
+import math
+
 from game.core import log_debug, hsv_to_rgb
 from game.game_mgr import *
 from game.player_ai import *
@@ -106,9 +108,9 @@ class PlayerMgr:
         self.player_dict[player.player_id] = player
         self.update_list.append(player.get_controller())
 
-        a = player.player_id - 10000
+        a,_ = math.modf((player.player_id - 10000 + 120)*30, 360)
         player.flag_color = hsv_to_rgb(
-            (a-1)*30/360,
+            a,
             0.7 + 0.2*(1-1/a),
             1)
         
