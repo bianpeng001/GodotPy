@@ -192,7 +192,7 @@ class GamePlay:
                 dlg1.init()
                 dlg1.show_text('有一天, 我在街上漫无目的地闲逛')
                 yield WaitForSeconds(1.5)
-                dlg1.show_text('暗暗发愁晚饭还没着落, 不如走慢点好节省体力')
+                dlg1.show_text('走得有点慢, 发愁晚饭还没着落')
                 yield WaitForSeconds(1.5)
                 dlg1.show_text('突然, 斜里过来一人, 一把将我拉住')
                 yield WaitForSeconds(1.5)
@@ -245,12 +245,11 @@ class GamePlay:
                 yield WaitForSeconds(1.5)
                 dlg1.show_text('我跟两位兄弟, 被安排来到此处当了个普通县尉')
                 yield WaitForSeconds(1.5)
-                dlg1.show_text('故事便从这里开始')
+                dlg1.show_text('故事从这里开始')
                 yield WaitForSeconds(2.5)
                 dlg1.defer_close()
                 
                 game_mgr.co_mgr.start(co_create_main_player(player_name))
-                yield
                 game_mgr.co_mgr.start(co_create_robot_player())
                 yield
                 
