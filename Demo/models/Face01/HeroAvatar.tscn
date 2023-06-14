@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://diuv1071qfgrs"]
+[gd_scene load_steps=6 format=3 uid="uid://diuv1071qfgrs"]
 
 [ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="2_cq5nb"]
 [ext_resource type="QuadMesh" uid="uid://bgvylfri1047g" path="res://models/Outline/ScreenRect.tres" id="3_6hjkw"]
 [ext_resource type="Material" uid="uid://d316njsfv56ci" path="res://models/Outline/OutlineV2Mat.tres" id="4_agv7d"]
 [ext_resource type="PackedScene" uid="uid://dxnuo57wgd8m0" path="res://models/Face02/Face02.tscn" id="4_q71mk"]
+[ext_resource type="PackedScene" uid="uid://dr4uy2v7xhw2k" path="res://models/Face04/Face04.tscn" id="5_lqdf4"]
 
 [node name="HeroAvatar" type="SubViewportContainer"]
 anchors_preset = 15
@@ -22,12 +23,14 @@ size = Vector2i(256, 256)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="SubViewport"]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 3.50002, 9.33609)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 10)
 cull_mask = 1024
 environment = ExtResource("2_cq5nb")
-fov = 15.0
+projection = 1
+fov = 5.0
+size = 3.0
 near = 1.0
-far = 20.0
+far = 100.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport"]
 transform = Transform3D(1, 0, 0, 0, 0.790946, 0.611886, 0, -0.611886, 0.790946, 0, 3.58821, 4.77962)
@@ -41,3 +44,7 @@ skeleton = NodePath("../Camera3D")
 surface_material_override/0 = ExtResource("4_agv7d")
 
 [node name="Face02" parent="SubViewport" instance=ExtResource("4_q71mk")]
+visible = false
+
+[node name="Face04" parent="SubViewport" instance=ExtResource("5_lqdf4")]
+transform = Transform3D(0.984808, 0.0151344, 0.172987, 0, 0.996195, -0.0871557, -0.173648, 0.0858316, 0.98106, 0, 1, 0)
