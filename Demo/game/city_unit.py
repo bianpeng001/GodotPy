@@ -8,6 +8,7 @@ from game.config_mgr import new_city_name, new_hero_name
 
 from game.city_controller import CityController
 
+#
 # 城池
 # 内政，治安，农业，商业
 # 战斗状态下，治安越来越差，且毫无收益

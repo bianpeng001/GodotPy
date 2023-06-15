@@ -10,7 +10,7 @@ from game.game_mgr import *
 from game.base_type import *
 from game.event_name import *
 from game.wait import *
-from game.config_mgr import parse_name, new_hero_name
+from game.config_mgr import parse_hero_name, new_hero_name
 
 #
 # 游戏的控制逻辑, 事件响应啥的，集中到这里来
@@ -199,15 +199,15 @@ class GamePlay:
                 dlg1.defer_close()
                 
                 dlg2.init()
-                dlg2.show_text("(陌生人): 兄台请留步")
+                dlg2.show_text2("陌生人", "兄台请留步")
                 yield WaitForSeconds(1.5)
-                dlg2.show_text("(我): 干啥, 我可没钱")
+                dlg2.show_text2("我", "干啥, 我可没钱")
                 yield WaitForSeconds(1.5)
-                dlg2.show_text("(陌生人): 兄台取笑了, 不是问你要钱, 是给你钱!")
+                dlg2.show_text2("陌生人", "兄台取笑了, 不是问你要钱, 是给你钱!")
                 yield WaitForSeconds(1.5)
-                dlg2.show_text("(我): 还有这好事?")
+                dlg2.show_text2("我", "还有这好事?")
                 yield WaitForSeconds(1.5)
-                dlg2.show_text("(陌生人): 未请教尊姓大名?")
+                dlg2.show_text2("陌生人", "未请教尊姓大名?")
                 yield WaitForSeconds(1.5)
                 dlg2.defer_close()
                 
@@ -216,19 +216,19 @@ class GamePlay:
                 player_name = dlg3.player_name
                 
                 dlg2.init()
-                dlg2.show_text("(陌生人): 好名字. 我这有个活, 包吃包住")
+                dlg2.show_text2("陌生人", "好名字. 我这有个活, 包吃包住")
                 yield WaitForSeconds(1.5)
-                dlg2.show_text("(我): 真的吗?")
+                dlg2.show_text2("我", "真的吗?")
                 yield WaitForSeconds(1.5)
-                dlg2.show_text("(陌生人): 我看你步伐稳健, 气度不凡, 头顶一道清气直贯云天, 不得了, 不得了")
+                dlg2.show_text2("陌生人", "我看你步伐稳健, 气度不凡, 头顶一道清气直贯云天, 不得了, 不得了")
                 yield WaitForSeconds(2.5)
-                dlg2.show_text("(我): 开玩笑呢?")
+                dlg2.show_text2("我", "开玩笑呢?")
                 yield WaitForSeconds(1.5)
-                dlg2.show_text("(陌生人): ...这个, 眼下虽然时运不济, 他日风云际会, 必定一飞冲天!")
+                dlg2.show_text2("陌生人", "...这个, 眼下虽然时运不济, 他日风云际会, 必定一飞冲天!")
                 yield WaitForSeconds(2.5)
-                dlg2.show_text("(陌生人): 你看, 现在朝廷用人之际, 我推荐你到军中效力, 比在乡野埋没了强")
+                dlg2.show_text2("陌生人", "你看, 现在朝廷用人之际, 我推荐你到军中效力, 比在乡野埋没了强")
                 yield WaitForSeconds(2.5)
-                dlg2.show_text("(我): 行")
+                dlg2.show_text2("我", "行")
                 yield WaitForSeconds(1.5)
                 dlg2.defer_close()
                 
@@ -259,9 +259,9 @@ class GamePlay:
                 dlg1.defer_close()
                 
                 dlg2.init()
-                dlg2.show_text('(关羽): 如今各处刚历经兵乱, 此处虽小, 也可以励精图治')
+                dlg2.show_text2("关羽", "如今各处刚历经兵乱, 此处虽小, 也可以励精图治")
                 yield WaitForSeconds(1.5)
-                dlg2.show_text('(张飞): 大哥, 先看下城里的[color=red]内政[/color]情况吧')
+                dlg2.show_text2("张飞", "大哥, 先看下城里的[color=red]内政[/color]情况吧")
                 yield WaitForSeconds(1.5)
                 dlg2.defer_close()
                 
