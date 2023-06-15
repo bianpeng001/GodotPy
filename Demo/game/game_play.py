@@ -177,10 +177,6 @@ class GamePlay:
                 game_mgr.ui_mgr.story_panel_controller.play_story(
                     game_mgr.config_mgr.story.start_game_story,
                     show_start_options)
-                
-            def co_create_player():
-                dlg = game_mgr.ui_mgr.npc_dialog_controller
-                dlg.init('如今各处历经兵乱, 民生凋敝, 此处虽小, 唯持仁义, 用心经营, 方可报效国家.', 2)
 
             def co_story1():
                 dlg1 = game_mgr.ui_mgr.story_panel_controller
@@ -268,7 +264,7 @@ class GamePlay:
                 dlg2.defer_close()
                 
                 dlg1.init()
-                dlg1.show_text('接下来, 三人读书练武, 造福乡里, 过了一段开心的平静日子')
+                dlg1.show_text('接下来, 三人读书练武, 造福乡里, 过了一段快乐的平静生活')
                 yield WaitForSeconds(2.5)
                 dlg1.defer_close()
                 
