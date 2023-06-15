@@ -78,4 +78,15 @@ def create_player(city_name1):
 
 #create_player()
 
-print(hsv_to_rgb(1,1,1))
+#print(hsv_to_rgb(1,1,1))
+
+def show_npc_dialog():
+    dlg2 = game_mgr.ui_mgr.npc_dialog_controller
+    if dlg2.is_show():
+        dlg2.defer_close()
+    else:
+        dlg2.init()
+        dlg2.show_text2("诸葛亮", "窗外日迟迟")
+
+show_npc_dialog()
+
