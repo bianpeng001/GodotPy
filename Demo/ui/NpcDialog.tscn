@@ -45,12 +45,14 @@ layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_top = 4.0
-offset_right = 180.0
-offset_bottom = 234.0
+offset_left = -45.0
+offset_top = -56.0
+offset_right = 135.0
+offset_bottom = 174.0
 grow_horizontal = 1
 grow_vertical = 1
 scale = Vector2(0.5, 0.5)
+pivot_offset = Vector2(90, 115)
 stretch = true
 
 [node name="Name" type="Label" parent="."]
