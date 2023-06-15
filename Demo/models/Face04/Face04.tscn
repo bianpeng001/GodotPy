@@ -3,7 +3,6 @@
 [ext_resource type="Material" uid="uid://0pp23q677ocb" path="res://models/Face04/Face04Mat.tres" id="1_ihbsj"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_cueqs"]
-load_path = "res://.godot/imported/Face04_pal.png-747da34659a54a143afd5b04b5d1980a.s3tc.ctex"
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s3p2e"]
 resource_name = "Material"

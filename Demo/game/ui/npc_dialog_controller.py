@@ -18,7 +18,8 @@ class NpcDialogController(UIController, PopupTrait):
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
         self.content_label = self.ui_obj.find_node('Label')
-        self.name_label = self.ui_obj.find_node('Name')
+        self.name_label = self.ui_obj.find_node('Face/Name')
+        self.face_obj = self.ui_obj.find_node('Face')
 
     def init(self, text=''):
         self.content_label.set_text(text)
@@ -44,6 +45,7 @@ class NpcDialogController(UIController, PopupTrait):
     def show_text2(self, speaker, text):
         self.content_label.set_text(text)
         self.name_label.set_text(speaker)
+        self.face_obj.set_position(int(random_1()*10), int(random_1()*10))
 
 
 
