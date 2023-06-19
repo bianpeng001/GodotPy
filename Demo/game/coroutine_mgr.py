@@ -59,26 +59,24 @@ class _Coroutine(Waitable):
                 isinstance(self.last_yield_value, Waitable) and \
                 not self.last_yield_value.is_done():
             return
-
+        self.last_yield_value = None
         try:
             while True:
-                self.last_yield_value = next(self.iterator)
+                yield_value = next(self.iterator)
                 
-                if self.last_yield_value:
-                    if isinstance(self.last_yield_value, Waitable):
-                        if not self.last_yield_value.is_done():
+                if yield_value:
+                    if isinstance(yield_value, Waitable):
+                        if not yield_value.is_done():
+                            self.last_yield_value = yield_value
                             break
                     else:
                         # TODO: 加一个自动把浮点转成时间的语法糖, yield 1.0 => yield WaitForSeconds(1.0)
-                        if (isinstance(self.last_yield_value, int) or \
-                                isinstance(self.last_yield_value, float)) and \
-                                self.last_yield_value >= 0:
-                            self.last_yield_value = WaitForSeconds(self.last_yield_value)
+                        if (isinstance(yield_value, int) or \
+                                isinstance(yield_value, float)) and \
+                                yield_value >= 0:
+                            self.last_yield_value = WaitForSeconds(yield_value)
                         break
-                else:
-                    self.last_yield_value = None
-                    break
-            
+                    
         except StopIteration:
             self.done = True
             self.error = None
