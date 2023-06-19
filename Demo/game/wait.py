@@ -3,19 +3,8 @@
 #
 from game.core import *
 from game.game_mgr import *
-from game.coroutine_mgr import Waitable
+from game.coroutine_mgr import Waitable, WaitForSeconds 
 
-#
-# wait for seconds
-#
-class WaitForSeconds(Waitable):
-    def __init__(self, sec):
-        super().__init__()
-        self.stop = sec + game_mgr.sec_time
-
-    def is_done(self):
-        return game_mgr.sec_time >= self.stop
-    
 #
 # 等待面板关闭
 #

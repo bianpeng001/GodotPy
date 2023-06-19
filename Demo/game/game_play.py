@@ -223,9 +223,11 @@ class GamePlay:
                 dlg2.show_text2("陌生人", "...这个, 眼下虽然时运不济, 他日风云际会, 必定一飞冲天!")
                 yield WaitForSeconds(2.5)
                 dlg2.show_text2("陌生人", "现在朝廷用人之际, 我推荐你到军中效力, 好过在乡野埋没")
-                yield WaitForSeconds(2.5)
+                #yield WaitForSeconds(2.5)
+                yield 2.5
                 dlg2.show_text2(player_name, "行")
-                yield WaitForSeconds(1.5)
+                #yield WaitForSeconds(1.5)
+                yield 1.5
                 dlg2.defer_close()
                 
                 dlg1.init()

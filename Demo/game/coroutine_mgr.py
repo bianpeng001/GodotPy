@@ -5,6 +5,8 @@
 import traceback
 import sys
 
+from game.core import *
+
 #
 # 既然用了python，还是要做一下协程。发现用Iterator来做比较方便。
 # 虽然Python有await, async关键字，用于Python的协程，但是awaitable的类型，不太方便。
@@ -25,6 +27,17 @@ class Waitable:
     def is_done(self):
         return True
 
+#
+# wait for seconds
+#
+class WaitForSeconds(Waitable):
+    def __init__(self, sec):
+        super().__init__()
+        self.stop = sec + get_cache_time()
+
+    def is_done(self):
+        return get_cache_time() >= self.stop
+    
 #
 # 协程
 #
