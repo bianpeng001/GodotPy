@@ -57,10 +57,10 @@ class _Coroutine(Waitable):
                             break
                     else:
                         # TODO: 加一个自动把浮点转成时间的语法糖, yield 1.0 => yield WaitForSeconds(1.0)
-                        # if (isinstance(self.last_yield_value, int) or \
-                        #         isinstance(self.last_yield_value, float)) and \
-                        #         self.last_yield_value > 0:
-                        #     self.last_yield_value = WaitForSeconds(self.last_yield_value)
+                        if (isinstance(self.last_yield_value, int) or \
+                                isinstance(self.last_yield_value, float)) and \
+                                self.last_yield_value >= 0:
+                            self.last_yield_value = WaitForSeconds(self.last_yield_value)
                         break
                 else:
                     self.last_yield_value = None
