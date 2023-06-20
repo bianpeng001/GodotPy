@@ -216,17 +216,15 @@ class GamePlay:
                 yield WaitForSeconds(1.5)
                 dlg2.show_text2(player_name, "真的吗?")
                 yield WaitForSeconds(1.5)
-                dlg2.show_text2("陌生人", "我看你步伐稳健, 气度不凡, 头顶一道清气直贯云天, 不得了, 不得了")
+                dlg2.show_text2("陌生人", "我看你步履稳健, 气度不凡, 头顶一道英雄气直贯云天, 不得了, 不得了")
                 yield WaitForSeconds(2.5)
                 dlg2.show_text2(player_name, "开玩笑呢?")
                 yield WaitForSeconds(1.5)
                 dlg2.show_text2("陌生人", "...这个, 眼下虽然时运不济, 他日风云际会, 必定一飞冲天!")
                 yield WaitForSeconds(2.5)
                 dlg2.show_text2("陌生人", "现在朝廷用人之际, 我推荐你到军中效力, 好过在乡野埋没")
-                #yield WaitForSeconds(2.5)
                 yield 2.5
                 dlg2.show_text2(player_name, "行")
-                #yield WaitForSeconds(1.5)
                 yield 1.5
                 dlg2.defer_close()
                 
@@ -266,7 +264,7 @@ class GamePlay:
                 dlg2.defer_close()
                 
                 dlg1.init()
-                dlg1.show_text('接下来, 三人读书练武, 造福乡里, 过了一段快乐的平静生活')
+                dlg1.show_text('三人读书练武勤于政务, 度过了平生最快乐一段的平静生活')
                 yield WaitForSeconds(2.5)
                 dlg1.defer_close()
                 
