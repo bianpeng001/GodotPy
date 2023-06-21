@@ -83,19 +83,22 @@ class GamePlay:
                 
             main_city_unit = get_unit(get_main_player().main_city_id)
             x1,z1 = main_city_unit.get_xz()
-                
-            for i in range(50):
+            
+            player_count = 0
+            for i in range(60):
                 city_unit = game_mgr.unit_mgr.find_unit(lambda x:
                         x.unit_type == UT_CITY and \
-                        in_range(x.get_x()-x1, -180, 180) and \
-                        in_range(x.get_z()-z1, -180, 180) and \
+                        in_range(x.get_x()-x1, -200, 200) and \
+                        in_range(x.get_z()-z1, -200, 200) and \
                         x.owner_player_id == 0)
                 if city_unit:
                     player = self.create_player(city_unit,
                             player_name=None,
                             set_main_player=False)
                     log_debug('create robot player', player.player_name, city_unit.unit_name)
+                    player_count += 1
 
+            log_debug('create', player_count, 'robot players')
         # 默认创建一个空城
         def co_create_main_player(player_name):
             yield None

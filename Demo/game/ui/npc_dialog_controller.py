@@ -26,7 +26,7 @@ class NpcDialogController(UIController, PopupTrait):
 
         screen_width,screen_height = OS.viewport_get_size()
         _,_,width,height = self.ui_obj.get_rect()
-        self.popup((screen_width-width)/2, screen_height-height)
+        self.popup((screen_width-width)/2, screen_height-height-1)
         self.show()
 
     def auto_close(self, time_out):
