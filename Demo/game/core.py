@@ -877,6 +877,7 @@ def obstacle(fun):
         return fun(*args, **kw_args)
     return _fun
 
+# 记一下时间
 _cache_time = 0
 def set_cache_time(sec_time):
     global _cache_time
