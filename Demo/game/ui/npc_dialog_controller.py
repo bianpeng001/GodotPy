@@ -6,7 +6,6 @@ from game.core import *
 from game.game_mgr import game_mgr
 from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
-from game.wait import WaitForSeconds
 
 # npc对话框
 class NpcDialogController(UIController, PopupTrait):
@@ -29,13 +28,13 @@ class NpcDialogController(UIController, PopupTrait):
         self.popup((screen_width-width)/2, screen_height-height-1)
         self.show()
 
-    def auto_close(self, time_out):
+    def auto_close(self, timeout):
         if self.co:
             game_mgr.co_mgr.cancel(self.co)
             self.co = None
 
         def wait_close():
-            yield WaitForSeconds(time_out)
+            yield timeout
             self.defer_close()
         self.co = game_mgr.co_mgr.start(wait_close())
 

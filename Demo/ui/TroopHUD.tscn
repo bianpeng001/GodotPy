@@ -15,7 +15,7 @@ anchors_preset = 0
 [node name="Bg" type="ColorRect" parent="."]
 layout_mode = 0
 offset_right = 100.0
-offset_bottom = 22.0
+offset_bottom = 26.0
 mouse_filter = 2
 theme = ExtResource("1_l8j2c")
 color = Color(0.160784, 0.160784, 0.160784, 0.784314)
@@ -33,9 +33,9 @@ vertical_alignment = 1
 
 [node name="HP" type="ColorRect" parent="."]
 layout_mode = 0
-offset_top = 22.0
+offset_top = 26.0
 offset_right = 100.0
-offset_bottom = 25.0
+offset_bottom = 30.0
 mouse_filter = 2
 color = Color(0, 1, 0, 1)
 
@@ -49,6 +49,7 @@ texture = ExtResource("2_ubyry")
 expand_mode = 1
 
 [node name="FlagBg" type="TextureRect" parent="."]
+layout_mode = 0
 offset_left = -34.0
 offset_top = 3.0
 offset_right = -14.0

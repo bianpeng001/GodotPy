@@ -6,7 +6,6 @@ from game.game_mgr import *
 from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
 from game.event_name import PRESSED
-from game.wait import *
 
 #
 # 剧情
@@ -42,7 +41,7 @@ class StoryPanelController(UIController, PopupTrait):
 
     def co_play_story(self, text_list, on_complete):
         self.hide_all()
-        yield WaitForSeconds(self.wait_time)
+        yield self.wait_time
 
         self.show()
         log_debug('begin play story')
@@ -54,7 +53,7 @@ class StoryPanelController(UIController, PopupTrait):
         # )
         for text in text_list:
             self.show_text(text)
-            yield WaitForSeconds(self.wait_time)
+            yield self.wait_time
         
         self.hide_all()
         self.defer_close()
