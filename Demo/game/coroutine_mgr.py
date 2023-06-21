@@ -97,14 +97,14 @@ class CoroutineMgr:
         self.co_list = []
         self.back_co_list = []
 
-    def start_coroutine(self, co):
+    def start(self, co):
         co1 = _Coroutine(co)
         self.co_list.append(co1)
         # 记录一下入口的位置
         co1.trace_info = ''.join(traceback.format_stack(limit=5))
         return co1
 
-    def start(self, co):
+    def start_coroutine(self, co):
         return self.start_coroutine(co)
 
     def update(self):
