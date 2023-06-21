@@ -10,29 +10,28 @@ import glob
 import zipfile
 import time
 
-GODOT_DIR = 'D:\\OpenSource\\godot'
 PROJECT_DIR = 'D:\\OpenSource\\GodotPy'
+GODOT_DIR = 'D:\\OpenSource\\godot'
 PYTHON_DIR = 'D:\\OpenSource\\cpython'
 THREADS = 6
 
-if not os.path.exists(GODOT_DIR):
-    GODOT_DIR = f'H:\\godot'
-    PROJECT_DIR = f'H:\\GodotPy'
+if not os.path.exists(PROJECT_DIR):
+    PROJECT_DIR = 'H:\\GodotPy'
+    GODOT_DIR = 'H:\\godot'
     PYTHON_DIR = 'H:\\cpython'
     THREADS = 4
 
 GODOT_BIN_DIR = os.path.join(GODOT_DIR, 'bin')
 EDITOR = os.path.join(GODOT_BIN_DIR, 'godot.windows.editor.x86_64.exe')
-PLAYER = os.path.join(GODOT_BIN_DIR, 'godot.windows.template_release.x86_64.exe')
-
 EDITOR_DEBUG = os.path.join(GODOT_BIN_DIR, 'godot.windows.editor.dev.x86_64.exe')
+PLAYER = os.path.join(GODOT_BIN_DIR, 'godot.windows.template_release.x86_64.exe')
 
 DEMO_DIR = os.path.join(PROJECT_DIR, 'Demo')
 BUILD_DIR = os.path.join(PROJECT_DIR, 'Build')
 
-RES_HACKER = r'D:\Tools\ResHacker\ResourceHacker.exe'
+RES_HACKER = 'D:\\Tools\\ResHacker\\ResourceHacker.exe'
 SCONS_EXE = 'scons.exe'
-GIT_EXE = r'D:\Tools\PortableGit\bin\git.exe'
+GIT_EXE = 'D:\\Tools\\PortableGit\\bin\\git.exe'
 
 def run(cmd):
     print(cmd)
@@ -41,7 +40,6 @@ def run(cmd):
 def copy(src_path, dst_path):
     print('copy', src_path, '->', dst_path)
     shutil.copy(src_path, dst_path)
-
 
 def build_publish():
     call_task('python')
@@ -59,7 +57,7 @@ def build_publish():
     
     python_tag = '3.13.0a0'
     godot_tag = '4.1.dev.custom_build'
-    demo_tag = '0.9.0'
+    demo_tag = '1.0.0'
     
     # version.txt
     with open(f'{PYTHON_DIR}\\python_ver.txt') as f:

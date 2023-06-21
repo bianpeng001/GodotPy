@@ -219,7 +219,7 @@ class GamePlay:
                 dlg2.show_text2("陌生人", "我看你步履稳健, 气度不凡, 头顶一道英雄气直贯云天, 不得了, 不得了")
                 yield WaitForSeconds(2.5)
                 dlg2.show_text2(player_name, "骗小孩呢? 有事说事, 别耽误我散步")
-                yield WaitForSeconds(1.5)
+                yield WaitForSeconds(2.5)
                 dlg2.show_text2("陌生人", "...这个, 眼下虽然时运不济, 他日风云际会, 必定一飞冲天!")
                 yield WaitForSeconds(2.5)
                 dlg2.show_text2("陌生人", "现在朝廷用人之际, 我推荐你到军中效力, 好过在乡野埋没")

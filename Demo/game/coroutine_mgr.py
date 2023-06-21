@@ -5,17 +5,12 @@
 import traceback
 import sys
 
-from game.core import *
+from game.core import get_cache_time
 
 #
 # 既然用了python，还是要做一下协程。发现用Iterator来做比较方便。
 # 虽然Python有await, async关键字，用于Python的协程，但是awaitable的类型，不太方便。
 #
-
-
-# TODO: 还是要把父子coroutine的机制加进来，减少等待
-# 即，子co先执行，父co后执行，这样当子co都已经完成的话，则父co可以本帧判断完成
-# 否则，需要下一帧判断完毕。
 
 #
 # 可以等待的，用来yield的
@@ -37,7 +32,12 @@ class WaitForSeconds(Waitable):
 
     def is_done(self):
         return get_cache_time() >= self.stop
-    
+
+
+# TODO: 还是要把父子coroutine的机制加进来，减少等待
+# 即，子co先执行，父co后执行，这样当子co都已经完成的话，则父co可以本帧判断完成
+# 否则，需要下一帧判断完毕。
+
 #
 # 协程
 #
@@ -46,6 +46,7 @@ class _Coroutine(Waitable):
         self.done = False
         self.canceled = False
         self.error = None
+        self.trace_info = ''
         
         self.last_yield_value = None
         self.iterator = iterator
@@ -88,6 +89,7 @@ class _Coroutine(Waitable):
             print('coroutine exception', err)
             #traceback.print_exc()
             traceback.print_exception(err)
+            print('source position:\n', self.trace_info)
 
 # 用Iterator来做Coroutine
 class CoroutineMgr:
@@ -98,6 +100,8 @@ class CoroutineMgr:
     def start_coroutine(self, co):
         co1 = _Coroutine(co)
         self.co_list.append(co1)
+        # 记录一下入口的位置
+        co1.trace_info = ''.join(traceback.format_stack(limit=5))
         return co1
 
     def start(self, co):
