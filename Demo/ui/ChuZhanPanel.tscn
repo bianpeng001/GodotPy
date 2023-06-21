@@ -64,18 +64,18 @@ stretch_mode = 0
 
 [node name="FormBg" type="ColorRect" parent="Panel"]
 layout_mode = 0
-offset_left = 307.0
-offset_top = 84.0
-offset_right = 551.0
-offset_bottom = 328.0
+offset_left = 314.0
+offset_top = 104.0
+offset_right = 558.0
+offset_bottom = 348.0
 color = Color(0.12549, 0.12549, 0.12549, 1)
 
 [node name="FormRoot" type="Control" parent="Panel"]
 anchors_preset = 0
-offset_left = 309.0
-offset_top = 86.0
-offset_right = 553.0
-offset_bottom = 330.0
+offset_left = 316.0
+offset_top = 106.0
+offset_right = 560.0
+offset_bottom = 350.0
 
 [node name="HeroItem" type="Control" parent="Panel/FormRoot"]
 anchors_preset = 0

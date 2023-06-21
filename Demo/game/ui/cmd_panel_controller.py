@@ -116,8 +116,8 @@ class CmdPanelController(UIController, PopupTrait):
         
         self.icon_list = [
             None,
-            ResCapsule.load_resource('res://ui/img/Template.png'),
-            ResCapsule.load_resource('res://ui/img/Man2.png')
+            ResCapsule.load_resource('res://ui/img/Man2.png'),
+            ResCapsule.load_resource('res://ui/img/Man3.png'),
         ]
 
     def init(self, unit):
