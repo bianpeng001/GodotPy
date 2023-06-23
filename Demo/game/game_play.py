@@ -99,6 +99,7 @@ class GamePlay:
                     player_count += 1
 
             log_debug('create', player_count, 'robot players')
+
         # 默认创建一个空城
         def co_create_main_player(player_name):
             yield None
@@ -299,7 +300,7 @@ class GamePlay:
         self.refresh_player_resource(0)
         
         city_count = len(list(game_mgr.unit_mgr.loop_cities()))
-        log_debug('city count =', city_count)
+        log_debug('create', city_count, 'cities')
 
     # 离开场景前, 需要做一些清理. 这个引擎还是有一些小瑕疵的, 这些问题有待解决.
     # 确保资源清理干净, 是一个优秀引擎的基本要求. 
