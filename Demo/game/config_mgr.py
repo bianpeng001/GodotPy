@@ -5,7 +5,7 @@
 import math
 import random
 
-from game.core import log_debug, random_100, random_select_item
+from game.core import *
 
 #
 #
@@ -122,6 +122,7 @@ class ConfigMgr:
         self.fix_block_step = 0.1
         
         self.first_city_name = '平安'
+        self.new_player_text = '请问尊姓大名?'
         
     def init_story_config(self):
         self.story_dict = {}

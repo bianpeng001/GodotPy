@@ -16,6 +16,7 @@ class CreatePlayerController(UIController, PopupTrait):
     def __init__(self):
         super().__init__()
         self.player_name = ''
+        self.ok_cb = None
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj

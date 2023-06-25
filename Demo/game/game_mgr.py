@@ -160,7 +160,7 @@ def get_effect_config(config_id):
     return game_mgr.config_mgr.get_effect(config_id)
 
 def get_skill_config(config_id):
-    return game_mgr.config_mgr.get_skil(config_id)
+    return game_mgr.config_mgr.get_skill(config_id)
     
 __all__ = [
     'game_mgr',
