@@ -67,7 +67,7 @@ class UIMgr(NodeObject):
     # 因为ready里面，scene_tree的限制，还不让加载对象
     # 所以，用一个coroutine，等一帧
     def co_init_panels(self):
-        yield None
+        yield
 
         from game.ui.mainui_controller import MainUIController
         _, self.mainui_controller = self.load_panel(

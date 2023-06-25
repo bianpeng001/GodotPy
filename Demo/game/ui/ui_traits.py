@@ -31,10 +31,10 @@ class PopupTrait:
         x, y = game_mgr.input_mgr.get_mouse_pos()
         self.popup(x, y)
 
-    def popup_dialog(self, msg, time_out = 1.5):
+    def popup_dialog(self, msg, timeout = 1.5):
         dlg = game_mgr.ui_mgr.npc_dialog_controller
         dlg.init(msg)
-        dlg.auto_close(time_out)
+        dlg.auto_close(timeout)
 
     def popup_screen_center(self):
         screen_width,screen_height = OS.viewport_get_size()
@@ -74,11 +74,9 @@ class PopupTrait:
         game_mgr.ui_mgr.pop_panel(self)
 
     def on_close_click(self):
-        #self.pop_panel()
         self.defer_close()
 
     def on_ok_click(self):
-        #self.pop_panel()
         self.defer_close()
 
 #
@@ -116,10 +114,8 @@ class HeroListTrait:
             self.item_list.append((hero_id, new_item))
             
             name_label = new_item.find_node('Label')
-            #log_debug(f'refcnt={sys.getrefcount(name_label)}')
             name_label.set_minimum_size(80, 0)
             name_label.set_text(hero.hero_name)
-            #name_label.connect(GUI_INPUT, bind_gui_input())
             
             # 身份
             standing_label = name_label.dup()

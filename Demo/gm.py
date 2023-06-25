@@ -52,7 +52,6 @@ def play_effect():
 
 #play_effect()
 
-
 def test_pos():
     #unit1 = game_mgr.unit_mgr.get_unit_by_name('王世玉部')
     unit2 = game_mgr.unit_mgr.get_unit_by_name('安喜')

@@ -3,7 +3,7 @@
 #
 
 from game.core import *
-from game.game_mgr import game_mgr
+from game.game_mgr import *
 from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
 
@@ -27,7 +27,7 @@ class NpcDialogController(UIController, PopupTrait):
 
         screen_width,screen_height = OS.viewport_get_size()
         _,_,width,height = self.ui_obj.get_rect()
-        self.popup((screen_width-width)/2+60, screen_height-height-1)
+        self.popup((screen_width-width)/2+70, screen_height-height-2)
         self.show()
 
     def auto_close(self, timeout):
@@ -47,6 +47,7 @@ class NpcDialogController(UIController, PopupTrait):
     def show_text2(self, speaker, text):
         self.content_label.set_text(text)
         self.name_label.set_text(speaker)
+        # 动一下头像位置, 假装换了一下头像的形状
         self.face_obj.set_position(int(random_1()*10), int(random_1()*10))
 
 

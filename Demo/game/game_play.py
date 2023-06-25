@@ -79,7 +79,7 @@ class GamePlay:
         
         def co_create_robot_player():
             while not pm.main_player:
-                yield None
+                yield
                 
             main_city_unit = get_unit(get_main_player().main_city_id)
             x1,z1 = main_city_unit.get_xz()
@@ -102,10 +102,10 @@ class GamePlay:
 
         # 默认创建一个空城
         def co_create_main_player(player_name):
-            yield None
+            yield
             
             while True:
-                yield None
+                yield
                 
                 # 找一个合适的城市, 改一下名字
                 # 或者找一个空地, 新建一个城
@@ -149,9 +149,9 @@ class GamePlay:
         
         def co_wait_for_ground():
             # 等地图和ui加载好,然后分配一个新手城
-            while not game_mgr.ui_mgr.load_complete or \
-                        not game_mgr.ground_mgr.load_complete:
-                yield None
+            while not (game_mgr.ui_mgr.load_complete and \
+                        game_mgr.ground_mgr.load_complete):
+                yield
                 
             city_name = game_mgr.config_mgr.first_city_name
 

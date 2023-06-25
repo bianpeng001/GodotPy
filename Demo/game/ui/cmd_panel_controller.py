@@ -136,7 +136,7 @@ class CmdPanelController(UIController, PopupTrait):
         while time < 1.0:
             time += game_mgr.delta_time * speed
             self.set_position(2, screen_height-(height+2)*time)
-            yield None
+            yield
             
     def show_panel(self):
         screen_width,screen_height = OS.viewport_get_size()
