@@ -1,5 +1,8 @@
 import importlib
 
+#import game.ui.npc_dialog_controller
+#importlib.reload(game.ui.npc_dialog_controller)
+
 from game.game_mgr import *
 from game.config_mgr import new_hero_name
 from game.core import *

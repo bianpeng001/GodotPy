@@ -84,11 +84,18 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         rm_texts = ['致仕','训诫','赏赐','爵位','搜索','派遣','征招']
         rm_btns = [btn_dengyong.dup() for i in range(len(rm_texts) - 1)]
         rm_btns.append(btn_dengyong)
+
+        def make_rm_handler(label):
+            def _fun():
+                return self.on_rm_btn_click(label)
+            return _fun
+
         for i in range(len(rm_btns)):
             btn = rm_btns[i]
-            btn.set_text(rm_texts[i])
+            btl_label = rm_texts[i]
+            btn.set_text(btl_label)
             btn.set_position(20+(50+6)*i, 300)
-            btn.connect(PRESSED, self.on_rm_btn_click)
+            btn.connect(PRESSED, make_rm_handler(btl_label))
 
     # 根据实际情况初始化
     def init(self, city_unit):
@@ -296,9 +303,10 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.lbl_fax_rate_value.set_text(f'{self.fax_rate}%')
 
     # 任命界面的指令按钮, 让选中的武将去执行xx任务
-    def on_rm_btn_click(self):
+    def on_rm_btn_click(self, btn_label):
+        log_debug(btn_label)
+
         hero_list = self.get_selected_hero_list()
-        
         if len(hero_list) > 0:
             def on_confirmed_cb():
                 speaker_name = hero_list[0].hero_name

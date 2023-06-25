@@ -17,8 +17,6 @@ class UIMgr(NodeObject):
 
         # 排队等关闭的ui，ui不能马上关闭，需要排队，不然马上就响应ui下面的元素被点击了
         self.defer_close_queue = []
-        # 超时自动关闭队列
-        self.auto_close_queue = []
         # 
         self.update_list = []
 
@@ -128,7 +126,6 @@ class UIMgr(NodeObject):
         from game.ui.npc_dialog_controller import NpcDialogController
         _, self.npc_dialog_controller = self.load_panel(
                 'res://ui/NpcDialog.tscn', NpcDialogController)
-        #self.auto_close_queue.append(self.npc_dialog_controller)
 
         from game.ui.option_panel_controller import OptionPanelController
         _, self.option_panel_controller = self.load_panel(
@@ -195,14 +192,6 @@ class UIMgr(NodeObject):
             for item in self.defer_close_queue:
                 item.hide()
             self.defer_close_queue.clear()
-
-        # 延时关闭的元素
-        for item in self.auto_close_queue:
-            if item.show_time > 0:
-                item.show_time -= delta_time
-                if item.show_time <= 0:
-                    item.show_time = 0
-                    item.hide()
 
         # 有一些面板需要update
         for panel in self.update_list:

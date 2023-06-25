@@ -7,7 +7,9 @@ from game.game_mgr import game_mgr
 from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
 
+#
 # npc对话框
+#
 class NpcDialogController(UIController, PopupTrait):
     def __init__(self):
         super().__init__()
@@ -25,7 +27,7 @@ class NpcDialogController(UIController, PopupTrait):
 
         screen_width,screen_height = OS.viewport_get_size()
         _,_,width,height = self.ui_obj.get_rect()
-        self.popup((screen_width-width)/2, screen_height-height-1)
+        self.popup((screen_width-width)/2+60, screen_height-height-1)
         self.show()
 
     def auto_close(self, timeout):
@@ -36,6 +38,7 @@ class NpcDialogController(UIController, PopupTrait):
         def wait_close():
             yield timeout
             self.defer_close()
+        
         self.co = game_mgr.co_mgr.start(wait_close())
 
     def show_text(self, text):
