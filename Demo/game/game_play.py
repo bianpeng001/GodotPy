@@ -192,7 +192,9 @@ class GamePlay:
                 dlg1.init()
                 dlg1.show_text('有一天, 我在街上漫无目的地闲逛')
                 yield WaitForSeconds(1.5)
-                dlg1.show_text('走得有点慢, 发愁晚饭还没着落')
+                dlg1.show_text('看人来人往, 潮起潮落')
+                yield WaitForSeconds(1.5)
+                dlg1.show_text('不禁放慢了脚步, 暗暗发愁晚饭还没着落')
                 yield WaitForSeconds(1.5)
                 dlg1.show_text('突然, 斜里过来一人, 一把将我拉住')
                 yield WaitForSeconds(1.5)
@@ -226,7 +228,7 @@ class GamePlay:
                 yield WaitForSeconds(2.5)
                 dlg2.show_text2("陌生人", "...这个, 眼下虽然时运不济, 他日风云际会, 必定一飞冲天!")
                 yield WaitForSeconds(2.5)
-                dlg2.show_text2("陌生人", "现在朝廷用人之际, 我推荐你到军中效力, 好过在乡野埋没")
+                dlg2.show_text2("陌生人", "如今朝廷正在用人之际, 我推荐你到军中效力, 总好过在乡野埋没")
                 yield 2.5
                 dlg2.show_text2(player_name, "行")
                 yield 1.5
@@ -235,7 +237,7 @@ class GamePlay:
                 dlg1.init()
                 dlg1.show_text('这就是我被拉壮丁的经过')
                 yield WaitForSeconds(1.5)
-                dlg1.show_text('然后我认识了几个兄弟, 出生入生好几年')
+                dlg1.show_text('然后我结识了几个兄弟, 一起出生入死')
                 yield WaitForSeconds(1.5)
                 dlg1.show_text('我们几个武功还可以, 加上运气不错')
                 yield WaitForSeconds(1.5)
@@ -243,7 +245,7 @@ class GamePlay:
                 yield WaitForSeconds(2.5)
                 dlg1.show_text('再后来, 仗打完了')
                 yield WaitForSeconds(1.5)
-                dlg1.show_text('我跟两位兄弟, 被安排来到此处当了个普通县尉')
+                dlg1.show_text('我跟两位兄弟, 被安排来此处当了个普通县尉')
                 yield WaitForSeconds(1.5)
                 dlg1.show_text('故事从这里开始')
                 yield WaitForSeconds(2.5)
@@ -263,12 +265,12 @@ class GamePlay:
                 yield WaitForSeconds(1.5)
                 dlg2.show_text2("张飞", "大哥, 先看下城里的[color=red]内政[/color]情况吧")
                 yield WaitForSeconds(1.5)
-                dlg2.show_text2(player_name, "好, 以一名普通县尉的身份, 进城!")
+                dlg2.show_text2(player_name, "好, 走起!")
                 yield WaitForSeconds(1.5)
                 dlg2.defer_close()
                 
                 dlg1.init()
-                dlg1.show_text('三人读书练武勤于政务, 度过了平生最快乐一段的平静生活')
+                dlg1.show_text('三人读书练武勤于政务, 日子倒也快活')
                 yield WaitForSeconds(2.5)
                 dlg1.defer_close()
                 
@@ -287,7 +289,7 @@ class GamePlay:
         ]
         self.set_cursor(1)
 
-    def set_cursor(self, index:int) -> None:
+    def set_cursor(self, index:int):
         #OS.set_custom_mouse_cursor(None, 0, 0, 0)
         OS.set_custom_mouse_cursor(
                 self.cursor_list[index].res if index > 0 else None,

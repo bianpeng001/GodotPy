@@ -156,6 +156,7 @@ class HeroListTrait:
             zhengzhi_label.set_minimum_size(40, 0)
             zhengzhi_label.set_text(f'{hero.action_points}')
 
+    # 得到一个选中的hero_id的list
     def get_selected(self):
         hero_list = []
         for item in self.item_list:
@@ -165,18 +166,12 @@ class HeroListTrait:
         
         return hero_list
     
+    # 把id, 换成实际的hero实例
     def get_selected_hero_list(self):
         hero_list = self.get_selected()
         return list(map(get_hero, hero_list))
         
         
-
-
-
-
-
-
-
 
 
 

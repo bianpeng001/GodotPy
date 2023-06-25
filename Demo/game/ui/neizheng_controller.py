@@ -295,6 +295,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.fax_rate = round(value)
         self.lbl_fax_rate_value.set_text(f'{self.fax_rate}%')
 
+    # 任命界面的指令按钮, 让选中的武将去执行xx任务
     def on_rm_btn_click(self):
         hero_list = self.get_selected_hero_list()
         

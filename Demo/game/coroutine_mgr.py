@@ -105,7 +105,7 @@ class CoroutineMgr:
         return co1
 
     def start_coroutine(self, co):
-        return self.start_coroutine(co)
+        return self.start(co)
 
     def update(self):
         tmp = self.co_list
