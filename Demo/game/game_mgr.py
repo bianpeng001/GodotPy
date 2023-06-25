@@ -158,6 +158,9 @@ def get_unit_name(unit_id):
 
 def get_effect_config(config_id):
     return game_mgr.config_mgr.get_effect(config_id)
+
+def get_skill_config(config_id):
+    return game_mgr.config_mgr.get_skil(config_id)
     
 __all__ = [
     'game_mgr',
@@ -171,6 +174,7 @@ __all__ = [
     'get_unit',
     'get_unit_name',
     'get_effect_config',
+    'get_skill_config',
     'check_owner',
     'check_main_owner',
 ]

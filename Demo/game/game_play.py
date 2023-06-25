@@ -146,7 +146,6 @@ class GamePlay:
 
             game_mgr.event_mgr.emit(MAIN_PLAYER_READY)
             
-        
         def co_wait_for_ground():
             # 等地图和ui加载好,然后分配一个新手城
             while not (game_mgr.ui_mgr.load_complete and \
@@ -434,21 +433,21 @@ class GamePlay:
         troop.set_position(x,y,z)
 
         # 军队的名字, 跟随主将
-        troop.chief_hero_id = chief_hero_id
         if chief_hero_id > 0:
             troop.unit_name = f'{get_hero_name(chief_hero_id)}部'
+            troop.chief_hero_id = chief_hero_id
         else:
             troop.unit_name = f'{city_unit.unit_name}军'
+            troop.chief_hero_id = 0
 
+        log_debug('create troop', troop.unit_id, troop.unit_name)
         return troop
-    
-        #log_debug('create troop', troop.unit_id, troop.unit_name)
 
     #
     # 释放技能, 伤害结算. 目前这个是伤害的唯一方式
     #
     def cast_skill(self, skill_config_id:int, src_unit, target_unit) -> int:
-        cfg = game_mgr.config_mgr.get_skill(skill_config_id)
+        cfg = get_skill_config(skill_config_id)
         
         # 放特效
         effect_item = game_mgr.effect_mgr.play_effect3(src_unit.unit_id, cfg.effect_id)
