@@ -269,7 +269,7 @@ class GamePlay:
                 dlg2.defer_close()
                 
                 dlg1.init()
-                dlg1.show_text('三人读书练武勤于政务, 日子倒也快活')
+                dlg1.show_text('三人读书练武勤于政务, 于百姓秋毫无犯, 日子倒也快活')
                 yield WaitForSeconds(2.5)
                 dlg1.defer_close()
                 

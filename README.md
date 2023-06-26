@@ -11,13 +11,13 @@
 ```python
     def co_print_number():
         print(game_mgr.frame_number)
-        yield None
+        yield
         print(game_mgr.frame_number)
-        yield None
+        yield
         print(game_mgr.frame_number)
-        yield None
+        yield
         print(game_mgr.frame_number)
-        yield None
+        yield
         print(game_mgr.frame_number)
 
         print(f'{OS.get_time()} {game_mgr.sec_time}')

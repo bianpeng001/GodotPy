@@ -151,7 +151,6 @@ Modules = [
     'Modules/atexitmodule.c',
     'Modules/_abc.c',
     'Modules/arraymodule.c',
-    #'Modules/audioop.c',
     'Modules/binascii.c',
     'Modules/cmathmodule.c',
     'Modules/errnomodule.c',
@@ -405,12 +404,12 @@ srcs = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + IOModules + Modules + [
 
         'Godot/config.c',
     ]
-Lib1 = env.SharedLibrary(ModuleName,
+PythonLib = env.SharedLibrary(ModuleName,
     source = srcs,
     cpppaths = incs,
     LIBS = libs,
 )
-env.Requires(Lib1, [Gen1, Gen2])
+env.Requires(PythonLib, [Gen1, Gen2])
 
 # generate vsproject
 env.MSVSProject(target = ModuleName + env['MSVSPROJECTSUFFIX'],
@@ -439,7 +438,7 @@ PythonExe = env2.Program('python.exe',
     LIBS = ['python3.lib',]
 )
 # 加一下依赖关系, 保证先后执行顺序
-env2.Requires(PythonExe, [Lib1, PythonExeRes])
+env2.Requires(PythonExe, [PythonLib, PythonExeRes])
 
 # build sqlite3
 # 单独的dll
@@ -458,7 +457,7 @@ sqlite3 = env2.SharedLibrary('sqlite3',
 )
 
 #
-# sqlit3 模块, 单独的dll(复制host.exe同目录下, sqlite3.pyd)
+# sqlit3 模块, 单独的dll(复制host.exe同目录下, _sqlite3.pyd)
 #
 sqlite3_pyd = env2.SharedLibrary('_sqlite3',
     source = [
@@ -499,6 +498,9 @@ socket_pyd = env2.SharedLibrary('_socket',
     ]
 )
 
+#
+# eventloop: _asyncio.pyd
+#
 asyncio_pyd = env2.SharedLibrary('_asyncio',
     source = ['Modules/_asynciomodule.c'],
     CPPDEFINES = [
