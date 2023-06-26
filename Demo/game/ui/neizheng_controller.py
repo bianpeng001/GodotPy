@@ -313,8 +313,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
                 self.popup_dialog(f'{speaker_name}: 任重而道远,贵在持之以恒', 1.5)
                 
                 # TODO: 扣体力, 并刷新
-            text = f'''命令
-{','.join(map(lambda x: x.hero_name, hero_list))} 诸将
+            text = f'''{','.join(map(lambda x: x.hero_name, hero_list))} 诸将
 执行 征兵 任务
 '''
             dlg = game_mgr.ui_mgr.cmd_dialog_controller

@@ -478,7 +478,7 @@ sqlite3_pyd = env2.SharedLibrary('_sqlite3',
     ],
     buildtarget = '_sqlite3.dll',
     LIBS = [
-        'sqlite3.lib', 
+        'sqlite3.lib',
         'python3.lib',
     ],
 )
