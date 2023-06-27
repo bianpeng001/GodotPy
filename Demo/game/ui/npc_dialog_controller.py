@@ -23,6 +23,7 @@ class NpcDialogController(UIController, PopupTrait):
         self.face_obj = self.ui_obj.find_node('Face')
 
     def init(self, text=''):
+        self.name_label.set_text('')
         self.content_label.set_text(text)
 
         screen_width,screen_height = OS.viewport_get_size()
@@ -35,18 +36,18 @@ class NpcDialogController(UIController, PopupTrait):
             game_mgr.co_mgr.cancel(self.co)
             self.co = None
 
-        def wait_close():
+        def co_wait_close():
             yield timeout
             self.defer_close()
         
-        self.co = game_mgr.co_mgr.start(wait_close())
+        self.co = game_mgr.co_mgr.start(co_wait_close())
 
     def show_text(self, text):
         self.show_text2('', text)
 
     def show_text2(self, speaker, text):
-        self.content_label.set_text(text)
         self.name_label.set_text(speaker)
+        self.content_label.set_text(text)
         # 动一下头像位置, 假装换了一下头像的形状
         self.face_obj.set_position(int(random_1()*10), int(random_1()*10))
 

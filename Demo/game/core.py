@@ -196,6 +196,8 @@ Vector3.y_axis = Vector3(0, 1, 0)
 Vector3.z_axis = Vector3(0, 0, 1)
 
 Vector3.up = Vector3.y_axis
+Vector3.left = Vector3.x_axis
+Vector3.forward = Vector3(0, 0, -1)
 
 #------------------------------------------------------------
 # 模式相关的
@@ -204,6 +206,7 @@ Vector3.up = Vector3.y_axis
 # 单例
 class Singleton:
     _instance = None
+    
     @classmethod
     def get_instance(class_):
         if not class_._instance:

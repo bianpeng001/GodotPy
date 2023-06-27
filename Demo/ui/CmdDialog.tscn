@@ -42,7 +42,7 @@ offset_top = 71.0
 offset_right = 440.0
 offset_bottom = 250.0
 theme = ExtResource("3_ehj5n")
-theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/normal_font_size = 20
 text = "军令"
 
 [node name="BtnOk" type="Button" parent="Panel"]

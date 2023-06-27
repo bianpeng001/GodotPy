@@ -307,18 +307,20 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         log_debug(btn_label)
 
         hero_list = self.get_selected_hero_list()
-        if len(hero_list) > 0:
-            def on_confirmed_cb():
-                speaker_name = hero_list[0].hero_name
-                self.popup_dialog(f'{speaker_name}: 任重而道远,贵在持之以恒', 1.5)
-                
-                # TODO: 扣体力, 并刷新
-            text = f'''{','.join(map(lambda x: x.hero_name, hero_list))} 诸将
+        if not hero_list:
+            return
+
+        def on_confirmed_cb():
+            speaker_name = hero_list[0].hero_name
+            self.popup_dialog(speaker_name, '遵命', 1.5)
+            
+            # TODO: 扣体力, 并刷新
+        text = f'''{','.join(map(lambda x: x.hero_name, hero_list))}
 执行 征兵 任务
 '''
-            dlg = game_mgr.ui_mgr.cmd_dialog_controller
-            dlg.set_prev_panel(self)
-            dlg.show_dialog(text, on_confirmed_cb)
+        dlg = game_mgr.ui_mgr.cmd_dialog_controller
+        dlg.set_prev_panel(self)
+        dlg.show_dialog(text, on_confirmed_cb)
 
     def on_tab_changed(self, index):
         self.tab_index = index
@@ -335,17 +337,16 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         # 弹一个对话
         if self.city_unit.satrap != 0 and self.satrap == 0:
             satrap = game_mgr.hero_mgr.get_hero(self.city_unit.satrap)
-            msg = f'{satrap.hero_name}: 莫非我不堪此任?'
-            self.popup_dialog(msg, 1.5)
+            msg = '莫非我不堪此任?'
+            self.popup_dialog(satrap.hero_name, msg, 1.5)
         elif self.city_unit.satrap == 0 and self.satrap != 0:
             hero = game_mgr.hero_mgr.get_hero(self.satrap)
-            msg = f'{hero.hero_name}: 定当尽心竭力,不负所托.'
-            self.popup_dialog(msg, 1.5)
+            msg = '定当尽心竭力,不负所托.'
+            self.popup_dialog(hero.hero_name, msg, 1.5)
         elif self.satrap != 0:
             hero = game_mgr.hero_mgr.get_hero(self.satrap)
-            dlg, _ = random_select_item(game_mgr.config_mgr.neizheng_strap_dialog_list)
-            msg = f'{hero.hero_name}: {dlg}'
-            self.popup_dialog(msg, 1.5)
+            msg, _ = random_select_item(game_mgr.config_mgr.neizheng_strap_dialog_list)
+            self.popup_dialog(hero.hero_name, msg, 1.5)
 
         def set_action(hero_id):
             game_mgr.hero_mgr.set_hero_activity(hero_id, ACT_NEIZHENG)

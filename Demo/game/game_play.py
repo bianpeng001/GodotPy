@@ -189,13 +189,13 @@ class GamePlay:
                 game_mgr.ui_mgr.show_base_ui(False)
                 
                 dlg1.init()
-                dlg1.show_text('有一天, 我在街上漫无目的地闲逛')
+                dlg1.show_text('有一天, 我在街上闲逛')
                 yield WaitForSeconds(1.5)
                 dlg1.show_text('看人来人往, 潮起潮落')
                 yield WaitForSeconds(1.5)
                 dlg1.show_text('不禁放慢了脚步, 暗暗发愁晚饭还没着落')
                 yield WaitForSeconds(1.5)
-                dlg1.show_text('突然, 斜里过来一人, 一把将我拉住')
+                dlg1.show_text('突然, 斜里过来一人, 一把将我拽住')
                 yield WaitForSeconds(1.5)
                 dlg1.defer_close()
                 
@@ -220,16 +220,16 @@ class GamePlay:
                 dlg2.show_text2("陌生人", "好名字. 我这有个活, 包吃包住")
                 yield WaitForSeconds(1.5)
                 dlg2.show_text2(player_name, "真的吗?")
-                yield WaitForSeconds(1.5)
+                yield 1.5
                 dlg2.show_text2("陌生人", "我看你步履稳健, 气度不凡, 头顶一道英雄气直贯云天, 不得了, 不得了")
-                yield WaitForSeconds(2.5)
+                yield 2.5
                 dlg2.show_text2(player_name, "骗小孩呢? 有事说事, 别耽误我散步")
-                yield WaitForSeconds(2.5)
+                yield 2.5
                 dlg2.show_text2("陌生人", "...这个, 眼下虽然时运不济, 他日风云际会, 必定一飞冲天!")
-                yield WaitForSeconds(2.5)
+                yield 2.5
                 dlg2.show_text2("陌生人", "如今朝廷正在用人之际, 我推荐你到军中效力, 总好过在乡野埋没")
                 yield 2.5
-                dlg2.show_text2(player_name, "行")
+                dlg2.show_text2(player_name, "有点道理")
                 yield 1.5
                 dlg2.defer_close()
                 
