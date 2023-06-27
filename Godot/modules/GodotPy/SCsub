@@ -28,16 +28,15 @@ def GetReady():
     Python3Lib = PYTHON_HOME + '/python3.lib'
     Python3LibDst = PYTHON_HOME + '/python3' + env["LIBSUFFIX"]
     copy_if_expired(Python3Lib, Python3LibDst)
-
-    Python3Dll = PYTHON_HOME + '/python3.dll'
-    Python3DllDst = '../../bin/python3.dll'
-    copy_if_expired(Python3Dll, Python3DllDst)
     
-    file_list = ('python.exe',
-                'sqlite3.dll',
-                '_sqlite3.pyd',
-                '_socket.pyd',
-                '_asyncio.pyd')
+    file_list = (
+            'python.exe',
+            'python3.dll',
+            'sqlite3.dll',
+            '_sqlite3.pyd',
+            '_socket.pyd',
+            '_asyncio.pyd',
+            )
     for dst_file in file_list:
         src_file = dst_file.replace('.pyd', '.dll')
         copy_if_expired(PYTHON_HOME + '/' + src_file, '../../bin/' + dst_file)
