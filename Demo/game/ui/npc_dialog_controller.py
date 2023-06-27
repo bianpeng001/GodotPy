@@ -14,33 +14,20 @@ class NpcDialogController(UIController, PopupTrait):
     def __init__(self):
         super().__init__()
 
-        self.co = None
-
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
         self.content_label = self.ui_obj.find_node('Label')
         self.name_label = self.ui_obj.find_node('Face/Name')
         self.face_obj = self.ui_obj.find_node('Face')
 
-    def init(self, text=''):
-        self.name_label.set_text('')
-        self.content_label.set_text(text)
+    def init(self):
+        #self.name_label.set_text('')
+        #self.content_label.set_text(text)
 
         screen_width,screen_height = OS.viewport_get_size()
         _,_,width,height = self.ui_obj.get_rect()
         self.popup((screen_width-width)/2+70, screen_height-height-2)
         self.show()
-
-    def auto_close(self, timeout):
-        if self.co:
-            game_mgr.co_mgr.cancel(self.co)
-            self.co = None
-
-        def co_wait_close():
-            yield timeout
-            self.defer_close()
-        
-        self.co = game_mgr.co_mgr.start(co_wait_close())
 
     def show_text(self, text):
         self.show_text2('', text)

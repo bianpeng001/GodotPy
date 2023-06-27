@@ -77,6 +77,8 @@ class _Coroutine(Waitable):
                                 yield_value >= 0:
                             self.last_yield_value = WaitForSeconds(yield_value)
                         break
+                else:
+                    break
                     
         except StopIteration:
             self.done = True

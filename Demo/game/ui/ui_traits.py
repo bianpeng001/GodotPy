@@ -31,11 +31,17 @@ class PopupTrait:
         x, y = game_mgr.input_mgr.get_mouse_pos()
         self.popup(x, y)
 
-    def popup_dialog(self, speaker, msg, timeout = 1.5):
+    def popup_dialog(self, speaker, msg, timeout=1.5):
         dlg = game_mgr.ui_mgr.npc_dialog_controller
         dlg.init()
         dlg.show_text2(speaker, msg)
         dlg.auto_close(timeout)
+
+    def auto_close(self, timeout):
+        def co_wait_close():
+            yield timeout
+            self.defer_close()
+        game_mgr.co_mgr.start(co_wait_close())
 
     def popup_screen_center(self):
         screen_width,screen_height = OS.viewport_get_size()
