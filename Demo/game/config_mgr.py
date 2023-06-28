@@ -113,6 +113,8 @@ class ConfigMgr:
         
         # 单位秒, 每帧的时长, 有时候用固定值就挺好的
         self.frame_seconds = 1.0/60
+        # 军队移动的速度的倍速, 全局缩放
+        self.troop_speed_scale = 2
         
         # 修正走路卡主的参数
         

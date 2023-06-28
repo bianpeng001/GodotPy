@@ -18,7 +18,7 @@ class TroopUnit(Unit):
         # 基本特征参数
         self.radius = 3
         # 所属城
-        self.owner_city_id = None
+        self.owner_city_id = 0
         # 行军速度
         self.speed = 0.6
 
@@ -32,6 +32,7 @@ class TroopUnit(Unit):
         
         # 士气
         self.army_moral = 100
+        # 暴击率
         self.critical_strike = 50
 
         # 模型的类型
@@ -42,8 +43,10 @@ class TroopUnit(Unit):
         # TODO: 这几个数据, 也许不应该放在这里
         self.target_pos = (0, 0)
         self.target_unit_id = 0
+
         # 追逐目标
         self.chase_target = False
+        self.no_target_stay = False
 
     def load_model(self):
         #path = 'res://models/Troop01.tscn'

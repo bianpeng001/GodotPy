@@ -43,6 +43,8 @@ class WaitForSeconds(Waitable):
 #
 class _Coroutine(Waitable):
     def __init__(self, iterator):
+        super().__init__()
+        
         self.done = False
         self.canceled = False
         self.error = None

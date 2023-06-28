@@ -308,7 +308,10 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         hero_list = self.get_selected_hero_list()
         if not hero_list:
+            log_util('no hero selected')
             return
+
+        # 下面根据指令, 进行工作
 
         def on_confirmed_cb():
             speaker_name = hero_list[0].hero_name

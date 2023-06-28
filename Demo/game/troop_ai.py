@@ -82,10 +82,9 @@ class NewtonMoveComponent(MoveComponent):
         self._cur_pos.set(*troop.get_position())
         
         # 参数
-        speed = troop.speed
+        speed = troop.speed * game_mgr.config_mgr.troop_speed_scale
         unit_time = game_mgr.config_mgr.frame_seconds
-        #fix_block_speed = 2.0
-        fix_block_speed = 0.1
+        fix_block_speed = 0.08
         
         delta = self._dst_pos - self._cur_pos
         dis = delta.magnitude()
