@@ -91,7 +91,7 @@ class CityUnit(Unit):
         #self.friend_city_list = []
 
         # 质量
-        self.mass = 500
+        self.mass = 300
 
     def init(self):
         for i in range(10):

@@ -37,6 +37,7 @@ class TroopUnit(Unit):
 
         # 模型的类型
         self.model_type = 3
+        # 质量
         self.mass = 10
 
         # 战斗策略

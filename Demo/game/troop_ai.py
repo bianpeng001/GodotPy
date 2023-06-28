@@ -53,7 +53,7 @@ class LineMoveReq(MoveComponent):
         
         
 #
-# 牛顿移动组件, 用物理来实现
+# 牛顿移动组件, 用物理来实现, 主要体现一个互斥
 #        
 class NewtonMoveComponent(MoveComponent):
     def __init__(self):
@@ -73,7 +73,7 @@ class NewtonMoveComponent(MoveComponent):
         blackboard = controller.get_brain_comp().get_blackboard()
         
         if blackboard.target_unit_id > 0:
-            unit = game_mgr.unit_mgr.get_unit(blackboard.target_unit_id)
+            unit = get_unit(blackboard.target_unit_id)
             self._dst_pos.set(*unit.get_position())
         else:
             x,z = blackboard.target_pos

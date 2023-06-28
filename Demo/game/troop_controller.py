@@ -69,7 +69,11 @@ class AISightComponent(Component):
                         if sqrdis <= sqr_radius:
                             self._unit_dict[unit.unit_id] = unit
                             #log_debug('see unit', src_unit.unit_name, '->', unit.unit_name)
-            
+
+                if tile.city_unit:
+                    if tile.city_unit.unit_id not in self._unit_dict:
+                        self._unit_dict[tile.city_unit.unit_id] = tile.city_unit
+
         # 要扫描周围几个tile
         owner_tile = self.get_controller().owner_tile
         if owner_tile:
@@ -270,19 +274,22 @@ class TroopController(Controller):
             for unit in self.sight_comp.loop_units():
                 # if unit.unit_type == UT_TROOP and \
                 #         unit.owner_player_id != src_unit.owner_player_id:
-                if unit.unit_type == UT_TROOP:
-                    x1,z1 = unit.get_xz()
-                    dx,dz = x-x1,z-z1
-                    sqrdis = dx*dx+dz*dz
-                    if sqrdis < 0.001:
-                        sqrdis = 0.001
-                        dx = random_num(0.001, 0.002)
-                        dz = random_num(0.001, 0.002)
+                if unit.unit_type == UT_CITY:
+                    if unit.owner_player_id == src_unit.owner_player_id:
+                        continue
 
-                    if sqrdis < rvo_sqrdis:
-                        f = unit.mass*(1.0/sqrdis - 1.0/rvo_sqrdis)
-                        self.rvo_acce_x += dx*f
-                        self.rvo_acce_z += dz*f
+                x1,z1 = unit.get_xz()
+                dx,dz = x-x1,z-z1
+                sqrdis = dx*dx+dz*dz
+                if sqrdis < 0.001:
+                    sqrdis = 0.001
+                    dx = random_num(0.001, 0.002)
+                    dz = random_num(0.001, 0.002)
+
+                if sqrdis < rvo_sqrdis:
+                    f = unit.mass*(1.0/sqrdis - 1.0/rvo_sqrdis)
+                    self.rvo_acce_x += dx*f
+                    self.rvo_acce_z += dz*f
             
             self.rvo_acce_x *= rvo_factor/src_unit.mass
             self.rvo_acce_z *= rvo_factor/src_unit.mass
