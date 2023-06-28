@@ -20,15 +20,15 @@ class WaitForClose(Waitable):
 def test_wait_1():
     def co_print_number():
         print('co_print_number', game_mgr.frame_number)
-        yield None
+        yield
         print(game_mgr.frame_number, game_mgr.sec_time)
-        yield None
+        yield
         print(game_mgr.frame_number, game_mgr.sec_time)
-        yield None
+        yield
         print(game_mgr.frame_number, game_mgr.sec_time)
-        yield None
+        yield
         print(game_mgr.frame_number, game_mgr.sec_time)
-        yield None
+        yield
         print(game_mgr.frame_number, game_mgr.sec_time)
 
         print(f'{OS.get_time()} {game_mgr.sec_time}')

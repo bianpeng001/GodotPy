@@ -21,8 +21,8 @@ offset_bottom = 34.0
 theme = ExtResource("1_7ax3f")
 tab_count = 4
 tab_0/title = "任免"
-tab_1/title = "武将"
-tab_2/title = "政务"
+tab_1/title = "内政"
+tab_2/title = "外交"
 tab_3/title = "制造"
 
 [node name="Panel" type="Panel" parent="."]
