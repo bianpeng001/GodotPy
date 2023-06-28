@@ -37,6 +37,7 @@ class PopupTrait:
         dlg.show_text2(speaker, msg)
         dlg.auto_close(timeout)
 
+    # 自动延时关闭, 用一个coroutine来做, 略显大材小用
     def auto_close(self, timeout):
         def co_wait_close():
             yield timeout
