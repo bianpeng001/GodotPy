@@ -43,7 +43,7 @@ custom_minimum_size = Vector2(106, 0)
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="BtnMainCity" type="Button" parent="ScrollContainer/VBoxContainer"]
+[node name="Button1" type="Button" parent="ScrollContainer/VBoxContainer"]
 custom_minimum_size = Vector2(120, 26)
 layout_mode = 2
 theme = ExtResource("1_n1cbr")
