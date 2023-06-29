@@ -245,7 +245,7 @@ class HeroMgr:
                 return hero_name
 
     def rename_hero(self, new_name, old_name=None):
-        if old_name:
+        if old_name and old_name in self.hero_name_set:
             self.hero_name_set.remove(old_name)
         if new_name:
             self.hero_name_set.add(new_name)
