@@ -4,6 +4,7 @@
 
 from game.core import *
 from game.game_mgr import *
+from game.config_mgr import new_hero_name
 
 # Hero 是纯数据Entity，不存在实体
 
@@ -166,6 +167,8 @@ class HeroMgr:
         self.hero_dict = {}
         self.hero_id_seed = 1000
 
+        self.hero_name_set = set()
+
         # 武将活动, 比如移动,啥的,是需要时间的
         self.hero_activity_list = []
         self.back_hero_activity_list = []
@@ -195,7 +198,9 @@ class HeroMgr:
         # 这种随机产生的英雄,得分不能太高了,
         # 经典英雄,才有牛逼的数值
 
-        hero.hero_name = f'武将_{hero.hero_id}'
+        # 随机一个唯一名字
+        hero.hero_name = self.gen_unique_hero_name()
+        
 
         cur_year = game_mgr.game_data.cur_year
         hero.born_year = cur_year - random_int(12, 40)
@@ -231,6 +236,19 @@ class HeroMgr:
     def update(self, delta_time):
         for hero in self.hero_dict.values():
             self.update_activity(hero, delta_time)
+
+    def gen_unique_hero_name(self):
+        while True:
+            hero_name = new_hero_name()
+            if hero_name not in self.hero_name_set:
+                self.hero_name_set.add(hero_name)
+                return hero_name
+
+    def rename_hero(self, new_name, old_name=None):
+        if old_name:
+            self.hero_name_set.remove(old_name)
+        if new_name:
+            self.hero_name_set.add(new_name)
 
 if __name__ == '__main__':
     import json

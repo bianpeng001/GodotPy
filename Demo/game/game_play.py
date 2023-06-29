@@ -10,7 +10,6 @@ from game.game_mgr import *
 from game.base_type import *
 from game.event_name import *
 from game.wait import *
-from game.config_mgr import parse_hero_name, new_hero_name
 
 #
 # 游戏的控制逻辑, 事件响应啥的，集中到这里来
@@ -516,8 +515,12 @@ class GamePlay:
             city_unit:object,
             player_name:str = None,
             set_main_player:bool = False) -> object:
-        player_name = player_name or new_hero_name()
         pm = game_mgr.player_mgr
+
+        if player_name:
+            game_mgr.hero_mgr.rename_hero(player_name)
+        else:
+            player_name = game_mgr.hero_mgr.gen_unique_hero_name()
         
         player = pm.new_player()
         player.player_name = player_name
@@ -527,6 +530,7 @@ class GamePlay:
         
         # 玩家自己对应的武将
         hero = game_mgr.hero_mgr.new_hero()
+        game_mgr.hero_mgr.rename_hero(player_name, hero.hero_name)
         hero.hero_name = player_name
         
         # 武将的从属

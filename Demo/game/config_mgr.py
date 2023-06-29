@@ -348,10 +348,10 @@ class ConfigMgr:
             return str(value)
         elif value < 100000000:
             value /= 10000
-            return f'{value:.2f}万'
+            return f'{value:.1f}万'
         else:
             value /= 100000000
-            return f'{value:.2f}亿'
+            return f'{value:.1f}亿'
 
 def select_one(item_list, delete=False):
     item, index = random_select_item(item_list)

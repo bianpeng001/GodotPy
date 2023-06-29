@@ -4,7 +4,7 @@
 from game.core import *
 from game.game_mgr import *
 from game.base_type import *
-from game.config_mgr import new_city_name, new_hero_name
+from game.config_mgr import new_city_name
 
 from game.city_controller import CityController
 
@@ -97,7 +97,6 @@ class CityUnit(Unit):
         for i in range(10):
             hero = game_mgr.hero_mgr.new_hero()
             hero.city_id = self.unit_id
-            hero.hero_name = new_hero_name()
             log_util.debug('new hero', self.unit_name, hero.hero_id, hero.hero_name)
             
             self.hero_list.append(hero.hero_id)
