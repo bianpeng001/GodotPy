@@ -44,7 +44,7 @@ class WaitForSeconds(Waitable):
 class _Coroutine(Waitable):
     def __init__(self, iterator):
         super().__init__()
-        
+
         self.done = False
         self.canceled = False
         self.error = None
@@ -90,10 +90,11 @@ class _Coroutine(Waitable):
             self.done = True
             self.error = err
             
-            print('coroutine exception', err)
-            #traceback.print_exc()
-            traceback.print_exception(err)
+            print('coroutine exception:\n', err)
             print('source position:\n', self.trace_info)
+            traceback.print_exception(err)
+            traceback.print_stack()
+            
 
 # 用Iterator来做Coroutine
 class CoroutineMgr:

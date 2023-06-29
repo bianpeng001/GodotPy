@@ -158,9 +158,8 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     # 详情
     def update_city_detail(self):
         city_unit = self.city_unit
-
         config_mgr = game_mgr.config_mgr
-
+        
         rates = city_unit.get_controller().calc_growth_rate(
                 self.satrap, 
                 self.order_incharge,
@@ -175,8 +174,8 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 商业 {city_unit.trader_points}
 粮食 {round(city_unit.rice_amount.get_value())} {rice}
 银两 {round(city_unit.money_amount.get_value())} {money}
-军队 {round(city_unit.army_amount.get_value())}人
-武将 {len(city_unit.hero_list)}人
+武将 {len(city_unit.hero_list)}员
+士兵 {round(city_unit.army_amount.get_value())}人
 '''
         self.lbl_detail_obj.set_text(text)
 

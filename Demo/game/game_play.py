@@ -187,7 +187,7 @@ class GamePlay:
                 
                 game_mgr.ui_mgr.show_base_ui(False)
                 yield 1.0
-                
+
                 dlg1.init()
                 dlg1.show_text('大江东去, 浪淘尽, 千古风流人物\n江山如画, 一时多少豪杰')
                 yield WaitForSeconds(2)
@@ -349,12 +349,12 @@ class GamePlay:
         if city.owner_player_id > 0:
             owner = game_mgr.player_mgr.get_player(city.owner_player_id)
             owner.city_list.remove(city.unit_id)
-            game_mgr.event_mgr.emit(NAV_PANEL_LOSE_CITY, owner.player_id, city.unit_id)
+            game_mgr.event_mgr.emit(NAV_PANEL_LOSE_UNIT, owner.player_id, city.unit_id)
             city.owner_player_id = 0
             
         city.owner_player_id = player.player_id
         player.city_list.append(city.unit_id)
-        game_mgr.event_mgr.emit(NAV_PANEL_GAIN_CITY, player.player_id, city.unit_id)
+        game_mgr.event_mgr.emit(NAV_PANEL_ADD_UNIT, player.player_id, city.unit_id)
         # 城内武将的归属
         # TODO: 城中的武将的归属,现在做成直接归属. 以后做成俘虏
         for hero_id in city.hero_list:
@@ -447,6 +447,8 @@ class GamePlay:
             troop.chief_hero_id = 0
 
         log_debug('create troop', troop.unit_id, troop.unit_name)
+
+        game_mgr.event_mgr.emit(NAV_PANEL_ADD_UNIT, troop.owner_player_id, troop.unit_id)
         return troop
 
     #
@@ -528,7 +530,7 @@ class GamePlay:
             game_mgr.hero_mgr.rename_hero(player_name)
         else:
             player_name = game_mgr.hero_mgr.gen_unique_hero_name()
-        
+
         player = pm.new_player()
         player.player_name = player_name
         player.first_name = player_name[0]
@@ -550,7 +552,7 @@ class GamePlay:
         hero.owner_city_id = city_unit.unit_id
         city_unit.hero_list.insert(0, hero.hero_id)
         city_unit.satrap = hero.hero_id
-        
+
         return player
 
 

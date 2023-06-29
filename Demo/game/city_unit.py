@@ -39,7 +39,7 @@ class CityUnit(Unit):
         self.building_list = []
 
         # 军队数量,区别于居民人口
-        self.army_amount = LimitValue(random_int(1000, 2000), 100000)
+        self.army_amount = LimitValue(random_int(1000, 2000), 5000)
         # 粮食
         self.rice_amount = LimitValue(random_int(100, 1000), 1000000)
         # 银两
@@ -47,7 +47,7 @@ class CityUnit(Unit):
 
         # 士气
         self.army_moral = 50
-        self.defense = 100
+        self.defense = 10
         
         # 治安,农业，商业的发展程度
         self.order_points = 50
