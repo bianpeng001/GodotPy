@@ -244,11 +244,13 @@ class HeroMgr:
                 self.hero_name_set.add(hero_name)
                 return hero_name
 
-    def rename_hero(self, new_name, old_name=None):
-        if old_name and old_name in self.hero_name_set:
-            self.hero_name_set.remove(old_name)
-        if new_name:
-            self.hero_name_set.add(new_name)
+    def rename_hero(self, new_name, hero=None):
+        self.hero_name_set.add(new_name)
+
+        if hero:
+            if hero.hero_name in self.hero_name_set:
+                self.hero_name_set.remove(hero.hero_name)
+            hero.hero_name = new_name
 
 if __name__ == '__main__':
     import json

@@ -530,8 +530,7 @@ class GamePlay:
         
         # 玩家自己对应的武将
         hero = game_mgr.hero_mgr.new_hero()
-        game_mgr.hero_mgr.rename_hero(player_name, hero.hero_name)
-        hero.hero_name = player_name
+        game_mgr.hero_mgr.rename_hero(player_name, hero)
         
         # 武将的从属
         hero.owner_player_id = player.player_id
