@@ -2,7 +2,7 @@
 # 2023年4月11日 bianpeng
 #
 
-from game.core import log_debug, OS, ResCapsule
+from game.core import *
 from game.game_mgr import *
 from game.base_type import UIController, UT_TROOP, UT_CITY, when_visible
 from game.event_name import *

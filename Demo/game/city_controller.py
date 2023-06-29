@@ -4,7 +4,7 @@
 
 import random
 
-from game.core import log_debug, ResCapsule
+from game.core import *
 from game.game_mgr import *
 from game.base_type import Controller, narudo_range, UT_CITY
 from game.ground_mgr import xz_to_colrow
