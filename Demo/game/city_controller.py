@@ -56,7 +56,7 @@ class CityController(Controller):
         city_unit = self.get_unit()
 
         # 重新计算城内各个增长率
-        order,rice,money,population,army = self.calc_growth_rate(
+        order,rice,money,population = self.calc_growth_rate(
                 city_unit.satrap,
                 city_unit.order_incharge,
                 city_unit.farmer_incharge,
@@ -65,9 +65,10 @@ class CityController(Controller):
         city_unit.money_amount.grow(money*0.1, delta_time)
         city_unit.rice_amount.grow(rice*0.1, delta_time)
         city_unit.population.grow(population*0.1, delta_time)
-        city_unit.army_amount.grow(army*0.1, delta_time)
 
+    #
     # 计算各个资源的增长率
+    #
     def calc_growth_rate(self,
             satrap, 
             order_incharge,
@@ -90,11 +91,8 @@ class CityController(Controller):
         population = config_mgr.calc_population_growth_rate(
             get_hero(satrap)
         )
-        army = config_mgr.calc_army_growth_rate(
-            get_hero(satrap)
-        )
 
-        return order,rice,money,population,army
+        return order,rice,money,population
 
     def on_ai_tick(self, tick_time):
         city_unit = self.get_unit()

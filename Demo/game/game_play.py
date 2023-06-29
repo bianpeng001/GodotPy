@@ -186,6 +186,13 @@ class GamePlay:
                 dlg3 = game_mgr.ui_mgr.create_player_controller
                 
                 game_mgr.ui_mgr.show_base_ui(False)
+                yield 1.0
+                
+                dlg1.init()
+                dlg1.show_text('大江东去, 浪淘尽, 千古风流人物\n江山如画, 一时多少豪杰')
+                yield WaitForSeconds(2)
+                dlg1.defer_close()
+                yield WaitForSeconds(2)
                 
                 dlg1.init()
                 dlg1.show_text('有一天, 我在街上闲逛')

@@ -7,13 +7,13 @@ from game.game_mgr import *
 from game.base_type import *
 from game.troop_ai import *
 
-# 公用的list, 减少分配. 因为每帧每个单位都要用到
-g_lose_list = []
-
 #
 # 视觉感知
 #
 class AISightComponent(Component):
+    # 公用的list, 减少分配. 因为每帧每个单位都要用到
+    _lose_list = []
+
     def __init__(self):
         super().__init__()
         
@@ -102,9 +102,10 @@ class AISightComponent(Component):
                 check_tile_unit(col-1,row+1)
 
         if len(self._unit_dict) > 0:
-            sqr_lose_radius = self.lose_radius**2
-            lose_list = g_lose_list
+            lose_list = AISightComponent._lose_list
             lose_list.clear()
+            
+            sqr_lose_radius = self.lose_radius**2
             
             for unit in self.loop_units():
                 x1,z1 = unit.get_xz()
