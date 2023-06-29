@@ -50,7 +50,8 @@ class AISightComponent(Component):
     def check_see_unit(self):
         src_unit = self.get_controller().get_unit()
         x,z = src_unit.get_xz()
-        sqr_radius = self.radius**2
+        #sqr_radius = self.radius**2
+        sqr_radius = game_mgr.config_mgr.sight_sqrdis
         
         def check_tile_unit(col,row):
             tile = game_mgr.ground_mgr.get_tile_colrow(col,row)
@@ -104,17 +105,16 @@ class AISightComponent(Component):
         if len(self._unit_dict) > 0:
             lose_list = AISightComponent._lose_list
             lose_list.clear()
-            
-            sqr_lose_radius = self.lose_radius**2
+
+            #sqr_lose_radius = self.lose_radius**2
+            lose_sight_sqrdis = game_mgr.config_mgr.lose_sight_sqrdis
             
             for unit in self.loop_units():
                 x1,z1 = unit.get_xz()
                 dx,dz = x1-x,z1-z
                 sqrdis = dx*dx+dz*dz
-                #log_debug(src_unit.unit_name, unit.unit_name, dx, dz, sqrdis, sqr_lose_radius)
-                if sqrdis > sqr_lose_radius:
+                if sqrdis > lose_sight_sqrdis:
                     lose_list.append(unit.unit_id)
-                    #log_debug('lose sight', src_unit.unit_name, unit.unit_name)
             
             if len(lose_list) > 0:
                 for unit_id in lose_list:

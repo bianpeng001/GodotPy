@@ -90,5 +90,27 @@ def show_npc_dialog():
         dlg2.init()
         dlg2.show_text2("诸葛亮", "窗外日迟迟")
 
-show_npc_dialog()
+#show_npc_dialog()
+
+
+def show_troop_detail():
+    # for unit in game_mgr.unit_mgr.unit_dict.values():
+    #     if unit.unit_name == '程秉部':
+    #         print(unit.unit_id)
+    #         print(unit.unit_name)
+    
+    unit = get_main_player().troop_list[0]
+    #unit = get_unit(10281)
+    print(unit.unit_name)
+    controller = unit.get_controller()
+    sight_comp = controller.sight_comp
+    for unit in sight_comp._unit_dict.values():
+        print(unit.unit_name)
+
+    #print('rvo', controller.rvo_acce_x, controller.rvo_acce_z)
+    print(controller.move_comp.block_time)
+
+show_troop_detail()
+
+
 

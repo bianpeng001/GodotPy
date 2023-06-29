@@ -113,11 +113,11 @@ class NewtonMoveComponent(MoveComponent):
             troop.set_position(x,y,z)
             
             self.accu_time = 0
-            self.block_time = max(0, self.block_time-unit_time*0.02)
+            self.block_time = max(0, self.block_time-unit_time*0.5)
         else:
             # 动不了
             if self.accu_time > 0:
-                self.block_time += unit_time
+                self.block_time = min(10, self.block_time+unit_time)
 
 #
 # 小步前进, 考虑rvo斥力和障碍

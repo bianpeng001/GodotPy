@@ -438,6 +438,10 @@ class GamePlay:
         troop.model_type = model_type
         troop.set_position(x,y,z)
 
+        # 加入到troop_list里面
+        player = get_player(troop.owner_player_id)
+        player.troop_list.append(troop)
+
         # 军队的名字, 跟随主将
         if chief_hero_id > 0:
             troop.unit_name = f'{get_hero_name(chief_hero_id)}部'
@@ -449,6 +453,7 @@ class GamePlay:
         log_debug('create troop', troop.unit_id, troop.unit_name)
 
         game_mgr.event_mgr.emit(NAV_PANEL_ADD_UNIT, troop.owner_player_id, troop.unit_id)
+
         return troop
 
     #

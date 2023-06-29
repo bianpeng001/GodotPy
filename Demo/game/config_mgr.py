@@ -110,6 +110,10 @@ class ConfigMgr:
         self.rvo_factor = 90
         # rvo 斥力半径, 之外是不提供斥力的, 是距离**2
         self.rvo_sqrdis = 7*7
+
+        # 进入视野, 失去视野
+        self.sight_sqrdis = 8*8
+        self.lose_sight_sqrdis = 10*10
         
         # 单位秒, 每帧的时长, 有时候用固定值就挺好的
         self.frame_seconds = 1.0/60

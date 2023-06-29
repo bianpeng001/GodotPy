@@ -73,7 +73,7 @@ class NavPanelController(UIController, PopupTrait):
         def make_on_click():
             self.goto_unit(unit)
         
-        if self.btn_list > 0:
+        if self.btn_list:
             btn = self.btn_list.pop()
         else:
             btn = self.btn_1.dup()
