@@ -75,9 +75,11 @@ class PopupTrait:
             if btn_ok:
                 btn_ok.connect(PRESSED, self.on_ok_click)
 
+    @obstacle
     def push_panel(self):
         game_mgr.ui_mgr.push_panel(self)
-
+        
+    @obstacle
     def pop_panel(self):
         game_mgr.ui_mgr.pop_panel(self)
 

@@ -31,22 +31,22 @@ offset_top = 18.0
 offset_right = 115.0
 offset_bottom = 44.0
 theme = ExtResource("5_dnccb")
-text = "0"
+text = "12.34"
 
 [node name="RiceIcon" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = 144.0
+offset_left = 150.0
 offset_top = 16.0
-offset_right = 174.0
+offset_right = 180.0
 offset_bottom = 46.0
 texture = ExtResource("8_n434f")
 expand_mode = 1
 
 [node name="RiceLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 184.0
+offset_left = 190.0
 offset_top = 18.0
-offset_right = 243.0
+offset_right = 249.0
 offset_bottom = 54.0
 theme = ExtResource("5_dnccb")
 text = "0"
