@@ -206,7 +206,7 @@ Vector3.forward = Vector3(0, 0, -1)
 # 单例
 class Singleton:
     _instance = None
-    
+
     @classmethod
     def get_instance(class_):
         if not class_._instance:
@@ -718,9 +718,6 @@ class FItemList(FControl):
 class FPanel(FControl):
     pass
 
-class FContainer(FControl):
-    pass
-
 class FTextureRect(FControl):
     def load_tex(self, path: str) -> None:
         gp.texture_rect_load_texture(self.get_gdobj(), path)
@@ -731,20 +728,45 @@ class FTextureRect(FControl):
 class FColorRect(FControl):
     pass
 
+#
+# 滑动条
+#
+class FRange(FControl):
+    def get_value(self):
+        return gp.range_get_value(self.get_gdobj())
+
+    def set_value(self, value) -> None:
+        gp.range_set_value(self.get_gdobj(), value)
+
+class FScrollBar(FRange):
+    pass
+
+class FSlider(FRange):
+    pass
+
+class FProgressBar(FRange):
+    pass
+
+#
+# 容器
+#
+class FContainer(FControl):
+    pass
+
+class FScrollContainer(FContainer):
+    def get_hscroll_bar(self):
+        hbar = gp.scroll_contailer_get_hscroll(self.get_gdobj())
+        return GetWrappedObject(hbar)
+
+    def get_vscroll_bar(self):
+        vbar = gp.scroll_contailer_get_vscroll(self.get_gdobj())
+        return GetWrappedObject(vbar)
+
 class FHBoxContainer(FContainer):
     pass
 
 class FVBoxContainer(FContainer):
     pass
-
-class FSlider(FControl):
-    def get_value(self):
-        #return gp.slider_get_value(self.get_gdobj())
-        return self.value
-
-    def set_value(self, value) -> None:
-        self.value = value
-        gp.slider_set_value(self.get_gdobj(), value)
 
 class FNode2D(FCanvasItem):
     def set_position(self, x:float,y:float) -> None:
@@ -831,12 +853,14 @@ _TypeMap = {
     'CheckBox' : FCheckBox,
     'HSlider' : FSlider,
     'VSlider' : FSlider,
+    'HScrollBar' : FScrollBar,
+    'VScrollBar' : FScrollBar,
     'Label' : FLabel,
     'RichTextLabel' : FRichTextLabel,
     'TextEdit' : FTextEdit,
     'Panel' : FPanel,
 
-    'ScrollContainer' : FContainer,
+    'ScrollContainer' : FScrollContainer,
     'HBoxContainer' : FHBoxContainer,
     'VBoxContainer' : FVBoxContainer,
     'GridContainer' : FContainer,

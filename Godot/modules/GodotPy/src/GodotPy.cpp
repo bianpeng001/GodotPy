@@ -39,10 +39,12 @@
 #include "scene/gui/rich_text_label.h"
 #include "scene/gui/tab_bar.h"
 #include "scene/gui/check_box.h"
+#include "scene/gui/range.h"
 #include "scene/gui/slider.h"
 #include "scene/gui/color_rect.h"
 #include "scene/gui/texture_rect.h"
 #include "scene/gui/text_edit.h"
+#include "scene/gui/scroll_container.h"
 
 #include "scene/resources/packed_scene.h"
 #include "scene/resources/surface_tool.h"
@@ -2200,7 +2202,7 @@ static PyObject *f_texture_button_set_texture(PyObject *module, PyObject *args) 
 
 	Py_RETURN_NONE;
 }
-static PyObject *f_slider_get_value(PyObject *module, PyObject *args) {
+static PyObject *f_range_get_value(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
 
@@ -2208,12 +2210,12 @@ static PyObject *f_slider_get_value(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		auto slider = GetObjPtr<Slider>(a_obj);
-		if (!slider) {
+		auto range = GetObjPtr<Range>(a_obj);
+		if (!range) {
 			break;
 		}
 
-		auto value = slider->get_value();
+		auto value = range->get_value();
 
 		return PyFloat_FromDouble(value);
 
@@ -2221,7 +2223,7 @@ static PyObject *f_slider_get_value(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
-static PyObject *f_slider_set_value(PyObject *module, PyObject *args) {
+static PyObject *f_range_set_value(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
 		float a_value;
@@ -2230,12 +2232,58 @@ static PyObject *f_slider_set_value(PyObject *module, PyObject *args) {
 			break;
 		}
 
-		auto slider = GetObjPtr<Slider>(a_obj);
-		if (!slider) {
+		auto range = GetObjPtr<Range>(a_obj);
+		if (!range) {
 			break;
 		}
 
-		slider->set_value(a_value);
+		range->set_value(a_value);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_scroll_contailer_get_hscroll(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+
+		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
+			break;
+		}
+
+		auto container = GetObjPtr<ScrollContainer>(a_obj);
+		if (!container) {
+			break;
+		}
+
+		auto bar = container->get_h_scroll_bar();
+
+		PyObject *obj = FGDObjSlot::GetGDObj(bar);
+		Py_INCREF(obj);
+		return obj;
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_scroll_contailer_get_vscroll(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+
+		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
+			break;
+		}
+
+		auto container = GetObjPtr<ScrollContainer>(a_obj);
+		if (!container) {
+			break;
+		}
+
+		auto bar = container->get_v_scroll_bar();
+
+		PyObject *obj = FGDObjSlot::GetGDObj(bar);
+		Py_INCREF(obj);
+		return obj;
 
 	} while (0);
 
@@ -2774,8 +2822,11 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "button_set_text", f_button_set_text, METH_VARARGS, NULL },
 	{ "texture_button_set_texture", f_texture_button_set_texture, METH_VARARGS, NULL },
 
-	{ "slider_get_value", f_slider_get_value, METH_VARARGS, NULL },
-	{ "slider_set_value", f_slider_set_value, METH_VARARGS, NULL },
+	{ "range_get_value", f_range_get_value, METH_VARARGS, NULL },
+	{ "range_set_value", f_range_set_value, METH_VARARGS, NULL },
+
+	{ "scroll_contailer_get_hscroll", f_scroll_contailer_get_hscroll, METH_VARARGS, NULL },
+	{ "scroll_contailer_get_vscroll", f_scroll_contailer_get_vscroll, METH_VARARGS, NULL },
 
 	// label
 	{ "label_set_text", f_label_set_text, METH_VARARGS, NULL },

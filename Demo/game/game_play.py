@@ -270,7 +270,7 @@ class GamePlay:
                 yield WaitForSeconds(1.5)
                 dlg2.show_text2("张飞", "大哥, 先看下城里的[color=red]内政[/color]情况吧")
                 yield WaitForSeconds(1.5)
-                dlg2.show_text2(player_name, "好, 往后这就是咱们的新家了!")
+                dlg2.show_text2(player_name, "好, 往后这就是我们的家了!")
                 yield WaitForSeconds(1.5)
                 dlg2.defer_close()
                 

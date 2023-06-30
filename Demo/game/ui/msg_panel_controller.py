@@ -22,13 +22,16 @@ class MsgPanelController(UIController, PopupTrait):
         self.msg_0 = self.ui_obj.find_node('ScrollContainer/VBoxContainer/Item')
         self.msg_0.set_visible(False)
 
+        self.vbar = self.ui_obj.find_node('ScrollContainer').get_vscroll_bar()
+        
         game_mgr.event_mgr.add(MSG_PANEL_NEW_MSG, self.on_new_msg)
 
 
     def add_msg(self, text):
-        if len(self.msg_list) > 10:
+        if len(self.msg_list) > 20:
             msg = self.msg_list.pop(0)
             msg.set_last()
+            #self.vbar.set_value(100)
         else:
             msg = self.msg_0.dup()
             msg.set_visible(True)

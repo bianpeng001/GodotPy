@@ -110,7 +110,14 @@ def show_troop_detail():
     #print('rvo', controller.rvo_acce_x, controller.rvo_acce_z)
     print(controller.move_comp.block_time)
 
-show_troop_detail()
+#show_troop_detail()
 
+
+def show_scroll_bar():
+    panel = game_mgr.ui_mgr.msg_panel_controller
+    print(panel.vbar.get_value())
+
+
+show_scroll_bar()
 
 
