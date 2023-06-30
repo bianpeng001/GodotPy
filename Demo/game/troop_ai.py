@@ -54,7 +54,8 @@ class LineMoveReq(MoveComponent):
         
 #
 # 牛顿移动组件, 用物理来实现, 主要体现一个互斥
-#        
+# 因为部队数量比较大, 后面性能上要追求下的话, 大不了改成c++的
+#
 class NewtonMoveComponent(MoveComponent):
     def __init__(self):
         super().__init__()
@@ -106,9 +107,7 @@ class NewtonMoveComponent(MoveComponent):
         dz = v_z * self.accu_time
         
         if dx*dx+dz*dz > 0.00005:
-            x = self._cur_pos.x+dx
-            y = self._cur_pos.y
-            z = self._cur_pos.z+dz
+            x,y,z = self._cur_pos.x+dx,self._cur_pos.y,self._cur_pos.z+dz
             controller.look_at(x,y,z)
             troop.set_position(x,y,z)
             
@@ -117,7 +116,7 @@ class NewtonMoveComponent(MoveComponent):
         else:
             # 动不了
             if self.accu_time > 0:
-                self.block_time = min(10, self.block_time+unit_time)
+                self.block_time = min(4, self.block_time+unit_time)
 
 #
 # 小步前进, 考虑rvo斥力和障碍
