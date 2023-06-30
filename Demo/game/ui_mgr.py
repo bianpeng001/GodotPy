@@ -95,7 +95,7 @@ class UIMgr(NodeObject):
         from game.ui.msg_panel_controller import MsgPanelController
         _, self.msg_panel_controller = self.load_panel(
                 'res://ui/MsgPanel.tscn', MsgPanelController)
-        self.msg_panel_controller.popup(2, 65)
+        self.msg_panel_controller.popup(2, 62)
 
         # 下面是按需弹出
         from game.ui.build_panel_controller import BuildPanelController

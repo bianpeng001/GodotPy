@@ -19,7 +19,7 @@ class MsgPanelController(UIController, PopupTrait):
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
-        self.msg_0 = self.ui_obj.find_node('VBoxContainer/Item')
+        self.msg_0 = self.ui_obj.find_node('ScrollContainer/VBoxContainer/Item')
         self.msg_0.set_visible(False)
 
         game_mgr.event_mgr.add(MSG_PANEL_NEW_MSG, self.on_new_msg)
