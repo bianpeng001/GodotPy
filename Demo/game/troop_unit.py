@@ -45,9 +45,10 @@ class TroopUnit(Unit):
         self.target_pos = (0, 0)
         self.target_unit_id = 0
 
-        # 追逐目标
+        # 部分行为
         self.chase_target = False
-        self.no_target_stay = False
+        self.stay_when_lost_target = False
+        self.enter_when_occupy_city = False
 
     def load_model(self):
         #path = 'res://models/Troop01.tscn'

@@ -280,6 +280,8 @@ class GamePlay:
                 dlg1.defer_close()
                 
                 game_mgr.ui_mgr.show_base_ui(True)
+
+                game_mgr.event_mgr.emit(MSG_PANEL_NEW_MSG, f"[color=red]{player_name}[/color]一行进入[color=green]{city_name}[/color]城")
             
             game_mgr.co_mgr.start(co_story1())
         game_mgr.co_mgr.start(co_wait_for_ground())
@@ -504,6 +506,7 @@ class GamePlay:
     def defeat(self, src_unit, target_unit) -> int:
         if target_unit.unit_type == UT_CITY:
             self.occupy_city(src_unit, target_unit)
+            game_mgr.event_mgr.emit(MSG_PANEL_NEW_MSG, f"[color=red]{src_unit.unit_name}[/color]占领[color=green]{target_unit.unit_name}[/color]城")
             
         return 0
     

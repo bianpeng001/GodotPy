@@ -38,7 +38,7 @@ class MainUIController(UIController, PopupTrait):
         self.date_label.set_text('公元184年 春')
 
         #btn_labels = ['地图', '战报', '势力', '执行']
-        btn_labels = ['地图', '建设']
+        btn_labels = ['资源', '建设', '势力']
         btn_1 = self.ui_obj.find_node('Btn1')
         btn_list = [btn_1.dup() for i in range(len(btn_labels) - 1)]
         btn_list.append(btn_1)
@@ -54,19 +54,14 @@ class MainUIController(UIController, PopupTrait):
             return btn_list[index]
 
         #get_btn('系统').connect(PRESSED, self.on_setting_click)
-        get_btn('地图').connect(PRESSED, self.on_map_click)
-        get_btn('地图').connect(PRESSED, self.on_build_click)
+        get_btn('势力').connect(PRESSED, self.on_map_click)
+        get_btn('建设').connect(PRESSED, self.on_build_click)
         #get_btn('执行').connect(PRESSED, self.on_gm_click)
         #get_btn('存档').connect(PRESSED, self.on_save_click)
         
         # 事件
         game_mgr.event_mgr.add(KEY_PRESS, self.on_key_press)
         game_mgr.event_mgr.add(MAINUI_REFRESH, self.on_refresh)
-
-        # gm文件的路径
-        self.gm_file_path = os.path.join(game_mgr.game_path, 'gm.py')
-        if not os.path.exists(self.gm_file_path):
-            self.gm_file_path = None
 
     def on_key_press(self, keycode):
         #log_debug('key press', keycode)
@@ -88,21 +83,26 @@ class MainUIController(UIController, PopupTrait):
             panel.init()
 
     def on_gm_click(self):
-        if self.gm_file_path:
-            with open(self.gm_file_path, encoding='utf-8') as f:
+        # gm文件的路径
+        gm_file_path = os.path.join(game_mgr.game_path, 'gm.py')
+        if os.path.exists(gm_file_path):
+            with open(gm_file_path, encoding='utf-8') as f:
                 data = f.read()
-                exec(data)
-                print('-----------------', self.gm_file_path, '-----------------')
+                try:
+                    c = compile(data, 'gm.py', 'exec')
+                    exec(c)
+                finally:
+                    print('-----------------', gm_file_path, '-----------------')
 
     def on_map_click(self):
         obj = game_mgr.ui_mgr.map_panel_controller
         if obj.is_show():
             #obj.defer_close()
-            game_mgr.ui_mgr.pop_panel(obj)
+            #game_mgr.ui_mgr.pop_panel(obj)
+            obj.defer_close()
         else:
             obj.init()
             obj.popup(150, 80)
-            game_mgr.ui_mgr.push_panel(obj)
 
     def on_refresh(self):
         self.update_fps()
