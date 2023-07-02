@@ -37,7 +37,7 @@ class PlayerController:
     def update(self, delta_time):
         if self.get_brain_comp().enabled:
             self.get_brain_comp().update(delta_time)
-            
+
 #
 # 一个玩家
 #
