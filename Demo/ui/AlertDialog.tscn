@@ -10,5 +10,6 @@ anchors_preset = 0
 offset_right = 200.0
 offset_bottom = 200.0
 theme = ExtResource("1_0ruxj")
+bbcode_enabled = true
 text = "征兵 +100
 粮食 -1000"

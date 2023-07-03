@@ -118,6 +118,13 @@ def show_scroll_bar():
     print(panel.vbar.get_value())
 
 
-show_scroll_bar()
+#show_scroll_bar()
 
 
+def show_alert():
+    dlg = game_mgr.ui_mgr.alert_dialog_controller
+    dlg.show_alert('士兵 [color=green]+100[/color]')
+    dlg.show_alert('士兵 [color=red]+100[/color]')
+    dlg.show_alert('士兵 [color=blue]+100[/color]')
+
+show_alert() 
