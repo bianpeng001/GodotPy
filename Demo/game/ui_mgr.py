@@ -107,6 +107,10 @@ class UIMgr(NodeObject):
         _, self.neizheng_controller = self.load_panel(
                 'res://ui/NeiZhengPanel.tscn', NeiZhengController)
 
+        from game.ui.alert_dialog_controller import AlertDialogController
+        _, self.alert_dialog_controller = self.load_panel(
+                'res://ui/AlertDialog.tscn', AlertDialogController)
+
         from game.ui.map_panel_controller import MapPanelController
         _, self.map_panel_controller = self.load_panel(
                 'res://ui/MapPanel.tscn', MapPanelController)

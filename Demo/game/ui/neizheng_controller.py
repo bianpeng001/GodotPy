@@ -317,6 +317,8 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             self.popup_dialog(speaker_name, '遵命', 1.5)
             
             # TODO: 扣体力, 并刷新
+            game_mgr.ui_mgr.alert_dialog_controller.show_alert('士兵 +100\n粮食 -1000')
+
         text = f'''{','.join(map(lambda x: x.hero_name, hero_list))}
 执行 征兵 任务
 '''

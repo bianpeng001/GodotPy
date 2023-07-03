@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://6c0qmst25btb"]
+
+[ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_0ruxj"]
+
+[node name="AlertDialog" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Text" type="RichTextLabel" parent="."]
+offset_right = 200.0
+offset_bottom = 200.0
+theme = ExtResource("1_0ruxj")
+text = "征兵 +100
+粮食 -1000"

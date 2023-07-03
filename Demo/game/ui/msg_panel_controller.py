@@ -26,7 +26,6 @@ class MsgPanelController(UIController, PopupTrait):
         
         game_mgr.event_mgr.add(MSG_PANEL_NEW_MSG, self.on_new_msg)
 
-
     def add_msg(self, text):
         if len(self.msg_list) > 20:
             msg = self.msg_list.pop(0)
@@ -37,7 +36,6 @@ class MsgPanelController(UIController, PopupTrait):
             msg.set_visible(True)
         msg.set_text(text)
         self.msg_list.append(msg)
-
 
     def on_new_msg(self, msg):
         self.add_msg(msg)
