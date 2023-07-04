@@ -150,11 +150,11 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.update_city_detail()
         
         # 设置当前页
+        self.tab_bar.set_current_tab(0)
         self.tab_index = -1
-        self.tab_bar.set_current_tab(self.tab_index)
         self.on_tab_changed(0)
 
-        self.init_hero_list()
+        
 
     # 详情
     def update_city_detail(self):
@@ -355,7 +355,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
                 case 0:
                     self.update_city_detail()
                 case 1:
-                    pass
+                    self.init_hero_list()
                 case 2:
                     pass
 
