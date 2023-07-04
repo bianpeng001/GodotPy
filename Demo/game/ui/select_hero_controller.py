@@ -47,9 +47,9 @@ class SelectHeroController(UIController, PopupTrait, HeroListTrait):
 
     # 选中已经选中的
     def select(self, hero_list):
-        for hero_id, item_obj in self.item_list:
-            check = item_obj.find_node('CheckBox')
-            check.set_pressed(hero_id in hero_list)
+        for item in self.item_list:
+            check = item.ui_obj.find_node('CheckBox')
+            check.set_pressed(item.hero_id in hero_list)
 
 
 

@@ -150,7 +150,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.update_city_detail()
         
         # 设置当前页
-        self.tab_index = 0
+        self.tab_index = -1
         self.tab_bar.set_current_tab(self.tab_index)
         self.on_tab_changed(0)
 
@@ -345,9 +345,19 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             on_confirmed_cb()
 
     def on_tab_changed(self, index):
-        self.tab_index = index
-        for i in range(len(self.tabs)):
-            self.tabs[i].set_visible(i == self.tab_index)
+        if self.tab_index != index:
+            self.tab_index = index
+            for i in range(len(self.tabs)):
+                self.tabs[i].set_visible(i == self.tab_index)
+
+            # 刷新
+            match self.tab_index:
+                case 0:
+                    self.update_city_detail()
+                case 1:
+                    pass
+                case 2:
+                    pass
 
     def init_hero_list(self):
         item_node = self.tab_jiang_obj.find_node('HeroList/ScrollContainer/VBoxContainer/Item')
