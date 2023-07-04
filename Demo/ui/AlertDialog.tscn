@@ -17,8 +17,10 @@ theme_override_styles/panel = ExtResource("1_c8x70")
 
 [node name="Text" type="RichTextLabel" parent="."]
 layout_mode = 0
-offset_right = 200.0
-offset_bottom = 150.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 195.0
+offset_bottom = 145.0
 theme = ExtResource("1_0ruxj")
 bbcode_enabled = true
 text = "征兵 +100
