@@ -33,7 +33,7 @@ class AlertDialogController(UIController, PopupTrait):
 
         while self.text_list:
             self.text_obj.set_text(self.text_list.pop(0))
-            yield 2.0
+            yield 1.5
 
         self.defer_close()
         self._co_show_alert = None

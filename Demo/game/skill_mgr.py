@@ -47,14 +47,11 @@ class SkillMgr:
                 item.time += delta_time
                 item.update()
                 if item.time < item.life_time:
-                    self._add_skill(item)
+                    self.item_list.append(item)
                 else:
                     item.on_complete()
                     
             self.back_item_list.clear()
-
-    def _add_skill(self, item):
-        self.item_list.append(item)
         
     #   
     # 释放技能, 以及在技能的阶段放特效!!!
@@ -71,7 +68,7 @@ class SkillMgr:
         item.item_id = self.next_item_id
         item.time = 0
         
-        self._add_skill(item)
+        self.item_list.append(item)
         item.on_start()
         
         return item

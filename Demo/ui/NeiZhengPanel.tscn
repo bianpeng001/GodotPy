@@ -45,6 +45,7 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="TabZheng" type="Control" parent="Panel"]
+visible = false
 anchors_preset = 0
 offset_left = 10.0
 offset_top = 40.0
@@ -255,7 +256,6 @@ theme_override_styles/focus = ExtResource("5_mr75k")
 text = "治所"
 
 [node name="TabJiang" type="Control" parent="Panel"]
-visible = false
 anchors_preset = 0
 offset_left = 10.0
 offset_top = 40.0
@@ -264,16 +264,15 @@ offset_bottom = 390.0
 
 [node name="HeroList" parent="Panel/TabJiang" instance=ExtResource("6_b7qak")]
 layout_mode = 1
-offset_left = 5.0
-offset_right = -655.0
-offset_bottom = -350.0
+offset_right = -10.0
+offset_bottom = -100.0
 
 [node name="BtnDengYong" type="Button" parent="Panel/TabJiang"]
 layout_mode = 0
 offset_left = 20.0
-offset_top = 294.0
+offset_top = 290.0
 offset_right = 70.0
-offset_bottom = 319.0
+offset_bottom = 321.0
 theme = ExtResource("1_7ax3f")
 theme_override_font_sizes/font_size = 16
 theme_override_styles/focus = ExtResource("5_mr75k")

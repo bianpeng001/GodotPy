@@ -38,8 +38,12 @@ def run(cmd):
     os.system(cmd)
     
 def copy(src_path, dst_path):
-    print('copy', src_path, '->', dst_path)
-    shutil.copy(src_path, dst_path)
+    if not os.path.exists(dst_path) or \
+            os.path.getmtime(dst_path) < os.path.getmtime(src_path):
+        print('copy', src_path, '->', dst_path)
+        shutil.copyfile(src_path, dst_path)
+    else:
+        print('skip', dst_path)
 
 def build_publish():
     call_task('python')

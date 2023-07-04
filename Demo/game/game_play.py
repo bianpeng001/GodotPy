@@ -415,6 +415,11 @@ class GamePlay:
         # 完成，刷新界面
         game_mgr.event_mgr.emit(MAINUI_REFRESH)
 
+    # 解散队伍, 一般是进城, 或者被击溃
+    # 如果是进城, 注意回收队伍中的武将, 士兵, 资源
+    def remove_troop(self, troop_unit):
+        pass
+        
     # 创建队伍
     def create_troop(self,
             city_unit:object,
@@ -499,7 +504,7 @@ class GamePlay:
         
         # 释放一个技能, 传入一个结束回调
         game_mgr.skill_mgr.cast_skill(skill_config_id, on_complete)
-        
+
         return 0
 
     # 击败
@@ -563,5 +568,6 @@ class GamePlay:
 
         return player
 
-
+    def remove_player(self, player):
+        pass
 

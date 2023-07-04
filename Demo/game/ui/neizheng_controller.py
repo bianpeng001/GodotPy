@@ -81,7 +81,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         btn_dengyong = self.tab_jiang_obj.find_node('BtnDengYong')
         rm_btns = [btn_dengyong, ]
-        rm_texts = ['致仕','训诫','赏赐','爵位','搜索','派遣','征招']
+        rm_texts = ['致仕','训诫','赏赐','爵位','搜索','派遣','征招','拜访','征兵']
         rm_btns = [btn_dengyong.dup() for i in range(len(rm_texts) - 1)]
         rm_btns.append(btn_dengyong)
 
@@ -92,10 +92,11 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         for i in range(len(rm_btns)):
             btn = rm_btns[i]
-            btl_label = rm_texts[i]
-            btn.set_text(btl_label)
-            btn.set_position(20+(50+6)*i, 300)
-            btn.connect(PRESSED, make_rm_handler(btl_label))
+            btn_label = rm_texts[i]
+            btn.set_text(btn_label)
+            row,col = divmod(i, 5)
+            btn.set_position(20+(50+6)*col, 270+row*35)
+            btn.connect(PRESSED, make_rm_handler(btn_label))
 
     # 根据实际情况初始化
     def init(self, city_unit):
@@ -266,7 +267,6 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         btn_obj = self.tab_zheng_obj.find_node(btn_name)
 
         def on_select_cb(hero_list):
-            #log_util.debug(hero_list)
             if len(hero_list) > 0:
                 hero = get_hero(hero_list[0])
                 btn_obj.set_text(hero.hero_name)
@@ -307,7 +307,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         hero_list = self.get_selected_hero_list()
         if not hero_list:
-            log_util('no hero selected')
+            log_debug('no hero selected')
             return
 
         # 下面根据指令, 进行工作
@@ -317,7 +317,17 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             self.popup_dialog(speaker_name, '遵命', 1.5)
             
             # TODO: 扣体力, 并刷新
-            game_mgr.ui_mgr.alert_dialog_controller.show_alert('士兵 +100\n粮食 -1000')
+            result = []
+            match btn_label:
+                case '征兵':
+                    result.append('士兵 [color=green]+100[/color]')
+                    result.append('粮食 [color=red]-300[/color]')
+
+                case _:
+                    pass
+                
+            if result:
+                game_mgr.ui_mgr.alert_dialog_controller.show_alert('\n'.join(result))
 
         text = f'''{','.join(map(lambda x: x.hero_name, hero_list))}
 执行 征兵 任务

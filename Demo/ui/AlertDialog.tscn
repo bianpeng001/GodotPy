@@ -5,11 +5,22 @@
 [node name="AlertDialog" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 150.0
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 150.0
 
 [node name="Text" type="RichTextLabel" parent="."]
+layout_mode = 0
 offset_right = 200.0
-offset_bottom = 200.0
+offset_bottom = 150.0
 theme = ExtResource("1_0ruxj")
 bbcode_enabled = true
 text = "征兵 +100
-粮食 -1000"
+粮食 -1000
+征兵 +100
+粮食 -1000
+"
