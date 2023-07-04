@@ -127,6 +127,7 @@ class HeroListTrait:
     def init_items(self, item_node, hero_list):
         item_node.set_visible(False)
 
+        # TODO: 做一个缓存
         for item in self.item_list:
             item.ui_obj.destroy()
         self.item_list.clear()

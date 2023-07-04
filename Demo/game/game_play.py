@@ -362,7 +362,7 @@ class GamePlay:
         for hero_id in city.hero_list:
             hero = game_mgr.hero_mgr.get_hero(hero_id)
             hero.owner_player_id = player.player_id
-            player.hero_list.append(hero_id)
+            player.hero_list.append(hero)
 
     # 队伍攻城
     @obstacle
@@ -401,6 +401,7 @@ class GamePlay:
             city_unit.get_controller().refresh_resource_amount(delta_time)
         
         for player in game_mgr.player_mgr.loop_players():
+            # 刷新资源
             total_money_amount = 0
             total_rice_amount = 0
             
@@ -411,6 +412,12 @@ class GamePlay:
                 
             player.total_money_amount = total_money_amount
             player.total_rice_amount = total_rice_amount
+
+            # 刷新武将体力
+            ap_growth_speed = game_mgr.config_mgr.ap_growth_speed
+            for hero in player.hero_list:
+                hero.ap = min(100, hero.ap + ap_growth_speed * delta_time)
+
             
         # 完成，刷新界面
         game_mgr.event_mgr.emit(MAINUI_REFRESH)
@@ -557,7 +564,7 @@ class GamePlay:
         # 武将的从属
         hero.owner_player_id = player.player_id
         player.main_hero_id = hero.hero_id
-        player.hero_list.append(hero.hero_id)
+        player.hero_list.append(hero)
         
         # 城市的从属
         self.set_city_owner(city_unit, player)

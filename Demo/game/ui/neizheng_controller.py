@@ -314,7 +314,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         def on_confirmed_cb():
             speaker_name = hero_list[0].hero_name
-            self.popup_dialog(speaker_name, '遵命', 1.5)
+            self.popup_dialog(speaker_name, '得令', 1.5)
             
             # TODO: 扣体力, 并刷新
             result = []
@@ -336,7 +336,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         if btn_label in ('致仕'):
             text = f'''{','.join(map(lambda x: x.hero_name, hero_list))}
-执行 征兵 任务
+{btn_label}
 '''
             dlg = game_mgr.ui_mgr.cmd_dialog_controller
             dlg.set_prev_panel(self)
