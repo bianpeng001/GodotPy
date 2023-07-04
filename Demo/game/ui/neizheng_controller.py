@@ -320,7 +320,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             result = []
             match btn_label:
                 case '征兵':
-                    city_unit.army_amount.add(500)
+                    self.city_unit.army_amount.add(500)
                     result.append('士兵 [color=green]+500[/color]')
                     result.append('粮食 [color=red]-300[/color]')
 

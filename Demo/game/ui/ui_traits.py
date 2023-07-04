@@ -98,7 +98,11 @@ class HeroItem:
         self.ui_obj = ui_obj
 
     def refresh(self, hero):
-        zhengzhi_label.set_text(str(hero.zhengzhi))
+        self.age_label.set_text(str(hero.age))
+        self.wuli_label.set_text(str(hero.wuli))
+        self.tongshuai_label.set_text(str(hero.tongshuai))
+        self.zhengzhi_label.set_text(str(hero.zhengzhi))
+        self.zhili_label.set_text(str(hero.zhili))
         self.ap_label.set_text(str(hero.ap))
 
 #
@@ -152,7 +156,6 @@ class HeroListTrait:
             # 年龄
             age_label = name_label.dup()
             age_label.set_minimum_size(40, 0)
-            age_label.set_text(f'{hero.age}')
             
             action_label = name_label.dup()
             action_label.set_minimum_size(60, 0)
@@ -160,12 +163,10 @@ class HeroListTrait:
             
             wuli_label = name_label.dup()
             wuli_label.set_minimum_size(40, 0)
-            wuli_label.set_text(f'{hero.wuli}')
-
+            
             tongshuai_label = name_label.dup()
             tongshuai_label.set_minimum_size(40, 0)
-            tongshuai_label.set_text(f'{hero.tongshuai}')
-
+            
             zhili_label = name_label.dup()
             zhili_label.set_minimum_size(40, 0)
 
