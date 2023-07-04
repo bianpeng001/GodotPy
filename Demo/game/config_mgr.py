@@ -130,7 +130,7 @@ class ConfigMgr:
         self.first_city_name = '平安'
         self.new_player_text = '请问尊姓大名?'
 
-        self.ap_growth_speed = 2/60
+        self.ap_growth_speed = 3/60
         
     def init_story_config(self):
         self.story_dict = {}
