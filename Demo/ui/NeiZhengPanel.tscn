@@ -274,7 +274,7 @@ offset_top = 290.0
 offset_right = 70.0
 offset_bottom = 321.0
 theme = ExtResource("1_7ax3f")
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 18
 theme_override_styles/focus = ExtResource("5_mr75k")
 text = "登庸"
 

@@ -95,7 +95,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             btn_label = rm_texts[i]
             btn.set_text(btn_label)
             row,col = divmod(i, 5)
-            btn.set_position(20+(50+6)*col, 270+row*35)
+            btn.set_position(20+(50+6)*col, 270+row*40)
             btn.connect(PRESSED, make_rm_handler(btn_label))
 
     # 根据实际情况初始化
@@ -329,12 +329,15 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             if result:
                 game_mgr.ui_mgr.alert_dialog_controller.show_alert('\n'.join(result))
 
-        text = f'''{','.join(map(lambda x: x.hero_name, hero_list))}
+        if btn_label in ('致仕'):
+            text = f'''{','.join(map(lambda x: x.hero_name, hero_list))}
 执行 征兵 任务
 '''
-        dlg = game_mgr.ui_mgr.cmd_dialog_controller
-        dlg.set_prev_panel(self)
-        dlg.show_dialog(text, on_confirmed_cb)
+            dlg = game_mgr.ui_mgr.cmd_dialog_controller
+            dlg.set_prev_panel(self)
+            dlg.show_dialog(text, on_confirmed_cb)
+        else:
+            on_confirmed_cb()
 
     def on_tab_changed(self, index):
         self.tab_index = index
