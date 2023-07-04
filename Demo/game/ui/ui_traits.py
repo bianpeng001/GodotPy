@@ -182,7 +182,7 @@ class HeroListTrait:
         for item in self.item_list:
             item_obj = item.ui_obj
             if item_obj.find_node('CheckBox').is_pressed():
-                hero_list.append(hero_id)
+                hero_list.append(item.hero_id)
         
         return hero_list
     
