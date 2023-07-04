@@ -326,6 +326,10 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
                 case _:
                     pass
                 
+            for hero in hero_list:
+                hero.ap -= 10
+            self.refresh_hero_items(hero_list)
+
             if result:
                 game_mgr.ui_mgr.alert_dialog_controller.show_alert('\n'.join(result))
 

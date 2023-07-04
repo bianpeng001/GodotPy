@@ -78,7 +78,7 @@ class PopupTrait:
     @obstacle
     def push_panel(self):
         game_mgr.ui_mgr.push_panel(self)
-        
+
     @obstacle
     def pop_panel(self):
         game_mgr.ui_mgr.pop_panel(self)
@@ -88,6 +88,14 @@ class PopupTrait:
 
     def on_ok_click(self):
         self.defer_close()
+
+#
+#
+#
+class HeroItem:
+    def __init__(self, hero_id, ui_obj):
+        self.hero_id = hero_id
+        self.ui_obj = ui_obj
 
 #
 # 武将列表
@@ -109,9 +117,10 @@ class HeroListTrait:
             label_obj.set_minimum_size(column_width_dict.get(col_name, 40), 0)
 
     def init_items(self, item_node, hero_list):
+        item_node.set_visible(False)
+
         for item in self.item_list:
-            _, item_obj = item
-            item_obj.destroy()
+            item.ui_obj.destroy()
         self.item_list.clear()
 
         for hero_id in hero_list:
@@ -121,7 +130,9 @@ class HeroListTrait:
 
             new_item = item_node.dup()
             new_item.set_visible(True)
-            self.item_list.append((hero_id, new_item))
+
+            hero_item = HeroItem(hero_id, new_item)
+            self.item_list.append(hero_item)
             
             name_label = new_item.find_node('Label')
             name_label.set_minimum_size(80, 0)
@@ -133,14 +144,16 @@ class HeroListTrait:
             is_main_hero = game_mgr.hero_mgr.is_main_hero(hero.hero_id)
             standing_label.set_text('主公' if is_main_hero else '')
 
-            # 身份
+            # 年龄
             age_label = name_label.dup()
             age_label.set_minimum_size(40, 0)
             age_label.set_text(f'{hero.age}')
+            hero_item.age_label = age_label
 
             action_label = name_label.dup()
             action_label.set_minimum_size(60, 0)
             action_label.set_text('空闲')
+            hero_item.action_label = action_label
 
             wuli_label = name_label.dup()
             wuli_label.set_minimum_size(40, 0)
@@ -158,15 +171,16 @@ class HeroListTrait:
             zhengzhi_label.set_minimum_size(40, 0)
             zhengzhi_label.set_text(f'{hero.zhengzhi}')
 
-            zhengzhi_label = name_label.dup()
-            zhengzhi_label.set_minimum_size(40, 0)
-            zhengzhi_label.set_text(f'{hero.action_points}')
+            ap_label = name_label.dup()
+            ap_label.set_minimum_size(40, 0)
+            ap_label.set_text(f'{hero.ap}')
+            hero_item.ap_label = ap_label
 
     # 得到一个选中的hero_id的list
     def get_selected(self):
         hero_list = []
         for item in self.item_list:
-            hero_id, item_obj = item
+            item_obj = item.ui_obj
             if item_obj.find_node('CheckBox').is_pressed():
                 hero_list.append(hero_id)
         
@@ -177,7 +191,11 @@ class HeroListTrait:
         hero_list = self.get_selected()
         return list(map(get_hero, hero_list))
         
-        
+    def refresh_hero_items(self, hero_list):
+        for hero in hero_list:
+            item = first(self.item_list, lambda x: x.hero_id == hero.hero_id)
+            if item:
+                item.ap_label = str(hero.ap)
 
 
 

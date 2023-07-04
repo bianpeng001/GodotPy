@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://6c0qmst25btb"]
+[gd_scene load_steps=3 format=3 uid="uid://6c0qmst25btb"]
 
 [ext_resource type="Theme" uid="uid://cxdn407m8jo4q" path="res://ui/LabelTheme.tres" id="1_0ruxj"]
+[ext_resource type="StyleBox" uid="uid://cs78tjnu0sn2w" path="res://ui/PanelStyle.tres" id="1_c8x70"]
 
 [node name="AlertDialog" type="Control"]
 layout_mode = 3
@@ -12,6 +13,7 @@ offset_bottom = 150.0
 layout_mode = 0
 offset_right = 200.0
 offset_bottom = 150.0
+theme_override_styles/panel = ExtResource("1_c8x70")
 
 [node name="Text" type="RichTextLabel" parent="."]
 layout_mode = 0
