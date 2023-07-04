@@ -2243,7 +2243,7 @@ static PyObject *f_range_set_value(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
-static PyObject *f_scroll_contailer_get_hscroll(PyObject *module, PyObject *args) {
+static PyObject *f_scroll_contailer_get_h_scrollbar(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
 
@@ -2266,7 +2266,7 @@ static PyObject *f_scroll_contailer_get_hscroll(PyObject *module, PyObject *args
 
 	Py_RETURN_NONE;
 }
-static PyObject *f_scroll_contailer_get_vscroll(PyObject *module, PyObject *args) {
+static PyObject *f_scroll_contailer_get_v_scrollbar(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
 
@@ -2284,6 +2284,89 @@ static PyObject *f_scroll_contailer_get_vscroll(PyObject *module, PyObject *args
 		PyObject *obj = FGDObjSlot::GetGDObj(bar);
 		Py_INCREF(obj);
 		return obj;
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_scroll_contailer_get_h_scroll(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+
+		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
+			break;
+		}
+
+		auto container = GetObjPtr<ScrollContainer>(a_obj);
+		if (!container) {
+			break;
+		}
+
+		auto value = container->get_h_scroll();
+
+		return PyLong_FromLong(value);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_scroll_contailer_set_h_scroll(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		int value;
+
+		if (!PyArg_ParseTuple(args, "Oi", &a_obj, &value)) {
+			break;
+		}
+
+		auto container = GetObjPtr<ScrollContainer>(a_obj);
+		if (!container) {
+			break;
+		}
+
+		container->set_h_scroll(value);
+
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_scroll_contailer_get_v_scroll(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+
+		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
+			break;
+		}
+
+		auto container = GetObjPtr<ScrollContainer>(a_obj);
+		if (!container) {
+			break;
+		}
+
+		auto value = container->get_v_scroll();
+
+		return PyLong_FromLong(value);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_scroll_contailer_set_v_scroll(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		int value;
+
+		if (!PyArg_ParseTuple(args, "Oi", &a_obj, &value)) {
+			break;
+		}
+
+		auto container = GetObjPtr<ScrollContainer>(a_obj);
+		if (!container) {
+			break;
+		}
+
+		container->set_v_scroll(value);
 
 	} while (0);
 
@@ -2825,8 +2908,12 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "range_get_value", f_range_get_value, METH_VARARGS, NULL },
 	{ "range_set_value", f_range_set_value, METH_VARARGS, NULL },
 
-	{ "scroll_contailer_get_hscroll", f_scroll_contailer_get_hscroll, METH_VARARGS, NULL },
-	{ "scroll_contailer_get_vscroll", f_scroll_contailer_get_vscroll, METH_VARARGS, NULL },
+	{ "scroll_contailer_get_h_scrollbar", f_scroll_contailer_get_h_scrollbar, METH_VARARGS, NULL },
+	{ "scroll_contailer_get_v_scrollbar", f_scroll_contailer_get_v_scrollbar, METH_VARARGS, NULL },
+	{ "scroll_contailer_get_v_scroll", f_scroll_contailer_get_v_scroll, METH_VARARGS, NULL },
+	{ "scroll_contailer_get_h_scroll", f_scroll_contailer_get_h_scroll, METH_VARARGS, NULL },
+	{ "scroll_contailer_set_v_scroll", f_scroll_contailer_set_v_scroll, METH_VARARGS, NULL },
+	{ "scroll_contailer_set_h_scroll", f_scroll_contailer_set_h_scroll, METH_VARARGS, NULL },
 
 	// label
 	{ "label_set_text", f_label_set_text, METH_VARARGS, NULL },

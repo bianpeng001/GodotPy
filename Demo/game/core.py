@@ -755,11 +755,11 @@ class FContainer(FControl):
 
 class FScrollContainer(FContainer):
     def get_hscroll_bar(self):
-        hbar = gp.scroll_contailer_get_hscroll(self.get_gdobj())
+        hbar = gp.scroll_contailer_get_hscrollbar(self.get_gdobj())
         return GetWrappedObject(hbar)
 
     def get_vscroll_bar(self):
-        vbar = gp.scroll_contailer_get_vscroll(self.get_gdobj())
+        vbar = gp.scroll_contailer_get_vscrollbar(self.get_gdobj())
         return GetWrappedObject(vbar)
 
 class FHBoxContainer(FContainer):
