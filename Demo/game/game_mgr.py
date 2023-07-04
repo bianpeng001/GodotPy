@@ -167,7 +167,7 @@ def first(item_list, predicate):
         if predicate(it):
             return it
 
-def add_prop_value(self, v, delta):
+def add_prop_value(v, delta):
         v1 = v + delta
         return 0 if v1 < 0 else v1
 
