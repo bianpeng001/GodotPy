@@ -161,7 +161,16 @@ def get_effect_config(config_id):
 
 def get_skill_config(config_id):
     return game_mgr.config_mgr.get_skill(config_id)
-    
+
+def first(item_list, predicate):
+    for it in item_list:
+        if predicate(it):
+            return it
+
+def add_prop_value(self, v, delta):
+        v1 = v + delta
+        return 0 if v1 < 0 else v1
+
 __all__ = [
     'game_mgr',
     'get_player',
@@ -177,6 +186,8 @@ __all__ = [
     'get_skill_config',
     'check_owner',
     'check_main_owner',
+    'first',
+    'add_prop_value',
 ]
 
 

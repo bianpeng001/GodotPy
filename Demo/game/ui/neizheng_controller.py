@@ -320,14 +320,15 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             result = []
             match btn_label:
                 case '征兵':
-                    result.append('士兵 [color=green]+100[/color]')
+                    city_unit.army_amount.add(500)
+                    result.append('士兵 [color=green]+500[/color]')
                     result.append('粮食 [color=red]-300[/color]')
 
                 case _:
                     pass
                 
             for hero in hero_list:
-                hero.ap -= 10
+                hero.ap = add_prop_value(hero.ap, -10)
             self.refresh_hero_items(hero_list)
 
             if result:

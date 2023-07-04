@@ -97,6 +97,10 @@ class HeroItem:
         self.hero_id = hero_id
         self.ui_obj = ui_obj
 
+    def refresh(self, hero):
+        zhengzhi_label.set_text(str(hero.zhengzhi))
+        self.ap_label.set_text(str(hero.ap))
+
 #
 # 武将列表
 #
@@ -137,6 +141,7 @@ class HeroListTrait:
             name_label = new_item.find_node('Label')
             name_label.set_minimum_size(80, 0)
             name_label.set_text(hero.hero_name)
+            hero_item.name_label = name_label
             
             # 身份
             standing_label = name_label.dup()
@@ -148,13 +153,11 @@ class HeroListTrait:
             age_label = name_label.dup()
             age_label.set_minimum_size(40, 0)
             age_label.set_text(f'{hero.age}')
-            hero_item.age_label = age_label
-
+            
             action_label = name_label.dup()
             action_label.set_minimum_size(60, 0)
             action_label.set_text('空闲')
-            hero_item.action_label = action_label
-
+            
             wuli_label = name_label.dup()
             wuli_label.set_minimum_size(40, 0)
             wuli_label.set_text(f'{hero.wuli}')
@@ -165,16 +168,23 @@ class HeroListTrait:
 
             zhili_label = name_label.dup()
             zhili_label.set_minimum_size(40, 0)
-            zhili_label.set_text(f'{hero.zhili}')
 
             zhengzhi_label = name_label.dup()
             zhengzhi_label.set_minimum_size(40, 0)
-            zhengzhi_label.set_text(f'{hero.zhengzhi}')
 
             ap_label = name_label.dup()
             ap_label.set_minimum_size(40, 0)
-            ap_label.set_text(f'{hero.ap}')
+
+            # save refernce
+            hero_item.age_label = age_label
+            hero_item.action_label = action_label
+            hero_item.wuli_label = wuli_label
+            hero_item.tongshuai_label = tongshuai_label
+            hero_item.zhili_label = zhili_label
+            hero_item.zhengzhi_label = zhengzhi_label
             hero_item.ap_label = ap_label
+
+            hero_item.refresh(hero)
 
     # 得到一个选中的hero_id的list
     def get_selected(self):
@@ -195,7 +205,7 @@ class HeroListTrait:
         for hero in hero_list:
             item = first(self.item_list, lambda x: x.hero_id == hero.hero_id)
             if item:
-                item.ap_label = str(hero.ap)
+                item.refresh(hero)
 
 
 

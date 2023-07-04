@@ -913,9 +913,6 @@ def set_cache_time(sec_time):
 def get_cache_time():
     return _cache_time
 
-def first(item_list, predicate):
-    for it in item_list:
-        if predicate(it):
-            return it
 
 
+        
