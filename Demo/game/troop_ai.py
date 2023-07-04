@@ -85,7 +85,7 @@ class NewtonMoveComponent(MoveComponent):
         # 参数
         speed = troop.speed * game_mgr.config_mgr.troop_speed_scale
         unit_time = game_mgr.config_mgr.frame_seconds
-        fix_block_speed = 0.08
+        fix_block_speed = 0.16
         
         delta = self._dst_pos - self._cur_pos
         dis = delta.magnitude()
@@ -116,7 +116,7 @@ class NewtonMoveComponent(MoveComponent):
         else:
             # 动不了
             if self.accu_time > 0:
-                self.block_time = min(4, self.block_time+unit_time)
+                self.block_time = min(8, self.block_time+unit_time)
 
 #
 # 小步前进, 考虑rvo斥力和障碍

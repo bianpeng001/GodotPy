@@ -15,6 +15,7 @@ if not os.path.exists(PYTHON_HOME):
 
 def copy_if_expired(src_path, dst_path):
     dst_path = os.path.abspath(dst_path)
+    src_path = os.path.abspath(src_path)
     
     if not os.path.exists(dst_path) or \
             os.path.getmtime(dst_path) < os.path.getmtime(src_path):

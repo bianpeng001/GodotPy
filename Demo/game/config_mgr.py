@@ -146,7 +146,7 @@ class ConfigMgr:
         skill.skill_name = '普通攻击'
         skill.effect_id = 2001
         skill.life_time = 1.0
-        skill.cooldown = 4.0
+        skill.cooldown = 5.0
         # 伤害每千人
         skill.damage = 60
         add(skill)

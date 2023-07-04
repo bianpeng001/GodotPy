@@ -7,7 +7,7 @@
 # 主要是模块这种机制，是不让循环引用的。因为他有toplevel语句
 # 相比之下Delphi的Unit，是可以循环引用的。java，c#的引用的话,两个包是可以互相引用的。
 
-from game.core import log_util
+from game.core import *
 
 #
 # 总管理器
