@@ -112,14 +112,12 @@ def show_troop_detail():
 
 #show_troop_detail()
 
-
 def show_scroll_bar():
     panel = game_mgr.ui_mgr.msg_panel_controller
     print(panel.container.get_v_scroll())
     panel.container.set_v_scroll(1000)
 
 show_scroll_bar()
-
 
 def show_alert():
     dlg = game_mgr.ui_mgr.alert_dialog_controller
