@@ -10,27 +10,20 @@
 
 #include "GodotPy.h"
 
-// core headers
 #include "core/os/os.h"
 #include "core/os/memory.h"
 #include "core/os/time.h"
 #include "core/input/input.h"
 #include "core/math/plane.h"
 #include "core/math/transform_3d.h"
-
 #include "main/performance.h"
-
-// scene headers
 #include "scene/animation/animation_player.h"
 #include "scene/main/viewport.h"
-
 #include "scene/3d/node_3d.h"
 #include "scene/3d/camera_3d.h"
 #include "scene/3d/label_3d.h"
 #include "scene/3d/cpu_particles_3d.h"
-
 #include "scene/2d/node_2d.h"
-
 #include "scene/gui/control.h"
 #include "scene/gui/base_button.h"
 #include "scene/gui/button.h"
@@ -45,7 +38,6 @@
 #include "scene/gui/texture_rect.h"
 #include "scene/gui/text_edit.h"
 #include "scene/gui/scroll_container.h"
-
 #include "scene/resources/packed_scene.h"
 #include "scene/resources/surface_tool.h"
 #include "scene/resources/material.h"
@@ -53,17 +45,14 @@
 #include "scene/resources/primitive_meshes.h"
 #include "scene/resources/immediate_mesh.h"
 #include "scene/resources/environment.h"
-
-// server headers
 #include "servers/display_server.h"
 
-
-//#define MEM_LOG
-
-// python headers
+// python
 #include <Windows.h>
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
+
+#pragma comment(lib, "python3.lib")
 
 #define GP_DECREF(X) Py_DECREF(X); \
 	X = NULL
