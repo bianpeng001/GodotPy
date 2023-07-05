@@ -81,7 +81,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         btn_dengyong = self.tab_jiang_obj.find_node('BtnDengYong')
         rm_btns = [btn_dengyong, ]
-        rm_texts = ['致仕','训诫','赏赐','爵位','搜索','派遣','征招','拜访','征兵']
+        rm_texts = ['致仕','下野','宝物','赏赐','爵位','探索','访贤','征兵']
         rm_btns = [btn_dengyong.dup() for i in range(len(rm_texts) - 1)]
         rm_btns.append(btn_dengyong)
 

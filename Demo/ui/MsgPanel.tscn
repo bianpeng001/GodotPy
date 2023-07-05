@@ -42,10 +42,12 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="Item" type="RichTextLabel" parent="ScrollContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 16)
+custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 mouse_filter = 2
 theme = ExtResource("1_qao50")
 theme_override_font_sizes/normal_font_size = 13
 bbcode_enabled = true
 text = "[color=#ff0000]刘备[/color]发动战法[color=#00ff00]大风起兮[/color]"
+scroll_active = false
+shortcut_keys_enabled = false

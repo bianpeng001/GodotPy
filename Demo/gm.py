@@ -112,12 +112,13 @@ def show_troop_detail():
 
 #show_troop_detail()
 
-def show_scroll_bar():
+def test_msg_panel():
     panel = game_mgr.ui_mgr.msg_panel_controller
     print(panel.container.get_v_scroll())
-    panel.container.set_v_scroll(1000)
+    #panel.container.set_v_scroll(1000)
+    panel.add_msg(f'刘备占领小沛{random_100()}')
 
-show_scroll_bar()
+test_msg_panel()
 
 def show_alert():
     dlg = game_mgr.ui_mgr.alert_dialog_controller

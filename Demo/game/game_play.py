@@ -518,7 +518,7 @@ class GamePlay:
     def defeat(self, src_unit, target_unit) -> int:
         if target_unit.unit_type == UT_CITY:
             self.occupy_city(src_unit, target_unit)
-            game_mgr.event_mgr.emit(MSG_PANEL_NEW_MSG, f"[color=red]{src_unit.unit_name}[/color]占领[color=green]{target_unit.unit_name}[/color]城")
+            game_mgr.event_mgr.emit(MSG_PANEL_NEW_MSG, f"[color=red]{src_unit.unit_name}[/color]占领[color=green]{target_unit.unit_name}[/color]")
             
         return 0
     

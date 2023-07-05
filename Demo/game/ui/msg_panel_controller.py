@@ -28,11 +28,12 @@ class MsgPanelController(UIController, PopupTrait):
     def add_msg(self, text):
         if len(self.msg_list) > 20:
             msg = self.msg_list.pop(0)
-            msg.set_last()
         else:
             msg = self.msg_0.dup()
             msg.set_visible(True)
+        msg.set_last()
         msg.set_text(text)
+
         self.msg_list.append(msg)
         self.container.set_v_scroll(1000)
 
