@@ -30,11 +30,11 @@ class AlertDialogController(UIController, PopupTrait):
             self._co_show_alert = game_mgr.co_mgr.start(self.co_show_alert())
 
     def co_show_alert(self):
+        self.popup_screen_center()
+
         while self.text_list:
-            yield 1.5
-            if not self.is_show():
-                self.popup_screen_center()
             self.text_obj.set_text(self.text_list.pop(0))
+            yield 1.5
 
         self.defer_close()
         self._co_show_alert = None
