@@ -115,10 +115,10 @@ def show_troop_detail():
 
 def show_scroll_bar():
     panel = game_mgr.ui_mgr.msg_panel_controller
-    print(panel.vbar.get_value())
+    print(panel.container.get_v_scroll())
+    panel.container.set_v_scroll(1000)
 
-
-#show_scroll_bar()
+show_scroll_bar()
 
 
 def show_alert():
@@ -127,4 +127,5 @@ def show_alert():
     dlg.show_alert('士兵 [color=red]+100[/color]')
     dlg.show_alert('士兵 [color=blue]+100[/color]')
 
-show_alert() 
+#show_alert()
+

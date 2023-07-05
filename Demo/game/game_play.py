@@ -235,7 +235,7 @@ class GamePlay:
                 yield 2.5
                 dlg2.show_text2("陌生人", "如今朝廷正在用人之际, 我推荐你到军中效力, 总好过在乡野埋没")
                 yield 2.5
-                dlg2.show_text2(player_name, "有点道理")
+                dlg2.show_text2(player_name, "好像有点道理")
                 yield 1.5
                 dlg2.defer_close()
                 

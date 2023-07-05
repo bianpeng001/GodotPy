@@ -19,6 +19,7 @@ class MsgPanelController(UIController, PopupTrait):
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
 
+        self.container = self.ui_obj.find_node('ScrollContainer')
         self.msg_0 = self.ui_obj.find_node('ScrollContainer/VBoxContainer/Item')
         self.msg_0.set_visible(False)
         
@@ -28,12 +29,12 @@ class MsgPanelController(UIController, PopupTrait):
         if len(self.msg_list) > 20:
             msg = self.msg_list.pop(0)
             msg.set_last()
-            #self.vbar.set_value(100)
         else:
             msg = self.msg_0.dup()
             msg.set_visible(True)
         msg.set_text(text)
         self.msg_list.append(msg)
+        self.container.set_v_scroll(1000)
 
     def on_new_msg(self, msg):
         self.add_msg(msg)
