@@ -77,11 +77,11 @@ class PopupTrait:
 
     @obstacle
     def push_panel(self):
-        game_mgr.ui_mgr.push_panel(self)
+        pass
 
     @obstacle
     def pop_panel(self):
-        game_mgr.ui_mgr.pop_panel(self)
+        pass
 
     def on_close_click(self):
         self.defer_close()

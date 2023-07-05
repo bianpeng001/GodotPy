@@ -20,9 +20,6 @@ class UIMgr(NodeObject):
         # 
         self.update_list = []
 
-        # 界面栈，用来恢复上级界面用的
-        self.panel_stack = []
-
         # 点击的和正在操作的，做一下语义的区分
         self.click_unit = None
         self.context_unit = None
@@ -266,40 +263,6 @@ class UIMgr(NodeObject):
             log_debug('troop click', unit.unit_name)
         else:
             self.show_menu(None)
-
-    # region panel stack, 
-    # TODO: 这个准备去掉了, 改用面板链, 那个更简单方便好控制
-    
-    # 界面的入栈出栈,用来恢复上级界面
-    def push_panel(self, top_panel):
-        if len(self.panel_stack) > 0:
-            if self.panel_stack[-1] == top_panel:
-                raise Exception('push repeat ui')
-            
-            self.panel_stack[-1].defer_close()
-
-        self.panel_stack.append(top_panel)
-        top_panel.show()
-
-    def pop_panel(self, cur_ui):
-        # 判断只有自己能关闭自己,别人都不行
-        if cur_ui and cur_ui != self.get_top_panel():
-            raise Exception('top ui should be close by itself')
-
-        # 关闭当前的
-        if len(self.panel_stack) > 0:
-            self.panel_stack.pop().defer_close()
-            
-        # 上级界面恢复显示, 如果有的话
-        if len(self.panel_stack) > 0:
-            self.panel_stack[-1].show()
-
-    # 获取当前的顶层ui controller
-    def get_top_panel(self):
-        if len(self.panel_stack) > 0:
-            return self.panel_stack[-1]
-        
-    # endregion
 
     def show_base_ui(self, show):
         if show:
