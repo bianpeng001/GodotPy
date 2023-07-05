@@ -54,8 +54,7 @@
 
 #pragma comment(lib, "python3.lib")
 
-#define GP_DECREF(X) Py_DECREF(X); \
-	X = NULL
+#define GP_DECREF(X)  { Py_DECREF(X); X = NULL; }
 
 //------------------------------------------------------------------------------
 // 定义一个object的容器，用来表示object，应该是一个弱引用

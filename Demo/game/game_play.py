@@ -190,7 +190,7 @@ class GamePlay:
 
                 dlg1.init()
                 dlg1.show_text('大江东去, 浪淘尽, 千古风流人物\n江山如画, 一时多少豪杰')
-                yield WaitForSeconds(2)
+                yield 3.0
                 dlg1.defer_close()
                 yield WaitForSeconds(2)
                 
