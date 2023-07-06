@@ -17,6 +17,7 @@ theme = ExtResource("1_s13nl")
 layout_mode = 0
 offset_right = 80.0
 offset_bottom = 26.0
+theme = ExtResource("1_s13nl")
 theme_override_colors/font_color = Color(1, 0.529412, 0.298039, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
