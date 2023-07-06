@@ -1,7 +1,7 @@
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://cxdn407m8jo4q"]
 
-[ext_resource type="FontFile" uid="uid://nu5qk2cr3u0a" path="res://font/ArchitectsDaughter.ttf" id="1_ogqvm"]
+[ext_resource type="FontFile" uid="uid://c5fixhfl003ll" path="res://font/ALIDL.ttf" id="1_brfeh"]
 
 [resource]
-default_font = ExtResource("1_ogqvm")
+default_font = ExtResource("1_brfeh")
 default_font_size = 23
