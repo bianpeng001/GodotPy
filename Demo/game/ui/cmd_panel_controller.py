@@ -32,7 +32,8 @@ class CmdItem:
         
     def on_click(self):
         unit_list = game_mgr.ui_mgr.cmd_panel_controller.unit_list
-        log_debug('cmd', self.cmd)
+        unit_list = list(filter(lambda x: check_main_owner(x), unit_list))
+        log_debug('cmd', self.cmd, len(unit_list))
         
         if self.cmd == '目标':
             dlg = game_mgr.ui_mgr.select_target_controller
@@ -146,7 +147,8 @@ class CmdPanelController(UIController, PopupTrait):
 
     def on_rect_select_units_changed(self, unit_list):
         # 只能操作自己的单位
-        self.unit_list = list(filter(lambda x: check_main_owner(x), unit_list))
+        #self.unit_list = list(filter(lambda x: check_main_owner(x), unit_list))
+        self.unit_list = unit_list
         
         if len(self.unit_list) > 0:
             if not self.is_show():
@@ -154,15 +156,28 @@ class CmdPanelController(UIController, PopupTrait):
         else:
             if self.is_show():
                 self.hide()
+                return
         
-        # 单位信息
+        # 单位信息, 只选中一个的时候, 要多显示一些信息
         if len(self.unit_list) == 1:
             self.unit_info_obj.set_visible(True)
             unit = self.unit_list[0]
-            self.unit_info_obj.set_text(unit.unit_name)
+            is_emeny = not unit.check_main_owner()
+            color = 'red' if is_emeny else 'green'
+            if unit.unit_type == UT_TROOP:
+                text = f'''[color={color}]{unit.unit_name}[/color] {unit.army_amount.get_floor()}
+行军
+'''
+            elif unit.unit_type == UT_CITY:
+                text = f'''[color={color}]{unit.unit_name}[/color]
+'''
+            else:
+                text = unit.unit_name
+            self.unit_info_obj.set_text(text)
         else:
             self.unit_info_obj.set_visible(False)
 
+        # 显示指令
         for i in range(len(self.target_list)):
             item = self.target_list[i]
             if i < len(self.unit_list):
@@ -178,15 +193,19 @@ class CmdPanelController(UIController, PopupTrait):
     # 这里的限制要去掉           
     #@when_visible
     def on_scene_unit_click(self, unit):
-        if len(self.unit_list) == 0 and check_main_owner(unit):
-            self.on_rect_select_units_changed([unit])
-        else:
-            # 插旗表示目标位置
-            x,y,z = get_cursor_position()
-            effect_item = game_mgr.effect_mgr.play_effect2(2003)
-            effect_item.set_position(x,y,z)
+        if not game_mgr.player_mgr.main_player:
+            return
+
+        self.on_rect_select_units_changed([unit])
+        # if len(self.unit_list) == 0 and check_main_owner(unit):
+        #     self.on_rect_select_units_changed([unit])
+        # else:
+        #     # 插旗表示目标位置
+        #     x,y,z = get_cursor_position()
+        #     effect_item = game_mgr.effect_mgr.play_effect2(2003)
+        #     effect_item.set_position(x,y,z)
             
-            self.set_troop_target_pos(x,z)
+        #     self.set_troop_target_pos(x,z)
     
     def set_troop_target_pos(self, x,z):
         for unit in filter(lambda x: x.unit_type == UT_TROOP, self.unit_list):
