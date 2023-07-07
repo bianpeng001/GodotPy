@@ -51,8 +51,8 @@ class CityUnit(Unit):
         
         # 治安,农业，商业的发展程度
         self.order_points = 50
-        self.farmer_points = 50
-        self.trader_points = 50
+        self.farm_points = RangeValue(50, 100)
+        self.trade_points = RangeValue(50, 100)
 
         # 居民人口 = 治安 + 务农 + 经商
         self.population = RangeValue(1000 + random_int(0, 200),

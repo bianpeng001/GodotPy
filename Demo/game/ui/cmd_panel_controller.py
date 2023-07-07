@@ -202,16 +202,15 @@ class CmdPanelController(UIController, PopupTrait):
         if not game_mgr.player_mgr.main_player:
             return
 
-        self.on_rect_select_units_changed([unit])
-        # if len(self.unit_list) == 0 and check_main_owner(unit):
-        #     self.on_rect_select_units_changed([unit])
-        # else:
-        #     # 插旗表示目标位置
-        #     x,y,z = get_cursor_position()
-        #     effect_item = game_mgr.effect_mgr.play_effect2(2003)
-        #     effect_item.set_position(x,y,z)
+        if len(self.unit_list) == 0:
+            self.on_rect_select_units_changed([unit])
+        else:
+            # 插旗表示目标位置
+            x,y,z = get_cursor_position()
+            effect_item = game_mgr.effect_mgr.play_effect2(2003)
+            effect_item.set_position(x,y,z)
             
-        #     self.set_troop_target_pos(x,z)
+            self.set_troop_target_pos(x,z)
     
     def set_troop_target_pos(self, x,z):
         for unit in filter(lambda x: x.unit_type == UT_TROOP, self.unit_list):

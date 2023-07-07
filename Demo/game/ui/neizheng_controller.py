@@ -175,8 +175,8 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         text = f'''人口 {self.population}人 {population}
 治安 {city_unit.order_points} {order}
-农业 {city_unit.farmer_points}
-商业 {city_unit.trader_points}
+农业 {city_unit.farm_points.get_round()}
+商业 {city_unit.trade_points.get_round()}
 粮食 {round(city_unit.rice_amount.get_value())} {rice}
 银两 {round(city_unit.money_amount.get_value())} {money}
 武将 {len(city_unit.hero_list)}员
@@ -321,31 +321,42 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         # 下面根据指令, 进行工作
 
+        for hero in hero_list:
+            hero.ap.add(-10)
+
         def on_confirmed_cb():
             speaker_name = hero_list[0].hero_name
             self.popup_dialog(speaker_name, '得令', 1.5)
             
             # TODO: 扣体力, 并刷新
             result = []
-            hero_count = 0
             match btn_label:
                 case '征兵':
                     value = 0
                     cost = 0
                     for hero in hero_list:
-                        hero.ap.add(-10)
                         value += 200
                         cost += 100
-                        hero_count += 1
                     
                     self.city_unit.army_amount.add(value)
                     result.append(f'士兵 [color=green]+{value}[/color]')
                     result.append(f'粮食 [color=red]-{cost}[/color]')
 
+                case '农业':
+                    value = 0
+                    cost = 0
+                    for hero in hero_list:
+                        value += 1
+                        cost += 100
+
+                    self.city_unit.farm_points.add(value)
+                    result.append(f'农业 [color=green]+{value}[/color]')
+                    result.append(f'粮食 [color=red]-{cost}[/color]')
+
                 case _:
                     pass
 
-            if hero_count > 0:
+            if hero_list:
                 self.refresh_hero_items(hero_list)
                 game_mgr.ui_mgr.alert_dialog_controller.show_alert('\n'.join(result))
 
