@@ -333,7 +333,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
                     value = 0
                     cost = 0
                     for hero in hero_list:
-                        hero.ap -= 10
+                        hero.ap.add(-10)
                         value += 200
                         cost += 100
                         hero_count += 1

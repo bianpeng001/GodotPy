@@ -4,6 +4,7 @@
 
 from game.core import *
 from game.game_mgr import *
+from game.base_type import RangeValue
 from game.config_mgr import new_hero_name
 
 # Hero 是纯数据Entity，不存在实体
@@ -114,7 +115,7 @@ class Hero:
         self.activity_time = 0
 
         # 行动力
-        self.max_ap = self.ap = 100
+        self.ap = RangeValue(100, 100, 0)
 
         # 所在城市id
         self.city_id = 0

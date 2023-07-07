@@ -167,10 +167,6 @@ def first(item_list, predicate):
         if predicate(it):
             return it
 
-def add_prop_value(v, delta):
-        v1 = v + delta
-        return 0 if v1 < 0 else v1
-
 __all__ = [
     'game_mgr',
     'get_player',
@@ -187,7 +183,6 @@ __all__ = [
     'check_owner',
     'check_main_owner',
     'first',
-    'add_prop_value',
 ]
 
 

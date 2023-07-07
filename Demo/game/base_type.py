@@ -2,6 +2,7 @@
 # 2023年2月8日 bianpeng
 #
 
+import math
 from game.core import log_debug, Vector3
 
 #
@@ -117,9 +118,9 @@ class Unit:
         # 等级
         self.level = 1
         # 护甲(城防)
-        self.armor_amount = LimitValue(100, 100)
+        self.armor_amount = RangeValue(100, 100)
         # 血量(主要是指军队数量)
-        self.army_amount = LimitValue(0, 1000)
+        self.army_amount = RangeValue(0, 1000)
 
         # 生死存亡
         self.is_dead = False
@@ -310,12 +311,17 @@ def when_visible(fun):
     return _fun
 
 #
-# 有上下限的值
+# 区间
 #
-class LimitValue:
-    def __init__(self, value, max_value, min_value = 0):
+class RangeValue:
+    def __init__(self, value, max_value=None, min_value=0):
         self.value = value
-        self.max_value = max_value
+        
+        if max_value == None:
+            self.max_value = value
+        else:
+            self.max_value = max_value
+
         self.min_value = min_value
 
     def grow(self, growth_rate, delta_time):
@@ -323,14 +329,22 @@ class LimitValue:
         self.add(delta)
 
     def add(self, delta):
-        self.value += delta
-        if self.value > self.max_value:
+        value = self.value + delta
+        if value > self.max_value:
             self.value = self.max_value
-        elif self.value < self.min_value:
+        elif value < self.min_value:
             self.value = self.min_value
+        else:
+            self.value = value
 
     def get_value(self):
         return round(self.value)
+
+    def get_round(self):
+        return round(self.value)
+
+    def get_floor(self):
+        return math.floor(self.value)
         
 # 一个螺旋形的遍历
 # 812

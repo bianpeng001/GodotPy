@@ -3,7 +3,7 @@
 #
 from game.core import log_debug, OS
 from game.game_mgr import *
-from game.base_type import Unit, LimitValue
+from game.base_type import Unit, RangeValue
 from game.troop_controller import TroopController
 
 #
@@ -28,7 +28,7 @@ class TroopUnit(Unit):
         self.chief_hero_id = 0
 
         # 军队数量
-        self.army_amount = LimitValue(0, 1000)
+        self.army_amount = RangeValue(0, 1000)
         
         # 士气
         self.army_moral = 100
