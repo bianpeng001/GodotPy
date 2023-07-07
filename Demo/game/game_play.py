@@ -419,7 +419,7 @@ class GamePlay:
             # 刷新武将体力
             ap_growth_speed = game_mgr.config_mgr.ap_growth_speed
             for hero in player.hero_list:
-                hero.ap = min(100, hero.ap + ap_growth_speed*delta_time)
+                hero.ap = min(hero.max_ap, hero.ap + ap_growth_speed*delta_time)
 
 
     # 解散队伍, 一般是进城, 或者被击溃
