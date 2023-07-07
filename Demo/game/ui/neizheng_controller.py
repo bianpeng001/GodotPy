@@ -314,7 +314,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             log_debug('no hero selected')
             return
 
-        hero_list = list(filter(lambda x: x.ap >= 10, hero_list))
+        hero_list = list(filter(lambda x: x.ap.value >= 10, hero_list))
         if not hero_list:
             log_debug('no hero has enough ap')
             return
