@@ -163,13 +163,11 @@ class CmdPanelController(UIController, PopupTrait):
             self.unit_info_obj.set_visible(True)
             unit = self.unit_list[0]
             
-            match unit.owner_player_id:
-                case get_main_player_id():
-                    color = 'green'
-                case 0:
-                    color = 'white'
-                case _:
-                    color = 'red'
+            is_member = check_main_owner(unit)
+            if is_member:
+                color = 'green'
+            else:
+                color = 'white' if unit.owner_player_id == 0 else 'red'
             
             if unit.unit_type == UT_TROOP:
                 text = f'''[color={color}]{unit.unit_name}[/color] {unit.army_amount.get_floor()}
@@ -179,7 +177,8 @@ class CmdPanelController(UIController, PopupTrait):
                 text = f'''[color={color}]{unit.unit_name}[/color]
 '''
             else:
-                text = unit.unit_name
+                text = f'''[color={color}]{unit.unit_name}[/color]
+'''
             self.unit_info_obj.set_text(text)
         else:
             self.unit_info_obj.set_visible(False)
