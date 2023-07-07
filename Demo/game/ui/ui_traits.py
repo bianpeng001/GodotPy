@@ -103,7 +103,7 @@ class HeroItem:
         self.tongshuai_label.set_text(str(hero.tongshuai))
         self.zhengzhi_label.set_text(str(hero.zhengzhi))
         self.zhili_label.set_text(str(hero.zhili))
-        self.ap_label.set_text(f'{hero.ap:2.0f}')
+        self.ap_label.set_text(str(hero.ap.get_floor()))
 
 #
 # 武将列表
