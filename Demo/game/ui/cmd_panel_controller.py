@@ -162,8 +162,15 @@ class CmdPanelController(UIController, PopupTrait):
         if len(self.unit_list) == 1:
             self.unit_info_obj.set_visible(True)
             unit = self.unit_list[0]
-            is_emeny = not unit.check_main_owner()
-            color = 'red' if is_emeny else 'green'
+            
+            match unit.owner_player_id:
+                case get_main_player_id():
+                    color = 'green'
+                case 0:
+                    color = 'white'
+                case _:
+                    color = 'red'
+            
             if unit.unit_type == UT_TROOP:
                 text = f'''[color={color}]{unit.unit_name}[/color] {unit.army_amount.get_floor()}
 行军
