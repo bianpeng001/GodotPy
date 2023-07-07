@@ -5,7 +5,7 @@ import sys
 
 from game.core import *
 from game.game_mgr import *
-from game.event_name import *
+from game.event_name import PRESSED
 
 #------------------------------------------------------------
 # traits 功能类，用来复用一些代码, 这里不带数据，只提供方法
@@ -111,8 +111,8 @@ class HeroItem:
 class HeroListTrait:
     def init_header(self, header):
         name_label = header.find_node('Label')
-        column_list = ['姓名','身份','年龄','活动','武力','统率','智力','政治', '行动']
-        column_width_dict = { '姓名': 80, '活动': 60, }
+        column_list = ['姓名','身份','年龄','状态','武力','统率','智力','政治', '行动']
+        column_width_dict = { '姓名': 80, '状态': 60, }
 
         for index in range(len(column_list)):
             if index == 0:
@@ -209,5 +209,8 @@ class HeroListTrait:
             if item:
                 item.refresh(hero)
 
-
+    def refresh_hero_items_all(self):
+        for item in self.item_list:
+            item.refresh(get_hero(item.hero_id))
+        
 

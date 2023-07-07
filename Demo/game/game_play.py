@@ -394,6 +394,9 @@ class GamePlay:
             self.refresh_player_resource(self.data_tick_time)
             self.data_tick_time = 0
 
+            # 完成，刷新界面
+            game_mgr.event_mgr.emit(MAINUI_REFRESH)
+
     # 刷新所有的资源增长, 这个开销也不大
     # delta_time: 间隔时长，单位秒
     def refresh_player_resource(self, delta_time:float) -> None:
@@ -418,9 +421,6 @@ class GamePlay:
             for hero in player.hero_list:
                 hero.ap = min(100, hero.ap + ap_growth_speed*delta_time)
 
-            
-        # 完成，刷新界面
-        game_mgr.event_mgr.emit(MAINUI_REFRESH)
 
     # 解散队伍, 一般是进城, 或者被击溃
     # 如果是进城, 注意回收队伍中的武将, 士兵, 资源

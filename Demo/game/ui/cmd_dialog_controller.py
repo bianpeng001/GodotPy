@@ -5,7 +5,7 @@
 from game.core import *
 from game.game_mgr import *
 from game.base_type import UIController
-from game.event_name import *
+from game.event_name import PRESSED
 from game.ui.ui_traits import PopupTrait
 
 #

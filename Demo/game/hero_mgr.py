@@ -114,7 +114,7 @@ class Hero:
         self.activity_time = 0
 
         # 行动力
-        self.ap = 100
+        self.max_ap = self.ap = 100
 
         # 所在城市id
         self.city_id = 0

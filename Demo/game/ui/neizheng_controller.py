@@ -6,10 +6,11 @@ import math
 
 from game.core import *
 from game.game_mgr import *
-from game.base_type import UIController
+from game.base_type import UIController, when_visible
 from game.hero_mgr import *
 from game.ui.ui_traits import PopupTrait, HeroListTrait
-from game.event_name import *
+from game.event_name import PRESSED, MAINUI_REFRESH, TAB_CHANGED, \
+        VALUE_CHANGED
 
 #
 # 内政，农商将
@@ -98,6 +99,8 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             row,col = divmod(i, 5)
             btn.set_position(20+(50+6)*col, 270+row*40)
             btn.connect(PRESSED, make_rm_handler(btn_label))
+
+        game_mgr.event_mgr.add(MAINUI_REFRESH, self.on_refresh)
 
     # 根据实际情况初始化
     def init(self, city_unit):
@@ -311,6 +314,11 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             log_debug('no hero selected')
             return
 
+        hero_list = list(filter(lambda x: x.ap >= 10, hero_list))
+        if not hero_list:
+            log_debug('no hero has enough ap')
+            return
+
         # 下面根据指令, 进行工作
 
         def on_confirmed_cb():
@@ -319,24 +327,26 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             
             # TODO: 扣体力, 并刷新
             result = []
+            hero_count = 0
             match btn_label:
                 case '征兵':
                     value = 0
+                    cost = 0
                     for hero in hero_list:
-                        if hero.ap >= 10:
-                            hero.ap -= 10
-                            value += 200
-
+                        hero.ap -= 10
+                        value += 200
+                        cost += 100
+                        hero_count += 1
+                    
                     self.city_unit.army_amount.add(value)
                     result.append(f'士兵 [color=green]+{value}[/color]')
-                    result.append('粮食 [color=red]-300[/color]')
+                    result.append(f'粮食 [color=red]-{cost}[/color]')
 
                 case _:
                     pass
 
-            self.refresh_hero_items(hero_list)
-
-            if result:
+            if hero_count > 0:
+                self.refresh_hero_items(hero_list)
                 game_mgr.ui_mgr.alert_dialog_controller.show_alert('\n'.join(result))
 
         if btn_label in ('致仕', ):
@@ -408,5 +418,10 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         
         log_debug('apply city property changes')
 
+
+    @when_visible
+    def on_refresh(self):
+        if self.tab_index == 1:
+            self.refresh_hero_items_all()
 
 
