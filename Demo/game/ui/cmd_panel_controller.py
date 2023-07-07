@@ -103,7 +103,7 @@ class CmdPanelController(UIController, PopupTrait):
             
             self.btn_list.append(cmd_item)
         
-        self.unit_name_obj = self.ui_obj.find_node('Panel/UnitInfo/Name')
+        self.unit_info_obj = self.ui_obj.find_node('Panel/UnitInfo')
         self.target_units_obj = self.ui_obj.find_node('Panel/TargetUnits')
         self.btn_unit_obj = self.ui_obj.find_node('Panel/TargetUnits/BtnUnit')
         self.btn_unit_obj.set_visible(False)
@@ -155,6 +155,14 @@ class CmdPanelController(UIController, PopupTrait):
             if self.is_show():
                 self.hide()
         
+        # 单位信息
+        if len(self.unit_list) == 1:
+            self.unit_info_obj.set_visible(True)
+            unit = self.unit_list[0]
+            self.unit_info_obj.set_text(unit.unit_name)
+        else:
+            self.unit_info_obj.set_visible(False)
+
         for i in range(len(self.target_list)):
             item = self.target_list[i]
             if i < len(self.unit_list):

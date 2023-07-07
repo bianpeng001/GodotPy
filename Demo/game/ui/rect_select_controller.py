@@ -5,9 +5,12 @@
 from game.core import log_debug
 from game.game_mgr import *
 from game.base_type import UIController
-from game.event_name import LEFT_BUTTON_PRESS,LEFT_BUTTON_RELEASE,LEFT_BUTTON_DRAG
 from game.ui.ui_traits import PopupTrait
 from game.ground_mgr import xz_to_colrow
+from game.event_name import LEFT_BUTTON_PRESS,\
+    LEFT_BUTTON_RELEASE,\
+    LEFT_BUTTON_DRAG,\
+    RECT_SELECT_UNITS_CHANGE
 
 #
 # 框选
