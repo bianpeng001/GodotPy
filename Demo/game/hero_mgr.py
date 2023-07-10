@@ -194,7 +194,6 @@ class HeroMgr:
 
         # 随机一个唯一名字
         hero.hero_name = self.gen_unique_hero_name()
-        
 
         cur_year = game_mgr.game_data.cur_year
         hero.born_year = cur_year - random_int(12, 40)

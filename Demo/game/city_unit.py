@@ -48,6 +48,7 @@ class CityUnit(Unit):
         # 士气
         self.army_moral = RangeValue(100, 100)
         self.defense = 10
+        self.attack = 10
         
         # 治安,农业，商业的发展程度
         self.order_points = RangeValue(50, 100)
@@ -85,12 +86,6 @@ class CityUnit(Unit):
         self.trader_incharge = 0
         # 商人数量
         self.trader_mass = 0
-
-        # AI运行开关
-        self.enable_ai = True
-        
-        # 友好城市,通商
-        #self.friend_city_list = []
 
         # 质量
         self.mass = 300

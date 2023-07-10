@@ -36,14 +36,14 @@ class SysPanelController(UIController, PopupTrait):
             return btn_list[i]
         
         get_btn('返回').connect(PRESSED, self.on_back)
-        get_btn('设置').connect(PRESSED, self.on_setting_click)
+        get_btn('设置').connect(PRESSED, self.on_setting)
         get_btn('存档').connect(PRESSED, self.on_save)
         get_btn('退出').connect(PRESSED, self.on_quit)
     
     def on_back(self):
         self.defer_close()
         
-    def on_setting_click(self):
+    def on_setting(self):
         self.defer_close()
         
         panel = game_mgr.ui_mgr.setting_panel_controller
@@ -51,6 +51,7 @@ class SysPanelController(UIController, PopupTrait):
 
     def on_save(self):
         game_mgr.game_data.save('01.sav')
+        log_debug('save data ok')
 
     def on_quit(self):
         OS.quit(0)

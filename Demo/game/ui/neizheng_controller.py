@@ -358,7 +358,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
                         cost += 100
 
                     self.city_unit.order_points.add(value)
-                    result.append(f'农业 [color=green]+{value}[/color]')
+                    result.append(f'治安 [color=green]+{value}[/color]')
                     result.append(f'粮食 [color=red]-{cost}[/color]')
 
                 case '商业':
@@ -369,7 +369,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
                         cost += 100
 
                     self.city_unit.trade_points.add(value)
-                    result.append(f'农业 [color=green]+{value}[/color]')
+                    result.append(f'商业 [color=green]+{value}[/color]')
                     result.append(f'粮食 [color=red]-{cost}[/color]')
 
                 case _:
