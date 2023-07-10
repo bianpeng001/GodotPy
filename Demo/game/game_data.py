@@ -43,21 +43,24 @@ NAME TEXT NOT NULL
 CREATE TABLE CITY (
 ID INT PRIMARY KEY NOT NULL,
 NAME TEXT NOT NULL,
+OWNER_PLAYER_ID INT references PLAYER(ID),
 HERO_LIST INT ARRAY,
-
 SATRAP INT,
 ORDER_INCHARGE INT,
 FARM_INCHARGE INT,
 TRADER_INCHARGE INT,
 FAX_INCHARGE INT,
-
 FAX_RATE INT,
+ORDER_POINTS FLOAT,
+FARM_POINTS FLOAT,
+TRADE_POINTS FLOAT,
 X FLOAT,Z FLOAT
 );''')
         for unit in game_mgr.unit_mgr.loop_cities():
-            sql = f'''INSERT INTO CITY (ID,NAME) 
+            sql = f'''INSERT INTO CITY (ID,NAME,SATRAP) 
 VALUES (
-{unit.unit_id},"{unit.unit_name}"
+{unit.unit_id},"{unit.unit_name}",
+{unit.satrap.hero_id if unit.satrap else 0}
 );'''
             cursor.execute(sql)
         conn.commit()
@@ -68,7 +71,7 @@ VALUES (
 CREATE TABLE HERO (
 ID INT PRIMARY KEY NOT NULL,
 NAME TEXT NOT NULL,
-OWNER_PLAYER_ID INT references Player(ID),
+OWNER_PLAYER_ID INT references PLAYER(ID),
 OWNER_CITY_ID INT references CITY(ID),
 BORN_YEAR INT
 );''')
@@ -86,6 +89,7 @@ VALUES (
 CREATE TABLE TROOP (
 ID INT PRIMARY KEY NOT NULL,
 NAME TEXT NOT NULL,
+OWNER_PLAYER_ID INT references PLAYER(ID),
 OWNER_CITY_ID INT references CITY(ID),
 CHIEF_HERO_ID INT references HERO(ID),
 HERO_LIST INT ARRAY[9],
