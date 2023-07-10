@@ -89,8 +89,8 @@ NAME TEXT NOT NULL,
 OWNER_CITY_ID INT references CITY(ID),
 CHIEF_HERO_ID INT references HERO(ID),
 HERO_LIST INT ARRAY[9],
-ARMY_AMOUNT INT,
-ARMY_MORAL INT,
+ARMY_AMOUNT FLOAT,
+ARMY_MORAL FLOAT,
 X FLOAT,Z FLOAT
 );''')
         for unit in game_mgr.unit_mgr.loop_troops():
@@ -105,7 +105,7 @@ VALUES (
 {unit.unit_id},"{unit.unit_name}",
 {unit.owner_player_id},{unit.owner_city_id},
 {unit.chief_hero_id},'{hero_list}',
-{unit.army_amount.get_round()},{unit.army_moral.get_round()}
+{unit.army_amount.value},{unit.army_moral.value}
 {unit.get_x()},{unit.get_z()}
 );'''
             cursor.execute(sql)
