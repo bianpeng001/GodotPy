@@ -114,6 +114,11 @@ class UnitMgr:
             if unit.unit_type == UT_CITY:
                 yield unit
 
+    def loop_troops(self):
+        for unit in self.update_list:
+            if unit.unit_type == UT_TROOP:
+                yield unit
+
     # 根据位置, 计算所在的九州的位置, 九州之外的叫做荒蛮之地
     def get_province(self, x, z):
         x = math.floor(x / 300)

@@ -57,7 +57,12 @@ X FLOAT,
 Y FLOAT
 );
 ''')
-        
+        for unit in game_mgr.unit_mgr.loop_cities():
+            sql = f'''INSERT INTO CITY (ID,NAME) 
+VALUES ({unit.unit_id}, "{unit.unit_name}");'''
+            cursor.execute(sql)
+        conn.commit()
+
 # HERO
 
         cursor.execute('''
@@ -72,7 +77,9 @@ CITY_ID INT references CITY(ID)
             sql = f'''INSERT INTO HERO (ID,NAME) VALUES
 ({h.hero_id}, "{h.hero_name}");'''
             cursor.execute(sql)
+        conn.commit()
 
+# TROOP
         cursor.execute('''
 CREATE TABLE TROOP (
 ID INT PRIMARY KEY NOT NULL,
@@ -83,6 +90,12 @@ X FLOAT,
 Y FLOAT
 );
 ''')
+        for unit in game_mgr.unit_mgr.loop_troops():
+            hero_list = ','.join(map(lambda x: str(x), unit.hero_list))
+            sql = f'''INSERT INTO TROOP
+(ID,NAME,CHIEF_HERO_ID,HERO_LIST,X,Y)
+VALUES ({unit.unit_id}, "{unit.unit_name}",{unit.chief_hero_id},'{hero_list}',{unit.get_x()},{unit.get_z()}); '''
+            cursor.execute(sql)
         conn.commit()
     
     def save(self, path):
