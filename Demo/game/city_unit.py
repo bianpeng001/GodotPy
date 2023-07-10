@@ -46,7 +46,7 @@ class CityUnit(Unit):
         self.money_amount = RangeValue(random_int(100, 1000), 1000000)
 
         # 士气
-        self.army_moral = 50
+        self.army_moral = RangeValue(100, 100)
         self.defense = 10
         
         # 治安,农业，商业的发展程度

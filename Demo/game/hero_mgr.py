@@ -87,6 +87,7 @@ class Hero:
         
         # 主公
         self.owner_player_id = 0
+        self.owner_city_id = 0
 
         # 生卒年份
         self.born_year = 0

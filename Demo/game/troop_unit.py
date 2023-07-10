@@ -31,7 +31,7 @@ class TroopUnit(Unit):
         self.army_amount = RangeValue(0, 1000)
         
         # 士气
-        self.army_moral = 100
+        self.army_moral = RangeValue(100, 100)
         # 暴击率
         self.critical_strike = 50
 

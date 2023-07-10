@@ -35,12 +35,16 @@ class SysPanelController(UIController, PopupTrait):
             i = btn_labels.index(label)
             return btn_list[i]
         
+        get_btn('返回').connect(PRESSED, self.on_back)
         get_btn('设置').connect(PRESSED, self.on_setting_click)
         get_btn('存档').connect(PRESSED, self.on_save)
         get_btn('退出').connect(PRESSED, self.on_quit)
+    
+    def on_back(self):
+        self.defer_close()
         
     def on_setting_click(self):
-        self.hide()
+        self.defer_close()
         
         panel = game_mgr.ui_mgr.setting_panel_controller
         panel.init()

@@ -32,8 +32,7 @@ class GameData:
 CREATE TABLE PLAYER (
 ID INT PRIMARY KEY NOT NULL,
 NAME TEXT NOT NULL
-);
-''')
+);''')
         for p in game_mgr.player_mgr.loop_players():
             sql = f'''INSERT INTO PLAYER (ID, NAME) VALUES
 ({p.player_id}, "{p.player_name}");'''
@@ -53,13 +52,13 @@ TRADER_INCHARGE INT,
 FAX_INCHARGE INT,
 
 FAX_RATE INT,
-X FLOAT,
-Y FLOAT
-);
-''')
+X FLOAT,Z FLOAT
+);''')
         for unit in game_mgr.unit_mgr.loop_cities():
             sql = f'''INSERT INTO CITY (ID,NAME) 
-VALUES ({unit.unit_id}, "{unit.unit_name}");'''
+VALUES (
+{unit.unit_id},"{unit.unit_name}"
+);'''
             cursor.execute(sql)
         conn.commit()
 
@@ -69,13 +68,16 @@ VALUES ({unit.unit_id}, "{unit.unit_name}");'''
 CREATE TABLE HERO (
 ID INT PRIMARY KEY NOT NULL,
 NAME TEXT NOT NULL,
-BORN_YEAR INT,
-CITY_ID INT references CITY(ID)
-);
-''')
+OWNER_PLAYER_ID INT references Player(ID),
+OWNER_CITY_ID INT references CITY(ID),
+BORN_YEAR INT
+);''')
         for h in game_mgr.hero_mgr.loop_heros():
-            sql = f'''INSERT INTO HERO (ID,NAME) VALUES
-({h.hero_id}, "{h.hero_name}");'''
+            sql = f'''INSERT INTO HERO (ID,NAME,OWNER_PLAYER_ID,OWNER_CITY_ID)
+VALUES (
+{h.hero_id},"{h.hero_name}",
+{h.owner_player_id},{h.owner_city_id}
+);'''
             cursor.execute(sql)
         conn.commit()
 
@@ -84,17 +86,28 @@ CITY_ID INT references CITY(ID)
 CREATE TABLE TROOP (
 ID INT PRIMARY KEY NOT NULL,
 NAME TEXT NOT NULL,
+OWNER_CITY_ID INT references CITY(ID),
 CHIEF_HERO_ID INT references HERO(ID),
 HERO_LIST INT ARRAY[9],
-X FLOAT,
-Y FLOAT
-);
-''')
+ARMY_AMOUNT INT,
+ARMY_MORAL INT,
+X FLOAT,Z FLOAT
+);''')
         for unit in game_mgr.unit_mgr.loop_troops():
-            hero_list = ','.join(map(lambda x: str(x), unit.hero_list))
+            hero_list = ','.join(map(lambda x: str(x.hero_id), unit.hero_list))
             sql = f'''INSERT INTO TROOP
-(ID,NAME,CHIEF_HERO_ID,HERO_LIST,X,Y)
-VALUES ({unit.unit_id}, "{unit.unit_name}",{unit.chief_hero_id},'{hero_list}',{unit.get_x()},{unit.get_z()}); '''
+(ID,NAME,
+OWNER_PLAYER_ID,OWNER_CITY_ID,
+CHIEF_HERO_ID,HERO_LIST,
+ARMY_AMOUNT,ARMY_MORAL,
+X,Z)
+VALUES (
+{unit.unit_id},"{unit.unit_name}",
+{unit.owner_player_id},{unit.owner_city_id},
+{unit.chief_hero_id},'{hero_list}',
+{unit.army_amount.get_round()},{unit.army_moral.get_round()}
+{unit.get_x()},{unit.get_z()}
+);'''
             cursor.execute(sql)
         conn.commit()
     
