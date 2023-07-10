@@ -635,6 +635,22 @@ static inline ResCapsule *GetResCapsule(PyObject *obj) {
 //------------------------------------------------------------------------------
 // module function implementation
 //------------------------------------------------------------------------------
+static PyObject *f_quit(PyObject *module, PyObject *args) {
+	do {
+		int a_exit_code;
+
+		if (!PyArg_ParseTuple(args, "i", &a_exit_code)) {
+			break;
+		}
+
+		auto st = SceneTree::get_singleton();
+		st->quit(a_exit_code);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+	
+}
 static PyObject *f_print_line(PyObject *module, PyObject *args) {
 	const char *s;
 	if (!PyArg_ParseTuple(args, "s", &s)) {
@@ -2816,6 +2832,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "get_scene_root", f_get_scene_root, METH_VARARGS, NULL },
 	{ "is_editor_hint", f_is_editor_hint, METH_VARARGS, NULL },
 	{ "set_custom_mouse_cursor", f_set_custom_mouse_cursor, METH_VARARGS, NULL },
+	{ "quit", f_quit, METH_VARARGS, NULL },
 
 	// camera
 	{ "camera_set_fov_near_far", f_camera_set_fov_near_far, METH_VARARGS, NULL },

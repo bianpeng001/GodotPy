@@ -391,6 +391,10 @@ class OS:
     def set_custom_mouse_cursor(cls, cursor,shape,x,y):
         gp.set_custom_mouse_cursor(cursor,shape,x,y)
 
+    @classmethod
+    def quit(self, exit_code=0):
+        gp.quit(exit_code)
+
 # ResCapsule 对应的方法
 class ResCapsule:
     def __init__(self, res):

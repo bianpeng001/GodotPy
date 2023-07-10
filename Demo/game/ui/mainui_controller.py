@@ -131,8 +131,8 @@ class MainUIController(UIController, PopupTrait):
         
         self.fps_label.set_text(f'{fps} {fps0} {dc}')
     
-    def on_save_click(self):
-        # TODO:
-        game_mgr.game_data.save('01.db')
+    # def on_save_click(self):
+    #     # TODO:
+    #     game_mgr.game_data.save('01.db')
         
     

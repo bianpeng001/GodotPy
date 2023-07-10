@@ -1,7 +1,7 @@
 #
 # 2023年4月17日 bianpeng
 #
-from game.core import log_util
+from game.core import *
 from game.game_mgr import *
 from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
@@ -36,12 +36,20 @@ class SysPanelController(UIController, PopupTrait):
             return btn_list[i]
         
         get_btn('设置').connect(PRESSED, self.on_setting_click)
+        get_btn('存档').connect(PRESSED, self.on_save)
+        get_btn('退出').connect(PRESSED, self.on_quit)
         
     def on_setting_click(self):
         self.hide()
         
         panel = game_mgr.ui_mgr.setting_panel_controller
         panel.init()
+
+    def on_save(self):
+        self.game_data.save('01.sav')
+
+    def on_quit(self):
+        OS.quit(0)
         
     def init(self):
         self.popup_screen_center()

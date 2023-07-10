@@ -60,7 +60,7 @@ def build_publish():
     run(f'{GIT_EXE} archive -o Build\\src.tgz HEAD Demo')
     
     python_tag = '3.13.0a0'
-    godot_tag = '4.1.dev.custom_build'
+    godot_tag = '4.2.dev.custom_build'
     demo_tag = '1.0.0'
     
     # version.txt
@@ -88,6 +88,7 @@ def build_publish():
     )
     copy(os.path.join(GODOT_BIN_DIR, "python.exe"), os.path.join(BUILD_DIR, "python.exe"))
     copy(os.path.join(GODOT_BIN_DIR, "python3.dll"), os.path.join(BUILD_DIR, "python3.dll"))
+    copy(os.path.join(PROJECT_DIR, '3rd', 'vcruntime140.dll'), os.path.join(BUILD_DIR, 'vcruntime140.dll'))
     for item in file_list:
         copy(os.path.join(GODOT_BIN_DIR, "DLLs", item), os.path.join(BUILD_DIR, "DLLs", item))
 
@@ -95,12 +96,11 @@ def build_publish():
     copy(PLAYER, os.path.join(BUILD_DIR, 'Demo.exe'))
     copy(os.path.join(DEMO_DIR, 'gm.py'), os.path.join(BUILD_DIR, 'gm.py'))
     copy(os.path.join(PROJECT_DIR, 'LICENSE'), os.path.join(BUILD_DIR, 'LICENSE'))
-    copy(os.path.join(PROJECT_DIR, '3rd', 'vcruntime140.dll'), os.path.join(BUILD_DIR, 'vcruntime140.dll'))
     
     # replace app icon
     run(f'{RES_HACKER} -script {PROJECT_DIR}\\Godot\\replace_icon.txt')
     
-    # zip python312.zip
+    # zip python313.zip
     call_task('archive_python')
 
     # zip Demo.zip
