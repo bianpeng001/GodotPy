@@ -3,7 +3,8 @@
 #
 
 from game.core import *
-from game.game_mgr import game_mgr
+from game.game_mgr import *
+from game.base_type import TowFoldList
 from game.city_unit import CityUnit
 from game.troop_unit import TroopUnit
 from game.base_type import UT_CITY, UT_TROOP
@@ -18,12 +19,10 @@ class UnitMgr:
         self.unit_dict = {}
         
         # update, 事件
-        self.update_list = []
-        self.back_update_list = []
+        self.update_list = TowFoldList()
 
         # start, 事件机制, 第一次update之前
-        self.start_list = []
-        self.back_start_list = []
+        self.start_list = TowFoldList()
 
         # dead, 死亡队列
         self.dead_list = []
@@ -38,36 +37,20 @@ class UnitMgr:
         self._exec_dead_list()
 
     def _call_start(self):
-        tmp = self.start_list
-        self.start_list = self.back_start_list
-        self.back_start_list = tmp
-        # 因为start过程里,可能创建其他对象,所以要前后两个start_queue
+        self.start_list.update_cb(self._call_unit_start)
 
-        if len(self.back_start_list) > 0:
-            try:
-                for unit in self.back_start_list:
-                    unit.get_controller().start()
-            finally:
-                self.back_start_list.clear()
+    def _call_unit_start(self, unit):
+        unit.get_controller().start()
 
     def _call_update(self):
-        tmp = self.back_update_list
-        self.back_update_list = self.update_list
-        self.update_list = tmp
-        # 因为update过程里,可能创建其他对象,所以要前后两个update_list
+        self.update_list.update_cb(self._call_unit_update)
 
-        # call update on every unit
-        if len(self.back_update_list) > 0:
-            try:
-                for unit in self.back_update_list:
-                    unit.get_controller().update()
-
-                    if unit.is_dead:
-                        self.dead_list.append(unit)
-                    else:
-                        self.update_list.append(unit)
-            finally:
-                self.back_update_list.clear()
+    def _call_unit_update(self, unit):
+        unit.get_controller().update()
+        if unit.is_dead:
+            self.dead_list.append(unit)
+        else:
+            self.update_list.append(unit)
 
     def _exec_dead_list(self):
         # destroy dead list
@@ -105,17 +88,17 @@ class UnitMgr:
 
     # find first match requirements unit
     def find_unit(self, predicate):
-        for unit in self.update_list:
+        for unit in self.update_list.get_list():
             if predicate(unit):
                 return unit
 
     def loop_cities(self):
-        for unit in self.update_list:
+        for unit in self.update_list.get_list():
             if unit.unit_type == UT_CITY:
                 yield unit
 
     def loop_troops(self):
-        for unit in self.update_list:
+        for unit in self.update_list.get_list():
             if unit.unit_type == UT_TROOP:
                 yield unit
 

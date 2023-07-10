@@ -316,7 +316,7 @@ def when_visible(fun):
 class RangeValue:
     def __init__(self, value, max_value=None, min_value=0):
         self.value = value
-        
+
         if max_value == None:
             self.max_value = value
         else:
@@ -423,6 +423,48 @@ class HeroSlot:
     def __init__(self):
         self.hero_id = 0
         self.pos_index = 0
+
+
+#
+# 
+#
+class TowFoldList:
+    def __init__(self):
+        self.list = []
+        self.back_list = []
+
+    def append(self, item):
+        self.list.append(item)
+
+    def update(self):
+        self.swap()
+        if self.back_list:
+            try:
+                for item in self.back_list:
+                    self.do_update(item)
+            finally:
+                self.back_list.clear()
+
+    def update_cb(self, cb):
+        self.swap()
+        if self.back_list:
+            try:
+                for item in self.back_list:
+                    cb(item)
+            finally:
+                self.back_list.clear()
+
+    def swap(self):
+        tmp = self.list
+        self.list = self.back_list
+        self.back_list = tmp
+
+    def do_update(self, item):
+        pass
+
+
+    def get_list(self):
+        return self.list
 
 
 

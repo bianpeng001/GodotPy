@@ -98,6 +98,7 @@ class CityUnit(Unit):
             
             self.hero_list.append(hero.hero_id)
 
+    # 加载模型
     def load_model(self):
         # TODO: 这里后面需要控制的更加精细一些
         is_gate = self.unit_name.endswith('关')
