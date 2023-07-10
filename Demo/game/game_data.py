@@ -57,10 +57,11 @@ TRADE_POINTS FLOAT,
 X FLOAT,Z FLOAT
 );''')
         for unit in game_mgr.unit_mgr.loop_cities():
-            sql = f'''INSERT INTO CITY (ID,NAME,SATRAP) 
+            sql = f'''INSERT INTO CITY (ID,NAME,SATRAP,X,Z) 
 VALUES (
 {unit.unit_id},"{unit.unit_name}",
-{unit.satrap.hero_id if unit.satrap else 0}
+{unit.satrap},
+{unit.get_x()}, {unit.get_z()}
 );'''
             cursor.execute(sql)
         conn.commit()
@@ -109,7 +110,7 @@ VALUES (
 {unit.unit_id},"{unit.unit_name}",
 {unit.owner_player_id},{unit.owner_city_id},
 {unit.chief_hero_id},'{hero_list}',
-{unit.army_amount.value},{unit.army_moral.value}
+{unit.army_amount.value},{unit.army_moral.value},
 {unit.get_x()},{unit.get_z()}
 );'''
             cursor.execute(sql)

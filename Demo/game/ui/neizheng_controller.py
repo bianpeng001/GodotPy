@@ -415,9 +415,9 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         # 弹一个对话
         if self.city_unit.satrap != 0 and self.satrap == 0:
-            satrap = game_mgr.hero_mgr.get_hero(self.city_unit.satrap)
+            hero = game_mgr.hero_mgr.get_hero(self.city_unit.satrap)
             msg = '莫非我不堪此任?'
-            self.popup_dialog(satrap.hero_name, msg, 1.5)
+            self.popup_dialog(hero.hero_name, msg, 1.5)
         elif self.city_unit.satrap == 0 and self.satrap != 0:
             hero = game_mgr.hero_mgr.get_hero(self.satrap)
             msg = '定当尽心竭力,不负所托.'

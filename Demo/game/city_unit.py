@@ -98,8 +98,8 @@ class CityUnit(Unit):
     def init(self):
         for i in range(10):
             hero = game_mgr.hero_mgr.new_hero()
-            hero.city_id = self.unit_id
-            log_util.debug('new hero', self.unit_name, hero.hero_id, hero.hero_name)
+            hero.owner_city_id = self.unit_id
+            log_debug('new hero', self.unit_name, hero.hero_id, hero.hero_name)
             
             self.hero_list.append(hero.hero_id)
 

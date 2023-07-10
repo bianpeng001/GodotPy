@@ -117,10 +117,6 @@ class Hero:
 
         # 行动力
         self.ap = RangeValue(100, 100, 0)
-
-        # 所在城市id
-        self.city_id = 0
-        self.troop_id = 0
         
         # 人物传记, 就是要记录个人的一些关键节点
         self.biography = []
