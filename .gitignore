@@ -34,6 +34,7 @@
 *.rar
 *.zip
 *.db
+*.sav
 
 .godot
 __pycache__

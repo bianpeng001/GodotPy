@@ -5,6 +5,8 @@ import os
 import sqlite3
 import json
 
+from game.game_mgr import game_mgr
+
 #
 # 游戏存档
 #
@@ -25,7 +27,19 @@ class GameData:
 
     def do_save(self, conn):
         cursor = conn.cursor()
-        
+# PLAYER
+        cursor.execute('''
+CREATE TABLE PLAYER (
+ID INT PRIMARY KEY NOT NULL,
+NAME TEXT NOT NULL
+);
+''')
+        for p in game_mgr.player_mgr.loop_players():
+            sql = f'''INSERT INTO PLAYER (ID, NAME) VALUES
+({p.player_id}, "{p.player_name}");'''
+            cursor.execute(sql)
+
+# CITY        
         cursor.execute('''
 CREATE TABLE CITY (
 ID INT PRIMARY KEY NOT NULL,
@@ -43,6 +57,9 @@ X FLOAT,
 Y FLOAT
 );
 ''')
+        
+# HERO
+
         cursor.execute('''
 CREATE TABLE HERO (
 ID INT PRIMARY KEY NOT NULL,
@@ -51,6 +68,11 @@ BORN_YEAR INT,
 CITY_ID INT references CITY(ID)
 );
 ''')
+        for h in game_mgr.hero_mgr.loop_heros():
+            sql = f'''INSERT INTO TABLE HERO (ID,NAME) VALUES
+({h.hero_id}, "{h.hero_name}");'''
+            cursor.execute(sql)
+
         cursor.execute('''
 CREATE TABLE TROOP (
 ID INT PRIMARY KEY NOT NULL,

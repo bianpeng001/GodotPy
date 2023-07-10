@@ -170,10 +170,6 @@ class HeroMgr:
 
         self.hero_name_set = set()
 
-        # 武将活动, 比如移动,啥的,是需要时间的
-        self.hero_activity_list = []
-        self.back_hero_activity_list = []
-
     # 支持随机英雄和经典英雄
     def new_hero(self):
         hero = Hero()
@@ -212,6 +208,10 @@ class HeroMgr:
 
     def get_hero(self, hero_id):
         return self.hero_dict.get(hero_id, None)
+
+    def loop_heros(self):
+        for hero_id in self.hero_dict:
+            yield self.hero_dict[hero_id]
     
     # 这个英雄是否是主公?
     def is_main_hero(self, hero_id: int):
@@ -219,6 +219,10 @@ class HeroMgr:
         player = game_mgr.player_mgr.get_player(hero.owner_player_id)
         return hero.hero_id == player.main_hero_id
     
+    #----------------------------------------------------------------
+    # region of hero activity
+    #----------------------------------------------------------------
+
     # 英雄当前的活动, 安全调用, 判断是否存在
     def set_hero_activity(self, hero_id: int, activity, duration = 0):
         if hero_id != 0:
@@ -233,6 +237,10 @@ class HeroMgr:
                 hero.activity_time -= delta_time
                 if hero.activity_time <= 0:
                     hero.activity = ACT_IDLE
+
+    #----------------------------------------------------------------
+    # end of hero activity
+    #----------------------------------------------------------------
                     
     def update(self, delta_time):
         for hero in self.hero_dict.values():

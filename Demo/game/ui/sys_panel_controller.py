@@ -46,7 +46,7 @@ class SysPanelController(UIController, PopupTrait):
         panel.init()
 
     def on_save(self):
-        self.game_data.save('01.sav')
+        game_mgr.game_data.save('01.sav')
 
     def on_quit(self):
         OS.quit(0)
