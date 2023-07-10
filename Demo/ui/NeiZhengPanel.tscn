@@ -16,14 +16,15 @@ anchors_preset = 0
 [node name="TabBar" type="TabBar" parent="."]
 layout_mode = 0
 offset_left = 5.0
-offset_right = 305.0
+offset_right = 365.0
 offset_bottom = 34.0
 theme = ExtResource("1_7ax3f")
-tab_count = 4
+tab_count = 5
 tab_0/title = "任免"
 tab_1/title = "内政"
 tab_2/title = "外交"
 tab_3/title = "制造"
+tab_4/title = "运输"
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0

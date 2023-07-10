@@ -89,10 +89,10 @@ class CmdPanelController(UIController, PopupTrait):
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
         
-        cmd_list = [
-            '目标','','','',
-            '出战','内政','攻略','',
-        ]
+        cmd_list = (
+            '信息','','','',
+            '出战','内政','','',
+        )
         btn_cmd_obj = self.ui_obj.find_node('Panel/GridContainer/BtnCmd')
         btn_cmd_obj.set_visible(False)
 

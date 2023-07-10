@@ -50,13 +50,15 @@ class CityUnit(Unit):
         self.defense = 10
         
         # 治安,农业，商业的发展程度
-        self.order_points = 50
+        self.order_points = RangeValue(50, 100)
         self.farm_points = RangeValue(50, 100)
         self.trade_points = RangeValue(50, 100)
 
         # 居民人口 = 治安 + 务农 + 经商
-        self.population = RangeValue(1000 + random_int(0, 200),
-                10000 + random_int(0, 9)*10000)
+        self.population = RangeValue(
+                1000 + random_int(0, 200),
+                10000 + random_int(0, 9)*10000,
+                100000)
         self.polulation_growth_rate = 0
 
         # 太守(总督,县尉,郡守)

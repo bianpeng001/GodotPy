@@ -83,7 +83,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         btn_dengyong = self.tab_jiang_obj.find_node('BtnDengYong')
         rm_btns = [btn_dengyong, ]
         #rm_texts = ['致仕','下野','宝物','赏赐','爵位','探索','访贤','征兵', '农业']
-        rm_texts = ['下野','探索','征兵','农业']
+        rm_texts = ['下野','探索','征兵','农业', '治安', '商业']
         rm_btns = [btn_dengyong.dup() for i in range(len(rm_texts) - 1)]
         rm_btns.append(btn_dengyong)
 
@@ -174,7 +174,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         order,rice,money,population = map(config_mgr.format_colored_label, rates)
 
         text = f'''人口 {self.population}人 {population}
-治安 {city_unit.order_points} {order}
+治安 {city_unit.order_points.get_round()} {order}
 农业 {city_unit.farm_points.get_round()}
 商业 {city_unit.trade_points.get_round()}
 粮食 {round(city_unit.rice_amount.get_value())} {rice}
@@ -321,9 +321,6 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         # 下面根据指令, 进行工作
 
-        for hero in hero_list:
-            hero.ap.add(-10)
-
         def on_confirmed_cb():
             speaker_name = hero_list[0].hero_name
             self.popup_dialog(speaker_name, '得令', 1.5)
@@ -346,17 +343,41 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
                     value = 0
                     cost = 0
                     for hero in hero_list:
-                        value += 1
+                        value += 2
                         cost += 100
 
                     self.city_unit.farm_points.add(value)
                     result.append(f'农业 [color=green]+{value}[/color]')
                     result.append(f'粮食 [color=red]-{cost}[/color]')
 
+                case '治安':
+                    value = 0
+                    cost = 0
+                    for hero in hero_list:
+                        value += 2
+                        cost += 100
+
+                    self.city_unit.order_points.add(value)
+                    result.append(f'农业 [color=green]+{value}[/color]')
+                    result.append(f'粮食 [color=red]-{cost}[/color]')
+
+                case '商业':
+                    value = 0
+                    cost = 0
+                    for hero in hero_list:
+                        value += 2
+                        cost += 100
+
+                    self.city_unit.trade_points.add(value)
+                    result.append(f'农业 [color=green]+{value}[/color]')
+                    result.append(f'粮食 [color=red]-{cost}[/color]')
+
                 case _:
                     pass
 
-            if hero_list:
+            if result:
+                for hero in hero_list:
+                    hero.ap.add(-10)
                 self.refresh_hero_items(hero_list)
                 game_mgr.ui_mgr.alert_dialog_controller.show_alert('\n'.join(result))
 
