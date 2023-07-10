@@ -69,7 +69,7 @@ CITY_ID INT references CITY(ID)
 );
 ''')
         for h in game_mgr.hero_mgr.loop_heros():
-            sql = f'''INSERT INTO TABLE HERO (ID,NAME) VALUES
+            sql = f'''INSERT INTO HERO (ID,NAME) VALUES
 ({h.hero_id}, "{h.hero_name}");'''
             cursor.execute(sql)
 
