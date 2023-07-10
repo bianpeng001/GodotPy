@@ -2,6 +2,7 @@
 # 2023年2月1日 bianpeng
 #
 import sys
+import os.path
 from io import StringIO
 
 from game.core import print_line
@@ -31,6 +32,11 @@ class PrintLine:
 if __name__ != '__main__':
     sys.stderr = PrintLine()
     sys.stdout = PrintLine()
+
+    sys.path.append(os.path.join(os.path.dirname(sys.executable), 'DLLs'))
+    #print(sys.executable)
+    #print(sys.path)
+
 
 print('boot ok')
 

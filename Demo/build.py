@@ -79,15 +79,17 @@ def build_publish():
     
     # 需要从bin里面复制的文件
     file_list = (
-        'python.exe',
-        'python3.dll',
         'sqlite3.dll',
         '_sqlite3.pyd',
         '_socket.pyd',
         '_asyncio.pyd',
+        '_overlapped.pyd',
+        '_multiprocessing.pyd',
     )
+    copy(os.path.join(GODOT_BIN_DIR, "python.exe"), os.path.join(BUILD_DIR, "python.exe"))
+    copy(os.path.join(GODOT_BIN_DIR, "python3.dll"), os.path.join(BUILD_DIR, "python3.dll"))
     for item in file_list:
-        copy(os.path.join(GODOT_BIN_DIR, item), os.path.join(BUILD_DIR, item))
+        copy(os.path.join(GODOT_BIN_DIR, "DLLs", item), os.path.join(BUILD_DIR, "DLLs", item))
 
     copy(EDITOR, os.path.join(BUILD_DIR, 'GodotEditor.exe'))
     copy(PLAYER, os.path.join(BUILD_DIR, 'Demo.exe'))

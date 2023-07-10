@@ -194,6 +194,7 @@ Modules = [
     # PC平台相关的几个文件
     'Modules/_io/winconsoleio.c',
     'Modules/_winapi.c',
+    
     'Python/dynload_win.c',
     'PC/invalid_parameter_handler.c',
     'PC/dl_nt.c',
@@ -509,6 +510,34 @@ asyncio_pyd = env2.SharedLibrary('_asyncio',
     buildtarget = '_asyncio.dll',
     LIBS = [
         'python3.lib',
+    ]
+)
+
+#
+# _overlapped.pyd
+#
+overlapped_pyd = env2.SharedLibrary('_overlapped',
+    source = ['Modules/overlapped.c'],
+    CPPDEFINES = [
+        'Py_ENABLE_SHARED',
+    ],
+    buildtarget = '_overlapped.dll',
+    LIBS = [
+        'python3.lib', "Ws2_32",
+    ]
+)
+
+#
+# _multiprocessing.pyd
+#
+multiprocessing_pyd = env2.SharedLibrary('_multiprocessing',
+    source = ['Modules/_multiprocessing/multiprocessing.c', 'Modules/_multiprocessing/semaphore.c'],
+    CPPDEFINES = [
+        'Py_ENABLE_SHARED',
+    ],
+    buildtarget = '_multiprocessing.dll',
+    LIBS = [
+        'python3.lib', "Ws2_32",
     ]
 )
 

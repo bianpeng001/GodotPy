@@ -38,16 +38,18 @@ def GetReady():
     #copy_if_expired(Python3Lib, Python3LibDst)
     
     file_list = (
-            'python.exe',
-            'python3.dll',
             'sqlite3.dll',
             '_sqlite3.pyd',
             '_socket.pyd',
             '_asyncio.pyd',
+            '_overlapped.pyd',
+            '_multiprocessing.pyd',
             )
+    copy_if_expired(PYTHON_HOME + '/python.exe', '../../bin/python.exe')
+    copy_if_expired(PYTHON_HOME + '/python3.dll', '../../bin/python3.dll')
     for dst_file in file_list:
         src_file = dst_file.replace('.pyd', '.dll')
-        copy_if_expired(PYTHON_HOME + '/' + src_file, '../../bin/' + dst_file)
+        copy_if_expired(PYTHON_HOME + '/' + src_file, '../../bin/DLLs/' + dst_file)
 
 GetReady()
 
