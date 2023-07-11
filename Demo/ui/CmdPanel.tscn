@@ -69,6 +69,7 @@ ignore_texture_size = true
 stretch_mode = 4
 
 [node name="UnitInfo" type="RichTextLabel" parent="Panel"]
+layout_mode = 0
 offset_left = 5.0
 offset_top = 40.0
 offset_right = 115.0

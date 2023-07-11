@@ -4,7 +4,9 @@
 
 from game.core import log_debug, NodeObject
 from game.game_mgr import *
-from game.event_name import LEFT_BUTTON_CLICK, SCENE_UNIT_CLICK, SCENE_GROUND_CLICK
+from game.event_name import LEFT_BUTTON_CLICK,\
+        SCENE_UNIT_CLICK,\
+        SCENE_GROUND_CLICK
 from game.base_type import UT_TROOP
 from game.ground_mgr import xz_to_colrow
 

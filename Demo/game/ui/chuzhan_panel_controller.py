@@ -7,7 +7,10 @@ from game.game_mgr import *
 from game.base_type import UIController, HeroSlot
 from game.hero_mgr import *
 from game.ui.ui_traits import PopupTrait
-from game.event_name import PRESSED,VALUE_CHANGED,ITEM_SELECTED,GUI_INPUT
+from game.event_name import PRESSED,\
+        VALUE_CHANGED,\
+        ITEM_SELECTED,\
+        GUI_INPUT
 
 ITEM_SIZE = 80
 
