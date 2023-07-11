@@ -179,7 +179,8 @@ class CmdPanelController(UIController, PopupTrait):
 行军
 '''
             elif unit.unit_type == UT_CITY:
-                text = f'''[color={color}]{unit.unit_name}[/color]
+                text = f'''[color={color}]{unit.unit_name}[/color] {unit.army_amount.get_floor()}
+商业
 '''
             else:
                 text = f'''[color={color}]{unit.unit_name}[/color]

@@ -5,9 +5,10 @@ from game.core import *
 from game.game_mgr import *
 from game.base_type import UIController, UT_CITY, UT_TROOP
 from game.ui.ui_traits import PopupTrait
-from game.event_name import PRESSED, TAB_CHANGED, \
-NAV_PANEL_LOSE_UNIT, \
-NAV_PANEL_ADD_UNIT
+from game.event_name import PRESSED, TAB_CHANGED,\
+        NAV_PANEL_LOSE_UNIT,\
+        NAV_PANEL_ADD_UNIT,\
+        RECT_SELECT_UNITS_CHANGE
 
 
 #
@@ -57,6 +58,7 @@ class NavPanelController(UIController, PopupTrait):
 
     def goto_unit(self, unit):
         game_mgr.camera_mgr.set_target_focus(*unit.get_position())
+        game_mgr.event_mgr.emit(RECT_SELECT_UNITS_CHANGE, (unit,))
 
     def on_main_city_click(self):
         log_debug('back to main city')

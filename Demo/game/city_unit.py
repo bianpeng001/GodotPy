@@ -30,8 +30,8 @@ class CityUnit(Unit):
         self.city_type = CT_XIAN
 
         # 军团，城市组合，某个城作为首府，控制周围的其他城
-        self.lead_city_id = 0
-        self.city_group = []
+        #self.lead_city_id = 0
+        #self.city_group = []
 
         # 城内武将
         self.hero_list = []
