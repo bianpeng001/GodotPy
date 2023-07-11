@@ -50,6 +50,7 @@ class TroopUnit(Unit):
         self.stay_when_lost_target = False
         self.enter_when_occupy_city = False
 
+
     def load_model(self):
         #path = 'res://models/Troop01.tscn'
         path = f'res://models/Troop{self.model_type:02}.tscn'

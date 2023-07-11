@@ -5,7 +5,7 @@
 [ext_resource type="Material" uid="uid://b0eifmnip3tre" path="res://models/Color/White.tres" id="3_ftjsq"]
 [ext_resource type="ArrayMesh" uid="uid://cody5pn27btkh" path="res://models/Flag04.obj" id="5_3mvta"]
 [ext_resource type="ArrayMesh" uid="uid://diq03gmuembok" path="res://models/Soldier03.obj" id="5_6bb84"]
-[ext_resource type="Material" uid="uid://duggh4sh3fnm4" path="res://models/Color/FlagTroop.tres" id="6_i4tqq"]
+[ext_resource type="Material" uid="uid://duggh4sh3fnm4" path="res://models/Color/FlagTroopMat.tres" id="6_vndvn"]
 [ext_resource type="ArrayMesh" uid="uid://dyvep4kgn5wyq" path="res://models/ViewArea.obj" id="6_w381e"]
 [ext_resource type="Material" uid="uid://bld17f6bbrwcd" path="res://models/ViewAreaMat.tres" id="7_ewibu"]
 
@@ -26,7 +26,7 @@ mesh = ExtResource("5_6bb84")
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 1.7, 0)
 cast_shadow = 0
 mesh = ExtResource("5_3mvta")
-surface_material_override/1 = ExtResource("6_i4tqq")
+surface_material_override/1 = ExtResource("6_vndvn")
 
 [node name="ViewArea" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0.2, -1)

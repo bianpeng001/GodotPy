@@ -573,6 +573,8 @@ class GamePlay:
         city_unit.hero_list.insert(0, hero.hero_id)
         city_unit.satrap = hero.hero_id
 
+        city_unit.get_controller().set_flag_color()
+
         return player
 
     def remove_player(self, player):

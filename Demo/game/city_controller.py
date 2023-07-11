@@ -23,26 +23,27 @@ class CityController(Controller):
         pass
 
     def set_flag_color(self):
-        node = self.get_model_node()
-        if node:
-            flag_node = node.find_node('Flag')
-            if flag_node:
-                #mesh_instance3d_load_material(flag_node, 0, 'res://models/Color/Green.tres')
-                #flag_node.load_material(1, 'res://models/Color/Green.tres')
-                # TODO: 这里还要读取数据, 加载正确的颜色
-                
-                path = 'res://models/Color/FlagCityMat.tres'
-                
-                if self.get_unit().owner_player_id != 0:
-                    player = get_player(self.get_unit().owner_player_id)
-                    if not player.flag_mat:
-                        a = ResCapsule.load_resource(path)
-                        player.flag_mat = a.duplicate()
-                        player.flag_mat.set_shader_color("_color", 1,0,0,1)
-                    flag_node.set_surface_material(1, player.flag_mat.res)
-                else:
-                    a = ResCapsule.load_resource(path)
-                    flag_node.set_surface_material(1, a.res)
+        if not self.get_model_node():
+            return
+        flag_obj = self.get_model_node().find_node('Flag')
+        if not flag_obj:
+            return
+        
+        # TODO: 这里还要读取数据, 加载正确的颜色
+        
+        path = 'res://models/Color/FlagCityMat.tres'
+        player_id = self.get_unit().owner_player_id
+        if player_id != 0:
+            player = get_player(player_id)
+            if not player.flag_mat:
+                a = ResCapsule.load_resource(path)
+                player.flag_mat = a.duplicate()
+                r,g,b = player.flag_color
+                player.flag_mat.set_shader_color("_color", r,g,b,1)
+            flag_obj.set_surface_material(1, player.flag_mat.res)
+        else:
+            a = ResCapsule.load_resource(path)
+            flag_obj.set_surface_material(1, a.res)
 
     # 计算资源增长
     def _calc_resource_grow(self, amount, growth_rate, delta_time, max_amount):

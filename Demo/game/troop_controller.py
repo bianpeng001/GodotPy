@@ -2,7 +2,7 @@
 # 2023年2月1日 bianpeng
 #
 
-from game.core import log_debug, random_num
+from game.core import log_debug, random_num, ResCapsule
 from game.game_mgr import *
 from game.base_type import *
 from game.troop_ai import *
@@ -216,14 +216,40 @@ class TroopController(Controller):
 
                 self.owner_tile = tile
                 self.owner_tile.add_unit(troop)
+    # 旗帜
+    def set_flag_color(self):
+        print(1)
+        if not self.get_model_node():
+            return
+
+        print(2)
+        flag_obj = self.get_model_node().find_node('Flag')
+        if not flag_obj:
+            return
+
+        print(3)
+        player_id = self.get_unit().owner_player_id
+        if player_id > 0:
+            player = get_player(player_id)
+
+            path = 'res://models/Color/FlagTroopMat.tres'
+            if not player.troop_flag_mat:
+                mat = ResCapsule.load_resource(path)
+                player.troop_flag_mat = mat.duplicate()
+                r,g,b = player.flag_color
+                player.troop_flag_mat.set_shader_color('_color',r,g,b,1)
+            flag_obj.set_surface_material(1, player.troop_flag_mat.res)
 
     def start(self):
         self.get_unit().load_model()
         node = self.get_model_node()
         if node:
+            # 设置旗帜颜色
+            self.set_flag_color()
+
             # 视野显示
             self.viewarea_obj = node.find_node('ViewArea')
-            
+
             # 初始化士兵的数量
             if self.get_unit().model_type == 2:
                 anim_name = "SoldierAnimLib/Run"

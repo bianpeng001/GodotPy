@@ -136,6 +136,8 @@ class Unit:
         self.mass = 1
         self.speed = 1
 
+        self.model_node = None
+
     # 创建之后，初始化，这里身份信息已经确定了
     def init(self):
         pass
@@ -199,10 +201,6 @@ class Controller:
     
     def get_model_node(self):
         return self.get_unit().model_node
-
-    @property
-    def model_node(self):
-        return self.get_model_node()
 
     # 首次update之前
     def start(self):

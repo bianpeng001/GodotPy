@@ -68,6 +68,7 @@ class Player:
         # 旗帜的颜色
         self.flag_color = (1,1,1)
         self.flag_mat = None
+        self.troop_flag_mat = None
         
         # 控制器, AI等
         self._controller = PlayerController(self)
