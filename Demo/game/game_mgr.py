@@ -112,13 +112,12 @@ class GameMgr():
         color = ''
         if unit.owner_player_id == 0:
             color = 'white'
+        elif unit.owner_player_id == get_main_player_id():
+            color = 'green'
         else:
-            if unit.owner_player_id == get_main_player_id():
-                color = 'green'
-            else:
-                color = 'red'
+            color = 'red'
 
-        fmt.format(color, unit.unit_name)
+        return fmt.format(color, unit.unit_name)
 
 game_mgr = GameMgr()
 

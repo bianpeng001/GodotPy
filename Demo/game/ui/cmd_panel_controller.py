@@ -76,7 +76,7 @@ class CmdItem:
             if origin_unit_list:
                 unit = origin_unit_list[0]
                 text = f'''{game_mgr.get_unit_name_label(unit)}
-势力 {get_player_name(unit.owner_player_id)} 
+势力 {get_player_name(unit.owner_player_id)}
 '''
                 game_mgr.event_mgr.emit(ALERT_DIALOG_MSG, text, 3.0)
 #
@@ -175,8 +175,7 @@ class CmdPanelController(UIController, PopupTrait):
         if len(self.unit_list) == 1:
             self.unit_info_obj.set_visible(True)
             unit = self.unit_list[0]
-            
-            name_label = game_mgr.get_unit_label(unit)
+            name_label = game_mgr.get_unit_name_label(unit)
             
             if unit.unit_type == UT_TROOP:
                 text = f'''{name_label} {unit.army_amount.get_floor()}
