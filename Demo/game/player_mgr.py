@@ -112,8 +112,8 @@ class PlayerMgr:
         h,_ = math.modf(((player.player_id - 10000)*30) / 360)
         player.flag_color = hsv_to_rgb(
             h,
-            0.7 + 0.2*random_1(),
-            0.7 + 0.3*random_1())
+            0.8 + 0.2*random_1(),
+            0.8 + 0.2*random_1())
         
         return player
     

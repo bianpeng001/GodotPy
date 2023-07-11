@@ -129,7 +129,9 @@ class GamePlay:
                             city_unit,
                             player_name=player_name,
                             set_main_player=True)
-                    
+                    player.flag_mat = None
+                    player.flag_color = (1,0,0)
+
                     hero = player.get_main_hero()
                     hero.set_age(15+int(random_1()*20))
                     hero.attr[2] = 88
