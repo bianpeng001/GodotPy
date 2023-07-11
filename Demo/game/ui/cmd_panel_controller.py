@@ -78,9 +78,10 @@ class CmdItem:
             if origin_unit_list:
                 unit = origin_unit_list[0]
                 sb = io.StringIO()
-                sb.write(game_mgr.get_unit_name_label(unit))
+                sb.write(f'{game_mgr.get_unit_name_label(unit)}\n')
                 if unit.owner_player_id > 0:
-                    sb.write(f'势力 {get_player_name(unit.owner_player_id)}')
+                    sb.write(f'主公 {get_player_name(unit.owner_player_id)}\n')
+                sb.write(f'士兵 {unit.army_amount.get_floor()}\n')
                 game_mgr.event_mgr.emit(ALERT_DIALOG_MSG, sb.getvalue(), 3.0)
 #
 # 指令界面
