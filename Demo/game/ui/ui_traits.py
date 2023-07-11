@@ -31,11 +31,11 @@ class PopupTrait:
         x, y = game_mgr.input_mgr.get_mouse_pos()
         self.popup(x, y)
 
-    def popup_dialog(self, speaker, msg, timeout=1.5):
-        dlg = game_mgr.ui_mgr.npc_dialog_controller
-        dlg.init()
-        dlg.show_text2(speaker, msg)
-        dlg.auto_close(timeout)
+    # def popup_dialog(self, speaker, msg, timeout=1.5):
+    #     dlg = game_mgr.ui_mgr.npc_dialog_controller
+    #     dlg.init()
+    #     dlg.show_text2(speaker, msg)
+    #     dlg.auto_close(timeout)
 
     # 自动延时关闭, 用一个coroutine来做, 略显大材小用
     def auto_close(self, timeout):

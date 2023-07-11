@@ -280,4 +280,10 @@ class UIMgr(NodeObject):
         dlg = self.rect_select_controller = RectSelectController()
         dlg.setup(ui_obj)
         dlg.hide()
+
+    def popup_dialog(self, speaker, msg, timeout=1.5):
+        dlg = game_mgr.ui_mgr.npc_dialog_controller
+        dlg.init()
+        dlg.show_text2(speaker, msg)
+        dlg.auto_close(timeout)
         

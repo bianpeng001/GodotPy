@@ -218,16 +218,13 @@ class TroopController(Controller):
                 self.owner_tile.add_unit(troop)
     # 旗帜
     def set_flag_color(self):
-        print(1)
         if not self.get_model_node():
             return
 
-        print(2)
         flag_obj = self.get_model_node().find_node('Flag')
         if not flag_obj:
             return
 
-        print(3)
         player_id = self.get_unit().owner_player_id
         if player_id > 0:
             player = get_player(player_id)

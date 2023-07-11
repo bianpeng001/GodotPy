@@ -528,8 +528,9 @@ class GamePlay:
         if city_unit.owner_player_id != 0:
             player = get_player(city_unit.owner_player_id)
             # TODO: 转移到最近的城, 如果城丢光了, 就算灭了
-            pass
-        
+            if len(player.city_list) == 1:
+                game_mgr.ui_mgr.popup_dialog(player.player_name, '请接收我的投降', 2.0)
+
         if src_unit.owner_player_id != 0:
             player = get_player(src_unit.owner_player_id)
             self.set_city_owner(city_unit, player)
