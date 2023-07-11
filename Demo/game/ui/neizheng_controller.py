@@ -9,7 +9,9 @@ from game.game_mgr import *
 from game.base_type import UIController, when_visible
 from game.hero_mgr import *
 from game.ui.ui_traits import PopupTrait, HeroListTrait
-from game.event_name import PRESSED, MAINUI_REFRESH, TAB_CHANGED, \
+from game.event_name import PRESSED,\
+        MAINUI_REFRESH,\
+        TAB_CHANGED,\
         VALUE_CHANGED
 
 #
@@ -37,12 +39,12 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.tab_jiang_obj = self.ui_obj.find_node('Panel/TabJiang')
         self.tab_cases_obj = self.ui_obj.find_node('Panel/TabCases')
         self.tab_produce_obj = self.ui_obj.find_node('Panel/TabProduce')
-        self.tabs = [
+        self.tabs = (
             self.tab_zheng_obj,
             self.tab_jiang_obj,
             self.tab_cases_obj,
-            self.tab_produce_obj
-        ]
+            self.tab_produce_obj,
+        )
 
         # 内政页
         self.lbl_detail_obj = self.tab_zheng_obj.find_node('LblCityDetail')
@@ -96,7 +98,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             btn = rm_btns[i]
             btn_label = rm_texts[i]
             btn.set_text(btn_label)
-            row,col = divmod(i, 5)
+            col,row = divmod(i, 2)
             btn.set_position(20+(50+6)*col, 270+row*40)
             btn.connect(PRESSED, make_rm_handler(btn_label))
 

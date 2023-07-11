@@ -2,7 +2,7 @@
 
 [ext_resource type="ArrayMesh" uid="uid://bk828bvlg2bfx" path="res://models/WallMesh.res" id="1_g1u5y"]
 [ext_resource type="ArrayMesh" uid="uid://crcugkxd4vcf2" path="res://models/Flag03.obj" id="2_ikrsw"]
-[ext_resource type="Material" uid="uid://b0eifmnip3tre" path="res://models/Color/White.tres" id="3_xdftn"]
+[ext_resource type="Material" uid="uid://cxntykwf1sxkq" path="res://models/Color/FlagCityMat.tres" id="3_ys8al"]
 
 [node name="Gate01" type="Node3D"]
 
@@ -14,4 +14,4 @@ skeleton = NodePath("../..")
 [node name="Flag" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.259808, 0, -0.15, 0, 0.3, 0, 0.15, 0, 0.259808, 0, 1.2, 0)
 mesh = ExtResource("2_ikrsw")
-surface_material_override/1 = ExtResource("3_xdftn")
+surface_material_override/1 = ExtResource("3_ys8al")

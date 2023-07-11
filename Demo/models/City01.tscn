@@ -10,7 +10,6 @@
 [ext_resource type="ArrayMesh" uid="uid://br1vhvt7knvs2" path="res://models/Soldier02.obj" id="8_om5q3"]
 [ext_resource type="Material" uid="uid://cxntykwf1sxkq" path="res://models/Color/FlagCityMat.tres" id="9_yknkx"]
 
-
 [node name="City01" type="Node3D"]
 
 [node name="Model" type="MeshInstance3D" parent="."]

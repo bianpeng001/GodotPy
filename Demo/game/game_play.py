@@ -223,7 +223,7 @@ class GamePlay:
                 player_name = dlg3.player_name
                 
                 dlg2.init()
-                dlg2.show_text2("陌生人", "好名字. 我这有个活, 包吃包住")
+                dlg2.show_text2("陌生人", "久仰, 久仰. 是这样, 我这有个活, 包吃包住")
                 yield WaitForSeconds(1.5)
                 dlg2.show_text2(player_name, "真的吗?")
                 yield 1.5

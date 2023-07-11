@@ -34,7 +34,7 @@ class CityController(Controller):
                 path = 'res://models/Color/FlagCityMat.tres'
                 
                 if self.get_unit().owner_player_id != 0:
-                    player = game_mgr.player_mgr.get_player(self.get_unit().owner_player_id)
+                    player = get_player(self.get_unit().owner_player_id)
                     if not player.flag_mat:
                         a = ResCapsule.load_resource(path)
                         player.flag_mat = a.duplicate()

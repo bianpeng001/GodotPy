@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://cgflj22ounqax"]
+[gd_scene load_steps=5 format=3 uid="uid://cgflj22ounqax"]
 
 [ext_resource type="ArrayMesh" uid="uid://d3k8wpm2ne1ob" path="res://models/Hill02/Hill02.obj" id="1_6xe6d"]
+[ext_resource type="Material" uid="uid://85rjpjc5locy" path="res://models/Hill02/Hill02Mat.tres" id="2_fmo4h"]
 [ext_resource type="ArrayMesh" uid="uid://crcugkxd4vcf2" path="res://models/Flag03.obj" id="2_up26a"]
 [ext_resource type="Material" uid="uid://cxntykwf1sxkq" path="res://models/Color/FlagCityMat.tres" id="3_66dug"]
 
@@ -9,10 +10,10 @@
 [node name="Hill02" type="MeshInstance3D" parent="."]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 mesh = ExtResource("1_6xe6d")
+surface_material_override/0 = ExtResource("2_fmo4h")
 
 [node name="Flag" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.34641, 0, -0.2, 0, 0.4, 0, 0.2, 0, 0.34641, 0, 1.23793, 0)
-cast_shadow = 0
 mesh = ExtResource("2_up26a")
 skeleton = NodePath("../Hill02")
 surface_material_override/1 = ExtResource("3_66dug")
