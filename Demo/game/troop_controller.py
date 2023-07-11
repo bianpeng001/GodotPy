@@ -247,9 +247,10 @@ class TroopController(Controller):
                         col = hero_item.pos_index % 3 - 1
                         obj.set_position(col*0.8, 0, row*0.8)
                 else:
+                    # 4x4的方阵, 少于这个, 看起来会有点稀疏
                     for i in range(4*4):
-                        row = i // 4 - 1.5
-                        col = i % 4 - 1.5
+                        row, col = divmode(i, 4)
+                        row, col = row-1.5,col-1.5
                         obj = temp if i == 0 else temp.dup()
                         obj.set_position(col*0.7, 0, row*0.7)
 

@@ -111,7 +111,7 @@ class HeroItem:
 class HeroListTrait:
     def init_header(self, header):
         name_label = header.find_node('Label')
-        column_list = ['姓名','身份','年龄','状态','武力','统率','智力','政治', '行动']
+        column_list = ['姓名','身份','年龄','状态','武力','统率','智力','政治', '体力']
         column_width_dict = { '姓名': 80, '状态': 60, }
 
         for index in range(len(column_list)):

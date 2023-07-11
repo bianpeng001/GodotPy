@@ -115,7 +115,7 @@ class Hero:
         self.activity = 0
         self.activity_time = 0
 
-        # 行动力
+        # 行动力, 体力
         self.ap = RangeValue(100, 100, 0)
         
         # 人物传记, 就是要记录个人的一些关键节点

@@ -45,6 +45,10 @@ def copy(src_path, dst_path):
     else:
         print('skip', dst_path)
 
+def mkdir_if_not_exists(path):
+    if not os.path.exists(path):
+        os.mkdir(path)
+
 def build_publish():
     call_task('python')
     #run(f'{SCONS_EXE} p=windows vsproj=no bits=64 -j4 target=editor dev_build=false')
@@ -89,6 +93,7 @@ def build_publish():
     copy(os.path.join(GODOT_BIN_DIR, "python.exe"), os.path.join(BUILD_DIR, "python.exe"))
     copy(os.path.join(GODOT_BIN_DIR, "python3.dll"), os.path.join(BUILD_DIR, "python3.dll"))
     copy(os.path.join(PROJECT_DIR, '3rd', 'vcruntime140.dll'), os.path.join(BUILD_DIR, 'vcruntime140.dll'))
+    mkdir_if_not_exists(os.path.join(BUILD_DIR, "DLLs"))
     for item in file_list:
         copy(os.path.join(GODOT_BIN_DIR, "DLLs", item), os.path.join(BUILD_DIR, "DLLs", item))
 

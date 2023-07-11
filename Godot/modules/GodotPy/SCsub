@@ -28,6 +28,10 @@ def copy_if_expired(src_path, dst_path):
     else:
         print('skip', dst_path)
 
+def mkdir_if_not_exists(path):
+    if not os.path.exists(path):
+        os.mkdir(path)
+
 # 准备工作, 复制python3.lib，因为后缀跟平台环境有关，但是我懒得弄了，复制改名算了
 def GetReady():
     # 改在代码里面, #pragma comment(lib, "python3.lib")
@@ -47,6 +51,8 @@ def GetReady():
             )
     copy_if_expired(PYTHON_HOME + '/python.exe', '../../bin/python.exe')
     copy_if_expired(PYTHON_HOME + '/python3.dll', '../../bin/python3.dll')
+
+    mkdir_if_not_exists('../../bin/DLLs')
     for dst_file in file_list:
         src_file = dst_file.replace('.pyd', '.dll')
         copy_if_expired(PYTHON_HOME + '/' + src_file, '../../bin/DLLs/' + dst_file)
