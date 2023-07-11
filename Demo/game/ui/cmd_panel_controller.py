@@ -2,6 +2,8 @@
 # 2023年4月11日 bianpeng
 #
 
+import io
+
 from game.core import *
 from game.game_mgr import *
 from game.base_type import UIController, UT_TROOP, UT_CITY, when_visible
@@ -75,10 +77,11 @@ class CmdItem:
         elif self.cmd == '查看':
             if origin_unit_list:
                 unit = origin_unit_list[0]
-                text = f'''{game_mgr.get_unit_name_label(unit)}
-势力 {get_player_name(unit.owner_player_id)}
-'''
-                game_mgr.event_mgr.emit(ALERT_DIALOG_MSG, text, 3.0)
+                sb = io.StringIO()
+                sb.write(game_mgr.get_unit_name_label(unit))
+                if unit.owner_player_id > 0:
+                    sb.write(f'势力 {get_player_name(unit.owner_player_id)}')
+                game_mgr.event_mgr.emit(ALERT_DIALOG_MSG, sb.getvalue(), 3.0)
 #
 # 指令界面
 #
