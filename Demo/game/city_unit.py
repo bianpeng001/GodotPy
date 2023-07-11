@@ -102,9 +102,12 @@ class CityUnit(Unit):
     def load_model(self):
         # TODO: 这里后面需要控制的更加精细一些
         is_gate = self.unit_name.endswith('关')
+        is_hill = len(self.unit_name) == 3 and self.unit_name[-1] in ('岭','山')
 
         if is_gate:
             path = 'res://models/Gate01.tscn'
+        elif is_hill:
+            path = 'res://models/Hill02/Hill02.tscn'
         elif self.city_type == CT_XIAN:
             path = 'res://models/City02.tscn'
         else:
@@ -113,7 +116,7 @@ class CityUnit(Unit):
         
         self.model_node = OS.instantiate(path)
         if is_gate:
-            self.model_node.set_scale(1.5,1.5,1.5)
+            self.model_node.set_scale(1.2,1.2,1.2)
 
         controller = self.get_controller()
         controller.apply_position()

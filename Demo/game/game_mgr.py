@@ -106,12 +106,32 @@ class GameMgr():
         # TODO: 如果是同盟
         return unit_a.owner_player_id == unit_b.owner_player_id
 
+    # 得到一个带颜色的名字
+    def get_unit_name_label(self, unit):
+        fmt = '[color={0}]{1}[/color]'
+        color = ''
+        if unit.owner_player_id == 0:
+            color = 'white'
+        else:
+            if unit.owner_player_id == get_main_player_id():
+                color = 'green'
+            else:
+                color = 'red'
+
+        fmt.format(color, unit.unit_name)
+
 game_mgr = GameMgr()
 
 # 一些简化工具方法
 
 def get_player(player_id):
     return game_mgr.player_mgr.get_player(player_id)
+
+def get_player_name(player_id):
+    if player_id > 0:
+        p = get_player(player_id)
+        return p.player_name
+    return ''
 
 def get_main_player():
     return game_mgr.player_mgr.main_player
@@ -166,11 +186,12 @@ def first(item_list, predicate):
 
 __all__ = [
     'game_mgr',
-    'get_player',
     'get_main_player',
     'get_main_player_id',
     'get_main_camera',
     'get_cursor_position',
+    'get_player',
+    'get_player_name',
     'get_hero',
     'get_hero_name',
     'get_unit',

@@ -36,9 +36,9 @@ class CmdItem:
         return game_mgr.ui_mgr.cmd_panel_controller.set_cur_dlg(dlg)
         
     def on_click(self):
-        unit_list = game_mgr.ui_mgr.cmd_panel_controller.unit_list
-        unit_list = list(filter(lambda x: check_main_owner(x), unit_list))
-        log_debug('cmd', self.cmd, len(unit_list))
+        origin_unit_list = game_mgr.ui_mgr.cmd_panel_controller.unit_list
+        unit_list = list(filter(lambda x: check_main_owner(x), origin_unit_list))
+        #log_debug('cmd', self.cmd, len(unit_list))
         
         if self.cmd == '目标':
             dlg = game_mgr.ui_mgr.select_target_controller
@@ -71,6 +71,14 @@ class CmdItem:
                     dlg.init(unit)
                     dlg.set_position(250, 106)
                     dlg.show()
+
+        elif self.cmd == '查看':
+            if origin_unit_list:
+                unit = origin_unit_list[0]
+                text = f'''{game_mgr.get_unit_name_label(unit)}
+势力 {get_player_name(unit.owner_player_id)} 
+'''
+                game_mgr.event_mgr.emit(ALERT_DIALOG_MSG, text, 3.0)
 #
 # 指令界面
 #
@@ -95,7 +103,7 @@ class CmdPanelController(UIController, PopupTrait):
         self.ui_obj = ui_obj
         
         cmd_list = (
-            '信息','','','',
+            '查看','','','',
             '出战','内政','','',
         )
         btn_cmd_obj = self.ui_obj.find_node('Panel/GridContainer/BtnCmd')
@@ -168,22 +176,18 @@ class CmdPanelController(UIController, PopupTrait):
             self.unit_info_obj.set_visible(True)
             unit = self.unit_list[0]
             
-            is_member = check_main_owner(unit)
-            if is_member:
-                color = 'green'
-            else:
-                color = 'white' if unit.owner_player_id == 0 else 'red'
+            name_label = game_mgr.get_unit_label(unit)
             
             if unit.unit_type == UT_TROOP:
-                text = f'''[color={color}]{unit.unit_name}[/color] {unit.army_amount.get_floor()}
+                text = f'''{name_label} {unit.army_amount.get_floor()}
 行军
 '''
             elif unit.unit_type == UT_CITY:
-                text = f'''[color={color}]{unit.unit_name}[/color] {unit.army_amount.get_floor()}
+                text = f'''{name_label} {unit.army_amount.get_floor()}
 商业
 '''
             else:
-                text = f'''[color={color}]{unit.unit_name}[/color]
+                text = f'''{name_label}
 '''
             self.unit_info_obj.set_text(text)
         else:
