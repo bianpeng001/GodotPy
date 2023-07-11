@@ -7,7 +7,12 @@ import io
 from game.core import *
 from game.game_mgr import *
 from game.base_type import UIController, UT_TROOP, UT_CITY, when_visible
-from game.event_name import *
+from game.event_name import PRESSED,\
+        RECT_SELECT_UNITS_CHANGE,\
+        ALERT_DIALOG_MSG,\
+        SCENE_UNIT_CLICK,\
+        SCENE_GROUND_CLICK,\
+        LEAVE_SCENE
 from game.ui.ui_traits import PopupTrait
 
 #
@@ -163,8 +168,6 @@ class CmdPanelController(UIController, PopupTrait):
         self.show()
 
     def on_rect_select_units_changed(self, unit_list):
-        # 只能操作自己的单位
-        #self.unit_list = list(filter(lambda x: check_main_owner(x), unit_list))
         self.unit_list = unit_list
         
         if len(self.unit_list) > 0:
@@ -212,11 +215,11 @@ class CmdPanelController(UIController, PopupTrait):
     # 这里的限制要去掉           
     #@when_visible
     def on_scene_unit_click(self, unit):
-        if not game_mgr.player_mgr.main_player:
+        if not get_main_player():
             return
 
-        if len(self.unit_list) == 0:
-            self.on_rect_select_units_changed((unit,))
+        if not self.unit_list:
+            game_mgr.event_mgr.emit(RECT_SELECT_UNITS_CHANGE, (unit,))
         else:
             # 插旗表示目标位置
             x,y,z = get_cursor_position()
