@@ -16,6 +16,11 @@ class TargetItem:
         self.unit_id = unit_id
         self.btn_obj = btn_obj
         self.btn_obj.set_visible(False)
+        self.btn_obj.connect(PRESSED, self.on_click)
+    
+    def on_click(self):
+        log_debug('click', self.unit_id)
+        game_mgr.event_mgr.emit(RECT_SELECT_UNITS_CHANGE, (get_unit(self.unit_id),))
 
 #
 # 指令
@@ -183,7 +188,7 @@ class CmdPanelController(UIController, PopupTrait):
         else:
             self.unit_info_obj.set_visible(False)
 
-        # 显示指令
+        # 刷新一下选中的目标信息
         for i in range(len(self.target_list)):
             item = self.target_list[i]
             if i < len(self.unit_list):
@@ -203,7 +208,7 @@ class CmdPanelController(UIController, PopupTrait):
             return
 
         if len(self.unit_list) == 0:
-            self.on_rect_select_units_changed([unit])
+            self.on_rect_select_units_changed((unit,))
         else:
             # 插旗表示目标位置
             x,y,z = get_cursor_position()
