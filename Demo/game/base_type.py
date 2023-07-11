@@ -428,7 +428,7 @@ class HeroSlot:
 #
 # 
 #
-class TowFoldList:
+class TwoFoldList:
     def __init__(self):
         self.list = []
         self.back_list = []

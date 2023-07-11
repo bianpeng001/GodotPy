@@ -4,14 +4,14 @@
 
 from game.core import *
 from game.game_mgr import *
-from game.base_type import TowFoldList
+from game.base_type import TwoFoldList
 from game.city_unit import CityUnit
 from game.troop_unit import TroopUnit
 from game.base_type import UT_CITY, UT_TROOP
 
-#------------------------------------------------------------
-# UnitMgr
-#------------------------------------------------------------
+#
+# 单位管理, 目前只有城市和军团
+#
 class UnitMgr:
     def __init__(self):
         self._unit_id_seed = 10000
@@ -19,10 +19,10 @@ class UnitMgr:
         self.unit_dict = {}
         
         # update, 事件
-        self.update_list = TowFoldList()
+        self.update_list = TwoFoldList()
 
-        # start, 事件机制, 第一次update之前
-        self.start_list = TowFoldList()
+        # start, 事件, 第一次update之前
+        self.start_list = TwoFoldList()
 
         # dead, 死亡队列
         self.dead_list = []
@@ -32,18 +32,12 @@ class UnitMgr:
         return self._unit_id_seed
 
     def update(self, delta_time):
-        self._call_start()
-        self._call_update()
-        self._exec_dead_list()
-
-    def _call_start(self):
         self.start_list.update_cb(self._call_unit_start)
+        self.update_list.update_cb(self._call_unit_update)
+        self._exec_dead_list()
 
     def _call_unit_start(self, unit):
         unit.get_controller().start()
-
-    def _call_update(self):
-        self.update_list.update_cb(self._call_unit_update)
 
     def _call_unit_update(self, unit):
         unit.get_controller().update()
@@ -61,6 +55,7 @@ class UnitMgr:
                 self.unit_dict.pop(unit.unit_id)
             self.dead_list.clear()
 
+    # 创建一个单位
     def create_unit(self, unit_class_, unit_type):
         unit = unit_class_()
 
@@ -77,20 +72,21 @@ class UnitMgr:
 
         return unit
 
-    def get_unit(self, unit_id):
-        return self.unit_dict.get(unit_id, None)
-
     def create_city(self):
         return self.create_unit(CityUnit, UT_CITY)
 
     def create_troop(self):
         return self.create_unit(TroopUnit, UT_TROOP)
 
+    def get_unit(self, unit_id):
+        return self.unit_dict.get(unit_id, None)
+
     # find first match requirements unit
     def find_unit(self, predicate):
-        for unit in self.update_list.get_list():
-            if predicate(unit):
-                return unit
+        return first(self.update_list.get_list(), predicate)
+
+    def find_unit_by_name(self, name):
+        return first(self.update_list.get_list(), lambda x: x.unit_name == name)
 
     def loop_cities(self):
         for unit in self.update_list.get_list():
@@ -114,12 +110,3 @@ class UnitMgr:
             
         return province
     
-    def get_unit_by_name(self, name):
-        for unit in self.update_list:
-            if unit.unit_name == name:
-                return unit
-            
-    
-
-
-

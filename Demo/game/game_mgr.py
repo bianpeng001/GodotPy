@@ -103,6 +103,7 @@ class GameMgr():
 
     # 判断是否同盟
     def is_league(self, unit_a, unit_b):
+        # TODO: 如果是同盟
         return unit_a.owner_player_id == unit_b.owner_player_id
 
 game_mgr = GameMgr()
@@ -137,20 +138,16 @@ def get_cursor_position():
     return camera.screen_to_world(*screen_xy)
 
 def get_hero(hero_id):
-    if hero_id <= 0:
-        return None
-    hero = game_mgr.hero_mgr.get_hero(hero_id)
-    return hero
+    if hero_id > 0:
+        return game_mgr.hero_mgr.get_hero(hero_id)
 
 def get_hero_name(hero_id):
     hero = get_hero(hero_id)
     return hero.hero_name if hero else ''
 
 def get_unit(unit_id):
-    if unit_id <= 0:
-        return None
-    unit = game_mgr.unit_mgr.get_unit(unit_id)
-    return unit
+    if unit_id > 0:
+        return game_mgr.unit_mgr.get_unit(unit_id)
 
 def get_unit_name(unit_id):
     unit = get_unit(unit_id)
@@ -163,9 +160,9 @@ def get_skill_config(config_id):
     return game_mgr.config_mgr.get_skill(config_id)
 
 def first(item_list, predicate):
-    for it in item_list:
-        if predicate(it):
-            return it
+    for item in item_list:
+        if predicate(item):
+            return item
 
 __all__ = [
     'game_mgr',
