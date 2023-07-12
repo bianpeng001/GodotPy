@@ -90,6 +90,7 @@ def build_publish():
         '_overlapped.pyd',
         '_multiprocessing.pyd',
     )
+    mkdir_if_not_exists(GODOT_BIN_DIR)
     copy(os.path.join(GODOT_BIN_DIR, "python.exe"), os.path.join(BUILD_DIR, "python.exe"))
     copy(os.path.join(GODOT_BIN_DIR, "python3.dll"), os.path.join(BUILD_DIR, "python3.dll"))
     copy(os.path.join(PROJECT_DIR, '3rd', 'vcruntime140.dll'), os.path.join(BUILD_DIR, 'vcruntime140.dll'))
