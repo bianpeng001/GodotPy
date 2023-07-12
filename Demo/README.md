@@ -34,7 +34,7 @@ lua性能好,语言核心小,仅几百k,语言机制简单,使用者变少,开�
    1. d:/cpython/Sconstruct
    2. d:/cpython/python3.rc
    3. d:/cpython/Godot -> d:/GodotPy/Godot
-2. godot, 把modules内容复制到godot/modules下, 对node.cpp打patch
+2. godot, 把modules内容复制到godot/modules下, 对godoe/scene/main/node.cpp打patch
    1. d:/godot/modules/GodotPy -> d:/GodotPy/Godot/modules/GodotPy
    2. NOTIFICATION_PREDELETE消息末尾加入
 ```c++
