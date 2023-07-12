@@ -81,6 +81,7 @@ class Player:
     
     def on_leave_scene(self):
         self.flag_mat = None
+        self.troop_flag_mat = None
 
     def load(self):
         pass
