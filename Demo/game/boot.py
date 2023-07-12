@@ -33,7 +33,9 @@ if __name__ != '__main__':
     sys.stderr = PrintLine()
     sys.stdout = PrintLine()
 
-    sys.path.append(os.path.join(os.path.dirname(sys.executable), 'DLLs'))
+    dll_path = os.path.join(os.path.dirname(sys.executable), 'DLLs')
+    sys.path.append(dll_path)
+    print('add path', dll_path)
     #print(sys.executable)
     #print(sys.path)
 
