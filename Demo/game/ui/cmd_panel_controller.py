@@ -47,47 +47,55 @@ class CmdItem:
         unit_list = list(filter(lambda x: check_main_owner(x), origin_unit_list))
         #log_debug('cmd', self.cmd, len(unit_list))
         
-        if self.cmd == '目标':
-            dlg = game_mgr.ui_mgr.select_target_controller
-            if not self.set_cur_dlg(dlg):
-                def on_select_target_cb():
-                    for unit in filter(lambda x: x.unit_type == UT_TROOP, unit_list):
-                        unit.target_unit_id = dlg.target_unit_id
-                        unit.target_pos = dlg.target_pos
-                        
-                        brain_comp = unit.get_controller().get_brain_comp()
-                        brain_comp.goto_state('start')
+        match self.cmd:
+            case '目标':
+                dlg = game_mgr.ui_mgr.select_target_controller
+                if not self.set_cur_dlg(dlg):
+                    def on_select_target_cb():
+                        for unit in filter(lambda x: x.unit_type == UT_TROOP, unit_list):
+                            unit.target_unit_id = dlg.target_unit_id
+                            unit.target_pos = dlg.target_pos
+                            
+                            brain_comp = unit.get_controller().get_brain_comp()
+                            brain_comp.goto_state('start')
 
-                dlg.init(on_select_target_cb)
-                dlg.show()
-        
-        elif self.cmd == '内政':
-            dlg = game_mgr.ui_mgr.neizheng_controller
-            if not self.set_cur_dlg(dlg):
-                unit = next(filter(lambda x: x.unit_type == UT_CITY, unit_list), None)
-                if unit:
-                    dlg.init(unit)
-                    dlg.set_position(250, 80)
+                    dlg.init(on_select_target_cb)
                     dlg.show()
         
-        elif self.cmd == '出战':
-            dlg = game_mgr.ui_mgr.chuzhan_panel_controller
-            if not self.set_cur_dlg(dlg):
-                unit = next(filter(lambda x: x.unit_type == UT_CITY, unit_list), None)
-                if unit:
-                    dlg.init(unit)
-                    dlg.set_position(250, 106)
-                    dlg.show()
+            case '内政':
+                dlg = game_mgr.ui_mgr.neizheng_controller
+                if not self.set_cur_dlg(dlg):
+                    unit = next(filter(lambda x: x.unit_type == UT_CITY, unit_list), None)
+                    if unit:
+                        dlg.init(unit)
+                        dlg.set_position(250, 80)
+                        dlg.show()
+        
+            case '出战':
+                dlg = game_mgr.ui_mgr.chuzhan_panel_controller
+                if not self.set_cur_dlg(dlg):
+                    unit = next(filter(lambda x: x.unit_type == UT_CITY, unit_list), None)
+                    if unit:
+                        dlg.init(unit)
+                        dlg.set_position(250, 106)
+                        dlg.show()
 
-        elif self.cmd == '查看':
-            if origin_unit_list:
-                unit = origin_unit_list[0]
-                sb = io.StringIO()
-                sb.write(f'{game_mgr.get_unit_name_label(unit)}\n')
-                if unit.owner_player_id > 0:
-                    sb.write(f'主公 {get_player_name(unit.owner_player_id)}\n')
-                sb.write(f'士兵 {unit.army_amount.get_floor()}\n')
-                game_mgr.event_mgr.emit(ALERT_DIALOG_MSG, sb.getvalue(), 3.0)
+            case '查看':
+                if origin_unit_list:
+                    unit = origin_unit_list[0]
+                    sb = io.StringIO()
+                    sb.write(f'{game_mgr.get_unit_name_label(unit)}\n')
+                    if unit.owner_player_id > 0:
+                        sb.write(f'主公 {get_player_name(unit.owner_player_id)}\n')
+                    sb.write(f'士兵 {unit.army_amount.get_floor()}\n')
+                    game_mgr.event_mgr.emit(ALERT_DIALOG_MSG, sb.getvalue(), 3.0)
+
+            case '撤退':
+                pass
+
+            case '进驻':
+                pass
+
 #
 # 指令界面
 #
@@ -112,8 +120,8 @@ class CmdPanelController(UIController, PopupTrait):
         self.ui_obj = ui_obj
         
         cmd_list = (
-            '查看','进驻','','',
-            '出战','内政','','',
+            '查看','撤退','','',
+            '出战','内政','进驻','',
         )
         btn_cmd_obj = self.ui_obj.find_node('Panel/GridContainer/BtnCmd')
         btn_cmd_obj.set_visible(False)
