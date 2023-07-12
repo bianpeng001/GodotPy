@@ -203,7 +203,7 @@ class CmdPanelController(UIController, PopupTrait):
 '''
             elif unit.unit_type == UT_CITY:
                 text = f'''{name_label} {unit.army_amount.get_floor()}
-商业
+商业繁荣
 '''
             else:
                 text = f'''{name_label}

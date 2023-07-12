@@ -40,16 +40,16 @@ class CityUnit(Unit):
 
         # 军队数量,区别于居民人口
         self.army_amount = RangeValue(random_int(1000, 2000), 5000)
+        # 士气
+        self.army_moral = RangeValue(100, 100)
+        self.damage = 10
+        self.defense = 10
+        
         # 粮食
         self.rice_amount = RangeValue(random_int(100, 1000), 1000000)
         # 银两
         self.money_amount = RangeValue(random_int(100, 1000), 1000000)
 
-        # 士气
-        self.army_moral = RangeValue(100, 100)
-        self.defense = 10
-        self.attack = 10
-        
         # 治安,农业，商业的发展程度
         self.order_points = RangeValue(50, 100)
         self.farm_points = RangeValue(50, 100)
@@ -60,7 +60,7 @@ class CityUnit(Unit):
                 1000 + random_int(0, 200),
                 10000 + random_int(0, 9)*10000,
                 100000)
-        self.polulation_growth_rate = 0
+        self.population_growth_rate = 0
 
         # 太守(总督,县尉,郡守)
         self.satrap = 0

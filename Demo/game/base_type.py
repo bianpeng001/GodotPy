@@ -112,17 +112,18 @@ class Unit:
         self.owner_player_id = None
 
         # 伤害，防御
-        self.damage = 0
+        self.damage = 10
         # 暴击率10%
-        self.critical_strike = 0
+        self.critical_strike = 10
         # 防御
-        self.defense = 0
+        self.defense = 10
         # 等级
         self.level = 1
         # 护甲(城防)
         self.armor_amount = RangeValue(100, 100)
         # 血量(主要是指军队数量)
         self.army_amount = RangeValue(0, 1000)
+        self.army_moral = RangeValue(100, 100)
 
         # 生死存亡
         self.is_dead = False
@@ -131,13 +132,11 @@ class Unit:
         self.unit_position = Vector3()
         self.unit_rotation = Vector3()
         self.radius = 1
-        
-        # 模型
-        self.model_node = None
         # 质量, 用于一些物理运算
         self.mass = 1
         self.speed = 1
 
+        # 模型
         self.model_node = None
 
     # 创建之后，初始化，这里身份信息已经确定了

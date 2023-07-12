@@ -95,6 +95,7 @@ class CityController(Controller):
 
         return order,rice,money,population
 
+    # 螺旋转圈，找目标，由近及远
     def on_ai_tick(self, tick_time):
         city_unit = self.get_unit()
         
