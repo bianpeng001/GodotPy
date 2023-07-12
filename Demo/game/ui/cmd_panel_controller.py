@@ -94,11 +94,11 @@ class CmdItem:
                     game_mgr.event_mgr.emit(ALERT_DIALOG_MSG, sb.getvalue(), 3.0)
 
             case '撤退':
-                # 以出发城市为目标， 到达后， 自动进驻
+                # 以出发城市为目标， 到达后，自动进驻
                 pass
 
             case '进驻':
-                # 部队进程，武将和相关的士兵，资源都进程, 也就是说， 军团还有运输功能
+                # 部队进程，武将和相关的士兵，资源都进程, 也就是说，军团还有运输功能
                 pass
 
 #

@@ -47,8 +47,8 @@ class TroopUnit(Unit):
 
         # 战斗行为
         self.chase_target = False
-        self.stay_when_lost_target = False
-        self.enter_when_occupy_city = False
+        self.enter_target = False
+        self.stay_when_no_target = False
 
 
     def load_model(self):
@@ -56,7 +56,8 @@ class TroopUnit(Unit):
         path = f'res://models/Troop{self.model_type:02}.tscn'
         
         self.model_node = OS.instantiate(path)
-        self.get_controller().apply_position()
+        controller = self.get_controller()
+        controller.apply_position()
 
 
 
