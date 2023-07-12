@@ -2,7 +2,9 @@
 # 2023年2月8日 bianpeng
 #
 
+import io
 import math
+
 from game.core import log_debug, Vector3
 
 #
@@ -464,5 +466,11 @@ class TwoFoldList:
     def get_list(self):
         return self.list
 
-
+#
+#
+#
+class StringBuilder(io.StringIO):
+    def writeln(self, text):
+        self.write(text)
+        self.write('\n')
 

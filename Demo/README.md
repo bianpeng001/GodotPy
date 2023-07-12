@@ -45,6 +45,7 @@ delete_gdobj(this);
 3. godot/bin, 下面的dll依赖,构造脚本会自动复制. 需要手工创建Lib软连接到cpython/Lib
    1. godot/bin/Lib -> d:/cpython/Lib
 4. done
+5. godot/AUTHORS.md 添加developer
 
 ## 协程
 协程是个好东西，给godot做一个吧。

@@ -6,7 +6,10 @@ import io
 
 from game.core import *
 from game.game_mgr import *
-from game.base_type import UIController, UT_TROOP, UT_CITY, when_visible
+from game.base_type import UIController,\
+        UT_TROOP, UT_CITY,\
+        when_visible,\
+        StringBuilder
 from game.event_name import PRESSED,\
         RECT_SELECT_UNITS_CHANGE,\
         ALERT_DIALOG_MSG,\
@@ -83,17 +86,19 @@ class CmdItem:
             case '查看':
                 if origin_unit_list:
                     unit = origin_unit_list[0]
-                    sb = io.StringIO()
-                    sb.write(f'{game_mgr.get_unit_name_label(unit)}\n')
+                    sb = StringBuilder()
+                    sb.writeln(f'{game_mgr.get_unit_name_label(unit)}')
                     if unit.owner_player_id > 0:
-                        sb.write(f'主公 {get_player_name(unit.owner_player_id)}\n')
-                    sb.write(f'士兵 {unit.army_amount.get_floor()}\n')
+                        sb.writeln(f'主公 {get_player_name(unit.owner_player_id)}')
+                    sb.writeln(f'士兵 {unit.army_amount.get_floor()}')
                     game_mgr.event_mgr.emit(ALERT_DIALOG_MSG, sb.getvalue(), 3.0)
 
             case '撤退':
+                # 以出发城市为目标， 到达后， 自动进驻
                 pass
 
             case '进驻':
+                # 部队进程，武将和相关的士兵，资源都进程, 也就是说， 军团还有运输功能
                 pass
 
 #
