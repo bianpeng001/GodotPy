@@ -201,7 +201,7 @@ class GamePlay:
                 yield WaitForSeconds(1.5)
                 dlg1.show_text('看人来人往, 潮起潮落')
                 yield WaitForSeconds(1.5)
-                dlg1.show_text('不禁放慢了脚步, 暗暗发愁晚饭还没着落')
+                dlg1.show_text('不疾不徐, 暗自发愁晚饭还没着落')
                 yield WaitForSeconds(1.5)
                 dlg1.show_text('突然, 斜里过来一人, 一把将我拽住')
                 yield WaitForSeconds(1.5)

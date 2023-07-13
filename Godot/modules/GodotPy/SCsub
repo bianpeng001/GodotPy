@@ -49,10 +49,12 @@ def GetReady():
             '_overlapped.pyd',
             '_multiprocessing.pyd',
             )
+    mkdir_if_not_exists('../../bin')
+    mkdir_if_not_exists('../../bin/DLLs')
+
     copy_if_expired(PYTHON_HOME + '/python.exe', '../../bin/python.exe')
     copy_if_expired(PYTHON_HOME + '/python3.dll', '../../bin/python3.dll')
-
-    mkdir_if_not_exists('../../bin/DLLs')
+    
     for dst_file in file_list:
         src_file = dst_file.replace('.pyd', '.dll')
         copy_if_expired(PYTHON_HOME + '/' + src_file, '../../bin/DLLs/' + dst_file)

@@ -131,11 +131,15 @@ class CmdPanelController(UIController, PopupTrait):
         btn_cmd_obj = self.ui_obj.find_node('Panel/GridContainer/BtnCmd')
         btn_cmd_obj.set_visible(False)
 
+        i = 0
         for cmd in cmd_list:
             btn = btn_cmd_obj.dup()
             cmd_item = CmdItem(cmd, btn)
             btn.find_node('Label').set_text(cmd)
+            if i < 4:
+                btn.find_node('Icon').set_self_modulate(1,1,0.58)
             btn.connect(PRESSED, cmd_item.on_click)
+            i += 1
             
             self.btn_list.append(cmd_item)
         
