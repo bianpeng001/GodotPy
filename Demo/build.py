@@ -59,7 +59,8 @@ def build_publish():
     call_task('player_release')
     
     os.chdir(PROJECT_DIR)
-    
+    run(f'{GIT_EXE} log -1 --format=%H > demo_ver.txt')
+
     # tar demo source
     run(f'{GIT_EXE} archive -o Build\\src.tgz HEAD Demo')
     
