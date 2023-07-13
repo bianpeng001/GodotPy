@@ -76,10 +76,13 @@ ACT_SHOUSHANG = 3
 ACT_TRAVEL = 4
 
 #
+# 一个活动项
+#
 class ActivityItem:
-    def __init__(self, config_id, start_time):
-        self.config_id = config_id
-        self.start_time = start_time
+    def __init__(self):
+        self.config_id = 0
+        self.title = None
+        self.start_time = 0
         self.finish_time = 0
 
 #
@@ -119,8 +122,7 @@ class Hero:
 
         # 这个要用来做控制了,不能同时做两件事情
         # 军队，内政(政,农,商..)，空闲
-        self.activity = 0
-        self.activity_time = 0
+        self.activity = None
 
         # 行动力, 体力
         self.ap = RangeValue(100, 100, 0)
@@ -227,19 +229,24 @@ class HeroMgr:
     #----------------------------------------------------------------
 
     # 英雄当前的活动, 安全调用, 判断是否存在
-    def set_hero_activity(self, hero_id: int, activity, duration = 0):
-        if hero_id != 0:
-            hero = self.get_hero(hero_id)
-            hero.activity = activity
-            hero.activity_time = duration
+    def set_hero_activity(self, hero_id:int, config_id:int):
+        assert hero_id > 0
+        hero = self.get_hero(hero_id)
+
+        #hero.activity = activity
+        #hero.activity_time = duration
+        config = game_mgr.config_mgr.get_activity_config(config_id)
+        
+        hero.activity = ActivityItem()
+        hero.activity.config_id = config_id
+        hero.activity.start_time = game_mgr.time
+        hero.activity.finish_time = game_mgr.time + config.duration
+        hero.activity.title = config.title
     
     # 刷新武将的活动
     def update_activity(self, hero, delta_time):
-        if hero.activity != ACT_IDLE:
-            if hero.activity_time > 0:
-                hero.activity_time -= delta_time
-                if hero.activity_time <= 0:
-                    hero.activity = ACT_IDLE
+        if hero.activity and game_mgr.time >= hero.activity.finish_time:
+            hero.activity = None
 
     #----------------------------------------------------------------
     # end of hero activity

@@ -250,14 +250,32 @@ class ConfigMgr:
 
         item = ActivityConfig()
         item.config_id = 3001
+        item.duration = 9999
+        item.title = '空闲'
+        add(item)
+
+        item = ActivityConfig()
+        item.config_id = 3002
         item.duration = 30
         item.title = '寻访'
         add(item)
 
         item = ActivityConfig()
-        item.config_id = 3002
+        item.config_id = 3003
         item.duration = 300
         item.title = '探亲'
+        add(item)
+
+        item = ActivityConfig()
+        item.config_id = 3004
+        item.duration = 9999
+        item.title = '出征'
+        add(item)
+
+        item = ActivityConfig()
+        item.config_id = 3005
+        item.duration = 10
+        item.title = '轻伤'
         add(item)
 
     def get_activity_config(self, config_id):
