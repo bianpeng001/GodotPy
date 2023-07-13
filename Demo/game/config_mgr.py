@@ -70,6 +70,19 @@ class SkillConfig(BaseConfig):
         self.damage = 10
 
 #
+class ActivityConfig(BaseConfig):
+    def __init__(self):
+        self.config_id = 0
+        self.duration = 60
+        self.title = ''
+        self.rewards = []
+
+#
+class RewardConfig(BaseConfig):
+    def __init__(self):
+        self.config_id = 0
+
+#
 # 配置管理器
 #
 class ConfigMgr:
@@ -105,6 +118,8 @@ class ConfigMgr:
         self.init_effect_config()
         # 技能
         self.init_skill_config()
+        # 活动
+        self.init_activity_config()
         
         # rvo 参数
         self.rvo_factor = 90
@@ -227,6 +242,26 @@ class ConfigMgr:
 
     def init_chapter_config(self):
         self.chapter_dict = {}
+
+    def init_activity_config(self):
+        self.activity_dict = {}
+        def add(item):
+            self.activity_dict[item.config_id] = item
+
+        item = ActivityConfig()
+        item.config_id = 3001
+        item.duration = 30
+        item.title = '寻访'
+        add(item)
+
+        item = ActivityConfig()
+        item.config_id = 3002
+        item.duration = 300
+        item.title = '探亲'
+        add(item)
+
+    def get_activity_config(self, config_id):
+        return self.activity_dict.get(config_id, None)
 
     # 公式也都定义在此, 参数有点多
     

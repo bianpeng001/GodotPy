@@ -76,6 +76,13 @@ ACT_SHOUSHANG = 3
 ACT_TRAVEL = 4
 
 #
+class ActivityItem:
+    def __init__(self, config_id, start_time):
+        self.config_id = config_id
+        self.start_time = start_time
+        self.finish_time = 0
+
+#
 # 英雄(逻辑单位，没有实体)
 # TODO: 还要搞一个3D的捏脸数据，用来区分一下形象
 #
