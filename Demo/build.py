@@ -58,30 +58,16 @@ def build_publish():
     # build player
     call_task('player_release')
     
+    # 开始
     os.chdir(PROJECT_DIR)
-    run(f'{GIT_EXE} log -1 --format=%H > demo_ver.txt')
 
-    # tar demo source
+    # 先创建目录
+    mkdir_if_not_exists(BUILD_DIR)
+    # 写当前的版本信息
+    run(f'{GIT_EXE} log -1 --format=%H > demo_ver.txt')
+    # 打包demo源码
     run(f'{GIT_EXE} archive -o Build\\src.tgz HEAD Demo')
-    
-    python_tag = '3.13.0a0'
-    godot_tag = '4.2.dev.custom_build'
-    demo_tag = '1.0.0'
-    
-    # version.txt
-    with open(f'{PYTHON_DIR}\\python_ver.txt') as f:
-        python_ver = f.read().strip()
-    with open(f'{GODOT_DIR}\\godot_ver.txt') as f:
-        godot_ver = f.read().strip()
-    with open(f'{PROJECT_DIR}\\demo_ver.txt') as f:
-        demo_ver = f.read().strip()
-        
-    # 写一个版本信息
-    with open(f'{BUILD_DIR}\\verion.txt', 'w') as f:
-        f.write(f'python {python_tag} {python_ver}\n')
-        f.write(f'godot {godot_tag} {godot_ver}\n')
-        f.write(f'demo {demo_tag} {demo_ver}\n')
-    
+
     # 需要从bin里面复制的文件
     file_list = (
         'sqlite3.dll',
@@ -91,7 +77,6 @@ def build_publish():
         '_overlapped.pyd',
         '_multiprocessing.pyd',
     )
-    mkdir_if_not_exists(GODOT_BIN_DIR)
     copy(os.path.join(GODOT_BIN_DIR, "python.exe"), os.path.join(BUILD_DIR, "python.exe"))
     copy(os.path.join(GODOT_BIN_DIR, "python3.dll"), os.path.join(BUILD_DIR, "python3.dll"))
     copy(os.path.join(PROJECT_DIR, '3rd', 'vcruntime140.dll'), os.path.join(BUILD_DIR, 'vcruntime140.dll'))
@@ -106,9 +91,25 @@ def build_publish():
     
     # replace app icon
     run(f'{RES_HACKER} -script {PROJECT_DIR}\\Godot\\replace_icon.txt')
-    
+
     # zip python313.zip
     call_task('archive_python')
+
+    # 记录版本信息
+    python_tag = '3.13.0a0'
+    godot_tag = '4.2.dev.custom_build'
+    demo_tag = '1.0.0'
+
+    with open(f'{PYTHON_DIR}\\python_ver.txt') as f:
+        python_ver = f.read().strip()
+    with open(f'{GODOT_DIR}\\godot_ver.txt') as f:
+        godot_ver = f.read().strip()
+    with open(f'{PROJECT_DIR}\\demo_ver.txt') as f:
+        demo_ver = f.read().strip()
+    with open(f'{BUILD_DIR}\\verion.txt', 'w') as f:
+        f.write(f'python {python_tag} {python_ver}\n')
+        f.write(f'godot {godot_tag} {godot_ver}\n')
+        f.write(f'demo {demo_tag} {demo_ver}\n')
 
     # zip Demo.zip
     call_task('archive_demo')

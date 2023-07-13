@@ -46,7 +46,7 @@ delete_gdobj(this);
    1. godot/bin/Lib -> d:/cpython/Lib
 4. done
 5. godot/AUTHORS.md 添加developer
-6. GodotPy/Build/game -> GodotPy/Demo/game, 创建一个链接，省的每次都复制了。方便构造。
+6. GodotPy/Build/game -> GodotPy/Demo/game, 创建一个链接，省的在构造目录里执行复制了。方便构造。
 
 ## 协程
 协程是个好东西，给godot做一个吧。
