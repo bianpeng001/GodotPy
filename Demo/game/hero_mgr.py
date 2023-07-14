@@ -207,33 +207,45 @@ class HeroMgr:
         def create(hero_name):
             hero = Hero()
             for i in range(ATTR_MAX):
-                hero.attr[i] = random_range(10, 50)
-            self.rename_hero(hero_name, hero)
+                hero.attr[i] = random_range(1, 50)
+            hero.hero_name = hero_name
+
             self.big_hero_list.append(hero)
+            self.hero_name_set.add(hero_name)
 
             return hero
         
         hero = create('刘备')
-        hero.init_attrs(wu=81,zhi=88)
+        hero.init_attrs(wu=81,zhi=88,zheng=81,mei=88)
         hero = create('关羽')
-        hero.init_attrs(wu=97,zhi=82)
+        hero.init_attrs(wu=97,zhi=82,zheng=78,mei=89)
         hero = create('张飞')
-        hero.init_attrs(wu=99,zhi=70)
+        hero.init_attrs(wu=98,zhi=70,zheng=68,mei=31)
         hero = create('赵云')
-        hero.init_attrs(wu=98,zhi=81)
+        hero.init_attrs(wu=98,zhi=81,zheng=75,mei=71)
         hero = create('马超')
+        hero.init_attrs(wu=96,zhi=67)
         hero = create('黄忠')
+        hero.init_attrs(wu=96,zhi=63)
         hero = create('诸葛亮')
-        hero.init_attrs(wu=20,zhi=99)
+        hero.init_attrs(wu=30,zhi=99,zheng=92,mei=85)
         hero = create('庞统')
+        hero.init_attrs(wu=28,zhi=95)
         hero = create('法正')
+        hero.init_attrs(wu=25,zhi=96)
         hero = create('徐庶')
+        hero.init_attrs(wu=70,zhi=95)
         hero = create('魏延')
+        hero.init_attrs(wu=91,zhi=86)
         hero = create('姜维')
+        hero.init_attrs(wu=92,zhi=93)
         hero = create('马岱')
+        hero.init_attrs(wu=81,zhi=61)
         hero = create('刘禅')
+        hero.init_attrs(wu=22,zhi=51)
 
         hero = create('曹操')
+        hero.init_attrs(wu=76,zhi=91,zheng=90,mei=80)
         hero = create('夏侯惇')
         hero = create('夏侯渊')
         hero = create('曹仁')
@@ -268,7 +280,10 @@ class HeroMgr:
 
         hero = create('董卓')
         hero = create('吕布')
+        hero.init_attrs(wu=99,zhi=56)
         hero = create('华雄')
+        hero.init_attrs(wu=89,zhi=56)
+        hero = create('李傕')
         hero = create('郭汜')
         hero = create('李儒')
 

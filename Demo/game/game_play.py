@@ -134,8 +134,7 @@ class GamePlay:
 
                     hero = player.get_main_hero()
                     hero.set_age(15+int(random_1()*20))
-                    hero.attr[2] = 88
-                    hero.attr[4] = 88
+                    hero.init_attrs(wu=83,zhi=84,zheng=82,mei=81)
 
                     # 旗帜颜色
                     city_unit.get_controller().set_flag_color()
