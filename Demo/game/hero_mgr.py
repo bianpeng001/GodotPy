@@ -370,7 +370,8 @@ class HeroMgr:
 
     def get_hero_activity_title(self, hero):
         item = hero.activity
-        cfg = game_mgr.cofig_mgr.get_activity_config(item.config_id if item else ACT_IDLE)
+        cfg = game_mgr.config_mgr.get_activity_config(
+                item.config_id if item else ACT_IDLE)
         return cfg.title, cfg.color
         
 
