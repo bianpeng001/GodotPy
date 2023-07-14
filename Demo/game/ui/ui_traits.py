@@ -106,6 +106,7 @@ class HeroItem:
         self.ap_label.set_text(str(hero.ap.get_floor()))
 
         if hero.activity:
+            #log_debug(hero.hero_name, hero.activity.get_title())
             self.act_label.set_text(hero.activity.get_title())
         else:
             self.act_label.set_text('空闲')

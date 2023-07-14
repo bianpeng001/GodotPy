@@ -31,7 +31,7 @@ def test_wait_1():
         yield
         print(game_mgr.frame_number, game_mgr.time_sec)
 
-        print(f'{OS.get_time()} {game_mgr.time_sec}')
+        print(f'{OS.get_time()} {game_mgr.time_sec:0.3f}')
         yield WaitForSeconds(3)
         print(f'{OS.get_time()} {game_mgr.time_sec}')
         

@@ -169,6 +169,9 @@ class Hero:
     @property
     def meili(self):
         return self.get_attr(ATTR_MEI)
+
+    def is_busy(self):
+        return self.activity != None
     
 #
 # 武将管理器，所有的武将都在这里，就像一个数据库
@@ -249,8 +252,11 @@ class HeroMgr:
         hero.activity = item
     
     # 刷新武将的活动
-    def update_hero_activity(self, hero, delta_time):
-        if hero.activity and game_mgr.time_sec >= hero.activity.finish_time:
+    def update_hero_activity(self, hero):
+        item = hero.activity
+        if item and \
+                not item.infinite and \
+                game_mgr.time_sec > item.finish_time:
             hero.activity = None
 
     # end region
@@ -280,7 +286,7 @@ class HeroMgr:
     # 逻辑帧
     def update(self, delta_time):
         for hero in self.hero_dict.values():
-            self.update_hero_activity(hero, delta_time)
+            self.update_hero_activity(hero)
 
 if __name__ == '__main__':
     import json

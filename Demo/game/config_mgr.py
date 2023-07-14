@@ -273,7 +273,7 @@ class ConfigMgr:
         item = ActivityConfig()
         item.config_id = 3004
         item.infinite = True
-        item.title = '出征'
+        item.title = '出战'
         add(item)
 
         item = ActivityConfig()
