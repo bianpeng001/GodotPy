@@ -105,12 +105,7 @@ class HeroItem:
         self.zhili_label.set_text(str(hero.zhili))
         self.ap_label.set_text(str(hero.ap.get_floor()))
 
-        if hero.activity:
-            #log_debug(hero.hero_name, hero.activity.get_title())
-            self.act_label.set_text(hero.activity.get_title())
-        else:
-            self.act_label.set_text('空闲')
-
+        self.act_label.set_text(game_mgr.hero_mgr.get_hero_activity_title(hero))
 
 #
 # 武将列表

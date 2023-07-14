@@ -170,9 +170,7 @@ class Hero:
     def meili(self):
         return self.get_attr(ATTR_MEI)
 
-    def is_busy(self):
-        return self.activity != None
-    
+   
 #
 # 武将管理器，所有的武将都在这里，就像一个数据库
 #
@@ -258,6 +256,13 @@ class HeroMgr:
                 not item.infinite and \
                 game_mgr.time_sec > item.finish_time:
             hero.activity = None
+
+    def is_hero_busy(self, hero):
+        return hero.activity != None
+
+    def get_hero_activity_title(self, hero):
+        item = hero.activity
+        return '空闲' if item else item.title
 
     # end region
     #--------------------------------------------------------------
