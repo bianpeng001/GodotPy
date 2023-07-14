@@ -16,7 +16,7 @@ class PlayerBlackboard(AIBlackboard):
         self.state_start_time = 0
 
     def get_state_time(self):
-        return game_mgr.sec_time - self.state_start_time
+        return game_mgr.time_sec - self.state_start_time
 
 #
 # 基类
@@ -24,7 +24,7 @@ class PlayerBlackboard(AIBlackboard):
 class AIState_Player(AIState):
     def enter(self, brain_comp):
         blackboard = brain_comp.get_blackboard()
-        blackboard.state_start_time = game_mgr.sec_time
+        blackboard.state_start_time = game_mgr.time_sec
         
         self.do_enter(brain_comp)
         

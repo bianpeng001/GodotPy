@@ -30,7 +30,7 @@ class MainUIController(UIController, PopupTrait):
         
         # 刷新点的信息
         self.fps_label = self.ui_obj.find_node('FPSLabel')
-        self.refresh_time = game_mgr.sec_time
+        self.refresh_time = game_mgr.time_sec
         self.refresh_frame_number = game_mgr.frame_number
         
         # 年份
@@ -119,10 +119,10 @@ class MainUIController(UIController, PopupTrait):
             self.rice_label.set_text(rice_text)
 
     def update_fps(self):
-        delta_time = game_mgr.sec_time - self.refresh_time
+        delta_time = game_mgr.time_sec - self.refresh_time
         delta_frame_number = game_mgr.frame_number - self.refresh_frame_number
 
-        self.refresh_time = game_mgr.sec_time
+        self.refresh_time = game_mgr.time_sec
         self.refresh_frame_number = game_mgr.frame_number
 
         fps0 = int(Debug.get_monitor(0))

@@ -90,7 +90,7 @@ class PopupTrait:
         self.defer_close()
 
 #
-#
+# 武将信息
 #
 class HeroItem:
     def __init__(self, hero_id, ui_obj):
@@ -104,6 +104,12 @@ class HeroItem:
         self.zhengzhi_label.set_text(str(hero.zhengzhi))
         self.zhili_label.set_text(str(hero.zhili))
         self.ap_label.set_text(str(hero.ap.get_floor()))
+
+        if hero.activity:
+            self.act_label.set_text(hero.activity.get_title())
+        else:
+            self.act_label.set_text('空闲')
+
 
 #
 # 武将列表
@@ -134,8 +140,6 @@ class HeroListTrait:
 
         for hero_id in hero_list:
             hero = game_mgr.hero_mgr.get_hero(hero_id)
-            if hero.activity != 0:
-                continue
 
             new_item = item_node.dup()
             new_item.set_visible(True)
@@ -158,10 +162,10 @@ class HeroListTrait:
             age_label = name_label.dup()
             age_label.set_minimum_size(40, 0)
             
-            action_label = name_label.dup()
-            action_label.set_minimum_size(60, 0)
-            action_label.set_text('空闲')
-            
+            # 活动
+            act_label = name_label.dup()
+            act_label.set_minimum_size(60, 0)
+
             wuli_label = name_label.dup()
             wuli_label.set_minimum_size(40, 0)
             
@@ -179,7 +183,7 @@ class HeroListTrait:
 
             # save refernce
             hero_item.age_label = age_label
-            hero_item.action_label = action_label
+            hero_item.act_label = act_label
             hero_item.wuli_label = wuli_label
             hero_item.tongshuai_label = tongshuai_label
             hero_item.zhili_label = zhili_label

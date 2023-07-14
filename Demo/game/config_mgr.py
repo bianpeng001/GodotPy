@@ -70,10 +70,13 @@ class SkillConfig(BaseConfig):
         self.damage = 10
 
 #
+# 活动配置
+#
 class ActivityConfig(BaseConfig):
     def __init__(self):
         self.config_id = 0
-        self.duration = 60
+        self.duration = 0
+        self.infinite = False
         self.title = ''
         self.rewards = []
 
@@ -245,12 +248,13 @@ class ConfigMgr:
 
     def init_activity_config(self):
         self.activity_dict = {}
+        
         def add(item):
             self.activity_dict[item.config_id] = item
 
         item = ActivityConfig()
         item.config_id = 3001
-        item.duration = 9999
+        item.infinite = True
         item.title = '空闲'
         add(item)
 
@@ -268,7 +272,7 @@ class ConfigMgr:
 
         item = ActivityConfig()
         item.config_id = 3004
-        item.duration = 9999
+        item.infinite = True
         item.title = '出征'
         add(item)
 

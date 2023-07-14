@@ -65,15 +65,15 @@ JK_DEAD = 2
 # 活动
 
 # 空闲
-ACT_IDLE = 0
-# 内政
-ACT_NEIZHENG = 1
+ACT_IDLE = 3001
+# 旅途, 寻访
+ACT_TRAVEL = 3002
+# 探亲
+ACT_TANQIN = 3003
 # 出战
-ACT_CHUZHAN = 2
+ACT_CHUZHAN = 3004
 # 受伤
-ACT_SHOUSHANG = 3
-# 旅途
-ACT_TRAVEL = 4
+ACT_SHOUSHANG = 3005
 
 #
 # 一个活动项
@@ -84,6 +84,10 @@ class ActivityItem:
         self.title = None
         self.start_time = 0
         self.finish_time = 0
+        self.infinite = False
+
+    def get_title(self):
+        return self.title
 
 #
 # 英雄(逻辑单位，没有实体)
@@ -172,16 +176,17 @@ class Hero:
 class HeroMgr:
     def __init__(self):
         self.hero_dict = {}
-        self.hero_id_seed = 1000
+        self.next_hero_id = 1000
 
+        # 用于控制英雄不重名,但目前也没有更多的限制
         self.hero_name_set = set()
 
     # 支持随机英雄和经典英雄
     def new_hero(self):
         hero = Hero()
 
-        self.hero_id_seed += 1
-        hero.hero_id = self.hero_id_seed
+        self.next_hero_id += 1
+        hero.hero_id = self.next_hero_id
         self.hero_dict[hero.hero_id] = hero
 
         # 随机一个属性出来
@@ -224,38 +229,37 @@ class HeroMgr:
         player = game_mgr.player_mgr.get_player(hero.owner_player_id)
         return hero.hero_id == player.main_hero_id
     
-    #----------------------------------------------------------------
+    #--------------------------------------------------------------
     # region of hero activity
-    #----------------------------------------------------------------
 
     # 英雄当前的活动, 安全调用, 判断是否存在
     def set_hero_activity(self, hero_id:int, config_id:int):
         assert hero_id > 0
         hero = self.get_hero(hero_id)
 
-        #hero.activity = activity
-        #hero.activity_time = duration
-        config = game_mgr.config_mgr.get_activity_config(config_id)
+        cfg = game_mgr.config_mgr.get_activity_config(config_id)
         
-        hero.activity = ActivityItem()
-        hero.activity.config_id = config_id
-        hero.activity.start_time = game_mgr.time
-        hero.activity.finish_time = game_mgr.time + config.duration
-        hero.activity.title = config.title
+        item = ActivityItem()
+        item.config_id = config_id
+        item.start_time = game_mgr.time_sec
+        item.infinite = cfg.infinite
+        item.finish_time = 0 if cfg.infinite else game_mgr.time_sec + cfg.duration
+        item.title = cfg.title
+
+        hero.activity = item
     
     # 刷新武将的活动
-    def update_activity(self, hero, delta_time):
+    def update_hero_activity(self, hero, delta_time):
         if hero.activity and game_mgr.time >= hero.activity.finish_time:
             hero.activity = None
 
-    #----------------------------------------------------------------
-    # end of hero activity
-    #----------------------------------------------------------------
-                    
-    def update(self, delta_time):
-        for hero in self.hero_dict.values():
-            self.update_activity(hero, delta_time)
+    # end region
+    #--------------------------------------------------------------
 
+
+    #--------------------------------------------------------------
+    # region 英雄不重名的控制
+    
     def gen_unique_hero_name(self):
         while True:
             hero_name = new_hero_name()
@@ -270,6 +274,14 @@ class HeroMgr:
             if hero.hero_name in self.hero_name_set:
                 self.hero_name_set.remove(hero.hero_name)
             hero.hero_name = new_name
+
+    # end region
+    #--------------------------------------------------------------
+
+    # 逻辑帧
+    def update(self, delta_time):
+        for hero in self.hero_dict.values():
+            self.update_hero_activity(hero, delta_time)
 
 if __name__ == '__main__':
     import json

@@ -922,9 +922,9 @@ def obstacle(fun):
 
 # 记一下时间
 _cache_time = 0
-def set_cache_time(sec_time):
+def set_cache_time(time_sec):
     global _cache_time
-    _cache_time = sec_time
+    _cache_time = time_sec
 
 def get_cache_time():
     return _cache_time
