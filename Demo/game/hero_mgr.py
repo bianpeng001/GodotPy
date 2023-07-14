@@ -25,6 +25,10 @@ ATTR_MIN = 6
 ATTR_YEXIN = 7
 
 ATTR_MAX = 8
+attr_alias = {
+    "wu": ATTR_WU,
+    "zhi": ATTR_ZHI,
+}
 
 # tags 部分武将拥有特殊属性
 
@@ -149,12 +153,6 @@ class Hero:
     def age(self):
         return self.get_age()
 
-    def get_attr(self, attr_type):
-        return self.attr[attr_type]
-
-    def has_tag(self, tag_type):
-        return tag_type in self.tags
-
     @property
     def wuli(self):
         return self.get_attr(ATTR_WU)
@@ -174,6 +172,19 @@ class Hero:
     @property
     def meili(self):
         return self.get_attr(ATTR_MEI)
+
+    def get_attr(self, attr_type):
+        return self.attr[attr_type]
+
+    def has_tag(self, tag_type):
+        return tag_type in self.tags
+
+    def set_attr(self, attr_type, value):
+        self.attr[attr_type] = value
+    
+    def init_attrs(self, *args, **kw_args):
+        for k in kw_args:
+            self.set_attr(attr_alias[k], kw_args[k])
 
 #
 # 武将管理器，所有的武将都在这里，就像一个数据库
@@ -205,7 +216,7 @@ class HeroMgr:
         hero = create('关羽')
         hero = create('张飞')
         hero = create('赵云')
-        hero.attr[ATTR_WU] = 98
+        hero.init_attrs(wu=98,zhi=81)
         hero = create('马超')
         hero = create('黄忠')
         hero = create('诸葛亮')
