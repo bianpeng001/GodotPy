@@ -86,7 +86,7 @@ class CmdItem:
             case '查看':
                 if origin_unit_list:
                     unit = origin_unit_list[0]
-                    text = game_mgr.cmd_panel_controller.make_unit_info(unit)
+                    text = game_mgr.ui_mgr.cmd_panel_controller.make_unit_info(unit)
                     game_mgr.event_mgr.emit(ALERT_DIALOG_MSG, text, 3.0)
 
             case '撤退':
