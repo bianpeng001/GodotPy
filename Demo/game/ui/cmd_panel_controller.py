@@ -223,11 +223,14 @@ class CmdPanelController(UIController, PopupTrait):
         if unit.unit_type == UT_TROOP:
             sb.writeln('警戒行军')
         elif unit.unit_type == UT_CITY:
-            sb.writeln('安居乐业')
+            sb.writeln(f'安居乐业')
         
         sb.writeln(f'主公 {get_player_name(unit.owner_player_id)}')
         if check_owner_main_player(unit):
-            sb.writeln(f'士兵 {unit.army_amount.get_floor()}')
+            sb.writeln(f'士兵 {unit.army_amount.get_floor()}人')
+            sb.writeln(f'武将 {unit.get_hero_count()}员')
+        else:
+            sb.writeln('士兵 若干')
 
         return sb.getvalue()
         

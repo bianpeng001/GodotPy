@@ -35,6 +35,7 @@ class AlertDialogController(UIController, PopupTrait):
         if not self._co_show_alert:
             self._co_show_alert = game_mgr.co_mgr.start(self.co_show_alert())
 
+    # 用一个co来做这个, 排队逐步显示.
     def co_show_alert(self):
         self.popup_screen_center()
 

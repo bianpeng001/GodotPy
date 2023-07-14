@@ -423,7 +423,6 @@ class HeroSlot:
         self.hero_id = 0
         self.pos_index = 0
 
-
 #
 # 
 #

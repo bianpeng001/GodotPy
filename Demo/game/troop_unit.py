@@ -59,7 +59,8 @@ class TroopUnit(Unit):
         controller = self.get_controller()
         controller.apply_position()
 
-
+    def get_hero_count(self):
+        return len(self.hero_list)
 
 
 

@@ -124,6 +124,7 @@ class CityUnit(Unit):
         controller.set_title(self.unit_name)
         controller.set_flag_color()
         
-
+    def get_hero_count(self):
+        return len(self.hero_list)
 
 
