@@ -259,7 +259,7 @@ def random_x():
     return 2*(random.random()-0.5)
 
 # 环状区域内随机
-def random_xx(mid):
+def random_xx(min):
     v = random_x()
     return v + min if v >= 0 else v - min
 

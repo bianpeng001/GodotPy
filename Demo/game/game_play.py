@@ -133,7 +133,7 @@ class GamePlay:
                     player.flag_color = (1,0,0)
 
                     hero = player.get_main_hero()
-                    hero.set_age(15+int(random_1()*20))
+                    hero.set_age(random_range(16, 36))
                     hero.init_attrs(wu=83,zhi=84,zheng=82,mei=81)
 
                     # 旗帜颜色
