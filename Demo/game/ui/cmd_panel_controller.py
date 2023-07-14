@@ -86,7 +86,7 @@ class CmdItem:
             case '查看':
                 if origin_unit_list:
                     unit = origin_unit_list[0]
-                    text = self.make_unit_info(unit)
+                    text = game_mgr.cmd_panel_controller.make_unit_info(unit)
                     game_mgr.event_mgr.emit(ALERT_DIALOG_MSG, text, 3.0)
 
             case '撤退':
@@ -213,6 +213,7 @@ class CmdPanelController(UIController, PopupTrait):
                 item.unit_id = 0
                 item.btn_obj.set_visible(False)
 
+    # 单个单位的概述
     def make_unit_info(self, unit):
         name_label = game_mgr.get_unit_name_label(unit)
 
