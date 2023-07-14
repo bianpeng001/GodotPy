@@ -127,16 +127,17 @@ class ChuZhanPanelController(UIController, PopupTrait):
 
     def on_select_click(self):
         def select_cb(hero_list):
-            hero_list = list(lambda x: not game_mgr.hero_mgr.is_hero_busy(x), hero_list)
-            if len(hero_list) > 0:
-                text = ' '.join(map(
-                        lambda x: get_hero_name(x),
-                        hero_list))
+            hero_list = list(filter(lambda x: not game_mgr.hero_mgr.is_hero_busy(x),
+                    map(lambda x: get_hero(x), hero_list)))
+            
+            if hero_list:
+                text = ' '.join(map(lambda x: x.hero_name, hero_list))
                 self.init_form(hero_list)
             else:
                 text = ''
             self.lbl_members.set_text(text)
 
+        # select heros
         dlg = game_mgr.ui_mgr.select_hero_controller
         dlg.init(self.city_unit, select_cb)
         dlg.select([ item.hero_id for item in self.hero_item_list ])
@@ -183,11 +184,11 @@ class ChuZhanPanelController(UIController, PopupTrait):
             self.back_hero_item_list.append(item)
         self.hero_item_list.clear()
 
+    # 刷新一下阵型的界面
     def init_form(self, hero_list):
         self.clear_form()
 
-        for hero_id in hero_list:
-            hero = get_hero(hero_id)
+        for hero in hero_list:
             if len(self.back_hero_item_list) > 0:
                 hero_item = self.back_hero_item_list.pop()
             else:
@@ -199,12 +200,12 @@ class ChuZhanPanelController(UIController, PopupTrait):
 
                 hero_item.hero_item_obj.connect(GUI_INPUT, bind_on_input(hero_item))
             
-            hero_item.hero_id = hero_id
+            hero_item.hero_id = hero.hero_id
             hero_item.set_index(len(self.hero_item_list))
             hero_item.hero_item_obj.set_visible(True)
 
             label = hero_item.hero_item_obj.find_node('Label')
-            label.set_text(get_hero_name(hero_id))
+            label.set_text(get_hero_name(hero.hero_id))
             avatar = hero_item.hero_item_obj.find_node('Avatar')
 
             # if hero_id % 3 == 0:
