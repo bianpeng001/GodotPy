@@ -90,8 +90,9 @@ class CityUnit(Unit):
         # 质量
         self.mass = 300
 
+    # 初始化城内武将
     def init(self):
-        for i in range(10):
+        for i in range(5):
             hero = game_mgr.hero_mgr.new_hero()
             hero.owner_city_id = self.unit_id
             log_debug('new hero', self.unit_name, hero.hero_id, hero.hero_name)
