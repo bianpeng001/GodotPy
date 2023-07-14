@@ -160,8 +160,6 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.tab_index = -1
         self.on_tab_changed(0)
 
-        
-
     # 详情
     def update_city_detail(self):
         city_unit = self.city_unit
@@ -316,9 +314,9 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             log_debug('no hero selected')
             return
 
-        hero_list = list(filter(lambda x: x.ap.value >= 10, hero_list))
+        hero_list = list(filter(lambda x: not game_mgr.hero_mgr.is_hero_busy(x), hero_list))
         if not hero_list:
-            log_debug('no hero has enough ap')
+            log_debug('heros all busy')
             return
 
         # 下面根据指令, 进行工作

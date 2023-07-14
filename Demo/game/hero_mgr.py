@@ -258,7 +258,7 @@ class HeroMgr:
             hero.activity = None
 
     def is_hero_busy(self, hero):
-        return hero.activity != None
+        return hero.activity != None or hero.ap.value < 10
 
     def get_hero_activity_title(self, hero):
         item = hero.activity
