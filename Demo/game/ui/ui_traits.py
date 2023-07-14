@@ -1,5 +1,6 @@
 #
 # 2023年3月1日 bianpeng
+# 功能类，用来复用一些代码, 这里不带数据，只提供方法
 #
 import sys
 
@@ -7,11 +8,9 @@ from game.core import *
 from game.game_mgr import *
 from game.event_name import PRESSED
 
-#------------------------------------------------------------
-# traits 功能类，用来复用一些代码, 这里不带数据，只提供方法
-#------------------------------------------------------------
-
+#
 # 弹框，关闭
+#
 class PopupTrait:
     def defer_close(self):
         game_mgr.ui_mgr.defer_close(self)
@@ -183,11 +182,11 @@ class HeroListTrait:
 
             # save refernce
             hero_item.age_label = age_label
-            hero_item.act_label = act_label
             hero_item.wuli_label = wuli_label
             hero_item.tongshuai_label = tongshuai_label
             hero_item.zhili_label = zhili_label
             hero_item.zhengzhi_label = zhengzhi_label
+            hero_item.act_label = act_label
             hero_item.ap_label = ap_label
 
             hero_item.refresh(hero)

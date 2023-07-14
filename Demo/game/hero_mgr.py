@@ -96,13 +96,18 @@ class ActivityItem:
 class Hero:
     def __init__(self):
         self.hero_id = 0
-        self.hero_name = ''
-        self.gender = MALE
         
+        # 姓名
+        self.hero_name = ''
+        # 字
+        self.long_name = ''
+
         # 主公
         self.owner_player_id = 0
         self.owner_city_id = 0
 
+        # 性别
+        self.gender = MALE
         # 生卒年份
         self.born_year = 0
         self.dead_year = 0
@@ -170,20 +175,115 @@ class Hero:
     def meili(self):
         return self.get_attr(ATTR_MEI)
 
-   
 #
 # 武将管理器，所有的武将都在这里，就像一个数据库
 #
 class HeroMgr:
     def __init__(self):
-        self.hero_dict = {}
         self.next_hero_id = 1000
+        self.hero_dict = {}
 
         # 用于控制英雄不重名,但目前也没有更多的限制
         self.hero_name_set = set()
 
+        self.init_big_heros()
+
+    # 定义经典英雄, 这些英雄, 才是最牛逼的
+    def init_big_heros(self):
+        self.big_hero_list = []
+
+        def create(hero_name):
+            hero = Hero()
+            for i in range(ATTR_MAX):
+                hero.attr[i] = random_range(10, 50)
+            self.rename_hero(hero_name, hero)
+            self.big_hero_list.append(hero)
+
+            return hero
+        
+        hero = create('刘备')
+        hero = create('关羽')
+        hero = create('张飞')
+        hero = create('赵云')
+        hero.attr[ATTR_WU] = 98
+        hero = create('马超')
+        hero = create('黄忠')
+        hero = create('诸葛亮')
+        hero = create('庞统')
+        hero = create('法正')
+        hero = create('徐庶')
+        hero = create('魏延')
+        hero = create('姜维')
+        hero = create('马岱')
+        hero = create('刘禅')
+
+        hero = create('曹操')
+        hero = create('夏侯惇')
+        hero = create('夏侯渊')
+        hero = create('曹仁')
+        hero = create('曹洪')
+        hero = create('张辽')
+        hero = create('许褚')
+        hero = create('典韦')
+        hero = create('于禁')
+        hero = create('徐晃')
+        hero = create('乐进')
+        hero = create('李典')
+        hero = create('贾诩')
+        hero = create('荀彧')
+        hero = create('荀攸')
+        hero = create('程昱')
+        hero = create('许攸')
+        hero = create('郭嘉')
+
+        hero = create('孙策')
+        hero = create('孙权')
+        hero = create('周瑜')
+        hero = create('鲁肃')
+        hero = create('吕蒙')
+        hero = create('陆逊')
+        hero = create('陆抗')
+        hero = create('甘宁')
+        hero = create('周泰')
+        hero = create('黄盖')
+        hero = create('程普')
+        hero = create('太史慈')
+        hero = create('诸葛瑾')
+
+        hero = create('董卓')
+        hero = create('吕布')
+        hero = create('华雄')
+        hero = create('郭汜')
+        hero = create('李儒')
+
+        hero = create('公孙瓒')
+        
+        hero = create('袁绍')
+        hero = create('颜良')
+        hero = create('文丑')
+        hero = create('田丰')
+        hero = create('沮授')
+
+        hero = create('刘表')
+        hero = create('张绣')
+        hero = create('韩遂')
+        hero = create('张鲁')
+        hero = create('刘璋')
+
+        hero = create('张良')
+        hero = create('韩信')
+        hero = create('萧何')
+
+        hero = create('西施')
+        hero = create('王昭君')
+        hero = create('貂蝉')
+        hero = create('赵飞燕')
+        hero = create('杨玉环')
+        hero = create('吕雉')
+
+
     # 支持随机英雄和经典英雄
-    def new_hero(self):
+    def new_hero(self, hero_name=None):
         hero = Hero()
 
         self.next_hero_id += 1
@@ -236,8 +336,7 @@ class HeroMgr:
     # 英雄当前的活动, 安全调用, 判断是否存在
     def set_hero_activity(self, hero_id:int, config_id:int):
         assert hero_id > 0
-        hero = self.get_hero(hero_id)
-
+        
         cfg = game_mgr.config_mgr.get_activity_config(config_id)
         
         item = ActivityItem()
@@ -247,6 +346,7 @@ class HeroMgr:
         item.finish_time = 0 if cfg.infinite else game_mgr.time_sec + cfg.duration
         item.title = cfg.title
 
+        hero = self.get_hero(hero_id)
         hero.activity = item
     
     # 刷新武将的活动
@@ -281,7 +381,7 @@ class HeroMgr:
         self.hero_name_set.add(new_name)
 
         if hero:
-            if hero.hero_name in self.hero_name_set:
+            if hero.hero_name and hero.hero_name in self.hero_name_set:
                 self.hero_name_set.remove(hero.hero_name)
             hero.hero_name = new_name
 

@@ -123,7 +123,7 @@ class ConfigMgr:
         self.init_skill_config()
         # 活动
         self.init_activity_config()
-        
+                
         # rvo 参数
         self.rvo_factor = 90
         # rvo 斥力半径, 之外是不提供斥力的, 是距离**2
@@ -292,7 +292,10 @@ class ConfigMgr:
     def get_activity_config(self, config_id):
         return self.activity_dict.get(config_id, None)
 
-    # 公式也都定义在此, 参数有点多
+
+    #----------------------------------------------------------------
+    # 公式定义在此, 参数有点多
+    #----------------------------------------------------------------
     
     def calc_skill_damage(self, skill_config_id, src_troop, target_unit):
         cfg = self.get_skill(skill_config_id)

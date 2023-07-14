@@ -127,6 +127,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
 
     def on_select_click(self):
         def select_cb(hero_list):
+            hero_list = list(lambda x: not game_mgr.hero_mgr.is_hero_busy(x), hero_list)
             if len(hero_list) > 0:
                 text = ' '.join(map(
                         lambda x: get_hero_name(x),
