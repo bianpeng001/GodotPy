@@ -28,6 +28,10 @@ ATTR_MAX = 8
 attr_alias = {
     "wu": ATTR_WU,
     "zhi": ATTR_ZHI,
+    "zheng": ATTR_ZHENG,
+    "tong": ATTR_TONG,
+    "mei": ATTR_MEI,
+    "zhong": ATTR_ZHONG,
 }
 
 # tags 部分武将拥有特殊属性
@@ -210,13 +214,17 @@ class HeroMgr:
             return hero
         
         hero = create('刘备')
+        hero.init_attrs(wu=81,zhi=88)
         hero = create('关羽')
+        hero.init_attrs(wu=97,zhi=82)
         hero = create('张飞')
+        hero.init_attrs(wu=99,zhi=70)
         hero = create('赵云')
         hero.init_attrs(wu=98,zhi=81)
         hero = create('马超')
         hero = create('黄忠')
         hero = create('诸葛亮')
+        hero.init_attrs(wu=20,zhi=99)
         hero = create('庞统')
         hero = create('法正')
         hero = create('徐庶')
