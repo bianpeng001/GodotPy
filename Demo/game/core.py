@@ -271,7 +271,7 @@ def random_max(max=1):
     return random.random()*max
 
 def random_range(start, stop, step=1):
-    return random.rand_range(start, stop, step)
+    return random.randrange(start, stop, step)
 
 def random_num(min, max):
     return min + random.random() * (max - min)

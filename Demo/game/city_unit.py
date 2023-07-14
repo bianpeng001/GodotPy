@@ -92,7 +92,7 @@ class CityUnit(Unit):
 
     # 初始化城内武将
     def init(self):
-        for i in range(5):
+        for i in range(random_range(5, 10)):
             hero = game_mgr.hero_mgr.new_hero()
             hero.owner_city_id = self.unit_id
             log_debug('new hero', self.unit_name, hero.hero_id, hero.hero_name)

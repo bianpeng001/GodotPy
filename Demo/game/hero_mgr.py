@@ -24,7 +24,7 @@ ATTR_MEI = 5
 ATTR_MIN = 6
 ATTR_YEXIN = 7
 
-MAX = 8
+ATTR_MAX = 8
 
 # tags 部分武将拥有特殊属性
 
@@ -118,7 +118,7 @@ class Hero:
         self.spouse_id = 0
 
         # 人物属性: 德智武
-        self.attr = [ 0 for i in range(MAX) ]
+        self.attr = [ 0 for i in range(ATTR_MAX) ]
         self.tags = []
 
         # 老病残孕
