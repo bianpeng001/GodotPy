@@ -262,7 +262,7 @@ class HeroMgr:
 
     def get_hero_activity_title(self, hero):
         item = hero.activity
-        return item.title if item else '空闲'
+        return item.get_title() if item else '空闲'
 
     # end region
     #--------------------------------------------------------------
