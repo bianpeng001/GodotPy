@@ -250,12 +250,11 @@ class HeroMgr:
     
     # 刷新武将的活动
     def update_hero_activity(self, hero, delta_time):
-        if hero.activity and game_mgr.time >= hero.activity.finish_time:
+        if hero.activity and game_mgr.time_sec >= hero.activity.finish_time:
             hero.activity = None
 
     # end region
     #--------------------------------------------------------------
-
 
     #--------------------------------------------------------------
     # region 英雄不重名的控制
