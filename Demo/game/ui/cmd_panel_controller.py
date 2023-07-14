@@ -47,7 +47,7 @@ class CmdItem:
         
     def on_click(self):
         origin_unit_list = game_mgr.ui_mgr.cmd_panel_controller.unit_list
-        unit_list = list(filter(lambda x: check_main_owner(x), origin_unit_list))
+        unit_list = list(filter(lambda x: check_owner_main_player(x), origin_unit_list))
         #log_debug('cmd', self.cmd, len(unit_list))
         
         match self.cmd:
@@ -86,12 +86,8 @@ class CmdItem:
             case '查看':
                 if origin_unit_list:
                     unit = origin_unit_list[0]
-                    sb = StringBuilder()
-                    sb.writeln(f'{game_mgr.get_unit_name_label(unit)}')
-                    if unit.owner_player_id > 0:
-                        sb.writeln(f'主公 {get_player_name(unit.owner_player_id)}')
-                    sb.writeln(f'士兵 {unit.army_amount.get_floor()}')
-                    game_mgr.event_mgr.emit(ALERT_DIALOG_MSG, sb.getvalue(), 3.0)
+                    text = self.make_unit_info(unit)
+                    game_mgr.event_mgr.emit(ALERT_DIALOG_MSG, text, 3.0)
 
             case '撤退':
                 # 以出发城市为目标， 到达后，自动进驻
@@ -199,19 +195,7 @@ class CmdPanelController(UIController, PopupTrait):
         if len(self.unit_list) == 1:
             self.unit_info_obj.set_visible(True)
             unit = self.unit_list[0]
-            name_label = game_mgr.get_unit_name_label(unit)
-            
-            if unit.unit_type == UT_TROOP:
-                text = f'''{name_label} {unit.army_amount.get_floor()}
-行军
-'''
-            elif unit.unit_type == UT_CITY:
-                text = f'''{name_label} {unit.army_amount.get_floor()}
-商业繁荣
-'''
-            else:
-                text = f'''{name_label}
-'''
+            text = self.make_unit_info(unit)
             self.unit_info_obj.set_text(text)
         else:
             self.unit_info_obj.set_visible(False)
@@ -229,6 +213,23 @@ class CmdPanelController(UIController, PopupTrait):
                 item.unit_id = 0
                 item.btn_obj.set_visible(False)
 
+    def make_unit_info(self, unit):
+        name_label = game_mgr.get_unit_name_label(unit)
+
+        sb = StringBuilder()
+        sb.writeln(name_label)
+
+        match unit.unit_type:
+            case UT_TROOP:
+                sb.writeln('行军')
+            case UT_CITY:
+                sb.writeln('欣欣向荣')
+        sb.writeln(f'主公 {get_player_name()}')
+        if check_owner_main_player(unit):
+            sb.writeln(f'士兵 {unit.army_amount.get_floor()}')
+
+        return sb.getvalue()
+        
     # 这里的限制要去掉           
     #@when_visible
     def on_scene_unit_click(self, unit):
