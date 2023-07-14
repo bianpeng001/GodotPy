@@ -219,11 +219,11 @@ class CmdPanelController(UIController, PopupTrait):
         sb = StringBuilder()
         sb.writeln(name_label)
 
-        match unit.unit_type:
-            case UT_TROOP:
-                sb.writeln('行军')
-            case UT_CITY:
-                sb.writeln('欣欣向荣')
+        if unit.unit_type == UT_TROOP:
+            sb.writeln('警戒行军')
+        elif unit.unit_type == UT_CITY:
+            sb.writeln('安居乐业')
+        
         sb.writeln(f'主公 {get_player_name()}')
         if check_owner_main_player(unit):
             sb.writeln(f'士兵 {unit.army_amount.get_floor()}')
