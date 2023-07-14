@@ -14,7 +14,7 @@ FEMAIL = 0
 MALE = 1
 
 # attrs [0, 100]
-# 忠义，智力，武力，统率，政治，魅力，敏捷, 野心
+# 忠义，智力，武力，统率，政治，魅力，敏捷, 野望
 ATTR_ZHONG = 0
 ATTR_ZHI = 1
 ATTR_WU = 2
@@ -151,23 +151,23 @@ class Hero:
         return self.get_age()
 
     @property
-    def wuli(self):
+    def wu(self):
         return self.get_attr(ATTR_WU)
 
     @property
-    def zhili(self):
+    def zhi(self):
         return self.get_attr(ATTR_ZHI)
 
     @property
-    def zhengzhi(self):
+    def zheng(self):
         return self.get_attr(ATTR_ZHENG)
 
     @property
-    def tongshuai(self):
+    def tong(self):
         return self.get_attr(ATTR_TONG)
 
     @property
-    def meili(self):
+    def mei(self):
         return self.get_attr(ATTR_MEI)
 
     def get_attr(self, attr_type):
@@ -373,9 +373,8 @@ class HeroMgr:
         cfg = game_mgr.config_mgr.get_activity_config(
                 item.config_id if item else ACT_IDLE)
         return cfg.title, cfg.color
-        
 
-    # end region
+    # region end
     #--------------------------------------------------------------
 
     #--------------------------------------------------------------
@@ -396,7 +395,7 @@ class HeroMgr:
                 self.hero_name_set.remove(hero.hero_name)
             hero.hero_name = new_name
 
-    # end region
+    # region end
     #--------------------------------------------------------------
 
     # 逻辑帧

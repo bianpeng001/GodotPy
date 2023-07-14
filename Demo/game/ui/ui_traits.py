@@ -98,16 +98,16 @@ class HeroItem:
 
     def refresh(self, hero):
         self.age_label.set_text(str(hero.age))
-        self.wuli_label.set_text(str(hero.wuli))
-        self.tongshuai_label.set_text(str(hero.tongshuai))
-        self.zhengzhi_label.set_text(str(hero.zhengzhi))
-        self.zhili_label.set_text(str(hero.zhili))
+        self.wuli_label.set_text(str(hero.wu))
+        self.tongshuai_label.set_text(str(hero.tong))
+        self.zhengzhi_label.set_text(str(hero.zheng))
+        self.zhili_label.set_text(str(hero.zhi))
         self.ap_label.set_text(str(hero.ap.get_floor()))
 
         text, color = game_mgr.hero_mgr.get_hero_activity_title(hero)
         self.act_label.set_text(text)
         self.act_label.set_self_modulate(*color)
-        
+
 #
 # 武将列表
 #

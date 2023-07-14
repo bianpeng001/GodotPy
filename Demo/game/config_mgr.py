@@ -339,7 +339,7 @@ class ConfigMgr:
     # 如果政治属性太低,这个比例不增反降
     def get_zhengzhi_ratio(self, hero):
         if hero:
-            x = hero.zhengzhi/100
+            x = hero.zheng/100
             return x*x
         else:
             return 0.3
@@ -349,10 +349,10 @@ class ConfigMgr:
         value = 0
 
         if satrap:
-            value += satrap.zhengzhi*0.2
+            value += satrap.zheng*0.2
 
         if hero:
-            value += hero.wuli*0.5 + hero.tongshuai*0.3
+            value += hero.wu*0.5 + hero.tong*0.3
 
         value *= self.get_zhengzhi_ratio(satrap)*0.2
         #log_debug('rice growth', value)
@@ -364,10 +364,10 @@ class ConfigMgr:
         value = 0
 
         if satrap:
-            value += satrap.zhengzhi*0.53
+            value += satrap.zheng*0.53
 
         if hero:
-            value += hero.zhengzhi*0.37 + hero.zhili*0.1
+            value += hero.zheng*0.37 + hero.zhi*0.1
 
         value *= self.get_zhengzhi_ratio(satrap)
         #log_debug('rice growth', value)
@@ -379,10 +379,10 @@ class ConfigMgr:
         value = 0
         
         if satrap:
-            value += satrap.zhengzhi*0.43
+            value += satrap.zheng*0.43
 
         if hero:
-            value += hero.zhengzhi*0.37 + hero.zhili*0.2
+            value += hero.zheng*0.37 + hero.zhi*0.2
             
         value *= self.get_zhengzhi_ratio(satrap)
 
@@ -393,9 +393,9 @@ class ConfigMgr:
         value = 0
 
         if satrap:
-            value += satrap.zhengzhi*0.51 + \
-                    satrap.meili*0.31 + \
-                    satrap.tongshuai*0.18
+            value += satrap.zheng*0.51 + \
+                    satrap.mei*0.31 + \
+                    satrap.tong*0.18
 
         return round(value)
 
@@ -404,8 +404,8 @@ class ConfigMgr:
         value = 50
 
         if satrap:
-            value += satrap.tongshuai*0.61 +\
-                    satrap.meili*0.39
+            value += satrap.tong*0.61 +\
+                    satrap.mei*0.39
             
         return round(value)
 
