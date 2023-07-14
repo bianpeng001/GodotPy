@@ -104,12 +104,10 @@ class HeroItem:
         self.zhili_label.set_text(str(hero.zhili))
         self.ap_label.set_text(str(hero.ap.get_floor()))
 
-        self.act_label.set_text(game_mgr.hero_mgr.get_hero_activity_title(hero))
-        if game_mgr.hero_mgr.is_hero_busy(hero):
-            self.act_label.set_self_modulate(1,0.5,0)
-        else:
-            self.act_label.set_self_modulate(1,1,1)
-
+        text, color = game_mgr.hero_mgr.get_hero_activity_title(hero)
+        self.act_label.set_text(text)
+        self.act_label.set_self_modulate(*color)
+        
 #
 # 武将列表
 #

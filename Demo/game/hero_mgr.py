@@ -85,13 +85,10 @@ ACT_SHOUSHANG = 3005
 class ActivityItem:
     def __init__(self):
         self.config_id = 0
-        self.title = None
         self.start_time = 0
         self.finish_time = 0
         self.infinite = False
 
-    def get_title(self):
-        return self.title
 
 #
 # 英雄(逻辑单位，没有实体)
@@ -373,7 +370,9 @@ class HeroMgr:
 
     def get_hero_activity_title(self, hero):
         item = hero.activity
-        return item.get_title() if item else '空闲'
+        cfg = game_mgr.cofig_mgr.get_activity_config(item.config_id if item else ACT_IDLE)
+        return cfg.title, cfg.color
+        
 
     # end region
     #--------------------------------------------------------------

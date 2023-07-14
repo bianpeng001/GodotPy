@@ -79,6 +79,7 @@ class ActivityConfig(BaseConfig):
         self.infinite = False
         self.title = ''
         self.rewards = []
+        self.color =  (1.0,1.0,1.0)
 
 #
 class RewardConfig(BaseConfig):
@@ -263,30 +264,35 @@ class ConfigMgr:
         item.config_id = 3001
         item.infinite = True
         item.title = '空闲'
+        item.color = (1.0,1.0,1.0)
         add(item)
 
         item = ActivityConfig()
         item.config_id = 3002
         item.duration = 30
         item.title = '寻访'
+        item.color = (0.0,0.5,0.0)
         add(item)
 
         item = ActivityConfig()
         item.config_id = 3003
         item.duration = 300
         item.title = '探亲'
+        item.color = (0.0,0.5,0.0)
         add(item)
 
         item = ActivityConfig()
         item.config_id = 3004
         item.infinite = True
         item.title = '出战'
+        item.color = (1.0,0.5,0.0)
         add(item)
 
         item = ActivityConfig()
         item.config_id = 3005
         item.duration = 10
-        item.title = '轻伤'
+        item.title = '受伤'
+        item.color = (1.0,0.0,0.0)
         add(item)
 
     def get_activity_config(self, config_id):
