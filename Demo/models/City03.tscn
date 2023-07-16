@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://bbpjqljbc4fsw"]
+
+[ext_resource type="ArrayMesh" uid="uid://blbfw86ajb7p0" path="res://models/House01.obj" id="1_cve10"]
+[ext_resource type="PackedScene" uid="uid://c8ykckwo8j360" path="res://models/Tree03.tscn" id="4_ohmxm"]
+[ext_resource type="ArrayMesh" uid="uid://crcugkxd4vcf2" path="res://models/Flag03.obj" id="4_rmsxw"]
+[ext_resource type="PackedScene" uid="uid://7u2tkxjdy314" path="res://models/Tree02.tscn" id="5_snfx4"]
+[ext_resource type="Material" uid="uid://cxntykwf1sxkq" path="res://models/Color/FlagCityMat.tres" id="5_ttep1"]
+
+[node name="City03" type="Node3D"]
+
+[node name="House01" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.112752, 0, -0.710538)
+mesh = ExtResource("1_cve10")
+
+[node name="Flag" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.259808, 0, -0.15, 0, 0.3, 0, 0.15, 0, 0.259808, -0.0203435, 0, 0.753134)
+cast_shadow = 0
+mesh = ExtResource("4_rmsxw")
+surface_material_override/1 = ExtResource("5_ttep1")
+
+[node name="Tree03" parent="." instance=ExtResource("4_ohmxm")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -1.00259, 0, -0.923708)
+
+[node name="Tree04" parent="." instance=ExtResource("4_ohmxm")]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.704927, 0, -1.22015)
+
+[node name="Tree14" parent="." instance=ExtResource("4_ohmxm")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.28597, 0, -1.59802)
+
+[node name="Tree05" parent="." instance=ExtResource("4_ohmxm")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.62125, 0, -1.01984)
+
+[node name="Tree02" parent="." instance=ExtResource("5_snfx4")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0.668544, 0, 0.381341)
+
+[node name="Tree06" parent="." instance=ExtResource("5_snfx4")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 1.77376, 0, 0)
+
+[node name="Tree07" parent="." instance=ExtResource("5_snfx4")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -0.926174, 0, 0)
+
+[node name="Tree08" parent="." instance=ExtResource("5_snfx4")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -0.926174, 0, -2)
+
+[node name="Tree09" parent="." instance=ExtResource("5_snfx4")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, -2.1044)
+
+[node name="Tree10" parent="." instance=ExtResource("5_snfx4")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -1.6508, 0, -1.52747)
+
+[node name="Tree11" parent="." instance=ExtResource("5_snfx4")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0.865977, 0, 0)
+
+[node name="Tree12" parent="." instance=ExtResource("5_snfx4")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0.348599, 0, -2)
+
+[node name="Tree13" parent="." instance=ExtResource("5_snfx4")]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0.348599, 0, -2)

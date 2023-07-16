@@ -6,7 +6,7 @@
 [ext_resource type="ArrayMesh" uid="uid://d0p8ns1eso5hb" path="res://models/Road01.obj" id="5_vm4ah"]
 [ext_resource type="ArrayMesh" uid="uid://dkrgkg360dir7" path="res://models/City02.obj" id="6_gvndv"]
 
-[node name="City01" type="Node3D"]
+[node name="City02" type="Node3D"]
 
 [node name="House01" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.112752, 0, -0.710538)

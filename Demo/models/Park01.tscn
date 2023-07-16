@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://eimxflua5ypg"]
+[gd_scene load_steps=12 format=3 uid="uid://eimxflua5ypg"]
 
 [ext_resource type="ArrayMesh" uid="uid://428w4am2wcih" path="res://models/Camp01.obj" id="1_484tj"]
 [ext_resource type="ArrayMesh" uid="uid://dg8r7eo7dujtk" path="res://models/Bridge01.obj" id="2_llp2g"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://7u2tkxjdy314" path="res://models/Tree02.tscn" id="5_rl7bn"]
 [ext_resource type="ArrayMesh" uid="uid://pkeqtabxtcld" path="res://models/Tower01.obj" id="8_dcgdh"]
 [ext_resource type="ArrayMesh" uid="uid://diq03gmuembok" path="res://models/Soldier03.obj" id="9_cemuk"]
+[ext_resource type="PackedScene" uid="uid://c8ykckwo8j360" path="res://models/Tree03.tscn" id="10_flt1m"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_mnpdq"]
 
@@ -74,3 +75,6 @@ mesh = ExtResource("8_dcgdh")
 [node name="Soldier07" type="MeshInstance3D" parent="."]
 transform = Transform3D(-0.823523, 0, 0.567283, 0, 1, 0, -0.567283, 0, -0.823523, -3.50098, 0, 2.49522)
 mesh = ExtResource("9_cemuk")
+
+[node name="Tree04" parent="." instance=ExtResource("10_flt1m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.78724, 0, 0.501291)
