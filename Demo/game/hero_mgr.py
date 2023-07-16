@@ -200,6 +200,8 @@ class HeroMgr:
 
         self.init_big_heros()
 
+        self.activity_tick_time = 0
+
     # 定义经典英雄, 这些英雄, 才是最牛逼的
     def init_big_heros(self):
         self.big_hero_list = []
@@ -423,8 +425,11 @@ class HeroMgr:
 
     # 逻辑帧
     def update(self, delta_time):
-        for hero in self.hero_dict.values():
-            self.update_hero_activity(hero)
+        self.activity_tick_time += delta_time
+        if self.activity_tick_time > 0.5:
+            self.activity_tick_time = 0
+            for hero in self.hero_dict.values():
+                self.update_hero_activity(hero)
 
 if __name__ == '__main__':
     import json
