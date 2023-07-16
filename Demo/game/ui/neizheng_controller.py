@@ -311,7 +311,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         log_debug(btn_label)
 
         origin_hero_list = self.get_selected_hero_list()
-        if not hero_list:
+        if not origin_hero_list:
             log_debug('no hero selected')
             return
 
