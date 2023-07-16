@@ -147,7 +147,8 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.slider_value_list = [
                 self.order_mass,
                 self.farmer_mass,
-                self.trader_mass]
+                self.trader_mass,
+            ]
         self.update_slider_value(0, self.order_mass)
         
         # 税率
@@ -309,12 +310,12 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     def on_rm_btn_click(self, btn_label):
         log_debug(btn_label)
 
-        hero_list = self.get_selected_hero_list()
+        origin_hero_list = self.get_selected_hero_list()
         if not hero_list:
             log_debug('no hero selected')
             return
 
-        hero_list = list(filter(lambda x: not game_mgr.hero_mgr.is_hero_busy(x), hero_list))
+        hero_list = list(filter(lambda x: not game_mgr.hero_mgr.is_hero_busy(x), origin_hero_list))
         if not hero_list:
             log_debug('heros all busy')
             return
@@ -328,6 +329,11 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             # TODO: 扣体力, 并刷新
             result = []
             match btn_label:
+                case '探索':
+                    for hero in hero_list:
+                        game_mgr.hero_mgr.set_hero_activity(hero.hero_id, ACT_TRAVEL)
+                        result.append(f'{hero.hero_name}出发')
+
                 case '征兵':
                     value = 0
                     cost = 0

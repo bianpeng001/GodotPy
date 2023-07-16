@@ -95,6 +95,17 @@ class CmdItem:
 
             case '进驻':
                 # 部队进程，武将和相关的士兵，资源都进程, 也就是说，军团还有运输功能
+                for unit in filter(lambda x: x.unit_type == UT_TROOP, unit_list):
+                    tile = unit.get_controller().owner_tile
+                    if tile and tile.city_unit:
+                        city_unit = tile.city_unit
+                        x0,z0 = unit.get_xz()
+                        x1,z1 = city_unit.get_xz()
+                        dx,dz = x1-x1,z1-z0
+                        if dx*dx+dz*dz < city_unit.radius:
+                            log_debug(f'{unit.unit_name} enter {city_unit.unit_name}')
+                            # TODO:
+                            pass
                 pass
 
 #
@@ -121,8 +132,8 @@ class CmdPanelController(UIController, PopupTrait):
         self.ui_obj = ui_obj
         
         cmd_list = (
-            '查看','撤退','','',
-            '出战','内政','进驻','',
+            '查看','进驻','撤退','调整',
+            '出战','内政','','',
         )
         btn_cmd_obj = self.ui_obj.find_node('Panel/GridContainer/BtnCmd')
         btn_cmd_obj.set_visible(False)
