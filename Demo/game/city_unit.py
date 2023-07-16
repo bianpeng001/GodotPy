@@ -109,9 +109,10 @@ class CityUnit(Unit):
             path = 'res://models/Gate01.tscn'
         elif is_hill:
             path = 'res://models/Hill02/Hill02.tscn'
-        elif self.city_type == CT_XIAN:
-            #path = 'res://models/City02.tscn'
+        elif self.city_type == CT_CUN:
             path = 'res://models/City03.tscn'
+        elif self.city_type == CT_XIAN:
+            path = 'res://models/City02.tscn'
         else:
             path = 'res://models/City01.tscn'
             

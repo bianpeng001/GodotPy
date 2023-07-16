@@ -506,7 +506,9 @@ class TileItem:
             
             # 级别
             v = random_100()
-            if v < 50:
+            if v < 10:
+                self.city_unit.city_type = CT_CUN
+            elif v < 50:
                 self.city_unit.city_type = CT_XIAN
             elif v < 90:
                 self.city_unit.city_type = CT_JUN

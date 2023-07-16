@@ -109,7 +109,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.city_unit = city_unit
 
         # 根据城的级别, 这个称呼有变化
-        satrap_labels = ['','县令','太守','州牧']
+        satrap_labels = ['村长','县令','太守','州牧']
         self.lbl_satrap.set_text(satrap_labels[self.city_unit.city_type])
 
         # 缓存一些数据，用于修改，不是直接改

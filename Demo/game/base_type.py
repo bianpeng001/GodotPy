@@ -85,12 +85,14 @@ UT_TROOP = 2
 
 
 # 城市的级别
+# 村
+CT_CUN = 1
 # 县
-CT_XIAN = 1
+CT_XIAN = 2
 # 郡
-CT_JUN = 2
+CT_JUN = 3
 # 州
-CT_ZHOU = 3
+CT_ZHOU = 4
 
 # 势力之间的友好度
 YHD_Labels = ['险恶','敌对','普通','友好','盟友']
