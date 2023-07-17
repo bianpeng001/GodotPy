@@ -120,6 +120,7 @@ class PlayerMgr:
         return player
 
     def remove_player(self, player):
+        player.on_leave_scene()
         self.player_dict.pop(player.player_id)
         self.update_list.remove(player.get_controller())
     
