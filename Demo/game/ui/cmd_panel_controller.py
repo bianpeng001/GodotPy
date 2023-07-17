@@ -87,7 +87,7 @@ class CmdItem:
             case '查看':
                 if origin_unit_list:
                     unit = origin_unit_list[0]
-                    text = game_mgr.ui_mgr.cmd_panel_controller.make_unit_info(unit, detail=True)
+                    text = game_mgr.ui_mgr.cmd_panel_controller.make_unit_info(unit, show_detail=True)
                     game_mgr.event_mgr.notify(ALERT_DIALOG_MSG, text, 3.0)
 
             case '撤退':
@@ -226,19 +226,19 @@ class CmdPanelController(UIController, PopupTrait):
                 item.btn_obj.set_visible(False)
 
     # 单个单位的概述
-    def make_unit_info(self, unit, detail=False):
+    def make_unit_info(self, unit, show_detail=False):
         name_label = game_mgr.get_unit_name_label(unit)
 
         sb = StringBuilder()
         sb.writeln(name_label)
-
-        if unit.unit_type == UT_TROOP:
-            sb.writeln('警戒行军')
-        elif unit.unit_type == UT_CITY:
-            sb.writeln(f'安居乐业')
         sb.writeln(f'主公 {get_player_name(unit.owner_player_id)}')
 
-        if detail:
+        if unit.unit_type == UT_TROOP:
+            sb.writeln('方阵')
+        elif unit.unit_type == UT_CITY:
+            sb.writeln(f'安居乐业')
+        
+        if show_detail:
             if check_owner_main_player(unit):
                 sb.writeln(f'士兵 {unit.army_amount.get_floor()}人')
                 sb.writeln(f'武将 {unit.get_hero_count()}员')
@@ -294,9 +294,10 @@ class CmdPanelController(UIController, PopupTrait):
             return True
 
     def on_remove_unit(self, player_id, unit_id):
-        unit = get_unit(unit_id)
-        if unit in self.unit_list:
-            unit_list = tuple(filter(lambda x: x != unit, self.unit_list))
-            game_mgr.event_mgr.notify(RECT_SELECT_UNITS_CHANGE, unit_list)
+        if player_id == get_main_player_id():
+            unit = get_unit(unit_id)
+            if unit in self.unit_list:
+                unit_list = tuple(filter(lambda x: x.unit_id != unit_id, self.unit_list))
+                game_mgr.event_mgr.notify(RECT_SELECT_UNITS_CHANGE, unit_list)
 
 
