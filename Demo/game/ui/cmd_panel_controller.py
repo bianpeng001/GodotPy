@@ -193,16 +193,16 @@ class CmdPanelController(UIController, PopupTrait):
         self.show()
 
     def on_rect_select_units_changed(self, unit_list):
-        self.unit_list = unit_list
-        
-        if len(self.unit_list) > 0:
+        if len(unit_list) > 0:
             if not self.is_show():
                 self.show_panel()
         else:
             if self.is_show():
                 self.hide()
                 return
-        
+
+        self.unit_list = unit_list
+
         # 单位信息, 只选中一个的时候, 要多显示一些信息
         if len(self.unit_list) == 1:
             self.unit_info_obj.set_visible(True)

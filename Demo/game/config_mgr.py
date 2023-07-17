@@ -150,6 +150,8 @@ class ConfigMgr:
         self.new_player_text = '请问尊姓大名?'
 
         self.ap_growth_speed = 3/60
+
+        self.satrap_titles = ['', '村长','县令','太守','州牧']
         
     def init_story_config(self):
         self.story_dict = {}

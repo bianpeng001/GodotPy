@@ -53,8 +53,8 @@ def play_effect():
 #play_effect()
 
 def test_pos():
-    #unit1 = game_mgr.unit_mgr.get_unit_by_name('王世玉部')
-    unit2 = game_mgr.unit_mgr.get_unit_by_name('安喜')
+    #unit1 = game_mgr.unit_mgr.find_unit_by_name('王世玉部')
+    unit2 = game_mgr.unit_mgr.find_unit_by_name('安喜')
 
     #print(unit1.get_position())
     print(unit2.get_position())
@@ -67,15 +67,15 @@ def test_pos():
 #test_pos()
 
 def test_damage():
-    unit1 = game_mgr.unit_mgr.get_unit_by_name('安喜')
+    unit1 = game_mgr.unit_mgr.find_unit_by_name('安喜')
     if unit1:
         game_mgr.effect_mgr.play_damage(1234, unit1)
 
-test_damage()
+#test_damage()
 
 # 创建一个诸侯, 拥有一个城
 def create_player(city_name1):
-    city_unit = game_mgr.unit_mgr.get_unit_by_name(city_name1)
+    city_unit = game_mgr.unit_mgr.find_unit_by_name(city_name1)
     player = game_mgr.game_play.create_player(city_unit)
 
 #create_player()
@@ -118,7 +118,7 @@ def test_msg_panel():
     #panel.container.set_v_scroll(1000)
     panel.add_msg(f'刘备占领小沛{random_100()}')
 
-test_msg_panel()
+#test_msg_panel()
 
 def show_alert():
     dlg = game_mgr.ui_mgr.alert_dialog_controller
@@ -128,3 +128,10 @@ def show_alert():
 
 #show_alert()
 
+def test_city_type():
+    city_unit = game_mgr.unit_mgr.find_unit_by_name('昌黎')
+    print(city_unit.city_type)
+    print(game_mgr.config_mgr.satrap_titles)
+    print(game_mgr.ui_mgr.neizheng_controller.city_unit.unit_name)
+
+test_city_type()

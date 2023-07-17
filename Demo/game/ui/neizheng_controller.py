@@ -109,8 +109,9 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.city_unit = city_unit
 
         # 根据城的级别, 这个称呼有变化
-        satrap_labels = ['村长','县令','太守','州牧']
-        self.lbl_satrap.set_text(satrap_labels[self.city_unit.city_type])
+        #satrap_titles = ['村长','县令','太守','州牧']
+        satrap_titles = game_mgr.config_mgr.satrap_titles
+        self.lbl_satrap.set_text(satrap_titles[self.city_unit.city_type])
 
         # 缓存一些数据，用于修改，不是直接改
         self.satrap = self.city_unit.satrap
@@ -323,7 +324,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         # 下面根据指令, 进行工作
 
         def on_confirmed_cb():
-            speaker_name = hero_list[0].hero_name
+            speaker_name = select_one(hero_list).hero_name
             game_mgr.ui_mgr.popup_dialog(speaker_name, '得令', 1.5)
             
             # TODO: 扣体力, 并刷新
