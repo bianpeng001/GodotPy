@@ -408,11 +408,13 @@ class HeroMgr:
     #--------------------------------------------------------------
     # region 英雄不重名的控制
     
-    def gen_unique_hero_name(self):
+    # 生成名字并消耗掉
+    def gen_unique_hero_name(self, consume=True):
         while True:
             hero_name = new_hero_name()
             if hero_name not in self.hero_name_set:
-                self.hero_name_set.add(hero_name)
+                if consume:
+                    self.hero_name_set.add(hero_name)
                 return hero_name
 
     def rename_hero(self, new_name, hero=None):
@@ -452,7 +454,9 @@ if __name__ == '__main__':
 
     def decode_hero(data):
         obj = Hero()
-        (obj.hero_id, obj.name, obj.gender,\
+        (obj.hero_id,
+            obj.name,
+            obj.gender,
             obj.born_year) = data
         return obj
 

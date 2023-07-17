@@ -121,7 +121,7 @@ class PlayerMgr:
 
     def remove_player(self, player):
         self.player_dict.pop(player.player_id)
-        self.update_list.remove(player)
+        self.update_list.remove(player,get_controller())
     
     def set_main_player(self, player):
         self.main_player = player
@@ -137,11 +137,12 @@ class PlayerMgr:
         return player
 
     def loop_players(self):
-        return self.player_dict.values()
+        for pc in self.update_list:
+            yield pc.get_player()
     
     def update(self, delta_time):
-        for controller in self.update_list:
-            controller.update(delta_time)
+        for pc in self.update_list:
+            pc.update(delta_time)
 
 
 

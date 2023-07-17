@@ -564,7 +564,7 @@ class GamePlay:
 
         if prev_owner and not prev_owner.city_list:
             game_mgr.ui_mgr.popup_dialog(player.player_name, '请接收我的投降', 2.0)
-            game_mgr.player_mgr.remove_plaer(prev_owner)
+            game_mgr.player_mgr.remove_player(prev_owner)
             
         return 0
 
