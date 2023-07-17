@@ -478,6 +478,7 @@ class GamePlay:
             return
         
         for hero_item in troop_unit.hero_list:
+            game_mgr.hero_mgr.finish_hero_activity(get_hero(hero_item.hero_id))
             city_unit.hero_list.append(hero_item.hero_id)
         troop_unit.hero_list.clear()
 
@@ -487,9 +488,10 @@ class GamePlay:
         city_unit.army_amount.value += troop_unit.army_amount.value
         troop_unit.army_amount.value = 0
         if city_unit.army_amount.value > 0:
+            # 士气用几何平均值
             city_unit.army_moral = sum_moral/city_unit.army_amount.value
         
-        game_mgr.event_mgr.emit(MSG_PANEL_NEW_MSG, f"[color=red]{troop_unit.unit_name}[/color]进驻[color=green]{city_name}[/color]")
+        game_mgr.event_mgr.emit(MSG_PANEL_NEW_MSG, f"[color=red]{troop_unit.unit_name}[/color]进驻[color=green]{city_unit.unit_name}[/color]")
         self.remove_troop(troop_unit)
 
     #

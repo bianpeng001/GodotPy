@@ -381,6 +381,9 @@ class HeroMgr:
 
         hero = self.get_hero(hero_id)
         hero.activity = item
+
+    def finish_hero_activity(self, hero):
+        hero.activity = None
     
     # 刷新武将的活动
     def update_hero_activity(self, hero):
@@ -388,7 +391,7 @@ class HeroMgr:
         if item and \
                 not item.infinite and \
                 game_mgr.time_sec > item.finish_time:
-            hero.activity = None
+            self.finish_hero_activity(hero)
 
     def is_hero_busy(self, hero):
         return hero.activity != None or hero.ap.value < 10
