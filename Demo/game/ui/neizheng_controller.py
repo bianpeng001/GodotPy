@@ -437,15 +437,6 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             msg, _ = random_select_item(game_mgr.config_mgr.neizheng_strap_dialog_list)
             game_mgr.ui_mgr.popup_dialog(hero.hero_name, msg, 1.5)
 
-        # def set_action(hero_id):
-        #     game_mgr.hero_mgr.set_hero_activity(hero_id, ACT_NEIZHENG)
-
-        # set_action(self.satrap)
-        # set_action(self.order_incharge)
-        # set_action(self.farmer_incharge)
-        # set_action(self.trader_incharge)
-        # set_action(self.fax_incharge)
-
         # 数据回写
         self.city_unit.satrap = self.satrap
         self.city_unit.order_incharge = self.order_incharge
