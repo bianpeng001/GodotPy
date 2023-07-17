@@ -94,11 +94,12 @@ class Player:
 #
 class PlayerMgr:
     def __init__(self):
-        self.player_dict = {}
         self.next_player_id = 10000
+        self.player_dict = {}
         
         self.update_list = []
         
+        # 当前玩家
         self.main_player = None
         self.main_player_id = 0
         
@@ -117,6 +118,10 @@ class PlayerMgr:
             0.8 + 0.2*random_1())
         
         return player
+
+    def remove_player(self, player):
+        self.player_dict.pop(player.player_id)
+        self.update_list.remove(player)
     
     def set_main_player(self, player):
         self.main_player = player

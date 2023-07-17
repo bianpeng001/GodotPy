@@ -550,11 +550,10 @@ class GamePlay:
     # 占领
     def occupy_city(self, src_unit, city_unit) -> int:
         log_debug('occupy', src_unit.unit_name, city_unit.unit_name)
-        if city_unit.owner_player_id != 0:
-            player = get_player(city_unit.owner_player_id)
-            # TODO: 转移到最近的城, 如果城丢光了, 就算灭了
-            if len(player.city_list) == 1:
-                game_mgr.ui_mgr.popup_dialog(player.player_name, '请接收我的投降', 2.0)
+        if city_unit.owner_player_id > 0:
+            prev_owner = get_player(city_unit.owner_player_id)
+        else:
+            prev_owner = None
 
         if src_unit.owner_player_id != 0:
             player = get_player(src_unit.owner_player_id)
@@ -562,6 +561,10 @@ class GamePlay:
             controller = city_unit.get_controller()
             controller.get_hud_comp().set_valid(False)
             controller.set_flag_color()
+
+        if prev_owner and not prev_owner.city_list:
+            game_mgr.ui_mgr.popup_dialog(player.player_name, '请接收我的投降', 2.0)
+            game_mgr.player_mgr.remove_plaer(prev_owner)
             
         return 0
 

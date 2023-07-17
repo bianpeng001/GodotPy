@@ -231,7 +231,8 @@ class CmdPanelController(UIController, PopupTrait):
 
         sb = StringBuilder()
         sb.writeln(name_label)
-        sb.writeln(f'主公 {get_player_name(unit.owner_player_id)}')
+        if unit.owner_player_id > 0:
+            sb.writeln(f'主公 {get_player_name(unit.owner_player_id)}')
 
         if unit.unit_type == UT_TROOP:
             sb.writeln('方阵')
@@ -243,11 +244,20 @@ class CmdPanelController(UIController, PopupTrait):
                 sb.writeln(f'士兵 {unit.army_amount.get_floor()}人')
                 sb.writeln(f'武将 {unit.get_hero_count()}员')
             else:
-                sb.writeln('士兵 若干')
+                sb.writeln('士兵 ***')
+                sb.writeln('武将 *')
 
         return sb.getvalue()
         
-    # 这里的限制要去掉           
+    def set_troop_target_pos(self, x,z):
+        for unit in filter(lambda x: x.unit_type == UT_TROOP, self.unit_list):
+            unit.target_unit_id = 0
+            unit.target_pos = (x,z)
+            
+            brain_comp = unit.get_controller().get_brain_comp()
+            brain_comp.goto_state('start')
+
+    # 这里的限制要去掉
     #@when_visible
     def on_scene_unit_click(self, unit):
         if not get_main_player():
@@ -262,15 +272,7 @@ class CmdPanelController(UIController, PopupTrait):
             effect_item.set_position(x,y,z)
             
             self.set_troop_target_pos(x,z)
-    
-    def set_troop_target_pos(self, x,z):
-        for unit in filter(lambda x: x.unit_type == UT_TROOP, self.unit_list):
-            unit.target_unit_id = 0
-            unit.target_pos = (x,z)
-            
-            brain_comp = unit.get_controller().get_brain_comp()
-            brain_comp.goto_state('start')
-    
+
     @when_visible
     def on_scene_ground_click(self):
         # 插旗表示目标位置

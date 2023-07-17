@@ -141,10 +141,7 @@ def get_main_player_id():
 def get_main_camera():
     return game_mgr.camera_mgr.main_camera
 
-# 
-def check_owner(unit, player):
-    return unit.owner_player_id == player.player_id
-
+# 检查owner player
 def check_owner_main_player(unit):
     return unit.owner_player_id == get_main_player_id()
     
@@ -197,7 +194,6 @@ __all__ = [
     'get_unit_name',
     'get_effect_config',
     'get_skill_config',
-    'check_owner',
     'check_owner_main_player',
     'first',
 ]
