@@ -31,7 +31,7 @@ class TargetItem:
     
     def on_click(self):
         log_debug('click', self.unit_id)
-        game_mgr.event_mgr.emit(RECT_SELECT_UNITS_CHANGE, (get_unit(self.unit_id),))
+        game_mgr.event_mgr.notify(RECT_SELECT_UNITS_CHANGE, (get_unit(self.unit_id),))
 
 #
 # 指令
@@ -88,7 +88,7 @@ class CmdItem:
                 if origin_unit_list:
                     unit = origin_unit_list[0]
                     text = game_mgr.ui_mgr.cmd_panel_controller.make_unit_info(unit, detail=True)
-                    game_mgr.event_mgr.emit(ALERT_DIALOG_MSG, text, 3.0)
+                    game_mgr.event_mgr.notify(ALERT_DIALOG_MSG, text, 3.0)
 
             case '撤退':
                 # 以出发城市为目标， 到达后，自动进驻
@@ -254,7 +254,7 @@ class CmdPanelController(UIController, PopupTrait):
             return
 
         if not self.unit_list:
-            game_mgr.event_mgr.emit(RECT_SELECT_UNITS_CHANGE, (unit,))
+            game_mgr.event_mgr.notify(RECT_SELECT_UNITS_CHANGE, (unit,))
         else:
             # 插旗表示目标位置
             x,y,z = get_cursor_position()
@@ -297,6 +297,6 @@ class CmdPanelController(UIController, PopupTrait):
         unit = get_unit(unit_id)
         if unit in self.unit_list:
             unit_list = tuple(filter(lambda x: x != unit, self.unit_list))
-            game_mgr.event_mgr.emit(RECT_SELECT_UNITS_CHANGE, unit_list)
+            game_mgr.event_mgr.notify(RECT_SELECT_UNITS_CHANGE, unit_list)
 
 

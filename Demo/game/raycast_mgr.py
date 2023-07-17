@@ -82,14 +82,14 @@ class RaycastMgr(NodeObject):
             
             # 最后, 处理结果
             if len(item_list) == 0:
-                game_mgr.event_mgr.emit(SCENE_GROUND_CLICK)
+                game_mgr.event_mgr.notify(SCENE_GROUND_CLICK)
             else:
                 item_list.sort(key=lambda x: x[1])
                 
                 a = next(filter(lambda x: x[0].unit_type == UT_TROOP, item_list), None)
                 if not a:
                     a = item_list[0]
-                game_mgr.event_mgr.emit(SCENE_UNIT_CLICK, a[0])
+                game_mgr.event_mgr.notify(SCENE_UNIT_CLICK, a[0])
 
     def _physics_process(self):
         # camera = get_main_camera()

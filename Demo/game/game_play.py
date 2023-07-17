@@ -144,7 +144,7 @@ class GamePlay:
 
                     break
 
-            game_mgr.event_mgr.emit(MAIN_PLAYER_READY)
+            game_mgr.event_mgr.notify(MAIN_PLAYER_READY)
             
         def co_wait_for_ground():
             # 等地图和ui加载好,然后分配一个新手城
@@ -282,7 +282,7 @@ class GamePlay:
                 
                 game_mgr.ui_mgr.show_base_ui(True)
 
-                game_mgr.event_mgr.emit(MSG_PANEL_NEW_MSG, f"[color=red]{player_name}[/color]一行进入[color=green]{city_name}[/color]城")
+                game_mgr.event_mgr.notify(MSG_PANEL_NEW_MSG, f"[color=red]{player_name}[/color]一行进入[color=green]{city_name}[/color]城")
             
             game_mgr.co_mgr.start(co_story1())
         game_mgr.co_mgr.start(co_wait_for_ground())
@@ -317,7 +317,7 @@ class GamePlay:
     # 因此, godot离优秀, 还差那么一点点. 而我的游戏, 离优秀还差不止一点点.
     # 秉承严于律己, 宽以待人. 感谢godot已经做了很多, 我们自己做一点点清理, 也不算过.
     def on_leave_scene(self):
-        game_mgr.event_mgr.emit(LEAVE_SCENE)
+        game_mgr.event_mgr.notify(LEAVE_SCENE)
         
         # 这是要清理surface material override
         # 不然就有报错, 所以, 虽然不太合理,但还是可以做一下
@@ -352,12 +352,12 @@ class GamePlay:
         if city.owner_player_id > 0:
             owner = game_mgr.player_mgr.get_player(city.owner_player_id)
             owner.city_list.remove(city.unit_id)
-            game_mgr.event_mgr.emit(NAV_PANEL_REMOVE_UNIT, owner.player_id, city.unit_id)
+            game_mgr.event_mgr.notify(NAV_PANEL_REMOVE_UNIT, owner.player_id, city.unit_id)
             city.owner_player_id = 0
             
         city.owner_player_id = player.player_id
         player.city_list.append(city.unit_id)
-        game_mgr.event_mgr.emit(NAV_PANEL_ADD_UNIT, player.player_id, city.unit_id)
+        game_mgr.event_mgr.notify(NAV_PANEL_ADD_UNIT, player.player_id, city.unit_id)
         # 城内武将的归属
         # TODO: 城中的武将的归属,现在做成直接归属. 以后做成俘虏
         for hero_id in city.hero_list:
@@ -396,7 +396,7 @@ class GamePlay:
             self.data_tick_time = 0
 
             # 完成，刷新界面
-            game_mgr.event_mgr.emit(MAINUI_REFRESH)
+            game_mgr.event_mgr.notify(MAINUI_REFRESH)
 
     # 刷新所有的资源增长, 这个开销也不大
     # delta_time: 间隔时长，单位秒
@@ -422,11 +422,12 @@ class GamePlay:
             for hero in player.hero_list:
                 hero.ap.grow(ap_growth_speed,delta_time)
 
-    # 解散队伍, 一般是进城, 或者被击溃
+    # 解散队伍, 一般是进城, 击溃
     # 如果是进城, 注意回收队伍中的武将, 士兵, 资源
     def remove_troop(self, troop_unit):
         troop_unit.get_controller().kill()
-        game_mgr.event_mgr.emit(NAV_PANEL_REMOVE_UNIT, troop_unit.owner_player_id, troop_unit.unit_id)
+        game_mgr.event_mgr.notify(NAV_PANEL_REMOVE_UNIT,
+                troop_unit.owner_player_id, troop_unit.unit_id)
     
     # 创建队伍
     def create_troop(self,
@@ -467,7 +468,7 @@ class GamePlay:
 
         log_debug('create troop', troop.unit_id, troop.unit_name)
 
-        game_mgr.event_mgr.emit(NAV_PANEL_ADD_UNIT, troop.owner_player_id, troop.unit_id)
+        game_mgr.event_mgr.notify(NAV_PANEL_ADD_UNIT, troop.owner_player_id, troop.unit_id)
 
         return troop
 
@@ -491,7 +492,7 @@ class GamePlay:
             # 士气用几何平均值
             city_unit.army_moral = sum_moral/city_unit.army_amount.value
         
-        game_mgr.event_mgr.emit(MSG_PANEL_NEW_MSG, f"[color=red]{troop_unit.unit_name}[/color]进驻[color=green]{city_unit.unit_name}[/color]")
+        game_mgr.event_mgr.notify(MSG_PANEL_NEW_MSG, f"[color=red]{troop_unit.unit_name}[/color]进驻[color=green]{city_unit.unit_name}[/color]")
         self.remove_troop(troop_unit)
 
     #
@@ -542,7 +543,7 @@ class GamePlay:
     def defeat(self, src_unit, target_unit) -> int:
         if target_unit.unit_type == UT_CITY:
             self.occupy_city(src_unit, target_unit)
-            game_mgr.event_mgr.emit(MSG_PANEL_NEW_MSG, f"[color=red]{src_unit.unit_name}[/color]占领[color=green]{target_unit.unit_name}[/color]")
+            game_mgr.event_mgr.notify(MSG_PANEL_NEW_MSG, f"[color=red]{src_unit.unit_name}[/color]占领[color=green]{target_unit.unit_name}[/color]")
             
         return 0
     

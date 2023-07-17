@@ -104,7 +104,7 @@ class InputMgr(NodeObject):
         is_pressed = pressed != 0
         #log_debug(f'key pressed: keycode={keycode} pressed={is_pressed}')
         if pressed:
-            game_mgr.event_mgr.emit(KEY_PRESS, keycode)
+            game_mgr.event_mgr.notify(KEY_PRESS, keycode)
                 
         
         self.key_dict[keycode] = is_pressed
@@ -118,7 +118,7 @@ class InputMgr(NodeObject):
         if button <= MIDDLE_BUTTON:
             self.mouse_pressed[button] = is_pressed
         elif is_pressed:
-            game_mgr.event_mgr.emit(wheel_events[button])
+            game_mgr.event_mgr.notify(wheel_events[button])
 
     def on_mouse_move(self, x, y):
         self.x = x
@@ -138,28 +138,28 @@ class InputMgr(NodeObject):
         mouse_data.pressed = curr
         if last != curr:
             if curr:
-                event_mgr.emit(mouse_data.event_press, self.x, self.y)
+                event_mgr.notify(mouse_data.event_press, self.x, self.y)
                 mouse_data.press_x = self.x
                 mouse_data.press_y = self.y
                 mouse_data.press_time = game_mgr.time
             else:
                 if mouse_data.drag:
                     mouse_data.drag = False
-                    event_mgr.emit(mouse_data.event_end_drag)
-                    event_mgr.emit(mouse_data.event_release)
+                    event_mgr.notify(mouse_data.event_end_drag)
+                    event_mgr.notify(mouse_data.event_release)
                 else:
                     # 从按下后，从没有进行过drag，则当做click事件
-                    event_mgr.emit(mouse_data.event_release)
-                    event_mgr.emit(mouse_data.event_click)
+                    event_mgr.notify(mouse_data.event_release)
+                    event_mgr.notify(mouse_data.event_click)
         else:
             if curr:
                 dx = self.x - mouse_data.press_x
                 if dx*dx > 4 and self.can_drag():
                     if not mouse_data.drag:
                         mouse_data.drag = True
-                        event_mgr.emit(mouse_data.event_begin_drag)
+                        event_mgr.notify(mouse_data.event_begin_drag)
                     else:
-                        event_mgr.emit(mouse_data.event_drag, self.x, self.y)
+                        event_mgr.notify(mouse_data.event_drag, self.x, self.y)
 
     # 这个是原先的, 只处理左键的版本
     def process_left_button(self):
@@ -168,28 +168,28 @@ class InputMgr(NodeObject):
         self.left_button.pressed = curr
         if last != curr:
             if curr:
-                game_mgr.event_mgr.emit(LEFT_BUTTON_PRESS, self.x, self.y)
+                game_mgr.event_mgr.notify(LEFT_BUTTON_PRESS, self.x, self.y)
                 self.left_button.press_x = self.x
                 self.left_button.press_y = self.y
                 self.left_button.press_time = game_mgr.time
             else:
                 if self.left_button.drag:
                     self.left_button.drag = False
-                    game_mgr.event_mgr.emit(LEFT_BUTTON_END_DRAG)
-                    game_mgr.event_mgr.emit(LEFT_BUTTON_RELEASE)
+                    game_mgr.event_mgr.notify(LEFT_BUTTON_END_DRAG)
+                    game_mgr.event_mgr.notify(LEFT_BUTTON_RELEASE)
                 else:
                     # 从按下后，从没有进行过drag，则当做click事件
-                    game_mgr.event_mgr.emit(LEFT_BUTTON_RELEASE)
-                    game_mgr.event_mgr.emit(LEFT_BUTTON_CLICK)
+                    game_mgr.event_mgr.notify(LEFT_BUTTON_RELEASE)
+                    game_mgr.event_mgr.notify(LEFT_BUTTON_CLICK)
         else:
             if curr:
                 dx = self.x - self.left_button.press_x
                 if dx*dx > 4 and self.can_drag():
                     if not self.left_button.drag:
                         self.left_button.drag = True
-                        game_mgr.event_mgr.emit(LEFT_BUTTON_BEGIN_DRAG)
+                        game_mgr.event_mgr.notify(LEFT_BUTTON_BEGIN_DRAG)
                     else:
-                        game_mgr.event_mgr.emit(LEFT_BUTTON_DRAG, self.x, self.y)
+                        game_mgr.event_mgr.notify(LEFT_BUTTON_DRAG, self.x, self.y)
 
     # 判断是否可以drag
     def can_drag(self):

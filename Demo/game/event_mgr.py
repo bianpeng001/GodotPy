@@ -9,6 +9,7 @@ class EventMgr:
     def __init__(self):
         self.map = {}
 
+    # 订阅消息
     def add(self, name, handler):
         if not name in self.map:
             self.map[name] = [handler]
@@ -19,7 +20,8 @@ class EventMgr:
         if name in self.map:
             self.map[name].remove(handler)
 
-    def emit(self, name, *args, **kwargs):
+    # 通知订阅者
+    def notify(self, name, *args, **kwargs):
         if name in self.map:
             for handler in self.map[name]:
                 handler.__call__(*args, **kwargs)

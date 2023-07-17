@@ -58,7 +58,7 @@ class NavPanelController(UIController, PopupTrait):
 
     def goto_unit(self, unit):
         game_mgr.camera_mgr.set_target_focus(*unit.get_position())
-        game_mgr.event_mgr.emit(RECT_SELECT_UNITS_CHANGE, (unit,))
+        game_mgr.event_mgr.notify(RECT_SELECT_UNITS_CHANGE, (unit,))
 
     def on_main_city_click(self):
         log_debug('back to main city')

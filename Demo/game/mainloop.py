@@ -23,12 +23,12 @@ class MainLoop(NodeObject):
         game_mgr.scene_root_obj = self.get_obj()
         from game.game_play import GamePlay
         game_mgr.game_play = GamePlay()
-        game_mgr.event_mgr.emit(APP_LAUNCH)
+        game_mgr.event_mgr.notify(APP_LAUNCH)
 
     def _ready(self):
         log_debug('MainLoop ready')
         # start game
-        game_mgr.event_mgr.emit(START_GAME)
+        game_mgr.event_mgr.notify(START_GAME)
 
     def _tree_exiting(self):
         log_debug('MainLoop exit tree')

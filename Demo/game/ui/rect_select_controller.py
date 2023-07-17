@@ -107,7 +107,7 @@ class RectSelectController(UIController, PopupTrait):
                 log_debug(unit.unit_name, unit.get_position())
                 
         # 通知cmd_panel, 操作目标集合变更, 那边负责响应即可
-        game_mgr.event_mgr.emit(RECT_SELECT_UNITS_CHANGE, self.select_list)
+        game_mgr.event_mgr.notify(RECT_SELECT_UNITS_CHANGE, self.select_list)
         
         
 
