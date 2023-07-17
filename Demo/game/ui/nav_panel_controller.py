@@ -21,7 +21,7 @@ class NavPanelController(UIController, PopupTrait):
         self.btn_dict = {}
         self.cur_tab_index = 0
 
-        self.btn_list = []
+        self.btn_pool = []
     
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
@@ -45,7 +45,7 @@ class NavPanelController(UIController, PopupTrait):
         log_debug('click', tab_index)
         if self.cur_tab_index != tab_index:
             self.cur_tab_index = tab_index
-            self.show_buttons()
+            self.refresh_buttons()
 
     def get_unit_type(self):
         match self.cur_tab_index:
@@ -56,30 +56,31 @@ class NavPanelController(UIController, PopupTrait):
             case 2:
                 return 100
 
-    def goto_unit(self, unit):
+    def goto_unit(self, unit_id):
+        unit = get_unit(unit_id)
         game_mgr.camera_mgr.set_target_focus(*unit.get_position())
         game_mgr.event_mgr.notify(RECT_SELECT_UNITS_CHANGE, (unit,))
 
     def on_main_city_click(self):
         log_debug('back to main city')
         mp = get_main_player()
-        unit = get_unit(mp.main_city_id)
-        self.goto_unit(unit)
+        self.goto_unit(mp.main_city_id)
         
     # 获得一个城市
     def on_add_unit(self, player_id, unit_id):
         if player_id != get_main_player_id():
             return
         
-        unit = get_unit(unit_id)
         def make_on_click():
-            self.goto_unit(unit)
+            self.goto_unit(unit_id)
         
-        if self.btn_list:
-            btn = self.btn_list.pop()
+        if self.btn_pool:
+            btn = self.btn_pool.pop()
         else:
             btn = self.btn_1.dup()
             btn.connect(PRESSED, make_on_click)
+
+        unit = get_unit(unit_id)
         btn.set_text(unit.unit_name)
         btn.set_visible(unit.unit_type == self.get_unit_type())
         self.btn_dict[unit_id] = btn
@@ -92,13 +93,10 @@ class NavPanelController(UIController, PopupTrait):
         if unit_id in self.btn_dict:
             btn = self.btn_dict.pop(unit_id)
             btn.set_visible(False)
-            self.btn_list.append(btn)
-
-    # 强制重建
-    def rebuild(self):
-        pass
-        
-    def show_buttons(self):
+            self.btn_pool.append(btn)
+    
+    # 刷新全部
+    def refresh_buttons(self):
         cur_unit_type = self.get_unit_type()
         for unit_id in self.btn_dict:
             btn = self.btn_dict[unit_id]
