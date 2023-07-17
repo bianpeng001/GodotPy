@@ -15,7 +15,8 @@ from game.event_name import PRESSED,\
         ALERT_DIALOG_MSG,\
         SCENE_UNIT_CLICK,\
         SCENE_GROUND_CLICK,\
-        LEAVE_SCENE
+        LEAVE_SCENE,\
+        NAV_PANEL_REMOVE_UNIT
 from game.ui.ui_traits import PopupTrait
 
 #
@@ -159,6 +160,7 @@ class CmdPanelController(UIController, PopupTrait):
         game_mgr.event_mgr.add(SCENE_UNIT_CLICK, self.on_scene_unit_click)
         game_mgr.event_mgr.add(SCENE_GROUND_CLICK, self.on_scene_ground_click)
         game_mgr.event_mgr.add(LEAVE_SCENE, self.on_leave_scene)
+        game_mgr.event_mgr.add(NAV_PANEL_REMOVE_UNIT, self.on_remove_unit)
         
         self.icon_list = [
             None,
@@ -291,6 +293,10 @@ class CmdPanelController(UIController, PopupTrait):
             self.cur_dlg = None
             return True
 
-
+    def on_remove_unit(self, player_id, unit_id):
+        unit = get_unit(unit_id)
+        if unit in self.unit_list:
+            unit_list = tuple(filter(lambda x: x != unit, self.unit_list))
+            game_mgr.event_mgr.emit(RECT_SELECT_UNITS_CHANGE, unit_list)
 
 

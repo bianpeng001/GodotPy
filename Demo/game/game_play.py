@@ -352,7 +352,7 @@ class GamePlay:
         if city.owner_player_id > 0:
             owner = game_mgr.player_mgr.get_player(city.owner_player_id)
             owner.city_list.remove(city.unit_id)
-            game_mgr.event_mgr.emit(NAV_PANEL_LOSE_UNIT, owner.player_id, city.unit_id)
+            game_mgr.event_mgr.emit(NAV_PANEL_REMOVE_UNIT, owner.player_id, city.unit_id)
             city.owner_player_id = 0
             
         city.owner_player_id = player.player_id
@@ -426,7 +426,7 @@ class GamePlay:
     # 如果是进城, 注意回收队伍中的武将, 士兵, 资源
     def remove_troop(self, troop_unit):
         troop_unit.get_controller().kill()
-        game_mgr.event_mgr.emit(NAV_PANEL_LOSE_UNIT, troop_unit.owner_player_id, troop_unit.unit_id)
+        game_mgr.event_mgr.emit(NAV_PANEL_REMOVE_UNIT, troop_unit.owner_player_id, troop_unit.unit_id)
     
     # 创建队伍
     def create_troop(self,

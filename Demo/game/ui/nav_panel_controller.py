@@ -6,7 +6,7 @@ from game.game_mgr import *
 from game.base_type import UIController, UT_CITY, UT_TROOP
 from game.ui.ui_traits import PopupTrait
 from game.event_name import PRESSED, TAB_CHANGED,\
-        NAV_PANEL_LOSE_UNIT,\
+        NAV_PANEL_REMOVE_UNIT,\
         NAV_PANEL_ADD_UNIT,\
         RECT_SELECT_UNITS_CHANGE
 
@@ -39,7 +39,7 @@ class NavPanelController(UIController, PopupTrait):
         self.tab_obj.connect(TAB_CHANGED, self.on_tab_changed)
         
         game_mgr.event_mgr.add(NAV_PANEL_ADD_UNIT, self.on_add_unit)
-        game_mgr.event_mgr.add(NAV_PANEL_LOSE_UNIT, self.on_lose_unit)
+        game_mgr.event_mgr.add(NAV_PANEL_REMOVE_UNIT, self.on_lose_unit)
 
     def on_tab_changed(self, tab_index):
         log_debug('click', tab_index)
