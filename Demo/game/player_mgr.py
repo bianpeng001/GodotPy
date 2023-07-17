@@ -121,7 +121,7 @@ class PlayerMgr:
 
     def remove_player(self, player):
         self.player_dict.pop(player.player_id)
-        self.update_list.remove(player,get_controller())
+        self.update_list.remove(player.get_controller())
     
     def set_main_player(self, player):
         self.main_player = player
