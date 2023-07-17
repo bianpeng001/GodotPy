@@ -422,12 +422,12 @@ class GamePlay:
             for hero in player.hero_list:
                 hero.ap.grow(ap_growth_speed,delta_time)
 
-
     # 解散队伍, 一般是进城, 或者被击溃
     # 如果是进城, 注意回收队伍中的武将, 士兵, 资源
     def remove_troop(self, troop_unit):
-        pass
-        
+        troop_unit.get_controller().kill()
+        game_mgr.event_mgr.emit(NAV_PANEL_LOSE_UNIT, troop_unit.owner_player_id, troop_unit.unit_id)
+    
     # 创建队伍
     def create_troop(self,
             city_unit:object,
@@ -470,6 +470,27 @@ class GamePlay:
         game_mgr.event_mgr.emit(NAV_PANEL_ADD_UNIT, troop.owner_player_id, troop.unit_id)
 
         return troop
+
+    # 部队,进入城市的数据修改
+    def troop_enter_city(self, troop_unit, city_unit):
+        # TODO: 只能进驻自己的城市
+        if troop_unit.owner_player_id != city_unit.owner_player_id:
+            return
+        
+        for hero_item in troop_unit.hero_list:
+            city_unit.hero_list.append(hero_item.hero_id)
+        troop_unit.hero_list.clear()
+
+        sum_moral = city_unit.army_amount.value*city_unit.army_moral.value+\
+            troop_unit.army_amount.value*troop_unit.army_moral.value
+
+        city_unit.army_amount.value += troop_unit.army_amount.value
+        troop_unit.army_amount.value = 0
+        if city_unit.army_amount.value > 0:
+            city_unit.army_moral = sum_moral/city_unit.army_amount.value
+        
+        game_mgr.event_mgr.emit(MSG_PANEL_NEW_MSG, f"[color=red]{troop_unit.unit_name}[/color]进驻[color=green]{city_name}[/color]")
+        self.remove_troop(troop_unit)
 
     #
     # 释放技能, 伤害结算. 目前这个是伤害的唯一方式

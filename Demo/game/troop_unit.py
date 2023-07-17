@@ -40,12 +40,12 @@ class TroopUnit(Unit):
         # 质量
         self.mass = 10
 
-        # 战斗策略
+        # 目标信息
         # TODO: 这几个数据, 也许不应该放在这里
         self.target_pos = (0, 0)
         self.target_unit_id = 0
 
-        # 战斗行为
+        # 战斗策略
         self.chase_target = False
         self.enter_target = False
         self.stay_when_no_target = False

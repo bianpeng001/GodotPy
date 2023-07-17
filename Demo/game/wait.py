@@ -33,7 +33,7 @@ def test_wait_1():
 
         print(f'{OS.get_time()} {game_mgr.time_sec:0.3f}')
         yield WaitForSeconds(3)
-        print(f'{OS.get_time()} {game_mgr.time_sec}')
+        print(f'{OS.get_time()} {game_mgr.time_sec:0.3f}')
         
     game_mgr.co_mgr.start(co_print_number())
 

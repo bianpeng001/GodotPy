@@ -93,7 +93,6 @@ class NavPanelController(UIController, PopupTrait):
             btn = self.btn_dict.pop(unit_id)
             btn.set_visible(False)
             self.btn_list.append(btn)
-            #btn.destroy()
 
     # 强制重建
     def rebuild(self):

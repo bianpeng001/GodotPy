@@ -86,7 +86,7 @@ class CmdItem:
             case '查看':
                 if origin_unit_list:
                     unit = origin_unit_list[0]
-                    text = game_mgr.ui_mgr.cmd_panel_controller.make_unit_info(unit)
+                    text = game_mgr.ui_mgr.cmd_panel_controller.make_unit_info(unit, detail=True)
                     game_mgr.event_mgr.emit(ALERT_DIALOG_MSG, text, 3.0)
 
             case '撤退':
@@ -104,8 +104,7 @@ class CmdItem:
                         dx,dz = x1-x1,z1-z0
                         if dx*dx+dz*dz < city_unit.radius:
                             log_debug(f'{unit.unit_name} enter {city_unit.unit_name}')
-                            # TODO:
-                            pass
+                            game_mgr.game_play.troop_enter_city(unit, city_unit)
                 pass
 
 #
@@ -225,7 +224,7 @@ class CmdPanelController(UIController, PopupTrait):
                 item.btn_obj.set_visible(False)
 
     # 单个单位的概述
-    def make_unit_info(self, unit):
+    def make_unit_info(self, unit, detail=False):
         name_label = game_mgr.get_unit_name_label(unit)
 
         sb = StringBuilder()
@@ -235,13 +234,14 @@ class CmdPanelController(UIController, PopupTrait):
             sb.writeln('警戒行军')
         elif unit.unit_type == UT_CITY:
             sb.writeln(f'安居乐业')
-        
         sb.writeln(f'主公 {get_player_name(unit.owner_player_id)}')
-        if check_owner_main_player(unit):
-            sb.writeln(f'士兵 {unit.army_amount.get_floor()}人')
-            sb.writeln(f'武将 {unit.get_hero_count()}员')
-        else:
-            sb.writeln('士兵 若干')
+
+        if detail:
+            if check_owner_main_player(unit):
+                sb.writeln(f'士兵 {unit.army_amount.get_floor()}人')
+                sb.writeln(f'武将 {unit.get_hero_count()}员')
+            else:
+                sb.writeln('士兵 若干')
 
         return sb.getvalue()
         
