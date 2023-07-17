@@ -57,6 +57,7 @@ class NavPanelController(UIController, PopupTrait):
                 return 100
 
     def goto_unit(self, unit_id):
+        log_debug('goto unit', unit_id)
         unit = get_unit(unit_id)
         game_mgr.camera_mgr.set_target_focus(*unit.get_position())
         game_mgr.event_mgr.notify(RECT_SELECT_UNITS_CHANGE, (unit,))
@@ -78,8 +79,8 @@ class NavPanelController(UIController, PopupTrait):
             btn = self.btn_pool.pop()
         else:
             btn = self.btn_1.dup()
-            btn.connect(PRESSED, make_on_click)
 
+        btn.connect(PRESSED, make_on_click)
         unit = get_unit(unit_id)
         btn.set_text(unit.unit_name)
         btn.set_visible(unit.unit_type == self.get_unit_type())
@@ -93,6 +94,7 @@ class NavPanelController(UIController, PopupTrait):
         if unit_id in self.btn_dict:
             btn = self.btn_dict.pop(unit_id)
             btn.set_visible(False)
+            btn.clear_connection(PRESSED)
             self.btn_pool.append(btn)
     
     # 刷新全部
