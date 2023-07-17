@@ -6,8 +6,9 @@ import math
 
 from game.core import *
 from game.game_mgr import *
-from game.base_type import UIController, when_visible
 from game.hero_mgr import *
+from game.base_type import UIController, when_visible
+from game.config_mgr import select_one
 from game.ui.ui_traits import PopupTrait, HeroListTrait
 from game.event_name import PRESSED,\
         MAINUI_REFRESH,\
