@@ -146,11 +146,11 @@ class ConfigMgr:
         # 修正block的步长
         self.fix_block_step = 0.1
         
+        # 武将体力增速
+        self.hero_ap_growth = 3/60
+
         self.first_city_name = '平安'
         self.new_player_text = '请问尊姓大名?'
-
-        self.ap_growth_speed = 3/60
-
         self.satrap_titles = ['', '村长','县令','太守','州牧']
         
     def init_story_config(self):

@@ -418,9 +418,9 @@ class GamePlay:
             player.total_rice_amount = total_rice_amount
 
             # 刷新武将体力
-            ap_growth_speed = game_mgr.config_mgr.ap_growth_speed
+            hero_ap_growth = game_mgr.config_mgr.hero_ap_growth
             for hero in player.hero_list:
-                hero.ap.grow(ap_growth_speed,delta_time)
+                hero.ap.grow(hero_ap_growth,delta_time)
 
     # 解散队伍, 一般是进城, 击溃
     # 如果是进城, 注意回收队伍中的武将, 士兵, 资源
