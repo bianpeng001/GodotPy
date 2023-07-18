@@ -567,10 +567,11 @@ class GamePlay:
 
         if prev_owner and not prev_owner.city_list:
             pname = prev_owner.player_name
-            log_debug(f'remove player {pname}')
+            log_debug('player vanish', pname)
             game_mgr.ui_mgr.popup_dialog(pname, '大势已去, 我输了', 2.0)
             game_mgr.player_mgr.remove_player(prev_owner)
-            game_mgr.event_mgr.notify(MSG_PANEL_NEW_MSG, f"[color=red]{pname}[/color]势力消亡了")
+            game_mgr.event_mgr.notify(MSG_PANEL_NEW_MSG,
+                    f"[color=red]{pname}[/color]势力消亡了")
         
         return 0
 

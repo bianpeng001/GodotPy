@@ -116,10 +116,12 @@ class CityUnit(Unit):
         else:
             path = 'res://models/City01.tscn'
             
-        
         self.model_node = OS.instantiate(path)
         if is_gate:
             self.model_node.set_scale(1.2,1.2,1.2)
+        elif is_hill:
+            s = random_1()*0.5+1
+            self.model_node.set_scale(s,s,s)
 
         controller = self.get_controller()
         controller.apply_position()

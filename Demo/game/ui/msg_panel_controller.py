@@ -15,6 +15,7 @@ class MsgPanelController(UIController, PopupTrait):
         super().__init__()
         
         self.msg_list = []
+        self.max_count = 50
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
@@ -26,7 +27,7 @@ class MsgPanelController(UIController, PopupTrait):
         game_mgr.event_mgr.add(MSG_PANEL_NEW_MSG, self.on_new_msg)
 
     def add_msg(self, text):
-        if len(self.msg_list) > 20:
+        if len(self.msg_list) > self.max_count:
             msg = self.msg_list.pop(0)
         else:
             msg = self.msg_0.dup()
