@@ -57,7 +57,7 @@ class BuildPanelController(UIController, PopupTrait):
             self.active_obj.set_visible(False)
         self.active_obj = None
 
-        self.pop_panel()
+        self.defer_close()
 
     def on_build_farm_click(self):
         self.set_active_obj(self.item_list[0])

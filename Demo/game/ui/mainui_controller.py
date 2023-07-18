@@ -73,7 +73,6 @@ class MainUIController(UIController, PopupTrait):
     def on_build_click(self):
         dlg = game_mgr.ui_mgr.build_panel_controller
         dlg.popup(250, 100)
-        dlg.push_panel()
     
     def on_sys_panel(self):
         panel = game_mgr.ui_mgr.sys_panel_controller
@@ -97,8 +96,6 @@ class MainUIController(UIController, PopupTrait):
     def on_map_click(self):
         obj = game_mgr.ui_mgr.map_panel_controller
         if obj.is_show():
-            #obj.defer_close()
-            #game_mgr.ui_mgr.pop_panel(obj)
             obj.defer_close()
         else:
             obj.init()

@@ -23,7 +23,7 @@ class MapPanelController(UIController, PopupTrait):
         pass
 
     def on_ok_click(self):
-        self.pop_panel()
+        self.defer_close()
 
         
 

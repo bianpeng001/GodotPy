@@ -54,7 +54,6 @@ class CityMenuController(UIController, PopupTrait):
 
         ui_mgr.neizheng_controller.init(city_unit)
         ui_mgr.neizheng_controller.set_position(250, 80)
-        ui_mgr.push_panel(ui_mgr.neizheng_controller)
 
     # 出战
     def on_chuzhan(self):
@@ -67,7 +66,6 @@ class CityMenuController(UIController, PopupTrait):
 
         ui_mgr.chuzhan_panel_controller.init(city_unit)
         ui_mgr.chuzhan_panel_controller.popup(250, 80)
-        ui_mgr.push_panel(ui_mgr.chuzhan_panel_controller)
 
     # 探索
     def on_tansuo(self):

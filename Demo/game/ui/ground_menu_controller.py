@@ -27,5 +27,4 @@ class GroundMenuController(UIController, PopupTrait):
         self.defer_close()
 
         game_mgr.ui_mgr.build_panel_controller.popup(250, 100)
-        game_mgr.ui_mgr.push_panel(game_mgr.ui_mgr.build_panel_controller)
 

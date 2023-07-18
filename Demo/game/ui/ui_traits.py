@@ -74,14 +74,6 @@ class PopupTrait:
             if btn_ok:
                 btn_ok.connect(PRESSED, self.on_ok_click)
 
-    @obstacle
-    def push_panel(self):
-        pass
-
-    @obstacle
-    def pop_panel(self):
-        pass
-
     def on_close_click(self):
         self.defer_close()
 

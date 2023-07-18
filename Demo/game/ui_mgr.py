@@ -272,7 +272,7 @@ class UIMgr(NodeObject):
             for item in self.base_ui_list:
                 item.defer_close()
 
-
+    # 初始化选择框, 绿色的矩形
     def init_select_rect(self):
         from game.ui.rect_select_controller import RectSelectController
         

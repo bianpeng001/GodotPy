@@ -63,5 +63,5 @@ class OptionPanelController(UIController, PopupTrait):
 
         if not self.callback or \
                 not self.callback(i):
-            self.pop_panel()
+            self.defer_close()
 
