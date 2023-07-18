@@ -197,6 +197,7 @@ Modules = [
     
     'Python/dynload_win.c',
     'PC/invalid_parameter_handler.c',
+    'PC/python3dll.c',
     'PC/dl_nt.c',
     'PC/winreg.c',
 ]
