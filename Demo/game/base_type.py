@@ -439,17 +439,8 @@ class TwoFoldList:
     def append(self, item):
         self.list.append(item)
 
-    def update(self):
-        self.swap()
-        if self.back_list:
-            for item in self.back_list:
-                try:
-                    self.do_update(item)
-                except Exception as err:
-                    traceback.print_exception(err)
-            self.back_list.clear()
-
-    def update_cb(self, cb):
+    def update_items(self, cb=None):
+        cb = cb or self.do_update
         self.swap()
         if self.back_list:
             for item in self.back_list:

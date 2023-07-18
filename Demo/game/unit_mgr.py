@@ -32,8 +32,8 @@ class UnitMgr:
         return self._unit_id_seed
 
     def update(self, delta_time):
-        self.start_list.update_cb(self._call_unit_start)
-        self.update_list.update_cb(self._call_unit_update)
+        self.start_list.update_items(self._call_unit_start)
+        self.update_list.update_items(self._call_unit_update)
         self._exec_dead_list()
 
     def _call_unit_start(self, unit):

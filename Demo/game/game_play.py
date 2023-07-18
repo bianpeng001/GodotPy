@@ -543,7 +543,6 @@ class GamePlay:
     def defeat(self, src_unit, target_unit) -> int:
         if target_unit.unit_type == UT_CITY:
             self.occupy_city(src_unit, target_unit)
-            game_mgr.event_mgr.notify(MSG_PANEL_NEW_MSG, f"[color=red]{src_unit.unit_name}[/color]占领[color=green]{target_unit.unit_name}[/color]")
             
         return 0
     
@@ -560,14 +559,17 @@ class GamePlay:
             controller = city_unit.get_controller()
             controller.get_hud_comp().set_valid(False)
             controller.set_flag_color()
+            game_mgr.event_mgr.notify(MSG_PANEL_NEW_MSG,
+                    "[color=red]{0}[/color]占领[color=green]{1}[/color]".format(
+                    src_unit.unit_name,city_unit.unit_name))
 
         if prev_owner and not prev_owner.city_list:
             pname = prev_owner.player_name
             log_debug(f'remove player {pname}')
-            game_mgr.ui_mgr.popup_dialog(pname, '请接收我的投降', 2.0)
+            game_mgr.ui_mgr.popup_dialog(pname, '大势已去, 我输了', 2.0)
             game_mgr.player_mgr.remove_player(prev_owner)
             game_mgr.event_mgr.notify(MSG_PANEL_NEW_MSG, f"[color=red]{pname}[/color]势力消亡了")
-            
+        
         return 0
 
     # 在城里, 创建一个玩家
