@@ -151,7 +151,7 @@ theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("7_1lycp")
 text = "选择"
 
-[node name="Label3" type="Label" parent="Panel"]
+[node name="LblArmy" type="Label" parent="Panel"]
 layout_mode = 0
 offset_left = 29.0
 offset_top = 61.0
@@ -160,7 +160,7 @@ offset_bottom = 88.0
 theme = ExtResource("1_beg0d")
 text = "兵力"
 
-[node name="LblArmy" type="Label" parent="Panel"]
+[node name="LblArmyAmount" type="Label" parent="Panel"]
 layout_mode = 0
 offset_left = 201.0
 offset_top = 61.0
@@ -169,48 +169,100 @@ offset_bottom = 88.0
 theme = ExtResource("1_beg0d")
 text = "10000/10000人"
 
-[node name="SliderArmyMass" type="HSlider" parent="Panel"]
+[node name="SliderArmy" type="HSlider" parent="Panel"]
 layout_mode = 0
 offset_left = 83.0
 offset_top = 61.0
 offset_right = 192.0
 offset_bottom = 85.0
 
-[node name="Label2" type="Label" parent="Panel"]
+[node name="LblFood" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 29.0
-offset_top = 102.0
-offset_right = 81.0
-offset_bottom = 129.0
+offset_left = 28.0
+offset_top = 155.0
+offset_right = 80.0
+offset_bottom = 182.0
+theme = ExtResource("1_beg0d")
+text = "粮食"
+
+[node name="BtnFood" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 81.0
+offset_top = 155.0
+offset_right = 171.0
+offset_bottom = 178.0
+theme = ExtResource("1_beg0d")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/focus = ExtResource("7_1lycp")
+text = "1000"
+
+[node name="LblMoney" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 185.0
+offset_right = 80.0
+offset_bottom = 212.0
+theme = ExtResource("1_beg0d")
+text = "银两"
+
+[node name="BtnMoney" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 81.0
+offset_top = 185.0
+offset_right = 171.0
+offset_bottom = 208.0
+theme = ExtResource("1_beg0d")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/focus = ExtResource("7_1lycp")
+text = "1000"
+
+[node name="LblForm" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 95.0
+offset_right = 80.0
+offset_bottom = 122.0
 theme = ExtResource("1_beg0d")
 text = "阵型"
 
 [node name="BtnForm" type="Button" parent="Panel"]
 layout_mode = 0
 offset_left = 81.0
-offset_top = 102.0
+offset_top = 95.0
 offset_right = 171.0
-offset_bottom = 125.0
+offset_bottom = 118.0
 theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("7_1lycp")
 text = "方阵"
 
-[node name="Label5" type="Label" parent="Panel"]
+[node name="FormList" type="ItemList" parent="Panel"]
 layout_mode = 0
-offset_left = 29.0
-offset_top = 144.0
-offset_right = 81.0
-offset_bottom = 171.0
+offset_left = 171.0
+offset_top = 95.0
+offset_right = 275.0
+offset_bottom = 185.0
+theme = ExtResource("1_beg0d")
+theme_override_font_sizes/font_size = 14
+item_count = 2
+item_0/text = "长蛇阵"
+item_1/text = "长蛇阵"
+
+[node name="LblTarget" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 125.0
+offset_right = 80.0
+offset_bottom = 152.0
 theme = ExtResource("1_beg0d")
 text = "目标"
 
 [node name="BtnTarget" type="Button" parent="Panel"]
 layout_mode = 0
 offset_left = 81.0
-offset_top = 144.0
+offset_top = 125.0
 offset_right = 171.0
-offset_bottom = 167.0
+offset_bottom = 148.0
 theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("7_1lycp")
@@ -224,18 +276,6 @@ offset_right = 81.0
 offset_bottom = 266.0
 theme = ExtResource("1_beg0d")
 text = "策略"
-
-[node name="FormList" type="ItemList" parent="Panel"]
-layout_mode = 0
-offset_left = 171.0
-offset_top = 102.0
-offset_right = 275.0
-offset_bottom = 192.0
-theme = ExtResource("1_beg0d")
-theme_override_font_sizes/font_size = 14
-item_count = 2
-item_0/text = "长蛇阵"
-item_1/text = "长蛇阵"
 
 [node name="CheckGreedy" type="CheckBox" parent="Panel"]
 layout_mode = 0

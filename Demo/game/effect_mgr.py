@@ -29,10 +29,12 @@ class EffectItemBase:
             self.node.set_visible(value)
     
     def set_position(self,x,y,z):
-        self.node.set_position(x,y,z)
+        if self.node:
+            self.node.set_position(x,y,z)
         
     def look_at(self, x,y,z):
-        self.node.look_at(x,y,z)
+        if self.node:
+            self.node.look_at(x,y,z)
     
     def load(self):
         if not self.node:
@@ -50,6 +52,11 @@ class EffectItemBase:
 class ParticleEffectItem(EffectItemBase):
     def update(self):
         pass
+
+    def set_visible(self, value):
+        super().set_visible(value)
+        # if self.node:
+        #     self.node.set_emitting(value)
 
 #
 # 飘字, 也是个特效
@@ -152,6 +159,7 @@ class EffectMgr:
 
         self.next_item_id += 1
         effect.item_id = self.next_item_id
+        log_debug('new effect', effect.item_id)
         
         effect.time = 0
         effect.set_visible(True)

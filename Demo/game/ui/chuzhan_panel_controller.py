@@ -62,8 +62,8 @@ class ChuZhanPanelController(UIController, PopupTrait):
 
         self.lbl_members = self.ui_obj.find_node('Panel/LblMembers')
         self.btn_select = self.ui_obj.find_node('Panel/BtnHeros')
-        self.lbl_army_mass = self.ui_obj.find_node('Panel/LblArmy')
-        self.slider_army_mass = self.ui_obj.find_node('Panel/SliderArmyMass')
+        self.lbl_army_mass = self.ui_obj.find_node('Panel/LblArmyAmount')
+        self.slider_army_mass = self.ui_obj.find_node('Panel/SliderArmy')
         self.btn_form = self.ui_obj.find_node('Panel/BtnForm')
         self.form_list = self.ui_obj.find_node('Panel/FormList')
         
