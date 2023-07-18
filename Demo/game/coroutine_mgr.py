@@ -2,8 +2,8 @@
 # 2023年2月1日 bianpeng
 #
 
-import traceback
 import sys
+import traceback
 
 from game.core import get_cache_time
 

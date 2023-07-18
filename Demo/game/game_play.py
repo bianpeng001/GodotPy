@@ -547,24 +547,26 @@ class GamePlay:
             
         return 0
     
-    # 占领
+    # 占领一个单位, 一般是建筑
+    # src_unit: 主动方
+    # city_unit: 被动方, 被占领
     def occupy_city(self, src_unit, city_unit) -> int:
         log_debug('occupy', src_unit.unit_name, city_unit.unit_name)
-        if city_unit.owner_player_id > 0:
-            prev_owner = get_player(city_unit.owner_player_id)
-        else:
-            prev_owner = None
+        prev_owner = self.get_owner_player(city_unit)
 
-        if src_unit.owner_player_id != 0:
-            player = get_player(src_unit.owner_player_id)
-            self.set_city_owner(city_unit, player)
+        if src_unit.owner_player_id > 0:
+            new_owner = self.get_owner_player(src_unit)
+            self.set_city_owner(city_unit, new_owner)
             controller = city_unit.get_controller()
             controller.get_hud_comp().set_valid(False)
             controller.set_flag_color()
 
         if prev_owner and not prev_owner.city_list:
-            game_mgr.ui_mgr.popup_dialog(player.player_name, '请接收我的投降', 2.0)
+            pname = prev_owner.player_name
+            log_debug(f'remove player {pname}')
+            game_mgr.ui_mgr.popup_dialog(pname, '请接收我的投降', 2.0)
             game_mgr.player_mgr.remove_player(prev_owner)
+            game_mgr.event_mgr.notify(MSG_PANEL_NEW_MSG, f"[color=red]{pname}[/color]势力消亡了")
             
         return 0
 
@@ -606,9 +608,9 @@ class GamePlay:
 
         return player
 
-    def remove_player(self, player):
-        pass
-
-
+    def get_owner_player(self, src_unit):
+        return get_player(src_unit.owner_player_id) \
+                if src_unit.owner_player_id > 0 \
+                else None
     
         

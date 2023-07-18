@@ -437,7 +437,7 @@ class LogUtil:
         self.skip = len(self.game_path) + 1
 
     def print_stack(self):
-        s = traceback.extract_stack(limit=4)
+        s = traceback.extract_stack(limit=6)
         for it in s[:-2]:
             print_line(f'\t{it.filename[self.skip:]}:{it.lineno}')
 

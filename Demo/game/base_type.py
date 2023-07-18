@@ -4,6 +4,7 @@
 
 import io
 import math
+import traceback
 
 from game.core import log_debug, Vector3
 
@@ -283,6 +284,9 @@ class UIController:
     def is_show(self):
         return self._show
 
+    def on_show(self, show):
+        pass
+
     def hide(self):
         self._show = False
         self.ui_obj.set_visible(False)
@@ -291,13 +295,11 @@ class UIController:
         if self.prev_panel:
             self.prev_panel.show()
             self.prev_panel = None
-            
+    
+    # 这个prev机制的问题, 在于当成环的时候就gg了
     def set_prev_panel(self, prev_panel):
         self.prev_panel = prev_panel
         prev_panel.defer_close()
-        
-    def on_show(self, show):
-        pass
 
 #
 # 本方法在UI可见时才生效, 用于事件响应
@@ -307,7 +309,8 @@ def when_visible(fun):
         if self.is_show():
             return fun(self, *args, **kwargs)
         else:
-            log_debug('ignore func when not visible', self)
+            log_debug('panel hide', self)
+            pass
     
     return _fun
 
@@ -426,7 +429,7 @@ class HeroSlot:
         self.pos_index = 0
 
 #
-# 
+# 双缓冲列表
 #
 class TwoFoldList:
     def __init__(self):
@@ -439,20 +442,22 @@ class TwoFoldList:
     def update(self):
         self.swap()
         if self.back_list:
-            try:
-                for item in self.back_list:
+            for item in self.back_list:
+                try:
                     self.do_update(item)
-            finally:
-                self.back_list.clear()
+                except Exception as err:
+                    traceback.print_exception(err)
+            self.back_list.clear()
 
     def update_cb(self, cb):
         self.swap()
         if self.back_list:
-            try:
-                for item in self.back_list:
+            for item in self.back_list:
+                try:
                     cb(item)
-            finally:
-                self.back_list.clear()
+                except Exception as err:
+                    traceback.print_exception(err)
+            self.back_list.clear()
 
     def swap(self):
         tmp = self.list
@@ -462,12 +467,11 @@ class TwoFoldList:
     def do_update(self, item):
         pass
 
-
     def get_list(self):
         return self.list
 
 #
-#
+# 字符串构造
 #
 class StringBuilder(io.StringIO):
     def writeln(self, text):

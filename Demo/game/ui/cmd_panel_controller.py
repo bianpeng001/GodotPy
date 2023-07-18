@@ -243,6 +243,7 @@ class CmdPanelController(UIController, PopupTrait):
             if check_owner_main_player(unit):
                 sb.writeln(f'士兵 {unit.army_amount.get_floor()}人')
                 sb.writeln(f'武将 {unit.get_hero_count()}员')
+                sb.writeln(f'目标 ***')
             else:
                 sb.writeln('士兵 ***')
                 sb.writeln('武将 *')
