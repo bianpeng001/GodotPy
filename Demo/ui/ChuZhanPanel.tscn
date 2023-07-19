@@ -65,17 +65,17 @@ stretch_mode = 0
 [node name="FormBg" type="ColorRect" parent="Panel"]
 layout_mode = 0
 offset_left = 314.0
-offset_top = 104.0
+offset_top = 96.0
 offset_right = 558.0
-offset_bottom = 348.0
+offset_bottom = 340.0
 color = Color(0.12549, 0.12549, 0.12549, 1)
 
 [node name="FormRoot" type="Control" parent="Panel"]
 anchors_preset = 0
 offset_left = 316.0
-offset_top = 106.0
+offset_top = 95.0
 offset_right = 560.0
-offset_bottom = 350.0
+offset_bottom = 339.0
 
 [node name="HeroItem" type="Control" parent="Panel/FormRoot"]
 anchors_preset = 0
@@ -267,6 +267,26 @@ theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("7_1lycp")
 text = "无"
+
+[node name="LblType" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 179.0
+offset_top = 95.0
+offset_right = 231.0
+offset_bottom = 122.0
+theme = ExtResource("1_beg0d")
+text = "兵种"
+
+[node name="BtnType" type="Button" parent="Panel"]
+layout_mode = 0
+offset_left = 232.0
+offset_top = 95.0
+offset_right = 292.0
+offset_bottom = 118.0
+theme = ExtResource("1_beg0d")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/focus = ExtResource("7_1lycp")
+text = "步兵"
 
 [node name="Label4" type="Label" parent="Panel"]
 layout_mode = 0
