@@ -614,7 +614,7 @@ class GamePlay:
             if is_win:
                 item_config = game_mgr.config_mgr.get_item_config(reward_config.item_id)
                 match item_config.config_id:
-                    case 4002:
+                    case 4001:
                         hero = game_mgr.hero_mgr.get_big_hero()
                         
                         dlg2 = game_mgr.ui_mgr.npc_dialog_controller
@@ -624,7 +624,7 @@ class GamePlay:
                 
                 log_debug('roll win', hero.hero_name, item_config.config_id,
                         item_config.item_name, reward_config.item_count)
-                        
+
         game_mgr.event_mgr.notify(ALERT_DIALOG_MSG, sb.getvalue(), 3.0)
         
 
