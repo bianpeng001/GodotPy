@@ -90,7 +90,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         rm_btns = [btn_dengyong.dup() for i in range(len(rm_texts) - 1)]
         rm_btns.append(btn_dengyong)
 
-        def make_rm_handler(label):
+        def make_btn_handler(label):
             def _fun():
                 return self.on_rm_btn_click(label)
             return _fun
@@ -101,7 +101,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             btn.set_text(btn_label)
             col,row = divmod(i, 2)
             btn.set_position(20+(50+6)*col, 270+row*40)
-            btn.connect(PRESSED, make_rm_handler(btn_label))
+            btn.connect(PRESSED, make_btn_handler(btn_label))
 
         game_mgr.event_mgr.add(MAINUI_REFRESH, self.on_refresh)
 

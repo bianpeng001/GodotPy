@@ -70,6 +70,27 @@ class SkillConfig(BaseConfig):
         self.damage = 10
 
 #
+# 物品配置
+#
+class ItemConfig(BaseConfig):
+    def __init__(self):
+        self.config_id = 0
+        self.item_name = ''
+        self.desc = ''
+        # 是否唯一
+        self.item_count = 1
+
+#
+# 奖励, 物品的id,数量,胜率
+#
+class RewardConfig(BaseConfig):
+    def __init__(self):
+        self.config_id = 0
+        self.item_id = 0
+        self.item_count = 1
+        self.win_rate = 1
+
+#
 # 活动配置
 #
 class ActivityConfig(BaseConfig):
@@ -124,6 +145,7 @@ class ConfigMgr:
         self.init_skill_config()
         # 活动
         self.init_activity_config()
+        self.init_reward_config()
                 
         # rvo 参数
         self.rvo_factor = 90
@@ -274,6 +296,7 @@ class ConfigMgr:
         item.config_id = 3002
         item.duration = 30
         item.title = '寻访'
+        item.rewards = [5001,5002]
         item.color = (0.0,0.5,0.0)
         add(item)
 
@@ -303,6 +326,65 @@ class ConfigMgr:
             return self.activity_dict.get(config_id, None)
         return self.activity_config_idle
 
+
+    def init_reward_config(self):
+        self.item_config_dict = {}
+
+        def add_item(item):
+            self.item_config_dict[item.config_id] = item
+
+        item = ItemConfig()
+        item.config_id = 4001
+        item.item_name = '玉玺'
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4002
+        item.item_name = '名将'
+        item.desc = '从名将卡池中抽取'
+        item.item_count = 9999
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4003
+        item.item_name = '虎头湛金枪'
+        item.item_count = 9999
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4004
+        item.item_name = '青龙偃月刀'
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4005
+        item.item_name = '赤兔马'
+        add_item(item)
+
+        self.reward_config_dict = {}
+        
+        def add_reward(item):
+            self.reward_config_dict[item.config_id] = item
+
+        item = RewardConfig()
+        item.config_id = 5001
+        item.item_id = 4002
+        item.item_count = 1
+        item.win_rate = 50
+        add_reward(item)
+
+        item = RewardConfig()
+        item.config_id = 5002
+        item.item_id = 4003
+        item.item_count = 1
+        item.win_rate = 50
+        add_reward(item)
+
+    def get_reward_config(self, config_id):
+        return self.reward_config_dict.get(config_id, None)
+
+    def get_item_config(self, config_id):
+        return self.item_config_dict.get(config_id, None)
 
     #----------------------------------------------------------------
     # 公式定义在此, 参数有点多
