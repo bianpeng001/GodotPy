@@ -423,7 +423,7 @@ class GamePlay:
         troop = game_mgr.unit_mgr.create_troop()
         
         troop.hero_list = hero_list
-        troop.owner_city_id = city_unit.unit_id
+        troop.base_city_id = city_unit.unit_id
         troop.owner_player_id = city_unit.owner_player_id
         troop.army_amount.value = army_amount
         troop.model_type = model_type
@@ -590,9 +590,9 @@ class GamePlay:
         # 城市的从属
         self.set_city_owner(city_unit, player)
         player.main_city_id = city_unit.unit_id
-        hero.owner_city_id = city_unit.unit_id
+        hero.base_city_id = city_unit.unit_id
         city_unit.hero_list.insert(0, hero.hero_id)
-        city_unit.satrap = hero.hero_id
+        city_unit.satrap_hero_id = hero.hero_id
 
         city_unit.get_controller().set_flag_color()
 
@@ -621,10 +621,10 @@ class GamePlay:
             if is_win:
                 match item_config.config_id:
                     case 4001:
-                        hero = game_mgr.hero_mgr.get_big_hero()
+                        big_hero = game_mgr.hero_mgr.get_big_hero()
                         
                         dlg2 = game_mgr.ui_mgr.npc_dialog_controller
-                        dlg2.show_dialog(hero.hero_name, '时机尚未成熟')
+                        dlg2.show_dialog(big_hero.hero_name, '且居山林, 静待时机')
                     case _:
                         sb.writeln(f'得到 {item_config.item_name} {reward_config.item_count}')
 

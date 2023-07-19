@@ -108,7 +108,7 @@ class Hero:
 
         # 主公
         self.owner_player_id = 0
-        self.owner_city_id = 0
+        self.base_city_id = 0
 
         # 性别
         self.gender = MALE

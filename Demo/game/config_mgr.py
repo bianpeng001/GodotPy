@@ -532,67 +532,67 @@ class ConfigMgr:
             return 0.3
 
     # 治安公式
-    def calc_order_growth_rate(self, satrap, hero):
+    def calc_order_growth_rate(self, satrap_hero, hero):
         value = 0
 
-        if satrap:
-            value += satrap.zheng*0.2
+        if satrap_hero:
+            value += satrap_hero.zheng*0.2
 
         if hero:
             value += hero.wu*0.5 + hero.tong*0.3
 
-        value *= self.get_zhengzhi_ratio(satrap)*0.2
+        value *= self.get_zhengzhi_ratio(satrap_hero)*0.2
         #log_debug('rice growth', value)
 
         return round(value)
 
     # 大米增长公式
-    def calc_rice_growth_rate(self, satrap, hero):
+    def calc_rice_growth_rate(self, satrap_hero, hero):
         value = 0
 
-        if satrap:
-            value += satrap.zheng*0.53
+        if satrap_hero:
+            value += satrap_hero.zheng*0.53
 
         if hero:
             value += hero.zheng*0.37 + hero.zhi*0.1
 
-        value *= self.get_zhengzhi_ratio(satrap)
+        value *= self.get_zhengzhi_ratio(satrap_hero)
         #log_debug('rice growth', value)
 
         return round(value)
 
     # 银两增长公式
-    def calc_money_growth_rate(self, satrap, hero):
+    def calc_money_growth_rate(self, satrap_hero, hero):
         value = 0
         
-        if satrap:
-            value += satrap.zheng*0.43
+        if satrap_hero:
+            value += satrap_hero.zheng*0.43
 
         if hero:
             value += hero.zheng*0.37 + hero.zhi*0.2
             
-        value *= self.get_zhengzhi_ratio(satrap)
+        value *= self.get_zhengzhi_ratio(satrap_hero)
 
         return round(value)
 
     # 人口
-    def calc_population_growth_rate(self, satrap):
+    def calc_population_growth_rate(self, satrap_hero):
         value = 0
 
-        if satrap:
-            value += satrap.zheng*0.51 + \
-                    satrap.mei*0.31 + \
-                    satrap.tong*0.18
+        if satrap_hero:
+            value += satrap_hero.zheng*0.51 + \
+                    satrap_hero.mei*0.31 + \
+                    satrap_hero.tong*0.18
 
         return round(value)
 
     # 军队增长
-    def calc_army_growth_rate(self, satrap):
+    def calc_army_growth_rate(self, satrap_hero):
         value = 50
 
-        if satrap:
-            value += satrap.tong*0.61 +\
-                    satrap.mei*0.39
+        if satrap_hero:
+            value += satrap_hero.tong*0.61 +\
+                    satrap_hero.mei*0.39
             
         return round(value)
 

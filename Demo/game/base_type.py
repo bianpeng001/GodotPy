@@ -101,6 +101,8 @@ YHD_Labels = ['险恶','敌对','普通','友好','盟友']
 # 军队的兵种类型, 子类型
 # 兵种的类型, 消耗的资源, 也不一样
 
+# 徒手
+AT_NONE = 0
 # 盾刀
 AT_SHIELD = 1
 # 长枪
@@ -140,10 +142,12 @@ class Unit:
         self.defense = 10
         # 等级
         self.level = 1
+
         # 护甲(城防)
         self.armor_amount = RangeValue(100, 100)
         # 血量(主要是指军队数量)
         self.army_amount = RangeValue(0, 1000)
+        # 士气
         self.army_moral = RangeValue(100, 100)
 
         # 生死存亡

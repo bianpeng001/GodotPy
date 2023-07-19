@@ -74,7 +74,7 @@ ORDER_POINTS,FARM_POINTS,TRADE_POINTS,
 X,Z
 ) VALUES (
 {unit.unit_id},"{unit.unit_name}",
-{unit.satrap},'',
+{unit.satrap_hero_id},'',
 {unit.order_points.value:0.2f},{unit.farm_points.value:0.2f},{unit.trade_points.value:0.2f},
 {unit.get_x():0.2f}, {unit.get_z():0.2f}
 );'''
@@ -97,7 +97,7 @@ OWNER_PLAYER_ID,OWNER_CITY_ID,
 BORN_YEAR
 ) VALUES (
 {h.hero_id},"{h.hero_name}",
-{h.owner_player_id},{h.owner_city_id},
+{h.owner_player_id},{h.base_city_id},
 {h.born_year}
 );'''
             cursor.execute(sql)
@@ -126,7 +126,7 @@ ARMY_AMOUNT,ARMY_MORAL,
 X,Z
 ) VALUES (
 {unit.unit_id},"{unit.unit_name}",
-{unit.owner_player_id},{unit.owner_city_id},
+{unit.owner_player_id},{unit.base_city_id},
 {unit.chief_hero_id},'{hero_list}',
 {unit.army_amount.value:0.2f},{unit.army_moral.value:0.2f},
 {unit.get_x():0.2f},{unit.get_z():0.2f}

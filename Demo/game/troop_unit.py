@@ -17,24 +17,20 @@ class TroopUnit(Unit):
 
         # 基本特征参数
         self.radius = 3
-        # 所属城
-        self.owner_city_id = 0
         # 行军速度
         self.speed = 0.6
 
-        # 武将列表
-        self.hero_list = []
+        # 所属城
+        self.base_city_id = 0
         # 主将
         self.chief_hero_id = 0
+        # 武将列表
+        self.hero_list = []
 
         # 兵种类型
-        self.army_type = AT_SHIELD
-
+        self.army_type = AT_NONE
         # 军队数量
         self.army_amount = RangeValue(0, 1000)
-        
-        # 士气
-        self.army_moral = RangeValue(100, 100)
         # 暴击率
         self.critical_strike = 50
 

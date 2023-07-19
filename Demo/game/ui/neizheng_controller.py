@@ -122,7 +122,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.lbl_satrap.set_text(satrap_titles[self.city_unit.city_type])
 
         # 缓存一些数据，用于修改，不是直接改
-        self.satrap = self.city_unit.satrap
+        self.satrap_hero_id = self.city_unit.satrap_hero_id
         self.order_incharge = self.city_unit.order_incharge
         self.farmer_incharge = self.city_unit.farmer_incharge
         self.trader_incharge = self.city_unit.trader_incharge
@@ -145,7 +145,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         self.lbl_name_obj.set_text(f'{province} {self.city_unit.unit_name}')
 
         # 官员负责人
-        self.btn_satrap.set_text(get_hero_name(self.satrap))
+        self.btn_satrap.set_text(get_hero_name(self.satrap_hero_id))
         self.btn_order_incharge.set_text(get_hero_name(self.order_incharge))
         self.btn_farmer_incharge.set_text(get_hero_name(self.farmer_incharge))
         self.btn_trader_incharge.set_text(get_hero_name(self.trader_incharge))
@@ -176,7 +176,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         config_mgr = game_mgr.config_mgr
         
         rates = city_unit.get_controller().calc_growth_rate(
-                self.satrap, 
+                self.satrap_hero_id,
                 self.order_incharge,
                 self.farmer_incharge,
                 self.trader_incharge)
@@ -252,7 +252,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
     # 任命太守
     def on_set_satrap(self, hero_id):
-        self.satrap = hero_id
+        self.satrap_hero_id = hero_id
         # 重新计算内政的数据，更新太守造成的影响
         self.update_city_detail()
 
@@ -434,21 +434,21 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         dlg2 = game_mgr.ui_mgr.npc_dialog_controller
         # 弹一个对话
-        if self.city_unit.satrap != 0 and self.satrap == 0:
-            hero = game_mgr.hero_mgr.get_hero(self.city_unit.satrap)
+        if self.city_unit.satrap_hero_id != 0 and self.satrap_hero_id == 0:
+            hero = game_mgr.hero_mgr.get_hero(self.city_unit.satrap_hero_id)
             msg = '莫非我不堪此任?'
             dlg2.show_dialog(hero.hero_name, msg)
-        elif self.city_unit.satrap == 0 and self.satrap != 0:
-            hero = game_mgr.hero_mgr.get_hero(self.satrap)
+        elif self.city_unit.satrap_hero_id == 0 and self.satrap_hero_id != 0:
+            hero = game_mgr.hero_mgr.get_hero(self.satrap_hero_id)
             msg = '定当尽心竭力,不负所托.'
             dlg2.show_dialog(hero.hero_name, msg)
-        elif self.satrap != 0:
-            hero = game_mgr.hero_mgr.get_hero(self.satrap)
+        elif self.satrap_hero_id != 0:
+            hero = game_mgr.hero_mgr.get_hero(self.satrap_hero_id)
             msg, _ = random_select_item(game_mgr.config_mgr.neizheng_strap_dialog_list)
             dlg2.show_dialog(hero.hero_name, msg)
 
         # 数据回写
-        self.city_unit.satrap = self.satrap
+        self.city_unit.satrap_hero_id = self.satrap_hero_id
         self.city_unit.order_incharge = self.order_incharge
         self.city_unit.farmer_incharge = self.farmer_incharge
         self.city_unit.trader_incharge = self.trader_incharge

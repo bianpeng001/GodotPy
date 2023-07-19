@@ -40,8 +40,6 @@ class CityUnit(Unit):
 
         # 军队数量,区别于居民人口
         self.army_amount = RangeValue(random_int(1000, 2000), 5000)
-        # 士气
-        self.army_moral = RangeValue(100, 100)
         self.damage = 10
         self.defense = 10
         
@@ -63,7 +61,7 @@ class CityUnit(Unit):
         self.population_growth_rate = 0
 
         # 太守(总督,县尉,郡守)
-        self.satrap = 0
+        self.satrap_hero_id = 0
 
         # 税务官
         self.fax_incharge = 0
@@ -94,7 +92,7 @@ class CityUnit(Unit):
     def init(self):
         for i in range(random_range(5, 10)):
             hero = game_mgr.hero_mgr.new_hero()
-            hero.owner_city_id = self.unit_id
+            hero.base_city_id = self.unit_id
             log_debug('new hero', self.unit_name, hero.hero_id, hero.hero_name)
             
             self.hero_list.append(hero.hero_id)

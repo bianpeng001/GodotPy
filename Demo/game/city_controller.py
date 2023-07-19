@@ -58,7 +58,7 @@ class CityController(Controller):
 
         # 重新计算城内各个增长率
         order,rice,money,population = self.calc_growth_rate(
-                city_unit.satrap,
+                city_unit.satrap_hero_id,
                 city_unit.order_incharge,
                 city_unit.farmer_incharge,
                 city_unit.trader_incharge)
@@ -71,26 +71,26 @@ class CityController(Controller):
     # 计算各个资源的增长率
     #
     def calc_growth_rate(self,
-            satrap, 
+            satrap_hero_id,
             order_incharge,
             farmer_incharge,
             trader_incharge):
         config_mgr = game_mgr.config_mgr
 
         order = config_mgr.calc_order_growth_rate(
-            get_hero(satrap), get_hero(order_incharge)
+            get_hero(satrap_hero_id), get_hero(order_incharge)
         )
 
         rice = config_mgr.calc_rice_growth_rate(
-            get_hero(satrap), get_hero(farmer_incharge)
+            get_hero(satrap_hero_id), get_hero(farmer_incharge)
         )
         
         money = config_mgr.calc_money_growth_rate(
-            get_hero(satrap), get_hero(trader_incharge)
+            get_hero(satrap_hero_id), get_hero(trader_incharge)
         )
 
         population = config_mgr.calc_population_growth_rate(
-            get_hero(satrap)
+            get_hero(satrap_hero_id)
         )
 
         return order,rice,money,population
