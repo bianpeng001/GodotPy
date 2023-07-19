@@ -619,10 +619,10 @@ class GamePlay:
                 else None
     
     # roll点, 获得奖励
-    def roll_rewards(self, hero, rewards, activity_title):
+    def roll_rewards(self, hero, activity_config):
         sb = StringBuilder()
-        sb.writeln(f'{hero.hero_name}{activity_title}顺利归来')
-        for reward_config_id in cfg.rewards:
+        sb.writeln(f'{hero.hero_name}{activity_config.title}顺利归来')
+        for reward_config_id in activity_config.rewards:
             reward_config = game_mgr.config_mgr.get_reward_config(reward_config_id)
             is_win = random_1()*100 < reward_config.win_rate
             

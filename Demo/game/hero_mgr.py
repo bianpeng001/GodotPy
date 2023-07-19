@@ -413,7 +413,7 @@ class HeroMgr:
         if item:
             cfg = game_mgr.config_mgr.get_activity_config(item.config_id)
             if cfg.rewards:
-                game_mgr.game_play.roll_rewards(hero, cfg.rewards, cfg.title)
+                game_mgr.game_play.roll_rewards(hero, cfg)
             hero.activity_item = None
     
     # 刷新武将的活动
