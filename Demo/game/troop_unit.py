@@ -3,7 +3,7 @@
 #
 from game.core import log_debug, OS
 from game.game_mgr import *
-from game.base_type import Unit, RangeValue
+from game.base_type import *
 from game.troop_controller import TroopController
 
 #
@@ -26,6 +26,9 @@ class TroopUnit(Unit):
         self.hero_list = []
         # 主将
         self.chief_hero_id = 0
+
+        # 兵种类型
+        self.army_type = AT_SHIELD
 
         # 军队数量
         self.army_amount = RangeValue(0, 1000)
