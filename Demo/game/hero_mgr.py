@@ -5,7 +5,7 @@
 from game.core import *
 from game.game_mgr import *
 from game.base_type import RangeValue
-from game.config_mgr import new_hero_name
+from game.config_mgr import new_hero_name, select_one
 
 # Hero 是纯数据Entity，不存在实体
 
@@ -341,7 +341,9 @@ class HeroMgr:
         hero = create('杨玉环')
         hero = create('吕雉')
 
-
+    def get_big_hero(self):
+        hero = select_one(self.big_hero_list, delete=False)
+        return hero
 
     # 支持随机英雄和经典英雄
     def new_hero(self, hero_name=None):

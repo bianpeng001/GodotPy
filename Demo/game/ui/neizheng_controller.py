@@ -333,7 +333,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
 
         def on_confirmed_cb():
             speaker_name = select_one(hero_list).hero_name
-            game_mgr.ui_mgr.popup_dialog(speaker_name, '得令', 1.5)
+            game_mgr.ui_mgr.npc_dialog_controller.show_dialog(speaker_name, '得令')
             
             # TODO: 扣体力, 并刷新
             result = []
@@ -432,19 +432,20 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
     def on_ok_click(self):
         self.defer_close()
 
+        dlg2 = game_mgr.ui_mgr.npc_dialog_controller
         # 弹一个对话
         if self.city_unit.satrap != 0 and self.satrap == 0:
             hero = game_mgr.hero_mgr.get_hero(self.city_unit.satrap)
             msg = '莫非我不堪此任?'
-            game_mgr.ui_mgr.popup_dialog(hero.hero_name, msg, 1.5)
+            dlg2.show_dialog(hero.hero_name, msg)
         elif self.city_unit.satrap == 0 and self.satrap != 0:
             hero = game_mgr.hero_mgr.get_hero(self.satrap)
             msg = '定当尽心竭力,不负所托.'
-            game_mgr.ui_mgr.popup_dialog(hero.hero_name, msg, 1.5)
+            dlg2.show_dialog(hero.hero_name, msg)
         elif self.satrap != 0:
             hero = game_mgr.hero_mgr.get_hero(self.satrap)
             msg, _ = random_select_item(game_mgr.config_mgr.neizheng_strap_dialog_list)
-            game_mgr.ui_mgr.popup_dialog(hero.hero_name, msg, 1.5)
+            dlg2.show_dialog(hero.hero_name, msg)
 
         # 数据回写
         self.city_unit.satrap = self.satrap

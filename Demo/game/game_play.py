@@ -206,39 +206,25 @@ class GamePlay:
                 yield WaitForSeconds(1.5)
                 dlg1.defer_close()
                 
-                dlg2.init()
-                dlg2.show_text2("陌生人", "兄台请留步")
-                yield WaitForSeconds(1.5)
-                dlg2.show_text2("我", "干啥, 我可没钱")
-                yield WaitForSeconds(1.5)
-                dlg2.show_text2("陌生人", "兄台取笑了, 不是问你要钱, 是给你钱!")
-                yield WaitForSeconds(1.5)
-                dlg2.show_text2("我", "还有这好事?")
-                yield WaitForSeconds(1.5)
-                dlg2.show_text2("陌生人", "未请教尊姓大名?")
-                yield WaitForSeconds(1.5)
-                dlg2.defer_close()
+                dlg2.show_dialog("陌生人", "兄台请留步")
+                dlg2.show_dialog("我", "干啥, 我可没钱")
+                dlg2.show_dialog("陌生人", "兄台取笑了, 不是问你要钱, 是给你钱!")
+                dlg2.show_dialog("我", "还有这好事?")
+                dlg2.show_dialog("陌生人", "未请教尊姓大名?")
+                yield dlg2._co_show_dialog
                 
                 dlg3.show_dialog()
                 yield WaitForClose(dlg3)
                 player_name = dlg3.player_name
                 
-                dlg2.init()
-                dlg2.show_text2("陌生人", "久仰, 久仰. 是这样, 我这有个活, 包吃包住")
-                yield WaitForSeconds(1.5)
-                dlg2.show_text2(player_name, "真的吗?")
-                yield 1.5
-                dlg2.show_text2("陌生人", "我看你步履稳健, 气度不凡, 头顶一道英雄气直贯云天, 不得了, 不得了")
-                yield 2.5
-                dlg2.show_text2(player_name, "骗小孩呢? 有事说事, 别耽误我散步")
-                yield 2.5
-                dlg2.show_text2("陌生人", "...这个, 眼下虽然时运不济, 他日风云际会, 必定一飞冲天!")
-                yield 2.5
-                dlg2.show_text2("陌生人", "如今朝廷正在用人之际, 我推荐你到军中效力, 总好过在乡野埋没")
-                yield 2.5
-                dlg2.show_text2(player_name, "好像有点道理")
-                yield 1.5
-                dlg2.defer_close()
+                dlg2.show_dialog("陌生人", "久仰, 久仰. 是这样, 我这有个活, 包吃包住")
+                dlg2.show_dialog(player_name, "真的吗?")
+                dlg2.show_dialog("陌生人", "我看你步履稳健, 气度不凡, 头顶一道英雄气直贯云天, 不得了, 不得了")
+                dlg2.show_dialog(player_name, "骗小孩呢? 有事说事, 别耽误我散步")
+                dlg2.show_dialog("陌生人", "...这个, 眼下虽然时运不济, 他日风云际会, 必定一飞冲天!")
+                dlg2.show_dialog("陌生人", "如今朝廷正在用人之际, 我推荐你到军中效力, 总好过在乡野埋没")
+                dlg2.show_dialog(player_name, "好像有点道理")
+                yield dlg2._co_show_dialog
                 
                 dlg1.init()
                 dlg1.show_text('这就是我被拉壮丁的经过')
@@ -266,14 +252,10 @@ class GamePlay:
                 yield WaitForSeconds(2.5)
                 dlg1.defer_close()
                 
-                dlg2.init()
-                dlg2.show_text2("关羽", "如今各处刚历经兵乱, 此处虽小, 也可以励精图治")
-                yield WaitForSeconds(1.5)
-                dlg2.show_text2("张飞", "大哥, 先看下城里的[color=red]内政[/color]情况吧")
-                yield WaitForSeconds(1.5)
-                dlg2.show_text2(player_name, "好, 往后这就是我们的家了!")
-                yield WaitForSeconds(1.5)
-                dlg2.defer_close()
+                dlg2.show_dialog("关羽", "如今各处刚历经兵乱, 此处虽小, 也可以励精图治")
+                dlg2.show_dialog("张飞", "大哥, 先看下城里的[color=red]内政[/color]情况吧")
+                dlg2.show_dialog(player_name, "好, 往后这就是我们的家了!")
+                yield dlg2._co_show_dialog
                 
                 dlg1.init()
                 dlg1.show_text('三人读书练武勤于政务, 于百姓秋毫无犯, 日子倒也快活')
@@ -568,7 +550,10 @@ class GamePlay:
         if prev_owner and not prev_owner.city_list:
             pname = prev_owner.player_name
             log_debug('player vanish', pname)
-            game_mgr.ui_mgr.popup_dialog(pname, '大势已去, 我输了', 2.0)
+
+            dlg2 = game_mgr.ui_mgr.npc_dialog_controller
+            dlg2.show_dialog(pname, '大势已去, 我输了')
+
             game_mgr.player_mgr.remove_player(prev_owner)
             game_mgr.event_mgr.notify(MSG_PANEL_NEW_MSG,
                     f"[color=red]{pname}[/color]势力消亡了")
@@ -628,10 +613,19 @@ class GamePlay:
             
             if is_win:
                 item_config = game_mgr.config_mgr.get_item_config(reward_config.item_id)
+                match item_config.config_id:
+                    case 4002:
+                        hero = game_mgr.hero_mgr.get_big_hero()
+                        
+                        dlg2 = game_mgr.ui_mgr.npc_dialog_controller
+                        dlg2.show_dialog(hero.hero_name, '时机尚未成熟')
+                    case _:
+                        sb.writeln(f'得到 {item_config.item_name} {reward_config.item_count}')
                 
-                log_debug('roll win', hero.hero_name, item_config.item_name,
-                        reward_config.item_count)
-
-                sb.writeln(f'得到{item_config.item_name} {reward_config.item_count}')
+                log_debug('roll win', hero.hero_name, item_config.config_id,
+                        item_config.item_name, reward_config.item_count)
         game_mgr.event_mgr.notify(ALERT_DIALOG_MSG, sb.getvalue(), 3.0)
         
+
+
+
