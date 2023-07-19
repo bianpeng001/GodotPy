@@ -405,7 +405,6 @@ class HeroMgr:
         item.start_time = game_mgr.time_sec
         item.infinite = cfg.infinite
         item.finish_time = 0 if cfg.infinite else game_mgr.time_sec + cfg.duration
-        item.title = cfg.title
 
         hero.activity_item = item
 
@@ -414,16 +413,7 @@ class HeroMgr:
         if item:
             cfg = game_mgr.config_mgr.get_activity_config(item.config_id)
             if cfg.rewards:
-                sb = StringBuilder()
-                sb.writeln(f'{hero.hero_name}{item.title}顺利归来')
-                for reward_config_id in cfg.rewards:
-                    reward_config = game_mgr.config_mgr.get_reward_config(reward_config_id)
-                    is_win = random_1()*100 < reward_config.win_rate
-                    if is_win:
-                        item_config = game_mgr.config_mgr.get_item_config(reward_config.item_id)
-                        sb.writeln(f'得到{item_config.item_name} {reward_config.item_count}')
-                game_mgr.event_mgr.notify(MSG_PANEL_NEW_MSG, sb.getvalue())
-
+                game_mgr.game_play.roll_rewards(hero, cfg.rewards, cfg.title)
             hero.activity_item = None
     
     # 刷新武将的活动

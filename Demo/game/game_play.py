@@ -618,4 +618,20 @@ class GamePlay:
                 if src_unit.owner_player_id > 0 \
                 else None
     
+    # roll点, 获得奖励
+    def roll_rewards(self, hero, rewards, activity_title):
+        sb = StringBuilder()
+        sb.writeln(f'{hero.hero_name}{activity_title}顺利归来')
+        for reward_config_id in cfg.rewards:
+            reward_config = game_mgr.config_mgr.get_reward_config(reward_config_id)
+            is_win = random_1()*100 < reward_config.win_rate
+            
+            if is_win:
+                item_config = game_mgr.config_mgr.get_item_config(reward_config.item_id)
+                
+                log_debug('roll win', hero.hero_name, item_config.item_name,
+                        reward_config.item_count)
+
+                sb.writeln(f'得到{item_config.item_name} {reward_config.item_count}')
+        game_mgr.event_mgr.notify(ALERT_DIALOG_MSG, sb.getvalue(), 3.0)
         
