@@ -61,3 +61,8 @@ class NpcDialogController(UIController, PopupTrait):
         self.defer_close()
         self._co_show_dialog = None
 
+    def get_waiter(self):
+        return self._co_show_dialog
+
+
+

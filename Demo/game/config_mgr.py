@@ -418,7 +418,7 @@ class ConfigMgr:
         add_item(item)
 
         #---------------------------------
-        
+
         self.reward_config_dict = {}
         
         def add_reward(item):
@@ -433,7 +433,7 @@ class ConfigMgr:
 
         item = RewardConfig()
         item.config_id = 5002
-        item.item_id = 4001
+        item.item_id = 4101
         item.item_count = 1
         item.win_rate = 50
         add_reward(item)

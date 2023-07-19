@@ -211,7 +211,7 @@ class GamePlay:
                 dlg2.show_dialog("陌生人", "兄台取笑了, 不是问你要钱, 是给你钱!")
                 dlg2.show_dialog("我", "还有这好事?")
                 dlg2.show_dialog("陌生人", "未请教尊姓大名?")
-                yield dlg2._co_show_dialog
+                yield dlg2.get_waiter()
                 
                 dlg3.show_dialog()
                 yield WaitForClose(dlg3)
@@ -224,7 +224,7 @@ class GamePlay:
                 dlg2.show_dialog("陌生人", "...这个, 眼下虽然时运不济, 他日风云际会, 必定一飞冲天!")
                 dlg2.show_dialog("陌生人", "如今朝廷正在用人之际, 我推荐你到军中效力, 总好过在乡野埋没")
                 dlg2.show_dialog(player_name, "好像有点道理")
-                yield dlg2._co_show_dialog
+                yield dlg2.get_waiter()
                 
                 dlg1.init()
                 dlg1.show_text('这就是我被拉壮丁的经过')
@@ -255,7 +255,7 @@ class GamePlay:
                 dlg2.show_dialog("关羽", "如今各处刚历经兵乱, 此处虽小, 也可以励精图治")
                 dlg2.show_dialog("张飞", "大哥, 先看下城里的[color=red]内政[/color]情况吧")
                 dlg2.show_dialog(player_name, "好, 往后这就是我们的家了!")
-                yield dlg2._co_show_dialog
+                yield dlg2.get_waiter()
                 
                 dlg1.init()
                 dlg1.show_text('三人读书练武勤于政务, 于百姓秋毫无犯, 日子倒也快活')
