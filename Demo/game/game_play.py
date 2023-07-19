@@ -624,6 +624,7 @@ class GamePlay:
                 
                 log_debug('roll win', hero.hero_name, item_config.config_id,
                         item_config.item_name, reward_config.item_count)
+                        
         game_mgr.event_mgr.notify(ALERT_DIALOG_MSG, sb.getvalue(), 3.0)
         
 

@@ -334,33 +334,91 @@ class ConfigMgr:
             self.item_config_dict[item.config_id] = item
 
         item = ItemConfig()
-        item.config_id = 4001
-        item.item_name = '玉玺'
-        add_item(item)
 
         item = ItemConfig()
-        item.config_id = 4002
+        item.config_id = 4001
         item.item_name = '名将'
         item.desc = '从名将卡池中抽取'
         item.item_count = 9999
         add_item(item)
 
         item = ItemConfig()
-        item.config_id = 4003
-        item.item_name = '虎头湛金枪'
+        item.config_id = 4101
+        item.item_name = '虎头錾金枪'
         item.item_count = 9999
         add_item(item)
 
         item = ItemConfig()
-        item.config_id = 4004
-        item.item_name = '青龙偃月刀'
+        item.config_id = 4102
+        item.item_name = '龙胆亮银枪'
+        item.item_count = 9999
         add_item(item)
 
         item = ItemConfig()
-        item.config_id = 4005
+        item.config_id = 4103
+        item.item_name = '青龙偃月刀'
+        item.item_count = 9999
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4104
+        item.item_name = '丈八蛇矛'
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4105
+        item.item_name = '方天画戟'
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4106
+        item.item_name = '倚天剑'
+        item.item_count = 1
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4201
         item.item_name = '赤兔马'
         add_item(item)
 
+        item = ItemConfig()
+        item.config_id = 4202
+        item.item_name = '爪黄飞电'
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4203
+        item.item_name = '乌骓马'
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4204
+        item.item_name = '夜照狮子'
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4205
+        item.item_name = '黄骠马'
+        add_item(item)
+
+        item.config_id = 4301
+        item.item_name = '玉玺'
+        add_item(item)
+
+        item.config_id = 4302
+        item.item_name = '九锡'
+        add_item(item)
+
+        item.config_id = 4303
+        item.item_name = '孙子兵法'
+        add_item(item)
+
+        item.config_id = 4304
+        item.item_name = '孟德新书'
+        add_item(item)
+
+        #---------------------------------
+        
         self.reward_config_dict = {}
         
         def add_reward(item):
@@ -368,14 +426,14 @@ class ConfigMgr:
 
         item = RewardConfig()
         item.config_id = 5001
-        item.item_id = 4002
+        item.item_id = 4001
         item.item_count = 1
         item.win_rate = 50
         add_reward(item)
 
         item = RewardConfig()
         item.config_id = 5002
-        item.item_id = 4003
+        item.item_id = 4001
         item.item_count = 1
         item.win_rate = 50
         add_reward(item)
