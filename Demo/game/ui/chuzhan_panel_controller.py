@@ -15,6 +15,8 @@ from game.event_name import PRESSED,\
 ITEM_SIZE = 80
 
 #
+# 带一个位置信息
+#
 class HeroItem(HeroSlot):
     def __init__(self):
         super().__init__()
@@ -27,6 +29,10 @@ class HeroItem(HeroSlot):
     def set_index(self, pos_index):
         self.pos_index = pos_index
         self.hero_item_obj.set_position(*self.get_position())
+
+    def get_hero(self):
+        #return game_mgr.hero_mgr.get_hero(self.hero_id)
+        return get_hero(self.hero_id)
 
 #
 # 出战

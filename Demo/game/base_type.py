@@ -428,6 +428,9 @@ class HeroSlot:
         self.hero_id = 0
         self.pos_index = 0
 
+    def get_hero(self):
+        pass
+
 #
 # 双缓冲列表
 #
