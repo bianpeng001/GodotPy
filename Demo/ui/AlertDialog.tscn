@@ -6,12 +6,12 @@
 [node name="AlertDialog" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-offset_right = 200.0
+offset_right = 250.0
 offset_bottom = 150.0
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_right = 200.0
+offset_right = 250.0
 offset_bottom = 150.0
 mouse_filter = 2
 theme_override_styles/panel = ExtResource("1_c8x70")
@@ -20,7 +20,7 @@ theme_override_styles/panel = ExtResource("1_c8x70")
 layout_mode = 0
 offset_left = 5.0
 offset_top = 5.0
-offset_right = 195.0
+offset_right = 245.0
 offset_bottom = 145.0
 mouse_filter = 2
 theme = ExtResource("1_0ruxj")

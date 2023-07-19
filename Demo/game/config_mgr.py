@@ -294,7 +294,7 @@ class ConfigMgr:
 
         item = ActivityConfig()
         item.config_id = 3002
-        item.duration = 30
+        item.duration = 20
         item.title = '探访'
         item.rewards = [5001,5002]
         item.color = (0.0,0.5,0.0)
@@ -302,7 +302,7 @@ class ConfigMgr:
 
         item = ActivityConfig()
         item.config_id = 3003
-        item.duration = 300
+        item.duration = 100
         item.title = '探亲'
         item.color = (0.0,0.5,0.0)
         add(item)
@@ -316,7 +316,7 @@ class ConfigMgr:
 
         item = ActivityConfig()
         item.config_id = 3005
-        item.duration = 10
+        item.duration = 100
         item.title = '受伤'
         item.color = (1.0,0.0,0.0)
         add(item)
@@ -660,7 +660,7 @@ _city_name_data = [
 '玉门关','昭关','铁门关','居庸关','剑门关','娄山关','阳关',
 '瞿塘关','仙霞关','汜水关','潼关','萧关','金堤关','昆仑关',
 '崤关','绵竹关','涪水关','壹关','阳平关','蒲津关','天门关',
-'七星关',
+'七星关','倒马关','紫荆关','宁武关',
 '蝴蝶谷','恶人谷','',
 
 '烂柯山','芒砀山','牛头山','四明山','终南山','峨眉山',
@@ -670,6 +670,9 @@ _city_name_data = [
 '得胜山','玉皇山','玉玺山','石头山','玉女山','括苍山',
 '莲花山','小鬼山','大鬼山','飞来峰','天台山','笔架山',
 '将军山','清凉山','平顶山','火焰山','青石山','穆柯寨',
+'二龙山','少室山','三皇寨','贺兰山','长白山','太行山',
+'猫儿山','兴安岭','青铜峡','瞿塘峡','缥缈峰','大明山',
+'三清山','玉京峰','玉虚峰','玉华峰','紫金山','莫干山',
 #'羽山','君山','庐山','华山','梁山',
 
 '野猪林','乌林','绿林','榆林','胡林','虎林',
