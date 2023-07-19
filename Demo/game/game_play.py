@@ -612,8 +612,11 @@ class GamePlay:
             item_config = game_mgr.config_mgr.get_item_config(reward_config.item_id)
             is_win = random_1()*100 < reward_config.win_rate
             
-            log_debug('roll', hero.hero_name, item_config.config_id,
-                        item_config.item_name, reward_config.item_count, is_win)
+            log_debug('roll', hero.hero_name,
+                        item_config.config_id,
+                        item_config.item_name,
+                        reward_config.item_count,
+                        is_win)
 
             if is_win:
                 match item_config.config_id:

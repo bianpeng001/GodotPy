@@ -326,7 +326,6 @@ class ConfigMgr:
             return self.activity_dict.get(config_id, None)
         return self.activity_config_idle
 
-
     def init_reward_config(self):
         self.item_config_dict = {}
 
@@ -343,18 +342,22 @@ class ConfigMgr:
         add_item(item)
 
         # 普通物品
+        item = ItemConfig()
         item.config_id = 4011
         item.item_name = '玉玺'
         add_item(item)
 
+        item = ItemConfig()
         item.config_id = 4012
         item.item_name = '九锡'
         add_item(item)
 
+        item = ItemConfig()
         item.config_id = 4013
         item.item_name = '孙子兵法'
         add_item(item)
 
+        item = ItemConfig()
         item.config_id = 4014
         item.item_name = '孟德新书'
         add_item(item)
