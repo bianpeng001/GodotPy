@@ -236,18 +236,6 @@ theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("7_1lycp")
 text = "方阵"
 
-[node name="FormList" type="ItemList" parent="Panel"]
-layout_mode = 0
-offset_left = 171.0
-offset_top = 95.0
-offset_right = 275.0
-offset_bottom = 185.0
-theme = ExtResource("1_beg0d")
-theme_override_font_sizes/font_size = 14
-item_count = 2
-item_0/text = "长蛇阵"
-item_1/text = "长蛇阵"
-
 [node name="LblTarget" type="Label" parent="Panel"]
 layout_mode = 0
 offset_left = 28.0
@@ -287,6 +275,18 @@ theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("7_1lycp")
 text = "步兵"
+
+[node name="FormList" type="ItemList" parent="Panel"]
+layout_mode = 0
+offset_left = 171.0
+offset_top = 95.0
+offset_right = 275.0
+offset_bottom = 185.0
+theme = ExtResource("1_beg0d")
+theme_override_font_sizes/font_size = 14
+item_count = 2
+item_0/text = "长蛇阵"
+item_1/text = "长蛇阵"
 
 [node name="Label4" type="Label" parent="Panel"]
 layout_mode = 0
