@@ -342,6 +342,24 @@ class ConfigMgr:
         item.item_count = 9999
         add_item(item)
 
+        # 普通物品
+        item.config_id = 4011
+        item.item_name = '玉玺'
+        add_item(item)
+
+        item.config_id = 4012
+        item.item_name = '九锡'
+        add_item(item)
+
+        item.config_id = 4013
+        item.item_name = '孙子兵法'
+        add_item(item)
+
+        item.config_id = 4014
+        item.item_name = '孟德新书'
+        add_item(item)
+
+        # 武器
         item = ItemConfig()
         item.config_id = 4101
         item.item_name = '虎头錾金枪'
@@ -373,9 +391,46 @@ class ConfigMgr:
         item = ItemConfig()
         item.config_id = 4106
         item.item_name = '倚天剑'
-        item.item_count = 1
         add_item(item)
 
+        item = ItemConfig()
+        item.config_id = 4107
+        item.item_name = '环首刀'
+        add_item(item)
+
+        # 甲
+        #明光甲,缀鳞甲、山文甲、乌锤甲、白布甲、皂绢甲、布背甲、步兵甲、皮甲、木甲、锁予甲、马甲'
+        item = ItemConfig()
+        item.config_id = 4151
+        item.item_name = '札甲'
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4152
+        item.item_name = '两当铠'
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4153
+        item.item_name = '黑光铠'
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4154
+        item.item_name = '明光铠'
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4155
+        item.item_name = '皮甲'
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4156
+        item.item_name = '布甲'
+        add_item(item)
+
+        # 马
         item = ItemConfig()
         item.config_id = 4201
         item.item_name = '赤兔马'
@@ -399,22 +454,6 @@ class ConfigMgr:
         item = ItemConfig()
         item.config_id = 4205
         item.item_name = '黄骠马'
-        add_item(item)
-
-        item.config_id = 4301
-        item.item_name = '玉玺'
-        add_item(item)
-
-        item.config_id = 4302
-        item.item_name = '九锡'
-        add_item(item)
-
-        item.config_id = 4303
-        item.item_name = '孙子兵法'
-        add_item(item)
-
-        item.config_id = 4304
-        item.item_name = '孟德新书'
         add_item(item)
 
         #---------------------------------
