@@ -278,15 +278,33 @@ text = "步兵"
 
 [node name="FormList" type="ItemList" parent="Panel"]
 layout_mode = 0
-offset_left = 171.0
-offset_top = 95.0
-offset_right = 275.0
-offset_bottom = 185.0
+offset_left = 81.0
+offset_top = 118.0
+offset_right = 185.0
+offset_bottom = 208.0
 theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 14
+theme_override_styles/panel = ExtResource("2_ncryx")
 item_count = 2
 item_0/text = "长蛇阵"
 item_1/text = "长蛇阵"
+
+[node name="TypeList" type="ItemList" parent="Panel"]
+layout_mode = 0
+offset_left = 232.0
+offset_top = 118.0
+offset_right = 302.0
+offset_bottom = 241.0
+theme = ExtResource("1_beg0d")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/panel = ExtResource("2_ncryx")
+item_count = 6
+item_0/text = "盾兵"
+item_1/text = "枪兵"
+item_2/text = "弓兵"
+item_3/text = "骑兵"
+item_4/text = "辎重"
+item_5/text = "攻城"
 
 [node name="Label4" type="Label" parent="Panel"]
 layout_mode = 0
