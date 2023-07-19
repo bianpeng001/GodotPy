@@ -93,7 +93,6 @@ class ActivityItem:
         self.finish_time = 0
         self.infinite = False
 
-
 #
 # 英雄(逻辑单位，没有实体)
 # TODO: 还要搞一个3D的捏脸数据，用来区分一下形象
@@ -136,7 +135,7 @@ class Hero:
 
         # 这个要用来做控制了,不能同时做两件事情
         # 军队，内政(政,农,商..)，空闲
-        self.activity = None
+        self.activity_item = None
 
         # 行动力, 体力
         self.ap = RangeValue(100, 100, 0)
@@ -186,6 +185,10 @@ class Hero:
     def init_attrs(self, *args, **kw_args):
         for k in kw_args:
             self.set_attr(attr_alias[k], kw_args[k])
+
+
+    def get_activity_item(self):
+        return self.activity_item
 
 #
 # 武将管理器，所有的武将都在这里，就像一个数据库
@@ -392,8 +395,8 @@ class HeroMgr:
     # region of hero activity
 
     # 英雄当前的活动, 安全调用, 判断是否存在
-    def set_hero_activity(self, hero_id:int, config_id:int):
-        assert hero_id > 0
+    def set_hero_activity(self, hero, config_id:int):
+        assert hero.get_activity_item() is None
         
         cfg = game_mgr.config_mgr.get_activity_config(config_id)
         
@@ -404,25 +407,28 @@ class HeroMgr:
         item.finish_time = 0 if cfg.infinite else game_mgr.time_sec + cfg.duration
         item.title = cfg.title
 
-        hero = self.get_hero(hero_id)
-        hero.activity = item
+        hero.activity_item = item
 
     def finish_hero_activity(self, hero):
-        hero.activity = None
+        item = hero.get_activity_item()
+        if item:
+            cfg = game_mgr.config_mgr.get_activity_config(item.config_id)
+
+            hero.activity_item = None
     
     # 刷新武将的活动
     def update_hero_activity(self, hero):
-        item = hero.activity
+        item = hero.get_activity_item()
         if item and \
                 not item.infinite and \
                 game_mgr.time_sec > item.finish_time:
             self.finish_hero_activity(hero)
 
     def is_hero_busy(self, hero):
-        return hero.activity != None or hero.ap.value < 10
+        return hero.get_activity_item() != None or hero.ap.value < 10
 
     def get_hero_activity_title(self, hero):
-        item = hero.activity
+        item = hero.get_activity_item()
         cfg = game_mgr.config_mgr.get_activity_config(
                 item.config_id if item else ACT_IDLE)
         return cfg.title, cfg.color

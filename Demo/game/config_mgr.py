@@ -728,6 +728,8 @@ fuxing_data = set([
 #     else:
 #         return '李哪吒'
 
+
+# 把名字, 分成姓,名,两段
 def parse_hero_name(name):
     if len(name) == 2:
         return name[0],name[1]

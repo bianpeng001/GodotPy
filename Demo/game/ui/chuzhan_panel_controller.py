@@ -24,7 +24,8 @@ class HeroItem(HeroSlot):
         self.hero_item_obj = None
 
     def get_position(self):
-        return (self.pos_index % 3)*ITEM_SIZE, (self.pos_index // 3)*ITEM_SIZE
+        col, row = divmod(self.pos_index, 3)
+        return row*ITEM_SIZE, col*ITEM_SIZE
 
     def set_index(self, pos_index):
         self.pos_index = pos_index
@@ -243,7 +244,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
                 new_hero_item.hero_id = hero_item.hero_id
                 new_hero_item.pos_index = hero_item.pos_index
                 hero_list.append(new_hero_item)
-                game_mgr.hero_mgr.set_hero_activity(hero_item.hero_id, ACT_CHUZHAN)
+                game_mgr.hero_mgr.set_hero_activity(get_hero(hero_item.hero_id), ACT_CHUZHAN)
 
             army_amount = min(self.army_amount, self.city_unit.army_amount.value)
             self.city_unit.army_amount.value -= army_amount
