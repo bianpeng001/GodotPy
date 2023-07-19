@@ -13,6 +13,7 @@ offset_bottom = 150.0
 layout_mode = 0
 offset_right = 200.0
 offset_bottom = 150.0
+mouse_filter = 2
 theme_override_styles/panel = ExtResource("1_c8x70")
 
 [node name="Text" type="RichTextLabel" parent="."]
@@ -21,6 +22,7 @@ offset_left = 5.0
 offset_top = 5.0
 offset_right = 195.0
 offset_bottom = 145.0
+mouse_filter = 2
 theme = ExtResource("1_0ruxj")
 theme_override_font_sizes/normal_font_size = 16
 bbcode_enabled = true

@@ -86,7 +86,14 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
         btn_dengyong = self.tab_jiang_obj.find_node('BtnDengYong')
         rm_btns = [btn_dengyong, ]
         #rm_texts = ['致仕','下野','宝物','赏赐','爵位','探索','访贤','征兵', '农业']
-        rm_texts = ['寻访','征兵','农业','治安','商业','下野',]
+        rm_texts = [
+            '探访',
+            '征兵',
+            '农业',
+            '治安',
+            '商业',
+            '下野',
+            ]
         rm_btns = [btn_dengyong.dup() for i in range(len(rm_texts) - 1)]
         rm_btns.append(btn_dengyong)
 
@@ -331,7 +338,7 @@ class NeiZhengController(UIController, PopupTrait, HeroListTrait):
             # TODO: 扣体力, 并刷新
             result = []
             match btn_label:
-                case '寻访':
+                case '探访':
                     for hero in hero_list:
                         game_mgr.hero_mgr.set_hero_activity(get_hero(hero.hero_id), ACT_TRAVEL)
                         result.append(f'{hero.hero_name}出发')

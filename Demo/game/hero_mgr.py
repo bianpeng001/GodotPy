@@ -74,7 +74,7 @@ JK_DEAD = 2
 
 # 空闲
 ACT_IDLE = 3001
-# 旅途, 寻访
+# 旅途, 寻访, 探访
 ACT_TRAVEL = 3002
 # 探亲
 ACT_TANQIN = 3003

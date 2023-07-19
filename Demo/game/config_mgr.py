@@ -295,7 +295,7 @@ class ConfigMgr:
         item = ActivityConfig()
         item.config_id = 3002
         item.duration = 30
-        item.title = '寻访'
+        item.title = '探访'
         item.rewards = [5001,5002]
         item.color = (0.0,0.5,0.0)
         add(item)
