@@ -73,6 +73,8 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.slider_army_mass = self.ui_obj.find_node('Panel/SliderArmy')
         self.btn_form = self.ui_obj.find_node('Panel/BtnForm')
         self.form_list = self.ui_obj.find_node('Panel/FormList')
+        self.army_type_list = self.ui_obj.find_node('Panel/TypeList')
+        
         
         #self.form_root = self.ui_obj.find_node('Panel/FormRoot')
         self.btn_target = self.ui_obj.find_node('Panel/BtnTarget')
@@ -87,7 +89,9 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.slider_army_mass.connect(VALUE_CHANGED,
                 self.on_slider_army_mass_changed)
         self.btn_form.connect(PRESSED, self.on_form_select)
+        self.form_list.set_visible(False)
         self.form_list.connect(ITEM_SELECTED, self.on_form_selected)
+        self.army_type_list.set_visible(False)
 
     def on_hero_item_input(self, hero_item, pressed):
         hero_item_obj = hero_item.hero_item_obj
