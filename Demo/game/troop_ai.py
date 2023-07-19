@@ -108,7 +108,8 @@ class NewtonMoveComponent(MoveComponent):
         
         if dx*dx+dz*dz > 0.00005:
             x,y,z = self._cur_pos.x+dx,self._cur_pos.y,self._cur_pos.z+dz
-            controller.look_at(x,y,z)
+            if not self.look_at_enemy(blackboard.enemy_unit_id):
+                controller.look_at(x,y,z)
             troop.set_position(x,y,z)
             
             self.accu_time = 0
@@ -118,6 +119,15 @@ class NewtonMoveComponent(MoveComponent):
             if self.accu_time > 0:
                 self.block_time = min(8, self.block_time+unit_time)
 
+    # 如果有敌人, 则朝着敌人
+    def look_at_enemy(self, enemy_unit_id):
+        if enemy_unit_id > 0:
+            controller = self.get_controller()
+            self_unit = controller.get_unit()
+            enemy_unit = get_unit(enemy_unit_id)
+            if enemy_unit and not game_mgr.is_league(self_unit, enemy_unit):
+                controller.look_at_unit(enemy_unit)
+                return True
 #
 # 小步前进, 考虑rvo斥力和障碍
 #
@@ -483,7 +493,6 @@ class AIState_MoveToPos(AIState_Troop):
     def update(self, brain_comp):
         controller = brain_comp.get_controller()
         
-        
         if controller.move_comp.is_done():
             brain_comp.goto_state('idle')
         elif controller.get_fight_comp().is_skill_ready():
@@ -547,9 +556,8 @@ class AIState_Shoot(AIState_Troop):
         blackboard.shoot_time += game_mgr.delta_time
         
         #log_debug(blackboard.shoot_time)
-        if blackboard.shoot_time > 0.3:
+        if blackboard.shoot_time > 0.4:
             brain_comp.goto_state('start')
-
-
+            
 
 
