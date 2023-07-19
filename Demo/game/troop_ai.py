@@ -108,8 +108,9 @@ class NewtonMoveComponent(MoveComponent):
         
         if dx*dx+dz*dz > 0.00005:
             x,y,z = self._cur_pos.x+dx,self._cur_pos.y,self._cur_pos.z+dz
-            if not self.look_at_enemy(blackboard.enemy_unit_id):
-                controller.look_at(x,y,z)
+            # if not self.look_at_enemy(blackboard.enemy_unit_id):
+            #     controller.look_at(x,y,z)
+            controller.look_at(x,y,z)
             troop.set_position(x,y,z)
             
             self.accu_time = 0
@@ -119,15 +120,24 @@ class NewtonMoveComponent(MoveComponent):
             if self.accu_time > 0:
                 self.block_time = min(8, self.block_time+unit_time)
 
+    # TODO: 先不开启, 不够连贯
     # 如果有敌人, 则朝着敌人
+    #
     def look_at_enemy(self, enemy_unit_id):
         if enemy_unit_id > 0:
             controller = self.get_controller()
             self_unit = controller.get_unit()
             enemy_unit = get_unit(enemy_unit_id)
             if enemy_unit and not game_mgr.is_league(self_unit, enemy_unit):
-                controller.look_at_unit(enemy_unit)
-                return True
+                x1,z1 = self_unit.get_xz()
+                x2,z2 = enemy_unit.get_xz()
+                dx,dz=x1-x1,z2-z1
+                dis = self_unit.radius + enemy_unit.radius
+                if dx*dx+dz*dz < dis*dis:
+                    controller.look_at_unit(enemy_unit)
+                    return True
+                else:
+                    blackboard.enemy_unit_id = 0
 #
 # 小步前进, 考虑rvo斥力和障碍
 #
