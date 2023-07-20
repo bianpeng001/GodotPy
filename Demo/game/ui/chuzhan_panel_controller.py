@@ -87,8 +87,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.lbl_members.set_text('')
         self.btn_select.connect(PRESSED, self.on_select_click)
 
-        self.slider_army_mass.connect(VALUE_CHANGED,
-                self.on_slider_army_mass_changed)
+        self.slider_army_mass.connect(VALUE_CHANGED, self.on_slider_army_mass_changed)
 
         # 阵形
         # 弹出选择阵形列表
