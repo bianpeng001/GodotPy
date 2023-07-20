@@ -103,9 +103,35 @@ class ActivityConfig(BaseConfig):
         self.color =  (1.0,1.0,1.0)
 
 #
+# 奖品
+#
 class RewardConfig(BaseConfig):
     def __init__(self):
         self.config_id = 0
+
+
+#
+# 兵种的配置, 相克
+#
+class ArmyTypeConfig(BaseConfig):
+    def __init__(self):
+        self.config_id = 0
+        self.name = ''
+        
+        # 消耗, 维持这个部队, 的基础消耗, 距离本城的距离有关
+        self.supply = 1
+        # 攻击距离
+        self.attack_range = 1
+        # 视野距离
+        self.vision_range = 1
+        # 伤害
+        self.damage = 2
+        # 防御
+        self.defense = 1
+        # 行军速度
+        self.speed = 0.5
+
+ARMY_TYPE_SIZE = 10
 
 #
 # 配置管理器
@@ -145,7 +171,10 @@ class ConfigMgr:
         self.init_skill_config()
         # 活动
         self.init_activity_config()
+        # 奖励和物品
         self.init_reward_config()
+        # 兵种
+        self.init_army_type_config()
                 
         # rvo 参数
         self.rvo_factor = 90
@@ -525,6 +554,99 @@ class ConfigMgr:
 
     def get_item_config(self, config_id):
         return self.item_config_dict.get(config_id, None)
+
+
+    def init_army_type_config(self):
+        self.army_type_list = [ None for i in range(ARMY_TYPE_SIZE) ]
+
+        def add_item(item):
+            self.army_type_list[item.config_id] = item
+
+        # 兵种相克, 一个二维表
+        self.army_fight_table = [ 1.0 for i in range(ARMY_TYPE_SIZE*ARMY_TYPE_SIZE) ]
+        def set_fight_factor(attack, defend, value):
+            self.army_fight_table[ARMY_TYPE_SIZE*attack+defend] = value
+
+        item = ArmyTypeConfig()
+        item.config_id = 0
+        item.name = '盾兵'
+        item.supply = 1
+        add_item(item)
+
+        item = ArmyTypeConfig()
+        item.config_id = 1
+        item.name = '枪兵'
+        item.supply = 1
+        add_item(item)
+
+        item = ArmyTypeConfig()
+        item.config_id = 2
+        item.name = '弓兵'
+        item.supply = 4
+        add_item(item)
+
+        item = ArmyTypeConfig()
+        item.config_id = 3
+        item.name = '骑兵'
+        item.supply = 8
+        add_item(item)
+
+        item = ArmyTypeConfig()
+        item.config_id = 4
+        item.name = '器械'
+        item.supply = 10
+        add_item(item)
+
+        item = ArmyTypeConfig()
+        item.config_id = 5
+        item.name = '火器'
+        item.supply = 3
+        add_item(item)
+
+        item = ArmyTypeConfig()
+        item.config_id = 6
+        item.name = '辎重'
+        item.supply = 0.2
+        add_item(item)
+
+        item = ArmyTypeConfig()
+        item.config_id = 7
+        item.name = '水军'
+        item.supply = 4
+        add_item(item)
+
+        item = ArmyTypeConfig()
+        item.config_id = 8
+        item.name = ''
+        add_item(item)
+
+        item = ArmyTypeConfig()
+        item.config_id = 9
+        item.name = ''
+        add_item(item)
+
+        set_fight_factor(0, 3, 0.5)
+        set_fight_factor(0, 4, 2.0)
+        
+        set_fight_factor(1, 3, 2.0)
+        set_fight_factor(1, 4, 2.0)
+        
+        set_fight_factor(2, 0, 0.5)
+        set_fight_factor(2, 3, 0.8)
+        set_fight_factor(2, 4, 2.5)
+        
+        set_fight_factor(3, 0, 2.0)
+        set_fight_factor(3, 1, 0.8)
+        set_fight_factor(3, 4, 3.0)
+
+    def get_fight_factor(self, attack, defend):
+        return self.army_fight_table[ARMY_TYPE_SIZE*attack+defend]
+
+    def get_army_type_config(self, config_id):
+        return self.army_type_list[config_id]
+
+    def get_army_type_list(self):
+        return list(map(lambda x: x.name, filter(lambda x: bool(x.name), self.army_type_list)))
 
     #----------------------------------------------------------------
     # 公式定义在此, 参数有点多
