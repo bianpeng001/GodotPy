@@ -197,7 +197,6 @@ Modules = [
     
     'Python/dynload_win.c',
     'PC/invalid_parameter_handler.c',
-    'PC/python3dll.c',
     'PC/dl_nt.c',
     'PC/winreg.c',
 ]
@@ -224,9 +223,6 @@ cppdefines = [
     '_Py_HAVE_ZLIB',
     
     #'_DEBUG',
-
-    # python3dll.c
-    ('PYTHON_DLL_NAME', f'{ModuleName}'),
 
     # getpath.c
     ('VPATH', f'\\"{ModuleName}\\"'),
@@ -546,3 +542,7 @@ multiprocessing_pyd = env2.SharedLibrary('_multiprocessing',
     ]
 )
 
+#
+# 这个应该单独搞一个dll
+# 'PC/python3dll.c', ('PYTHON_DLL_NAME', f'{ModuleName}'),
+#
