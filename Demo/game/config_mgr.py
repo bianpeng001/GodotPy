@@ -341,6 +341,13 @@ class ConfigMgr:
         item.item_count = 9999
         add_item(item)
 
+        item = ItemConfig()
+        item.config_id = 4002
+        item.item_name = '名将'
+        item.desc = '从名将卡池中抽取高级名将'
+        item.item_count = 9999
+        add_item(item)
+
         # 普通物品
         item = ItemConfig()
         item.config_id = 4011
@@ -451,13 +458,46 @@ class ConfigMgr:
 
         item = ItemConfig()
         item.config_id = 4204
-        item.item_name = '夜照狮子'
+        item.item_name = '夜照玉狮子'
         add_item(item)
 
         item = ItemConfig()
         item.config_id = 4205
         item.item_name = '黄骠马'
         add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4206
+        item.item_name = '汗血马'
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4207
+        item.item_name = '绝影'
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4208
+        item.item_name = '盗骊'
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4209
+        item.item_name = '飒露紫'
+        add_item(item)
+
+        item = ItemConfig()
+        item.config_id = 4210
+        item.item_name = '特勒骠'
+        add_item(item)
+
+        # https://www.zhihu.com/question/48718055
+        # 快航、惊帆
+        # 一名 绝地，足不践土。二名 翻羽，行越飞禽。三名 奔宵，野行万里。四名 越影，逐日而行。五名 逾辉，毛色炳耀。六名 超光，一形十影。七名 腾雾，乘云而奔。八名 挟翼，身有肉翅。
+        # 骅骝、绿耳、盗骊、骐骥、纤离。
+        # 《古今注》：一曰追风，二曰白兔，三曰蹑景，四曰追电，五曰飞翩，六曰铜爵，七曰晨凫。
+        # 《西京杂记》：汉文帝自代还，有良马九匹，皆天下骏足也。名曰浮云、赤电、绝群、逸群、紫燕骝、禄螭骢、龙子、嶙驹、绝尘，号九逸。有来宣能御。
+        #
 
         #---------------------------------
 

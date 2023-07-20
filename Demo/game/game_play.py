@@ -606,7 +606,7 @@ class GamePlay:
     # roll点, 获得奖励
     def roll_rewards(self, hero, activity_config):
         sb = StringBuilder()
-        sb.writeln('[color=red]{0}[/color][color=red]{1}[/color]完成'.format(
+        sb.writeln('[color=red]{0}[/color][color=green]{1}[/color]完成'.format(
             hero.hero_name,activity_config.title))
 
         for reward_config_id in activity_config.rewards:
@@ -624,13 +624,17 @@ class GamePlay:
 
             if is_win:
                 match item_config.config_id:
+                    # 基础的抽名将
                     case 4001:
                         big_hero = game_mgr.hero_mgr.get_big_hero()
+                        # TODO: 增加点变数, 抽到以后, 可以有一些小小的调整数值, 技能
                         
                         dlg2 = game_mgr.ui_mgr.npc_dialog_controller
-                        dlg2.show_dialog(hero.hero_name, '愿先生出山相助')
+                        dlg2.show_dialog(hero.hero_name, '请先生出山相助')
                         dlg2.show_dialog(big_hero.hero_name, '久乐耕锄,不能奉命')
                         sb.writeln(f'拜访贤才 {big_hero.hero_name}')
+
+                        log_util('visit', big_hero.hero_name)
                     case _:
                         sb.writeln(f'得到 {item_config.item_name} {reward_config.item_count}')
 
