@@ -97,7 +97,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
         # 阵形选择完毕
         def on_form_selected(self, index):
             self.form_list.set_visible(False)
-            log_debug('form_type', index)
+            log_debug('form_type', index, self.form_list.get_item_text(index))
         self.btn_form.connect(PRESSED, on_form_select)
         self.form_list.connect(ITEM_SELECTED, on_form_selected)
         self.form_list.set_visible(False)
@@ -107,7 +107,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
             self.army_type_list.set_visible(True)
         def on_army_type_selected(index):
             self.army_type_list.set_visible(False)
-            log_debug('army_type', index)
+            log_debug('army_type', index, self.army_type_list.get_item_text(index))
         self.btn_army_type.connect(PRESSED, on_army_type_select)
         self.army_type_list.connect(ITEM_SELECTED, on_army_type_selected)
         self.army_type_list.set_visible(False)

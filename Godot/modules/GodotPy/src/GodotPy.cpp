@@ -38,6 +38,7 @@
 #include "scene/gui/texture_rect.h"
 #include "scene/gui/text_edit.h"
 #include "scene/gui/scroll_container.h"
+#include "scene/gui/item_list.h"
 #include "scene/resources/packed_scene.h"
 #include "scene/resources/surface_tool.h"
 #include "scene/resources/material.h"
@@ -2818,6 +2819,110 @@ static PyObject *f_viewport_set_update_mode(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+// ItemList
+static PyObject *f_item_list_get_item_text(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		int a_index;
+
+		if (!PyArg_ParseTuple(args, "Oi", &a_obj, &a_index)) {
+			break;
+		}
+
+		auto item_list = GetObjPtr<ItemList>(a_obj);
+		if (!item_list) {
+			break;
+		}
+
+		String text = item_list->get_item_text(a_index);
+
+		return PyUnicode_FromString(text.utf8());
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_item_list_is_selected(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		int a_index;
+
+		if (!PyArg_ParseTuple(args, "Oi", &a_obj, &a_index)) {
+			break;
+		}
+
+		auto item_list = GetObjPtr<ItemList>(a_obj);
+		if (!item_list) {
+			break;
+		}
+
+		bool value = item_list->is_selected(a_index);
+		return PyBool_FromLong((int)value);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_item_list_select(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		int a_index;
+
+		if (!PyArg_ParseTuple(args, "Oi", &a_obj, &a_index)) {
+			break;
+		}
+
+		auto item_list = GetObjPtr<ItemList>(a_obj);
+		if (!item_list) {
+			break;
+		}
+
+		item_list->select(a_index);
+		
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_item_list_deselect(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		int a_index;
+
+		if (!PyArg_ParseTuple(args, "Oi", &a_obj, &a_index)) {
+			break;
+		}
+
+		auto item_list = GetObjPtr<ItemList>(a_obj);
+		if (!item_list) {
+			break;
+		}
+
+		item_list->deselect(a_index);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_item_list_add_item(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		char *a_str;
+
+		if (!PyArg_ParseTuple(args, "Os", &a_obj, &a_str)) {
+			break;
+		}
+
+		auto item_list = GetObjPtr<ItemList>(a_obj);
+		if (!item_list) {
+			break;
+		}
+		String str = String::utf8(a_str);
+		item_list->add_item(str, nullptr, true);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 
 // define godot api
 static PyMethodDef GodotPy_methods[] = {
@@ -2940,6 +3045,13 @@ static PyMethodDef GodotPy_methods[] = {
 	// tabbar
 	{ "tab_bar_get_current_tab", f_tab_bar_get_current_tab, METH_VARARGS, NULL },
 	{ "tab_bar_set_current_tab", f_tab_bar_set_current_tab, METH_VARARGS, NULL },
+
+	// item_list
+	{ "item_list_get_item_text", f_item_list_get_item_text, METH_VARARGS, NULL },
+	{ "item_list_is_selected", f_item_list_is_selected, METH_VARARGS, NULL },
+	{ "item_list_select", f_item_list_select, METH_VARARGS, NULL },
+	{ "item_list_deselect", f_item_list_deselect, METH_VARARGS, NULL },
+	{ "item_list_add_item", f_item_list_add_item, METH_VARARGS, NULL },
 
 	// particle
 	{ "cpu_particle_set_emitting", f_cpu_particle_set_emitting, METH_VARARGS, NULL },

@@ -515,18 +515,18 @@ class FNode(FObject):
             gdobj = None
             # 这里彻底释放，触发PyGDObj_dealloc
     
-    def dup(self):
+    def dup(self) -> object:
         dup_obj = gp.node_dup(self.get_gdobj())
         return GetWrappedObject(dup_obj)
 
-    def find_node(self, path):
+    def find_node(self, path) -> object:
         gdobj = gp.find_node(self.get_gdobj(), path)
         return GetWrappedObject(gdobj)
 
     def reparent(self, new_parent_obj) -> None:
         gp.reparent(self.get_gdobj(), new_parent_obj.get_gdobj())
 
-    def get_parent(self):
+    def get_parent(self) -> object:
         parent_gdobj = gp.get_parent(self.get_gdobj())
         return GetWrappedObject(parent_gdobj)
 
@@ -539,7 +539,7 @@ class FNode(FObject):
         gdobj = gp.find_control(self.get_gdobj(), x, y)
         return GetWrappedObject(gdobj)
 
-    def set_last(self):
+    def set_last(self) -> None:
         gp.node_set_last(self.get_gdobj())
         
     def set_name(self, name: str) -> None:
@@ -592,7 +592,7 @@ class FMeshInstance3D(FVisualInstance3D):
     def load_material(self, index: int, path: str):
         gp.mesh_instance3d_load_material(self.get_gdobj(), index, path)
 
-    def set_albedo_color(self, r,g,b):
+    def set_albedo_color(self, r:float,g:float,b:float):
         gp.mesh_instance3d_set_albedo_color(self.get_gdobj(), r,g,b)
 
     def set_surface_material(self, surface, mat):
@@ -653,7 +653,7 @@ class FControl(FCanvasItem):
         gp.control_set_tooltip(self.get_gdobj(), text)
 
 class FTabBar(FControl):
-    def get_current_tab(self):
+    def get_current_tab(self) -> int:
         return gp.tab_bar_get_current_tab(self.get_gdobj())
 
     def set_current_tab(self, index:int) -> None:
@@ -664,7 +664,7 @@ class FLabel(FControl):
         super().__init__()
         self.text = None
 
-    def set_text(self, text):
+    def set_text(self, text: str) -> None:
         if self.text != text:
             self.text = text
             gp.label_set_text(self.get_gdobj(), text)
@@ -714,15 +714,27 @@ class FTextEdit(FControl):
     def get_text(self) -> str:
         return gp.text_edit_get_text(self.get_gdobj())
 
-    def set_text(self, s: str) -> None:
-        gp.text_edit_set_text(self.get_gdobj(), s)
+    def set_text(self, text: str) -> None:
+        gp.text_edit_set_text(self.get_gdobj(), text)
 
 class FPanel(FControl):
     pass
 
 class FItemList(FControl):
-    def set_item_list(self, item_list):
-        pass
+    def get_item_text(self, index:int):
+        return gp.item_list_get_item_text(self.get_gdobj(), index)
+
+    def is_selected(self, index:int):
+        return gp.item_list_is_selected(self.get_gdobj(), index)
+
+    def select(self, index:int) -> None:
+        gp.item_list_select(self.get_gdobj(), index)
+
+    def deselect(self, index:int) -> None:
+        gp.item_list_deselect(self.get_gdobj(), index)
+
+    def add_item(self, text:str) -> None:
+        gp.item_list_add_item(self.get_gdobj(), text)
 
 class FPanel(FControl):
     pass
