@@ -99,9 +99,11 @@ class CityUnit(Unit):
 
     # 加载模型
     def load_model(self):
+        assert self.unit_name
+        
         # TODO: 这里后面需要控制的更加精细一些
-        is_gate = self.unit_name[-1] in ('关', '寨', )
-        is_hill = len(self.unit_name) == 3 and self.unit_name[-1] in (
+        is_gate = len(self.unit_name) > 0 and self.unit_name[-1] in ('关', '寨', )
+        is_hill = len(self.unit_name) >= 3 and self.unit_name[-1] in (
                 '岭','山', '峰', '谷', )
 
         if is_gate:

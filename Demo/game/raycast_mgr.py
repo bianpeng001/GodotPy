@@ -31,7 +31,7 @@ class RaycastMgr(NodeObject):
 
         #if camera.find_control(x, y):
         if game_mgr.ui_mgr.is_point_at_gui():
-            #log_util.debug('click on control, ui event system take over', st=False)
+            #log_debug('click on control, ui event system take over', st=False)
             return
         
         # 点击点在地面的位置

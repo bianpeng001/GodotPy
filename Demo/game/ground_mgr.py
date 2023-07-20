@@ -588,7 +588,7 @@ class GroundMgr(NodeObject):
         self.get_obj().connect("ready", self._ready)
 
     def _ready(self):
-        log_util.debug('GroundMgr ready')
+        log_debug('GroundMgr ready')
 
     # create new tile , if not exists
     def get_tile(self, x, z):
@@ -667,7 +667,7 @@ class GroundMgr(NodeObject):
         w,h = self.tile_map.col_c, self.tile_map.row_c
         cx,cy = w//2,h//2
 
-        log_util.enable_debug = False
+        get_log_util().enable_debug = False
         bmp = Bmp(r'game/data/world_map.bmp')
         for i in range(h*w):
             y, x = divmod(i, w)
@@ -678,7 +678,7 @@ class GroundMgr(NodeObject):
             tile, _ = self.create_tile(col, row)
             tile.color = 255 if r > 190 else 0
             tile.create_city()
-        log_util.enable_debug = True
+        get_log_util().enable_debug = True
 
         #self.terrain_map = Bmp(r'game\data\world_terrain.bmp')
         self.load_complete = True

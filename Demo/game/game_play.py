@@ -49,7 +49,7 @@ class GamePlay:
         
     # 事件
     def on_app_launch(self):
-        log_util.debug('on_app_launch')
+        log_debug('on_app_launch')
         game_mgr.init_update_list()
         game_mgr.ground_mgr.load_data()
 
@@ -175,7 +175,7 @@ class GamePlay:
                 dlg.show()
 
             def on_create_player(player_name):
-                log_util.debug('create main player')
+                log_debug('create main player')
                 ctx_data['player_name'] = player_name
                 game_mgr.ui_mgr.story_panel_controller.play_story(
                     game_mgr.config_mgr.story.start_game_story,
@@ -328,7 +328,7 @@ class GamePlay:
     # 修改城城池归属
     def set_city_owner(self, city, player) -> None:
         if city.owner_player_id == player.player_id:
-            log_util.error(f'player already own the city {player.player_id} -> {city.unit_name}')
+            log_error(f'player already own the city {player.player_id} -> {city.unit_name}')
             return
 
         if city.owner_player_id > 0:
@@ -356,7 +356,7 @@ class GamePlay:
         city.army_amount.add(-100)
         if city.army_amount.value < 0:
             city.army_amount.value = 0
-            log_util.debug(f'city is occupied {troop.unit_id} -> {city.unit_name}')
+            log_debug(f'city is occupied {troop.unit_id} -> {city.unit_name}')
 
             player = game_mgr.player_mgr.get_player(troop.owner_player_id)
             self.set_city_owner(city, player)
@@ -535,7 +535,7 @@ class GamePlay:
     # city_unit: 被动方, 被占领
     def occupy_city(self, src_unit, city_unit) -> int:
         log_debug('occupy', src_unit.unit_name, city_unit.unit_name)
-        
+
         prev_owner = self.get_owner_player(city_unit)
 
         if src_unit.owner_player_id > 0:
@@ -635,7 +635,7 @@ class GamePlay:
                         dlg2.show_dialog(big_hero.hero_name, '久乐耕锄,不能奉命')
                         sb.writeln(f'拜访贤才 {big_hero.hero_name}')
 
-                        log_util('visit', big_hero.hero_name)
+                        log_debug('visit', big_hero.hero_name)
                     case 4002:
                         pass
                     case _:

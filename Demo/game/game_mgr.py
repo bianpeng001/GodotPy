@@ -17,7 +17,7 @@ class GameMgr():
         super().__init__()
         
         # 游戏路径
-        self.game_path = log_util.game_path
+        self.game_path = get_log_util().game_path
         # 场景的根节点
         self.scene_root_obj = None
         

@@ -456,8 +456,13 @@ class LogUtil:
     def print(self, msg):
         print_line(msg)
 
-log_util = LogUtil()
-log_debug = log_util.debug
+
+def get_log_util():
+    return _log_util
+
+_log_util = LogUtil()
+log_debug = _log_util.debug
+log_error = _log_util.error
 
 #------------------------------------------------------------
 # gdobj 封装
@@ -472,7 +477,7 @@ class FObject:
 
     # def __del__(self):
     #     #可以在这里关联，但似乎又过于频繁了，这样做的话
-    #     log_util.debug(f'__del__ {self.get_gdobj().get_type_name()}')
+    #     log_debug(f'__del__ {self.get_gdobj().get_type_name()}')
     #     pass
 
     def get_gdobj(self):
@@ -905,7 +910,7 @@ def GetWrappedObject(gdobj):
     f_type = _FTypeList[type_id]
 
     #type_name = gdobj.get_type_name()
-    #log_util.debug(f'gdobj type_id={type_id} type={type_name}')
+    #log_debug(f'gdobj type_id={type_id} type={type_name}')
 
     obj = f_type()
     obj._gdobj = gdobj
@@ -931,4 +936,3 @@ def get_cache_time():
 
 
 
-        

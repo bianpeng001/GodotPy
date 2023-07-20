@@ -385,7 +385,7 @@ class AIState_FindCity(AIState_Troop):
         col,row = xz_to_colrow(x, z)
         city = self.find_enemy_city(brain_comp,col,row)
         if city:
-            log_util.debug(f'find emeny: {brain_comp.get_unit().unit_id} -> {city.unit_name}')
+            log_debug(f'find emeny: {brain_comp.get_unit().unit_id} -> {city.unit_name}')
             brain_comp.get_blackboard().target_unit_id = city.unit_id
             brain_comp.enter_state(AIState_MarchToCity())
         else:
@@ -420,14 +420,14 @@ class AIState_MarchToCity(AIState_Troop):
 # 解散
 class AIState_TroopDie(AIState_Troop):
     def do_enter(self, brain_comp):
-        log_util.debug(f'kill {brain_comp.get_unit().unit_id}')
+        log_debug(f'kill {brain_comp.get_unit().unit_id}')
         brain_comp.get_controller().kill()
 
 # 空闲
 class AIState_Idle(AIState_Troop):
     def update(self, brain_comp):
         #if random_100() < 4:
-            #log_util.debug(f'idle {controller.get_unit().unit_name}')
+            #log_debug(f'idle {controller.get_unit().unit_name}')
         pass
 
 #
