@@ -96,7 +96,9 @@ class ChuZhanPanelController(UIController, PopupTrait):
         # 阵形选择完毕
         def on_form_selected(index):
             self.form_list.set_visible(False)
-            log_debug('form_type', index, self.form_list.get_item_text(index))
+            text = self.form_list.get_item_text(index)
+            self.btn_form.set_text(text)
+            log_debug('form_type', index, text)
         self.btn_form.connect(PRESSED, on_form_select)
 
         # 八阵图: 天、地、风、云、龙、虎、鸟、蛇
@@ -112,7 +114,9 @@ class ChuZhanPanelController(UIController, PopupTrait):
             self.army_type_list.set_visible(True)
         def on_army_type_selected(index):
             self.army_type_list.set_visible(False)
-            log_debug('army_type', index, self.army_type_list.get_item_text(index))
+            text = self.army_type_list.get_item_text(index)
+            self.btn_army_type.set_text(text)
+            log_debug('army_type', index, text)
         self.btn_army_type.connect(PRESSED, on_army_type_select)
         self.army_type_list.clear()
         for label in game_mgr.config_mgr.get_army_type_list():
