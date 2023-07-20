@@ -95,7 +95,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
         def on_form_select():
             self.form_list.set_visible(True)
         # 阵形选择完毕
-        def on_form_selected(self, index):
+        def on_form_selected(index):
             self.form_list.set_visible(False)
             log_debug('form_type', index, self.form_list.get_item_text(index))
         self.btn_form.connect(PRESSED, on_form_select)
