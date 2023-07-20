@@ -99,6 +99,9 @@ class ChuZhanPanelController(UIController, PopupTrait):
             self.form_list.set_visible(False)
             log_debug('form_type', index, self.form_list.get_item_text(index))
         self.btn_form.connect(PRESSED, on_form_select)
+        self.form_list.clear()
+        for it in ['方阵','长蛇阵','鱼鳞阵','却月阵']:
+            self.form_list.add_item(it)
         self.form_list.connect(ITEM_SELECTED, on_form_selected)
         self.form_list.set_visible(False)
 
@@ -109,6 +112,9 @@ class ChuZhanPanelController(UIController, PopupTrait):
             self.army_type_list.set_visible(False)
             log_debug('army_type', index, self.army_type_list.get_item_text(index))
         self.btn_army_type.connect(PRESSED, on_army_type_select)
+        self.army_type_list.clear()
+        for it in ['盾兵','枪兵','弓兵','骑兵','器械','辎重','白马义从']:
+            self.army_type_list.add_item(it)
         self.army_type_list.connect(ITEM_SELECTED, on_army_type_selected)
         self.army_type_list.set_visible(False)
 

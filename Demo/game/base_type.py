@@ -111,7 +111,7 @@ AT_SPARE = 2
 AT_BOW = 3
 # 骑兵
 AT_RIDER = 4
-# 机械(攻城车, 炮车)
+# 器械(攻城车, 炮车)
 AT_MECH = 5
 # 船
 AT_SHIP = 6

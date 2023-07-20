@@ -2903,6 +2903,24 @@ static PyObject *f_item_list_deselect(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+static PyObject *f_item_list_clear(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+
+		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
+			break;
+		}
+
+		auto item_list = GetObjPtr<ItemList>(a_obj);
+		if (!item_list) {
+			break;
+		}
+		item_list->clear();
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 static PyObject *f_item_list_add_item(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
@@ -3051,6 +3069,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "item_list_is_selected", f_item_list_is_selected, METH_VARARGS, NULL },
 	{ "item_list_select", f_item_list_select, METH_VARARGS, NULL },
 	{ "item_list_deselect", f_item_list_deselect, METH_VARARGS, NULL },
+	{ "item_list_clear", f_item_list_clear, METH_VARARGS, NULL },
 	{ "item_list_add_item", f_item_list_add_item, METH_VARARGS, NULL },
 
 	// particle

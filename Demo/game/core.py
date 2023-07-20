@@ -733,6 +733,9 @@ class FItemList(FControl):
     def deselect(self, index:int) -> None:
         gp.item_list_deselect(self.get_gdobj(), index)
 
+    def clear(self) -> None:
+        gp.item_list_clear(self.get_gdobj())
+
     def add_item(self, text:str) -> None:
         gp.item_list_add_item(self.get_gdobj(), text)
 
