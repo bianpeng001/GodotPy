@@ -1,6 +1,9 @@
 #
 # 2023年3月5日 bianpeng
 #
+
+import queue
+
 from game.core import *
 from game.game_mgr import *
 from game.base_type import UIController
@@ -14,7 +17,7 @@ class MsgPanelController(UIController, PopupTrait):
     def __init__(self):
         super().__init__()
         
-        self.msg_list = []
+        self.msg_queue = queue.Queue()
         self.max_count = 50
 
     def setup(self, ui_obj):
@@ -27,15 +30,15 @@ class MsgPanelController(UIController, PopupTrait):
         game_mgr.event_mgr.add(MSG_PANEL_NEW_MSG, self.on_new_msg)
 
     def add_msg(self, text):
-        if len(self.msg_list) > self.max_count:
-            msg = self.msg_list.pop(0)
+        if self.msg_list.qsize() > self.max_count:
+            msg = self.msg_queue.get_nowait()
         else:
             msg = self.msg_0.dup()
             msg.set_visible(True)
         msg.set_last()
         msg.set_text(text)
 
-        self.msg_list.append(msg)
+        self.msg_queue.put(msg)
         self.container.set_v_scroll(1000)
 
     def on_new_msg(self, msg):

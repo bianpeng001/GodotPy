@@ -2,6 +2,7 @@
 # 2023年2月28日 bianpeng
 #
 import math
+import queue
 
 from game.core import *
 from game.game_mgr import *
@@ -16,7 +17,7 @@ class NpcDialogController(UIController, PopupTrait):
         super().__init__()
 
         self._co_show_dialog = None
-        self.dialog_list = []
+        self.dialog_queue = queue.Queue()
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
@@ -40,15 +41,15 @@ class NpcDialogController(UIController, PopupTrait):
         self.face_obj.set_position(int(random_1()*10), int(random_1()*10))
 
     def show_dialog(self, speaker, text):
-        self.dialog_list.append((speaker, text))
+        self.dialog_queue.put((speaker, text))
         if not self._co_show_dialog:
             self._co_show_dialog = game_mgr.co_mgr.start(self.co_show_dialog())
 
     def co_show_dialog(self):
         self.init()
 
-        while self.dialog_list:
-            item = self.dialog_list.pop(0)
+        while self.dialog_queue.qsize() > 0:
+            item = self.dialog_queue.get_nowait()
             if len(item) == 2:
                 speaker,text = item
                 self.set_text(speaker, text)

@@ -48,6 +48,7 @@ def GetReady():
             '_asyncio.pyd',
             '_overlapped.pyd',
             '_multiprocessing.pyd',
+            '_queue.pyd',
             )
     mkdir_if_not_exists('../../bin')
     mkdir_if_not_exists('../../bin/DLLs')
