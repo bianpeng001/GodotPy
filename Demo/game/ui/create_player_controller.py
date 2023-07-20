@@ -26,11 +26,11 @@ class CreatePlayerController(UIController, PopupTrait):
         label.set_text(game_mgr.config_mgr.new_player_text)
         
         self.ui_obj.find_node('Panel/BtnChange').connect(PRESSED, self.change_click)
-        self.text_edit = self.ui_obj.find_node('Panel/TextEdit')
+        self.text_edit_obj = self.ui_obj.find_node('Panel/TextEdit')
         
     def change_click(self):
         self.player_name = game_mgr.hero_mgr.gen_unique_hero_name(consume=False)
-        self.text_edit.set_text(self.player_name)
+        self.text_edit_obj.set_text(self.player_name)
         
     def show_dialog(self, ok_cb=None):
         self.change_click()
@@ -40,9 +40,7 @@ class CreatePlayerController(UIController, PopupTrait):
         
     def on_ok_click(self):
         self.defer_close()
-        #log_debug(self.player_name)
         if self.ok_cb:
-            game_mgr.hero_mgr.rename_hero(self.player_name)
             self.ok_cb(self.player_name)
 
 

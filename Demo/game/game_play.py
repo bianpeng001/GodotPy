@@ -535,6 +535,7 @@ class GamePlay:
     # city_unit: 被动方, 被占领
     def occupy_city(self, src_unit, city_unit) -> int:
         log_debug('occupy', src_unit.unit_name, city_unit.unit_name)
+        
         prev_owner = self.get_owner_player(city_unit)
 
         if src_unit.owner_player_id > 0:
@@ -635,6 +636,8 @@ class GamePlay:
                         sb.writeln(f'拜访贤才 {big_hero.hero_name}')
 
                         log_util('visit', big_hero.hero_name)
+                    case 4002:
+                        pass
                     case _:
                         sb.writeln(f'得到 {item_config.item_name} {reward_config.item_count}')
 
