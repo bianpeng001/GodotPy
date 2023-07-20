@@ -606,10 +606,14 @@ class GamePlay:
     # roll点, 获得奖励
     def roll_rewards(self, hero, activity_config):
         sb = StringBuilder()
-        sb.writeln(f'[color=red]{hero.hero_name}[/color]{activity_config.title}完成')
+        sb.writeln('[color=red]{0}[/color][color=red]{1}[/color]完成'.format(
+            hero.hero_name,activity_config.title))
+
         for reward_config_id in activity_config.rewards:
             reward_config = game_mgr.config_mgr.get_reward_config(reward_config_id)
             item_config = game_mgr.config_mgr.get_item_config(reward_config.item_id)
+
+            # 这个是roll点, 以后规则再细化, 毕竟这个纯随机数的, 还是有点简陋
             is_win = random_1()*100 < reward_config.win_rate
             
             log_debug('roll', hero.hero_name,
