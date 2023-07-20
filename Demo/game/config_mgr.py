@@ -621,6 +621,7 @@ class ConfigMgr:
         item.config_id = 6
         item.name = '辎重'
         item.supply = 0.2
+        item.speed = 0.1
         add_item(item)
 
         item = ArmyTypeConfig()

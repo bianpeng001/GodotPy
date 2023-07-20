@@ -179,18 +179,18 @@ offset_bottom = 85.0
 [node name="LblFood" type="Label" parent="Panel"]
 layout_mode = 0
 offset_left = 28.0
-offset_top = 155.0
+offset_top = 125.0
 offset_right = 80.0
-offset_bottom = 182.0
+offset_bottom = 152.0
 theme = ExtResource("1_beg0d")
 text = "粮食"
 
 [node name="BtnFood" type="Button" parent="Panel"]
 layout_mode = 0
 offset_left = 81.0
-offset_top = 155.0
+offset_top = 125.0
 offset_right = 161.0
-offset_bottom = 178.0
+offset_bottom = 148.0
 theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("7_1lycp")
@@ -198,19 +198,19 @@ text = "1000"
 
 [node name="LblMoney" type="Label" parent="Panel"]
 layout_mode = 0
-offset_left = 28.0
-offset_top = 185.0
-offset_right = 80.0
-offset_bottom = 212.0
+offset_left = 171.0
+offset_top = 125.0
+offset_right = 223.0
+offset_bottom = 152.0
 theme = ExtResource("1_beg0d")
 text = "银两"
 
 [node name="BtnMoney" type="Button" parent="Panel"]
 layout_mode = 0
-offset_left = 81.0
-offset_top = 185.0
-offset_right = 161.0
-offset_bottom = 208.0
+offset_left = 224.0
+offset_top = 125.0
+offset_right = 304.0
+offset_bottom = 148.0
 theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("7_1lycp")
@@ -239,18 +239,18 @@ text = "方阵"
 [node name="LblTarget" type="Label" parent="Panel"]
 layout_mode = 0
 offset_left = 28.0
-offset_top = 125.0
+offset_top = 155.0
 offset_right = 80.0
-offset_bottom = 152.0
+offset_bottom = 182.0
 theme = ExtResource("1_beg0d")
 text = "目标"
 
 [node name="BtnTarget" type="Button" parent="Panel"]
 layout_mode = 0
 offset_left = 81.0
-offset_top = 125.0
+offset_top = 155.0
 offset_right = 161.0
-offset_bottom = 148.0
+offset_bottom = 178.0
 theme = ExtResource("1_beg0d")
 theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("7_1lycp")

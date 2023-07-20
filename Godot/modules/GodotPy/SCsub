@@ -49,7 +49,6 @@ def GetReady():
             '_overlapped.pyd',
             '_multiprocessing.pyd',
             '_queue.pyd',
-            '_decimal.pyd',
             )
     mkdir_if_not_exists('../../bin')
     mkdir_if_not_exists('../../bin/DLLs')
