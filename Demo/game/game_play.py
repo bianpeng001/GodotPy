@@ -624,7 +624,9 @@ class GamePlay:
                         big_hero = game_mgr.hero_mgr.get_big_hero()
                         
                         dlg2 = game_mgr.ui_mgr.npc_dialog_controller
-                        dlg2.show_dialog(big_hero.hero_name, '且居山林, 静待时机')
+                        dlg2.show_dialog(hero.hero_name, '愿先生出山相助')
+                        dlg2.show_dialog(big_hero.hero_name, '久乐耕锄,不能奉命')
+                        sb.writeln(f'拜访贤才 {big_hero.hero_name}')
                     case _:
                         sb.writeln(f'得到 {item_config.item_name} {reward_config.item_count}')
 

@@ -225,9 +225,12 @@ cppdefines = [
     
     #'_DEBUG',
 
+    # python3dll.c
+    ('PYTHON_DLL_NAME', f'{ModuleName}'),
+
+    # getpath.c
     ('VPATH', f'\\"{ModuleName}\\"'),
     ('PY3_DLLNAME', f'\\"{ModuleName}\\"'),
-    ('PYTHON_DLL_NAME', f'{ModuleName}'),
     ('MS_DLL_ID', f'TEXT(\\"{PY_VER}\\")'),
     ('PREFIX', f'\\"prefix\\"'),
     ('EXEC_PREFIX', f'\\"exec_prefix\\"'),
