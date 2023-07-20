@@ -73,6 +73,7 @@ class ChuZhanPanelController(UIController, PopupTrait):
         self.slider_army_mass = self.ui_obj.find_node('Panel/SliderArmy')
         self.btn_form = self.ui_obj.find_node('Panel/BtnForm')
         self.form_list = self.ui_obj.find_node('Panel/FormList')
+        self.btn_army_type = self.ui_obj.find_node('Panel/BtnType')
         self.army_type_list = self.ui_obj.find_node('Panel/TypeList')
         
         
@@ -88,9 +89,27 @@ class ChuZhanPanelController(UIController, PopupTrait):
 
         self.slider_army_mass.connect(VALUE_CHANGED,
                 self.on_slider_army_mass_changed)
-        self.btn_form.connect(PRESSED, self.on_form_select)
+
+        # 阵形
+        # 弹出选择阵形列表
+        def on_form_select():
+            self.form_list.set_visible(True)
+        # 阵形选择完毕
+        def on_form_selected(self, index):
+            self.form_list.set_visible(False)
+            log_debug('form_type', index)
+        self.btn_form.connect(PRESSED, on_form_select)
+        self.form_list.connect(ITEM_SELECTED, on_form_selected)
         self.form_list.set_visible(False)
-        self.form_list.connect(ITEM_SELECTED, self.on_form_selected)
+
+        # 兵种
+        def on_army_type_select():
+            self.army_type_list.set_visible(True)
+        def on_army_type_selected(index):
+            self.army_type_list.set_visible(False)
+            log_debug('army_type', index)
+        self.btn_army_type.connect(PRESSED, on_army_type_select)
+        self.army_type_list.connect(ITEM_SELECTED, on_army_type_selected)
         self.army_type_list.set_visible(False)
 
     def on_hero_item_input(self, hero_item, pressed):
@@ -126,15 +145,6 @@ class ChuZhanPanelController(UIController, PopupTrait):
                     hero_item.set_index(pos_index)
                 else:
                     hero_item.set_index(hero_item.pos_index)
-
-    # 弹出选择阵形列表
-    def on_form_select(self):
-        self.form_list.set_visible(True)
-
-    # 阵形选择完毕
-    def on_form_selected(self, index):
-        self.form_list.set_visible(False)
-        log_debug(index)
 
     def on_select_click(self):
         def select_cb(hero_list):

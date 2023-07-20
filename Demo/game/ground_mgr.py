@@ -657,10 +657,11 @@ class GroundMgr(NodeObject):
     # 从数据中加载
     def load_data(self):
         self.tile_map = TileMap(30, 30, 30)
-        # 1 真实地图 2 绿色
+        # 1 真实地图(找了个截图) 2 绿色
         self.tile_map.tile_type = 2
-        # 1: 平滑 2 六边形
+        # 1: 平滑(六边形内,uv根据几何位置, 线性) 2 六边形(就近采样,六边形内uv一致)
         self.tile_map.cell_type = 2
+        # 贴图的repeat倍数
         #self.tile_map.repeat_count = 4
         
         #w,h = 30,30
