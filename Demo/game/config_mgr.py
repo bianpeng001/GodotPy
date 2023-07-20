@@ -117,7 +117,7 @@ class ArmyTypeConfig(BaseConfig):
     def __init__(self):
         self.config_id = 0
         self.name = ''
-        
+
         # 消耗, 维持这个部队, 的基础消耗, 距离本城的距离有关
         self.supply = 1
         # 攻击距离
@@ -132,6 +132,19 @@ class ArmyTypeConfig(BaseConfig):
         self.speed = 0.5
 
 ARMY_TYPE_SIZE = 10
+
+#
+# 阵型
+#
+class ArmyFormConfig(BaseConfig):
+    def __init__(self):
+        self.config_id = 0
+        self.name = ''
+        self.speed = 0.5
+        self.damage = 1
+        self.defense = 1
+
+ARMY_FORM_SIZE = 10
 
 #
 # 配置管理器
@@ -175,6 +188,7 @@ class ConfigMgr:
         self.init_reward_config()
         # 兵种
         self.init_army_type_config()
+        self.init_army_form_config()
                 
         # rvo 参数
         self.rvo_factor = 90
@@ -647,6 +661,12 @@ class ConfigMgr:
 
     def get_army_type_list(self):
         return list(map(lambda x: x.name, filter(lambda x: bool(x.name), self.army_type_list)))
+
+    def init_army_form_config(self):
+        self.army_form_list = [ None for i in range(ARMY_FORM_SIZE) ]
+
+    def get_army_form_factor(self, attack, defend):
+        return 1.0
 
     #----------------------------------------------------------------
     # 公式定义在此, 参数有点多
