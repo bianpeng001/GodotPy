@@ -30,7 +30,7 @@ class MsgPanelController(UIController, PopupTrait):
         game_mgr.event_mgr.add(MSG_PANEL_NEW_MSG, self.on_new_msg)
 
     def add_msg(self, text):
-        if self.msg_list.qsize() > self.max_count:
+        if self.msg_queue.qsize() > self.max_count:
             msg = self.msg_queue.get_nowait()
         else:
             msg = self.msg_0.dup()
