@@ -31,6 +31,8 @@ class CityController(Controller):
 
         self.sight_comp = CitySightComponent()
         self.sight_comp.setup(self)
+        self.brain_comp = BrainComponent()
+        self.brain_comp.setup(self)
 
         # 控制属性
         self.ai_tick_time = 0
@@ -157,15 +159,19 @@ class CityController(Controller):
     def update(self):
         if game_mgr.enable_city_ai and self.get_unit().enable_ai:
             self.drive_ai_tick()
-            
+
         delta_time = game_mgr.delta_time
-        self.sight_comp.update(self, delta_time)
+        self.sight_comp.update(delta_time)
+        self.brain_comp.update(delta_time)
 
     def start(self):
         self.get_unit().load_model()
 
-
     def get_signt_comp(self):
         return self.sight_comp
+
+    def get_brain_comp(self):
+        return self.brain_comp
+
         
 
