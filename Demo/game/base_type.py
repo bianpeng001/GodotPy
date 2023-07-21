@@ -202,6 +202,11 @@ class Unit:
     def get_z(self):
         return self.unit_position.z
 
+    def get_xz_sqrdis_to(self, unit):
+        dx = self.get_x() - unit.get_x()
+        dz = self.get_z() - unit.get_z()
+        return dx*dx+dz*dz
+
     def set_position(self, x,y,z):
         self.unit_position.set(x,y,z)
         self.get_controller().apply_position()

@@ -95,6 +95,7 @@ class CmdItem:
                 pass
 
             case '策略':
+                # 修改部队的战斗策略
                 pass
 
             case '进驻':
@@ -103,11 +104,8 @@ class CmdItem:
                     tile = unit.get_controller().owner_tile
                     if tile and tile.city_unit:
                         city_unit = tile.city_unit
-                        x0,z0 = unit.get_xz()
-                        x1,z1 = city_unit.get_xz()
-                        dx,dz = x1-x1,z1-z0
-                        if dx*dx+dz*dz < city_unit.radius:
-                            log_debug(f'{unit.unit_name} enter {city_unit.unit_name}')
+                        if unit.get_xz_sqrdis_to(city_unit) < city_unit.radius**2:
+                            log_debug(enter, unit.unit_name, '->', city_unit.unit_name)
                             game_mgr.game_play.troop_enter_city(unit, city_unit)
                 pass
 
