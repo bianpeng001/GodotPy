@@ -94,6 +94,9 @@ class CmdItem:
                 # 以出发城市为目标， 到达后，自动进驻
                 pass
 
+            case '策略':
+                pass
+
             case '进驻':
                 # 部队进程，武将和相关的士兵，资源都进程, 也就是说，军团还有运输功能
                 for unit in filter(lambda x: x.unit_type == UT_TROOP, unit_list):
@@ -168,6 +171,11 @@ class CmdPanelController(UIController, PopupTrait):
             ResCapsule.load_resource('res://ui/img/Man3.png'),
         ]
 
+        # set position
+        screen_width,screen_height = OS.viewport_get_size()
+        _,_,width,height = self.ui_obj.get_rect()
+        self.set_position(2, screen_height-(height+2))
+
     def init(self, unit):
         #self.cmd_panel_controller.popup_screen_bottom_left()
         game_mgr.co_mgr.start(self.co_show_panel())
@@ -185,17 +193,14 @@ class CmdPanelController(UIController, PopupTrait):
             time += game_mgr.delta_time * speed
             self.set_position(2, screen_height-(height+2)*time)
             yield
-            
-    def show_panel(self):
-        screen_width,screen_height = OS.viewport_get_size()
-        _,_,width,height = self.ui_obj.get_rect()
-        self.set_position(2, screen_height-(height+2))
-        self.show()
 
+    # 选中单位集合, 显示到操作面板上去
     def on_rect_select_units_changed(self, unit_list):
+        # TODO: 如果选中目标特别多, 则要处理一下, 优先选择我的单位, 排序, 我的单位在前面
+
         if len(unit_list) > 0:
             if not self.is_show():
-                self.show_panel()
+                self.show()
         else:
             if self.is_show():
                 self.hide()
