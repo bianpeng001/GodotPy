@@ -77,6 +77,7 @@ PYTHON_OBJS = [
     'Python/compile.c',
     'Python/assemble.c',
     'Python/optimizer.c',
+    'Python/executor.c',
     'Python/instrumentation.c',
     'Python/legacy_tracing.c',
     'Python/flowgraph.c',
@@ -553,9 +554,13 @@ queue_pyd = env2.SharedLibrary('_queue',
     LIBS = [ 'python3.lib', ]
 )
 
-#
+
+
+
+
 # _decimal.pyd
-#
+# NOTICE!! 因为搞不定vcdiv64.asm的变异, 在sons里面, 所以先去掉了. 缺少ml.exe.
+
 # decimal_pyd = env2.SharedLibrary('_decimal',
 #     source = [
 #         "Modules/_decimal/_decimal.c",

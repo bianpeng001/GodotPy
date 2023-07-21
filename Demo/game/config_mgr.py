@@ -147,6 +147,27 @@ class ArmyFormConfig(BaseConfig):
 ARMY_FORM_SIZE = 10
 
 #
+# 熟练度: 龙虎狮象熊豹鹰狼
+#
+class ArmyMasteryConfig(BaseConfig):
+    def __init__(self):
+        self.config_id = 0
+        self.name = ''
+
+ARMY_MASTERY_SIZE = 8
+
+
+#
+# 官爵, 用汉朝官爵
+#
+class RankConfig(BaseConfig):
+    def __init__(self):
+        self.config_id = 0
+        self.name = ''
+
+RANK_SIZE = 12
+
+#
 # 配置管理器
 #
 class ConfigMgr:
@@ -186,9 +207,12 @@ class ConfigMgr:
         self.init_activity_config()
         # 奖励和物品
         self.init_reward_config()
-        # 兵种
-        self.init_army_type_config()
+        # 阵型
         self.init_army_form_config()
+        # 兵种, 兵种熟练度
+        self.init_army_type_config()
+        # 爵位
+        self.init_rank_config()
                 
         # rvo 参数
         self.rvo_factor = 90
@@ -216,7 +240,7 @@ class ConfigMgr:
 
         self.first_city_name = '平安'
         self.new_player_text = '请问尊姓大名?'
-        self.satrap_titles = ['', '村长','县令','太守','州牧']
+        self.satrap_titles = [ '', '村长','县令','太守','州牧' ]
         
     def init_story_config(self):
         self.story_dict = {}
@@ -573,7 +597,7 @@ class ConfigMgr:
     def init_army_type_config(self):
         self.army_type_list = [ None for i in range(ARMY_TYPE_SIZE) ]
 
-        def add_item(item):
+        def add_type(item):
             self.army_type_list[item.config_id] = item
 
         # 兵种相克, 一个二维表
@@ -585,60 +609,60 @@ class ConfigMgr:
         item.config_id = 0
         item.name = '盾兵'
         item.supply = 1
-        add_item(item)
+        add_type(item)
 
         item = ArmyTypeConfig()
         item.config_id = 1
         item.name = '枪兵'
         item.supply = 1
-        add_item(item)
+        add_type(item)
 
         item = ArmyTypeConfig()
         item.config_id = 2
         item.name = '弓兵'
         item.supply = 4
-        add_item(item)
+        add_type(item)
 
         item = ArmyTypeConfig()
         item.config_id = 3
         item.name = '骑兵'
         item.supply = 8
-        add_item(item)
+        add_type(item)
 
         item = ArmyTypeConfig()
         item.config_id = 4
         item.name = '器械'
         item.supply = 10
-        add_item(item)
+        add_type(item)
 
         item = ArmyTypeConfig()
         item.config_id = 5
         item.name = '火器'
         item.supply = 3
-        add_item(item)
+        add_type(item)
 
         item = ArmyTypeConfig()
         item.config_id = 6
         item.name = '辎重'
         item.supply = 0.2
         item.speed = 0.1
-        add_item(item)
+        add_type(item)
 
         item = ArmyTypeConfig()
         item.config_id = 7
         item.name = '水军'
         item.supply = 4
-        add_item(item)
+        add_type(item)
 
         item = ArmyTypeConfig()
         item.config_id = 8
         item.name = ''
-        add_item(item)
+        add_type(item)
 
         item = ArmyTypeConfig()
         item.config_id = 9
         item.name = ''
-        add_item(item)
+        add_type(item)
 
         set_fight_factor(0, 3, 0.5)
         set_fight_factor(0, 4, 2.0)
@@ -654,6 +678,11 @@ class ConfigMgr:
         set_fight_factor(3, 1, 0.8)
         set_fight_factor(3, 4, 3.0)
 
+        # 兵种熟练度
+        self.army_mastery_list = [ None for i in range(ARMY_MASTERY_SIZE) ]
+        def add_mastery(item):
+            self.army_mastery_list[item.config_id] = item
+
     def get_fight_factor(self, attack, defend):
         return self.army_fight_table[ARMY_TYPE_SIZE*attack+defend]
 
@@ -666,8 +695,50 @@ class ConfigMgr:
     def init_army_form_config(self):
         self.army_form_list = [ None for i in range(ARMY_FORM_SIZE) ]
 
+        # 八阵图: 天、地、风、云、龙、虎、鸟、蛇
+        def add_form(item):
+            self.army_form_list[item.config_id] = item
+
+        item = ArmyFormConfig()
+        item.config_id = 0
+        item.name = '方阵'
+        add_form(item)
+
+        item = ArmyFormConfig()
+        item.config_id = 1
+        item.name = '长蛇阵'
+        add_form(item)
+
+        item = ArmyFormConfig()
+        item.config_id = 2
+        item.name = '鱼鳞阵'
+        add_form(item)
+
+        item = ArmyFormConfig()
+        item.config_id = 3
+        item.name = '却月阵'
+        add_form(item)
+
+        item = ArmyFormConfig()
+        item.config_id = 4
+        item.name = '八卦阵'
+        add_form(item)
+
     def get_army_form_factor(self, attack, defend):
         return 1.0
+
+    def get_army_form_list(self):
+        return list(map(lambda x: x.name, filter(lambda x: x, self.army_form_list)))
+
+    def init_rank_config(self):
+        self.rank_config_list = [ None for i in range(RANK_SIZE) ]
+        def add(item):
+            self.rank_config_list[item.config_id] = item
+
+        item = RankConfig()
+        item.config_id = 1
+        add(item)
+
 
     #----------------------------------------------------------------
     # 公式定义在此, 参数有点多

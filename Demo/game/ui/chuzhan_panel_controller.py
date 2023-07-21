@@ -101,10 +101,9 @@ class ChuZhanPanelController(UIController, PopupTrait):
             log_debug('form_type', index, text)
         self.btn_form.connect(PRESSED, on_form_select)
 
-        # 八阵图: 天、地、风、云、龙、虎、鸟、蛇
         self.form_list.clear()
-        for it in ['方阵','长蛇阵','鱼鳞阵','却月阵']:
-            self.form_list.add_item(it)
+        for label in game_mgr.config_mgr.get_army_form_list():
+            self.form_list.add_item(label)
         
         self.form_list.connect(ITEM_SELECTED, on_form_selected)
         self.form_list.set_visible(False)
