@@ -8,6 +8,7 @@ from game.core import *
 from game.game_mgr import *
 from game.base_type import *
 from game.ground_mgr import xz_to_colrow
+from game.city_ai import *
 
 #
 # 视觉
@@ -34,8 +35,18 @@ class CityController(Controller):
         self.brain_comp = BrainComponent()
         self.brain_comp.setup(self)
 
+        self.init_ai()
+
         # 控制属性
         self.ai_tick_time = 0
+
+    def init_ai(self):
+        brain_comp = self.get_brain_comp()
+        brain_comp.blackboard = CityBlackboard()
+
+        brain_comp.add_state("idle", AIState_Idle())
+        
+        brain_comp.goto_state("idle")
 
     def set_title(self, text):
         pass

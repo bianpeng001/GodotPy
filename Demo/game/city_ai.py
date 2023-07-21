@@ -4,10 +4,12 @@
 
 from game.core import *
 from game.base_type import *
-from game.game_mgr import game_mgr
+from game.game_mgr import *
 
 class CityBlackboard(AIBlackboard):
     def __init__(self):
+        super().__init__()
+
         pass
 
 class AIState_City(AIState):
@@ -19,10 +21,3 @@ class AIState_City(AIState):
 #
 #
 #
-
-
-#
-class AIState_CityIdle(AIState_City):
-    def update(self, controller):
-        pass
-

@@ -423,13 +423,6 @@ class AIState_TroopDie(AIState_Troop):
         log_debug(f'kill {brain_comp.get_unit().unit_id}')
         brain_comp.get_controller().kill()
 
-# 空闲
-class AIState_Idle(AIState_Troop):
-    def update(self, brain_comp):
-        #if random_100() < 4:
-            #log_debug(f'idle {controller.get_unit().unit_name}')
-        pass
-
 #
 # 攻城战
 #

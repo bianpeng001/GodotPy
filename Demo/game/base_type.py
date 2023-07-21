@@ -80,6 +80,13 @@ class AISelector(AIState):
         pass
 
 #
+# 空闲
+#
+class AIState_Idle(AIState):
+    def update(self, controller):
+        pass
+
+#
 # 背包
 #
 class Package:
@@ -331,7 +338,8 @@ class BrainComponent(Component, AIMachine):
             self.tick_time = 0
             
     def on_tick(self, tick_time):
-        self.ai_state.update(self)
+        if self.ai_state:
+            self.ai_state.update(self)
         
     def get_unit(self):
         return get_controller().get_unit()

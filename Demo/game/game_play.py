@@ -465,7 +465,7 @@ class GamePlay:
         troop_unit.army_amount.value = 0
         if city_unit.army_amount.value > 0:
             # 士气用几何平均值
-            city_unit.army_moral = sum_moral/city_unit.army_amount.value
+            city_unit.army_moral.value = sum_moral/city_unit.army_amount.value
         
         game_mgr.event_mgr.notify(MSG_PANEL_NEW_MSG, f"[color=red]{troop_unit.unit_name}[/color]进驻[color=green]{city_unit.unit_name}[/color]")
         self.remove_troop(troop_unit)
