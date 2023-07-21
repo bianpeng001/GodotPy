@@ -65,25 +65,43 @@ class AIState:
     def leave(self, controller):
         pass
 
+#
 # sequence
+#
 class AISequence(AIState):
     def __init__(self):
         pass
 
+#
 # selector
+#
 class AISelector(AIState):
     def __init__(self):
         pass
 
 #
+# 背包
+#
+class Package:
+    def __init__(self):
+        self.items = [ PackageItem(i) for i in range(10) ]
+
+class PackageItem:
+    def __init__(self, index):
+        self.index = 0
+        # 物品数量
+        self.item_count = 0
+        # 物品的id, 时机上是一个config_id
+        self.item_id = 0
+
+#
 # 单位类型
 #
 
-# 城池
+# 城池, 现在含义多了, 能驻军的地方豆角city, 实际可能是城池,山寨,关隘
 UT_CITY = 1
 # 军队
 UT_TROOP = 2
-
 
 # 城市的级别
 # 村
@@ -94,9 +112,6 @@ CT_XIAN = 2
 CT_JUN = 3
 # 州
 CT_ZHOU = 4
-
-# 势力之间的友好度
-YHD_Labels = ['险恶','敌对','普通','友好','盟友']
 
 # 军队的兵种类型, 子类型
 # 兵种的类型, 消耗的资源, 也不一样
@@ -117,6 +132,10 @@ AT_MECH = 5
 AT_SHIP = 6
 # 运输队
 AT_TRANS = 7
+# 火器
+AT_SHOOT = 8
+AT_GUN = 8
+
 
 #
 # 场景中的单位
@@ -204,6 +223,7 @@ class Unit:
 
     def get_controller(self):
         return self._controller
+
 
 #
 # 角色单位的控制器

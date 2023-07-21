@@ -631,6 +631,7 @@ class GamePlay:
                         # TODO: 增加点变数, 抽到以后, 可以有一些小小的调整数值, 技能
                         
                         dlg2 = game_mgr.ui_mgr.npc_dialog_controller
+                        dlg2.show_dialog(None)
                         dlg2.show_dialog(hero.hero_name, '请先生出山相助')
                         dlg2.show_dialog(big_hero.hero_name, '久乐耕锄,不能奉命')
                         sb.writeln(f'拜访贤才 {big_hero.hero_name}')

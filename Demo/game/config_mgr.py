@@ -238,6 +238,9 @@ class ConfigMgr:
         # 武将体力增速
         self.hero_ap_growth = 3/60
 
+        # 势力之间的友好度
+        self.friendly_levels = ['险恶','敌对','普通','友好','盟友']
+
         self.first_city_name = '平安'
         self.new_player_text = '请问尊姓大名?'
         self.satrap_titles = [ '', '村长','县令','太守','州牧' ]
@@ -607,56 +610,57 @@ class ConfigMgr:
 
         item = ArmyTypeConfig()
         item.config_id = 0
+        item.name = '徒手'
+        item.supply = 0.1
+        add_type(item)
+
+        item = ArmyTypeConfig()
+        item.config_id = 1
         item.name = '盾兵'
         item.supply = 1
         add_type(item)
 
         item = ArmyTypeConfig()
-        item.config_id = 1
+        item.config_id = 2
         item.name = '枪兵'
         item.supply = 1
         add_type(item)
 
         item = ArmyTypeConfig()
-        item.config_id = 2
+        item.config_id = 3
         item.name = '弓兵'
         item.supply = 4
         add_type(item)
 
         item = ArmyTypeConfig()
-        item.config_id = 3
+        item.config_id = 4
         item.name = '骑兵'
         item.supply = 8
         add_type(item)
 
         item = ArmyTypeConfig()
-        item.config_id = 4
+        item.config_id = 5
         item.name = '器械'
         item.supply = 10
         add_type(item)
 
         item = ArmyTypeConfig()
-        item.config_id = 5
-        item.name = '火器'
-        item.supply = 3
+        item.config_id = 6
+        item.name = '水军'
+        item.supply = 4
         add_type(item)
 
         item = ArmyTypeConfig()
-        item.config_id = 6
+        item.config_id = 7
         item.name = '辎重'
         item.supply = 0.2
         item.speed = 0.1
         add_type(item)
 
         item = ArmyTypeConfig()
-        item.config_id = 7
-        item.name = '水军'
-        item.supply = 4
-        add_type(item)
-
-        item = ArmyTypeConfig()
         item.config_id = 8
-        item.name = ''
+        item.name = '火器'
+        item.supply = 3
         add_type(item)
 
         item = ArmyTypeConfig()
