@@ -203,8 +203,8 @@ class Unit:
         return self.unit_position.z
 
     def get_xz_sqrdis_to(self, unit):
-        dx = self.get_x() - unit.get_x()
-        dz = self.get_z() - unit.get_z()
+        dx = unit.get_x() - self.get_x()
+        dz = unit.get_z() - self.get_z()
         return dx*dx+dz*dz
 
     def set_position(self, x,y,z):

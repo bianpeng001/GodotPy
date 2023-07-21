@@ -47,16 +47,24 @@ class CmdItem:
         return game_mgr.ui_mgr.cmd_panel_controller.set_cur_dlg(dlg)
         
     def on_click(self):
-        origin_unit_list = game_mgr.ui_mgr.cmd_panel_controller.unit_list
-        unit_list = list(filter(lambda x: check_owner_main_player(x), origin_unit_list))
-        #log_debug('cmd', self.cmd, len(unit_list))
+        unit_list = game_mgr.ui_mgr.cmd_panel_controller.unit_list
+        log_debug('cmd', self.cmd, len(unit_list))
+
+        def filter_unit(player_id, unit_type):
+            def _fun(unit):
+                return unit.owner_player_id == player_id and \
+                        unit.unit_type == unit_type
+            return _fun
+
+        def filter_my_unit(unit_type):
+            return filter_unit(get_main_player_id(), unit_type)
         
         match self.cmd:
             case '目标':
                 dlg = game_mgr.ui_mgr.select_target_controller
                 if not self.set_cur_dlg(dlg):
                     def on_select_target_cb():
-                        for unit in filter(lambda x: x.unit_type == UT_TROOP, unit_list):
+                        for unit in filter(filter_my_unit(UT_TROOP), unit_list):
                             unit.target_unit_id = dlg.target_unit_id
                             unit.target_pos = dlg.target_pos
                             
@@ -65,11 +73,21 @@ class CmdItem:
 
                     dlg.init(on_select_target_cb)
                     dlg.show()
+
+            case '进驻':
+                # 部队进程，武将和相关的士兵，资源都进程, 也就是说，军团还有运输功能
+                for unit in filter(filter_my_unit(UT_TROOP), unit_list):
+                    tile = unit.get_controller().owner_tile
+                    if tile and tile.city_unit:
+                        city_unit = tile.city_unit
+                        if unit.get_xz_sqrdis_to(city_unit) < city_unit.radius**2:
+                            log_debug('enter city', unit.unit_name, '->', city_unit.unit_name)
+                            game_mgr.game_play.troop_enter_city(unit, city_unit)
         
             case '内政':
                 dlg = game_mgr.ui_mgr.neizheng_controller
                 if not self.set_cur_dlg(dlg):
-                    unit = next(filter(lambda x: x.unit_type == UT_CITY, unit_list), None)
+                    unit = next(filter(filter_my_unit(UT_CITY), unit_list), None)
                     if unit:
                         dlg.init(unit)
                         dlg.set_position(250, 80)
@@ -78,15 +96,15 @@ class CmdItem:
             case '出战':
                 dlg = game_mgr.ui_mgr.chuzhan_panel_controller
                 if not self.set_cur_dlg(dlg):
-                    unit = next(filter(lambda x: x.unit_type == UT_CITY, unit_list), None)
+                    unit = next(filter(filter_my_unit(UT_CITY), unit_list), None)
                     if unit:
                         dlg.init(unit)
                         dlg.set_position(250, 106)
                         dlg.show()
 
             case '查看':
-                if origin_unit_list:
-                    unit = origin_unit_list[0]
+                if unit_list:
+                    unit = unit_list[0]
                     text = game_mgr.ui_mgr.cmd_panel_controller.make_unit_info(unit, show_detail=True)
                     game_mgr.event_mgr.notify(ALERT_DIALOG_MSG, text, 3.0)
 
@@ -96,17 +114,6 @@ class CmdItem:
 
             case '策略':
                 # 修改部队的战斗策略
-                pass
-
-            case '进驻':
-                # 部队进程，武将和相关的士兵，资源都进程, 也就是说，军团还有运输功能
-                for unit in filter(lambda x: x.unit_type == UT_TROOP, unit_list):
-                    tile = unit.get_controller().owner_tile
-                    if tile and tile.city_unit:
-                        city_unit = tile.city_unit
-                        if unit.get_xz_sqrdis_to(city_unit) < city_unit.radius**2:
-                            log_debug(enter, unit.unit_name, '->', city_unit.unit_name)
-                            game_mgr.game_play.troop_enter_city(unit, city_unit)
                 pass
 
 #
