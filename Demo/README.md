@@ -25,9 +25,13 @@ lua性能好,语言核心小,仅几百k,语言机制简单,使用者变少,开�
 
 ## 目录
 
-- Demo: 试验工程，测试和完善GodotPy。作为一个测试工程的同时，也许能让它有点好玩。
+## 目录说明
+
+- Demo: 试验工程，测试和完善GodotPy。作为一个测试工程的同时，也许能让它有趣一点.
 - Godot: godot的扩展和构造脚本
 - Python: python的构造脚本和扩展
+
+为了验证python模块能用,且足够好用. 我会努力把Demo,完善成自己最喜欢的游戏,三国9,光荣三国志系列最令人印象深刻的一代作品. 可能的话,再添加一点三国10的内容. 当然画面立绘和音乐, 我就不追随了. 不是不想, 应该毫无可能吧.
 
 构造说明
 1. Python, 把Python目录下面SConstruct, python3.rc, Godot 复制到cpython目录(或者软链接 mklink)
@@ -127,6 +131,9 @@ sys.stderr = PrintLine()
 sys.stdout = PrintLine()
 
 ```
+
+
+
 ### 构造发布
 
 windows desktop下面的发布。
@@ -393,5 +400,14 @@ Log Path: res://logs/godot.log
 
 ### c++代码今天分析
 python 有 clang 包, 解析源码.
+
+
+## markdown
+
+文档用markdownjs来从md生成页面，[marked](https://github.com/markedjs/marked)
+[markdown-css](https://github.com/sindresorhus/github-markdown-css)
+
+
+
 
 
