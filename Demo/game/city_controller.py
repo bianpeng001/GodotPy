@@ -6,8 +6,21 @@ import random
 
 from game.core import *
 from game.game_mgr import *
-from game.base_type import Controller, narudo_range, UT_CITY
+from game.base_type import *
 from game.ground_mgr import xz_to_colrow
+
+#
+# 视觉
+#
+class CitySightComponent(Component):
+    def __init__(self):
+        super().__init__()
+
+        self.vision_range = 8
+        self.lose_vision_range = 12
+
+    def update(self, delta_time):
+        pass
 
 #
 # 城池
@@ -15,6 +28,9 @@ from game.ground_mgr import xz_to_colrow
 class CityController(Controller):
     def __init__(self, unit):
         super().__init__(unit)
+
+        self.sight_comp = CitySightComponent()
+        self.sight_comp.setup(self)
 
         # 控制属性
         self.ai_tick_time = 0
@@ -141,8 +157,15 @@ class CityController(Controller):
     def update(self):
         if game_mgr.enable_city_ai and self.get_unit().enable_ai:
             self.drive_ai_tick()
+            
+        delta_time = game_mgr.delta_time
+        self.sight_comp.update(self, delta_time)
 
     def start(self):
         self.get_unit().load_model()
+
+
+    def get_signt_comp(self):
+        return self.sight_comp
         
 

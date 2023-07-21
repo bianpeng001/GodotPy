@@ -2,7 +2,7 @@
 # 2023年2月1日 bianpeng
 #
 
-from game.core import log_debug, random_num, ResCapsule
+from game.core import *
 from game.game_mgr import *
 from game.base_type import *
 from game.troop_ai import *
@@ -24,8 +24,8 @@ class AISightComponent(Component):
         self.angle_speed = 0.3
         
         # 视野距离
-        self.radius = 8
-        self.lose_radius = 12
+        self.radius = 4
+        self.lose_radius = 6
         
         # 视野中的单位
         self._unit_dict = {}
@@ -43,7 +43,7 @@ class AISightComponent(Component):
 
         # sight
         self.tick_time += delta_time
-        if self.tick_time > 0.1:
+        if self.tick_time > SIGHT_TICK_TIME:
             self.tick_time = 0
             self.check_see_unit()
             
@@ -137,28 +137,6 @@ class TroopFightComponent(Component):
         return self.skill_cooldown <= 0
 
 #
-# 部队的AI驱动组件
-#
-class TroopBrainComponent(Component, AIMachine):
-    def __init__(self):
-        super().__init__()
-        AIMachine.__init__(self)
-        
-        self.tick_time = 0
-    
-    def update(self, delta_time):
-        self.tick_time += delta_time
-        if self.tick_time > 0.1:
-            self.on_tick(self.tick_time)
-            self.tick_time = 0
-            
-    def on_tick(self, tick_time):
-        self.ai_state.update(self)
-        
-    def get_unit(self):
-        return get_controller().get_unit()
-
-#
 # 这是一个AIController
 # 部队控制，包括特效，动作，位置，朝向...
 #
@@ -175,7 +153,7 @@ class TroopController(Controller):
         self.sight_comp = AISightComponent()
         self.sight_comp.setup(self)
         # AI 相关
-        self.brain_comp = TroopBrainComponent()
+        self.brain_comp = BrainComponent()
         self.brain_comp.setup(self)
         self.init_ai()
         

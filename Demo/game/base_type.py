@@ -311,6 +311,31 @@ class HUDComponent(Component):
     def refresh_hud(self, hud_item):
         pass
 
+BRAIN_TICK_TIME = 0.1
+SIGHT_TICK_TIME = 0.1
+
+#
+# Brain 用来驱动AI
+#
+class BrainComponent(Component, AIMachine):
+    def __init__(self):
+        super().__init__()
+        AIMachine.__init__(self)
+        
+        self.tick_time = 0
+    
+    def update(self, delta_time):
+        self.tick_time += delta_time
+        if self.tick_time > BRAIN_TICK_TIME:
+            self.on_tick(self.tick_time)
+            self.tick_time = 0
+            
+    def on_tick(self, tick_time):
+        self.ai_state.update(self)
+        
+    def get_unit(self):
+        return get_controller().get_unit()
+
 #
 # UI 面板控制器
 #
