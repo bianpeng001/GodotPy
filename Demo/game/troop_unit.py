@@ -32,7 +32,7 @@ class TroopUnit(Unit):
         # 军队数量
         self.army_amount = RangeValue(0, 1000)
         # 暴击率
-        self.critical_strike = 50
+        self.critical_rate = 50
 
         # 模型的类型
         self.model_type = 3

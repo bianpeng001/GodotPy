@@ -761,8 +761,8 @@ class ConfigMgr:
         value = round(value - target_unit.defense)
         
         # 暴击率
-        if src_troop.critical_strike > 0 and \
-                random_100() < src_troop.critical_strike:
+        if src_troop.critical_rate > 0 and \
+                random_100() < src_troop.critical_rate:
             value *= 2
         
         # 保底伤害, 不能给加血吧?

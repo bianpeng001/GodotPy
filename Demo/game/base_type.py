@@ -169,7 +169,7 @@ class Unit:
         # 伤害，防御
         self.damage = 10
         # 暴击率10%
-        self.critical_strike = 10
+        self.critical_rate = 10
         # 防御
         self.defense = 10
         # 等级
