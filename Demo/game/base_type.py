@@ -56,13 +56,13 @@ class AIState:
     def __init__(self):
         pass
 
-    def enter(self, controller):
+    def enter(self, machine):
         pass
 
-    def update(self, controller):
+    def update(self, machine):
         pass
 
-    def leave(self, controller):
+    def leave(self, machine):
         pass
 
 #
@@ -83,23 +83,29 @@ class AISelector(AIState):
 # 空闲
 #
 class AIState_Idle(AIState):
-    def update(self, controller):
+    def update(self, machine):
         pass
 
 #
 # 背包
 #
 class Package:
-    def __init__(self):
-        self.items = [ PackageItem(i) for i in range(10) ]
-
+    def __init__(self, size):
+        self.item_list = [ PackageItem(i) for i in range(size) ]
+#
+# 背包物品格
+#
 class PackageItem:
     def __init__(self, index):
-        self.index = 0
+        self._index = 0
         # 物品数量
         self.item_count = 0
         # 物品的id, 时机上是一个config_id
         self.item_id = 0
+
+    @property
+    def index(self):
+        return self._index
 
 #
 # 单位类型

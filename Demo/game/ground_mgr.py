@@ -459,11 +459,12 @@ class TileItem:
                 0.3 + random.random()*0.7)
         
         tile_map = get_tile_map()
+
         # 角旗
-        self.corner_flag = self.load_res('res://models/Flag01.tscn',
-                pos_x - tile_map.tile_size*0.5,
-                pos_z - tile_map.z_tile_size*0.5,
-                1.0)
+        # self.corner_flag = self.load_res('res://models/Flag01.tscn',
+        #         pos_x - tile_map.tile_size*0.5,
+        #         pos_z - tile_map.z_tile_size*0.5,
+        #         1.0)
         
         # 草
         for i in range(random.randrange(1, 5)):
@@ -478,16 +479,16 @@ class TileItem:
                 0.8 + random.random()*0.7)
 
         # 亭
-        if random_100() < 30:
-            rad = random_x()*math.pi
-            dis = 6 + random.random()*10
-            dx = math.cos(rad)*dis
-            dz = math.sin(rad)*dis
+        # if random_100() < 30:
+        #     rad = random_x()*math.pi
+        #     dis = 6 + random.random()*10
+        #     dx = math.cos(rad)*dis
+        #     dz = math.sin(rad)*dis
             
-            self.load_res('res://models/Pavilion01.tscn',
-                pos_x + dx,
-                pos_z + dz,
-                1.0)
+        #     self.load_res('res://models/Pavilion01.tscn',
+        #         pos_x + dx,
+        #         pos_z + dz,
+        #         1.0)
 
     def create_city(self):
         if not self.city_unit and \

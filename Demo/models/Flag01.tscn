@@ -1,10 +1,10 @@
 [gd_scene load_steps=2 format=3 uid="uid://dq415nnybhpin"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_rgp4k"]
+[sub_resource type="BoxMesh" id="BoxMesh_aatdn"]
 
 [node name="Flag01" type="Node3D"]
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.2, 0, 0, 0, 1, 0, 0, 0, 0.2, 0, 0.5, 0)
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0.5, 0)
 cast_shadow = 0
-mesh = SubResource("BoxMesh_rgp4k")
+mesh = SubResource("BoxMesh_aatdn")
