@@ -16,9 +16,13 @@ from game.city_ai import *
 class CitySightComponent(Component):
     def __init__(self):
         super().__init__()
-
+        
+        # 视野,失去视野
         self.vision_range = 8
         self.lose_vision_range = 12
+
+        self.sight_sqrdis = self.vision_range**2
+        self.lose_sight_sqrdis = self.lose_vision_range**2
 
     def update(self, delta_time):
         pass

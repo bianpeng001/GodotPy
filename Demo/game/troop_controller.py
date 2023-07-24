@@ -24,8 +24,8 @@ class AISightComponent(Component):
         self.angle_speed = 0.3
         
         # 视野距离
-        self.radius = 4
-        self.lose_radius = 6
+        #self.radius = 4
+        #self.lose_radius = 6
         
         # 视野中的单位
         self._unit_dict = {}
