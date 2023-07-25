@@ -29,6 +29,18 @@ class PrintLine:
     def flush(self):
         pass
 
+# 对标print, 但是输出到stderr
+def print_error(*args, **kw_args):
+    print(*args, **kw_args, file=sys.stderr)
+
+def print_exception(err):
+    traceback.print_exception(err)
+    print('--------------------', file=sys.stderr)
+
+import builtins
+builtins.print_error = print_error
+builtins.print_exception = print_exception
+
 if __name__ != '__main__':
     sys.stderr = PrintLine()
     sys.stdout = PrintLine()
@@ -38,7 +50,6 @@ if __name__ != '__main__':
     print('add path', dll_path)
     #print(sys.executable)
     #print(sys.path)
-
 
 print('boot ok')
 
