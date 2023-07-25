@@ -524,7 +524,10 @@ class TwoFoldList:
         if self.back_list:
             try:
                 for item in self.back_list:
-                    cb(item)
+                    try:
+                        cb(item)
+                    except Exception as err:
+                        print_exception(err)
             finally:
                 self.back_list.clear()
 

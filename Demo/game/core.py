@@ -950,5 +950,8 @@ def set_cache_time(time_sec):
 def get_cache_time():
     return _cache_time
 
+def print_exception(err):
+    traceback.print_exception(err)
+    print('--------------------', file=sys.stderr)
 
 

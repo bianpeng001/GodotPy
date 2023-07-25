@@ -189,10 +189,6 @@ def first(item_list, predicate):
         if predicate(item):
             return item
 
-def print_exception(err):
-    traceback.print_exception(err)
-    print(err, file=sys.stderr)
-
 __all__ = [
     'game_mgr',
     'get_main_player',
@@ -209,8 +205,6 @@ __all__ = [
     'get_skill_config',
     'check_owner_main_player',
     'first',
-    'print_exception',
-
 ]
 
 

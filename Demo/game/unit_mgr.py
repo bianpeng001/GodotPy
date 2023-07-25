@@ -32,13 +32,13 @@ class UnitMgr:
         return self._unit_id_seed
 
     def update(self, delta_time):
-        #
+        # 调用start
         self.start_list.update_items(self._call_unit_start)
 
-        #
+        # 调用update
         self.update_list.update_items(self._call_unit_update)
 
-        #
+        # 死亡队列
         self._exec_dead_list()
 
     def _call_unit_start(self, unit):
@@ -47,13 +47,12 @@ class UnitMgr:
     def _call_unit_update(self, unit):
         try:
             unit.get_controller().update()
+            if unit.is_dead:
+                self.dead_list.append(unit)
+            else:
+                self.update_list.append(unit)
         except Exception as err:
             print_exception(err)
-        
-        if unit.is_dead:
-            self.dead_list.append(unit)
-        else:
-            self.update_list.append(unit)
 
     def _exec_dead_list(self):
         # destroy dead list
