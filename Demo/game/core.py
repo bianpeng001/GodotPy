@@ -304,6 +304,7 @@ def clamp(v):
 
 def print_line(*args, **kwargs):
     if not args:
+        gp.print_line('')
         return
     
     if len(args) == 1:

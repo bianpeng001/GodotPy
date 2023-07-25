@@ -4,7 +4,6 @@
 
 import io
 import math
-import traceback
 
 from game.core import log_debug, Vector3
 
@@ -509,7 +508,7 @@ class HeroSlot:
         pass
 
 #
-# 双缓冲列表
+# 对冲列表, 有两个队列, 互相穿数据
 #
 class TwoFoldList:
     def __init__(self):
@@ -523,12 +522,11 @@ class TwoFoldList:
         cb = cb or self.do_update
         self.swap()
         if self.back_list:
-            for item in self.back_list:
-                try:
+            try:
+                for item in self.back_list:
                     cb(item)
-                except Exception as err:
-                    traceback.print_exception(err)
-            self.back_list.clear()
+            finally:
+                self.back_list.clear()
 
     def swap(self):
         tmp = self.list

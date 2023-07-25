@@ -28,13 +28,13 @@ class CitySightComponent(Component):
         self._unit_dict = {}
 
     def update(self, delta_time):
-        self_unit = self.get_controller().get_unit()
-        owner_tile = self.get_controller().owner_tile
-        if owner_tile:
-            for unit in owner_tile.get_unit_list():
-                if not game_mgr.is_league(unit, self_unit):
-                    pass
-        # owner.get_unit_list()
+        # self_unit = self.get_controller().get_unit()
+        # owner_tile = self.get_controller().owner_tile
+        # if owner_tile:
+        #     for unit in owner_tile.get_unit_list():
+        #         if not game_mgr.is_league(unit, self_unit):
+        #             pass
+        owner.get_unit_list()
         pass
 
 #

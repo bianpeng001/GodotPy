@@ -2,6 +2,8 @@
 # 2023年2月3日 bianpeng
 #
 
+import traceback
+
 from game.core import *
 from game.game_mgr import *
 from game.base_type import TwoFoldList
@@ -32,15 +34,24 @@ class UnitMgr:
         return self._unit_id_seed
 
     def update(self, delta_time):
+        #
         self.start_list.update_items(self._call_unit_start)
+
+        #
         self.update_list.update_items(self._call_unit_update)
+
+        #
         self._exec_dead_list()
 
     def _call_unit_start(self, unit):
         unit.get_controller().start()
 
     def _call_unit_update(self, unit):
-        unit.get_controller().update()
+        try:
+            unit.get_controller().update()
+        except Exception as err:
+            traceback.print_exception(err)
+        
         if unit.is_dead:
             self.dead_list.append(unit)
         else:
