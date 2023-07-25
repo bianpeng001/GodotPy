@@ -77,6 +77,7 @@ def build_publish():
         '_overlapped.pyd',
         '_multiprocessing.pyd',
         '_queue.pyd',
+        '_decimal.pyd',
     )
     copy(os.path.join(GODOT_BIN_DIR, "python.exe"), os.path.join(BUILD_DIR, "python.exe"))
     copy(os.path.join(GODOT_BIN_DIR, "python3.dll"), os.path.join(BUILD_DIR, "python3.dll"))

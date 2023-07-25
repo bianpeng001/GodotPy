@@ -561,40 +561,39 @@ queue_pyd = env2.SharedLibrary('_queue',
 # _decimal.pyd
 # NOTICE!! 因为搞不定vcdiv64.asm的变异, 在sons里面, 所以先去掉了. 缺少ml.exe.
 
-# decimal_pyd = env2.SharedLibrary('_decimal',
-#     source = [
-#         "Modules/_decimal/_decimal.c",
-#         "Modules/_decimal/libmpdec/basearith.c",
-#         "Modules/_decimal/libmpdec/constants.c",
-#         "Modules/_decimal/libmpdec/context.c",
-#         "Modules/_decimal/libmpdec/convolute.c",
-#         "Modules/_decimal/libmpdec/crt.c",
-#         "Modules/_decimal/libmpdec/difradix2.c",
-#         "Modules/_decimal/libmpdec/fnt.c",
-#         "Modules/_decimal/libmpdec/fourstep.c",
-#         "Modules/_decimal/libmpdec/io.c",
-#         "Modules/_decimal/libmpdec/mpalloc.c",
-#         "Modules/_decimal/libmpdec/mpdecimal.c",
-#         "Modules/_decimal/libmpdec/mpsignal.c",
-#         "Modules/_decimal/libmpdec/numbertheory.c",
-#         "Modules/_decimal/libmpdec/sixstep.c",
-#         "Modules/_decimal/libmpdec/transpose.c",
-#         "Modules/_decimal/libmpdec/vcdiv64.asm",
-#     ],
-#     CPPDEFINES = [
-#         'Py_ENABLE_SHARED',
-#         'CONFIG_64',
-#         'MASM',
-#     ],
-#     CPPPATH = incs + [ './Modules/_decimal', './Modules/_decimal/libmpdec', ],
-#     buildtarget = '_decimal.dll',
-#     LIBS = [ 'python3.lib', 
-#         "advapi32.lib",
-#         "shell32.lib",
-#         "ole32.lib",
-#         "oleaut32.lib",
-#     ]
-# )
+decimal_pyd = env2.SharedLibrary('_decimal',
+    source = [
+        "Modules/_decimal/_decimal.c",
+        "Modules/_decimal/libmpdec/basearith.c",
+        "Modules/_decimal/libmpdec/constants.c",
+        "Modules/_decimal/libmpdec/context.c",
+        "Modules/_decimal/libmpdec/convolute.c",
+        "Modules/_decimal/libmpdec/crt.c",
+        "Modules/_decimal/libmpdec/difradix2.c",
+        "Modules/_decimal/libmpdec/fnt.c",
+        "Modules/_decimal/libmpdec/fourstep.c",
+        "Modules/_decimal/libmpdec/io.c",
+        "Modules/_decimal/libmpdec/mpalloc.c",
+        "Modules/_decimal/libmpdec/mpdecimal.c",
+        "Modules/_decimal/libmpdec/mpsignal.c",
+        "Modules/_decimal/libmpdec/numbertheory.c",
+        "Modules/_decimal/libmpdec/sixstep.c",
+        "Modules/_decimal/libmpdec/transpose.c",
+    ],
+    CPPDEFINES = [
+        'Py_ENABLE_SHARED',
+        ('CONFIG_64', 1),
+        ('ANSI', 1),
+    ],
+    CPPPATH = incs + [ './Modules/_decimal', './Modules/_decimal/libmpdec', ],
+    buildtarget = '_decimal.dll',
+    LIBS = [ 'python3.lib',
+        "advapi32.lib",
+        "shell32.lib",
+        "ole32.lib",
+        "oleaut32.lib",
+    ]
+)
 
 #
 # 这个应该单独搞一个dll
