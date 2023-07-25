@@ -2,8 +2,6 @@
 # 2023年2月3日 bianpeng
 #
 
-import traceback
-
 from game.core import *
 from game.game_mgr import *
 from game.base_type import TwoFoldList
@@ -50,7 +48,7 @@ class UnitMgr:
         try:
             unit.get_controller().update()
         except Exception as err:
-            traceback.print_exception(err)
+            print_exception(err)
         
         if unit.is_dead:
             self.dead_list.append(unit)
