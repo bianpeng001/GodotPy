@@ -504,6 +504,8 @@ class TileItem:
                 round(pos_x + random_x()*5),
                 0,
                 round(pos_z + random_x()*5))
+            # 记录所在tile, 如果有迁移,则这个也是要做的!!
+            self.city_unit.get_controller().owner_tile = self
             
             # 级别
             v = random_100()

@@ -24,11 +24,21 @@ class CitySightComponent(Component):
         self.sight_sqrdis = self.vision_range**2
         self.lose_sight_sqrdis = self.lose_vision_range**2
 
+        # 已经在视野中的单位
+        self._unit_dict = {}
+
     def update(self, delta_time):
+        # self_unit = self.get_controller().get_unit()
+        # owner_tile = self.get_controller().owner_tile
+        # if owner_tile:
+        #     for unit in owner_tile.get_unit_list():
+        #         if not game_mgr.is_league(unit, self_unit):
+        #             pass
+        owner.get_unit_list()
         pass
 
 #
-# 城池
+# 城池控制器
 #
 class CityController(Controller):
     def __init__(self, unit):
@@ -40,6 +50,9 @@ class CityController(Controller):
         self.brain_comp.setup(self)
 
         self.init_ai()
+        self.brain_tick_time = 0
+
+        self.owner_tile = None
 
         # 控制属性
         self.ai_tick_time = 0
@@ -176,8 +189,12 @@ class CityController(Controller):
             self.drive_ai_tick()
 
         delta_time = game_mgr.delta_time
-        self.sight_comp.update(delta_time)
-        self.brain_comp.update(delta_time)
+
+        self.brain_tick_time += delta_time
+        if self.brain_tick_time > BRAIN_TICK_TIME:
+            self.sight_comp.update(self.brain_tick_time)
+            self.brain_comp.update(self.brain_tick_time)
+            self.brain_tick_time = 0
 
     def start(self):
         self.get_unit().load_model()

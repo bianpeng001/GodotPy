@@ -7,6 +7,8 @@
 # 主要是模块这种机制，是不让循环引用的。因为他有toplevel语句
 # 相比之下Delphi的Unit，是可以循环引用的。java，c#的引用的话,两个包是可以互相引用的。
 
+import traceback
+
 from game.core import *
 
 #
@@ -72,15 +74,20 @@ class GameMgr():
         return self._coroutine_mgr
 
     def update(self):
-        # coroutine first
-        self._coroutine_mgr.update()
-
         delta_time = self.delta_time
         self.play_time += delta_time
 
-        # update all system
-        for cb in self.update_list:
-            cb(delta_time)
+        try:
+            # coroutine first
+            self._coroutine_mgr.update()
+
+            # update all system
+            for cb in self.update_list:
+                cb(delta_time)
+
+        except Exception as err:
+            print(err)
+            traceback.print_exception(err)
 
     def init_update_list(self):
         # 这里的顺序的原则, 消息生产者在前, 消息处理者在后

@@ -10,7 +10,7 @@ from game.troop_ai import *
 #
 # 视觉感知
 #
-class AISightComponent(Component):
+class TroopSightComponent(Component):
     # 公用的list, 减少分配. 因为每帧每个单位都要用到
     _lose_list = []
 
@@ -33,14 +33,16 @@ class AISightComponent(Component):
     def loop_units(self):
         for unit in self._unit_dict.values():
             yield unit
-        
-    def update(self, delta_time):
-        # 移动过程里, 还要检查周围的敌军, 有一个视野
+
+    # 转动视野
+    # 移动过程里, 还要检查周围的敌军, 有一个视野
+    def update_viewarea(self, delta_time):
         self.angle += self.angle_speed
         self.get_controller().viewarea_obj.set_rotation(0, self.angle, 0)
         if abs(self.angle) > 30:
             self.angle_speed *= -1
-
+        
+    def update(self, delta_time):
         # sight
         self.tick_time += delta_time
         if self.tick_time > SIGHT_TICK_TIME:
@@ -103,7 +105,7 @@ class AISightComponent(Component):
                 check_tile_unit(col-1,row+1)
 
         if len(self._unit_dict) > 0:
-            lose_list = AISightComponent._lose_list
+            lose_list = TroopSightComponent._lose_list
             lose_list.clear()
 
             #sqr_lose_radius = self.lose_radius**2
@@ -150,12 +152,14 @@ class TroopController(Controller):
         self.fight_comp = TroopFightComponent()
         self.fight_comp.setup(self)
         # 视觉感知
-        self.sight_comp = AISightComponent()
+        self.sight_comp = TroopSightComponent()
         self.sight_comp.setup(self)
         # AI 相关
         self.brain_comp = BrainComponent()
         self.brain_comp.setup(self)
         self.init_ai()
+
+        self.brain_tick_time = 0
         
         # 所在的地块
         self.owner_tile = None
@@ -259,9 +263,14 @@ class TroopController(Controller):
         delta_time = game_mgr.delta_time
         
         self.update_move(delta_time)
-        self.sight_comp.update(delta_time)
-        self.fight_comp.update(delta_time)
-        self.brain_comp.update(delta_time)
+        self.sight_comp.update_viewarea(delta_time)
+
+        self.brain_tick_time += delta_time
+        if self.brain_tick_time > BRAIN_TICK_TIME:
+            self.sight_comp.update(self.brain_tick_time)
+            self.fight_comp.update(self.brain_tick_time)
+            self.brain_comp.update(self.brain_tick_time)
+            self.brain_tick_time = 0
         
     # 对视野里面的单位, 加一个力, 改善重叠和穿插
     def add_rvo_force(self):
@@ -315,6 +324,9 @@ class TroopController(Controller):
         if self.owner_tile:
             self.owner_tile.remove_unit(self.get_unit())
         self.get_unit().set_death()
+        
+    def get_sight_comp(self):
+        return self.sight_comp
         
     def get_fight_comp(self):
         return self.fight_comp
