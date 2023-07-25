@@ -86,7 +86,7 @@ class GameMgr():
                 cb(delta_time)
 
         except Exception as err:
-            print(err)
+            log_debug(err)
             traceback.print_exception(err)
 
     def init_update_list(self):

@@ -134,4 +134,10 @@ def test_city_type():
     print(game_mgr.config_mgr.satrap_titles)
     print(game_mgr.ui_mgr.neizheng_controller.city_unit.unit_name)
 
-test_city_type()
+#test_city_type()
+
+def test_1():
+    a.print()
+
+test_1()
+
