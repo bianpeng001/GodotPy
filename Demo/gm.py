@@ -137,7 +137,8 @@ def test_city_type():
 #test_city_type()
 
 def test_1():
-    a.print()
+    #a.print()
+    print_line(a=1,b=2)
 
 test_1()
 

@@ -182,9 +182,9 @@ class Hero:
     def set_attr(self, attr_type, value):
         self.attr[attr_type] = value
     
-    def init_attrs(self, *args, **kw_args):
-        for k in kw_args:
-            self.set_attr(attr_alias[k], kw_args[k])
+    def init_attrs(self, *args, **kwargs):
+        for k in kwargs:
+            self.set_attr(attr_alias[k], kwargs[k])
 
 
     def get_activity_item(self):

@@ -7,6 +7,7 @@ import math
 import random
 import traceback
 import os
+import io
 
 import GodotPy as gp
 
@@ -294,8 +295,11 @@ def random_int(min, max):
 def random_select_item(item_list):
     if not item_list or len(item_list) == 0:
         return None, -1
-    index = random.randint(0, len(item_list)-1)
-    return item_list[index], index
+    elif len(item_list) == 1:
+        return item_list[0], 0
+    else:
+        index = random.randint(0, len(item_list)-1)
+        return item_list[index], index
 
 def clamp(v):
     if v < 0:
@@ -314,6 +318,15 @@ def print_line(*args, **kwargs):
     else:
         a = ' '.join([str(x) for x in args])
         gp.print_line(a)
+
+    if kwargs:
+        sb = io.StringIO()
+        for k in kwargs:
+            sb.write(' ')
+            sb.write(k)
+            sb.write('=')
+            sb.write(str(kwargs[k]))
+        gp.print_line(sb.getvalue())
 
 # def get_py_object(node):
 #     return gp.get_py_object(node)
@@ -961,9 +974,9 @@ def GetWrappedObject(gdobj):
 
 # 标记即将过时的内容
 def obstacle(fun):
-    def _fun(*args, **kw_args):
+    def _fun(*args, **kwargs):
         log_debug('obstacle func', fun)
-        return fun(*args, **kw_args)
+        return fun(*args, **kwargs)
     return _fun
 
 # 记一下时间
