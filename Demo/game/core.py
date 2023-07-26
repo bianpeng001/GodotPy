@@ -433,26 +433,33 @@ class LogUtil:
     def __init__(self):
         self.enable_debug = True
         self.enable_error = True
+        self.enable_info = True
         
         self.game_path = os.path.abspath('.')
         self.skip = len(self.game_path) + 1
 
-    def print_stack(self):
+    def print_stack(self, skip_frame):
         s = traceback.extract_stack(limit=6)
-        for it in s[:-2]:
+        for it in s[:-skip_frame]:
             print_line(f'\t{it.filename[self.skip:]}:{it.lineno}')
 
     def debug(self, *args, st=True):
         if self.enable_debug:
             print_line('[DEBUG]', *args)
             if st:
-                self.print_stack()
+                self.print_stack(2)
 
     def error(self, *args, st=True):
         if self.enable_error:
             print_line('[ERROR]', *args)
             if st:
-                self.print_stack()
+                self.print_stack(2)
+
+    def info(self, *args, st=False):
+        if self.enable_info:
+            print_line('[INFO]', *args)
+            if st:
+                self.print_stack(2)
 
     def print(self, msg):
         print_line(msg)
@@ -464,6 +471,7 @@ def get_log_util():
 _log_util = LogUtil()
 log_debug = _log_util.debug
 log_error = _log_util.error
+log_info = _log_util.info
 
 #------------------------------------------------------------
 # gdobj 封装
