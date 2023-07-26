@@ -114,7 +114,7 @@ class UnitMgr:
         if x >= -1 and x <= 1 and z >= -1 and z <= 1:
             province = '雍冀兖豫徐青益荆扬'[(z+1)*3+(x+1)] + '州'
         else:
-            province = '化外'
+            province = '洪州'
             
         return province
     

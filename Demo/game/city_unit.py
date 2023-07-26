@@ -35,7 +35,7 @@ class CityUnit(Unit):
 
         # 城内武将
         self.hero_list = []
-        #  附属建筑
+        #  附属建筑, 建造玩法. 应该不能直接攻击, 但随着攻击主城, 以及区域里面的敌军数量, 附属建筑被破坏.
         self.building_list = []
 
         # 军队数量,区别于居民人口
@@ -103,8 +103,7 @@ class CityUnit(Unit):
         
         # TODO: 这里后面需要控制的更加精细一些
         is_gate = len(self.unit_name) > 0 and self.unit_name[-1] in ('关', '寨', )
-        is_hill = len(self.unit_name) >= 3 and self.unit_name[-1] in (
-                '岭','山', '峰', '谷', )
+        is_hill = len(self.unit_name) >= 3 and self.unit_name[-1] in ('岭', '山', '峰', '谷', )
 
         if is_gate:
             path = 'res://models/Gate01.tscn'
