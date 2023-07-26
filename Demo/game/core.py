@@ -305,9 +305,7 @@ def clamp(v):
 def print_line(*args, **kwargs):
     if not args:
         gp.print_line('')
-        return
-    
-    if len(args) == 1:
+    elif len(args) == 1:
         a = args[0]
         gp.print_line(str(a))
     else:
@@ -326,12 +324,16 @@ def raycast_shape(camera, x,y,z):
 def set_surface_color(node, index, r, g, b):
     gp.material_set_albedo_color(node, index, r, g, b)
 
+#
+# color 转换, 表示方式不一样, HSV好用一些
+#
 def hsv_to_rgb(h,s,v):
     if s == 0:
         return (v,v,v)
     f, i = math.modf(h*6)
     p,q,t = v*(1-s), v*(1-s*f), v*(1-s*(1-f))
     i = round(i) % 6
+
     if i == 0:
         return (v,t,p)
     elif i == 1:
@@ -344,6 +346,9 @@ def hsv_to_rgb(h,s,v):
         return (t,p,v)
     elif i == 5:
         return (v,p,q)
+
+def rgb_to_hsv(r,g,b):
+    pass
     
 #------------------------------------------------------------
 # api
@@ -396,7 +401,10 @@ class OS:
     def quit(self, exit_code=0):
         gp.quit(exit_code)
 
+#
 # ResCapsule 对应的方法
+# 这个比较动态了, 因为Capsule就是容纳了一个资源的指针, 他里面是啥, 需要自己保证
+#
 class ResCapsule:
     def __init__(self, res):
         self.res = res
@@ -688,37 +696,6 @@ class FRichTextLabel(FControl):
     def set_text(self, text: str) -> None:
         gp.rich_text_label_set_text(self.get_gdobj(), text)
 
-#
-# button
-#
-class FBaseButton(FControl):
-    def set_disabled(self, value: bool) -> None:
-        gp.base_button_set_disabled(self.get_gdobj(), value)
-
-    def is_pressed(self) -> bool:
-        return gp.base_button_is_pressed(self.get_gdobj())
-
-    def set_pressed(self, value: bool) -> None:
-        gp.base_button_set_pressed(self.get_gdobj(), value)
-
-    def set_text(self, text: str) -> None:
-        self.text = text
-        gp.button_set_text(self.get_gdobj(), text)
-
-    def get_text(self):
-        # TODO: 目前直接把缓存的返回就好
-        return self.text
-
-class FButton(FBaseButton):
-    pass
-
-class FTextureButton(FBaseButton):
-    def set_normal_tex(self, res):
-        gp.texture_button_set_texture(self.get_gdobj(), 0, res)
-        
-class FCheckBox(FBaseButton):
-    pass
-
 class FTextEdit(FControl):
     def get_text(self) -> str:
         return gp.text_edit_get_text(self.get_gdobj())
@@ -759,6 +736,37 @@ class FTextureRect(FControl):
         gp.texture_rect_set_texture(self.get_gdobj(), tex)
 
 class FColorRect(FControl):
+    pass
+
+#
+# button
+#
+class FBaseButton(FControl):
+    def set_disabled(self, value: bool) -> None:
+        gp.base_button_set_disabled(self.get_gdobj(), value)
+
+    def is_pressed(self) -> bool:
+        return gp.base_button_is_pressed(self.get_gdobj())
+
+    def set_pressed(self, value: bool) -> None:
+        gp.base_button_set_pressed(self.get_gdobj(), value)
+
+    def set_text(self, text: str) -> None:
+        self.text = text
+        gp.button_set_text(self.get_gdobj(), text)
+
+    def get_text(self):
+        # TODO: 目前直接把缓存的返回就好
+        return self.text
+
+class FButton(FBaseButton):
+    pass
+
+class FTextureButton(FBaseButton):
+    def set_normal_tex(self, res):
+        gp.texture_button_set_texture(self.get_gdobj(), 0, res)
+        
+class FCheckBox(FBaseButton):
     pass
 
 #
@@ -813,10 +821,16 @@ class FHBoxContainer(FContainer):
 class FVBoxContainer(FContainer):
     pass
 
+#
+#
+#
 class FNode2D(FCanvasItem):
     def set_position(self, x:float,y:float) -> None:
         gp.node2d_set_position(self.get_gdobj(), x,y)
 
+#
+#
+#
 class FSubViewport(FNode):
     def set_update_mode(self, mode):
         gp.f_viewport_set_update_mode(self.get_gdobj(), mode)
