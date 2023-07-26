@@ -1,9 +1,10 @@
 #
 # 2023年2月1日 bianpeng
 #
-import sys
-import os.path
 from io import StringIO
+import os.path
+import sys
+import traceback
 
 from game.core import print_line
 
@@ -47,9 +48,8 @@ if __name__ != '__main__':
 
     dll_path = os.path.join(os.path.dirname(sys.executable), 'DLLs')
     sys.path.append(dll_path)
-    print('add path', dll_path)
-    #print(sys.executable)
-    #print(sys.path)
+    print('path:', sys.path)
+    print('executable:', sys.executable)
 
 print('boot ok')
 

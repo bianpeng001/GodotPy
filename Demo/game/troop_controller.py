@@ -17,8 +17,6 @@ class TroopSightComponent(Component):
     def __init__(self):
         super().__init__()
         
-        self.tick_time = 0
-        
         # 视觉扇形片的角速度
         self.angle = 0
         self.angle_speed = 0.3
@@ -43,12 +41,8 @@ class TroopSightComponent(Component):
             self.angle_speed *= -1
         
     def update(self, delta_time):
-        # sight
-        self.tick_time += delta_time
-        if self.tick_time > SIGHT_TICK_TIME:
-            self.tick_time = 0
-            self.check_see_unit()
-            
+        self.check_see_unit()
+
     def check_see_unit(self):
         src_unit = self.get_controller().get_unit()
         x,z = src_unit.get_xz()
@@ -198,7 +192,8 @@ class TroopController(Controller):
 
                 self.owner_tile = tile
                 self.owner_tile.add_unit(troop)
-    # 旗帜
+
+    # 刷新旗帜颜色, 可能被调用多次
     def set_flag_color(self):
         if not self.get_model_node():
             return
