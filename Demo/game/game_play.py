@@ -94,7 +94,7 @@ class GamePlay:
                     player = self.create_player(city_unit,
                             player_name=None,
                             set_main_player=False)
-                    log_debug('create robot player', player.player_name, city_unit.unit_name)
+                    log_info('create robot player', player.player_name, city_unit.unit_name)
                     player_count += 1
 
             log_debug('create', player_count, 'robot players')
@@ -625,6 +625,7 @@ class GamePlay:
 
             if is_win:
                 match item_config.config_id:
+                    
                     # 基础的抽名将
                     case 4001:
                         big_hero = game_mgr.hero_mgr.get_big_hero()
@@ -637,8 +638,10 @@ class GamePlay:
                         sb.writeln(f'拜访贤才 {big_hero.hero_name}')
 
                         log_debug('visit', big_hero.hero_name)
+
                     case 4002:
                         pass
+                        
                     case _:
                         sb.writeln(f'得到 {item_config.item_name} {reward_config.item_count}')
 

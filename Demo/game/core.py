@@ -267,27 +267,30 @@ def random_xx(min):
 def random_x3(x, y, z):
     return random_x()*x, random_x()*y, random_x()*z
 
+# [0, max)
 def random_max(max=1):
     return random.random()*max
 
 def random_range(start, stop, step=1):
     return random.randrange(start, stop, step)
 
+# [min, max)
 def random_num(min, max):
     return min + random.random() * (max - min)
 
+# [0, 100]
 def random_100():
     return random_int(0, 100)
 
-# random.random() => [0, 1)
+# [0, 1)
 def random_1():
     return random.random()
 
-# => [min, max], 包括头尾
+# [min, max]
 def random_int(min, max):
     return random.randint(min, max)
 
-#
+# 从列表里随机取一项
 def random_select_item(item_list):
     if not item_list or len(item_list) == 0:
         return None, -1
@@ -932,7 +935,7 @@ _TypeMap = {
 def _reg_type(type_name: str, type_id: int)  -> None:
     f_type = _TypeMap.get(type_name, FNode)
     _FTypeList[type_id] = f_type
-    log_debug(f'_reg_type: {type_name} -> {type_id} {f_type}')
+    log_info(f'_reg_type: {type_name} -> {type_id} {f_type}')
 
 # 对原始的gdobj,做一个包装的对象,包装好的对象里,有对应Node类型的方法
 # gdobj的职责,是对c++端对象的一个弱引用
