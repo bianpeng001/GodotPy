@@ -34,6 +34,7 @@ class PrintLine:
 def print_error(*args, **kw_args):
     print(*args, **kw_args, file=sys.stderr)
 
+# 后面那句print是有用的, 用来flush缓冲区数据, 强制打印到终端
 def print_exception(err):
     traceback.print_exception(err)
     print('--------------------', file=sys.stderr)
