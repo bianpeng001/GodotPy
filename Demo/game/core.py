@@ -467,21 +467,21 @@ class LogUtil:
         for it in s[:-skip_frame]:
             print_line(f'\t{it.filename[self.skip:]}:{it.lineno}')
 
-    def debug(self, *args, st=True):
+    def debug(self, *args, st=True, **kwargs):
         if self.enable_debug:
-            print_line('[DEBUG]', *args)
+            print_line('[DEBUG]', *args, **kwargs)
             if st:
                 self.print_stack(2)
 
-    def error(self, *args, st=True):
+    def error(self, *args, st=True, **kwargs):
         if self.enable_error:
-            print_line('[ERROR]', *args)
+            print_line('[ERROR]', *args, **kwargs)
             if st:
                 self.print_stack(2)
 
-    def info(self, *args, st=False):
+    def info(self, *args, st=False, **kwargs):
         if self.enable_info:
-            print_line('[INFO]', *args)
+            print_line('[INFO]', *args, **kwargs)
             if st:
                 self.print_stack(2)
 
