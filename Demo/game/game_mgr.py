@@ -7,6 +7,7 @@
 # 主要是模块这种机制，是不让循环引用的。因为他有toplevel语句
 # 相比之下Delphi的Unit，是可以循环引用的。java，c#的引用的话,两个包是可以互相引用的。
 
+import collections
 import sys
 import traceback
 
@@ -189,6 +190,26 @@ def first(item_list, predicate):
         if predicate(item):
             return item
 
+#
+# 自定义属性用在剧情对话模块
+# d = CustomMapping()
+# s = '{player_name}: hello!'
+# dialog = s.format(**d)
+# dialog 内容会被正确替换好
+#
+def CustomMapping(collections.abc.Mapping):
+    def __init__(self):
+        self._dict = {}
+
+    def __getitem__(self, key):
+        return self._dict[key]()
+
+    def __iter__(self):
+        return self._dict.__iter__()
+
+    def __len__(self):
+        return len(self._dict)
+
 __all__ = [
     'game_mgr',
     'get_main_player',
@@ -205,6 +226,7 @@ __all__ = [
     'get_skill_config',
     'check_owner_main_player',
     'first',
+    'CustomMapping',
 ]
 
 
