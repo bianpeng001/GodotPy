@@ -195,16 +195,11 @@ class GamePlay:
             dlg1.defer_close()
             yield WaitForSeconds(2)
             
-            dlg1.init()
             dlg1.show_text('有一天, 我在街上闲逛')
-            yield WaitForSeconds(1.5)
             dlg1.show_text('看人来人往, 潮起潮落')
-            yield WaitForSeconds(1.5)
             dlg1.show_text('不疾不徐, 暗自发愁晚饭还没着落')
-            yield WaitForSeconds(1.5)
             dlg1.show_text('突然, 斜里过来一人, 一把将我拽住')
-            yield WaitForSeconds(1.5)
-            dlg1.defer_close()
+            yield dlg1.get_waiter()
             
             dlg2.show_dialog("陌生人", "兄台请留步")
             dlg2.show_dialog("我", "干啥, 我可没钱")
@@ -226,29 +221,21 @@ class GamePlay:
             dlg2.show_dialog(player_name, "好像有点道理")
             yield dlg2.get_waiter()
             
-            dlg1.init()
             dlg1.show_text('这就是我被拉壮丁的经过')
-            yield WaitForSeconds(1.5)
             dlg1.show_text('然后我结识了几个兄弟, 一起出生入死')
-            yield WaitForSeconds(1.5)
             dlg1.show_text('我们几个武功还可以, 加上运气不错')
-            yield WaitForSeconds(1.5)
             dlg1.show_text('没在某场战斗里, 被箭射死, 被刀砍死, 被马踩死, 落河淹死...')
-            yield WaitForSeconds(2.5)
             dlg1.show_text('再后来, 仗打完了')
-            yield WaitForSeconds(1.5)
             dlg1.show_text('我跟两位兄弟, 被安排来此处当了个普通县尉')
-            yield WaitForSeconds(1.5)
-            dlg1.show_text('故事从这里开始')
-            yield WaitForSeconds(2.5)
-            dlg1.defer_close()
+            dlg1.show_text('故事从这里开始', 2.5)
+            yield dlg1.get_waiter()
             
             game_mgr.co_mgr.start(co_create_main_player(player_name))
             game_mgr.co_mgr.start(co_create_robot_player())
             yield
             
             city_name = game_mgr.config_mgr.first_city_name
-            
+
             dlg1.init()
             dlg1.show_chapter(f'第一回 赴任{city_name}')
             yield WaitForSeconds(2.5)
@@ -259,10 +246,8 @@ class GamePlay:
             dlg2.show_dialog(player_name, "好, 往后这就是我们的家了!")
             yield dlg2.get_waiter()
             
-            dlg1.init()
             dlg1.show_text('三人读书练武勤于政务, 于百姓秋毫无犯, 日子倒也快活')
-            yield WaitForSeconds(2.5)
-            dlg1.defer_close()
+            yield dlg1.get_waiter()
             
             game_mgr.ui_mgr.show_base_ui(True)
 
@@ -275,7 +260,6 @@ class GamePlay:
                 yield
             game_mgr.co_mgr.start(co_story1())
 
-        #game_mgr.co_mgr.start(co_wait_for_ground())
         game_mgr.co_mgr.start(co_start_game())
 
         test_wait_1()

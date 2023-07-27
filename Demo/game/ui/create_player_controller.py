@@ -15,7 +15,7 @@ from game.config_mgr import new_hero_name
 class CreatePlayerController(UIController, PopupTrait):
     def __init__(self):
         super().__init__()
-        
+
         self.player_name = ''
         self.ok_cb = None
 
@@ -26,15 +26,15 @@ class CreatePlayerController(UIController, PopupTrait):
         label = self.ui_obj.find_node('Panel/Label')
         label.set_text(game_mgr.config_mgr.new_player_text)
         
-        self.ui_obj.find_node('Panel/BtnChange').connect(PRESSED, self.change_click)
+        self.ui_obj.find_node('Panel/BtnChange').connect(PRESSED, self.on_change_click)
         self.text_edit_obj = self.ui_obj.find_node('Panel/TextEdit')
         
-    def change_click(self):
+    def on_change_click(self):
         self.player_name = game_mgr.hero_mgr.gen_unique_hero_name(consume=False)
         self.text_edit_obj.set_text(self.player_name)
         
     def show_dialog(self, ok_cb=None):
-        self.change_click()
+        self.on_change_click()
         
         self.popup_screen_center()
         self.ok_cb = ok_cb

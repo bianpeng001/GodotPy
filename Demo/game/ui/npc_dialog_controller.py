@@ -40,8 +40,8 @@ class NpcDialogController(UIController, PopupTrait):
         # 动一下头像位置, 假装换了一下头像的形状
         self.face_obj.set_position(int(random_1()*10), int(random_1()*10))
 
-    def show_dialog(self, speaker, text = '', time=None):
-        self.dialog_queue.put((speaker, text, time))
+    def show_dialog(self, speaker, text = '', wait_time=None):
+        self.dialog_queue.put((speaker, text, wait_time))
         if not self._co_show_dialog:
             self._co_show_dialog = game_mgr.co_mgr.start(self.co_show_dialog())
 
@@ -49,7 +49,7 @@ class NpcDialogController(UIController, PopupTrait):
         self.init()
 
         while self.dialog_queue.qsize() > 0:
-            speaker,text,time = self.dialog_queue.get_nowait()
+            speaker,text,wait_time = self.dialog_queue.get_nowait()
 
             if speaker is None:
                 #self.defer_close()
@@ -60,9 +60,9 @@ class NpcDialogController(UIController, PopupTrait):
                 if not self.is_show():
                     self.show()
                 self.set_text(speaker, text)
-                if time is None:
-                    time = 1.5 * max(math.ceil(len(text)/15), 1.0)
-                yield time
+                if wait_time is None:
+                    wait_time = 1.5 * max(math.ceil(len(text)/15), 1.0)
+                yield wait_time
                 
 
         self.defer_close()

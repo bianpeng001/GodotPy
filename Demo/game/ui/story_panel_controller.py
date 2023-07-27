@@ -1,6 +1,9 @@
 #
 # 2023年3月3日 bianpeng
 #
+
+import queue
+
 from game.core import *
 from game.game_mgr import *
 from game.base_type import UIController
@@ -13,7 +16,9 @@ from game.event_name import PRESSED
 class StoryPanelController(UIController, PopupTrait):
     def __init__(self):
         super().__init__()
-        pass
+        
+        self._co_show_text = None
+        self.text_queue = queue.Queue()
 
     def setup(self, ui_obj):
         self.ui_obj = ui_obj
@@ -61,13 +66,35 @@ class StoryPanelController(UIController, PopupTrait):
         if on_complete:
             on_complete()
 
-    def show_text(self, text):
+    def set_text(self, text):
         self.text.set_visible(True)
         label = self.text.find_node('Label')
         label.set_text(text)
         
     def show_chapter(self, text):
-        self.chapter.find_node('Label').set_text(text)
         self.chapter.set_visible(True)
+        self.chapter.find_node('Label').set_text(text)
+
+    def show_text(self, text, wait_time=None):
+        self.text_queue.put((text, wait_time))
+        if not self._co_show_text:
+            self._co_show_text = game_mgr.co_mgr.start(self.co_show_text())
+
+    def co_show_text(self):
+        self.init()
+
+        while self.text_queue.qsize() > 0:
+            text, wait_time = self.text_queue.get_nowait()
+            self.set_text(text)
+            if wait_time is None:
+                wait_time = 1.5 * max(math.ceil(len(text)/15), 1.0)
+            yield wait_time
+
+        self.defer_close()
+        self._co_show_dialog = None
+
+    def get_waiter(self):
+        return self._co_show_text
+
 
     
