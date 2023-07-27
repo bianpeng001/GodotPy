@@ -15,6 +15,7 @@ from game.config_mgr import new_hero_name
 class CreatePlayerController(UIController, PopupTrait):
     def __init__(self):
         super().__init__()
+        
         self.player_name = ''
         self.ok_cb = None
 

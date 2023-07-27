@@ -65,7 +65,11 @@ offset_bottom = 171.0
 theme = ExtResource("1_287ib")
 text = "刘备"
 context_menu_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
+virtual_keyboard_enabled = false
 middle_mouse_paste_enabled = false
 
 [node name="BtnChange" type="Button" parent="Panel"]
