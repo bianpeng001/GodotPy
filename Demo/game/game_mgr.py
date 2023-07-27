@@ -197,12 +197,22 @@ def first(item_list, predicate):
 # dialog = s.format(**d)
 # dialog 内容会被正确替换好
 #
-def CustomMapping(collections.abc.Mapping):
+class CustomMapping(collections.abc.Mapping):
     def __init__(self):
         self._dict = {}
 
+        self.reg(self.player_name)
+
+    def player_name(self):
+        return 'Khadgar'
+        
+    def reg(self, func):
+        self._dict[func.__name__] = func
+
     def __getitem__(self, key):
-        return self._dict[key]()
+        func = self._dict.get(key, None)
+        if func:
+            return func()
 
     def __iter__(self):
         return self._dict.__iter__()
