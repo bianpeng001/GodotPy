@@ -3,17 +3,18 @@
 #
 # build script
 
+import glob
 import os
 import os.path
 import shutil
-import glob
-import zipfile
+import sys
 import time
+import zipfile
 
 PROJECT_DIR = 'D:\\OpenSource\\GodotPy'
 GODOT_DIR = 'D:\\OpenSource\\godot'
 PYTHON_DIR = 'D:\\OpenSource\\cpython'
-THREADS = 6
+THREADS = 12
 
 if not os.path.exists(PROJECT_DIR):
     PROJECT_DIR = 'H:\\GodotPy'
@@ -29,8 +30,8 @@ PLAYER = os.path.join(GODOT_BIN_DIR, 'godot.windows.template_release.x86_64.exe'
 DEMO_DIR = os.path.join(PROJECT_DIR, 'Demo')
 BUILD_DIR = os.path.join(PROJECT_DIR, 'Build')
 
+SCONS_EXE = os.path.join(os.path.dirname(sys.executable), 'Scripts', 'scons.exe')
 RES_HACKER = 'D:\\Tools\\ResHacker\\ResourceHacker.exe'
-SCONS_EXE = 'scons.exe'
 GIT_EXE = 'D:\\Tools\\PortableGit\\bin\\git.exe'
 
 def run(cmd):
