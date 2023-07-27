@@ -22,6 +22,11 @@ if not os.path.exists(PROJECT_DIR):
     PYTHON_DIR = 'H:\\cpython'
     THREADS = 4
 
+# 记录版本信息
+python_tag = '3.13.0a0'
+godot_tag = '4.2.dev.custom_build'
+demo_tag = '1.0.0'
+
 GODOT_BIN_DIR = os.path.join(GODOT_DIR, 'bin')
 EDITOR = os.path.join(GODOT_BIN_DIR, 'godot.windows.editor.x86_64.exe')
 EDITOR_DEBUG = os.path.join(GODOT_BIN_DIR, 'godot.windows.editor.dev.x86_64.exe')
@@ -97,11 +102,6 @@ def build_publish():
 
     # zip python313.zip
     call_task('archive_python')
-
-    # 记录版本信息
-    python_tag = '3.13.0a0'
-    godot_tag = '4.2.dev.custom_build'
-    demo_tag = '1.0.0'
 
     with open(f'{PYTHON_DIR}\\python_ver.txt') as f:
         python_ver = f.read().strip()
