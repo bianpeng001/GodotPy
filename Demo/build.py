@@ -11,6 +11,7 @@ import sys
 import time
 import zipfile
 
+# 工具路径
 PROJECT_DIR = 'D:\\OpenSource\\GodotPy'
 GODOT_DIR = 'D:\\OpenSource\\godot'
 PYTHON_DIR = 'D:\\OpenSource\\cpython'
@@ -22,11 +23,16 @@ if not os.path.exists(PROJECT_DIR):
     PYTHON_DIR = 'H:\\cpython'
     THREADS = 4
 
-# 记录版本信息
+SCONS_EXE = os.path.join(os.path.dirname(sys.executable), 'Scripts', 'scons.exe')
+GIT_EXE = 'D:\\Tools\\PortableGit\\bin\\git.exe'
+RES_HACKER = 'D:\\Tools\\ResHacker\\ResourceHacker.exe'
+
+# 版本信息
 python_tag = '3.13.0a0'
 godot_tag = '4.2.dev.custom_build'
 demo_tag = '1.0.0'
 
+# 攻城结构
 GODOT_BIN_DIR = os.path.join(GODOT_DIR, 'bin')
 EDITOR = os.path.join(GODOT_BIN_DIR, 'godot.windows.editor.x86_64.exe')
 EDITOR_DEBUG = os.path.join(GODOT_BIN_DIR, 'godot.windows.editor.dev.x86_64.exe')
@@ -34,10 +40,6 @@ PLAYER = os.path.join(GODOT_BIN_DIR, 'godot.windows.template_release.x86_64.exe'
 
 DEMO_DIR = os.path.join(PROJECT_DIR, 'Demo')
 BUILD_DIR = os.path.join(PROJECT_DIR, 'Build')
-
-SCONS_EXE = os.path.join(os.path.dirname(sys.executable), 'Scripts', 'scons.exe')
-RES_HACKER = 'D:\\Tools\\ResHacker\\ResourceHacker.exe'
-GIT_EXE = 'D:\\Tools\\PortableGit\\bin\\git.exe'
 
 def run(cmd):
     print(cmd)
