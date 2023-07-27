@@ -30,9 +30,6 @@ class UIMgr(NodeObject):
         # 鼠标是否停留在ui上面
         self.last_x, self.last_y = 0, 0
         self.control_under_mouse = False
-        
-        # 加载完毕
-        self.load_complete = False
 
     def is_point_at_gui(self):
         x, y = game_mgr.input_mgr.get_mouse_pos()
@@ -50,7 +47,7 @@ class UIMgr(NodeObject):
         
     def _create(self):
         #self.get_obj().connect("ready", self._ready)
-        game_mgr.co_mgr.start(self.co_init_panels())
+        #game_mgr.co_mgr.start(self.co_init_panels())
 
         # from game.event_name import \
         #         SCENE_UNIT_CLICK,\
@@ -174,8 +171,6 @@ class UIMgr(NodeObject):
             self.nav_panel_controller,
             self.mainui_controller,
         ]
-        
-        self.load_complete = True
 
     def load_panel(self, path, cls):
         ui_obj = OS.instantiate(path)

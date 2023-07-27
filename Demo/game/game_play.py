@@ -181,93 +181,102 @@ class GamePlay:
                     game_mgr.config_mgr.story.start_game_story,
                     show_start_options)
 
-            def co_story1():
-                dlg1 = game_mgr.ui_mgr.story_panel_controller
-                dlg2 = game_mgr.ui_mgr.npc_dialog_controller
-                dlg3 = game_mgr.ui_mgr.create_player_controller
-                
-                game_mgr.ui_mgr.show_base_ui(False)
-                yield 1.0
-
-                dlg1.init()
-                dlg1.show_text('大江东去, 浪淘尽, 千古风流人物\n江山如画, 一时多少豪杰')
-                yield 3.0
-                dlg1.defer_close()
-                yield WaitForSeconds(2)
-                
-                dlg1.init()
-                dlg1.show_text('有一天, 我在街上闲逛')
-                yield WaitForSeconds(1.5)
-                dlg1.show_text('看人来人往, 潮起潮落')
-                yield WaitForSeconds(1.5)
-                dlg1.show_text('不疾不徐, 暗自发愁晚饭还没着落')
-                yield WaitForSeconds(1.5)
-                dlg1.show_text('突然, 斜里过来一人, 一把将我拽住')
-                yield WaitForSeconds(1.5)
-                dlg1.defer_close()
-                
-                dlg2.show_dialog("陌生人", "兄台请留步")
-                dlg2.show_dialog("我", "干啥, 我可没钱")
-                dlg2.show_dialog("陌生人", "兄台取笑了, 不是问你要钱, 是给你钱!")
-                dlg2.show_dialog("我", "还有这好事?")
-                dlg2.show_dialog("陌生人", "未请教尊姓大名?")
-                yield dlg2.get_waiter()
-                
-                dlg3.show_dialog()
-                yield WaitForClose(dlg3)
-                player_name = dlg3.player_name
-                
-                dlg2.show_dialog("陌生人", "久仰, 久仰. 是这样, 我这有个活, 包吃包住")
-                dlg2.show_dialog(player_name, "真的吗?")
-                dlg2.show_dialog("陌生人", "我看你步履稳健, 气度不凡, 头顶一道英雄气直贯云天, 不得了, 不得了")
-                dlg2.show_dialog(player_name, "骗小孩呢? 有事说事, 别耽误我散步")
-                dlg2.show_dialog("陌生人", "...这个, 眼下虽然时运不济, 他日风云际会, 必定一飞冲天!")
-                dlg2.show_dialog("陌生人", "如今朝廷正在用人之际, 我推荐你到军中效力, 总好过在乡野埋没")
-                dlg2.show_dialog(player_name, "好像有点道理")
-                yield dlg2.get_waiter()
-                
-                dlg1.init()
-                dlg1.show_text('这就是我被拉壮丁的经过')
-                yield WaitForSeconds(1.5)
-                dlg1.show_text('然后我结识了几个兄弟, 一起出生入死')
-                yield WaitForSeconds(1.5)
-                dlg1.show_text('我们几个武功还可以, 加上运气不错')
-                yield WaitForSeconds(1.5)
-                dlg1.show_text('没在某场战斗里, 被箭射死, 被刀砍死, 被马踩死, 落河淹死...')
-                yield WaitForSeconds(2.5)
-                dlg1.show_text('再后来, 仗打完了')
-                yield WaitForSeconds(1.5)
-                dlg1.show_text('我跟两位兄弟, 被安排来此处当了个普通县尉')
-                yield WaitForSeconds(1.5)
-                dlg1.show_text('故事从这里开始')
-                yield WaitForSeconds(2.5)
-                dlg1.defer_close()
-                
-                game_mgr.co_mgr.start(co_create_main_player(player_name))
-                game_mgr.co_mgr.start(co_create_robot_player())
-                yield
-                
-                dlg1.init()
-                dlg1.show_chapter(f'第一回 赴任{city_name}')
-                yield WaitForSeconds(2.5)
-                dlg1.defer_close()
-                
-                dlg2.show_dialog("关羽", "如今各处刚历经兵乱, 此处虽小, 也可以励精图治")
-                dlg2.show_dialog("张飞", "大哥, 先看下城里的[color=red]内政[/color]情况吧")
-                dlg2.show_dialog(player_name, "好, 往后这就是我们的家了!")
-                yield dlg2.get_waiter()
-                
-                dlg1.init()
-                dlg1.show_text('三人读书练武勤于政务, 于百姓秋毫无犯, 日子倒也快活')
-                yield WaitForSeconds(2.5)
-                dlg1.defer_close()
-                
-                game_mgr.ui_mgr.show_base_ui(True)
-
-                game_mgr.event_mgr.notify(MSG_PANEL_NEW_MSG, f"[color=red]{player_name}[/color]一行进入[color=green]{city_name}[/color]城")
+        def co_story1():
+            dlg1 = game_mgr.ui_mgr.story_panel_controller
+            dlg2 = game_mgr.ui_mgr.npc_dialog_controller
+            dlg3 = game_mgr.ui_mgr.create_player_controller
             
+            game_mgr.ui_mgr.show_base_ui(False)
+            yield 1.0
+
+            dlg1.init()
+            dlg1.show_text('大江东去, 浪淘尽, 千古风流人物\n江山如画, 一时多少豪杰')
+            yield 3.0
+            dlg1.defer_close()
+            yield WaitForSeconds(2)
+            
+            dlg1.init()
+            dlg1.show_text('有一天, 我在街上闲逛')
+            yield WaitForSeconds(1.5)
+            dlg1.show_text('看人来人往, 潮起潮落')
+            yield WaitForSeconds(1.5)
+            dlg1.show_text('不疾不徐, 暗自发愁晚饭还没着落')
+            yield WaitForSeconds(1.5)
+            dlg1.show_text('突然, 斜里过来一人, 一把将我拽住')
+            yield WaitForSeconds(1.5)
+            dlg1.defer_close()
+            
+            dlg2.show_dialog("陌生人", "兄台请留步")
+            dlg2.show_dialog("我", "干啥, 我可没钱")
+            dlg2.show_dialog("陌生人", "兄台取笑了, 不是问你要钱, 是给你钱!")
+            dlg2.show_dialog("我", "还有这好事?")
+            dlg2.show_dialog("陌生人", "未请教尊姓大名?")
+            yield dlg2.get_waiter()
+            
+            dlg3.show_dialog()
+            yield WaitForClose(dlg3)
+            player_name = dlg3.player_name
+            
+            dlg2.show_dialog("陌生人", "久仰, 久仰. 是这样, 我这有个活, 包吃包住")
+            dlg2.show_dialog(player_name, "真的吗?")
+            dlg2.show_dialog("陌生人", "我看你步履稳健, 气度不凡, 头顶一道英雄气直贯云天, 不得了, 不得了")
+            dlg2.show_dialog(player_name, "骗小孩呢? 有事说事, 别耽误我散步")
+            dlg2.show_dialog("陌生人", "...这个, 眼下虽然时运不济, 他日风云际会, 必定一飞冲天!")
+            dlg2.show_dialog("陌生人", "如今朝廷正在用人之际, 我推荐你到军中效力, 总好过在乡野埋没")
+            dlg2.show_dialog(player_name, "好像有点道理")
+            yield dlg2.get_waiter()
+            
+            dlg1.init()
+            dlg1.show_text('这就是我被拉壮丁的经过')
+            yield WaitForSeconds(1.5)
+            dlg1.show_text('然后我结识了几个兄弟, 一起出生入死')
+            yield WaitForSeconds(1.5)
+            dlg1.show_text('我们几个武功还可以, 加上运气不错')
+            yield WaitForSeconds(1.5)
+            dlg1.show_text('没在某场战斗里, 被箭射死, 被刀砍死, 被马踩死, 落河淹死...')
+            yield WaitForSeconds(2.5)
+            dlg1.show_text('再后来, 仗打完了')
+            yield WaitForSeconds(1.5)
+            dlg1.show_text('我跟两位兄弟, 被安排来此处当了个普通县尉')
+            yield WaitForSeconds(1.5)
+            dlg1.show_text('故事从这里开始')
+            yield WaitForSeconds(2.5)
+            dlg1.defer_close()
+            
+            game_mgr.co_mgr.start(co_create_main_player(player_name))
+            game_mgr.co_mgr.start(co_create_robot_player())
+            yield
+            
+            city_name = game_mgr.config_mgr.first_city_name
+            
+            dlg1.init()
+            dlg1.show_chapter(f'第一回 赴任{city_name}')
+            yield WaitForSeconds(2.5)
+            dlg1.defer_close()
+            
+            dlg2.show_dialog("关羽", "如今各处刚历经兵乱, 此处虽小, 也可以励精图治")
+            dlg2.show_dialog("张飞", "大哥, 先看下城里的[color=red]内政[/color]情况吧")
+            dlg2.show_dialog(player_name, "好, 往后这就是我们的家了!")
+            yield dlg2.get_waiter()
+            
+            dlg1.init()
+            dlg1.show_text('三人读书练武勤于政务, 于百姓秋毫无犯, 日子倒也快活')
+            yield WaitForSeconds(2.5)
+            dlg1.defer_close()
+            
+            game_mgr.ui_mgr.show_base_ui(True)
+
+            game_mgr.event_mgr.notify(MSG_PANEL_NEW_MSG, f"[color=red]{player_name}[/color]一行进入[color=green]{city_name}[/color]城")
+            
+        def co_start_game():
+            wait1 = game_mgr.co_mgr.start(game_mgr.ui_mgr.co_init_panels())
+            yield wait1
+            while not game_mgr.ground_mgr.load_complete:
+                yield
             game_mgr.co_mgr.start(co_story1())
-        game_mgr.co_mgr.start(co_wait_for_ground())
+
+        #game_mgr.co_mgr.start(co_wait_for_ground())
+        game_mgr.co_mgr.start(co_start_game())
 
         test_wait_1()
         
