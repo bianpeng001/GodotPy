@@ -7,7 +7,6 @@
 # 主要是模块这种机制，是不让循环引用的。因为他有toplevel语句
 # 相比之下Delphi的Unit，是可以循环引用的。java，c#的引用的话,两个包是可以互相引用的。
 
-import collections
 import sys
 import traceback
 
@@ -129,6 +128,21 @@ class GameMgr():
 
         return fmt.format(color, unit.unit_name)
 
+    def init_game_props(self):
+        props = CustomMapping()
+        def get_player_name():
+            if self.player_mgr.main_player_id == 0:
+                return '我'
+            else:
+                return self.player_mgr.main_player.player_name
+
+        props.add_property(get_player_name, 'player_name')
+        props.add_property(lambda: game_mgr.config_mgr.first_city_name, 'first_city_name')
+
+        #print('{player_name} aa {first_city_name}'.format(**CustomMapping()))
+        print('{player_name} aa {first_city_name}'.format_map(props))
+
+
 game_mgr = GameMgr()
 
 # 一些简化工具方法
@@ -189,36 +203,6 @@ def first(item_list, predicate):
     for item in item_list:
         if predicate(item):
             return item
-
-#
-# 自定义属性用在剧情对话模块
-# d = CustomMapping()
-# s = '{player_name}: hello!'
-# dialog = s.format(**d)
-# dialog 内容会被正确替换好
-#
-class CustomMapping(collections.abc.Mapping):
-    def __init__(self):
-        self._dict = {}
-
-        self.reg(self.player_name)
-
-    def player_name(self):
-        return 'Khadgar'
-        
-    def reg(self, func):
-        self._dict[func.__name__] = func
-
-    def __getitem__(self, key):
-        func = self._dict.get(key, None)
-        if func:
-            return func()
-
-    def __iter__(self):
-        return self._dict.__iter__()
-
-    def __len__(self):
-        return len(self._dict)
 
 __all__ = [
     'game_mgr',

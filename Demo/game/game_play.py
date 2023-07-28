@@ -256,6 +256,7 @@ class GamePlay:
                 yield
             game_mgr.co_mgr.start(co_story1())
 
+        game_mgr.init_game_props()
         game_mgr.co_mgr.start(co_start_game())
 
         test_wait_1()

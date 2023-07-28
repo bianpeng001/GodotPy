@@ -2,12 +2,13 @@
 # 2023年1月30日 bianpeng
 #
 
-import sys
-import math
-import random
-import traceback
-import os
+import collections
 import io
+import math
+import os
+import random
+import sys
+import traceback
 
 import GodotPy as gp
 
@@ -988,4 +989,35 @@ def set_cache_time(time_sec):
 def get_cache_time():
     return _cache_time
 
+
+#
+# 自定义属性用在剧情对话模块
+# d = CustomMapping()
+# s = '{player_name}: hello!'
+# dialog = s.format(**d)
+# dialog 内容会被正确替换好
+#
+class CustomMapping(collections.abc.Mapping):
+    def __init__(self,*args,**kwargs):
+        super().__init__(*args,**kwargs)
+
+        self._dict = {}
+        self.add_property(self.get_player_name, 'player_name')
+
+    def get_player_name(self):
+        return 'Khadgar'
+        
+    def add_property(self, func, name=None):
+        self._dict[name or func.__name__] = func
+
+    def __getitem__(self, key):
+        func = self._dict.get(key, None)
+        if func:
+            return func()
+
+    def __iter__(self):
+        return self._dict.__iter__()
+
+    def __len__(self):
+        return len(self._dict)
 
