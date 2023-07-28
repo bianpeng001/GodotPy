@@ -998,8 +998,8 @@ def get_cache_time():
 # dialog 内容会被正确替换好
 #
 class CustomMapping(collections.abc.Mapping):
-    def __init__(self,*args,**kwargs):
-        super().__init__(*args,**kwargs)
+    def __init__(self):
+        super().__init__()
 
         self._dict = {}
         self.add_property(self.get_player_name, 'player_name')
@@ -1010,18 +1010,21 @@ class CustomMapping(collections.abc.Mapping):
     def add_property(self, item, name=None):
         self._dict[name or item.__name__] = item
 
+    def __setitem__(self, key, item):
+        self.add_property(item, str(key))
+
     def __getitem__(self, key):
         item = self._dict.get(key, None)
         if item:
             if callable(item):
-                return item()
+                return str(item())
             elif item is float:
                 return f'{item:0.2f}'
             else:
                 return str(item)
 
     def __iter__(self):
-        return self._dict.__iter__()
+        return iter(self._dict)
 
     def __len__(self):
         return len(self._dict)
