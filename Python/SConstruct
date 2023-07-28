@@ -286,7 +286,7 @@ env.Append(LIBPATH = [
 ])
 
 Frozen = 'Programs/_frozen.exe'
-Program1 = env.Program(Frozen,
+FrozenExe = env.Program(Frozen,
     source = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + IOModules + Modules + [
         'Programs/_freeze_module.c',
         'Modules/getpath_noop.c',
@@ -298,7 +298,7 @@ Program1 = env.Program(Frozen,
     )
 
 BootstrapPython = './_bootstrap_python.exe'
-Program2 = env.Program(BootstrapPython,
+BootstrapExe = env.Program(BootstrapPython,
     source = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + IOModules + Modules + [
         'Programs/_bootstrap_python.c',
         'Modules/getpath.c',
@@ -313,7 +313,7 @@ def run(cmd):
     print(cmd)
     os.system(cmd)
 
-def run_gen1(**kw):
+def run_frozen(**kw):
     if os.path.exists(Frozen):
         filename = '{0}'.format(Frozen.replace('/', '\\'))
         run(f'{filename} getpath Modules/getpath.py Python/frozen_modules/getpath.h')
@@ -321,15 +321,15 @@ def run_gen1(**kw):
         run(f'{filename} importlib._bootstrap_external Lib/importlib/_bootstrap_external.py Python/frozen_modules/importlib._bootstrap_external.h')
         run(f'{filename} zipimport Lib/zipimport.py Python/frozen_modules/zipimport.h')
 
-Gen1 = env.Command(
+GenFrozen = env.Command(
     target = 'Python/frozen_modules/getpath.h',
     source = Frozen,
-    action = run_gen1
+    action = run_frozen
     )
 
-env.Requires(Gen1, Program1)
+env.Requires(GenFrozen, FrozenExe)
 
-def run_gen2(**kw):
+def run_bootstrap(**kw):
     if os.path.exists(BootstrapPython):
         filename = '{0}'.format(BootstrapPython.replace('/', '\\'))
         run(f'{filename} Tools/build/deepfreeze.py ' +
@@ -381,13 +381,13 @@ def run_gen2(**kw):
         run(f'{filename} __phello__.spam Lib/__phello__/spam.py Python/frozen_modules/__phello__.spam.h')
         run(f'{filename} frozen_only Tools/freeze/flag.py Python/frozen_modules/frozen_only.h')
 
-Gen2 = env.Command(
+GenBootstrap = env.Command(
     target = 'Python/deepfreeze/deepfreeze.c',
     source = BootstrapPython,
-    action = run_gen2
+    action = run_bootstrap
 )
 
-env.Requires(Gen2, Program2)
+env.Requires(GenBootstrap, BootstrapExe)
 
 # python library
 srcs = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + IOModules + Modules + [
@@ -412,7 +412,7 @@ PythonLib = env.SharedLibrary(ModuleName,
     cpppaths = incs,
     LIBS = libs,
 )
-env.Requires(PythonLib, [Gen1, Gen2])
+env.Requires(PythonLib, [GenFrozen, GenBootstrap])
 
 # generate vsproject
 env.MSVSProject(target = ModuleName + env['MSVSPROJECTSUFFIX'],
