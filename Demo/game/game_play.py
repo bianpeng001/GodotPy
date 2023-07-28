@@ -250,8 +250,7 @@ class GamePlay:
             game_mgr.event_mgr.notify(MSG_PANEL_NEW_MSG, f"[color=red]{player_name}[/color]一行进入[color=green]{city_name}[/color]城")
             
         def co_start_game():
-            wait1 = game_mgr.co_mgr.start(game_mgr.ui_mgr.co_init_panels())
-            yield wait1
+            yield game_mgr.co_mgr.start(game_mgr.ui_mgr.co_init_panels())
             while not game_mgr.ground_mgr.load_complete:
                 yield
             game_mgr.co_mgr.start(co_story1())

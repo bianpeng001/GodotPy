@@ -1002,11 +1002,12 @@ class CustomMapping(collections.abc.Mapping):
         super().__init__()
 
         self._dict = {}
-        self.add_property(self.get_player_name, 'player_name')
 
-    def get_player_name(self):
-        return 'Khadgar'
-        
+        # example property
+        def get_player_name(self):
+            return 'Khadgar'
+        self.add_property(get_player_name, 'player_name')
+
     def add_property(self, item, name=None):
         self._dict[name or item.__name__] = item
 
