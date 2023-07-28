@@ -17,7 +17,7 @@ func on_about_click():
 	FPyObject.call_python_func("game.editor_plugin", "editor_about")
 	
 func on_align_click():
-	FPyObject.call_python_func("game.editor_plugin", "make_align_buttons")
+	FPyObject.call_python_func("game.editor_plugin", "align_buttons")
 
 func _exit_tree():
 	remove_tool_menu_item("Exec Python")
