@@ -235,11 +235,7 @@ class GamePlay:
             yield
             
             city_name = game_mgr.config_mgr.first_city_name
-
-            dlg1.init()
-            dlg1.show_chapter(f'第一回 赴任{city_name}')
-            yield WaitForSeconds(2.5)
-            dlg1.defer_close()
+            yield dlg1.show_chapter(f'第一回 赴任{city_name}')
             
             dlg2.show_dialog("关羽", "如今各处刚历经兵乱, 此处虽小, 也可以励精图治")
             dlg2.show_dialog("张飞", "大哥, 先看下城里的[color=red]内政[/color]情况吧")

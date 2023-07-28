@@ -41,6 +41,10 @@ class StoryPanelController(UIController, PopupTrait):
         self.set_position(176, 100)
         self.show()
 
+
+    #
+    # story ?
+    #
     def play_story(self, text_list, on_complete=None):
         game_mgr.co_mgr.start(self.co_play_story(text_list, on_complete))
 
@@ -66,35 +70,49 @@ class StoryPanelController(UIController, PopupTrait):
         if on_complete:
             on_complete()
 
+    #
+    # text
+    #
     def set_text(self, text):
         self.text.set_visible(True)
         label = self.text.find_node('Label')
         label.set_text(text)
-        
-    def show_chapter(self, text):
-        self.chapter.set_visible(True)
-        self.chapter.find_node('Label').set_text(text)
-
+    
     def show_text(self, text, wait_time=None):
         self.text_queue.put((text, wait_time))
         if not self._co_show_text:
-            self._co_show_text = game_mgr.co_mgr.start(self.co_show_text())
+            def co_show_text():
+                self.init()
 
-    def co_show_text(self):
-        self.init()
+                while self.text_queue.qsize() > 0:
+                    text, wait_time = self.text_queue.get_nowait()
+                    self.set_text(text)
+                    if wait_time is None:
+                        wait_time = 1.5 * max(math.ceil(len(text)/15), 1.0)
+                    yield wait_time
 
-        while self.text_queue.qsize() > 0:
-            text, wait_time = self.text_queue.get_nowait()
-            self.set_text(text)
-            if wait_time is None:
-                wait_time = 1.5 * max(math.ceil(len(text)/15), 1.0)
-            yield wait_time
-
-        self.defer_close()
-        self._co_show_dialog = None
+                self.defer_close()
+                self._co_show_dialog = None
+                
+            self._co_show_text = game_mgr.co_mgr.start(co_show_text())
 
     def get_waiter(self):
         return self._co_show_text
 
+    #
+    # chapter
+    #
+    def set_chapter(self, text):
+        self.chapter.set_visible(True)
+        self.chapter.find_node('Label').set_text(text)
 
-    
+    def show_chapter(self, text):
+        def co_show_chapter(text):
+            self.init()
+            self.set_chapter(text)
+            yield 2.5
+            self.defer_close()
+        return game_mgr.co_mgr.start(co_show_chapter(text))
+
+
+

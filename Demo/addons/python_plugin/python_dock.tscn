@@ -23,3 +23,9 @@ text = "关于"
 [node name="BtnHello" type="Button" parent="HBoxContainer"]
 layout_mode = 2
 text = "hello"
+
+[node name="BtnAlign" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Align Buttons"
+
+

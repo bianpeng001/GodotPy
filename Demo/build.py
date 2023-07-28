@@ -186,6 +186,12 @@ def verinfo():
     os.chdir(PYTHON_DIR)
     run(f'{GIT_EXE} log -1 --format=%h')
     
+
+def cleanup():
+    os.chdir(GODOT_DIR)
+    run(f'{SCONS_EXE} --clean dev_build=True')
+    run(f'{SCONS_EXE} --clean dev_build=False')
+
 # tasks
 task_table = {
         'publish' : build_publish,
@@ -200,6 +206,7 @@ task_table = {
         'package' : build_pck,
         'archive_python' : archive_python,
         'archive_demo' : archive_demo,
+        'cleanup' : cleanup,
         'verinfo' : verinfo,
     }
 

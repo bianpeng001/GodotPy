@@ -10,12 +10,15 @@ func _enter_tree():
 	dock = preload('res://addons/python_plugin/python_dock.tscn').instantiate()
 	add_control_to_dock(DOCK_SLOT_LEFT_UL, dock)
 	
-	var btn = dock.find_child("BtnAbout")
-	btn.pressed.connect(about_click) 
+	dock.find_child("BtnAbout").pressed.connect(on_about_click)
+	dock.find_child("BtnAlign").pressed.connect(on_align_click)
 
-func about_click():
-	FPyObject.call_python_func("game.editor_plugin", "about")
+func on_about_click():
+	FPyObject.call_python_func("game.editor_plugin", "editor_about")
 	
+func on_align_click():
+	FPyObject.call_python_func("game.editor_plugin", "make_align_buttons")
+
 func _exit_tree():
 	remove_tool_menu_item("Exec Python")
 	remove_control_from_docks(dock)

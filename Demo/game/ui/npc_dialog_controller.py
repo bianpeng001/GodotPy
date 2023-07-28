@@ -43,33 +43,32 @@ class NpcDialogController(UIController, PopupTrait):
     def show_dialog(self, speaker, text = '', wait_time=None):
         self.dialog_queue.put((speaker, text, wait_time))
         if not self._co_show_dialog:
-            self._co_show_dialog = game_mgr.co_mgr.start(self.co_show_dialog())
+                def co_show_dialog():
+                    self.init()
 
-    def co_show_dialog(self):
-        self.init()
+                    while self.dialog_queue.qsize() > 0:
+                        speaker,text,wait_time = self.dialog_queue.get_nowait()
 
-        while self.dialog_queue.qsize() > 0:
-            speaker,text,wait_time = self.dialog_queue.get_nowait()
+                        if speaker is None:
+                            #self.defer_close()
+                            if self.is_show():
+                                self.hide()
+                            yield 1.0
+                        else:
+                            if not self.is_show():
+                                self.show()
+                            self.set_text(speaker, text)
+                            if wait_time is None:
+                                wait_time = 1.5 * max(math.ceil(len(text)/15), 1.0)
+                            yield wait_time
+                            
 
-            if speaker is None:
-                #self.defer_close()
-                if self.is_show():
-                    self.hide()
-                yield 1.0
-            else:
-                if not self.is_show():
-                    self.show()
-                self.set_text(speaker, text)
-                if wait_time is None:
-                    wait_time = 1.5 * max(math.ceil(len(text)/15), 1.0)
-                yield wait_time
-                
+                    self.defer_close()
+                    self._co_show_dialog = None
 
-        self.defer_close()
-        self._co_show_dialog = None
+            self._co_show_dialog = game_mgr.co_mgr.start(co_show_dialog())
 
     def get_waiter(self):
         return self._co_show_dialog
-
 
 
