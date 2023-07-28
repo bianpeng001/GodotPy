@@ -1007,17 +1007,24 @@ class CustomMapping(collections.abc.Mapping):
     def get_player_name(self):
         return 'Khadgar'
         
-    def add_property(self, func, name=None):
-        self._dict[name or func.__name__] = func
+    def add_property(self, item, name=None):
+        self._dict[name or item.__name__] = item
 
     def __getitem__(self, key):
-        func = self._dict.get(key, None)
-        if func:
-            return func()
+        item = self._dict.get(key, None)
+        if item:
+            if callable(item):
+                return item()
+            elif item is float:
+                return f'{item:0.2f}'
+            else:
+                return str(item)
 
     def __iter__(self):
         return self._dict.__iter__()
 
     def __len__(self):
         return len(self._dict)
+
+
 

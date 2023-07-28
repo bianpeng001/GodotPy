@@ -256,7 +256,20 @@ class GamePlay:
                 yield
             game_mgr.co_mgr.start(co_story1())
 
-        game_mgr.init_game_props()
+        def test_props():
+            props = CustomMapping()
+            def _get_player_name():
+                if get_main_player_id() == 0:
+                    return '我'
+                else:
+                    return get_main_player().player_name
+
+            props.add_property(_get_player_name, 'player_name')
+            props.add_property(lambda: game_mgr.config_mgr.first_city_name, 'first_city_name')
+
+            log_info('{player_name} 开始 {first_city_name}'.format_map(props))
+        
+        test_props()
         game_mgr.co_mgr.start(co_start_game())
 
         test_wait_1()
