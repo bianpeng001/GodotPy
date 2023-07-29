@@ -28,7 +28,7 @@ class NpcDialogController(UIController, PopupTrait):
     def init(self):
         screen_width,screen_height = OS.viewport_get_size()
         _,_,width,height = self.ui_obj.get_rect()
-        self.popup((screen_width-width)/2+70, screen_height-height-2)
+        self.popup((screen_width-width)/2+100, screen_height-height-2)
         
         self.set_text('', '')
 

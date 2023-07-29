@@ -39,7 +39,10 @@ class MsgPanelController(UIController, PopupTrait):
         msg.set_text(text)
 
         self.msg_queue.put(msg)
-        self.container.set_v_scroll(1000)
+        
+        def co_goto_last():
+            yield self.container.set_v_scroll(1000)
+        game_mgr.co_mgr.start(co_goto_last())
 
     def on_new_msg(self, msg):
         self.add_msg(msg)
