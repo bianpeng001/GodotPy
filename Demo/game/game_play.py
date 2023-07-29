@@ -227,7 +227,7 @@ class GamePlay:
             dlg1.show_text('没在某场战斗里, 被箭射死, 被刀砍死, 被马踩死, 落河淹死...')
             dlg1.show_text('再后来, 仗打完了')
             dlg1.show_text('我跟两位兄弟, 被安排来此处当了个普通县尉')
-            dlg1.show_text('故事从这里开始', 2.5)
+            dlg1.show_text('故事从这里开始', 4.0)
             yield dlg1.get_waiter()
             
             game_mgr.co_mgr.start(co_create_main_player(player_name))
