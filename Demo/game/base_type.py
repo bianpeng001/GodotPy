@@ -532,9 +532,7 @@ class TwoFoldList:
                 self.back_list.clear()
 
     def swap(self):
-        tmp = self.list
-        self.list = self.back_list
-        self.back_list = tmp
+        self.list,self.back_list = self.back_list, self.list
 
     def do_update(self, item):
         pass
