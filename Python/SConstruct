@@ -464,136 +464,179 @@ sqlite3 = env2.SharedLibrary('sqlite3',
 #
 # sqlit3 模块, 单独的dll(复制host.exe同目录下, _sqlite3.pyd)
 #
-sqlite3_pyd = env2.SharedLibrary('_sqlite3',
-    source = [
-        'Modules/_sqlite/module.c',
-        'Modules/_sqlite/connection.c',
-        'Modules/_sqlite/cursor.c',
-        'Modules/_sqlite/row.c',
-        'Modules/_sqlite/blob.c',
-        'Modules/_sqlite/statement.c',
-        'Modules/_sqlite/microprotocols.c',
-        'Modules/_sqlite/prepare_protocol.c',
-        'Modules/_sqlite/util.c',
-    ],
-    CPPDEFINES = [
-        'Py_ENABLE_SHARED',
-        'PY_SQLITE_HAVE_SERIALIZE',
-        'PY_SQLITE_ENABLE_LOAD_EXTENSION',
-    ],
-    buildtarget = '_sqlite3.dll',
-    LIBS = [
-        'sqlite3.lib',
-        'python3.lib',
-    ],
-)
+def build_sqlite3_pyd():
+    sqlite3_pyd = env2.SharedLibrary('_sqlite3',
+        source = [
+            'Modules/_sqlite/module.c',
+            'Modules/_sqlite/connection.c',
+            'Modules/_sqlite/cursor.c',
+            'Modules/_sqlite/row.c',
+            'Modules/_sqlite/blob.c',
+            'Modules/_sqlite/statement.c',
+            'Modules/_sqlite/microprotocols.c',
+            'Modules/_sqlite/prepare_protocol.c',
+            'Modules/_sqlite/util.c',
+        ],
+        CPPDEFINES = [
+            'Py_ENABLE_SHARED',
+            'PY_SQLITE_HAVE_SERIALIZE',
+            'PY_SQLITE_ENABLE_LOAD_EXTENSION',
+        ],
+        buildtarget = '_sqlite3.dll',
+        LIBS = [
+            'sqlite3.lib',
+            'python3.lib',
+        ],
+    )
+build_sqlite3_pyd()
 
 #
 # lowlevel socket module: _socket.pyd
 #
-socket_pyd = env2.SharedLibrary('_socket',
-    source = ['Modules/socketmodule.c'],
-    CPPDEFINES = [
-        'Py_ENABLE_SHARED',
-    ],
-    buildtarget = '_socket.dll',
-    LIBS = [
-        'python3.lib',
-        'Rpcrt4', 'Iphlpapi', 'Ws2_32',
-    ]
-)
+def build_socket_pyd():
+    socket_pyd = env2.SharedLibrary('_socket',
+        source = ['Modules/socketmodule.c'],
+        CPPDEFINES = [
+            'Py_ENABLE_SHARED',
+        ],
+        buildtarget = '_socket.dll',
+        LIBS = [
+            'python3.lib',
+            'Rpcrt4', 'Iphlpapi', 'Ws2_32',
+        ]
+    )
+build_socket_pyd()
 
 #
 # eventloop: _asyncio.pyd
 #
-asyncio_pyd = env2.SharedLibrary('_asyncio',
-    source = ['Modules/_asynciomodule.c'],
-    CPPDEFINES = [
-        'Py_ENABLE_SHARED',
-    ],
-    buildtarget = '_asyncio.dll',
-    LIBS = [ 'python3.lib', ]
-)
+def build_asyncio_pyd():
+    asyncio_pyd = env2.SharedLibrary('_asyncio',
+        source = ['Modules/_asynciomodule.c'],
+        CPPDEFINES = [
+            'Py_ENABLE_SHARED',
+        ],
+        buildtarget = '_asyncio.dll',
+        LIBS = [ 'python3.lib', ]
+    )
+build_asyncio_pyd()
 
 #
 # _overlapped.pyd
 #
-overlapped_pyd = env2.SharedLibrary('_overlapped',
-    source = ['Modules/overlapped.c'],
-    CPPDEFINES = [
-        'Py_ENABLE_SHARED',
-    ],
-    buildtarget = '_overlapped.dll',
-    LIBS = [ 'python3.lib', "Ws2_32", ]
-)
+def build_overlapped_pyd():
+    overlapped_pyd = env2.SharedLibrary('_overlapped',
+        source = ['Modules/overlapped.c'],
+        CPPDEFINES = [
+            'Py_ENABLE_SHARED',
+        ],
+        buildtarget = '_overlapped.dll',
+        LIBS = [ 'python3.lib', "Ws2_32", ]
+    )
+build_overlapped_pyd()
 
 #
 # _multiprocessing.pyd
 #
-multiprocessing_pyd = env2.SharedLibrary('_multiprocessing',
-    source = [
-        'Modules/_multiprocessing/multiprocessing.c',
-        'Modules/_multiprocessing/semaphore.c'
-    ],
-    CPPDEFINES = [
-        'Py_ENABLE_SHARED',
-    ],
-    buildtarget = '_multiprocessing.dll',
-    LIBS = [ 'python3.lib', "Ws2_32", ]
-)
+def build_multiprocessing_pyd():
+    multiprocessing_pyd = env2.SharedLibrary('_multiprocessing',
+        source = [
+            'Modules/_multiprocessing/multiprocessing.c',
+            'Modules/_multiprocessing/semaphore.c'
+        ],
+        CPPDEFINES = [
+            'Py_ENABLE_SHARED',
+        ],
+        buildtarget = '_multiprocessing.dll',
+        LIBS = [ 'python3.lib', "Ws2_32", ]
+    )
+build_multiprocessing_pyd()
 
 #
 # _queue.pyd
 #
-queue_pyd = env2.SharedLibrary('_queue',
-    source = ['Modules/_queuemodule.c',],
-    CPPDEFINES = [
-        'Py_ENABLE_SHARED',
-    ],
-    buildtarget = '_queue.dll',
-    LIBS = [ 'python3.lib', ]
-)
-
-
-
-
+def build_queue_pyd():
+    queue_pyd = env2.SharedLibrary('_queue',
+        source = ['Modules/_queuemodule.c',],
+        CPPDEFINES = [
+            'Py_ENABLE_SHARED',
+        ],
+        buildtarget = '_queue.dll',
+        LIBS = [ 'python3.lib', ]
+    )
+build_queue_pyd()
 
 # _decimal.pyd
 # NOTICE!! 因为搞不定vcdiv64.asm的变异, 在sons里面, 所以先去掉了. 缺少ml.exe.
 
-decimal_pyd = env2.SharedLibrary('_decimal',
-    source = [
-        "Modules/_decimal/_decimal.c",
-        "Modules/_decimal/libmpdec/basearith.c",
-        "Modules/_decimal/libmpdec/constants.c",
-        "Modules/_decimal/libmpdec/context.c",
-        "Modules/_decimal/libmpdec/convolute.c",
-        "Modules/_decimal/libmpdec/crt.c",
-        "Modules/_decimal/libmpdec/difradix2.c",
-        "Modules/_decimal/libmpdec/fnt.c",
-        "Modules/_decimal/libmpdec/fourstep.c",
-        "Modules/_decimal/libmpdec/io.c",
-        "Modules/_decimal/libmpdec/mpalloc.c",
-        "Modules/_decimal/libmpdec/mpdecimal.c",
-        "Modules/_decimal/libmpdec/mpsignal.c",
-        "Modules/_decimal/libmpdec/numbertheory.c",
-        "Modules/_decimal/libmpdec/sixstep.c",
-        "Modules/_decimal/libmpdec/transpose.c",
-    ],
-    CPPDEFINES = [
-        'Py_ENABLE_SHARED',
-        ('CONFIG_64', 1),
-        ('ANSI', 1),
-    ],
-    CPPPATH = incs + [ './Modules/_decimal', './Modules/_decimal/libmpdec', ],
-    buildtarget = '_decimal.dll',
-    LIBS = [ 'python3.lib',
-        "advapi32.lib",
-        "shell32.lib",
-        "ole32.lib",
-        "oleaut32.lib",
-    ]
-)
+def build_decimal_pyd():
+    decimal_pyd = env2.SharedLibrary('_decimal',
+        source = [
+            "Modules/_decimal/_decimal.c",
+            "Modules/_decimal/libmpdec/basearith.c",
+            "Modules/_decimal/libmpdec/constants.c",
+            "Modules/_decimal/libmpdec/context.c",
+            "Modules/_decimal/libmpdec/convolute.c",
+            "Modules/_decimal/libmpdec/crt.c",
+            "Modules/_decimal/libmpdec/difradix2.c",
+            "Modules/_decimal/libmpdec/fnt.c",
+            "Modules/_decimal/libmpdec/fourstep.c",
+            "Modules/_decimal/libmpdec/io.c",
+            "Modules/_decimal/libmpdec/mpalloc.c",
+            "Modules/_decimal/libmpdec/mpdecimal.c",
+            "Modules/_decimal/libmpdec/mpsignal.c",
+            "Modules/_decimal/libmpdec/numbertheory.c",
+            "Modules/_decimal/libmpdec/sixstep.c",
+            "Modules/_decimal/libmpdec/transpose.c",
+        ],
+        CPPDEFINES = [
+            'Py_ENABLE_SHARED',
+            ('CONFIG_64', 1),
+            ('ANSI', 1),
+        ],
+        CPPPATH = incs + [ './Modules/_decimal', './Modules/_decimal/libmpdec', ],
+        buildtarget = '_decimal.dll',
+        LIBS = [ 'python3.lib',
+            "advapi32.lib",
+            "shell32.lib",
+            "ole32.lib",
+            "oleaut32.lib",
+        ]
+    )
+build_decimal_pyd()
+
+#
+# _ctypes.pyd
+#
+def build_ctypes_pyd():
+    FFI_PATH = 'D:/OpenSource/libffi-3.4.4'
+    ctypes_pyd = env2.SharedLibrary('_ctypes',
+        source = [
+            'Modules/_ctypes/_ctypes.c',
+            'Modules/_ctypes/callbacks.c',
+            'Modules/_ctypes/callproc.c',
+            'Modules/_ctypes/cfield.c',
+            'Modules/_ctypes/malloc_closure.c',
+            'Modules/_ctypes/stgdict.c',
+
+            FFI_PATH + '/src/closures.c',
+            FFI_PATH + '/src/dlmalloc.c',
+            FFI_PATH + '/src/ffi.c',
+            FFI_PATH + '/src/prep_cif.c',
+            FFI_PATH + '/src/types.c',
+            FFI_PATH + '/src/aarch64/win64_armasm.S',
+        ],
+        CPPDEFINES = [
+            'Py_ENABLE_SHARED',
+        ],
+        CPPPATH = incs + [
+            FFI_PATH + '/include',
+            FFI_PATH + '/src/aarch64',
+            FFI_PATH + '/msvc_build/aarch64/aarch64_include',
+        ],
+        buildtarget = '_ctypes.dll',
+        LIBS = [ 'python3.lib', ]
+    )
 
 #
 # 这个应该单独搞一个dll
