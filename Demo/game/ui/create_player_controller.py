@@ -26,7 +26,9 @@ class CreatePlayerController(UIController, PopupTrait):
         label = self.ui_obj.find_node('Panel/Label')
         label.set_text(game_mgr.config_mgr.new_player_text)
         
-        self.ui_obj.find_node('Panel/BtnChange').connect(PRESSED, self.on_change_click)
+        btn_change = self.ui_obj.find_node('Panel/BtnChange')
+        btn_change.connect(PRESSED, self.on_change_click)
+
         self.text_edit_obj = self.ui_obj.find_node('Panel/TextEdit')
         
     def on_change_click(self):
