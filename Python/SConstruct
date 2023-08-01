@@ -252,7 +252,6 @@ incs = [
     './Modules/_hacl/include',
     './Godot',
     ZLIB,
-    SQLITE3,
 ]
 
 # frozen modules
@@ -293,7 +292,7 @@ FrozenExe = env.Program(Frozen,
         'Godot/config.c',
         'Godot/zlibmodule.c',
     ],
-    cpppaths = incs,
+    CPPPATH = incs,
     LIBS = libs
     )
 
@@ -305,7 +304,7 @@ BootstrapExe = env.Program(BootstrapPython,
         'Godot/config.c',
         'Godot/zlibmodule.c',
     ],
-    cpppaths = incs,
+    CPPPATH = incs,
     LIBS = libs
 )
 
@@ -409,7 +408,7 @@ srcs = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + IOModules + Modules + [
     ]
 PythonLib = env.SharedLibrary(ModuleName,
     source = srcs,
-    cpppaths = incs,
+    CPPPATH = incs,
     LIBS = libs,
 )
 env.Requires(PythonLib, [GenFrozen, GenBootstrap])
@@ -417,7 +416,7 @@ env.Requires(PythonLib, [GenFrozen, GenBootstrap])
 # generate vsproject
 env.MSVSProject(target = ModuleName + env['MSVSPROJECTSUFFIX'],
     srcs = srcs,
-    cpppaths = [incs],
+    CPPPATH = incs,
     buildtarget = ModuleName + '.dll',
     variant = 'Debug|x64'
 )
@@ -444,27 +443,27 @@ PythonExe = env2.Program('python.exe',
 env2.Requires(PythonExe, [PythonLib, PythonExeRes])
 
 #
-# build sqlite3
-# 单独的dll
-#
-sqlite3 = env2.SharedLibrary('sqlite3',
-    source = [SQLITE3 +'/sqlite3.c'],
-    buildtarget = 'sqlite3.dll',
-    CPPDEFINES = [
-        'Py_ENABLE_SHARED',
-        'SQLITE_ENABLE_MATH_FUNCTIONS',
-        'SQLITE_ENABLE_FTS4',
-        'SQLITE_ENABLE_FTS5',
-        'SQLITE_ENABLE_RTREE',
-        'SQLITE_OMIT_AUTOINIT',
-        ('SQLITE_API', '__declspec(dllexport)'),
-        ]
-)
-
-#
 # sqlit3 模块, 单独的dll(复制host.exe同目录下, _sqlite3.pyd)
 #
 def build_sqlite3_pyd():
+    # build sqlite3
+    # 单独的dll
+    sqlite3 = env2.SharedLibrary('sqlite3',
+        source = [SQLITE3 +'/sqlite3.c'],
+        CPPPATH = incs + [SQLITE3,],
+        CPPDEFINES = [
+            'Py_ENABLE_SHARED',
+            'SQLITE_ENABLE_MATH_FUNCTIONS',
+            'SQLITE_ENABLE_FTS4',
+            'SQLITE_ENABLE_FTS5',
+            'SQLITE_ENABLE_RTREE',
+            'SQLITE_OMIT_AUTOINIT',
+            ('SQLITE_API', '__declspec(dllexport)'),
+            ],
+        buildtarget = 'sqlite3.dll',
+        LIBS = ['python3.lib']
+    )
+
     sqlite3_pyd = env2.SharedLibrary('_sqlite3',
         source = [
             'Modules/_sqlite/module.c',
@@ -477,6 +476,7 @@ def build_sqlite3_pyd():
             'Modules/_sqlite/prepare_protocol.c',
             'Modules/_sqlite/util.c',
         ],
+        CPPPATH = incs + [SQLITE3,],
         CPPDEFINES = [
             'Py_ENABLE_SHARED',
             'PY_SQLITE_HAVE_SERIALIZE',
