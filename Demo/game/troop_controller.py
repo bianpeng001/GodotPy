@@ -31,8 +31,7 @@ class TroopSightComponent(Component):
         self._unit_dict = {}
         
     def loop_units(self):
-        for unit in self._unit_dict.values():
-            yield unit
+        return iter(self._unit_dict.values())
 
     # 转动视野
     # 移动过程里, 还要检查周围的敌军, 有一个视野
