@@ -548,3 +548,24 @@ class StringBuilder(io.StringIO):
         self.write(text)
         self.write('\n')
 
+
+#
+# 复用list
+#
+def make_get_buffer():
+    a = []
+    b = []
+    
+    def get_buffer():
+        a.clear()
+        return a
+    def get_buffer2():
+        a.clear()
+        b.clear()
+        return a, b
+
+    return get_buffer, get_buffer2
+
+get_buffer, get_buffer2 = make_get_buffer()
+
+

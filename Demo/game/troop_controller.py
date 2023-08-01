@@ -11,11 +11,6 @@ from game.troop_ai import *
 # 视觉感知
 #
 class TroopSightComponent(Component):
-    # 公用的list, 减少分配. 因为每帧每个单位都要用到
-    _lose_list = []
-    _enter_list = []
-    _leave_list = []
-
     def __init__(self):
         super().__init__()
         
@@ -49,6 +44,7 @@ class TroopSightComponent(Component):
         x,z = self_unit.get_xz()
         #sqr_radius = self.radius**2
         sqr_radius = game_mgr.config_mgr.sight_sqrdis
+        enter_list, lose_list = get_buffer2()
         
         def check_tile_unit(col,row):
             tile = game_mgr.ground_mgr.get_tile_colrow(col,row)
@@ -93,9 +89,6 @@ class TroopSightComponent(Component):
                 check_tile_unit(col-1,row+1)
 
         if len(self._unit_dict) > 0:
-            lose_list = TroopSightComponent._lose_list
-            lose_list.clear()
-
             #sqr_lose_radius = self.lose_radius**2
             lose_sight_sqrdis = game_mgr.config_mgr.lose_sight_sqrdis
             
@@ -106,7 +99,6 @@ class TroopSightComponent(Component):
             if lose_list:
                 for unit in lose_list:
                     self._unit_dict.pop(unit.unit_id)
-                lose_list.clear()
 
 #
 # 管理战斗
