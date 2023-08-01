@@ -16,16 +16,9 @@ from game.city_ai import *
 class CitySightComponent(Component):
     _enter_list = []
     _leave_list = []
-    
+
     def __init__(self):
         super().__init__()
-        
-        # 视野,失去视野
-        self.vision_range = 8
-        self.lose_vision_range = 12
-
-        self.sight_sqrdis = self.vision_range**2
-        self.lose_sight_sqrdis = self.lose_vision_range**2
 
         # 已经在视野中的单位
         self._unit_dict = {}
@@ -33,24 +26,26 @@ class CitySightComponent(Component):
     def update(self, delta_time):
         self_unit = self.get_controller().get_unit()
         owner_tile = self.get_controller().owner_tile
+
+        config_mgr = game_mgr.config_mgr
         
         # enter sight
         enter_list = CitySightComponent._enter_list
-        enter_list.clear()
+        # enter_list.clear()
         if owner_tile:
             for unit in owner_tile.get_unit_list():
                 if unit.unit_id != self_unit.unit_id and \
                         unit.unit_id not in self._unit_dict and \
                         not game_mgr.is_league(unit, self_unit) and \
-                        self_unit.get_xz_sqrdis_to(unit) < self.sight_sqrdis:
+                        self_unit.get_xz_sqrdis_to(unit) < config_mgr.city_sight_sqrdis:
                     log_debug('city see', unit.unit_name)
                     enter_list.append(unit)
 
         # leave sight
         leave_list = CitySightComponent._leave_list
-        leave_list.clear()
+        # leave_list.clear()
         for unit_id, unit in self._unit_dict.items():
-            if self_unit.get_xz_sqrdis_to(unit) > self.lose_sight_sqrdis:
+            if self_unit.get_xz_sqrdis_to(unit) > config_mgr.city_lose_sight_sqrdis:
                 leave_list.append(unit)
 
         if leave_list:
