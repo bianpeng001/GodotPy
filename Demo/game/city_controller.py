@@ -14,6 +14,8 @@ from game.city_ai import *
 # 视觉
 #
 class CitySightComponent(Component):
+    _enter_list = []
+    _leave_list = []
     def __init__(self):
         super().__init__()
         
@@ -30,10 +32,35 @@ class CitySightComponent(Component):
     def update(self, delta_time):
         self_unit = self.get_controller().get_unit()
         owner_tile = self.get_controller().owner_tile
+        
         if owner_tile:
+            enter_list = CitySightComponent._enter_list
+            enter_list.clear()
+            # enter sight
             for unit in owner_tile.get_unit_list():
-                if not game_mgr.is_league(unit, self_unit):
-                    pass
+                if unit.unit_id != self_unit.unit_id and \
+                        unit.unit_id not in self._unit_dict and \
+                        not game_mgr.is_league(unit, self_unit) and \
+                        self_unit.get_xz_sqrdis_to(unit) < self.sight_sqrdis:
+                    log_debug('city see', unit.unit_name)
+                    enter_list.append(unit)
+        # leave sight
+        leave_list = CitySightComponent._leave_list
+        leave_list.clear()
+        for unit_id, unit in self._unit_dict.items():
+            if self_unit.get_xz_sqrdis_to(unit) > self.lose_sight_sqrdis:
+                leave_list.append(unit)
+
+        if leave_list:
+            for unit in leave_list:
+                self._unit_dict.pop(unit.unit_id)
+            leave_list.clear()
+            
+        if enter_list:
+            for unit in enter_list:
+                self._unit_dict[unit.unit_id] = unit
+            enter_list.clear()
+
 
 #
 # 城池控制器

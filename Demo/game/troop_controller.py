@@ -44,28 +44,21 @@ class TroopSightComponent(Component):
         self.check_see_unit()
 
     def check_see_unit(self):
-        src_unit = self.get_controller().get_unit()
-        x,z = src_unit.get_xz()
+        self_unit = self.get_controller().get_unit()
+        x,z = self_unit.get_xz()
         #sqr_radius = self.radius**2
         sqr_radius = game_mgr.config_mgr.sight_sqrdis
         
         def check_tile_unit(col,row):
             tile = game_mgr.ground_mgr.get_tile_colrow(col,row)
             if tile:
-                #log_debug('check owner tile', src_unit.unit_name, len(tile.get_unit_list()))
+                #log_debug('check owner tile', self_unit.unit_name, len(tile.get_unit_list()))
                 for unit in tile.get_unit_list():
-                    if unit.unit_id != src_unit.unit_id and \
-                            unit.unit_id not in self._unit_dict:
-                        x1,z1 = unit.get_xz()
-                        dx,dz = x1-x,z1-z
-                        sqrdis = dx*dx+dz*dz
-                        #log_debug('src unit', src_unit.unit_name, x, z, src_unit.get_position())
-                        #log_debug('unit', unit.unit_name, x1, z1)
-                        #log_debug('delta', dx, dz)
-                        #log_debug('check see unit', src_unit.unit_name, dx,dz, sqr_radius, unit.unit_name)
-                        if sqrdis <= sqr_radius:
-                            self._unit_dict[unit.unit_id] = unit
-                            #log_debug('see unit', src_unit.unit_name, '->', unit.unit_name)
+                    if unit.unit_id != self_unit.unit_id and \
+                            unit.unit_id not in self._unit_dict and \
+                            self_unit.get_xz_sqrdis_to(unit) < sqr_radius:
+                        self._unit_dict[unit.unit_id] = unit
+                        #log_debug('see unit', self_unit.unit_name, '->', unit.unit_name)
 
                 if tile.city_unit:
                     if tile.city_unit.unit_id not in self._unit_dict:
@@ -106,15 +99,12 @@ class TroopSightComponent(Component):
             lose_sight_sqrdis = game_mgr.config_mgr.lose_sight_sqrdis
             
             for unit in self.loop_units():
-                x1,z1 = unit.get_xz()
-                dx,dz = x1-x,z1-z
-                sqrdis = dx*dx+dz*dz
-                if sqrdis > lose_sight_sqrdis:
-                    lose_list.append(unit.unit_id)
+                if self_unit.get_xz_sqrdis_to(unit) > lose_sight_sqrdis:
+                    lose_list.append(unit)
             
-            if len(lose_list) > 0:
-                for unit_id in lose_list:
-                    self._unit_dict.pop(unit_id)
+            if lose_list:
+                for unit in lose_list:
+                    self._unit_dict.pop(unit.unit_id)
                 lose_list.clear()
 
 #
@@ -275,14 +265,14 @@ class TroopController(Controller):
             rvo_sqrdis = game_mgr.config_mgr.rvo_sqrdis
             rvo_factor = game_mgr.config_mgr.rvo_factor
             
-            src_unit = self.get_unit()
-            x,z = src_unit.get_xz()
+            self_unit = self.get_unit()
+            x,z = self_unit.get_xz()
             
             for unit in self.sight_comp.loop_units():
                 # if unit.unit_type == UT_TROOP and \
-                #         unit.owner_player_id != src_unit.owner_player_id:
+                #         unit.owner_player_id != self_unit.owner_player_id:
                 if unit.unit_type == UT_CITY:
-                    if unit.owner_player_id == src_unit.owner_player_id:
+                    if unit.owner_player_id == self_unit.owner_player_id:
                         continue
 
                 x1,z1 = unit.get_xz()
@@ -298,9 +288,9 @@ class TroopController(Controller):
                     self.rvo_acce_x += dx*f
                     self.rvo_acce_z += dz*f
             
-            self.rvo_acce_x *= rvo_factor/src_unit.mass
-            self.rvo_acce_z *= rvo_factor/src_unit.mass
-            #log_debug('rvo force', src_unit.unit_name, self.rvo_acce_x, self.rvo_acce_z)
+            self.rvo_acce_x *= rvo_factor/self_unit.mass
+            self.rvo_acce_z *= rvo_factor/self_unit.mass
+            #log_debug('rvo force', self_unit.unit_name, self.rvo_acce_x, self.rvo_acce_z)
 
     def look_at(self,x,y,z):
         node = self.get_model_node()
