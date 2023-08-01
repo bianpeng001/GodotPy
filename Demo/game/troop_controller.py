@@ -13,6 +13,8 @@ from game.troop_ai import *
 class TroopSightComponent(Component):
     # 公用的list, 减少分配. 因为每帧每个单位都要用到
     _lose_list = []
+    _enter_list = []
+    _leave_list = []
 
     def __init__(self):
         super().__init__()
