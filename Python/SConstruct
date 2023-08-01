@@ -415,7 +415,7 @@ env.Requires(PythonLib, [GenFrozen, GenBootstrap])
 
 # generate vsproject
 env.MSVSProject(target = ModuleName + env['MSVSPROJECTSUFFIX'],
-    srcs = srcs,
+    source = srcs,
     CPPPATH = incs,
     buildtarget = ModuleName + '.dll',
     variant = 'Debug|x64'
@@ -434,9 +434,12 @@ PythonExeRes = env2.RES('python3.rc')
 
 # python.exe
 PythonExe = env2.Program('python.exe',
-    source = ['Programs/python.c', 'python3.res'],
-    resources = [],
+    source = [
+        'Programs/python.c',
+        'python3.res'
+    ],
     CPPPATH = incs,
+    resources = [],
     LIBS = ['python3.lib',]
 )
 # 加一下依赖关系, 保证先后执行顺序
@@ -502,7 +505,9 @@ def build_socket_pyd():
         buildtarget = '_socket.dll',
         LIBS = [
             'python3.lib',
-            'Rpcrt4', 'Iphlpapi', 'Ws2_32',
+            'Rpcrt4',
+            'Iphlpapi',
+            'Ws2_32',
         ]
     )
 build_socket_pyd()

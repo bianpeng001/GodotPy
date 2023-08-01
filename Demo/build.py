@@ -185,12 +185,13 @@ def verinfo():
     run(f'{GIT_EXE} log -1 --format=%H')
     os.chdir(PYTHON_DIR)
     run(f'{GIT_EXE} log -1 --format=%h')
-    
 
 def cleanup():
     os.chdir(GODOT_DIR)
     run(f'{SCONS_EXE} --clean dev_build=True')
     run(f'{SCONS_EXE} --clean dev_build=False')
+    os.chdir(PYTHON_DIR)
+    run(f'{SCONS_EXE} --clean')
 
 # tasks
 task_table = {
