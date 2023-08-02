@@ -140,5 +140,12 @@ def test_1():
     #a.print()
     print_line(a=1,b=2)
 
-test_1()
+#test_1()
+
+def test2():
+    import game.ui as x
+    x.show_all_ui()
+
+
+
 
