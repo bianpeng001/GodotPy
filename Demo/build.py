@@ -96,6 +96,7 @@ def build_publish():
 
     copy(EDITOR, os.path.join(BUILD_DIR, 'GodotEditor.exe'))
     copy(PLAYER, os.path.join(BUILD_DIR, 'Demo.exe'))
+    copy(PLAYER.replace('.exe','.console.exe'), os.path.join(BUILD_DIR, 'Demo.console.exe'))
     copy(os.path.join(DEMO_DIR, 'gm.py'), os.path.join(BUILD_DIR, 'gm.py'))
     copy(os.path.join(PROJECT_DIR, 'LICENSE'), os.path.join(BUILD_DIR, 'LICENSE'))
     
