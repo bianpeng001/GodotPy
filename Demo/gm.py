@@ -146,6 +146,6 @@ def test2():
     import game.ui as x
     x.show_all_ui()
 
-
+#test2()
 
 

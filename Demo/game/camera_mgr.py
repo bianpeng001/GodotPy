@@ -132,5 +132,14 @@ class CameraMgr(NodeObject):
                 self.focus = self.target_focus + delta * 0.9
             self.update_camera()
 
+    def move_focus(self,dx,dy,dz):
+        self.focus.x += dx
+        self.focus.y += dy
+        self.focus.z += dz
+        self.is_chase_target = False
+        self.update_camera()
+        
+
+
 
 

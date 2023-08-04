@@ -980,14 +980,20 @@ def obstacle(fun):
         return fun(*args, **kwargs)
     return _fun
 
-# 记一下时间
-_cache_time = 0
-def set_cache_time(time_sec):
-    global _cache_time
-    _cache_time = time_sec
 
-def get_cache_time():
-    return _cache_time
+def make_cache_time_func():
+    _cache_time = 0
+    def set_cache_time(time_sec):
+        nonlocal _cache_time
+        _cache_time = time_sec
+
+    def get_cache_time():
+        return _cache_time
+
+    return get_cache_time,set_cache_time
+
+# 记一下时间
+get_cache_time,set_cache_time = make_cache_time_func()
 
 
 #

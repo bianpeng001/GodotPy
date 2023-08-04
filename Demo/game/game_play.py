@@ -73,6 +73,13 @@ class GamePlay:
         cm = game_mgr.camera_mgr
         cm.update_camera()
 
+        def _co_camera_mov():
+            while True:
+                cm.move_focus(0,0,0.03)
+                yield
+                
+        co_camera_mov = game_mgr.co_mgr.start(_co_camera_mov())
+
         def in_range(x, min, max):
             return x >= min and x < max
         
@@ -229,6 +236,8 @@ class GamePlay:
             dlg1.show_text('我跟两位兄弟, 被安排来此处当了个普通县尉')
             dlg1.show_text('故事从这里开始', 4.0)
             yield dlg1.get_waiter()
+
+            game_mgr.co_mgr.cancel(co_camera_mov)
             
             game_mgr.co_mgr.start(co_create_main_player(player_name))
             game_mgr.co_mgr.start(co_create_robot_player())

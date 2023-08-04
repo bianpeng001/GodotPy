@@ -555,13 +555,17 @@ class StringBuilder(io.StringIO):
 def make_get_buffer():
     a = []
     b = []
-    
+
     def get_buffer():
-        a.clear()
+        if a:
+            a.clear()
         return a
+
     def get_buffer2():
-        a.clear()
-        b.clear()
+        if a:
+            a.clear()
+        if b:
+            b.clear()
         return a, b
 
     return get_buffer, get_buffer2
