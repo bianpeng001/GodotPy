@@ -74,8 +74,10 @@ class GamePlay:
         cm.update_camera()
 
         def _co_camera_mov():
-            while True:
-                cm.move_focus(0,0,0.03)
+            i = 0
+            while i < 10000:
+                cm.move_focus(0.01,0,0.03)
+                i += 1
                 yield
                 
         co_camera_mov = game_mgr.co_mgr.start(_co_camera_mov())
