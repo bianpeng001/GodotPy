@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://ckhlaju2fgfiu"]
+
+[ext_resource type="ArrayMesh" uid="uid://cr38nrsj3jror" path="res://models/Lake/Lake.obj" id="1_nxr1b"]
+[ext_resource type="Material" uid="uid://cukmierhh6f10" path="res://models/Lake/MatLake01.tres" id="2_ec5w8"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Lake" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+cast_shadow = 0
+mesh = ExtResource("1_nxr1b")
+surface_material_override/0 = ExtResource("2_ec5w8")

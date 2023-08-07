@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cr38nrsj3jror"
+path="res://.godot/imported/Lake.obj-567932e5c9f131c442e1163009160117.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Lake.obj-567932e5c9f131c442e1163009160117.mesh"]
+
+source_file="res://models/Lake/Lake.obj"
+dest_files=["res://.godot/imported/Lake.obj-567932e5c9f131c442e1163009160117.mesh", "res://.godot/imported/Lake.obj-567932e5c9f131c442e1163009160117.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
