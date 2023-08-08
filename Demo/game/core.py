@@ -852,6 +852,23 @@ class FSubViewport(FNode):
     def set_update_mode(self, mode):
         gp.f_viewport_set_update_mode(self.get_gdobj(), mode)
 
+#
+# audio player
+#
+class FAudioStreamPlayer(FNode):
+    def play(self, pos):
+        gp.audio_stream_player_play(self.get_gdobj(), pos)
+
+    def stop(self):
+        gp.audio_stream_player_stop()
+
+    def set_stream(self, stream):
+        gp.audio_stream_player_set_stream(self.get_gdobj(), stream)
+
+    def set_volume(self, volume):
+        gp.audio_stream_player_set_volume(self.get_gdobj(), volume)
+
+
 # 多边形工具
 class FSurfaceTool:
     def __init__(self):
@@ -943,6 +960,7 @@ _TypeMap = {
 
     'ItemList' : FItemList,
     'SubViewport' : FSubViewport,
+    'AudioStreamPlayer': FAudioStreamPlayer,
 }
 
 # 传给c++,那边,当新增一个类型的时候,需要注册到py端,关键需要保持type_id一致

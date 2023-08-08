@@ -46,6 +46,7 @@
 #include "scene/resources/primitive_meshes.h"
 #include "scene/resources/immediate_mesh.h"
 #include "scene/resources/environment.h"
+#include "scene/audio/audio_stream_player.h"
 #include "servers/display_server.h"
 
 // python
@@ -2941,6 +2942,89 @@ static PyObject *f_item_list_add_item(PyObject *module, PyObject *args) {
 
 	Py_RETURN_NONE;
 }
+//
+// audio
+//
+static PyObject *f_audio_stream_player_play(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		float from_pos;
+
+		if (!PyArg_ParseTuple(args, "Of", &a_obj, &from_pos)) {
+			break;
+		}
+
+		auto audio_player = GetObjPtr<AudioStreamPlayer>(a_obj);
+		if (!audio_player) {
+			break;
+		}
+		audio_player->play(from_pos);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_audio_stream_player_stop(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+
+		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
+			break;
+		}
+
+		auto audio_player = GetObjPtr<AudioStreamPlayer>(a_obj);
+		if (!audio_player) {
+			break;
+		}
+		audio_player->stop();
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_audio_stream_player_set_stream(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		PyObject *a_stream;
+
+		if (!PyArg_ParseTuple(args, "OO", &a_obj, &a_stream)) {
+			break;
+		}
+
+		auto audio_player = GetObjPtr<AudioStreamPlayer>(a_obj);
+		if (!audio_player) {
+			break;
+		}
+		auto p_res = GetResCapsule(a_stream);
+		Ref<AudioStream> p_stream = p_res->res;
+		if (!p_stream.is_valid()) {
+			break;
+		}
+		audio_player->set_stream(p_stream);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
+static PyObject *f_audio_stream_player_set_volume(PyObject *module, PyObject *args) {
+	do {
+		PyObject *a_obj;
+		float volume;
+
+		if (!PyArg_ParseTuple(args, "Of", &a_obj, &volume)) {
+			break;
+		}
+
+		auto audio_player = GetObjPtr<AudioStreamPlayer>(a_obj);
+		if (!audio_player) {
+			break;
+		}
+		audio_player->set_volume_db(volume);
+
+	} while (0);
+
+	Py_RETURN_NONE;
+}
 
 // define godot api
 static PyMethodDef GodotPy_methods[] = {
@@ -3104,6 +3188,12 @@ static PyMethodDef GodotPy_methods[] = {
 
 	// viewport
 	{ "viewport_set_update_mode", f_viewport_set_update_mode, METH_VARARGS, NULL },
+
+	// audio
+	{ "audio_stream_player_play", f_audio_stream_player_play, METH_VARARGS, NULL },
+	{ "audio_stream_player_stop", f_audio_stream_player_stop, METH_VARARGS, NULL },
+	{ "audio_stream_player_set_stream", f_audio_stream_player_set_stream, METH_VARARGS, NULL },
+	{ "audio_stream_player_set_volume", f_audio_stream_player_set_volume, METH_VARARGS, NULL },
 
 	// godotpy
 	//{ "get_py_object", f_get_py_object, METH_VARARGS, NULL },

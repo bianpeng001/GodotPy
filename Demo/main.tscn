@@ -98,3 +98,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.15436, 0, 11.7753)
 
 [node name="Lake" parent="." instance=ExtResource("10_rphou")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.0163529, 0, 6.87916)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
