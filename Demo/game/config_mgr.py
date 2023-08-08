@@ -731,6 +731,22 @@ class ConfigMgr:
         item.name = '八卦阵'
         add_form(item)
 
+        item = ArmyFormConfig()
+        item.config_id = 5
+        item.name = '鸳鸯镇'
+        add_form(item)
+
+        item = ArmyFormConfig()
+        item.config_id = 6
+        item.name = '五行阵'
+        add_form(item)
+
+        item = ArmyFormConfig()
+        item.config_id = 7
+        item.name = '梅花阵'
+        add_form(item)
+        
+
     def get_army_form_factor(self, attack, defend):
         return 1.0
 
