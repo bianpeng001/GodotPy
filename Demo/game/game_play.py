@@ -566,7 +566,7 @@ class GamePlay:
             log_debug('player vanish', pname)
 
             dlg2 = game_mgr.ui_mgr.npc_dialog_controller
-            dlg2.show_dialog(pname, '大势已去, 在下输了')
+            dlg2.show_dialog(pname, '大势已去, 是在下输了')
 
             game_mgr.player_mgr.remove_player(prev_owner)
             game_mgr.event_mgr.notify(MSG_PANEL_NEW_MSG,

@@ -505,9 +505,9 @@ def build_socket_pyd():
         buildtarget = '_socket.dll',
         LIBS = [
             'python3.lib',
-            'Rpcrt4',
-            'Iphlpapi',
-            'Ws2_32',
+            'Rpcrt4.lib',
+            'Iphlpapi.lib',
+            'Ws2_32.lib',
         ]
     )
 build_socket_pyd()
@@ -614,6 +614,7 @@ build_decimal_pyd()
 # _ctypes.pyd
 #
 def build_ctypes_pyd():
+    cmd = ''
     FFI_PATH = 'D:/OpenSource/libffi-3.4.4'
     ctypes_pyd = env2.SharedLibrary('_ctypes',
         source = [
@@ -629,25 +630,25 @@ def build_ctypes_pyd():
             FFI_PATH + '/src/ffi.c',
             FFI_PATH + '/src/prep_cif.c',
             FFI_PATH + '/src/types.c',
-            FFI_PATH + '/src/aarch64/win64_armasm.S',
+            FFI_PATH + '/src/raw_api.c',
+            FFI_PATH + '/src/tramp.c',
         ],
         CPPDEFINES = [
             'Py_ENABLE_SHARED',
         ],
         CPPPATH = incs + [
             FFI_PATH + '/include',
-            FFI_PATH + '/src/aarch64',
-            FFI_PATH + '/msvc_build/aarch64/aarch64_include',
         ],
         buildtarget = '_ctypes.dll',
         LIBS = [ 'python3.lib', ]
     )
 
+#build_ctypes_pyd()
+
 #
+# 感觉用不着了..
 # 这个应该单独搞一个dll
 # 'PC/python3dll.c', 
 # ('PYTHON_DLL_NAME', f'{ModuleName}'),
 #
-
-
 
