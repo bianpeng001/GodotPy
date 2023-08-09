@@ -856,7 +856,7 @@ class FSubViewport(FNode):
 # audio player
 #
 class FAudioStreamPlayer(FNode):
-    def play(self, pos):
+    def play(self, pos = 0):
         gp.audio_stream_player_play(self.get_gdobj(), pos)
 
     def stop(self):

@@ -266,7 +266,11 @@ incs = [
 # 6) deepfreeze modules with _bootstrap_python
 
 
-
+#
+# env = Enviroment(MSVC_VERSION="14.3")
+# 14.3 = Visual Studio 2022
+# 14.2 = Visual Studio 2019
+#
 env = Environment()
 env2 = env.Clone()
 
