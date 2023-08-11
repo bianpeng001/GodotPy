@@ -246,7 +246,11 @@ class ConfigMgr:
 
         self.first_city_name = '平安'
         self.new_player_text = '请问尊姓大名?'
-        self.satrap_titles = [ '', '村长','县令','太守','州牧' ]
+        self.satrap_titles = [ '', '亭长','县令','太守','州牧','天子', ]
+
+        # 年号
+        self.year_name = ['光和','黄龙','建安','初平', '青龙', '章武',
+                '永嘉',]
         
     def init_story_config(self):
         self.story_dict = {}
