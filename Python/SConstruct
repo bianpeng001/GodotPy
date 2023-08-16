@@ -130,6 +130,7 @@ PYTHON_OBJS = [
     'Python/suggestions.c',
     'Python/perf_trampoline.c',
     'Python/tracemalloc.c',
+    'Python/optimizer_analysis.c',
 ]
 MODULE_OBJS = [
     'Modules/main.c',
@@ -191,8 +192,9 @@ Modules = [
     'Modules/cjkcodecs/multibytecodec.c',
     'Modules/cjkcodecs/_codecs_cn.c',
     'Modules/posixmodule.c',
-
-    # PC平台相关的几个文件
+]
+# PC平台相关的几个文件
+Platform_Modules = [
     'Modules/_io/winconsoleio.c',
     'Modules/_winapi.c',
     
@@ -201,6 +203,8 @@ Modules = [
     'PC/dl_nt.c',
     'PC/winreg.c',
 ]
+
+All_Modules = MODULE_OBJS + IOModules + Modules + Platform_Modules
 
 LIBRARY_OBJS_OMIT_FROZEN = [
     'Modules/getbuildinfo.c'
@@ -290,7 +294,7 @@ env.Append(LIBPATH = [
 
 Frozen = 'Programs/_frozen.exe'
 FrozenExe = env.Program(Frozen,
-    source = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + IOModules + Modules + [
+    source = LIBRARY_OBJS_OMIT_FROZEN + All_Modules + [
         'Programs/_freeze_module.c',
         'Modules/getpath_noop.c',
         'Godot/config.c',
@@ -302,7 +306,7 @@ FrozenExe = env.Program(Frozen,
 
 BootstrapPython = './_bootstrap_python.exe'
 BootstrapExe = env.Program(BootstrapPython,
-    source = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + IOModules + Modules + [
+    source = LIBRARY_OBJS_OMIT_FROZEN + All_Modules + [
         'Programs/_bootstrap_python.c',
         'Modules/getpath.c',
         'Godot/config.c',
@@ -393,7 +397,7 @@ GenBootstrap = env.Command(
 env.Requires(GenBootstrap, BootstrapExe)
 
 # python library
-srcs = LIBRARY_OBJS_OMIT_FROZEN + MODULE_OBJS + IOModules + Modules + [
+srcs = LIBRARY_OBJS_OMIT_FROZEN + All_Modules + [
         'Python/frozen.c',
         'Python/deepfreeze/deepfreeze.c',
         'Modules/getpath.c',

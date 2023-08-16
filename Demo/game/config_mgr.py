@@ -242,15 +242,14 @@ class ConfigMgr:
         self.hero_ap_growth = 3/60
 
         # 势力之间的友好度
-        self.friendly_levels = ['险恶','敌对','普通','友好','盟友']
+        self.friendly_levels = [ None, '险恶','敌对','普通','友好','盟友' ]
 
         self.first_city_name = '平安'
         self.new_player_text = '请问尊姓大名?'
-        self.satrap_titles = [ '', '亭长','县令','太守','州牧','天子', ]
+        self.satrap_titles = [ None, '亭长','县令','太守','州牧','天子', ]
 
         # 年号
-        self.year_name = ['光和','黄龙','建安','初平', '青龙', '章武',
-                '永嘉',]
+        self.year_name = [ None, '光和','黄龙','建安','初平', '章武', '永嘉', ]
         
     def init_story_config(self):
         self.story_dict = {}
