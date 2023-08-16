@@ -622,7 +622,15 @@ build_decimal_pyd()
 # _ctypes.pyd
 #
 def build_ctypes_pyd():
-    cmd = ''
+    def run_compile_asm():
+        pass
+
+    CompileAsm = env2.Command(
+        target = 'xxx.obj',
+        source = 'xxxx.asm',
+        action = run_compile_asm
+    )
+
     FFI_PATH = 'D:/OpenSource/libffi-3.4.4'
     ctypes_pyd = env2.SharedLibrary('_ctypes',
         source = [
@@ -650,6 +658,7 @@ def build_ctypes_pyd():
         buildtarget = '_ctypes.dll',
         LIBS = [ 'python3.lib', ]
     )
+    env2.Requires(ctypes_pyd, CompileAsm)
 
 #build_ctypes_pyd()
 
