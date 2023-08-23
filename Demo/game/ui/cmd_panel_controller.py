@@ -286,6 +286,7 @@ class CmdPanelController(UIController, PopupTrait):
 
     @when_visible
     def on_scene_ground_click(self):
+        game_mgr.audio_mgr.play_sound(1)
         # 插旗表示目标位置
         x,y,z = get_cursor_position()
         effect_item = game_mgr.effect_mgr.play_effect2(2003)
