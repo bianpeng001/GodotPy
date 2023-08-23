@@ -6,11 +6,18 @@
 from game.core import *
 from game.game_mgr import *
 
+#
+# 声音播放
+#
 class AudioMgr:
     def __init__(self):
-        pass
+        self.player = None
+
+    def init(self):
+        self.player = game_mgr.scene_root_obj.find_node('AudioStreamPlayer')
+        log_debug(self.player)
 
     def play_sound(self, id):
-        pass
+        self.player.play(0)
 
     

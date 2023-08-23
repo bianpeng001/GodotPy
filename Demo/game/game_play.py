@@ -26,6 +26,7 @@ class GamePlay:
         from game.skill_mgr import SkillMgr
         from game.effect_mgr import EffectMgr
         from game.hud_mgr import HUDMgr
+        from game.audio_mgr import AudioMgr
         from game.game_data import GameData
         
         game_mgr.player_mgr = PlayerMgr()
@@ -36,7 +37,9 @@ class GamePlay:
         game_mgr.config_mgr = ConfigMgr()
         game_mgr.hud_mgr = HUDMgr()
         game_mgr.skill_mgr = SkillMgr()
+        game_mgr.audio_mgr = AudioMgr()
         
+        game_mgr.audio_mgr.init()
         game_mgr.hud_mgr.setup()
         
         # 资源刷新tick
@@ -197,6 +200,8 @@ class GamePlay:
             
             game_mgr.ui_mgr.show_base_ui(False)
             yield 1.0
+
+            game_mgr.audio_mgr.play_sound(0)
 
             dlg1.init()
             dlg1.show_text('大江东去, 浪淘尽, 千古风流人物\n江山如画, 一时多少豪杰')

@@ -241,7 +241,6 @@ class Unit:
     def get_controller(self):
         return self._controller
 
-
 #
 # 角色单位的控制器
 #
@@ -547,7 +546,6 @@ class StringBuilder(io.StringIO):
     def writeln(self, text):
         self.write(text)
         self.write('\n')
-
 
 #
 # 复用list
