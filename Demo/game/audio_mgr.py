@@ -27,5 +27,9 @@ class AudioMgr:
             case 1:
                 self.player.set_stream(self.ground_click_sound.res)
         self.player.play(0)
+        self.player.set_volume(-20)
 
-    
+    def cleanup(self):
+        self.game_start_sound = None
+        self.ground_click_sound = None
+

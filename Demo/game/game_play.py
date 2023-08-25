@@ -340,6 +340,8 @@ class GamePlay:
         self.cursor_list = None
         self.set_cursor(0)
         #OS.set_custom_mouse_cursor(None, 0, 1, 1)
+
+        game_mgr.audio_mgr.cleanup()
         
     # API方法，业务代码
 

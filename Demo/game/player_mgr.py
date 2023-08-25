@@ -111,7 +111,7 @@ class PlayerMgr:
         self.player_dict[player.player_id] = player
         self.update_list.append(player.get_controller())
 
-        h,_ = math.modf(((player.player_id - 10000)*30) / 360)
+        h,_ = math.modf(((player.player_id - 10000)*41) / 360)
         player.flag_color = hsv_to_rgb(
             h,
             0.8 + 0.2*random_1(),
@@ -125,9 +125,14 @@ class PlayerMgr:
         self.update_list.remove(player.get_controller())
     
     def set_main_player(self, player):
+        if self.main_player:
+            self.main_player.get_controller().get_brain_comp().enabled = True
+            self.main_player = None
+            self.main_player_id = 0
+            
         self.main_player = player
         self.main_player_id = player.player_id
-        player.get_controller().get_brain_comp().enabled = False
+        self.main_player.get_controller().get_brain_comp().enabled = False
 
     def get_player(self, player_id):
         player = self.player_dict.get(player_id, None)
