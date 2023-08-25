@@ -15,7 +15,11 @@
 python_module = "game.mainloop"
 python_class = "MainLoop"
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioMgr" type="Node" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="AudioMgr"]
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="AudioMgr"]
 
 [node name="HUDRoot" type="Control" parent="."]
 layout_mode = 3
