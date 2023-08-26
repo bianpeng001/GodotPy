@@ -79,7 +79,7 @@ class GamePlay:
         def _co_camera_mov():
             i = 0
             while i < 10000:
-                cm.move_focus(0.01,0,0.03)
+                cm.move_focus(0.005,0,0.012)
                 i += 1
                 yield
                 

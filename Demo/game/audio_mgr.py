@@ -39,7 +39,8 @@ class AudioMgr:
     def play_sound(self, id):
         self.player.set_stream(self.music_list[id].res)
         self.player.play(0)
-        self.player.set_volume(-20)
+        #self.player.set_volume(-20)
+        self.player.set_volume(-10)
 
     def cleanup(self):
         self.music_list = None

@@ -277,6 +277,25 @@ theme_override_font_sizes/font_size = 14
 theme_override_styles/focus = ExtResource("7_1lycp")
 text = "步兵"
 
+[node name="Label4" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 239.0
+offset_right = 80.0
+offset_bottom = 266.0
+theme = ExtResource("1_beg0d")
+text = "策略"
+
+[node name="LblDesc" type="Label" parent="Panel"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 186.0
+offset_right = 212.0
+offset_bottom = 233.0
+theme = ExtResource("1_beg0d")
+theme_override_font_sizes/font_size = 12
+text = "速度 1 攻击 10 防御 10 消耗 2"
+
 [node name="FormList" type="ItemList" parent="Panel"]
 layout_mode = 0
 offset_left = 81.0
@@ -306,25 +325,6 @@ item_2/text = "弓兵"
 item_3/text = "骑兵"
 item_4/text = "辎重"
 item_5/text = "攻城"
-
-[node name="Label4" type="Label" parent="Panel"]
-layout_mode = 0
-offset_left = 28.0
-offset_top = 239.0
-offset_right = 80.0
-offset_bottom = 266.0
-theme = ExtResource("1_beg0d")
-text = "策略"
-
-[node name="LblDesc" type="Label" parent="Panel"]
-layout_mode = 0
-offset_left = 28.0
-offset_top = 186.0
-offset_right = 212.0
-offset_bottom = 233.0
-theme = ExtResource("1_beg0d")
-theme_override_font_sizes/font_size = 12
-text = "速度 1 攻击 10 防御 10 消耗 2"
 
 [node name="CheckGreedy" type="CheckBox" parent="Panel"]
 layout_mode = 0
