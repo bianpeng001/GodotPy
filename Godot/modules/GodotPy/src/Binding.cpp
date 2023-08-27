@@ -3,6 +3,8 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
+#include "Binding.h"
+
 template<typename T>
 struct TypeLabel {
     static const char *Label;
@@ -10,28 +12,6 @@ struct TypeLabel {
 template<> const char *TypeLabel<char*>::Label = "s";
 template<> const char *TypeLabel<int>::Label = "i";
 template<> const char *TypeLabel<PyObject*>::Label = "o";
-
-//
-// parse args tuple
-//
-template<typename T>
-void GetTupleItem(PyObject* arg, T* Result) { }
-template<> void GetTupleItem<int>(PyObject *arg, int *Result) {
-    long ivalue = PyLong_AsLong(arg);
-
-    *Result = (int)ivalue;
-}
-typedef const char* cchar_ptr;
-template<> void GetTupleItem<cchar_ptr>(PyObject *arg, cchar_ptr *Result) {
-    const char *sarg;
-    Py_ssize_t len;
-
-    sarg = PyUnicode_AsUTF8AndSize(arg, &len);
-    *Result = sarg;
-}
-template<> void GetTupleItem<PyObject*>(PyObject *arg, PyObject **Result) {
-    *Result = arg;
-}
 
 template<typename T>
 struct Arg {

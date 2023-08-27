@@ -56,6 +56,8 @@
 
 #pragma comment(lib, "python3.lib")
 
+#include "Binding.h"
+
 #define GP_DECREF(X)  { Py_DECREF(X); X = NULL; }
 
 //------------------------------------------------------------------------------
@@ -2953,6 +2955,8 @@ static PyObject *f_audio_stream_player_play(PyObject *module, PyObject *args) {
 		if (!PyArg_ParseTuple(args, "Of", &a_obj, &from_pos)) {
 			break;
 		}
+
+		GetTupleItem(args, 1, &from_pos);
 
 		auto audio_player = GetObjPtr<AudioStreamPlayer>(a_obj);
 		if (!audio_player) {
