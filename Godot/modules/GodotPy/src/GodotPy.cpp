@@ -2952,10 +2952,16 @@ static PyObject *f_audio_stream_player_play(PyObject *module, PyObject *args) {
 		PyObject *a_obj;
 		float from_pos;
 
+		/*
 		if (!PyArg_ParseTuple(args, "Of", &a_obj, &from_pos)) {
 			break;
 		}
+		*/
+		if (PyTuple_GET_SIZE(args) < 2) {
+			break;
+		}
 
+		GetTupleItem(args, 0, &a_obj);
 		GetTupleItem(args, 1, &from_pos);
 
 		auto audio_player = GetObjPtr<AudioStreamPlayer>(a_obj);
@@ -2972,9 +2978,15 @@ static PyObject *f_audio_stream_player_stop(PyObject *module, PyObject *args) {
 	do {
 		PyObject *a_obj;
 
+		/*
 		if (!PyArg_ParseTuple(args, "O", &a_obj)) {
 			break;
 		}
+		*/
+		if (PyTuple_GET_SIZE(args) < 1) {
+			break;
+		}
+		GetTupleItem(args, 0, &a_obj);
 
 		auto audio_player = GetObjPtr<AudioStreamPlayer>(a_obj);
 		if (!audio_player) {
@@ -2991,9 +3003,16 @@ static PyObject *f_audio_stream_player_set_stream(PyObject *module, PyObject *ar
 		PyObject *a_obj;
 		PyObject *a_stream;
 
+		/*
 		if (!PyArg_ParseTuple(args, "OO", &a_obj, &a_stream)) {
 			break;
 		}
+		*/
+		if (PyTuple_GET_SIZE(args) < 2) {
+			break;
+		}
+		GetTupleItem(args, 0, &a_obj);
+		GetTupleItem(args, 1, &a_stream);
 
 		auto audio_player = GetObjPtr<AudioStreamPlayer>(a_obj);
 		if (!audio_player) {
@@ -3015,9 +3034,16 @@ static PyObject *f_audio_stream_player_set_volume(PyObject *module, PyObject *ar
 		PyObject *a_obj;
 		float volume;
 
+		/*
 		if (!PyArg_ParseTuple(args, "Of", &a_obj, &volume)) {
 			break;
 		}
+		*/
+		if (PyTuple_GET_SIZE(args) < 2) {
+			break;
+		}
+		GetTupleItem(args, 0, &a_obj);
+		GetTupleItem(args, 1, &a_stream);
 
 		auto audio_player = GetObjPtr<AudioStreamPlayer>(a_obj);
 		if (!audio_player) {

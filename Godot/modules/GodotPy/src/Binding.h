@@ -10,8 +10,8 @@ template<> inline void GetTupleItem<int>(PyObject *args, int index, int *Result)
     long ivalue = PyLong_AsLong(arg);
     *Result = (int)ivalue;
 }
-typedef const char* cchar_ptr;
-template<> inline void GetTupleItem<cchar_ptr>(PyObject *args, int index, cchar_ptr *Result) {
+typedef const char* const_char_ptr;
+template<> inline void GetTupleItem<const_char_ptr>(PyObject *args, int index, const_char_ptr *Result) {
     const char *sarg;
     Py_ssize_t len;
     PyObject *arg = PyTuple_GET_ITEM(args, index);
@@ -22,7 +22,8 @@ template<> inline void GetTupleItem<float>(PyObject *args, int index, float *Res
     PyObject *arg = PyTuple_GET_ITEM(args, index);
     *Result = (float)PyFloat_AsDouble(arg);
 }
-template<> inline void GetTupleItem<PyObject*>(PyObject *args, int index, PyObject **Result) {
+typedef PyObject * PyObject_ptr;
+template<> inline void GetTupleItem<PyObject_ptr>(PyObject *args, int index, PyObject_ptr *Result) {
     PyObject *arg = PyTuple_GET_ITEM(args, index);
     *Result = arg;
 }
