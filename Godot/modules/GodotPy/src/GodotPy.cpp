@@ -3042,8 +3042,11 @@ static PyObject *f_audio_stream_player_set_volume(PyObject *module, PyObject *ar
 		if (PyTuple_GET_SIZE(args) < 2) {
 			break;
 		}
-		GetTupleItem(args, 0, &a_obj);
-		GetTupleItem(args, 1, &a_stream);
+		Args2<PyObject*, float> arguments(args);
+		//GetTupleItem(args, 0, &a_obj);
+		//GetTupleItem(args, 1, &volume);
+		a_obj = arguments.arg1;
+		volume = arguments.arg2;
 
 		auto audio_player = GetObjPtr<AudioStreamPlayer>(a_obj);
 		if (!audio_player) {
