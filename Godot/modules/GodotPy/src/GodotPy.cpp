@@ -2948,6 +2948,7 @@ static PyObject *f_item_list_add_item(PyObject *module, PyObject *args) {
 // audio
 //
 static PyObject *f_audio_stream_player_play(PyObject *module, PyObject *args) {
+	#if 0
 	do {
 		PyObject *a_obj;
 		float from_pos;
@@ -2971,10 +2972,15 @@ static PyObject *f_audio_stream_player_play(PyObject *module, PyObject *args) {
 		audio_player->play(from_pos);
 
 	} while (0);
+	#endif
+
+	typedef Call1<AudioStreamPlayer,void,float> CallType;
+	CallType(&AudioStreamPlayer::play).Exec(args);
 
 	Py_RETURN_NONE;
 }
 static PyObject *f_audio_stream_player_stop(PyObject *module, PyObject *args) {
+	#if 0
 	do {
 		PyObject *a_obj;
 
@@ -2995,6 +3001,9 @@ static PyObject *f_audio_stream_player_stop(PyObject *module, PyObject *args) {
 		audio_player->stop();
 
 	} while (0);
+	#endif
+
+	Call0<AudioStreamPlayer,void>(&AudioStreamPlayer::stop).Exec(args);
 
 	Py_RETURN_NONE;
 }
@@ -3030,6 +3039,7 @@ static PyObject *f_audio_stream_player_set_stream(PyObject *module, PyObject *ar
 	Py_RETURN_NONE;
 }
 static PyObject *f_audio_stream_player_set_volume(PyObject *module, PyObject *args) {
+	#if 0
 	do {
 		PyObject *a_obj;
 		float volume;
@@ -3053,8 +3063,10 @@ static PyObject *f_audio_stream_player_set_volume(PyObject *module, PyObject *ar
 			break;
 		}
 		audio_player->set_volume_db(volume);
-
 	} while (0);
+	#endif
+
+	Call1<AudioStreamPlayer,void,float>(&AudioStreamPlayer::set_volume_db).Exec(args);
 
 	Py_RETURN_NONE;
 }
