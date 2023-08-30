@@ -1,8 +1,7 @@
 #pragma once
 
-//
-// parse args tuple
-//
+#include "core/string/ustring.h"
+
 template<typename T>
 inline void GetTupleItem(PyObject* arg, int index, T* Result) { }
 template<> inline void GetTupleItem<int>(PyObject *args, int index, int *Result) {
@@ -26,6 +25,11 @@ typedef PyObject * PyObject_ptr;
 template<> inline void GetTupleItem<PyObject_ptr>(PyObject *args, int index, PyObject_ptr *Result) {
     PyObject *arg = PyTuple_GET_ITEM(args, index);
     *Result = arg;
+}
+template<> inline void GetTupleItem<String>(PyObject *args, int index, String *Result) {
+    const_char_ptr str;
+    GetTupleItem(args, index, &str);
+    *Result = String::utf8(str);
 }
 
 template<typename T1> struct Args1 {
@@ -86,9 +90,7 @@ template<typename T1, typename T2, typename T3, typename T4, typename T5> struct
 template<typename T, typename TResult> struct Call0 {
     typedef TResult (T::*func_ptr)();
     func_ptr fun;
-    Call0(func_ptr a_fun) : fun(a_fun) {
-
-    }
+    Call0(func_ptr a_fun) : fun(a_fun) { }
     TResult Exec(PyObject * args) {
         Args1<PyObject *> arguments(args);
         auto obj = GetObjPtr<T>(arguments.arg1);
@@ -103,9 +105,7 @@ template<typename T, typename TResult> struct Call0 {
 template<typename T, typename TResult, typename T1> struct Call1 {
     typedef TResult (T::*func_ptr)(T1);
     func_ptr fun;
-    Call1(func_ptr a_fun) : fun(a_fun) {
-
-    }
+    Call1(func_ptr a_fun) : fun(a_fun) { }
     TResult Exec(PyObject * args) {
         Args2<PyObject *,T1> arguments(args);
         auto obj = GetObjPtr<T>(arguments.arg1);
@@ -120,9 +120,7 @@ template<typename T, typename TResult, typename T1> struct Call1 {
 template<typename T, typename TResult, typename T1, typename T2> struct Call2 {
     typedef TResult (T::*func_ptr)(T1,T2);
     func_ptr fun;
-    Call2(func_ptr a_fun) : fun(a_fun) {
-
-    }
+    Call2(func_ptr a_fun) : fun(a_fun) { }
     TResult Exec(PyObject * args) {
         Args3<PyObject *,T1,T2> arguments(args);
         auto obj = GetObjPtr<T>(arguments.arg1);
@@ -134,5 +132,6 @@ template<typename T, typename TResult, typename T1, typename T2> struct Call2 {
         return this->Exec(args);
     }
 };
+
 
 

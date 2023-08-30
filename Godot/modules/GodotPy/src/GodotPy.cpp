@@ -10,13 +10,16 @@
 
 #include "GodotPy.h"
 
-#include "core/os/os.h"
-#include "core/os/memory.h"
-#include "core/os/time.h"
 #include "core/input/input.h"
 #include "core/math/plane.h"
 #include "core/math/transform_3d.h"
+#include "core/os/memory.h"
+#include "core/os/os.h"
+#include "core/os/time.h"
+#include "core/string/ustring.h"
+
 #include "main/performance.h"
+
 #include "scene/animation/animation_player.h"
 #include "scene/main/viewport.h"
 #include "scene/3d/node_3d.h"
@@ -2878,15 +2881,16 @@ static PyObject *f_item_list_select(PyObject *module, PyObject *args) {
 		if (!item_list) {
 			break;
 		}
-
 		item_list->select(a_index);
-		
 
 	} while (0);
+
+	//Call1(&ItemList::select).Exec(args);
 
 	Py_RETURN_NONE;
 }
 static PyObject *f_item_list_deselect(PyObject *module, PyObject *args) {
+	#if 0
 	do {
 		PyObject *a_obj;
 		int a_index;
@@ -2903,10 +2907,14 @@ static PyObject *f_item_list_deselect(PyObject *module, PyObject *args) {
 		item_list->deselect(a_index);
 
 	} while (0);
+	#endif
+
+	Call1(&ItemList::deselect).Exec(args);
 
 	Py_RETURN_NONE;
 }
 static PyObject *f_item_list_clear(PyObject *module, PyObject *args) {
+	#if 0
 	do {
 		PyObject *a_obj;
 
@@ -2919,8 +2927,10 @@ static PyObject *f_item_list_clear(PyObject *module, PyObject *args) {
 			break;
 		}
 		item_list->clear();
-
 	} while (0);
+	#endif
+
+	Call0(&ItemList::clear).Exec(args);
 
 	Py_RETURN_NONE;
 }
@@ -2974,8 +2984,7 @@ static PyObject *f_audio_stream_player_play(PyObject *module, PyObject *args) {
 	} while (0);
 	#endif
 
-	typedef Call1<AudioStreamPlayer,void,float> CallType;
-	CallType(&AudioStreamPlayer::play).Exec(args);
+	Call1(&AudioStreamPlayer::play).Exec(args);
 
 	Py_RETURN_NONE;
 }
@@ -3003,7 +3012,7 @@ static PyObject *f_audio_stream_player_stop(PyObject *module, PyObject *args) {
 	} while (0);
 	#endif
 
-	Call0<AudioStreamPlayer,void>(&AudioStreamPlayer::stop).Exec(args);
+	Call0(&AudioStreamPlayer::stop).Exec(args);
 
 	Py_RETURN_NONE;
 }
@@ -3066,7 +3075,7 @@ static PyObject *f_audio_stream_player_set_volume(PyObject *module, PyObject *ar
 	} while (0);
 	#endif
 
-	Call1<AudioStreamPlayer,void,float>(&AudioStreamPlayer::set_volume_db).Exec(args);
+	Call1(&AudioStreamPlayer::set_volume_db).Exec(args);
 
 	Py_RETURN_NONE;
 }
