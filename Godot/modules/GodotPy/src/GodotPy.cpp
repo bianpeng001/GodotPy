@@ -2885,7 +2885,7 @@ static PyObject *f_item_list_select(PyObject *module, PyObject *args) {
 
 	} while (0);
 
-	//Call1(&ItemList::select).Exec(args);
+	//Call1(&ItemList::select).Invoke(args);
 
 	Py_RETURN_NONE;
 }
@@ -2909,7 +2909,7 @@ static PyObject *f_item_list_deselect(PyObject *module, PyObject *args) {
 	} while (0);
 	#endif
 
-	Call1(&ItemList::deselect).Exec(args);
+	Call1(&ItemList::deselect).Invoke(args);
 
 	Py_RETURN_NONE;
 }
@@ -2930,7 +2930,7 @@ static PyObject *f_item_list_clear(PyObject *module, PyObject *args) {
 	} while (0);
 	#endif
 
-	Call0(&ItemList::clear).Exec(args);
+	Call0(&ItemList::clear).Invoke(args);
 
 	Py_RETURN_NONE;
 }
@@ -2984,7 +2984,7 @@ static PyObject *f_audio_stream_player_play(PyObject *module, PyObject *args) {
 	} while (0);
 	#endif
 
-	Call1(&AudioStreamPlayer::play).Exec(args);
+	Call1(&AudioStreamPlayer::play).Invoke(args);
 
 	Py_RETURN_NONE;
 }
@@ -3012,7 +3012,7 @@ static PyObject *f_audio_stream_player_stop(PyObject *module, PyObject *args) {
 	} while (0);
 	#endif
 
-	Call0(&AudioStreamPlayer::stop).Exec(args);
+	Call0(&AudioStreamPlayer::stop).Invoke(args);
 
 	Py_RETURN_NONE;
 }
@@ -3075,7 +3075,7 @@ static PyObject *f_audio_stream_player_set_volume(PyObject *module, PyObject *ar
 	} while (0);
 	#endif
 
-	Call1(&AudioStreamPlayer::set_volume_db).Exec(args);
+	Call1(&AudioStreamPlayer::set_volume_db).Invoke(args);
 
 	Py_RETURN_NONE;
 }

@@ -91,7 +91,7 @@ template<typename T, typename TResult> struct Call0 {
     typedef TResult (T::*func_ptr)();
     func_ptr fun;
     Call0(func_ptr a_fun) : fun(a_fun) { }
-    TResult Exec(PyObject * args) {
+    TResult Invoke(PyObject * args) {
         Args1<PyObject *> arguments(args);
         auto obj = GetObjPtr<T>(arguments.arg1);
         if (obj) {
@@ -99,14 +99,14 @@ template<typename T, typename TResult> struct Call0 {
         }
     }
     TResult operator()(PyObject * args) {
-        return this->Exec(args);
+        return this->Invoke(args);
     }
 };
 template<typename T, typename TResult, typename T1> struct Call1 {
     typedef TResult (T::*func_ptr)(T1);
     func_ptr fun;
     Call1(func_ptr a_fun) : fun(a_fun) { }
-    TResult Exec(PyObject * args) {
+    TResult Invoke(PyObject * args) {
         Args2<PyObject *,T1> arguments(args);
         auto obj = GetObjPtr<T>(arguments.arg1);
         if (obj) {
@@ -114,14 +114,14 @@ template<typename T, typename TResult, typename T1> struct Call1 {
         }
     }
     TResult operator()(PyObject * args) {
-        return this->Exec(args);
+        return this->Invoke(args);
     }
 };
 template<typename T, typename TResult, typename T1, typename T2> struct Call2 {
     typedef TResult (T::*func_ptr)(T1,T2);
     func_ptr fun;
     Call2(func_ptr a_fun) : fun(a_fun) { }
-    TResult Exec(PyObject * args) {
+    TResult Invoke(PyObject * args) {
         Args3<PyObject *,T1,T2> arguments(args);
         auto obj = GetObjPtr<T>(arguments.arg1);
         if (obj) {
@@ -129,7 +129,7 @@ template<typename T, typename TResult, typename T1, typename T2> struct Call2 {
         }
     }
     TResult operator()(PyObject * args) {
-        return this->Exec(args);
+        return this->Invoke(args);
     }
 };
 
