@@ -2,6 +2,9 @@
 
 #include "core/string/ustring.h"
 
+//-----------------------------------------------------------------
+//
+//-----------------------------------------------------------------
 template<typename T>
 inline void GetTupleItem(PyObject* arg, int index, T* Result) { }
 template<> inline void GetTupleItem<int>(PyObject *args, int index, int *Result) {
@@ -32,6 +35,9 @@ template<> inline void GetTupleItem<String>(PyObject *args, int index, String *R
     *Result = String::utf8(str);
 }
 
+//-----------------------------------------------------------------
+//
+//-----------------------------------------------------------------
 template<typename T1> struct Args1 {
     T1 arg1;
 
