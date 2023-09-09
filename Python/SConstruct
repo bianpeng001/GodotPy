@@ -336,7 +336,8 @@ GenFrozen = env.Command(
 
 env.Requires(GenFrozen, FrozenExe)
 
-def run_bootstrap(**kw):
+#def run_bootstrap(**kw):
+def run_bootstrap_old(**kw):
     if os.path.exists(BootstrapPython):
         filename = '{0}'.format(BootstrapPython.replace('/', '\\'))
         run(f'{filename} Tools/build/deepfreeze.py ' +
@@ -388,18 +389,26 @@ def run_bootstrap(**kw):
         run(f'{filename} __phello__.spam Lib/__phello__/spam.py Python/frozen_modules/__phello__.spam.h')
         run(f'{filename} frozen_only Tools/freeze/flag.py Python/frozen_modules/frozen_only.h')
 
+DEEP_FREEZE = 'Python/deepfreeze/deepfreeze.c'
+
+#
+# deepfreeze.c  暂时不需要了, 被mark shannon删了. 我这里也生成一个空文件代替. 先不删
+#
+def run_bootstrap(**kwargs):
+    with open(DEEP_FREEZE, 'w') as f:
+        f.write('\n')
+
 GenBootstrap = env.Command(
-    target = 'Python/deepfreeze/deepfreeze.c',
+    target = DEEP_FREEZE,
     source = BootstrapPython,
     action = run_bootstrap
 )
-
 env.Requires(GenBootstrap, BootstrapExe)
 
 # python library
 srcs = LIBRARY_OBJS_OMIT_FROZEN + All_Modules + [
+        #DEEP_FREEZE,
         'Python/frozen.c',
-        'Python/deepfreeze/deepfreeze.c',
         'Modules/getpath.c',
         
         'Modules/zlibmodule.c',
