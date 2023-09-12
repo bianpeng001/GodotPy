@@ -208,14 +208,17 @@ All_Modules = MODULE_OBJS + IOModules + Modules + Platform_Modules
 
 LIBRARY_OBJS_OMIT_FROZEN = [
     'Modules/getbuildinfo.c'
-] + PARSER_OBJS + OBJECT_OBJS + PYTHON_OBJS 
+] + \
+PARSER_OBJS + \
+OBJECT_OBJS + \
+PYTHON_OBJS 
 
 # 第三方依赖
 ZLIB = 'd:/OpenSource/zlib'
 SQLITE3 = 'd:/OpenSource/sqlite3'
 
-#is_release = ARGUMENTS.get('release', True)
-is_release = False
+is_release = ARGUMENTS.get('release', True)
+#is_release = False
 
 # module
 ModuleName = 'python3'
@@ -338,7 +341,7 @@ GenFrozen = env.Command(
 env.Requires(GenFrozen, FrozenExe)
 
 #def run_bootstrap(**kw):
-def run_bootstrap_old(**kw):
+def run_bootstrap(**kw):
     if os.path.exists(BootstrapPython):
         filename = '{0}'.format(BootstrapPython.replace('/', '\\'))
         run(f'{filename} Tools/build/deepfreeze.py ' +
@@ -395,7 +398,7 @@ DEEP_FREEZE_FILE = 'Python/deepfreeze/deepfreeze.c'
 #
 # deepfreeze.c  暂时不需要了, 被mark shannon删了. 我这里也生成一个空文件代替. 先不删
 #
-def run_bootstrap(**kwargs):
+def run_bootstrap2(**kwargs):
     with open(DEEP_FREEZE_FILE, 'w') as f:
         f.write('\n')
 
@@ -411,6 +414,7 @@ srcs = LIBRARY_OBJS_OMIT_FROZEN + All_Modules + [
         DEEP_FREEZE_FILE,
         'Python/frozen.c',
         'Modules/getpath.c',
+        'Godot/config.c',
         
         'Modules/zlibmodule.c',
         ZLIB + '/adler32.c',
@@ -421,8 +425,6 @@ srcs = LIBRARY_OBJS_OMIT_FROZEN + All_Modules + [
         ZLIB + '/inftrees.c',
         ZLIB + '/inffast.c',
         ZLIB + '/zutil.c',
-
-        'Godot/config.c',
     ]
 PythonLib = env.SharedLibrary(ModuleName,
     source = srcs,
