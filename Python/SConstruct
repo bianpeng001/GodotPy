@@ -411,7 +411,8 @@ env.Requires(GenBootstrap, BootstrapExe)
 
 # python library
 srcs = LIBRARY_OBJS_OMIT_FROZEN + All_Modules + [
-        DEEP_FREEZE_FILE,
+        # 偶然发现, DEEP_FREEZE_FILE是可选的, 倒也省得我弄一个空的文件
+        # DEEP_FREEZE_FILE,
         'Python/frozen.c',
         'Modules/getpath.c',
         'Godot/config.c',
