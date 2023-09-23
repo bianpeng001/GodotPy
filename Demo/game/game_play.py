@@ -201,7 +201,7 @@ class GamePlay:
             game_mgr.ui_mgr.show_base_ui(False)
             yield 1.0
 
-            game_mgr.audio_mgr.play_sound(0)
+            game_mgr.audio_mgr.play_sound('game_start')
 
             dlg1.init()
             dlg1.show_text('大江东去, 浪淘尽, 千古风流人物\n江山如画, 一时多少豪杰')
