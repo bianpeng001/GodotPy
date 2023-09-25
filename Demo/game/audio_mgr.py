@@ -37,8 +37,7 @@ class AudioMgr:
         if sound:
             self.player.set_stream(sound.res)
             self.player.play(0)
-            #self.player.set_volume(-20)
-            self.player.set_volume(-10)
+            self.player.set_volume(0.5)
 
     def cleanup(self):
         self.music_dict = None

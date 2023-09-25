@@ -866,7 +866,12 @@ class FAudioStreamPlayer(FNode):
         gp.audio_stream_player_set_stream(self.get_gdobj(), stream)
 
     def set_volume(self, volume):
-        gp.audio_stream_player_set_volume(self.get_gdobj(), volume)
+        volume_db = -80 + volume*124
+        #gp.audio_stream_player_set_volume_db(self.get_gdobj(), volume_db)
+        self.set_volume_db(volume_db)
+
+    def set_volume_db(self, volume_db):
+        gp.audio_stream_player_set_volume_db(self.get_gdobj(), volume_db)
 
 
 # 多边形工具

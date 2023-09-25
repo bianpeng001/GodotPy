@@ -3047,7 +3047,7 @@ static PyObject *f_audio_stream_player_set_stream(PyObject *module, PyObject *ar
 
 	Py_RETURN_NONE;
 }
-static PyObject *f_audio_stream_player_set_volume(PyObject *module, PyObject *args) {
+static PyObject *f_audio_stream_player_set_volume_db(PyObject *module, PyObject *args) {
 	#if 0
 	do {
 		PyObject *a_obj;
@@ -3247,7 +3247,7 @@ static PyMethodDef GodotPy_methods[] = {
 	{ "audio_stream_player_play", f_audio_stream_player_play, METH_VARARGS, NULL },
 	{ "audio_stream_player_stop", f_audio_stream_player_stop, METH_VARARGS, NULL },
 	{ "audio_stream_player_set_stream", f_audio_stream_player_set_stream, METH_VARARGS, NULL },
-	{ "audio_stream_player_set_volume", f_audio_stream_player_set_volume, METH_VARARGS, NULL },
+	{ "audio_stream_player_set_volume_db", f_audio_stream_player_set_volume_db, METH_VARARGS, NULL },
 
 	// godotpy
 	//{ "get_py_object", f_get_py_object, METH_VARARGS, NULL },
