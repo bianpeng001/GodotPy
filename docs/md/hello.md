@@ -8,11 +8,16 @@
 <div class="date">xxxx年x月xx日</div>
 
 -->
+## python进阶
+两个模块, ast,dis, 用好了应该能爆炸吧!
+
+<div class="date">2023年9月26日</div>
 
 ## 开发日志
 
 1. 机器人玩家AI, 先做进攻和防守
 2. 事件, 友好度影响事件的发生
+
 
 <div class="date">2023年9月6日</div>
 

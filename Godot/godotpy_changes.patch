@@ -1,0 +1,16 @@
+diff --git a/scene/main/node.cpp b/scene/main/node.cpp
+index d8a50c4313..7c33e28510 100644
+--- a/scene/main/node.cpp
++++ b/scene/main/node.cpp
+@@ -211,6 +211,11 @@ void Node::_notification(int p_notification) {
+ 				Node *child = data.children.last()->value; // begin from the end because its faster and more consistent with creation
+ 				memdelete(child);
+ 			}
++			
++			// bianp+2: NOTIFICATION_PREDELETE
++extern void delete_gdobj(Node *);
++delete_gdobj(this);
++			
+ 		} break;
+ 	}
+ }
