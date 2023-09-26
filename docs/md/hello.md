@@ -11,6 +11,12 @@
 ## python进阶
 两个模块, ast,dis, 用好了应该能爆炸吧!
 
+```bash
+git diff > godotpy_fix.patch
+git apply godotpy_fix.patch
+
+```
+
 <div class="date">2023年9月26日</div>
 
 ## 开发日志
