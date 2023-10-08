@@ -66,6 +66,7 @@ class CityController(Controller):
 
         self.init_ai()
         self.brain_tick_time = 0
+        self.sight_tick_time = 0
 
         self.owner_tile = None
 
@@ -206,9 +207,13 @@ class CityController(Controller):
 
         delta_time = game_mgr.delta_time
 
+        self.sight_tick_time += delta_time
+        if self.sight_tick_time > SIGHT_TICK_TIME:
+            self.sight_comp.update(self.sight_tick_time)
+            self.sight_tick_time = 0
+
         self.brain_tick_time += delta_time
-        if self.brain_tick_time > BRAIN_TICK_TIME:
-            self.sight_comp.update(self.brain_tick_time)
+        if self.brain_tick_time > CITY_BRAIN_TICK_TIME:
             self.brain_comp.update(self.brain_tick_time)
             self.brain_tick_time = 0
 

@@ -322,7 +322,9 @@ class HUDComponent(Component):
     def refresh_hud(self, hud_item):
         pass
 
-BRAIN_TICK_TIME = 0.2
+SIGHT_TICK_TIME = 0.2
+TROOP_BRAIN_TICK_TIME = 0.2
+CITY_BRAIN_TICK_TIME = 5.0
 
 #
 # Brain 用来驱动AI

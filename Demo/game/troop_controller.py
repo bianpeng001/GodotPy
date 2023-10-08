@@ -244,7 +244,7 @@ class TroopController(Controller):
         self.sight_comp.update_viewarea(delta_time)
 
         self.brain_tick_time += delta_time
-        if self.brain_tick_time > BRAIN_TICK_TIME:
+        if self.brain_tick_time > TROOP_BRAIN_TICK_TIME:
             self.sight_comp.update(self.brain_tick_time)
             self.fight_comp.update(self.brain_tick_time)
             self.brain_comp.update(self.brain_tick_time)
