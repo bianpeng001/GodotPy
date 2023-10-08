@@ -707,6 +707,7 @@ Py_NO_ENABLE_SHARED to find out.  Also support MS_NO_COREDLL for b/w compat */
 #define HAVE_SENDTO 1
 #define HAVE_SETSOCKOPT 1
 #define HAVE_SOCKET 1
+// #define HAVE_SYS_TIMERFD_H 1
 
 /* Define to 1 if you have the `dup' function. */
 #define HAVE_DUP 1

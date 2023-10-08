@@ -874,7 +874,9 @@ class FAudioStreamPlayer(FNode):
         gp.audio_stream_player_set_volume_db(self.get_gdobj(), volume_db)
 
 
+#
 # 多边形工具
+#
 class FSurfaceTool:
     def __init__(self):
         self.st = gp.surface_tool_new()

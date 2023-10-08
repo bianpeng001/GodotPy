@@ -1,13 +1,12 @@
-[gd_scene load_steps=12 format=3 uid="uid://eimxflua5ypg"]
+[gd_scene load_steps=11 format=3 uid="uid://eimxflua5ypg"]
 
 [ext_resource type="ArrayMesh" uid="uid://428w4am2wcih" path="res://models/Camp01.obj" id="1_484tj"]
 [ext_resource type="ArrayMesh" uid="uid://dg8r7eo7dujtk" path="res://models/Bridge01.obj" id="2_llp2g"]
 [ext_resource type="ArrayMesh" uid="uid://n617e3sfwjwb" path="res://models/Pool01.obj" id="3_ppskj"]
 [ext_resource type="ArrayMesh" uid="uid://br1vhvt7knvs2" path="res://models/Soldier02.obj" id="4_naqwk"]
-[ext_resource type="Material" uid="uid://vnh10gues45c" path="res://models/Water/Water02Mat.tres" id="4_utg58"]
 [ext_resource type="Material" uid="uid://bidwmr472e0a6" path="res://models/SmallroadMat.tres" id="4_xg3m7"]
 [ext_resource type="PackedScene" uid="uid://7u2tkxjdy314" path="res://models/Tree02.tscn" id="5_rl7bn"]
-[ext_resource type="ArrayMesh" uid="uid://pkeqtabxtcld" path="res://models/Tower01.obj" id="8_dcgdh"]
+[ext_resource type="ArrayMesh" uid="uid://dexucct4svpo0" path="res://models/Tower01.obj" id="8_dcgdh"]
 [ext_resource type="ArrayMesh" uid="uid://diq03gmuembok" path="res://models/Soldier03.obj" id="9_cemuk"]
 [ext_resource type="PackedScene" uid="uid://c8ykckwo8j360" path="res://models/Tree03.tscn" id="10_flt1m"]
 
@@ -29,7 +28,6 @@ skeleton = NodePath("../..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.00534, 0, -0.582)
 mesh = ExtResource("3_ppskj")
 skeleton = NodePath("../..")
-surface_material_override/1 = ExtResource("4_utg58")
 
 [node name="Soldier02" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.88716, 0, -0.465617)

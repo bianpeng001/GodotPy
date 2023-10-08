@@ -77,8 +77,9 @@ class CityController(Controller):
         brain_comp.blackboard = CityBlackboard()
 
         brain_comp.add_state("idle", AIState_Idle())
+        brain_comp.add_state("easy", CityAI_Easy())
         
-        brain_comp.goto_state("idle")
+        brain_comp.goto_state("easy")
 
     def set_title(self, text):
         pass

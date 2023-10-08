@@ -2,7 +2,7 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://nu5qk2cr3u0a"
+uid="uid://8v43v7txivg7"
 path="res://.godot/imported/ArchitectsDaughter.ttf-72498af3bd48319a32f375da00cdcb4f.fontdata"
 
 [deps]
@@ -24,15 +24,10 @@ hinting=1
 subpixel_positioning=1
 oversampling=0.0
 Fallbacks=null
-fallbacks=[Resource("res://font/SIMLI.TTF")]
+fallbacks=[]
 Compress=null
 compress=true
-preload=[{
-"chars": [],
-"glyphs": [],
-"name": "New Configuration",
-"size": Vector2i(16, 0)
-}]
+preload=[]
 language_support={}
 script_support={}
 opentype_features={}
