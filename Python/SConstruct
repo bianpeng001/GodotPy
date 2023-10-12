@@ -6,17 +6,30 @@ import os.path
 EnsureSConsVersion(3, 0, 0)
 EnsurePythonVersion(3, 6)
 
-PARSER_OBJS = [
-    'Parser/token.c',
+TOKENIZER_OBJS = [
+    'Parser/lexer/buffer.c',
+	'Parser/lexer/lexer.c',
+	'Parser/lexer/state.c',
+	'Parser/tokenizer/file_tokenizer.c',
+	'Parser/tokenizer/readline_tokenizer.c',
+	'Parser/tokenizer/string_tokenizer.c',
+	'Parser/tokenizer/utf8_tokenizer.c',
+	'Parser/tokenizer/helpers.c',
+]
+PEGEN_OBJS = [
     'Parser/pegen.c',
     'Parser/pegen_errors.c',
     'Parser/action_helpers.c',
     'Parser/parser.c',
     'Parser/string_parser.c',
     'Parser/peg_api.c',
-    'Parser/myreadline.c',
-    'Parser/tokenizer.c',
 ]
+
+PARSER_OBJS = [
+    'Parser/token.c',
+    'Parser/myreadline.c',
+] + PEGEN_OBJS + TOKENIZER_OBJS
+
 OBJECT_OBJS = [
     "Objects/abstract.c",
     "Objects/boolobject.c",
