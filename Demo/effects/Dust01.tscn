@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://wfd1ql8vq7bi"]
 
 [ext_resource type="Material" uid="uid://c4ikm6qcfa1wx" path="res://effects/Dust01Mat.tres" id="1_x6pkj"]
-
 
 [sub_resource type="BoxMesh" id="BoxMesh_1rcvs"]
 

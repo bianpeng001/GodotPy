@@ -4,7 +4,7 @@
 [ext_resource type="QuadMesh" uid="uid://bgvylfri1047g" path="res://models/Outline/ScreenRect.tres" id="2_db807"]
 [ext_resource type="Material" uid="uid://d316njsfv56ci" path="res://models/Outline/OutlineV2Mat.tres" id="3_0qls3"]
 [ext_resource type="Script" path="res://DrawRect.gd" id="4_t7x0c"]
-[ext_resource type="PackedScene" path="res://effects/Dust01.tscn" id="5_ftlgw"]
+[ext_resource type="PackedScene" uid="uid://wfd1ql8vq7bi" path="res://effects/Dust01.tscn" id="5_ftlgw"]
 [ext_resource type="PackedScene" uid="uid://cpyomosvj7tyk" path="res://models/Hill/Hill01.tscn" id="6_hx2sq"]
 [ext_resource type="PackedScene" uid="uid://eimxflua5ypg" path="res://models/Park01.tscn" id="7_afvhy"]
 [ext_resource type="PackedScene" uid="uid://6sgvsikcb5cg" path="res://models/Arm/Arm01.tscn" id="8_v3q38"]

@@ -12,11 +12,12 @@ roughness = 0.5
 [sub_resource type="ArrayMesh" id="ArrayMesh_hd05r"]
 _surfaces = [{
 "aabb": AABB(-1, 0, -1, 2.00001, 1e-05, 2),
-"format": 4097,
+"format": 34359742465,
 "index_count": 6,
 "index_data": PackedByteArray(3, 0, 0, 0, 2, 0, 3, 0, 1, 0, 0, 0),
 "name": "Material",
 "primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 4,
 "vertex_data": PackedByteArray(0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 63)
 }]
@@ -27,14 +28,15 @@ resource_name = "Square_Square"
 _surfaces = [{
 "aabb": AABB(-1, 0, -1, 2.00001, 1e-05, 2),
 "attribute_data": PackedByteArray(0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63),
-"format": 4119,
+"format": 34359742487,
 "index_count": 6,
 "index_data": PackedByteArray(3, 0, 0, 0, 2, 0, 3, 0, 1, 0, 0, 0),
 "material": SubResource("StandardMaterial3D_ac5k1"),
 "name": "Material",
 "primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 4,
-"vertex_data": PackedByteArray(0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 191, 255, 127, 255, 255, 255, 255, 255, 191, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 191, 255, 127, 255, 255, 255, 255, 255, 191, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 255, 127, 255, 255, 255, 255, 255, 191, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 63, 255, 127, 255, 255, 255, 255, 255, 191)
+"vertex_data": PackedByteArray(0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 191, 0, 0, 128, 63, 0, 0, 0, 0, 0, 0, 128, 63, 0, 0, 128, 191, 0, 0, 0, 0, 0, 0, 128, 63, 255, 127, 255, 255, 255, 255, 255, 191, 255, 127, 255, 255, 255, 255, 255, 191, 255, 127, 255, 255, 255, 255, 255, 191, 255, 127, 255, 255, 255, 255, 255, 191)
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_hd05r")

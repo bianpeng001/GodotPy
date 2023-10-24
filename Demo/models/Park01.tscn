@@ -6,7 +6,7 @@
 [ext_resource type="ArrayMesh" uid="uid://br1vhvt7knvs2" path="res://models/Soldier02.obj" id="4_naqwk"]
 [ext_resource type="Material" uid="uid://bidwmr472e0a6" path="res://models/SmallroadMat.tres" id="4_xg3m7"]
 [ext_resource type="PackedScene" uid="uid://7u2tkxjdy314" path="res://models/Tree02.tscn" id="5_rl7bn"]
-[ext_resource type="ArrayMesh" uid="uid://dexucct4svpo0" path="res://models/Tower01.obj" id="8_dcgdh"]
+[ext_resource type="PackedScene" uid="uid://dexucct4svpo0" path="res://models/Tree01.glb" id="8_dcgdh"]
 [ext_resource type="ArrayMesh" uid="uid://diq03gmuembok" path="res://models/Soldier03.obj" id="9_cemuk"]
 [ext_resource type="PackedScene" uid="uid://c8ykckwo8j360" path="res://models/Tree03.tscn" id="10_flt1m"]
 

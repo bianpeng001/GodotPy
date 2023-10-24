@@ -7,7 +7,6 @@
 [ext_resource type="ArrayMesh" uid="uid://diq03gmuembok" path="res://models/Soldier03.obj" id="6_0c3mq"]
 [ext_resource type="Material" uid="uid://duggh4sh3fnm4" path="res://models/Color/FlagTroopMat.tres" id="6_wj1om"]
 
-
 [node name="Troop03" type="Node3D"]
 
 [node name="Dust02" parent="." instance=ExtResource("1_wyng1")]
