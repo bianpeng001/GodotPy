@@ -92,6 +92,7 @@ PYTHON_OBJS = [
     "Python/codecs.c",
     "Python/compile.c",
     "Python/context.c",
+    "Python/crossinterp.c",
     "Python/dtoa.c",
     "Python/dynamic_annotations.c",
     "Python/errors.c",
@@ -207,6 +208,23 @@ Modules = [
     "Modules/symtablemodule.c",
     "Modules/timemodule.c",
 ]
+MIMALLOC_OBJS = [
+    "Objects/mimalloc/alloc-aligned.c",
+    "Objects/mimalloc/alloc-posix.c",
+    "Objects/mimalloc/alloc.c",
+    "Objects/mimalloc/arena.c",
+    "Objects/mimalloc/bitmap.c",
+    "Objects/mimalloc/heap.c",
+    "Objects/mimalloc/init.c",
+    "Objects/mimalloc/options.c",
+    "Objects/mimalloc/os.c",
+    "Objects/mimalloc/page.c",
+    "Objects/mimalloc/prim/prim.c",
+    "Objects/mimalloc/random.c",
+    "Objects/mimalloc/segment-map.c",
+    "Objects/mimalloc/segment.c",
+    "Objects/mimalloc/stats.c",
+]
 # PC平台相关的几个文件
 Platform_Modules = [
     'Modules/_io/winconsoleio.c',
@@ -218,7 +236,7 @@ Platform_Modules = [
     'PC/winreg.c',
 ]
 
-All_Modules = MODULE_OBJS + IOModules + Modules + Platform_Modules
+All_Modules = MODULE_OBJS + IOModules + Modules + Platform_Modules + MIMALLOC_OBJS
 
 LIBRARY_OBJS_OMIT_FROZEN = [
     'Modules/getbuildinfo.c'
@@ -271,6 +289,7 @@ incs = [
     '.',
     './Include',
     './Include/internal',
+    './Include/internal/mimalloc',
     './Modules/_hacl/include',
     './Godot',
     ZLIB,
