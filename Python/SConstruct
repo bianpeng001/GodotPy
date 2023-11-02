@@ -96,7 +96,6 @@ PYTHON_OBJS = [
     "Python/dtoa.c",
     "Python/dynamic_annotations.c",
     "Python/errors.c",
-    "Python/executor.c",
     "Python/fileutils.c",
     "Python/flowgraph.c",
     "Python/formatter_unicode.c",
