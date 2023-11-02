@@ -42,7 +42,9 @@ https://fonts.alibabagroup.com/
 https://vulkan.lunarg.com/doc/sdk/1.3.250.0/windows/release_notes.html
 
 
+清华大学开源软件镜像站
+https://mirrors.tuna.tsinghua.edu.cn/help/pypi/
 
 
-
+pip install SCons-4.5.2-py3-none-any.whl
 
