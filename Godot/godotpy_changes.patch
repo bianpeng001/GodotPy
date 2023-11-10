@@ -1,5 +1,5 @@
 diff --git a/scene/main/node.cpp b/scene/main/node.cpp
-index 5a107188fa..02bf57e391 100644
+index 9ce036616b..6e706700fb 100644
 --- a/scene/main/node.cpp
 +++ b/scene/main/node.cpp
 @@ -211,6 +211,9 @@ void Node::_notification(int p_notification) {
