@@ -92,6 +92,7 @@ PYTHON_OBJS = [
     "Python/codecs.c",
     "Python/compile.c",
     "Python/context.c",
+    "Python/critical_section.c",
     "Python/crossinterp.c",
     "Python/dtoa.c",
     "Python/dynamic_annotations.c",
