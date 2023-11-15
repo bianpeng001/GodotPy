@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://6dfqy46nfjvv"]
+[gd_scene load_steps=11 format=3 uid="uid://6dfqy46nfjvv"]
 
 [ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="1_m3nlk"]
 [ext_resource type="QuadMesh" uid="uid://bgvylfri1047g" path="res://models/Outline/ScreenRect.tres" id="2_db807"]
@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://6sgvsikcb5cg" path="res://models/Arm/Arm01.tscn" id="8_v3q38"]
 [ext_resource type="PackedScene" uid="uid://d0uwnhhx16lv3" path="res://effects/Fire01/Fire01.tscn" id="9_jbm0d"]
 [ext_resource type="PackedScene" uid="uid://ckhlaju2fgfiu" path="res://models/Lake/Lake01.tscn" id="10_rphou"]
-[ext_resource type="PackedScene" uid="uid://cvcax5h7cengn" path="res://models/City01.tscn" id="11_whcds"]
 
 [node name="MainScene" type="FPyObject"]
 python_module = "game.mainloop"
@@ -106,6 +105,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.15436, 0, 11.7753)
 
 [node name="Lake" parent="." instance=ExtResource("10_rphou")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0.0163529, 0, 6.87916)
-
-[node name="City01" parent="." instance=ExtResource("11_whcds")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.854669, 0, 13.3284)
