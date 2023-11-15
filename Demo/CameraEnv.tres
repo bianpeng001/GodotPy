@@ -2,8 +2,9 @@
 
 [resource]
 background_mode = 1
-background_color = Color(0.589633, 0.7, 0.399, 1)
-ambient_light_source = 1
+background_color = Color(0.588235, 0.701961, 0.4, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.345098, 0.345098, 0.345098, 1)
 reflected_light_source = 1
 adjustment_enabled = true
 adjustment_contrast = 1.2
