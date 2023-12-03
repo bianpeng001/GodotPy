@@ -514,7 +514,7 @@ class HeroSlot:
 class TwoFoldList:
     def __init__(self):
         self.list = []
-        self.back_list = []
+        self.list_back = []
 
     def append(self, item):
         self.list.append(item)
@@ -522,18 +522,18 @@ class TwoFoldList:
     def update_items(self, cb=None):
         cb = cb or self.do_update
         self.swap()
-        if self.back_list:
+        if self.list_back:
             try:
-                for item in self.back_list:
+                for item in self.list_back:
                     try:
                         cb(item)
                     except Exception as err:
                         print_exception(err)
             finally:
-                self.back_list.clear()
+                self.list_back.clear()
 
     def swap(self):
-        self.list,self.back_list = self.back_list, self.list
+        self.list,self.list_back = self.list_back, self.list
 
     def do_update(self, item):
         pass
