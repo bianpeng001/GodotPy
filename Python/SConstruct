@@ -236,7 +236,7 @@ Platform_Modules = [
     'PC/winreg.c',
 ]
 
-All_Modules = MODULE_OBJS + IOModules + Modules + Platform_Modules + MIMALLOC_OBJS
+ALL_MODULES = MODULE_OBJS + IOModules + Modules + Platform_Modules + MIMALLOC_OBJS
 
 LIBRARY_OBJS_OMIT_FROZEN = [
     'Modules/getbuildinfo.c'
@@ -262,7 +262,10 @@ cppdefines = [
     
     # 从python312.zip里面加载标准模块
     '_Py_HAVE_ZLIB',
-    
+
+    # winreg.c require MACRO CONDITION
+    'MS_WINDOWS_DESKTOP',
+
     #'_DEBUG',
 
     # getpath.c
@@ -331,7 +334,7 @@ env.Append(LIBPATH = [
 
 Frozen = 'Programs/_frozen.exe'
 FrozenExe = env.Program(Frozen,
-    source = LIBRARY_OBJS_OMIT_FROZEN + All_Modules + [
+    source = LIBRARY_OBJS_OMIT_FROZEN + ALL_MODULES + [
         'Programs/_freeze_module.c',
         'Modules/getpath_noop.c',
         'Godot/config.c',
@@ -343,7 +346,7 @@ FrozenExe = env.Program(Frozen,
 
 BootstrapPython = './_bootstrap_python.exe'
 BootstrapExe = env.Program(BootstrapPython,
-    source = LIBRARY_OBJS_OMIT_FROZEN + All_Modules + [
+    source = LIBRARY_OBJS_OMIT_FROZEN + ALL_MODULES + [
         'Programs/_bootstrap_python.c',
         'Modules/getpath.c',
         'Godot/config.c',
@@ -443,7 +446,7 @@ GenBootstrap = env.Command(
 env.Requires(GenBootstrap, BootstrapExe)
 
 # python library
-srcs = LIBRARY_OBJS_OMIT_FROZEN + All_Modules + [
+srcs = LIBRARY_OBJS_OMIT_FROZEN + ALL_MODULES + [
         # 偶然发现, DEEP_FREEZE_FILE是可选的, 倒也省得我弄一个空的文件
         # DEEP_FREEZE_FILE,
         'Python/frozen.c',
@@ -459,6 +462,7 @@ srcs = LIBRARY_OBJS_OMIT_FROZEN + All_Modules + [
         ZLIB + '/inftrees.c',
         ZLIB + '/inffast.c',
         ZLIB + '/zutil.c',
+
     ]
 PythonLib = env.SharedLibrary(ModuleName,
     source = srcs,
