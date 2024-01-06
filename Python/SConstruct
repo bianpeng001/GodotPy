@@ -102,6 +102,7 @@ PYTHON_OBJS = [
     "Python/formatter_unicode.c",
     "Python/frame.c",
     "Python/future.c",
+    "Python/gc.c",
     "Python/getargs.c",
     "Python/getcompiler.c",
     "Python/getcopyright.c",
