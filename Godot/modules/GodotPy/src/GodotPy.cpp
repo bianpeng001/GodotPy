@@ -23,6 +23,7 @@
 #include "scene/animation/animation_player.h"
 #include "scene/main/viewport.h"
 #include "scene/3d/node_3d.h"
+#include "scene/3d/mesh_instance_3d.h"
 #include "scene/3d/camera_3d.h"
 #include "scene/3d/label_3d.h"
 #include "scene/3d/cpu_particles_3d.h"

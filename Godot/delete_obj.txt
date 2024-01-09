@@ -1,0 +1,3 @@
+// bianp+2: NOTIFICATION_PREDELETE
+extern void delete_gdobj(Node *);
+delete_gdobj(this);
