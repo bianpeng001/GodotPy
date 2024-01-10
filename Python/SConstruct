@@ -103,6 +103,8 @@ PYTHON_OBJS = [
     "Python/frame.c",
     "Python/future.c",
     "Python/gc.c",
+    "Python/gc_free_threading.c",
+    "Python/gc_gil.c",
     "Python/getargs.c",
     "Python/getcompiler.c",
     "Python/getcopyright.c",
