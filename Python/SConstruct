@@ -124,6 +124,7 @@ PYTHON_OBJS = [
     "Python/modsupport.c",
     "Python/mysnprintf.c",
     "Python/mystrtoul.c",
+    "Python/object_stack.c",
     "Python/optimizer.c",
     "Python/optimizer_analysis.c",
     "Python/parking_lot.c",
