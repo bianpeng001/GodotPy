@@ -118,6 +118,7 @@ PYTHON_OBJS = [
     "Python/initconfig.c",
     "Python/instrumentation.c",
     "Python/intrinsics.c",
+    "Python/jit.c",
     "Python/legacy_tracing.c",
     "Python/lock.c",
     "Python/marshal.c",
