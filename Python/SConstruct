@@ -264,6 +264,9 @@ cppdefines = [
     'Py_BUILD_CORE',
     'Py_BUILD_CORE_BUILTIN',
     'Py_ENABLE_SHARED',
+
+    # jit, invoke REGEN_JIT_COMMAND fro configure!!!
+    # "D_Py_JIT",
     
     # 从python312.zip里面加载标准模块
     '_Py_HAVE_ZLIB',
@@ -725,5 +728,10 @@ def build_ctypes_pyd():
 #
 
 # scons release=False
+
+
+def regen_jit():
+    cmd = "python.exe Tools/jit/build.py x64"
+    run(cmd)
 
 
