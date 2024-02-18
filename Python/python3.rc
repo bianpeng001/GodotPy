@@ -4,8 +4,8 @@
 IDI_ICON1               ICON    DISCARDABLE     "PC\icons\python.ico"
 
 #define VER_DBG 0
-#define PYTHON_VERSION "3.13.0a0"
-#define MY_NAME "GodotPy GameDevTool"
+#define PYTHON_VERSION "3.13.0a4+"
+#define MY_NAME "GodotEngine + Python"
 
 VS_VERSION_INFO VERSIONINFO
 FILEVERSION             1,0,0,0
@@ -25,7 +25,7 @@ BEGIN
 		VALUE "FileDescription",  MY_NAME
 		VALUE "FileVersion",      PYTHON_VERSION
 		VALUE "InternalName",     MY_NAME
-		VALUE "LegalCopyright",   "(C)2023 " MY_NAME
+		VALUE "LegalCopyright",   "(C)2024 " MY_NAME
 		VALUE "OriginalFilename", ""
 		VALUE "ProductName",      ""
 		VALUE "ProductVersion",	  PYTHON_VERSION

@@ -144,6 +144,7 @@ PYTHON_OBJS = [
     "Python/pystrtod.c",
     "Python/pythonrun.c",
     "Python/pytime.c",
+    "Python/qsbr.c",
     "Python/specialize.c",
     "Python/structmember.c",
     "Python/suggestions.c",
