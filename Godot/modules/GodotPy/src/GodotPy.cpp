@@ -47,9 +47,9 @@
 #include "scene/resources/surface_tool.h"
 #include "scene/resources/material.h"
 #include "scene/resources/mesh.h"
-#include "scene/resources/primitive_meshes.h"
-#include "scene/resources/immediate_mesh.h"
 #include "scene/resources/environment.h"
+#include "scene/resources/immediate_mesh.h"
+#include "scene/resources/3d/primitive_meshes.h"
 #include "scene/audio/audio_stream_player.h"
 #include "servers/display_server.h"
 
