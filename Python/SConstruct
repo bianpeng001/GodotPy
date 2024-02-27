@@ -128,6 +128,7 @@ PYTHON_OBJS = [
     "Python/object_stack.c",
     "Python/optimizer.c",
     "Python/optimizer_analysis.c",
+    "Python/optimizer_symbols.c",
     "Python/parking_lot.c",
     "Python/pathconfig.c",
     "Python/perf_trampoline.c",
