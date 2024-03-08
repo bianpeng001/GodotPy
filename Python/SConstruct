@@ -87,6 +87,7 @@ PYTHON_OBJS = [
     "Python/ast_unparse.c",
     "Python/bltinmodule.c",
     "Python/bootstrap_hash.c",
+    "Python/brc.c",
     "Python/ceval.c",
     "Python/ceval_gil.c",
     "Python/codecs.c",
@@ -215,22 +216,30 @@ Modules = [
     "Modules/symtablemodule.c",
     "Modules/timemodule.c",
 ]
+
+# static.c 里面include了上面全部
+# static.c 被obmalloc里面include
+# 所以, 这里啥都不用加了!!!
 MIMALLOC_OBJS = [
-    "Objects/mimalloc/alloc-aligned.c",
-    "Objects/mimalloc/alloc-posix.c",
-    "Objects/mimalloc/alloc.c",
-    "Objects/mimalloc/arena.c",
-    "Objects/mimalloc/bitmap.c",
-    "Objects/mimalloc/heap.c",
-    "Objects/mimalloc/init.c",
-    "Objects/mimalloc/options.c",
-    "Objects/mimalloc/os.c",
-    "Objects/mimalloc/page.c",
-    "Objects/mimalloc/prim/prim.c",
-    "Objects/mimalloc/random.c",
-    "Objects/mimalloc/segment-map.c",
-    "Objects/mimalloc/segment.c",
-    "Objects/mimalloc/stats.c",
+    #"Objects/mimalloc/alloc-aligned.c",
+    #"Objects/mimalloc/alloc-posix.c",
+    #"Objects/mimalloc/alloc.c",
+    #"Objects/mimalloc/arena.c",
+    #"Objects/mimalloc/bitmap.c",
+    #"Objects/mimalloc/heap.c",
+    #"Objects/mimalloc/init.c",
+    #"Objects/mimalloc/options.c",
+    #"Objects/mimalloc/os.c",
+    #"Objects/mimalloc/page.c",
+    #"Objects/mimalloc/random.c",
+    #"Objects/mimalloc/segment-map.c",
+    #"Objects/mimalloc/segment.c",
+    #"Objects/mimalloc/stats.c",
+    #"Objects/mimalloc/prim/prim.c",
+
+
+    #"Objects/mimalloc/static.c",
+    
 ]
 # PC平台相关的几个文件
 Platform_Modules = [
@@ -265,7 +274,9 @@ PY_VER = '3.13'
 cppdefines = [
     'Py_BUILD_CORE',
     'Py_BUILD_CORE_BUILTIN',
-    'Py_ENABLE_SHARED',
+    ('Py_ENABLE_SHARED', '1'),
+    ('WITH_MIMALLOC', '1'),
+    ('Py_GIL_DISABLED', '1'),
 
     # jit, invoke REGEN_JIT_COMMAND fro configure!!!
     # "D_Py_JIT",
