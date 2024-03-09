@@ -3274,9 +3274,11 @@ PyMODINIT_FUNC PyInit_GodotPy(void) {
 static int InitPython() {
 	PyPreConfig PreConfig;
 	const char program[] = "GodotPyGame";
+	const char codec[] = "utf-8";
 	PyStatus status;
 	PyConfig PyConfig;
 	size_t program_len;
+	size_t codec_len;
 	String root_path;
 	ProjectSettings *project_settings;
 	
@@ -3305,7 +3307,7 @@ static int InitPython() {
 	PyConfig.module_search_paths_set = 1;
 	PyConfig.module_search_paths = paths;
 
-	PyConfig.filesystem_encoding = L"utf-8";
+	PyConfig.filesystem_encoding = Py_DecodeLocale(codec, &codec_len);
 
 	//status = PyConfig_SetBytesArgv(&PyConfig, 0, NULL);
 	//if (PyStatus_Exception(status)) {
@@ -3316,8 +3318,8 @@ static int InitPython() {
 	if (PyStatus_Exception(status)) {
 		goto exception;
 	}
-	// get memory error if use the PyConfig_Clear
-	//PyConfig_Clear(&PyConfig);
+	PyConfig.module_search_paths = { 0, nullptr };
+	PyConfig_Clear(&PyConfig);
 
 	return 0;
 
@@ -3345,8 +3347,9 @@ void FLibPy::Init() {
 		PyImport_AppendInittab("GodotPy", &PyInit_GodotPy);
 		InitPython();
 
-		PyRun_SimpleString("print('xxxx')");
-		//PyRun_SimpleString("import game.boot;print('hello godot')");
+		PyRun_SimpleString("print_line(111)");
+		PyRun_SimpleString("import sys; print_line(sys.path)");
+		PyRun_SimpleString("import game.boot;print('hello godot')");
 		print_line("init python ok");
 	}
 }
