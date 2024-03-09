@@ -17,6 +17,7 @@
 #include "core/os/os.h"
 #include "core/os/time.h"
 #include "core/string/ustring.h"
+#include "core/config/project_settings.h"
 
 #include "main/performance.h"
 
@@ -3271,34 +3272,57 @@ PyMODINIT_FUNC PyInit_GodotPy(void) {
 	return PyModuleDef_Init(&GodotPymodule);
 }
 static int InitPython() {
+	PyPreConfig PreConfig;
 	const char program[] = "GodotPyGame";
 	PyStatus status;
-	PyConfig config;
+	PyConfig PyConfig;
 	size_t program_len;
+	String root_path;
+	ProjectSettings *project_settings;
+	
+	PyPreConfig_InitIsolatedConfig(&PreConfig);
+	status = Py_PreInitialize(&PreConfig);
+	if (PyStatus_Exception(status)) {
+		goto exception;
+	}
 
-	PyConfig_InitPythonConfig(&config);
+	PyConfig_InitPythonConfig(&PyConfig);
+	PyConfig.program_name = Py_DecodeLocale(program, &program_len);
+
+	project_settings = ProjectSettings::get_singleton();
+	root_path = project_settings->globalize_path("res://");
+	root_path = root_path.replace("/", "\\");
+
 	// 一般来说嵌入， 需要 isolated=1, 会无视一些参数，包括环境变量
 	// 但是我目前的当前目录加到sys.path，这个步骤需要依赖环境变量，
 	// 所以目前还没有想到更好的办法，保持isolated = 0
-	//config.isolated = 1;
-	config.program_name = Py_DecodeLocale(program, &program_len);
+	PyConfig.isolated = 1;
 
-	//status = PyConfig_SetBytesArgv(&config, argc, argv);
+	PyWideStringList paths;
+	::memset(&paths, 0, sizeof(paths));
+	PyWideStringList_Append(&paths, L"D:\\OpenSource\\GodotPy\\Demo");
+	PyWideStringList_Append(&paths, L"D:\\OpenSource\\godot\\bin\\Lib");
+	PyConfig.module_search_paths_set = 1;
+	PyConfig.module_search_paths = paths;
+
+	PyConfig.filesystem_encoding = L"utf-8";
+
+	//status = PyConfig_SetBytesArgv(&PyConfig, 0, NULL);
 	//if (PyStatus_Exception(status)) {
 	//	goto exception;
 	//}
 
-	status = Py_InitializeFromConfig(&config);
+	status = Py_InitializeFromConfig(&PyConfig);
 	if (PyStatus_Exception(status)) {
 		goto exception;
 	}
-	PyConfig_Clear(&config);
+	// get memory error if use the PyConfig_Clear
+	//PyConfig_Clear(&PyConfig);
 
-	//return Py_RunMain();
 	return 0;
 
 exception:
-	PyConfig_Clear(&config);
+	PyConfig_Clear(&PyConfig);
 	if (PyStatus_IsExit(status)) {
 		return status.exitcode;
 	}
@@ -3316,13 +3340,13 @@ void FLibPy::Init() {
 
 		// 这里是通过环境变量，把当前目录加到路径里面去，具体的逻辑在
 		// Modules/getpath.py
-		::SetEnvironmentVariableA("PYTHONPATH", ".");
+		//::SetEnvironmentVariableA("PYTHONPATH", ".");
 
 		PyImport_AppendInittab("GodotPy", &PyInit_GodotPy);
 		InitPython();
-		//Py_Initialize();
-		
-		PyRun_SimpleString("import game.boot;print('hello godot')\n");
+
+		PyRun_SimpleString("print('xxxx')");
+		//PyRun_SimpleString("import game.boot;print('hello godot')");
 		print_line("init python ok");
 	}
 }
