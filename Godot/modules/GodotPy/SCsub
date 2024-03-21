@@ -80,6 +80,16 @@ env.Append(CPPPATH = incs)
 
 godotpy_module = env_modules.Clone()
 godotpy_module.Append(CPPPATH = incs)
+godotpy_module.Append(CPPDEFINES =[
+
+    # 这几个是编译python用到的，嵌入python不必
+    #'Py_BUILD_CORE',
+    #'Py_BUILD_CORE_BUILTIN',
+    #'Py_ENABLE_SHARED=1',
+    
+    # 这几个必须了，因为构造python用了，嵌入是也要开
+    'WITH_MIMALLOC=1',
+    'Py_GIL_DISABLED=1'])
 godotpy_module.add_source_files(env.modules_sources, "src/*.cpp")
 
 

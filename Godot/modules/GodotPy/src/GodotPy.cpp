@@ -1,4 +1,4 @@
-//
+ //
 // 2023年1月17日
 //
 
@@ -3257,22 +3257,53 @@ static PyMethodDef GodotPy_methods[] = {
 	// over
 	{ NULL, NULL, 0, NULL }
 };
+
+#define ENABLE_MOD_EXEC
+
+//PyObject *create_module(PyObject *spec, PyModuleDef *def) {
+//}
+int main_exec_module(PyObject *module) {
+	PyModule_AddStringConstant(module, "food", "spam");
+	return 0;
+}
+static PyModuleDef_Slot main_slots[] = {
+	//{ Py_mod_create, create_module  },
+	{ Py_mod_exec, main_exec_module },
+	{ 0, NULL },
+};
+
 static struct PyModuleDef GodotPymodule = {
 	PyModuleDef_HEAD_INIT,
 	"GodotPy",
-	NULL,
+	PyDoc_STR("GodotPy Doc"),
 	0,
-	GodotPy_methods,
+	NULL,//GodotPy_methods,
+#ifdef ENABLE_MOD_EXEC
+	main_slots,
+#else
 	NULL,
+#endif
 	NULL,
 	NULL,
 	NULL,
 };
 PyMODINIT_FUNC PyInit_GodotPy(void) {
+#ifdef ENABLE_MOD_EXEC
 	return PyModuleDef_Init(&GodotPymodule);
+#else
+	PyObject *module;
+	module = PyModule_Create(&GodotPymodule);
+	if (module == NULL)
+		return NULL;
+	if (main_exec_module(module) != 0) {
+		Py_DECREF(module);
+		return NULL;
+	}
+	return module;
+#endif
 }
 static int InitPython() {
-	PyPreConfig PreConfig;
+	//PyPreConfig PreConfig;
 	const char program[] = "GodotPyGame";
 	const char codec[] = "utf-8";
 	PyStatus status;
@@ -3282,32 +3313,33 @@ static int InitPython() {
 	String root_path;
 	ProjectSettings *project_settings;
 	
+	/*
 	PyPreConfig_InitIsolatedConfig(&PreConfig);
 	status = Py_PreInitialize(&PreConfig);
 	if (PyStatus_Exception(status)) {
 		goto exception;
 	}
-
+	*/
 	PyConfig_InitPythonConfig(&PyConfig);
+	//PyConfig_InitIsolatedConfig(&PyConfig);
 	PyConfig.program_name = Py_DecodeLocale(program, &program_len);
 
 	project_settings = ProjectSettings::get_singleton();
-	root_path = project_settings->globalize_path("res://");
-	root_path = root_path.replace("/", "\\");
+	//root_path = project_settings->globalize_path("res://");
+	//root_path = root_path.replace("/", "\\");
 
 	// 一般来说嵌入， 需要 isolated=1, 会无视一些参数，包括环境变量
 	// 但是我目前的当前目录加到sys.path，这个步骤需要依赖环境变量，
 	// 所以目前还没有想到更好的办法，保持isolated = 0
 	PyConfig.isolated = 1;
 
-	PyWideStringList paths;
-	::memset(&paths, 0, sizeof(paths));
-	PyWideStringList_Append(&paths, L"D:\\OpenSource\\GodotPy\\Demo");
-	PyWideStringList_Append(&paths, L"D:\\OpenSource\\godot\\bin\\Lib");
+	// module search path
 	PyConfig.module_search_paths_set = 1;
-	PyConfig.module_search_paths = paths;
+	PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/GodotPy/Demo");
+	PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/cpython/Lib");
+	PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/godot/bin/DLLs");
 
-	PyConfig.filesystem_encoding = Py_DecodeLocale(codec, &codec_len);
+	PyConfig_SetString(&PyConfig, &PyConfig.filesystem_encoding, L"utf-8");
 
 	//status = PyConfig_SetBytesArgv(&PyConfig, 0, NULL);
 	//if (PyStatus_Exception(status)) {
@@ -3318,7 +3350,7 @@ static int InitPython() {
 	if (PyStatus_Exception(status)) {
 		goto exception;
 	}
-	PyConfig.module_search_paths = { 0, nullptr };
+	//PyConfig.module_search_paths = { 0, nullptr };
 	PyConfig_Clear(&PyConfig);
 
 	return 0;
@@ -3343,13 +3375,18 @@ void FLibPy::Init() {
 		// 这里是通过环境变量，把当前目录加到路径里面去，具体的逻辑在
 		// Modules/getpath.py
 		//::SetEnvironmentVariableA("PYTHONPATH", ".");
-
-		PyImport_AppendInittab("GodotPy", &PyInit_GodotPy);
+		int rc = PyImport_AppendInittab("GodotPy", &PyInit_GodotPy);
+		if (rc != 0)
+		{
+			print_line("init failed");
+		}
 		InitPython();
 
-		PyRun_SimpleString("print_line(111)");
-		PyRun_SimpleString("import sys; print_line(sys.path)");
-		PyRun_SimpleString("import game.boot;print('hello godot')");
+		PyImport_ImportModule("GodotPy");
+		//PyRun_SimpleString("import GodotPy as gp");
+		//PyRun_SimpleString("import GodotPy as gp; gp.print_line('asdf')");
+		//PyRun_SimpleString("import sys; print(sys.path)");
+		//PyRun_SimpleString("import game.boot;print('hello godot')");
 		print_line("init python ok");
 	}
 }
