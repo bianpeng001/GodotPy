@@ -52,7 +52,6 @@ OBJECT_OBJS = [
     "Objects/funcobject.c",
     "Objects/genericaliasobject.c",
     "Objects/genobject.c",
-    "Objects/interpreteridobject.c",
     "Objects/iterobject.c",
     "Objects/listobject.c",
     "Objects/longobject.c",
