@@ -3277,7 +3277,7 @@ static struct PyModuleDef GodotPymodule = {
 	"GodotPy",
 	PyDoc_STR("GodotPy Doc"),
 	0,
-	NULL,//GodotPy_methods,
+	GodotPy_methods,
 #ifdef ENABLE_MOD_EXEC
 	main_slots,
 #else
@@ -3333,11 +3333,13 @@ static int InitPython() {
 	// 所以目前还没有想到更好的办法，保持isolated = 0
 	PyConfig.isolated = 1;
 
+	// OS::get_singleton()->get_executable_path().get_base_dir()
 	// module search path
 	PyConfig.module_search_paths_set = 1;
-	PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/GodotPy/Demo");
-	PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/cpython/Lib");
+	//PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/cpython/Lib");
+	PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/godot/bin/Lib");
 	PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/godot/bin/DLLs");
+	PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/GodotPy/Demo");
 
 	PyConfig_SetString(&PyConfig, &PyConfig.filesystem_encoding, L"utf-8");
 
@@ -3383,10 +3385,7 @@ void FLibPy::Init() {
 		InitPython();
 
 		PyImport_ImportModule("GodotPy");
-		//PyRun_SimpleString("import GodotPy as gp");
-		//PyRun_SimpleString("import GodotPy as gp; gp.print_line('asdf')");
-		//PyRun_SimpleString("import sys; print(sys.path)");
-		//PyRun_SimpleString("import game.boot;print('hello godot')");
+		PyRun_SimpleString("import game.boot;print('hello godot')");
 		print_line("init python ok");
 	}
 }

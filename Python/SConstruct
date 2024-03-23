@@ -273,9 +273,9 @@ PY_VER = '3.13'
 cppdefines = [
     'Py_BUILD_CORE',
     'Py_BUILD_CORE_BUILTIN',
-    ('Py_ENABLE_SHARED', '1'),
-    ('WITH_MIMALLOC', '1'),
-    ('Py_GIL_DISABLED', '1'),
+    ('Py_ENABLE_SHARED', 1),
+    ('WITH_MIMALLOC', 1),
+    ('Py_GIL_DISABLED', 1),
 
     # jit, invoke REGEN_JIT_COMMAND fro configure!!!
     # "D_Py_JIT",
@@ -533,7 +533,10 @@ def build_sqlite3_pyd():
         source = [SQLITE3 +'/sqlite3.c'],
         CPPPATH = incs + [SQLITE3,],
         CPPDEFINES = [
-            'Py_ENABLE_SHARED',
+            ('Py_ENABLE_SHARED', 1),
+            ('WITH_MIMALLOC', 1),
+            ('Py_GIL_DISABLED', 1),
+
             'SQLITE_ENABLE_MATH_FUNCTIONS',
             'SQLITE_ENABLE_FTS4',
             'SQLITE_ENABLE_FTS5',
@@ -559,7 +562,10 @@ def build_sqlite3_pyd():
         ],
         CPPPATH = incs + [SQLITE3,],
         CPPDEFINES = [
-            'Py_ENABLE_SHARED',
+            ('Py_ENABLE_SHARED', 1),
+            ('WITH_MIMALLOC', 1),
+            ('Py_GIL_DISABLED', 1),
+
             'PY_SQLITE_HAVE_SERIALIZE',
             'PY_SQLITE_ENABLE_LOAD_EXTENSION',
         ],
@@ -597,7 +603,9 @@ def build_asyncio_pyd():
     asyncio_pyd = env2.SharedLibrary('_asyncio',
         source = ['Modules/_asynciomodule.c'],
         CPPDEFINES = [
-            'Py_ENABLE_SHARED',
+            ('Py_ENABLE_SHARED', 1),
+            ('WITH_MIMALLOC', 1),
+            ('Py_GIL_DISABLED', 1),
         ],
         buildtarget = '_asyncio.dll',
         LIBS = [ 'python3.lib', ]
@@ -611,7 +619,10 @@ def build_overlapped_pyd():
     overlapped_pyd = env2.SharedLibrary('_overlapped',
         source = ['Modules/overlapped.c'],
         CPPDEFINES = [
-            'Py_ENABLE_SHARED',
+            ('Py_ENABLE_SHARED', 1),
+            ('WITH_MIMALLOC', 1),
+            ('Py_GIL_DISABLED', 1),
+
         ],
         buildtarget = '_overlapped.dll',
         LIBS = [ 'python3.lib', "Ws2_32", ]
@@ -628,7 +639,10 @@ def build_multiprocessing_pyd():
             'Modules/_multiprocessing/semaphore.c'
         ],
         CPPDEFINES = [
-            'Py_ENABLE_SHARED',
+            ('Py_ENABLE_SHARED', 1),
+            ('WITH_MIMALLOC', 1),
+            ('Py_GIL_DISABLED', 1),
+
         ],
         buildtarget = '_multiprocessing.dll',
         LIBS = [ 'python3.lib', "Ws2_32", ]
@@ -642,7 +656,10 @@ def build_queue_pyd():
     queue_pyd = env2.SharedLibrary('_queue',
         source = ['Modules/_queuemodule.c',],
         CPPDEFINES = [
-            'Py_ENABLE_SHARED',
+            ('Py_ENABLE_SHARED', 1),
+            ('WITH_MIMALLOC', 1),
+            ('Py_GIL_DISABLED', 1),
+
         ],
         buildtarget = '_queue.dll',
         LIBS = [ 'python3.lib', ]
@@ -673,7 +690,10 @@ def build_decimal_pyd():
             "Modules/_decimal/libmpdec/transpose.c",
         ],
         CPPDEFINES = [
-            'Py_ENABLE_SHARED',
+            ('Py_ENABLE_SHARED', 1),
+            ('WITH_MIMALLOC', 1),
+            ('Py_GIL_DISABLED', 1),
+
             ('CONFIG_64', 1),
             ('ANSI', 1),
         ],
@@ -720,7 +740,10 @@ def build_ctypes_pyd():
             FFI_PATH + '/src/tramp.c',
         ],
         CPPDEFINES = [
-            'Py_ENABLE_SHARED',
+            ('Py_ENABLE_SHARED', 1),
+            ('WITH_MIMALLOC', 1),
+            ('Py_GIL_DISABLED', 1),
+
         ],
         CPPPATH = incs + [
             FFI_PATH + '/include',
