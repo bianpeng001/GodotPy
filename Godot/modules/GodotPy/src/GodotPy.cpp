@@ -3310,7 +3310,7 @@ static int InitPython() {
 	PyConfig PyConfig;
 	size_t program_len;
 	size_t codec_len;
-	String root_path;
+	String project_path;
 	ProjectSettings *project_settings;
 	
 	/*
@@ -3325,7 +3325,7 @@ static int InitPython() {
 	PyConfig.program_name = Py_DecodeLocale(program, &program_len);
 
 	project_settings = ProjectSettings::get_singleton();
-	//root_path = project_settings->globalize_path("res://");
+	
 	//root_path = root_path.replace("/", "\\");
 
 	// 一般来说嵌入， 需要 isolated=1, 会无视一些参数，包括环境变量
@@ -3333,15 +3333,34 @@ static int InitPython() {
 	// 所以目前还没有想到更好的办法，保持isolated = 0
 	PyConfig.isolated = 1;
 
-	// OS::get_singleton()->get_executable_path().get_base_dir()
+	String bin_dir = OS::get_singleton()->get_executable_path().get_base_dir();
+	
 	// module search path
 	PyConfig.module_search_paths_set = 1;
-	//PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/cpython/Lib");
-	PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/godot/bin/Lib");
-	PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/godot/bin/DLLs");
-	PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/GodotPy/Demo");
 
-	PyConfig_SetString(&PyConfig, &PyConfig.filesystem_encoding, L"utf-8");
+	//PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/godot/bin/Lib");
+	//PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/godot/bin/DLLs");
+	//PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/GodotPy/Demo");
+	project_path = project_settings->globalize_path("res://");
+	if (project_path.ends_with("/")) {
+		project_path = project_path.substr(0, project_path.length() - 1);
+	}
+
+	String Lib = bin_dir + String::utf8("/Lib");
+	String DLLs = bin_dir + String::utf8("/DLLs");
+	print_line(Lib);
+	print_line(DLLs);
+	print_line(project_path);
+
+	wchar_t *LibPath = (wchar_t *)(Lib + "\0").to_wchar_buffer().ptr();
+	wchar_t *DllsPath = (wchar_t *)(DLLs + "\0").to_wchar_buffer().ptr();
+	wchar_t *ProjectPath = (wchar_t *)(project_path + "\0").to_wchar_buffer().ptr();
+
+	PyWideStringList_Append(&PyConfig.module_search_paths, LibPath);
+	PyWideStringList_Append(&PyConfig.module_search_paths, DllsPath);
+	PyWideStringList_Append(&PyConfig.module_search_paths, ProjectPath);
+	
+	PyConfig_SetString(&PyConfig, &PyConfig.filesystem_encoding, L"UTF-8");
 
 	//status = PyConfig_SetBytesArgv(&PyConfig, 0, NULL);
 	//if (PyStatus_Exception(status)) {
