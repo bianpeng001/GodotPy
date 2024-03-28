@@ -3346,19 +3346,19 @@ static int InitPython() {
 		project_path = project_path.substr(0, project_path.length() - 1);
 	}
 
-	String Lib = bin_dir + String::utf8("/Lib");
-	String DLLs = bin_dir + String::utf8("/DLLs");
+	String Lib = bin_dir + "/Lib";
+	String DLLs = bin_dir + "/DLLs";
 	print_line(Lib);
 	print_line(DLLs);
 	print_line(project_path);
 
-	wchar_t *LibPath = (wchar_t *)(Lib + "\0").to_wchar_buffer().ptr();
-	wchar_t *DllsPath = (wchar_t *)(DLLs + "\0").to_wchar_buffer().ptr();
-	wchar_t *ProjectPath = (wchar_t *)(project_path + "\0").to_wchar_buffer().ptr();
+	auto LibPath = new PackedByteArray(Lib.to_wchar_buffer());
+	auto DllsPath = new PackedByteArray(DLLs.to_wchar_buffer());
+	auto ProjectPath = new PackedByteArray(project_path.to_wchar_buffer());
 
-	PyWideStringList_Append(&PyConfig.module_search_paths, LibPath);
-	PyWideStringList_Append(&PyConfig.module_search_paths, DllsPath);
-	PyWideStringList_Append(&PyConfig.module_search_paths, ProjectPath);
+	PyWideStringList_Append(&PyConfig.module_search_paths, (const wchar_t *)LibPath->ptrw());
+	PyWideStringList_Append(&PyConfig.module_search_paths, (const wchar_t *)DllsPath->ptrw());
+	PyWideStringList_Append(&PyConfig.module_search_paths, (const wchar_t *)ProjectPath->ptrw());
 	
 	PyConfig_SetString(&PyConfig, &PyConfig.filesystem_encoding, L"UTF-8");
 
