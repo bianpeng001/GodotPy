@@ -3345,20 +3345,30 @@ static int InitPython() {
 	if (project_path.ends_with("/")) {
 		project_path = project_path.substr(0, project_path.length() - 1);
 	}
+	project_path = project_path + "\x00";
 
-	String Lib = bin_dir + "/Lib";
-	String DLLs = bin_dir + "/DLLs";
+	String Lib = bin_dir + "/Lib\x00";
+	String DLLs = bin_dir + "/DLLs\x00";
 	print_line(Lib);
 	print_line(DLLs);
 	print_line(project_path);
 
-	auto LibPath = new PackedByteArray(Lib.to_wchar_buffer());
-	auto DllsPath = new PackedByteArray(DLLs.to_wchar_buffer());
-	auto ProjectPath = new PackedByteArray(project_path.to_wchar_buffer());
+	typedef wchar_t CHAR;
+	std::vector<CHAR> Buff;
+	Buff.resize(project_path.length() + Lib.length() + DLLs.length() + 3);
+	memset(Buff.data(), 0, sizeof(CHAR)*Buff.size());
 
-	PyWideStringList_Append(&PyConfig.module_search_paths, (const wchar_t *)LibPath->ptrw());
-	PyWideStringList_Append(&PyConfig.module_search_paths, (const wchar_t *)DllsPath->ptrw());
-	PyWideStringList_Append(&PyConfig.module_search_paths, (const wchar_t *)ProjectPath->ptrw());
+	auto LibPath = Lib.to_wchar_buffer();
+	auto DLLsPath = DLLs.to_wchar_buffer();
+	auto ProjectPath = project_path.to_wchar_buffer();
+
+	const wchar_t *PtrLibPath = (const wchar_t *)LibPath.ptr();
+	const wchar_t *PtrDLLsPath = (const wchar_t *)DLLsPath.ptr();
+	const wchar_t *PtrProjectPath = (const wchar_t *)ProjectPath.ptr();
+
+	PyWideStringList_Append(&PyConfig.module_search_paths, (const wchar_t *)PtrLibPath);
+	PyWideStringList_Append(&PyConfig.module_search_paths, (const wchar_t *)PtrDLLsPath);
+	PyWideStringList_Append(&PyConfig.module_search_paths, (const wchar_t *)PtrProjectPath);
 	
 	PyConfig_SetString(&PyConfig, &PyConfig.filesystem_encoding, L"UTF-8");
 
