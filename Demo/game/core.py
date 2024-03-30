@@ -9,6 +9,7 @@ import os
 import random
 import sys
 import traceback
+import boot
 
 import GodotPy as gp
 
@@ -310,24 +311,8 @@ def clamp(v):
     else:
         return v
 
-def print_line(*args, **kwargs):
-    if not args:
-        gp.print_line('')
-    elif len(args) == 1:
-        a = args[0]
-        gp.print_line(str(a))
-    else:
-        a = ' '.join([str(x) for x in args])
-        gp.print_line(a)
+print_line = boot.print_line
 
-    if kwargs:
-        sb = io.StringIO()
-        for k in kwargs:
-            sb.write(' ')
-            sb.write(k)
-            sb.write('=')
-            sb.write(str(kwargs[k]))
-        gp.print_line(sb.getvalue())
 
 # def get_py_object(node):
 #     return gp.get_py_object(node)

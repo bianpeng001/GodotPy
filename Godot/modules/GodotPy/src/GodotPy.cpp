@@ -660,6 +660,18 @@ static PyObject *f_quit(PyObject *module, PyObject *args) {
 	Py_RETURN_NONE;
 	
 }
+
+static PyObject *f_get_project_path(PyObject *module, PyObject *args) {
+	auto project_settings = ProjectSettings::get_singleton();
+	auto project_path = project_settings->globalize_path("res://");
+	if (project_path.ends_with("/")) {
+		project_path = project_path.substr(0, project_path.length() - 1);
+	}
+	project_path = project_path;
+
+	return PyUnicode_FromString(project_path.utf8());
+}
+
 static PyObject *f_print_line(PyObject *module, PyObject *args) {
 	const char *s;
 	if (!PyArg_ParseTuple(args, "s", &s)) {
@@ -3086,6 +3098,7 @@ static PyObject *f_audio_stream_player_set_volume_db(PyObject *module, PyObject 
 static PyMethodDef GodotPy_methods[] = {
 	// os
 	{ "print_line", f_print_line, METH_VARARGS, NULL },
+	{ "get_project_path", f_get_project_path, METH_VARARGS, NULL },
 	{ "get_time", f_get_time, METH_VARARGS, NULL },
 	{ "get_delta_time", f_get_delta_time, METH_VARARGS, NULL },
 	{ "set_window_rect", f_set_window_rect, METH_VARARGS, NULL },
@@ -3324,7 +3337,7 @@ static int InitPython() {
 	//PyConfig_InitIsolatedConfig(&PyConfig);
 	PyConfig.program_name = Py_DecodeLocale(program, &program_len);
 
-	project_settings = ProjectSettings::get_singleton();
+	
 	
 	//root_path = root_path.replace("/", "\\");
 
@@ -3333,22 +3346,31 @@ static int InitPython() {
 	// 所以目前还没有想到更好的办法，保持isolated = 0
 	PyConfig.isolated = 1;
 
-	String bin_dir = OS::get_singleton()->get_executable_path().get_base_dir();
-	
 	// module search path
+	#ifdef NO_DIR_SET
+	PyConfig.module_search_paths_set = 0;
+	#endif
+
+	#ifdef LOCAL_DIR_SET
+	PyConfig.module_search_paths_set = 1;
+	PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/godot/bin/Lib");
+	PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/godot/bin/DLLs");
+	PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/GodotPy/Demo");
+	#endif
+
+	#ifndef GODOT_DIR_SET
 	PyConfig.module_search_paths_set = 1;
 
-	//PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/godot/bin/Lib");
-	//PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/godot/bin/DLLs");
-	//PyWideStringList_Append(&PyConfig.module_search_paths, L"D:/OpenSource/GodotPy/Demo");
+	project_settings = ProjectSettings::get_singleton();
 	project_path = project_settings->globalize_path("res://");
 	if (project_path.ends_with("/")) {
 		project_path = project_path.substr(0, project_path.length() - 1);
 	}
-	project_path = project_path + "\x00";
+	project_path = project_path;
 
-	String Lib = bin_dir + "/Lib\x00";
-	String DLLs = bin_dir + "/DLLs\x00";
+	String bin_dir = OS::get_singleton()->get_executable_path().get_base_dir();
+	String Lib = bin_dir + "/Lib";
+	String DLLs = bin_dir + "/DLLs";
 	print_line(Lib);
 	print_line(DLLs);
 	print_line(project_path);
@@ -3367,8 +3389,10 @@ static int InitPython() {
 	const wchar_t *PtrProjectPath = (const wchar_t *)ProjectPath.ptr();
 
 	PyWideStringList_Append(&PyConfig.module_search_paths, (const wchar_t *)PtrLibPath);
-	PyWideStringList_Append(&PyConfig.module_search_paths, (const wchar_t *)PtrDLLsPath);
-	PyWideStringList_Append(&PyConfig.module_search_paths, (const wchar_t *)PtrProjectPath);
+	//PyWideStringList_Append(&PyConfig.module_search_paths, (const wchar_t *)PtrDLLsPath);
+	//PyWideStringList_Append(&PyConfig.module_search_paths, (const wchar_t *)PtrProjectPath);
+
+	#endif
 	
 	PyConfig_SetString(&PyConfig, &PyConfig.filesystem_encoding, L"UTF-8");
 
@@ -3414,7 +3438,7 @@ void FLibPy::Init() {
 		InitPython();
 
 		PyImport_ImportModule("GodotPy");
-		PyRun_SimpleString("import game.boot;print('hello godot')");
+		PyRun_SimpleString("import boot;print('hello godot')");
 		print_line("init python ok");
 	}
 }

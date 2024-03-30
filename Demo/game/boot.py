@@ -1,12 +1,35 @@
 #
 # 2023年2月1日 bianpeng
 #
+
+#
+# NOTICE!!! this file should put into the directory same as godot.exe
+#
 from io import StringIO
 import os.path
 import sys
 import traceback
 
-from game.core import print_line
+import GodotPy as gp
+
+def print_line(*args, **kwargs):
+    if not args:
+        gp.print_line('')
+    elif len(args) == 1:
+        a = args[0]
+        gp.print_line(str(a))
+    else:
+        a = ' '.join([str(x) for x in args])
+        gp.print_line(a)
+
+    if kwargs:
+        sb = io.StringIO()
+        for k in kwargs:
+            sb.write(' ')
+            sb.write(k)
+            sb.write('=')
+            sb.write(str(kwargs[k]))
+        gp.print_line(sb.getvalue())
 
 # saved_stderr = sys.stderr
 # saved_stdout = sys.stdout
@@ -47,9 +70,13 @@ if __name__ != '__main__':
     sys.stderr = PrintLine()
     sys.stdout = PrintLine()
 
-    #dll_path = os.path.join(os.path.dirname(sys.executable), 'DLLs')
-    #sys.path.append(dll_path)
-    print('path:', sys.path)
+    exec_dir = os.path.dirname(sys.executable)
+    sys.path.append(os.path.join(exec_dir, 'DLLs'))
+
+    proj_dir = gp.get_project_path()
+    sys.path.append(proj_dir)
+
+    print('sys.path:', sys.path)
     print('executable:', sys.executable)
 
 print('boot ok')
