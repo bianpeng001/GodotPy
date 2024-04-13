@@ -139,7 +139,7 @@ def zipdir(dir_path, f):
             continue
         
         for file in files:
-            if file.endswith('.pyc'):
+            if file.endswith('.pyc') or file.endswith('.import'):
                 continue
             
             file_path = os.path.join(root, file)
