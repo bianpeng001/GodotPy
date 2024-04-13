@@ -3371,9 +3371,11 @@ static int InitPython() {
 	String bin_dir = OS::get_singleton()->get_executable_path().get_base_dir();
 	String Lib = bin_dir + "/Lib";
 	String DLLs = bin_dir + "/DLLs";
+	String LibZip = bin_dir + "/python313.zip";
 	print_line(Lib);
 	print_line(DLLs);
 	print_line(project_path);
+	print_line(LibZip);
 
 	typedef wchar_t CHAR;
 	std::vector<CHAR> Buff;
@@ -3383,14 +3385,17 @@ static int InitPython() {
 	auto LibPath = Lib.to_wchar_buffer();
 	auto DLLsPath = DLLs.to_wchar_buffer();
 	auto ProjectPath = project_path.to_wchar_buffer();
+	auto LibZipPath = LibZip.to_wchar_buffer();
 
 	const wchar_t *PtrLibPath = (const wchar_t *)LibPath.ptr();
 	const wchar_t *PtrDLLsPath = (const wchar_t *)DLLsPath.ptr();
 	const wchar_t *PtrProjectPath = (const wchar_t *)ProjectPath.ptr();
+	const wchar_t *PtrLibZipPath = (const wchar_t *)LibZipPath.ptr();
 
-	PyWideStringList_Append(&PyConfig.module_search_paths, (const wchar_t *)PtrLibPath);
-	//PyWideStringList_Append(&PyConfig.module_search_paths, (const wchar_t *)PtrDLLsPath);
-	//PyWideStringList_Append(&PyConfig.module_search_paths, (const wchar_t *)PtrProjectPath);
+	PyWideStringList_Append(&PyConfig.module_search_paths, PtrLibPath);
+	//PyWideStringList_Append(&PyConfig.module_search_paths, PtrDLLsPath);
+	//PyWideStringList_Append(&PyConfig.module_search_paths, PtrProjectPath);
+	PyWideStringList_Append(&PyConfig.module_search_paths, PtrLibZipPath);
 
 	#endif
 	

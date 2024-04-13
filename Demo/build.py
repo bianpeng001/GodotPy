@@ -59,7 +59,7 @@ def mkdir_if_not_exists(path):
 
 def build_publish():
     call_task('python')
-    #run(f'{SCONS_EXE} p=windows vsproj=no bits=64 -j4 target=editor dev_build=false')
+    run(f'{SCONS_EXE} p=windows vsproj=no bits=64 -j4 target=editor dev_build=false')
     call_task('editor_release')
     # build package
     call_task('package')
@@ -179,6 +179,7 @@ def build_pck():
 
 def build_player_release():
     run(f'{SCONS_EXE} p=windows tools=no bits=64 -j{THREADS} target=template_release')
+    #run(f'{SCONS_EXE} p=windows vsproj=yes tools=no bits=64 -j{THREADS} target=template_release')
     run(f'{GIT_EXE} log -1 --format=%H > godot_ver.txt')
 
 def verinfo():
