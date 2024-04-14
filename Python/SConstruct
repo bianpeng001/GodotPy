@@ -334,7 +334,7 @@ incs = [
 # 编译器版本
 # 14.3 = Visual Studio 2022
 # 14.2 = Visual Studio 2019
-env = Enviroment(MSVC_VERSION="14.3", TARGET_ARCH='x64')
+env = Environment(MSVC_VERSION="14.3", TARGET_ARCH='x86_64')
 #env = Environment()
 env2 = env.Clone()
 
