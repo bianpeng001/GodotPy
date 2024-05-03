@@ -74,7 +74,8 @@ if __name__ != '__main__':
     sys.path.append(os.path.join(exec_dir, 'DLLs'))
 
     proj_dir = gp.get_project_path()
-    sys.path.insert(0, proj_dir)
+    if len(proj_dir) > 0:
+        sys.path.insert(0, proj_dir)
 
     #sys.path.append(os.path.join(exec_dir, 'python313.zip'))
 

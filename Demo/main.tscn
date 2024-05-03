@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=4 uid="uid://6dfqy46nfjvv"]
+[gd_scene load_steps=11 format=3 uid="uid://6dfqy46nfjvv"]
 
 [ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="1_m3nlk"]
 [ext_resource type="QuadMesh" uid="uid://bgvylfri1047g" path="res://models/Outline/ScreenRect.tres" id="2_db807"]
