@@ -919,7 +919,7 @@ static PyObject *f_node_clear_connection(PyObject *module, PyObject *args) {
 		List<Object::Connection> conn_list;
 		node->get_signal_connection_list(signal, &conn_list);
 		for (int i = 0; i < conn_list.size(); ++i) {
-			auto conn = conn_list[i];
+			auto conn = conn_list.get(i);
 			auto c = conn.callable;
 
 			node->disconnect(signal, c);
