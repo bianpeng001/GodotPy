@@ -3377,19 +3377,21 @@ static int InitPython() {
 	print_line(project_path);
 	print_line(LibZip);
 
+	/*
 	typedef wchar_t CHAR;
 	std::vector<CHAR> Buff;
 	Buff.resize(project_path.length() + Lib.length() + DLLs.length() + 3);
 	memset(Buff.data(), 0, sizeof(CHAR)*Buff.size());
+	*/
 
 	auto LibPath = Lib.to_wchar_buffer();
-	auto DLLsPath = DLLs.to_wchar_buffer();
-	auto ProjectPath = project_path.to_wchar_buffer();
+	//auto DLLsPath = DLLs.to_wchar_buffer();
+	//auto ProjectPath = project_path.to_wchar_buffer();
 	auto LibZipPath = LibZip.to_wchar_buffer();
 
 	const wchar_t *PtrLibPath = (const wchar_t *)LibPath.ptr();
-	const wchar_t *PtrDLLsPath = (const wchar_t *)DLLsPath.ptr();
-	const wchar_t *PtrProjectPath = (const wchar_t *)ProjectPath.ptr();
+	//const wchar_t *PtrDLLsPath = (const wchar_t *)DLLsPath.ptr();
+	//const wchar_t *PtrProjectPath = (const wchar_t *)ProjectPath.ptr();
 	const wchar_t *PtrLibZipPath = (const wchar_t *)LibZipPath.ptr();
 
 	PyWideStringList_Append(&PyConfig.module_search_paths, PtrLibPath);
