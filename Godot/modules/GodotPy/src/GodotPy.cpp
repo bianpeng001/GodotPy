@@ -3322,7 +3322,6 @@ static int InitPython() {
 	PyStatus status;
 	PyConfig PyConfig;
 	size_t program_len;
-	size_t codec_len;
 	String project_path;
 	ProjectSettings *project_settings;
 	
@@ -3401,6 +3400,29 @@ static int InitPython() {
 	//PyWideStringList_Append(&PyConfig.module_search_paths, PtrDLLsPath);
 	//PyWideStringList_Append(&PyConfig.module_search_paths, PtrProjectPath);
 	PyWideStringList_Append(&PyConfig.module_search_paths, PtrLibZipPath);
+
+
+	{
+		/*
+		HANDLE StdOut = ::GetStdHandle(STD_OUTPUT_HANDLE);
+		DWORD Count;
+		::WriteConsoleW(StdOut, PtrBinPath, lstrlenW(PtrBinPath), &Count, NULL);
+		print_line(vformat("\n%d", (int)Count));
+		::WriteConsoleW(StdOut, PtrLibPath, lstrlenW(PtrLibPath), &Count, NULL);
+		print_line(vformat("\n%d", (int)Count));
+		::WriteConsoleW(StdOut, PtrLibZipPath, lstrlenW(PtrLibZipPath), &Count, NULL);
+		print_line(vformat("\n%d", (int)Count));
+		*/
+		HANDLE StdOut = ::GetStdHandle(STD_OUTPUT_HANDLE);
+		DWORD Count;
+		for (int i = 0; i < PyConfig.module_search_paths.length; ++i)
+		{
+			wchar_t *Str = PyConfig.module_search_paths.items[i];
+			::WriteConsoleW(StdOut, Str, lstrlenW(Str), &Count, NULL);
+			print_line(vformat("\n%d", (int)Count));
+		}
+	}
+	
 
 	#endif
 	
