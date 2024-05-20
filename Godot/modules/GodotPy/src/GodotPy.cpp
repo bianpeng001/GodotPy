@@ -3370,10 +3370,10 @@ static int InitPython() {
 	String Lib = bin_dir + "/Lib";
 	String DLLs = bin_dir + "/DLLs";
 	String LibZip = bin_dir + "/python313.zip";
+	print_line(project_path);
 	print_line(bin_dir);
 	print_line(Lib);
 	print_line(DLLs);
-	print_line(project_path);
 	print_line(LibZip);
 
 	/*
@@ -3383,11 +3383,18 @@ static int InitPython() {
 	memset(Buff.data(), 0, sizeof(CHAR)*Buff.size());
 	*/
 
+	// Notice！！！ 内部用的是_PyMem_RawWcsdup， 只处理了0结尾的wchar，所以需要额外加0
 	auto BinPath = bin_dir.to_wchar_buffer();
+	BinPath.append(0);
+	BinPath.append(0);
 	auto LibPath = Lib.to_wchar_buffer();
+	LibPath.append(0);
+	LibPath.append(0);
 	//auto DLLsPath = DLLs.to_wchar_buffer();
 	//auto ProjectPath = project_path.to_wchar_buffer();
 	auto LibZipPath = LibZip.to_wchar_buffer();
+	LibZipPath.append(0);
+	LibZipPath.append(0);
 
 	const wchar_t *PtrBinPath = (const wchar_t *)BinPath.ptr();
 	const wchar_t *PtrLibPath = (const wchar_t *)LibPath.ptr();
@@ -3401,18 +3408,7 @@ static int InitPython() {
 	//PyWideStringList_Append(&PyConfig.module_search_paths, PtrProjectPath);
 	PyWideStringList_Append(&PyConfig.module_search_paths, PtrLibZipPath);
 
-
 	{
-		/*
-		HANDLE StdOut = ::GetStdHandle(STD_OUTPUT_HANDLE);
-		DWORD Count;
-		::WriteConsoleW(StdOut, PtrBinPath, lstrlenW(PtrBinPath), &Count, NULL);
-		print_line(vformat("\n%d", (int)Count));
-		::WriteConsoleW(StdOut, PtrLibPath, lstrlenW(PtrLibPath), &Count, NULL);
-		print_line(vformat("\n%d", (int)Count));
-		::WriteConsoleW(StdOut, PtrLibZipPath, lstrlenW(PtrLibZipPath), &Count, NULL);
-		print_line(vformat("\n%d", (int)Count));
-		*/
 		HANDLE StdOut = ::GetStdHandle(STD_OUTPUT_HANDLE);
 		DWORD Count;
 		for (int i = 0; i < PyConfig.module_search_paths.length; ++i)
