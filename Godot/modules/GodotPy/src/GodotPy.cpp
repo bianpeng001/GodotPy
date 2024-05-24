@@ -3408,6 +3408,9 @@ static int InitPython() {
 	//PyWideStringList_Append(&PyConfig.module_search_paths, PtrProjectPath);
 	PyWideStringList_Append(&PyConfig.module_search_paths, PtrLibZipPath);
 
+
+	// print to console if there is a console window
+	if (::GetConsoleWindow() != NULL)
 	{
 		HANDLE StdOut = ::GetStdHandle(STD_OUTPUT_HANDLE);
 		DWORD Count;
