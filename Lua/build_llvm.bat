@@ -11,8 +11,9 @@ set BASE_O=%CORE_O% %LIB_O%
 %CC% -o lua.exe lua.o lua54.lib
 del %BASE_O%
 
+
 %CC% -O2 -Wall -Wextra -DLUA_COMPAT_5_3 -c %LUA_SRC%\*.c
-%CC% -o luac.exe luac.o %BASE_O%
+%CC% -o luac.exe luac.o %BASE_O%db
 del %BASE_O%
 
 del *.o *.exp

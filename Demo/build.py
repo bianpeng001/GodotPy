@@ -59,7 +59,7 @@ def mkdir_if_not_exists(path):
 
 def build_publish():
     call_task('python')
-    run(f'{SCONS_EXE} p=windows vsproj=no bits=64 -j4 target=editor dev_build=false')
+    run(f'{SCONS_EXE} p=windows vsproj=no bits=64{THREADS} target=editor dev_build=false')
     call_task('editor_release')
     # build package
     call_task('package')
