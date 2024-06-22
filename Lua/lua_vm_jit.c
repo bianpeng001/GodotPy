@@ -20,35 +20,40 @@
 
 #include "lua_vm_jit.h"
 
-typedef struct _TInstruction
+/* instruction head */
+struct _TInstruction
 {
     unsigned char FuncID;
-} TInstruction;
+};
+typedef struct _TInstruction TInstruction;
 
 /* iABC */
-typedef struct _TInstructionABC
+struct _TInstructionABC
 {
     struct _TInstruction Inst;
     char A, B, C;
-} TInstructionABC;
+};
+typedef struct _TInstructionABC TInstructionABC;
 
 /* iABx, iAsBx */
-typedef struct _TInstructionABx
+struct _TInstructionABx
 {
     struct _TInstruction Inst;
     char A;
     int Bx;
-} TInstructionABx;
+};
+typedef struct _TInstructionABx TInstructionABx;
 
 /* iAx, isJ */
-typedef struct _TInstructionAx
+struct _TInstructionAx
 {
     struct _TInstruction Inst;
     int Ax;
-} TInstructionAx;
+};
+typedef struct _TInstructionAx TInstructionAx;
 
 /* exec context */
-typedef struct _TExecContext
+struct _TExecuteContext
 {
     // pass in paramter
     lua_State *L;
@@ -61,28 +66,30 @@ typedef struct _TExecContext
     Instruction *pc;
     int trap;
 
-} TExecContext;
+};
+typedef struct _TExecuteContext TExecuteContext;
 
-typedef void (*TInstructFuntion)(TExecContext *ctx, TInstruction* pInstruct);
+typedef void (*TInstructFunction)(TExecuteContext *ctx, TInstruction* pInstruct);
 
-static void Add(TExecContext *ctx, TInstructionABC* pInstruct)
+// instruction implement
+static void Add(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
 }
 
 
-static TInstructFuntion InstructionFuncTable[] = 
+static TInstructFunction InstructionFuncTable[] = 
 {
-    (TInstructFuntion)&Add,
-    (TInstructFuntion)&Add,
-    (TInstructFuntion)&Add,
-    (TInstructFuntion)&Add,
-    (TInstructFuntion)&Add,
+    (TInstructFunction)&Add,
+    (TInstructFunction)&Add,
+    (TInstructFunction)&Add,
+    (TInstructFunction)&Add,
+    (TInstructFunction)&Add,
     NULL,
 };
 
-static inline void ExecuteOne(TExecContext *ctx, TInstruction* pInstruct)
+static inline void ExecuteOne(TExecuteContext *ctx, TInstruction* pInstruct)
 {
-    TInstructFuntion Fun = InstructionFuncTable[pInstruct->FuncID];
+    TInstructFunction Fun = InstructionFuncTable[pInstruct->FuncID];
     if (Fun)
     {
         Fun(ctx, pInstruct);
@@ -90,9 +97,9 @@ static inline void ExecuteOne(TExecContext *ctx, TInstruction* pInstruct)
 
 }
 
-static void Execute(TExecContext *ctx, TInstruction *pInstruct, int start, int stop)
+static void Execute(TExecuteContext *ctx, TInstruction *pInstruct, int start, int stop)
 {
-    for(int i = start; i < stop; ++i)
+    for (int i = start; i < stop; ++i)
     {
         ExecuteOne(ctx, pInstruct + i);
     }
@@ -100,7 +107,7 @@ static void Execute(TExecContext *ctx, TInstruction *pInstruct, int start, int s
 
 void lua_vm_jit_execute(lua_State *L, CallInfo *ci)
 {
-    TExecContext ctx;
+    TExecuteContext ctx;
     ctx.L = L;
     ctx.ci = ci;
 
