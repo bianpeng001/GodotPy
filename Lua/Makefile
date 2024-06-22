@@ -31,9 +31,6 @@ lua_vm_jit.o: lua_vm_jit.c lua_vm_jit.h
 $(LUA_DLL): $(CORE_O) $(LIB_O) lua_vm_jit.o
 	$(CC) -shared -o $@ $^
 
-lua.o: src/lua.c
-	$(CC) -c $(CFLAGS) $< -o $@
-
 $(LUA): $(LUA_DLL) lua.o
 	$(CC) -o $@ lua.o lua.lib
 
