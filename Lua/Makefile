@@ -1,5 +1,5 @@
 #
-#
+# simple lua jit
 #
 
 .PHONY: clean all
@@ -24,7 +24,7 @@ $(LUA_DLL): CFLAGS = $(CFLAGS_COMMON) -DLUA_BUILD_AS_DLL
 	$(CC) -c $(CFLAGS) $< -o $@
 
 lua_vm_jit.o: lua_vm_jit.c
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $< -o $@ -I src
 
 $(LUA_DLL): $(CORE_O) $(LIB_O) lua_vm_jit.o
 	$(CC) -shared -o $@ $^
