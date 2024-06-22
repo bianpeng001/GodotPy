@@ -72,18 +72,24 @@ typedef struct _TExecuteContext TExecuteContext;
 typedef void (*TInstructFunction)(TExecuteContext *ctx, TInstruction* pInstruct);
 
 // instruction implement
-static void Add(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_MOVE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+{
+}
+static void OP_LOADI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+{
+}
+static void OP_ADD_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
 }
 
+#define RegFunc(FuncName) (TInstructFunction)&FuncName ## _Func
 
 static TInstructFunction InstructionFuncTable[] = 
 {
-    (TInstructFunction)&Add,
-    (TInstructFunction)&Add,
-    (TInstructFunction)&Add,
-    (TInstructFunction)&Add,
-    (TInstructFunction)&Add,
+    RegFunc(OP_MOVE),
+    RegFunc(OP_LOADI),
+    RegFunc(OP_ADD),
+    RegFunc(OP_MOVE),
     NULL,
 };
 
