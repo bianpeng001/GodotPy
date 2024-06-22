@@ -15,7 +15,9 @@ LIB_O = lauxlib.o lbaselib.o lcorolib.o ldblib.o liolib.o lmathlib.o loadlib.o l
 
 all: $(LUA_DLL) $(LUA)
 
-CFLAGS_COMMON = -O2 -Wall -Wextra -DLUA_COMPAT_5_3
+
+#-O2 -Wall -Wextra -DLUA_COMPAT_5_3
+CFLAGS_COMMON = -O2 -Wall -Wextra
 CFLAGS = $(CFLAGS_COMMON)
 
 $(LUA_DLL): CFLAGS = $(CFLAGS_COMMON) -DLUA_BUILD_AS_DLL
@@ -23,7 +25,7 @@ $(LUA_DLL): CFLAGS = $(CFLAGS_COMMON) -DLUA_BUILD_AS_DLL
 %.o: src/%.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
-lua_vm_jit.o: lua_vm_jit.c
+lua_vm_jit.o: lua_vm_jit.c lua_vm_jit.h
 	$(CC) -c $(CFLAGS) $< -o $@ -I src
 
 $(LUA_DLL): $(CORE_O) $(LIB_O) lua_vm_jit.o
