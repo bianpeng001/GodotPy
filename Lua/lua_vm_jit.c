@@ -22,7 +22,7 @@
 
 typedef struct _TInstruction
 {
-    int FuncID;
+    unsigned char FuncID;
 } TInstruction;
 
 /* iABC */
