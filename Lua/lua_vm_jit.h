@@ -8,7 +8,7 @@ struct _TAllocator
 {
     void *memory;
     size_t size;
-    int header;
+    size_t header;
 };
 typedef struct _TAllocator TAllocator;
 

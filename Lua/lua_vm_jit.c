@@ -4,11 +4,22 @@
 ** without any asm jit framework
 */
 
+#define lvm_c
+#define LUA_CORE
+
 #include "lprefix.h"
+
+#include <float.h>
+#include <limits.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "lua.h"
 
 #include "ldebug.h"
+#include "ldo.h"
 #include "lfunc.h"
 #include "lgc.h"
 #include "lobject.h"
@@ -17,11 +28,10 @@
 #include "lstring.h"
 #include "ltable.h"
 #include "ltm.h"
+#include "lvm.h"
 
 #include "lua_vm_jit.h"
 
-#include <stdlib.h>
-#include <string.h>
 
 #ifndef INT_TYPES
 
@@ -39,7 +49,7 @@ typedef unsigned char uint8;
 /* instruction head */
 struct _TInstruction
 {
-    uint32 FuncID;
+    uint8 FuncID;
 };
 typedef struct _TInstruction TInstruction;
 
@@ -47,7 +57,7 @@ typedef struct _TInstruction TInstruction;
 struct _TInstructionABC
 {
     struct _TInstruction Inst;
-    uint8 A, B, C;
+    uint8 A, k, B, C;
 };
 typedef struct _TInstructionABC TInstructionABC;
 
@@ -79,7 +89,7 @@ struct _TExecuteContext
     LClosure *cl;
     TValue *k;
     StkId base;
-    Instruction *pc;
+    const Instruction *pc;
     int trap;
 
 };
@@ -98,9 +108,11 @@ static void OP_ADD_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
 }
 
+#define NUM_OPCODES_EX 32
+
 #define RegFunc(FuncName) (TInstructFunction)&FuncName ## _Func
 
-static TInstructFunction InstructionFuncTable[] = 
+static TInstructFunction const InstructionFuncTable[NUM_OPCODES + NUM_OPCODES_EX] = 
 {
     RegFunc(OP_MOVE),
     RegFunc(OP_LOADI),
@@ -132,6 +144,33 @@ void lua_vm_jit_execute(lua_State *L, CallInfo *ci)
     TExecuteContext ctx;
     ctx.L = L;
     ctx.ci = ci;
+
+startfunc:
+    ctx.trap = L->hookmask;
+returning:
+    ctx.cl = clLvalue(s2v(ci->func.p));
+    ctx.k = ctx.cl->p->k;
+    ctx.pc = ci->u.l.savedpc;
+
+    if (l_unlikely(ctx.trap))
+    {
+        if (ctx.pc == ctx.cl->p->code)
+        {
+            if (ctx.cl->p->is_vararg)
+            {
+                ctx.trap = 0;
+            }
+            else
+            {
+                luaD_hookcall(L, ci);
+            }
+        }
+        ci->u.l.trap = 1;
+    }
+    ctx.base = ci->func.p + 1;
+    for(;;)
+    {
+    }
 
     TInstruction *code = NULL;
 
@@ -170,7 +209,7 @@ size_t TAllocator_Alloc(TAllocator *allocator, size_t size)
     size_t offset = allocator->header;
     allocator->header += size;
 
-    if (allocator->header)
+    if (allocator->header > allocator->size)
     {
         allocator->size *= 2;
         allocator->memory = realloc(allocator->memory, allocator->size);
