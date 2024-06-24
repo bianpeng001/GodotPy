@@ -109,6 +109,7 @@ typedef void (*TInstructFunction)(TExecuteContext *ctx, TInstruction* pInstruct)
 
 #define KB() (ctx->k + pInstruct->B)
 #define KC() (ctx->k + pInstruct->C)
+#define KBx() (ctx->k + pInstruct->Bx)
 
 #define updatetrap(ci) (ctx->trap = ci->u.l.trap)
 
@@ -142,15 +143,14 @@ static void OP_LOADF_Func(TExecuteContext *ctx, TInstructionABx* pInstruct)
 static void OP_LOADK_Func(TExecuteContext *ctx, TInstructionABx* pInstruct)
 {
     StkId ra = RA();
-    TValue *rb = ctx->k + pInstruct->Bx;
+    TValue *rb = KBx();
     setobj2s(ctx->L, ra, rb);
 }
 
 static void OP_LOADKX_Func(TExecuteContext *ctx, TInstructionABx* pInstruct)
 {
     StkId ra = RA();
-    int bx = pInstruct->Bx;
-    TValue *rb = ctx->k + bx;
+    TValue *rb = KBx();
     ++ctx->pc;
     setobj2s(ctx->L, ra, rb);
 }
