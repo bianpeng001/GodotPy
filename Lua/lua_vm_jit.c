@@ -78,15 +78,6 @@ struct _TInstructionABx
 };
 typedef struct _TInstructionABx TInstructionABx;
 
-/* iAx, isJ */
-struct _TInstructionAx
-{
-    struct _TInstruction Inst;
-    uint8 A;
-    int32 Ax;
-};
-typedef struct _TInstructionAx TInstructionAx;
-
 /* exec context */
 struct _TExecuteContext
 {
@@ -155,10 +146,11 @@ static void OP_LOADK_Func(TExecuteContext *ctx, TInstructionABx* pInstruct)
     setobj2s(ctx->L, ra, rb);
 }
 
-static void OP_LOADKX_Func(TExecuteContext *ctx, TInstructionAx* pInstruct)
+static void OP_LOADKX_Func(TExecuteContext *ctx, TInstructionABx* pInstruct)
 {
     StkId ra = RA();
-    TValue *rb = ctx->k + pInstruct->Ax;
+    int bx = pInstruct->Bx;
+    TValue *rb = ctx->k + bx;
     ++ctx->pc;
     setobj2s(ctx->L, ra, rb);
 }
