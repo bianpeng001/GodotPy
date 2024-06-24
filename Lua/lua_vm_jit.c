@@ -20,10 +20,26 @@
 
 #include "lua_vm_jit.h"
 
+#include <stdlib.h>
+#include <string.h>
+
+#ifndef INT_TYPES
+
+typedef long long int int64;
+typedef unsigned long long int uint64;
+typedef int int32;
+typedef unsigned int uint32;
+typedef short int16;
+typedef unsigned short uint16;
+typedef char int8;
+typedef unsigned char uint8;
+
+#endif
+
 /* instruction head */
 struct _TInstruction
 {
-    unsigned char FuncID;
+    uint32 FuncID;
 };
 typedef struct _TInstruction TInstruction;
 
@@ -31,7 +47,7 @@ typedef struct _TInstruction TInstruction;
 struct _TInstructionABC
 {
     struct _TInstruction Inst;
-    char A, B, C;
+    uint8 A, B, C;
 };
 typedef struct _TInstructionABC TInstructionABC;
 
@@ -39,8 +55,8 @@ typedef struct _TInstructionABC TInstructionABC;
 struct _TInstructionABx
 {
     struct _TInstruction Inst;
-    char A;
-    int Bx;
+    uint8 A;
+    int32 Bx;
 };
 typedef struct _TInstructionABx TInstructionABx;
 
@@ -48,7 +64,7 @@ typedef struct _TInstructionABx TInstructionABx;
 struct _TInstructionAx
 {
     struct _TInstruction Inst;
-    int Ax;
+    int32 Ax;
 };
 typedef struct _TInstructionAx TInstructionAx;
 
@@ -121,5 +137,42 @@ void lua_vm_jit_execute(lua_State *L, CallInfo *ci)
 
     Execute(&ctx, code, 0, 0);
 }
+
+/*
+** Allocator
+*/
+
+TAllocator *TAllocator_Create(size_t size)
+{
+    TAllocator * allocator = malloc(sizeof(TAllocator));
+    memset(allocator, 0, sizeof(TAllocator));
+    allocator->memory = malloc(size);
+    allocator->size = size;
+    allocator->header = 0;
+    return allocator;
+}
+void TAllocator_Destroy(TAllocator *allocator)
+{
+    free(allocator->memory);
+    free(allocator);
+}
+#define MEM_ALIGN 4
+size_t TAllocator_Alloc(TAllocator *allocator, size_t size)
+{
+    size_t offset = allocator->header + size;
+    allocator->header += size;
+    if(size % MEM_ALIGN != 0)
+    {
+        allocator->header += MEM_ALIGN - size % MEM_ALIGN;
+    }
+    return offset;
+}
+void *TAllocator_GetMemory(TAllocator *allocator, size_t offset)
+{
+    return allocator->memory + offset;
+}
+
+
+
 
 
