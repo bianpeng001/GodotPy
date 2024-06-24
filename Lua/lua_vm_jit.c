@@ -116,7 +116,7 @@ typedef void (*TInstructFunction)(TExecuteContext *ctx, TInstruction* pInstruct)
 #define vRB() s2v(RB())
 #define vRC() s2v(RC())
 
-#define KB() (ctx->k+pInstruct->B)
+#define KB() (ctx->k + pInstruct->B)
 #define KC() (ctx->k + pInstruct->C)
 
 #define updatetrap(ci) (ctx->trap = ci->u.l.trap)
