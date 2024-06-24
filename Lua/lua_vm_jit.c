@@ -114,16 +114,16 @@ typedef void (*TInstructFunction)(TExecuteContext *ctx, TInstruction* pInstruct)
 #define RC() (ctx->base + pInstruct->C)
 
 #define vRB() s2v(RB())
-#define vRC()	s2v(RC())
+#define vRC() s2v(RC())
 
 #define KB() (ctx->k+pInstruct->B)
 #define KC() (ctx->k + pInstruct->C)
 
-#define updatetrap(ci)  (ctx->trap = ci->u.l.trap)
+#define updatetrap(ci) (ctx->trap = ci->u.l.trap)
 
-#define savepc(L)	(ctx->ci->u.l.savedpc = ctx->pc)
-#define savestate(L,ci)		(savepc(L), L->top.p = ci->top.p)
-#define Protect(exp)  (savestate(ctx->L, ctx->ci), (exp), updatetrap(ctx->ci))
+#define savepc(L) (ctx->ci->u.l.savedpc = ctx->pc)
+#define savestate(L,ci) (savepc(L), L->top.p = ci->top.p)
+#define Protect(exp) (savestate(ctx->L, ctx->ci), (exp), updatetrap(ctx->ci))
 
 
 // instruction implement
