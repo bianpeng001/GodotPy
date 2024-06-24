@@ -15,7 +15,13 @@ typedef struct _TAllocator TAllocator;
 TAllocator *TAllocator_Create(size_t size);
 void TAllocator_Destroy(TAllocator *allocator);
 size_t TAllocator_Alloc(TAllocator *allocator, size_t size);
-void *TAllocator_GetMemory(TAllocator *allocator, size_t offset);
+
+inline void *TAllocator_GetMemory(TAllocator *allocator, size_t offset)
+{
+    return allocator->memory + offset;
+}
+
+
 
 
 #endif // __LUA_VM_JIT_H__

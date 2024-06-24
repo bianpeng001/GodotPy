@@ -168,12 +168,12 @@ returning:
         ci->u.l.trap = 1;
     }
     ctx.base = ci->func.p + 1;
+
     for(;;)
     {
     }
 
     TInstruction *code = NULL;
-
     Execute(&ctx, code, 0, 0);
 }
 
@@ -185,6 +185,7 @@ TAllocator *TAllocator_Create(size_t size)
 {
     TAllocator * allocator = (TAllocator *)malloc(sizeof(TAllocator));
     memset(allocator, 0, sizeof(TAllocator));
+
     allocator->memory = (void *)malloc(size);
     allocator->size = size;
     allocator->header = 0;
@@ -209,7 +210,7 @@ size_t TAllocator_Alloc(TAllocator *allocator, size_t size)
     size_t offset = allocator->header;
     allocator->header += size;
 
-    if (allocator->header > allocator->size)
+    if (allocator->header >= allocator->size)
     {
         allocator->size *= 2;
         allocator->memory = realloc(allocator->memory, allocator->size);
@@ -217,12 +218,6 @@ size_t TAllocator_Alloc(TAllocator *allocator, size_t size)
 
     return offset;
 }
-
-void *TAllocator_GetMemory(TAllocator *allocator, size_t offset)
-{
-    return allocator->memory + offset;
-}
-
 
 
 
