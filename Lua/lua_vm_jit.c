@@ -201,8 +201,11 @@ static void OP_GETUPVAL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 
 static void OP_SETUPVAL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+
     StkId ra = RA();
-    UpVal *uv = ctx->cl->upvals[pInstruct->B];
+    int b = pInstruct->B;
+
+    UpVal *uv = ctx->cl->upvals[b];
     setobj(ctx->L, uv->v.p, s2v(ra));
     luaC_barrier(ctx->L, uv, s2v(ra));
 }
@@ -210,8 +213,10 @@ static void OP_SETUPVAL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 static void OP_GETTABUP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     StkId ra = RA();
+    int b = pInstruct->B;
+
     const TValue *slot;
-    TValue *upval = ctx->cl->upvals[pInstruct->B]->v.p;
+    TValue *upval = ctx->cl->upvals[b]->v.p;
     TValue *rc = KC();
     TString *key = tsvalue(rc);  /* key must be a string */
     if (luaV_fastget(L, upval, key, slot, luaH_getshortstr))
@@ -233,7 +238,8 @@ static void OP_GETTABLE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     lua_Unsigned n;
     if (ttisinteger(rc)  /* fast track for integers? */
             ? (cast_void(n = ivalue(rc)), luaV_fastgeti(ctx->L, rb, n, slot))
-            : luaV_fastget(ctx->L, rb, rc, slot, luaH_get)) {
+            : luaV_fastget(ctx->L, rb, rc, slot, luaH_get))
+    {
         setobj2s(ctx->L, ra, slot);
     }
     else
