@@ -275,254 +275,334 @@ static void OP_NEWTABLE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 
 static void OP_SELF_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
+
+    StkId ra = RA();
+    const TValue *slot;
+    TValue *rb = vRB();
+    TValue *rc = RKC();
+    TString *key = tsvalue(rc);  /* key must be a string */
+    setobj2s(L, ra + 1, rb);
+    if (luaV_fastget(L, rb, key, slot, luaH_getstr))
+    {
+        setobj2s(L, ra, slot);
+    }
+    else
+    {
+        Protect(luaV_finishget(L, rb, rc, ra, slot));
+    }
 }
 
 static void OP_ADDI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
+
+
 }
 
 static void OP_ADDK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_SUBK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_MULK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_MODK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_POWK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_DIVK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_IDIVK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_BANDK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_BORK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_BXORK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_SHRI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_SHLI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_ADD_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_SUB_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_MUL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_MOD_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_POW_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_DIV_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_IDIV_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_BAND_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_BOR_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_BXOR_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_SHR_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_SHL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_MMBIN_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_MMBINI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_MMBINK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_UNM_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_BNOT_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_NOT_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_LEN_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_CONCAT_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_CLOSE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_TBC_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_JMP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_EQ_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_LT_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_LE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_EQK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_EQI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_LTI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_LEI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_GTI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_GEI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_TEST_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_TESTSET_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_CALL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_TAILCALL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_RETURN_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_RETURN0_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_RETURN1_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_FORLOOP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_FORPREP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_TFORPREP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_TFORCALL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_TFORLOOP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_SETLIST_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_CLOSURE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_VARARG_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_VARARGPREP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 static void OP_EXTRAARG_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
 }
 
 

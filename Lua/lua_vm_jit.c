@@ -135,7 +135,7 @@ LClosure *cl = ctx->cl;\
 #define JIT_GET_INST(pc) TExecuteContext_GetInstruction(ctx, (pc))
 
 
-#define NUM_OPCODES_EX 16
+#define NUM_OPCODES_EX 10
 #define RegFunc(FuncName) (TInstructFunction)&FuncName ## _Func
 
 #include "lua_vm_op_impl.h"
@@ -171,8 +171,69 @@ static TInstructFunction const InstructionFuncTable[NUM_OPCODES + NUM_OPCODES_EX
     RegFunc(OP_MULK),
     RegFunc(OP_MODK),
     RegFunc(OP_POWK),
+    RegFunc(OP_DIVK),
+    RegFunc(OP_IDIVK),
+    RegFunc(OP_BANDK),
+    RegFunc(OP_BORK),
+    RegFunc(OP_BXORK),
+    RegFunc(OP_SHRI),
+    RegFunc(OP_SHLI),
+    RegFunc(OP_ADD),
+    RegFunc(OP_SUB),
+    RegFunc(OP_MUL),
+    RegFunc(OP_MOD),
+    RegFunc(OP_POW),
+    RegFunc(OP_DIV),
+    RegFunc(OP_IDIV),
+    RegFunc(OP_BAND),
+    RegFunc(OP_BOR),
+    RegFunc(OP_BXOR),
+    RegFunc(OP_SHR),
+    RegFunc(OP_SHL),
+    RegFunc(OP_MMBIN),
+    RegFunc(OP_MMBINI),
+    RegFunc(OP_MMBINK),
+    RegFunc(OP_UNM),
+    RegFunc(OP_BNOT),
+    RegFunc(OP_NOT),
+
+    RegFunc(OP_LEN),
+    RegFunc(OP_CONCAT),
+    RegFunc(OP_CLOSE),
+    RegFunc(OP_TBC),
+    RegFunc(OP_JMP),
+    RegFunc(OP_EQ),
+    RegFunc(OP_LT),
+    RegFunc(OP_LE),
+    RegFunc(OP_EQK),
+    RegFunc(OP_EQI),
+    RegFunc(OP_LTI),
+    RegFunc(OP_LEI),
+    RegFunc(OP_GTI),
+    RegFunc(OP_GEI),
+    RegFunc(OP_TEST),
+    RegFunc(OP_TESTSET),
+    RegFunc(OP_CALL),
+    RegFunc(OP_TAILCALL),
+    RegFunc(OP_RETURN),
+    RegFunc(OP_RETURN0),
+    RegFunc(OP_RETURN1),
+
+    RegFunc(OP_FORLOOP),
+    RegFunc(OP_FORPREP),
+    RegFunc(OP_TFORPREP),
+    RegFunc(OP_TFORCALL),
+    RegFunc(OP_TFORLOOP),
+    RegFunc(OP_SETLIST),
+    RegFunc(OP_CLOSURE),
+    RegFunc(OP_VARARG),
+    RegFunc(OP_VARARGPREP),
+    RegFunc(OP_EXTRAARG),
 
     NULL,
+    NULL,
+    NULL,
+
 };
 
 static inline void TInstruction_Execute(TInstruction* pInstruct, TExecuteContext* ctx)
