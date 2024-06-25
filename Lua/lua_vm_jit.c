@@ -80,10 +80,16 @@ struct _TExecuteContext
     int trap;
 
     // jit values
-    size_t jit_pc;
-
+    uint32 jit_pc;
+    uint32 *jit_code;
+    TAllocator *allocator;
 };
 typedef struct _TExecuteContext TExecuteContext;
+
+static inline TInstruction *TExecuteContext_GetInstruction(TExecuteContext *ctx, uint32 pc)
+{
+    return (TInstruction*)TAllocator_GetMemory(ctx->allocator, ctx->jit_code[pc]);
+}
 
 typedef void (*TInstructFunction)(TExecuteContext *ctx, TInstruction* pInstruct);
 
@@ -117,8 +123,16 @@ LClosure *cl = ctx->cl;\
 
 #define savepc(L) (ctx->ci->u.l.savedpc = ctx->pc)
 #define savestate(L,ci) (savepc(L), L->top.p = ci->top.p)
+
 #define Protect(exp) (savestate(ctx->L, ctx->ci), (exp), updatetrap(ctx->ci))
 
+#define ProtectNT(exp)  (savepc(L), (exp), updatetrap(ci))
+
+#define checkGC(L,c)  \
+	{ luaC_condGC(L, (savepc(L), L->top.p = (c)), updatetrap(ci)); \
+           luai_threadyield(L); }
+
+#define JIT_GET_INST(pc) TExecuteContext_GetInstruction(ctx, (pc))
 
 // instruction implement
 static void OP_MOVE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
@@ -371,6 +385,27 @@ static void OP_NEWTABLE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
 
+    StkId ra = RA();
+    int b = JIT_GETARG_B();  /* log2(hash size) + 1 */
+    int c = JIT_GETARG_C();  /* array size */
+    Table *t;
+    if (b > 0)
+    {
+        b = 1 << (b - 1);  /* size is 2^(b - 1) */
+    }
+    if (JIT_GETARG_k())  /* non-zero extra argument? */
+    {
+        c += ((TInstructionABx *)JIT_GET_INST(ctx->jit_pc))->Bx * (MAXARG_C + 1);
+    }
+    ctx->jit_pc++;  /* skip extra argument */
+    L->top.p = ra + 1;  /* correct top in case of emergency GC */
+    t = luaH_new(L);  /* memory allocation */
+    sethvalue2s(L, ra, t);
+    if (b != 0 || c != 0)
+    {
+        luaH_resize(L, t, c, b);  /* idem */
+    }
+    checkGC(L, ra + 1);
 }
 
 
@@ -400,8 +435,15 @@ static TInstructFunction const InstructionFuncTable[NUM_OPCODES + NUM_OPCODES_EX
     RegFunc(OP_SETTABLE),
     RegFunc(OP_SETI),
     RegFunc(OP_SETFIELD),
-
     RegFunc(OP_NEWTABLE),
+    RegFunc(OP_SELF),
+
+    RegFunc(OP_ADDI),
+    RegFunc(OP_ADDK),
+    RegFunc(OP_SUBK),
+    RegFunc(OP_MULK),
+    RegFunc(OP_MODK),
+    RegFunc(OP_POWK),
 
     NULL,
 };
@@ -447,7 +489,7 @@ returning:
 
     // gen code
     TAllocator *allocator = NULL;
-    size_t* code = NULL;
+    uint32* code = NULL;
 
     // run code
     for(;;)
