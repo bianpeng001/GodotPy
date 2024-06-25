@@ -31,7 +31,7 @@ src/%.o: src/%.c
 %.o: src/%.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
-lua_vm_jit.o: lua_vm_jit.c lua_vm_jit.h
+lua_vm_jit.o: lua_vm_jit.c lua_vm_jit.h lua_vm_op_impl.h
 	$(CC) -c $(CFLAGS) $< -o $@ -I src
 
 $(LUA_DLL): $(OBJ) lua_vm_jit.o
