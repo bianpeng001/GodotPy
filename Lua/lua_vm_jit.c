@@ -33,19 +33,6 @@
 #include "lua_vm_jit.h"
 
 
-#ifndef INT_TYPES
-
-typedef long long int int64;
-typedef unsigned long long int uint64;
-typedef int int32;
-typedef unsigned int uint32;
-typedef short int16;
-typedef unsigned short uint16;
-typedef char int8;
-typedef unsigned char uint8;
-
-#endif
-
 /* instruction head */
 struct _TInstruction
 {
@@ -101,6 +88,12 @@ typedef struct _TExecuteContext TExecuteContext;
 typedef void (*TInstructFunction)(TExecuteContext *ctx, TInstruction* pInstruct);
 
 
+#define UseL() \
+lua_State *L = ctx->L;\
+CallInfo *ci = ctx->ci;\
+LClosure *cl = ctx->cl;\
+(void)L;(void)ci;(void)cl;(void)ctx;(void)pInstruct;
+
 #define JIT_GETARG_A() (pInstruct->A)
 #define JIT_GETARG_B() (pInstruct->B)
 #define JIT_GETARG_C() (pInstruct->C)
@@ -152,17 +145,21 @@ static void OP_LOADF_Func(TExecuteContext *ctx, TInstructionABx* pInstruct)
 // 这个参数来自两个指令
 static void OP_LOADK_Func(TExecuteContext *ctx, TInstructionABx* pInstruct)
 {
+    UseL();
+
     StkId ra = RA();
     TValue *rb = KBx();
-    setobj2s(ctx->L, ra, rb);
+    setobj2s(L, ra, rb);
 }
 
 static void OP_LOADKX_Func(TExecuteContext *ctx, TInstructionABx* pInstruct)
 {
+    UseL();
+
     StkId ra = RA();
     TValue *rb = KBx();
     ++ctx->pc;
-    setobj2s(ctx->L, ra, rb);
+    setobj2s(L, ra, rb);
 }
 
 static void OP_LOADFALSE_Func(TExecuteContext *ctx, TInstructionA* pInstruct)
@@ -196,37 +193,45 @@ static void OP_LOADNIL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 
 static void OP_GETUPVAL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
+
     StkId ra = RA();
-    setobj2s(ctx->L, ra, ctx->cl->upvals[JIT_GETARG_B()]->v.p);
+    setobj2s(L, ra, ctx->cl->upvals[JIT_GETARG_B()]->v.p);
 }
 
 static void OP_SETUPVAL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
+
     StkId ra = RA();
     UpVal *uv = ctx->cl->upvals[JIT_GETARG_B()];
-    setobj(ctx->L, uv->v.p, s2v(ra));
-    luaC_barrier(ctx->L, uv, s2v(ra));
+    setobj(L, uv->v.p, s2v(ra));
+    luaC_barrier(L, uv, s2v(ra));
 }
 
 static void OP_GETTABUP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
+
     StkId ra = RA();
     const TValue *slot;
-    TValue *upval = ctx->cl->upvals[JIT_GETARG_B()]->v.p;
+    TValue *upval = cl->upvals[JIT_GETARG_B()]->v.p;
     TValue *rc = KC();
     TString *key = tsvalue(rc);  /* key must be a string */
     if (luaV_fastget(L, upval, key, slot, luaH_getshortstr))
     {
-        setobj2s(ctx->L, ra, slot);
+        setobj2s(L, ra, slot);
     }
     else
     {
-        Protect(luaV_finishget(ctx->L, upval, rc, ra, slot));
+        Protect(luaV_finishget(L, upval, rc, ra, slot));
     }
 }
 
 static void OP_GETTABLE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
+
     StkId ra = RA();
     const TValue *slot;
     TValue *rb = vRB();
@@ -234,36 +239,40 @@ static void OP_GETTABLE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     lua_Unsigned n;
     if (ttisinteger(rc)  /* fast track for integers? */
             ? (cast_void(n = ivalue(rc)), luaV_fastgeti(ctx->L, rb, n, slot))
-            : luaV_fastget(ctx->L, rb, rc, slot, luaH_get))
+            : luaV_fastget(L, rb, rc, slot, luaH_get))
     {
-        setobj2s(ctx->L, ra, slot);
+        setobj2s(L, ra, slot);
     }
     else
     {
-        Protect(luaV_finishget(ctx->L, rb, rc, ra, slot));
+        Protect(luaV_finishget(L, rb, rc, ra, slot));
     }
 }
 
 static void OP_GETI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
+
     StkId ra = RA();
     const TValue *slot;
     TValue *rb = vRB();
     lua_Integer c = JIT_GETARG_C();
-    if (luaV_fastgeti(ctx->L, rb, c, slot))
+    if (luaV_fastgeti(L, rb, c, slot))
     {
-        setobj2s(ctx->L, ra, slot);
+        setobj2s(L, ra, slot);
     }
     else
     {
         TValue key;
         setivalue(&key, c);
-        Protect(luaV_finishget(ctx->L, rb, &key, ra, slot));
+        Protect(luaV_finishget(L, rb, &key, ra, slot));
     }
 }
 
 static void OP_GETFIELD_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
+
     StkId ra = RA();
     const TValue *slot;
     TValue *rb = vRB();
@@ -271,42 +280,97 @@ static void OP_GETFIELD_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     TString *key = tsvalue(rc);  /* key must be a string */
     if (luaV_fastget(L, rb, key, slot, luaH_getshortstr))
     {
-        setobj2s(ctx->L, ra, slot);
+        setobj2s(L, ra, slot);
     }
     else
     {
-        Protect(luaV_finishget(ctx->L, rb, rc, ra, slot));
+        Protect(luaV_finishget(L, rb, rc, ra, slot));
     }
 }
 
 static void OP_SETTABUP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
+
     const TValue *slot;
-    TValue *upval = ctx->cl->upvals[pInstruct->A]->v.p;
+    TValue *upval = cl->upvals[pInstruct->A]->v.p;
     TValue *rb = KB();
     TValue *rc = RKC();
     TString *key = tsvalue(rb);  /* key must be a string */
-    if (luaV_fastget(ctx->L, upval, key, slot, luaH_getshortstr))
+    if (luaV_fastget(L, upval, key, slot, luaH_getshortstr))
     {
-        luaV_finishfastset(ctx->L, upval, slot, rc);
+        luaV_finishfastset(L, upval, slot, rc);
     }
     else
     {
-        Protect(luaV_finishset(ctx->L, upval, rb, rc, slot));
+        Protect(luaV_finishset(L, upval, rb, rc, slot));
     }
 }
 
 static void OP_SETTABLE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
+
+    StkId ra = RA();
+    const TValue *slot;
+    TValue *rb = vRB();  /* key (table is in 'ra') */
+    TValue *rc = RKC();  /* value */
+    lua_Unsigned n;
+    if (ttisinteger(rb)  /* fast track for integers? */
+            ? (cast_void(n = ivalue(rb)), luaV_fastgeti(L, s2v(ra), n, slot))
+            : luaV_fastget(L, s2v(ra), rb, slot, luaH_get))
+    {
+        luaV_finishfastset(L, s2v(ra), slot, rc);
+    }
+    else
+    {
+        Protect(luaV_finishset(L, s2v(ra), rb, rc, slot));
+    }
 }
+
 static void OP_SETI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
+
+    StkId ra = RA();
+    const TValue *slot;
+    int c = JIT_GETARG_B();
+    TValue *rc = RKC();
+    if (luaV_fastgeti(L, s2v(ra), c, slot))
+    {
+        luaV_finishfastset(L, s2v(ra), slot, rc);
+    }
+    else
+    {
+        TValue key;
+        setivalue(&key, c);
+        Protect(luaV_finishset(L, s2v(ra), &key, rc, slot));
+    }
 }
+
 static void OP_SETFIELD_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
+
+    StkId ra = RA();
+    const TValue *slot;
+    TValue *rb = KB();
+    TValue *rc = RKC();
+    TString *key = tsvalue(rb);  /* key must be a string */
+    if (luaV_fastget(L, s2v(ra), key, slot, luaH_getshortstr))
+    {
+        luaV_finishfastset(L, s2v(ra), slot, rc);
+    }
+    else
+    {
+        Protect(luaV_finishset(L, s2v(ra), rb, rc, slot));
+    }
 }
+
 static void OP_NEWTABLE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
+
 }
 
 
@@ -382,12 +446,13 @@ returning:
     ctx.base = ci->func.p + 1;
 
     // gen code
+    TAllocator *allocator = NULL;
+    size_t* code = NULL;
 
     // run code
-    TInstruction* code = NULL;
     for(;;)
     {
-        TInstruction* pInstruct = code + (ctx.jit_pc++);
+        TInstruction* pInstruct = (TInstruction*)TAllocator_GetMemory(allocator, code[ctx.jit_pc++]);
         TInstruction_Execute(pInstruct, &ctx);
     }
 
@@ -397,7 +462,7 @@ returning:
 ** Allocator
 */
 
-TAllocator *TAllocator_Create(size_t size)
+TAllocator *TAllocator_Create(uint32 size)
 {
     TAllocator * allocator = (TAllocator *)malloc(sizeof(TAllocator));
     memset(allocator, 0, sizeof(TAllocator));
@@ -416,14 +481,14 @@ void TAllocator_Destroy(TAllocator *allocator)
 }
 
 #define MEM_ALIGN 4
-size_t TAllocator_Alloc(TAllocator *allocator, size_t size)
+uint32 TAllocator_Alloc(TAllocator *allocator, uint32 size)
 {
     if(size % MEM_ALIGN != 0)
     {
         allocator->header += MEM_ALIGN - size % MEM_ALIGN;
     }
 
-    size_t offset = allocator->header;
+    uint32 offset = allocator->header;
     allocator->header += size;
 
     if (allocator->header >= allocator->size)
