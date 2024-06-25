@@ -81,7 +81,7 @@ typedef struct _TInstructionABx TInstructionABx;
 /* exec context */
 struct _TExecuteContext
 {
-    // pass in paramter
+    // pass in parameters
     lua_State *L;
     CallInfo *ci;
 
@@ -100,16 +100,25 @@ typedef struct _TExecuteContext TExecuteContext;
 
 typedef void (*TInstructFunction)(TExecuteContext *ctx, TInstruction* pInstruct);
 
-#define RA() (ctx->base + pInstruct->A)
-#define RB() (ctx->base + pInstruct->B)
-#define RC() (ctx->base + pInstruct->C)
+
+#define JIT_GETARG_A() (pInstruct->A)
+#define JIT_GETARG_B() (pInstruct->B)
+#define JIT_GETARG_C() (pInstruct->C)
+#define JIT_GETARG_k() (pInstruct->k)
+#define JIT_GETARG_Bx() (pInstruct->Bx)
+
+#define RA() (ctx->base + JIT_GETARG_A())
+#define RB() (ctx->base + JIT_GETARG_B())
+#define RC() (ctx->base + JIT_GETARG_C())
 
 #define vRB() s2v(RB())
 #define vRC() s2v(RC())
 
-#define KB() (ctx->k + pInstruct->B)
-#define KC() (ctx->k + pInstruct->C)
-#define KBx() (ctx->k + pInstruct->Bx)
+#define KB() (ctx->k + JIT_GETARG_B())
+#define KC() (ctx->k + JIT_GETARG_C())
+#define KBx() (ctx->k + JIT_GETARG_Bx())
+
+#define RKC() (JIT_GETARG_k() ? ctx->k + JIT_GETARG_C() : s2v(ctx->base + JIT_GETARG_C()))
 
 #define updatetrap(ci) (ctx->trap = ci->u.l.trap)
 
@@ -129,17 +138,18 @@ static void OP_MOVE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 static void OP_LOADI_Func(TExecuteContext *ctx, TInstructionABx* pInstruct)
 {
     StkId ra = RA();
-    lua_Integer b = pInstruct->Bx;
+    lua_Integer b = JIT_GETARG_Bx();
     setivalue(s2v(ra), b);
 }
 
 static void OP_LOADF_Func(TExecuteContext *ctx, TInstructionABx* pInstruct)
 {
     StkId ra = RA();
-    setfltvalue(s2v(ra), cast_num(pInstruct->Bx));
+    lua_Integer b = JIT_GETARG_Bx();
+    setfltvalue(s2v(ra), cast_num(b));
 }
 
-// A from pc, Ax from pc+1
+// 这个参数来自两个指令
 static void OP_LOADK_Func(TExecuteContext *ctx, TInstructionABx* pInstruct)
 {
     StkId ra = RA();
@@ -187,17 +197,13 @@ static void OP_LOADNIL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 static void OP_GETUPVAL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     StkId ra = RA();
-    int b = pInstruct->B;
-    setobj2s(ctx->L, ra, ctx->cl->upvals[b]->v.p);
+    setobj2s(ctx->L, ra, ctx->cl->upvals[JIT_GETARG_B()]->v.p);
 }
 
 static void OP_SETUPVAL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
-
     StkId ra = RA();
-    int b = pInstruct->B;
-
-    UpVal *uv = ctx->cl->upvals[b];
+    UpVal *uv = ctx->cl->upvals[JIT_GETARG_B()];
     setobj(ctx->L, uv->v.p, s2v(ra));
     luaC_barrier(ctx->L, uv, s2v(ra));
 }
@@ -205,10 +211,8 @@ static void OP_SETUPVAL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 static void OP_GETTABUP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     StkId ra = RA();
-    int b = pInstruct->B;
-
     const TValue *slot;
-    TValue *upval = ctx->cl->upvals[b]->v.p;
+    TValue *upval = ctx->cl->upvals[JIT_GETARG_B()]->v.p;
     TValue *rc = KC();
     TString *key = tsvalue(rc);  /* key must be a string */
     if (luaV_fastget(L, upval, key, slot, luaH_getshortstr))
@@ -242,11 +246,69 @@ static void OP_GETTABLE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 
 static void OP_GETI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    StkId ra = RA();
+    const TValue *slot;
+    TValue *rb = vRB();
+    lua_Integer c = JIT_GETARG_C();
+    if (luaV_fastgeti(ctx->L, rb, c, slot))
+    {
+        setobj2s(ctx->L, ra, slot);
+    }
+    else
+    {
+        TValue key;
+        setivalue(&key, c);
+        Protect(luaV_finishget(ctx->L, rb, &key, ra, slot));
+    }
 }
 
 static void OP_GETFIELD_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    StkId ra = RA();
+    const TValue *slot;
+    TValue *rb = vRB();
+    TValue *rc = KC();
+    TString *key = tsvalue(rc);  /* key must be a string */
+    if (luaV_fastget(L, rb, key, slot, luaH_getshortstr))
+    {
+        setobj2s(ctx->L, ra, slot);
+    }
+    else
+    {
+        Protect(luaV_finishget(ctx->L, rb, rc, ra, slot));
+    }
 }
+
+static void OP_SETTABUP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+{
+    const TValue *slot;
+    TValue *upval = ctx->cl->upvals[pInstruct->A]->v.p;
+    TValue *rb = KB();
+    TValue *rc = RKC();
+    TString *key = tsvalue(rb);  /* key must be a string */
+    if (luaV_fastget(ctx->L, upval, key, slot, luaH_getshortstr))
+    {
+        luaV_finishfastset(ctx->L, upval, slot, rc);
+    }
+    else
+    {
+        Protect(luaV_finishset(ctx->L, upval, rb, rc, slot));
+    }
+}
+
+static void OP_SETTABLE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+{
+}
+static void OP_SETI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+{
+}
+static void OP_SETFIELD_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+{
+}
+static void OP_NEWTABLE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+{
+}
+
 
 
 #define NUM_OPCODES_EX 16
@@ -270,11 +332,17 @@ static TInstructFunction const InstructionFuncTable[NUM_OPCODES + NUM_OPCODES_EX
     RegFunc(OP_GETTABLE),
     RegFunc(OP_GETI),
     RegFunc(OP_GETFIELD),
+    RegFunc(OP_SETTABUP),
+    RegFunc(OP_SETTABLE),
+    RegFunc(OP_SETI),
+    RegFunc(OP_SETFIELD),
+
+    RegFunc(OP_NEWTABLE),
 
     NULL,
 };
 
-static inline void ExecuteOne(TExecuteContext *ctx, TInstruction* pInstruct)
+static inline void TInstruction_Execute(TInstruction* pInstruct, TExecuteContext* ctx)
 {
     TInstructFunction Fun = InstructionFuncTable[pInstruct->FuncID];
     if (Fun)
@@ -313,11 +381,14 @@ returning:
     }
     ctx.base = ci->func.p + 1;
 
+    // gen code
+
+    // run code
     TInstruction* code = NULL;
     for(;;)
     {
         TInstruction* pInstruct = code + (ctx.jit_pc++);
-        ExecuteOne(&ctx, pInstruct);
+        TInstruction_Execute(pInstruct, &ctx);
     }
 
 }
