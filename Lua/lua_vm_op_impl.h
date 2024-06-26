@@ -371,10 +371,59 @@ static void OP_SELF_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
         setfltvalue(s2v(ra), fop(L, n1, n2)); } \
 }
 
+#define op_arithf_aux(L,v1,v2,fop) { \
+    lua_Number n1; lua_Number n2; \
+    if (tonumberns(v1, n1) && tonumberns(v2, n2)) { \
+        ctx->jit_pc++; \
+        setfltvalue(s2v(ra), fop(L, n1, n2)); } \
+}
+
+#define op_arithf(L,fop) { \
+    StkId ra = RA(); \
+    TValue *v1 = vRB(); \
+    TValue *v2 = vRC(); \
+    op_arithf_aux(L, v1, v2, fop); \
+}
+
+#define op_arith(L,iop,fop) { \
+    TValue *v1 = vRB(); \
+    TValue *v2 = vRC(); \
+    op_arith_aux(L, v1, v2, iop, fop); \
+}
+
+
 #define op_arithK(L,iop,fop) { \
     TValue *v1 = vRB(); \
     TValue *v2 = KC(); lua_assert(ttisnumber(v2)); \
     op_arith_aux(L, v1, v2, iop, fop); \
+}
+
+#define op_arithfK(L,fop) { \
+    StkId ra = RA(); \
+    TValue *v1 = vRB(); \
+    TValue *v2 = KC(); lua_assert(ttisnumber(v2)); \
+    op_arithf_aux(L, v1, v2, fop); \
+}
+
+#define op_bitwiseK(L,op) { \
+    StkId ra = RA(); \
+    TValue *v1 = vRB(); \
+    TValue *v2 = KC();  \
+    lua_Integer i1; \
+    lua_Integer i2 = ivalue(v2); \
+    if (tointegerns(v1, &i1)) { \
+        ctx->jit_pc++; \
+        setivalue(s2v(ra), op(i1, i2)); } \
+}
+
+#define op_bitwise(L,op) { \
+    StkId ra = RA(); \
+    TValue *v1 = vRB(); \
+    TValue *v2 = vRC(); \
+    lua_Integer i1; lua_Integer i2; \
+    if (tointegerns(v1, &i1) && tointegerns(v2, &i2)) { \
+        ctx->jit_pc++; \
+        setivalue(s2v(ra), op(i1, i2)); } \
 }
 
 #define l_addi(L,a,b)	intop(+, a, b)
@@ -413,99 +462,152 @@ static void OP_SUBK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 static void OP_MULK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
-
-    savestate(L, ci); /* in case of division by 0 */
-    op_arithK(L, luaV_mod, luaV_modf);
+    
+    op_arithK(L, l_muli, luai_nummul);
 }
 
 static void OP_MODK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    savestate(L, ci); /* in case of division by 0 */
+    op_arithK(L, luaV_mod, luaV_modf);
 }
 
 static void OP_POWK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    op_arithfK(L, luai_numpow);
 }
 
 static void OP_DIVK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    op_arithfK(L, luai_numdiv);
 }
 
 static void OP_IDIVK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    savestate(L, ci);  /* in case of division by 0 */
+    op_arithK(L, luaV_idiv, luai_numidiv);
 }
 
 static void OP_BANDK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    op_bitwiseK(L, l_band);
 }
 
 static void OP_BORK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    op_bitwiseK(L, l_bor);
 }
 
 static void OP_BXORK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    op_bitwiseK(L, l_bxor);
 }
 
 static void OP_SHRI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    StkId ra = RA();
+    TValue *rb = vRB();
+    int ic = JIT_GETARG_sC();
+    lua_Integer ib;
+    if (tointegerns(rb, &ib)) {
+        ctx->jit_pc++;
+        setivalue(s2v(ra), luaV_shiftl(ib, -ic));
+    }
 }
 
 static void OP_SHLI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    StkId ra = RA();
+    TValue *rb = vRB();
+    int ic = JIT_GETARG_sC();
+    lua_Integer ib;
+    if (tointegerns(rb, &ib)) {
+        ctx->jit_pc++;
+        setivalue(s2v(ra), luaV_shiftl(ic, ib));
+    }
 }
 
 static void OP_ADD_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    op_arith(L, l_addi, luai_numadd);
 }
 
 static void OP_SUB_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    op_arith(L, l_subi, luai_numsub);
 }
 
 static void OP_MUL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    op_arith(L, l_muli, luai_nummul);
 }
 
 static void OP_MOD_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    savestate(L, ci);  /* in case of division by 0 */
+    op_arith(L, luaV_mod, luaV_modf);
 }
 
 static void OP_POW_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    op_arithf(L, luai_numpow);
 }
 
 static void OP_DIV_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    op_arithf(L, luai_numdiv);
 }
 
 static void OP_IDIV_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    savestate(L, ci);  /* in case of division by 0 */
+    op_arith(L, luaV_idiv, luai_numidiv);
 }
 
 static void OP_BAND_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    op_bitwise(L, l_band);
 }
 
 static void OP_BOR_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    op_bitwise(L, l_bor);
 }
 
 static void OP_BXOR_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
