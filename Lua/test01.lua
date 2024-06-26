@@ -20,4 +20,8 @@ function test01()
     local y = x + 1
 end
 
+function test02()
+    local a = 1
+    a = a + 2
+end
 

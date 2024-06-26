@@ -1,5 +1,5 @@
 /*
-** byte code impmement
+** byte code instructions impmement
 */
 
 #define UseL() \
@@ -13,6 +13,7 @@ LClosure *cl = ctx->cl;\
 #define JIT_GETARG_C() (pInstruct->C)
 #define JIT_GETARG_k() (pInstruct->k)
 #define JIT_GETARG_Bx() (pInstruct->Bx)
+#define JIT_GETARG_sC() sC2int(JIT_GETARG_C())
 
 #define RA() (ctx->base + JIT_GETARG_A())
 #define RB() (ctx->base + JIT_GETARG_B())
@@ -42,21 +43,6 @@ LClosure *cl = ctx->cl;\
 
 #define JIT_GET_INST(pc) TExecuteContext_GetInstruction(ctx, (pc))
 
-#define op_arithI(L,iop,fop) {  \
-  StkId ra = RA(i); \
-  TValue *v1 = vRB(i);  \
-  int imm = GETARG_sC(i);  \
-  if (ttisinteger(v1)) {  \
-    lua_Integer iv1 = ivalue(v1);  \
-    pc++; setivalue(s2v(ra), iop(L, iv1, imm));  \
-  }  \
-  else if (ttisfloat(v1)) {  \
-    lua_Number nb = fltvalue(v1);  \
-    lua_Number fimm = cast_num(imm);  \
-    pc++; setfltvalue(s2v(ra), fop(L, nb, fimm)); \
-  }}
-
-// instruction implement
 static void OP_MOVE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
@@ -353,26 +339,83 @@ static void OP_SELF_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     }
 }
 
+// pc++, 如果是int，float，则跳过下一个处理符号重载的MMBINI
+#define op_arithI(L,iop,fop) { \
+    StkId ra = RA(); \
+    TValue *v1 = vRB(); \
+    int imm = JIT_GETARG_sC(); \
+    if (ttisinteger(v1)) { \
+        lua_Integer iv1 = ivalue(v1); \
+        ctx->jit_pc++; \
+        setivalue(s2v(ra), iop(L, iv1, imm)); } \
+    else if (ttisfloat(v1)) { \
+        lua_Number fv1 = fltvalue(v1); \
+        lua_Number fimm = cast_num(imm); \
+        ctx->jit_pc++; \
+        setfltvalue(s2v(ra), fop(L, fv1, fimm)); } \
+}
+
+#define op_arith_aux(L,v1,v2,iop,fop) { \
+    StkId ra = RA(); \
+    if (ttisinteger(v1) && ttisinteger(v2)) { \
+        lua_Integer i1 = ivalue(v1); lua_Integer i2 = ivalue(v2); \
+        ctx->jit_pc++; \
+        setivalue(s2v(ra), iop(L, i1, i2)); } \
+    else { op_arithf_aux(L, v1, v2, fop); } \
+}
+
+#define op_arithf_aux(L,v1,v2,fop) { \
+    lua_Number n1; lua_Number n2; \
+    if (tonumberns(v1, n1) && tonumberns(v2, n2)) { \
+        ctx->jit_pc++; \
+        setfltvalue(s2v(ra), fop(L, n1, n2)); } \
+}
+
+#define op_arithK(L,iop,fop) { \
+    TValue *v1 = vRB(); \
+    TValue *v2 = KC(); lua_assert(ttisnumber(v2)); \
+    op_arith_aux(L, v1, v2, iop, fop); \
+}
+
+#define l_addi(L,a,b)	intop(+, a, b)
+#define l_subi(L,a,b)	intop(-, a, b)
+#define l_muli(L,a,b)	intop(*, a, b)
+#define l_band(a,b)	intop(&, a, b)
+#define l_bor(a,b)	intop(|, a, b)
+#define l_bxor(a,b)	intop(^, a, b)
+
+#define l_lti(a,b)	(a < b)
+#define l_lei(a,b)	(a <= b)
+#define l_gti(a,b)	(a > b)
+#define l_gei(a,b)	(a >= b)
+
 static void OP_ADDI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
 
-
+    op_arithI(L, l_addi, luai_numadd);
 }
 
 static void OP_ADDK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    op_arithK(L, l_addi, luai_numadd);
 }
 
 static void OP_SUBK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    op_arithK(L, l_subi, luai_numsub);
 }
 
 static void OP_MULK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    savestate(L, ci); /* in case of division by 0 */
+    op_arithK(L, luaV_mod, luaV_modf);
 }
 
 static void OP_MODK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
