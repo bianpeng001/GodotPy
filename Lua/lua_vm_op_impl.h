@@ -1,10 +1,69 @@
+/*
+** byte code impmement
+*/
+
+#define UseL() \
+lua_State *L = ctx->L;\
+CallInfo *ci = ctx->ci;\
+LClosure *cl = ctx->cl;\
+(void)L;(void)ci;(void)cl;(void)ctx;(void)pInstruct;
+
+#define JIT_GETARG_A() (pInstruct->A)
+#define JIT_GETARG_B() (pInstruct->B)
+#define JIT_GETARG_C() (pInstruct->C)
+#define JIT_GETARG_k() (pInstruct->k)
+#define JIT_GETARG_Bx() (pInstruct->Bx)
+
+#define RA() (ctx->base + JIT_GETARG_A())
+#define RB() (ctx->base + JIT_GETARG_B())
+#define RC() (ctx->base + JIT_GETARG_C())
+
+#define vRB() s2v(RB())
+#define vRC() s2v(RC())
+
+#define KB() (ctx->k + JIT_GETARG_B())
+#define KC() (ctx->k + JIT_GETARG_C())
+#define KBx() (ctx->k + JIT_GETARG_Bx())
+
+#define RKC() (JIT_GETARG_k() ? ctx->k + JIT_GETARG_C() : s2v(ctx->base + JIT_GETARG_C()))
+
+#define updatetrap(ci) (ctx->trap = ci->u.l.trap)
+
+#define savepc(L) (ctx->ci->u.l.savedpc = ctx->pc)
+#define savestate(L,ci) (savepc(L), L->top.p = ci->top.p)
+
+#define Protect(exp) (savestate(ctx->L, ctx->ci), (exp), updatetrap(ctx->ci))
+
+#define ProtectNT(exp)  (savepc(L), (exp), updatetrap(ci))
+
+#define checkGC(L,c)  \
+	{ luaC_condGC(L, (savepc(L), L->top.p = (c)), updatetrap(ci)); \
+           luai_threadyield(L); }
+
+#define JIT_GET_INST(pc) TExecuteContext_GetInstruction(ctx, (pc))
+
+#define op_arithI(L,iop,fop) {  \
+  StkId ra = RA(i); \
+  TValue *v1 = vRB(i);  \
+  int imm = GETARG_sC(i);  \
+  if (ttisinteger(v1)) {  \
+    lua_Integer iv1 = ivalue(v1);  \
+    pc++; setivalue(s2v(ra), iop(L, iv1, imm));  \
+  }  \
+  else if (ttisfloat(v1)) {  \
+    lua_Number nb = fltvalue(v1);  \
+    lua_Number fimm = cast_num(imm);  \
+    pc++; setfltvalue(s2v(ra), fop(L, nb, fimm)); \
+  }}
 
 // instruction implement
 static void OP_MOVE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
+    UseL();
+
     StkId ra = RA();
     StkId rb = RB();
-    setobjs2s(ctx->L, ra, rb);
+    setobjs2s(L, ra, rb);
 }
 
 static void OP_LOADI_Func(TExecuteContext *ctx, TInstructionABx* pInstruct)
@@ -37,7 +96,7 @@ static void OP_LOADKX_Func(TExecuteContext *ctx, TInstructionABx* pInstruct)
 
     StkId ra = RA();
     TValue *rb = KBx();
-    ++ctx->pc;
+    ++ctx->pc; ++ctx->jit_pc;
     setobj2s(L, ra, rb);
 }
 
@@ -260,6 +319,7 @@ static void OP_NEWTABLE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     }
     if (JIT_GETARG_k())  /* non-zero extra argument? */
     {
+        // TODO: 下一个指令的参数
         c += ((TInstructionABx *)JIT_GET_INST(ctx->jit_pc))->Bx * (MAXARG_C + 1);
     }
     ctx->jit_pc++;  /* skip extra argument */

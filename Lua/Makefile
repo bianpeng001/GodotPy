@@ -7,23 +7,34 @@
 CC = clang.exe
 LUA_DLL = lua.dll
 LUA = lua.exe
-LUAC = luac.exe
+LUA_C = luac.exe
 RM = del.exe
 
-CORE_O = lapi.o lcode.o lctype.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o ltable.o ltm.o lundump.o lvm.o lzio.o
-LIB_O = lauxlib.o lbaselib.o lcorolib.o ldblib.o liolib.o lmathlib.o loadlib.o loslib.o lstrlib.o ltablib.o lutf8lib.o linit.o
+CORE_O = lapi lcode lctype ldebug ldo ldump lfunc lgc llex lmem lobject lopcodes lparser lstate lstring ltable ltm lundump lvm lzio
+LIB_O = lauxlib lbaselib lcorolib ldblib liolib lmathlib loadlib loslib lstrlib ltablib lutf8lib linit
 
-#$(info generate obj files)
-#$(info ****************************************)
-OBJ = $(foreach X, $(CORE_O) $(LIB_O), src/$(X))
-# $(info $(OBJ))
-#$(info ****************************************)
 
-all: $(LUA_DLL) $(LUA)
+all: $(LUA_DLL) $(LUA) $(LUA_C)
 
 #-O2 -Wall -Wextra -DLUA_COMPAT_5_3
 CFLAGS = -O2 -Wall -Wextra
 $(LUA_DLL): CFLAGS += -DLUA_BUILD_AS_DLL
+
+#$(info generate obj files)
+#$(info ****************************************)
+OBJ := $(foreach Item, $(CORE_O) $(LIB_O), src/$(Item).o)
+DLL_OBJ := $(foreach Item, $(CORE_O) $(LIB_O), src/$(Item)_d.o)
+C_OBJ := $(foreach Item, $(CORE_O) $(LIB_O) luac ldump, src/$(Item)_c.o)
+#$(info $(OBJ))
+#$(info ****************************************)
+
+
+# 几种不同的后缀，区分不同的目标，的模式
+src/%_d.o: src/%.c
+	$(CC) -c $(CFLAGS) $< -o $@
+
+src/%_c.o: src/%.c
+	$(CC) -c $(CFLAGS) $< -o $@
 
 src/%.o: src/%.c
 	$(CC) -c $(CFLAGS) $< -o $@
@@ -34,13 +45,13 @@ src/%.o: src/%.c
 lua_vm_jit.o: lua_vm_jit.c lua_vm_jit.h lua_vm_op_impl.h
 	$(CC) -c $(CFLAGS) $< -o $@ -I src
 
-$(LUA_DLL): $(OBJ) lua_vm_jit.o
+$(LUA_DLL): $(DLL_OBJ) lua_vm_jit.o
 	$(CC) -shared -o $@ $^
 
-$(LUA): $(LUA_DLL) src/lua.o
-	$(CC) -o $@ lua.lib src/lua.o
+$(LUA): $(LUA_DLL) src/lua_c.o
+	$(CC) -o $@ lua.lib src/lua_c.o
 
-$(LUAC): $(OBJ) src/luac.o src/ldump.o
+$(LUA_C): $(C_OBJ)
 	$(CC) -o $@ $^
 
 clean:

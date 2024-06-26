@@ -94,45 +94,7 @@ static inline TInstruction *TExecuteContext_GetInstruction(TExecuteContext *ctx,
 typedef void (*TInstructFunction)(TExecuteContext *ctx, TInstruction* pInstruct);
 
 
-#define UseL() \
-lua_State *L = ctx->L;\
-CallInfo *ci = ctx->ci;\
-LClosure *cl = ctx->cl;\
-(void)L;(void)ci;(void)cl;(void)ctx;(void)pInstruct;
 
-#define JIT_GETARG_A() (pInstruct->A)
-#define JIT_GETARG_B() (pInstruct->B)
-#define JIT_GETARG_C() (pInstruct->C)
-#define JIT_GETARG_k() (pInstruct->k)
-#define JIT_GETARG_Bx() (pInstruct->Bx)
-
-#define RA() (ctx->base + JIT_GETARG_A())
-#define RB() (ctx->base + JIT_GETARG_B())
-#define RC() (ctx->base + JIT_GETARG_C())
-
-#define vRB() s2v(RB())
-#define vRC() s2v(RC())
-
-#define KB() (ctx->k + JIT_GETARG_B())
-#define KC() (ctx->k + JIT_GETARG_C())
-#define KBx() (ctx->k + JIT_GETARG_Bx())
-
-#define RKC() (JIT_GETARG_k() ? ctx->k + JIT_GETARG_C() : s2v(ctx->base + JIT_GETARG_C()))
-
-#define updatetrap(ci) (ctx->trap = ci->u.l.trap)
-
-#define savepc(L) (ctx->ci->u.l.savedpc = ctx->pc)
-#define savestate(L,ci) (savepc(L), L->top.p = ci->top.p)
-
-#define Protect(exp) (savestate(ctx->L, ctx->ci), (exp), updatetrap(ctx->ci))
-
-#define ProtectNT(exp)  (savepc(L), (exp), updatetrap(ci))
-
-#define checkGC(L,c)  \
-	{ luaC_condGC(L, (savepc(L), L->top.p = (c)), updatetrap(ci)); \
-           luai_threadyield(L); }
-
-#define JIT_GET_INST(pc) TExecuteContext_GetInstruction(ctx, (pc))
 
 
 #define NUM_OPCODES_EX 10
