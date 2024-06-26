@@ -22,6 +22,6 @@ end
 
 function test02()
     local a = 1
-    a = a + 2
+    a = a + 3
 end
 

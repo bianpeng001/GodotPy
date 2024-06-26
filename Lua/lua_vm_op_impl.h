@@ -9,15 +9,23 @@ LClosure *cl = ctx->cl;\
 (void)L;(void)ci;(void)cl;(void)ctx;(void)pInstruct;
 
 #define JIT_GETARG_A() (pInstruct->A)
+
 #define JIT_GETARG_B() (pInstruct->B)
+#define JIT_GETARG_sB() sC2int(JIT_GETARG_B())
+
 #define JIT_GETARG_C() (pInstruct->C)
+#define JIT_GETARG_sC() sC2int(JIT_GETARG_C())
+
 #define JIT_GETARG_k() (pInstruct->k)
 #define JIT_GETARG_Bx() (pInstruct->Bx)
-#define JIT_GETARG_sC() sC2int(JIT_GETARG_C())
 
 #define RA() (ctx->base + JIT_GETARG_A())
 #define RB() (ctx->base + JIT_GETARG_B())
 #define RC() (ctx->base + JIT_GETARG_C())
+
+#define PI_RA(pi) (ctx->base + (pi)->A)
+
+#define PI_GET_OPCODE(pi) (pi->FuncID)
 
 #define vRB() s2v(RB())
 #define vRC() s2v(RC())
@@ -37,9 +45,9 @@ LClosure *cl = ctx->cl;\
 
 #define ProtectNT(exp)  (savepc(L), (exp), updatetrap(ci))
 
-#define checkGC(L,c)  \
-	{ luaC_condGC(L, (savepc(L), L->top.p = (c)), updatetrap(ci)); \
-           luai_threadyield(L); }
+#define checkGC(L,c) { \
+    luaC_condGC(L, (savepc(L), L->top.p = (c)), updatetrap(ci)); \
+    luai_threadyield(L); }
 
 #define JIT_GET_INST(pc) TExecuteContext_GetInstruction(ctx, (pc))
 
@@ -391,7 +399,6 @@ static void OP_SELF_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     op_arith_aux(L, v1, v2, iop, fop); \
 }
 
-
 #define op_arithK(L,iop,fop) { \
     TValue *v1 = vRB(); \
     TValue *v2 = KC(); lua_assert(ttisnumber(v2)); \
@@ -525,7 +532,8 @@ static void OP_SHRI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     TValue *rb = vRB();
     int ic = JIT_GETARG_sC();
     lua_Integer ib;
-    if (tointegerns(rb, &ib)) {
+    if (tointegerns(rb, &ib))
+    {
         ctx->jit_pc++;
         setivalue(s2v(ra), luaV_shiftl(ib, -ic));
     }
@@ -539,7 +547,8 @@ static void OP_SHLI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     TValue *rb = vRB();
     int ic = JIT_GETARG_sC();
     lua_Integer ib;
-    if (tointegerns(rb, &ib)) {
+    if (tointegerns(rb, &ib))
+    {
         ctx->jit_pc++;
         setivalue(s2v(ra), luaV_shiftl(ic, ib));
     }
@@ -613,41 +622,88 @@ static void OP_BOR_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 static void OP_BXOR_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    op_bitwise(L, l_bxor);
 }
 
 static void OP_SHR_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    op_bitwise(L, luaV_shiftr);
 }
 
 static void OP_SHL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    op_bitwise(L, luaV_shiftl);
 }
 
+// 3 metamethod instruction
 static void OP_MMBIN_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+    // TODO:
+
+    StkId ra = RA();
+    TInstructionABC *pi = (TInstructionABC *)JIT_GET_INST(ctx->jit_pc - 2);
+    TValue *rb = vRB();
+    TMS tm = (TMS)JIT_GETARG_C();
+    StkId result = PI_RA(pi);
+    lua_assert(OP_ADD <= PI_GET_OPCODE(pi) && PI_GET_OPCODE(pi) <= OP_SHR);
+    Protect(luaT_trybinTM(L, s2v(ra), rb, result, tm));
 }
 
 static void OP_MMBINI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+    // TODO:
 }
 
 static void OP_MMBINK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+    // TODO:
 }
 
 static void OP_UNM_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    StkId ra = RA();
+    TValue *rb = vRB();
+    lua_Number nb;
+    if (ttisinteger(rb))
+    {
+        lua_Integer ib = ivalue(rb);
+        setivalue(s2v(ra), intop(-, 0, ib));
+    }
+    else if (tonumberns(rb, nb))
+    {
+        setfltvalue(s2v(ra), luai_numunm(L, nb));
+    }
+    else
+    {
+        Protect(luaT_trybinTM(L, rb, rb, ra, TM_UNM));
+    }
 }
 
 static void OP_BNOT_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    StkId ra = RA();
+    TValue *rb = vRB();
+    lua_Integer ib;
+    if (tointegerns(rb, &ib)) 
+    {
+        setivalue(s2v(ra), intop(^, ~l_castS2U(0), ib));
+    }
+    else 
+    {
+        Protect(luaT_trybinTM(L, rb, rb, ra, TM_BNOT));
+    }
 }
 
 static void OP_NOT_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
