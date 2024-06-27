@@ -36,7 +36,7 @@
 /* instruction head */
 struct _TInstruction
 {
-    uint8 FuncID;
+    uint8 OpCode;
 };
 typedef struct _TInstruction TInstruction;
 
@@ -61,7 +61,7 @@ struct _TInstructionABx
 {
     struct _TInstruction Inst;
     uint8 A;
-    int32 Bx;
+    uint32 Bx;
 };
 typedef struct _TInstructionABx TInstructionABx;
 
@@ -93,7 +93,10 @@ static inline TInstruction *TExecuteContext_GetInstruction(TExecuteContext *ctx,
 
 typedef void (*TInstructFunction)(TExecuteContext *ctx, TInstruction* pInstruct);
 
-typedef enum _JIT_OP_CODE
+/*
+** jit opcodes
+*/
+enum _JIT_OP_CODE
 {
     JIT_START = NUM_OPCODES + 1,
 
@@ -103,13 +106,13 @@ typedef enum _JIT_OP_CODE
 };
 typedef enum _JIT_OP_CODE JIT_OP_CODE;
 
-#define NUM_OPCODES_JIT (JIT_OP_MAX)
+#define NUM_JIT_OPCODES (JIT_OP_MAX)
 
 #define RegFunc(FuncName) (TInstructFunction)&FuncName ## _Func
 
 #include "lua_vm_op_impl.h"
 
-static TInstructFunction const InstructionFuncTable[NUM_OPCODES + NUM_OPCODES_JIT] =
+static TInstructFunction const InstructionFuncTable[NUM_OPCODES + NUM_JIT_OPCODES] =
 {
     RegFunc(OP_MOVE),
     RegFunc(OP_LOADI),
@@ -204,9 +207,6 @@ static TInstructFunction const InstructionFuncTable[NUM_OPCODES + NUM_OPCODES_JI
     RegFunc(JIT_NOOP),
     RegFunc(JIT_NOOP),
     RegFunc(JIT_NOOP),
-    RegFunc(JIT_NOOP),
-    RegFunc(JIT_NOOP),
-    RegFunc(JIT_NOOP),
 
     NULL,
 
@@ -214,7 +214,7 @@ static TInstructFunction const InstructionFuncTable[NUM_OPCODES + NUM_OPCODES_JI
 
 static inline void TInstruction_Execute(TInstruction* pInstruct, TExecuteContext* ctx)
 {
-    TInstructFunction Fun = InstructionFuncTable[pInstruct->FuncID];
+    TInstructFunction Fun = InstructionFuncTable[pInstruct->OpCode];
     if (Fun)
     {
         Fun(ctx, pInstruct);

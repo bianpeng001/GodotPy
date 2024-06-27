@@ -45,6 +45,8 @@ LClosure *cl = ctx->cl;\
 
 #define ProtectNT(exp)  (savepc(L), (exp), updatetrap(ci))
 
+#define halfProtect(exp)  (savestate(L,ci), (exp))
+
 #define checkGC(L,c) { \
     luaC_condGC(L, (savepc(L), L->top.p = (c)), updatetrap(ci)); \
     luai_threadyield(L); }
@@ -657,13 +659,27 @@ static void OP_MMBIN_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 static void OP_MMBINI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
-    // TODO:
+
+    StkId ra = RA();
+    TInstructionABC *pi = (TInstructionABC *)JIT_GET_INST(ctx->jit_pc - 2);
+    TValue *rb = vRB();
+    TMS tm = (TMS)JIT_GETARG_C();
+    StkId result = PI_RA(pi);
+    lua_assert(OP_ADD <= JIT_GET_OPCODE(pi) && JIT_GET_OPCODE(pi) <= OP_SHR);
+    Protect(luaT_trybinTM(L, s2v(ra), rb, result, tm));
 }
 
 static void OP_MMBINK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
-    // TODO:
+
+    StkId ra = RA();
+    TInstructionABC *pi = (TInstructionABC *)JIT_GET_INST(ctx->jit_pc - 2);
+    TValue *imm = KB();
+    TMS tm = (TMS)JIT_GETARG_C();
+    int flip = JIT_GETARG_k();
+    StkId result = PI_RA(pi);
+    Protect(luaT_trybinassocTM(L, s2v(ra), imm, flip, result, tm));
 }
 
 static void OP_UNM_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
@@ -708,31 +724,60 @@ static void OP_BNOT_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 static void OP_NOT_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    StkId ra = RA();
+    TValue *rb = vRB();
+    if (l_isfalse(rb))
+    {
+        setbtvalue(s2v(ra));
+    }
+    else
+    {
+        setbfvalue(s2v(ra));
+    }
 }
 
 static void OP_LEN_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    StkId ra = RA();
+    Protect(luaV_objlen(L, ra, vRB()));
 }
 
 static void OP_CONCAT_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    StkId ra = RA();
+    int n = JIT_GETARG_B();  /* number of elements to concatenate */
+    L->top.p = ra + n;  /* mark the end of concat operands */
+    ProtectNT(luaV_concat(L, n));
+    checkGC(L, L->top.p); /* 'luaV_concat' ensures correct top */
 }
 
 static void OP_CLOSE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    StkId ra = RA();
+    Protect(luaF_close(L, ra, LUA_OK, 1));
 }
 
 static void OP_TBC_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    StkId ra = RA();
+    /* create new to-be-closed upvalue */
+    halfProtect(luaF_newtbcupval(L, ra));
 }
 
 static void OP_JMP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
+
+    // TODO:
 }
 
 static void OP_EQ_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)

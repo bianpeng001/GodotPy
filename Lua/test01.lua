@@ -36,7 +36,15 @@ function test02()
 
 end
 
-
+function test03()
+    local a = 1
+    local b = 2
+    local c = 3
+    local d = 4
+    local n = a + b + c + d
+    local m = a + b + c + d
+    return n + m
+end
 
 
 
