@@ -644,7 +644,6 @@ static void OP_SHL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 static void OP_MMBIN_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 {
     UseL();
-    // TODO:
 
     StkId ra = RA();
     TInstructionABC *pi = (TInstructionABC *)JIT_GET_INST(ctx->jit_pc - 2);
@@ -867,6 +866,12 @@ static void OP_EXTRAARG_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 }
 
 
+// jit 指令
+static void JIT_NOOP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+{
+    UseL();
+
+}
 
 
 

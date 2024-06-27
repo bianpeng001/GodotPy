@@ -93,16 +93,23 @@ static inline TInstruction *TExecuteContext_GetInstruction(TExecuteContext *ctx,
 
 typedef void (*TInstructFunction)(TExecuteContext *ctx, TInstruction* pInstruct);
 
+typedef enum _JIT_OP_CODE
+{
+    JIT_START = NUM_OPCODES + 1,
 
+    JIT_NOOP,
 
+    JIT_OP_MAX,
+};
+typedef enum _JIT_OP_CODE JIT_OP_CODE;
 
+#define NUM_OPCODES_JIT (JIT_OP_MAX)
 
-#define NUM_OPCODES_EX 10
 #define RegFunc(FuncName) (TInstructFunction)&FuncName ## _Func
 
 #include "lua_vm_op_impl.h"
 
-static TInstructFunction const InstructionFuncTable[NUM_OPCODES + NUM_OPCODES_EX] = 
+static TInstructFunction const InstructionFuncTable[NUM_OPCODES + NUM_OPCODES_JIT] =
 {
     RegFunc(OP_MOVE),
     RegFunc(OP_LOADI),
@@ -193,7 +200,14 @@ static TInstructFunction const InstructionFuncTable[NUM_OPCODES + NUM_OPCODES_EX
     RegFunc(OP_EXTRAARG),
 
     NULL,
-    NULL,
+
+    RegFunc(JIT_NOOP),
+    RegFunc(JIT_NOOP),
+    RegFunc(JIT_NOOP),
+    RegFunc(JIT_NOOP),
+    RegFunc(JIT_NOOP),
+    RegFunc(JIT_NOOP),
+
     NULL,
 
 };
