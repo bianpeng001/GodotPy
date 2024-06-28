@@ -17,7 +17,8 @@ LIB_O = lauxlib lbaselib lcorolib ldblib liolib lmathlib loadlib loslib lstrlib 
 all: $(LUA_DLL) $(LUA) $(LUA_C)
 
 #-O2 -Wall -Wextra -DLUA_COMPAT_5_3
-CFLAGS = -O2 -Wall -Wextra -DLUAI_ASSERT
+# -DLUAI_ASSERT
+CFLAGS = -O3 -Wall -Wextra
 $(LUA_DLL): CFLAGS += -DLUA_BUILD_AS_DLL
 
 #$(info generate obj files)
