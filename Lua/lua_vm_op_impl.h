@@ -55,6 +55,7 @@ LClosure *cl = ctx->cl;\
 #define JIT_GETARG_sC(i) sC2int(JIT_GETARG_C(i))
 
 #define JIT_GETARG_k(i) (i->k)
+#define JIT_TESTARG_k(i) JIT_GETARG_k(i)
 
 #define JIT_GETARG_Bx(i) (i->Bx)
 #define JIT_GETARG_sBX(i) sC2int(JIT_GETARG_Bx(i))
@@ -75,6 +76,8 @@ LClosure *cl = ctx->cl;\
 #define RKC(i) (JIT_GETARG_k(i) ? ctx->k + JIT_GETARG_C(i) : s2v(ctx->base + JIT_GETARG_C(i)))
 
 #define updatetrap(ci) (ctx->trap = ci->u.l.trap)
+#define updatebase(ci) (ctx->base = ci->func.p + 1)
+#define updatestack(ci) { if (l_unlikely(ctx->trap)) { updatebase(ci); ra = RA(i); } }
 
 #define dojump(ci,pi,e) { ctx->jit_pc += JIT_GETARG_sJ(pi) + e; updatetrap(ci); }
 
@@ -99,6 +102,15 @@ dojump(ci, ni, 1); }
     luai_threadyield(L); }
 
 #define JIT_GET_INST(pc) TExecuteContext_GetInstruction(ctx, (pc))
+
+#define goto_ret() { \
+    if (ci->callstatus & CIST_FRESH) { \
+        ctx->exec_flag = EF_END_FRAME; } \
+    else { \
+        ci = ci->previous; \
+        ctx->exec_flag = EF_GOTO_RETURNING; } \
+}
+
 
 /*
 ** Compare two strings 'ls' x 'rs', returning an integer less-equal-
@@ -129,7 +141,6 @@ static int l_strcmp (const TString *ls, const TString *rs) {
   }
 }
 
-
 /*
 ** Check whether integer 'i' is less than float 'f'. If 'i' has an
 ** exact representation as a float ('l_intfitsf'), compare numbers as
@@ -153,7 +164,6 @@ l_sinline int LTintfloat (lua_Integer i, lua_Number f) {
   }
 }
 
-
 /*
 ** Check whether integer 'i' is less than or equal to float 'f'.
 ** See comments on previous function.
@@ -169,7 +179,6 @@ l_sinline int LEintfloat (lua_Integer i, lua_Number f) {
       return f > 0;  /* greater? */
   }
 }
-
 
 /*
 ** Check whether float 'f' is less than integer 'i'.
@@ -187,7 +196,6 @@ l_sinline int LTfloatint (lua_Number f, lua_Integer i) {
   }
 }
 
-
 /*
 ** Check whether float 'f' is less than or equal to integer 'i'.
 ** See comments on previous function.
@@ -203,7 +211,6 @@ l_sinline int LEfloatint (lua_Number f, lua_Integer i) {
       return f < 0;  /* less? */
   }
 }
-
 
 /*
 ** Return 'l < r', for numbers.
@@ -226,7 +233,6 @@ l_sinline int LTnum (const TValue *l, const TValue *r) {
   }
 }
 
-
 /*
 ** Return 'l <= r', for numbers.
 */
@@ -248,7 +254,6 @@ l_sinline int LEnum (const TValue *l, const TValue *r) {
   }
 }
 
-
 /*
 ** return 'l < r' for non-numbers.
 */
@@ -260,10 +265,6 @@ static int lessthanothers (lua_State *L, const TValue *l, const TValue *r) {
     return luaT_callorderTM(L, l, r, TM_LT);
 }
 
-extern int luaV_lessthan (lua_State *L, const TValue *l, const TValue *r);
-extern int luaV_lessequal (lua_State *L, const TValue *l, const TValue *r);
-extern int luaV_equalobj (lua_State *L, const TValue *t1, const TValue *t2);
-
 /*
 ** return 'l <= r' for non-numbers.
 */
@@ -274,6 +275,10 @@ static int lessequalothers (lua_State *L, const TValue *l, const TValue *r) {
   else
     return luaT_callorderTM(L, l, r, TM_LE);
 }
+
+extern int luaV_lessthan(lua_State *L, const TValue *l, const TValue *r);
+extern int luaV_lessequal(lua_State *L, const TValue *l, const TValue *r);
+extern int luaV_equalobj(lua_State *L, const TValue *t1, const TValue *t2);
 
 
 //---------------------------------------------------------------------------------
@@ -678,7 +683,7 @@ static void OP_SELF_Func(TExecuteContext *ctx, TInstructionABC* i)
 #define op_orderI(L,opi,opf,inv,tm) { \
     StkId ra = RA(i); \
     int cond; \
-    int im = GETARG_sB(i); \
+    int im = JIT_GETARG_sB(i); \
     if (ttisinteger(s2v(ra))) { \
         cond = opi(ivalue(s2v(ra)), im); } \
     else if (ttisfloat(s2v(ra))) { \
@@ -686,7 +691,7 @@ static void OP_SELF_Func(TExecuteContext *ctx, TInstructionABC* i)
         lua_Number fim = cast_num(im); \
         cond = opf(fa, fim); } \
     else { \
-        int isf = GETARG_C(i); \
+        int isf = JIT_GETARG_C(i); \
         Protect(cond = luaT_callorderiTM(L, s2v(ra), im, inv, isf, tm)); } \
     docondjump(); \
 }
@@ -1057,71 +1062,252 @@ static void OP_LT_Func(TExecuteContext *ctx, TInstructionABC* i)
 static void OP_LE_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+
+    op_order(L, l_lei, LEnum, lessequalothers);
 }
 
 static void OP_EQK_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+
+    StkId ra = RA(i);
+    TValue *rb = KB(i);
+    /* basic types do not use '__eq'; we can use raw equality */
+    int cond = luaV_rawequalobj(s2v(ra), rb);
+    docondjump();
 }
 
 static void OP_EQI_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+
+    StkId ra = RA(i);
+    int cond;
+    int im = JIT_GETARG_sB(i);
+    if (ttisinteger(s2v(ra)))
+        cond = (ivalue(s2v(ra)) == im);
+    else if (ttisfloat(s2v(ra)))
+        cond = luai_numeq(fltvalue(s2v(ra)), cast_num(im));
+    else
+        cond = 0;  /* other types cannot be equal to a number */
+    docondjump();
 }
 
 static void OP_LTI_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+
+    op_orderI(L, l_lti, luai_numlt, 0, TM_LT);
 }
 
 static void OP_LEI_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+
+    op_orderI(L, l_gti, luai_numgt, 1, TM_LT);
 }
 
 static void OP_GTI_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+
+    op_orderI(L, l_gei, luai_numge, 1, TM_LE);
 }
 
 static void OP_GEI_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+
+    op_orderI(L, l_gei, luai_numge, 1, TM_LE);
 }
 
 static void OP_TEST_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+
+    StkId ra = RA(i);
+    int cond = !l_isfalse(s2v(ra));
+    docondjump();
 }
 
 static void OP_TESTSET_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+
+    StkId ra = RA(i);
+    TValue *rb = vRB(i);
+    if (l_isfalse(rb) == JIT_GETARG_k(i)) 
+    {
+        ctx->jit_pc++;
+    }
+    else 
+    {
+        setobj2s(L, ra, rb);
+        donextjump(ci);
+    }
 }
 
+/*
+** 这里要处理goto
+*/
 static void OP_CALL_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+
+    StkId ra = RA(i);
+    CallInfo *newci;
+    int b = JIT_GETARG_B(i);
+    int nresults = JIT_GETARG_C(i) - 1;
+    /* fixed number of arguments? */
+    if (b != 0) 
+    {
+        /* top signals number of arguments */
+        L->top.p = ra + b;  
+    }
+    /* else previous instruction set top */
+    savepc(L);  /* in case of errors */
+    if ((newci = luaD_precall(L, ra, nresults)) == NULL)
+    {
+        /* C call; nothing else to be done */
+        updatetrap(ci);  
+    }
+    else 
+    {  
+        /* Lua call: run function in this same C frame */
+        ctx->ci = newci;
+        //goto startfunc;
+        ctx->exec_flag = EF_GOTO_STARTFUNC;
+    }
 }
 
 static void OP_TAILCALL_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+    StkId base = ctx->base;
+
+    StkId ra = RA(i);
+    int b = JIT_GETARG_B(i);  /* number of arguments + 1 (function) */
+    int n;  /* number of results when calling a C function */
+    int nparams1 = JIT_GETARG_C(i);
+    /* delta is virtual 'func' - real 'func' (vararg functions) */
+    int delta = (nparams1) ? ci->u.l.nextraargs + nparams1 : 0;
+    if (b != 0)
+        L->top.p = ra + b;
+    else  /* previous instruction set top */
+        b = cast_int(L->top.p - ra);
+    savepc(ci);  /* several calls here can raise errors */
+    if (JIT_TESTARG_k(i))
+    {
+        luaF_closeupval(L, base);  /* close upvalues from current call */
+        lua_assert(L->tbclist.p < base);  /* no pending tbc variables */
+        lua_assert(base == ci->func.p + 1);
+    }
+    if ((n = luaD_pretailcall(L, ci, ra, b, delta)) < 0)  /* Lua function? */
+    {
+        /* execute the callee */
+        //goto startfunc;  
+        ctx->exec_flag = EF_GOTO_STARTFUNC;
+    }
+    else 
+    {  
+        /* C function? */
+        ci->func.p -= delta;  /* restore 'func' (if vararg) */
+        luaD_poscall(L, ci, n);  /* finish caller */
+        updatetrap(ci);  /* 'luaD_poscall' can change hooks */
+        /* caller returns after the tail call */
+        goto_ret();
+    }
 }
 
 static void OP_RETURN_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+    StkId base = ctx->base;
+
+    StkId ra = RA(i);
+    int n = JIT_GETARG_B(i) - 1;  /* number of results */
+    int nparams1 = JIT_GETARG_C(i);
+    if (n < 0)  /* not fixed? */
+        n = cast_int(L->top.p - ra);  /* get what is available */
+    savepc(ci);
+    if (JIT_TESTARG_k(i)) {  /* may there be open upvalues? */
+        ci->u2.nres = n;  /* save number of returns */
+        if (L->top.p < ci->top.p)
+            L->top.p = ci->top.p;
+        luaF_close(L, base, CLOSEKTOP, 1);
+        updatetrap(ci);
+        updatestack(ci);
+    }
+    if (nparams1)  /* vararg function? */
+        ci->func.p -= ci->u.l.nextraargs + nparams1;
+    L->top.p = ra + n;  /* set call for 'luaD_poscall' */
+    luaD_poscall(L, ci, n);
+    updatetrap(ci);  /* 'luaD_poscall' can change hooks */
+    //goto ret;
+    goto_ret();
 }
 
 static void OP_RETURN0_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+    StkId base = ctx->base;
+
+    if (l_unlikely(L->hookmask))
+    {
+        StkId ra = RA(i);
+        L->top.p = ra;
+        savepc(ci);
+        luaD_poscall(L, ci, 0);  /* no hurry... */
+        ctx->trap = 1;
+    }
+    else
+    {  
+        /* do the 'poscall' here */
+        int nres;
+        L->ci = ci->previous;  /* back to caller */
+        L->top.p = base - 1;
+        for (nres = ci->nresults; l_unlikely(nres > 0); nres--)
+        {
+            setnilvalue(s2v(L->top.p++));  /* all results are nil */
+        }
+    }
+    //goto ret;
+    goto_ret();
 }
 
 static void OP_RETURN1_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+    StkId base = ctx->base;
+
+    if (l_unlikely(L->hookmask))
+    {
+        StkId ra = RA(i);
+        L->top.p = ra + 1;
+        savepc(ci);
+        luaD_poscall(L, ci, 1);  /* no hurry... */
+        ctx->trap = 1;
+    }
+    else
+    {
+        /* do the 'poscall' here */
+        int nres = ci->nresults;
+        L->ci = ci->previous;  /* back to caller */
+        if (nres == 0)
+            L->top.p = base - 1;  /* asked for no results */
+        else
+        {
+            StkId ra = RA(i);
+            setobjs2s(L, base - 1, ra);  /* at least this result */
+            L->top.p = base;
+            for (; l_unlikely(nres > 1); nres--)
+            {
+                /* complete missing results */
+                setnilvalue(s2v(L->top.p++));
+            }
+        }
+    }
+    goto_ret();
 }
 
 static void OP_FORLOOP_Func(TExecuteContext *ctx, TInstructionABC* i)

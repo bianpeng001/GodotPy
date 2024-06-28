@@ -73,6 +73,15 @@ struct _TInstructionAx
 };
 typedef struct _TInstructionAx TInstructionAx;
 
+
+enum EXEC_FLAG
+{
+    EF_NONE = 0,
+    EF_END_FRAME,
+    EF_GOTO_STARTFUNC,
+    EF_GOTO_RETURNING,
+};
+
 /* exec context */
 struct _TExecuteContext
 {
@@ -91,6 +100,8 @@ struct _TExecuteContext
     uint32 jit_pc;
     uint32 *jit_code;
     TAllocator *allocator;
+
+    int exec_flag;
 };
 typedef struct _TExecuteContext TExecuteContext;
 
@@ -104,7 +115,7 @@ typedef void (*TInstructFunction)(TExecuteContext *ctx, TInstruction* pInstruct)
 /*
 ** jit opcodes
 */
-enum _JIT_OP_CODE
+enum JIT_OP_CODE
 {
     JIT_START = NUM_OPCODES + 1,
 
@@ -112,7 +123,6 @@ enum _JIT_OP_CODE
 
     JIT_OP_MAX,
 };
-typedef enum _JIT_OP_CODE JIT_OP_CODE;
 
 #define NUM_JIT_OPCODES (JIT_OP_MAX)
 
@@ -263,11 +273,22 @@ returning:
     TAllocator *allocator = NULL;
     uint32* code = NULL;
 
+    ctx.exec_flag = 0;
     // run code
     for(;;)
     {
         TInstruction* pInstruct = (TInstruction*)TAllocator_GetMemory(allocator, code[ctx.jit_pc++]);
         TInstruction_Execute(pInstruct, &ctx);
+
+        switch(ctx.exec_flag)
+        {
+            case EF_END_FRAME:
+                return;
+            case EF_GOTO_STARTFUNC:
+                goto startfunc;
+            case EF_GOTO_RETURNING:
+                goto returning;
+        }
     }
 
 }
