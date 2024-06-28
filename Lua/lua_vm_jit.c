@@ -251,6 +251,8 @@ returning:
     ctx.cl = clLvalue(s2v(ci->func.p));
     ctx.k = ctx.cl->p->k;
     ctx.pc = ci->u.l.savedpc;
+    // TODO: pc!!
+    ctx.jit_pc = 0;
 
     if (l_unlikely(ctx.trap))
     {
@@ -269,11 +271,14 @@ returning:
     }
     ctx.base = ci->func.p + 1;
 
-    // gen code
+    // reset execute flag
+    ctx.exec_flag = EF_NONE;
+
+    // gen code and execute
+    // TODO:
     TAllocator *allocator = NULL;
     uint32* code = NULL;
 
-    ctx.exec_flag = 0;
     // run code
     for(;;)
     {

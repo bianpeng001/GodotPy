@@ -64,7 +64,7 @@ LClosure *cl = ctx->cl;\
 #define RB(i) (ctx->base + JIT_GETARG_B(i))
 #define RC(i) (ctx->base + JIT_GETARG_C(i))
 
-#define JIT_GET_OPCODE(i) (i->FuncID)
+#define JIT_GET_OPCODE(i) (((TInstruction *)i)->OpCode)
 
 #define vRB(i) s2v(RB(i))
 #define vRC(i) s2v(RC(i))
@@ -102,6 +102,9 @@ dojump(ci, ni, 1); }
     luai_threadyield(L); }
 
 #define JIT_GET_INST(pc) TExecuteContext_GetInstruction(ctx, (pc))
+
+
+#define JIT_UNUSE(X) (void)X
 
 #define goto_ret() { \
     if (ci->callstatus & CIST_FRESH) { \
@@ -279,6 +282,150 @@ static int lessequalothers (lua_State *L, const TValue *l, const TValue *r) {
 extern int luaV_lessthan(lua_State *L, const TValue *l, const TValue *r);
 extern int luaV_lessequal(lua_State *L, const TValue *l, const TValue *r);
 extern int luaV_equalobj(lua_State *L, const TValue *t1, const TValue *t2);
+
+
+/*
+** Try to convert a 'for' limit to an integer, preserving the semantics
+** of the loop. Return true if the loop must not run; otherwise, '*p'
+** gets the integer limit.
+** (The following explanation assumes a positive step; it is valid for
+** negative steps mutatis mutandis.)
+** If the limit is an integer or can be converted to an integer,
+** rounding down, that is the limit.
+** Otherwise, check whether the limit can be converted to a float. If
+** the float is too large, clip it to LUA_MAXINTEGER.  If the float
+** is too negative, the loop should not run, because any initial
+** integer value is greater than such limit; so, the function returns
+** true to signal that. (For this latter case, no integer limit would be
+** correct; even a limit of LUA_MININTEGER would run the loop once for
+** an initial value equal to LUA_MININTEGER.)
+*/
+static int forlimit (lua_State *L, lua_Integer init, const TValue *lim,
+                                   lua_Integer *p, lua_Integer step) {
+  if (!luaV_tointeger(lim, p, (step < 0 ? F2Iceil : F2Ifloor))) {
+    /* not coercible to in integer */
+    lua_Number flim;  /* try to convert to float */
+    if (!tonumber(lim, &flim)) /* cannot convert to float? */
+      luaG_forerror(L, lim, "limit");
+    /* else 'flim' is a float out of integer bounds */
+    if (luai_numlt(0, flim)) {  /* if it is positive, it is too large */
+      if (step < 0) return 1;  /* initial value must be less than it */
+      *p = LUA_MAXINTEGER;  /* truncate */
+    }
+    else {  /* it is less than min integer */
+      if (step > 0) return 1;  /* initial value must be greater than it */
+      *p = LUA_MININTEGER;  /* truncate */
+    }
+  }
+  return (step > 0 ? init > *p : init < *p);  /* not to run? */
+}
+
+
+/*
+** Prepare a numerical for loop (opcode OP_FORPREP).
+** Return true to skip the loop. Otherwise,
+** after preparation, stack will be as follows:
+**   ra : internal index (safe copy of the control variable)
+**   ra + 1 : loop counter (integer loops) or limit (float loops)
+**   ra + 2 : step
+**   ra + 3 : control variable
+*/
+static int forprep (lua_State *L, StkId ra) {
+  TValue *pinit = s2v(ra);
+  TValue *plimit = s2v(ra + 1);
+  TValue *pstep = s2v(ra + 2);
+  if (ttisinteger(pinit) && ttisinteger(pstep)) { /* integer loop? */
+    lua_Integer init = ivalue(pinit);
+    lua_Integer step = ivalue(pstep);
+    lua_Integer limit;
+    if (step == 0)
+      luaG_runerror(L, "'for' step is zero");
+    setivalue(s2v(ra + 3), init);  /* control variable */
+    if (forlimit(L, init, plimit, &limit, step))
+      return 1;  /* skip the loop */
+    else {  /* prepare loop counter */
+      lua_Unsigned count;
+      if (step > 0) {  /* ascending loop? */
+        count = l_castS2U(limit) - l_castS2U(init);
+        if (step != 1)  /* avoid division in the too common case */
+          count /= l_castS2U(step);
+      }
+      else {  /* step < 0; descending loop */
+        count = l_castS2U(init) - l_castS2U(limit);
+        /* 'step+1' avoids negating 'mininteger' */
+        count /= l_castS2U(-(step + 1)) + 1u;
+      }
+      /* store the counter in place of the limit (which won't be
+         needed anymore) */
+      setivalue(plimit, l_castU2S(count));
+    }
+  }
+  else {  /* try making all values floats */
+    lua_Number init; lua_Number limit; lua_Number step;
+    if (l_unlikely(!tonumber(plimit, &limit)))
+      luaG_forerror(L, plimit, "limit");
+    if (l_unlikely(!tonumber(pstep, &step)))
+      luaG_forerror(L, pstep, "step");
+    if (l_unlikely(!tonumber(pinit, &init)))
+      luaG_forerror(L, pinit, "initial value");
+    if (step == 0)
+      luaG_runerror(L, "'for' step is zero");
+    if (luai_numlt(0, step) ? luai_numlt(limit, init)
+                            : luai_numlt(init, limit))
+      return 1;  /* skip the loop */
+    else {
+      /* make sure internal values are all floats */
+      setfltvalue(plimit, limit);
+      setfltvalue(pstep, step);
+      setfltvalue(s2v(ra), init);  /* internal index */
+      setfltvalue(s2v(ra + 3), init);  /* control variable */
+    }
+  }
+  return 0;
+}
+
+
+/*
+** Execute a step of a float numerical for loop, returning
+** true iff the loop must continue. (The integer case is
+** written online with opcode OP_FORLOOP, for performance.)
+*/
+static int floatforloop (StkId ra) {
+  lua_Number step = fltvalue(s2v(ra + 2));
+  lua_Number limit = fltvalue(s2v(ra + 1));
+  lua_Number idx = fltvalue(s2v(ra));  /* internal index */
+  idx = luai_numadd(L, idx, step);  /* increment index */
+  if (luai_numlt(0, step) ? luai_numle(idx, limit)
+                          : luai_numle(limit, idx)) {
+    chgfltvalue(s2v(ra), idx);  /* update internal index */
+    setfltvalue(s2v(ra + 3), idx);  /* and control variable */
+    return 1;  /* jump back */
+  }
+  else
+    return 0;  /* finish the loop */
+}
+
+/*
+** create a new Lua closure, push it in the stack, and initialize
+** its upvalues.
+*/
+static void pushclosure (lua_State *L, Proto *p, UpVal **encup, StkId base,
+                         StkId ra) {
+  int nup = p->sizeupvalues;
+  Upvaldesc *uv = p->upvalues;
+  int i;
+  LClosure *ncl = luaF_newLclosure(L, nup);
+  ncl->p = p;
+  setclLvalue2s(L, ra, ncl);  /* anchor new closure in stack */
+  for (i = 0; i < nup; i++) {  /* fill in its upvalues */
+    if (uv[i].instack)  /* upvalue refers to local variable? */
+      ncl->upvals[i] = luaF_findupval(L, base + uv[i].idx);
+    else  /* get upvalue from enclosing function */
+      ncl->upvals[i] = encup[uv[i].idx];
+    luaC_objbarrier(L, ncl, ncl->upvals[i]);
+  }
+}
+
 
 
 //---------------------------------------------------------------------------------
@@ -903,7 +1050,7 @@ static void OP_SHL_Func(TExecuteContext *ctx, TInstructionABC* i)
     op_bitwise(L, luaV_shiftl);
 }
 
-// 3 metamethod instruction
+// metamethod的实现，那几个操作符重载
 static void OP_MMBIN_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
@@ -1230,7 +1377,9 @@ static void OP_RETURN_Func(TExecuteContext *ctx, TInstructionABC* i)
     if (n < 0)  /* not fixed? */
         n = cast_int(L->top.p - ra);  /* get what is available */
     savepc(ci);
-    if (JIT_TESTARG_k(i)) {  /* may there be open upvalues? */
+    if (JIT_TESTARG_k(i))
+    {
+        /* may there be open upvalues? */
         ci->u2.nres = n;  /* save number of returns */
         if (L->top.p < ci->top.p)
             L->top.p = ci->top.p;
@@ -1243,7 +1392,7 @@ static void OP_RETURN_Func(TExecuteContext *ctx, TInstructionABC* i)
     L->top.p = ra + n;  /* set call for 'luaD_poscall' */
     luaD_poscall(L, ci, n);
     updatetrap(ci);  /* 'luaD_poscall' can change hooks */
-    //goto ret;
+
     goto_ret();
 }
 
@@ -1271,7 +1420,7 @@ static void OP_RETURN0_Func(TExecuteContext *ctx, TInstructionABC* i)
             setnilvalue(s2v(L->top.p++));  /* all results are nil */
         }
     }
-    //goto ret;
+
     goto_ret();
 }
 
@@ -1307,65 +1456,184 @@ static void OP_RETURN1_Func(TExecuteContext *ctx, TInstructionABC* i)
             }
         }
     }
+
     goto_ret();
 }
 
-static void OP_FORLOOP_Func(TExecuteContext *ctx, TInstructionABC* i)
+static void OP_FORLOOP_Func(TExecuteContext *ctx, TInstructionABx* i)
 {
     UseL();
+
+    StkId ra = RA(i);
+    if (ttisinteger(s2v(ra + 2)))
+    {
+        /* integer loop? */
+        lua_Unsigned count = l_castS2U(ivalue(s2v(ra + 1)));
+        if (count > 0)
+        {
+            /* still more iterations? */
+            lua_Integer step = ivalue(s2v(ra + 2));
+            lua_Integer idx = ivalue(s2v(ra));  /* internal index */
+            chgivalue(s2v(ra + 1), count - 1);  /* update counter */
+            idx = intop(+, idx, step);  /* add step to index */
+            chgivalue(s2v(ra), idx);  /* update internal index */
+            setivalue(s2v(ra + 3), idx);  /* and control variable */
+            ctx->jit_pc -= JIT_GETARG_Bx(i);  /* jump back */
+        }
+    }
+    else if (floatforloop(ra))
+    {
+        /* float loop */
+        ctx->jit_pc -= JIT_GETARG_Bx(i);  /* jump back */
+    }
+    updatetrap(ci);  /* allows a signal to break the loop */
 }
 
-static void OP_FORPREP_Func(TExecuteContext *ctx, TInstructionABC* i)
+static void OP_FORPREP_Func(TExecuteContext *ctx, TInstructionABx* i)
 {
     UseL();
+
+    StkId ra = RA(i);
+    savestate(L, ci);  /* in case of errors */
+    if (forprep(L, ra))
+    {
+        ctx->jit_pc += JIT_GETARG_Bx(i) + 1;  /* skip the loop */
+    }
 }
 
-static void OP_TFORPREP_Func(TExecuteContext *ctx, TInstructionABC* i)
+void OP_TFORCALL_Func(TExecuteContext *ctx, TInstructionABC* i);
+void OP_TFORLOOP_Func(TExecuteContext *ctx, TInstructionABx* i);
+
+static void OP_TFORPREP_Func(TExecuteContext *ctx, TInstructionABx* i)
 {
     UseL();
+
+    StkId ra = RA(i);
+    /* create to-be-closed upvalue (if needed) */
+    halfProtect(luaF_newtbcupval(L, ra + 3));
+    ctx->jit_pc += JIT_GETARG_Bx(i);
+
+    /* go to next instruction */
+    TInstructionABC *ni = (TInstructionABC *)JIT_GET_INST(ctx->jit_pc);
+    ctx->jit_pc++;
+
+    lua_assert(JIT_GET_OPCODE(ni) == OP_TFORCALL && ra == RA(ni));
+    OP_TFORCALL_Func(ctx, ni);
 }
 
 static void OP_TFORCALL_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+
+    StkId ra = RA(i);
+    /* 'ra' has the iterator function, 'ra + 1' has the state,
+       'ra + 2' has the control variable, and 'ra + 3' has the
+       to-be-closed variable. The call will use the stack after
+       these values (starting at 'ra + 4')
+     */
+    /* push function, state, and control variable */
+    memcpy(ra + 4, ra, 3 * sizeof(*ra));
+    L->top.p = ra + 4 + 3;
+    ProtectNT(luaD_call(L, ra + 4, JIT_GETARG_C(i)));  /* do the call */
+    updatestack(ci);  /* stack may have changed */
+
+    TInstructionABx *ni = (TInstructionABx *)JIT_GET_INST(ctx->jit_pc);
+    /* go to next instruction */
+    ctx->jit_pc++;
+
+    lua_assert(JIT_GET_OPCODE(ni) == OP_TFORLOOP && ra == RA(ni));
+    OP_TFORLOOP_Func(ctx, ni);
 }
 
-static void OP_TFORLOOP_Func(TExecuteContext *ctx, TInstructionABC* i)
+static void OP_TFORLOOP_Func(TExecuteContext *ctx, TInstructionABx* i)
 {
     UseL();
+
+    StkId ra = RA(i);
+    if (!ttisnil(s2v(ra + 4)))
+    {
+        /* continue loop? */
+        setobjs2s(L, ra + 2, ra + 4);  /* save control variable */
+        ctx->jit_pc -= JIT_GETARG_Bx(i);  /* jump back */
+    }
 }
 
 static void OP_SETLIST_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+
+    StkId ra = RA(i);
+    int n = JIT_GETARG_B(i);
+    unsigned int last = JIT_GETARG_C(i);
+    Table *h = hvalue(s2v(ra));
+    if (n == 0)
+        n = cast_int(L->top.p - ra) - 1;  /* get up to the top */
+    else
+        L->top.p = ci->top.p;  /* correct top in case of emergency GC */
+    last += n;
+
+    if (JIT_TESTARG_k(i))
+    {
+        TInstructionAx *ni = (TInstructionAx *)JIT_GET_INST(ctx->jit_pc);
+        last += JIT_GETARG_Ax(ni) * (MAXARG_C + 1);
+        ctx->jit_pc++;
+    }
+    if (last > luaH_realasize(h))  /* needs more space? */
+        luaH_resizearray(L, h, last);  /* preallocate it at once */
+    for (; n > 0; n--)
+    {
+        TValue *val = s2v(ra + n);
+        setobj2t(L, &h->array[last - 1], val);
+        last--;
+        luaC_barrierback(L, obj2gco(h), val);
+    }
 }
 
-static void OP_CLOSURE_Func(TExecuteContext *ctx, TInstructionABC* i)
+static void OP_CLOSURE_Func(TExecuteContext *ctx, TInstructionABx* i)
 {
     UseL();
+
+    StkId ra = RA(i);
+    Proto *p = cl->p->p[JIT_GETARG_Bx(i)];
+    halfProtect(pushclosure(L, p, cl->upvals, ctx->base, ra));
+    checkGC(L, ra + 1);
 }
 
 static void OP_VARARG_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+
+    StkId ra = RA(i);
+    int n = JIT_GETARG_C(i) - 1;  /* required results */
+    Protect(luaT_getvarargs(L, ci, ra, n));
 }
 
 static void OP_VARARGPREP_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+
+    ProtectNT(luaT_adjustvarargs(L, JIT_GETARG_A(i), ci, cl->p));
+    if (l_unlikely(ctx->trap))
+    {
+        /* previous "Protect" updated trap */
+        luaD_hookcall(L, ci);
+        L->oldpc = 1;  /* next opcode will be seen as a "new" line */
+    }
+    updatebase(ci);  /* function has new base after adjustment */
 }
 
 static void OP_EXTRAARG_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
-    UseL();
+    JIT_UNUSE(ctx);JIT_UNUSE(i);
+
+    lua_assert(0);
 }
 
 
 // jit 指令
 static void JIT_NOOP_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
-    UseL();
-
+    JIT_UNUSE(ctx);JIT_UNUSE(i);
 }
 
 
