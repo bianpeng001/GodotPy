@@ -1,6 +1,42 @@
 /*
+** bianpeng 2024-6-28
 ** byte code instructions impmement
 */
+
+/* limit for table tag-method chains (to avoid infinite loops) */
+#define MAXTAGLOOP	2000
+
+/*
+** 'l_intfitsf' checks whether a given integer is in the range that
+** can be converted to a float without rounding. Used in comparisons.
+*/
+
+/* number of bits in the mantissa of a float */
+#define NBM		(l_floatatt(MANT_DIG))
+
+/*
+** Check whether some integers may not fit in a float, testing whether
+** (maxinteger >> NBM) > 0. (That implies (1 << NBM) <= maxinteger.)
+** (The shifts are done in parts, to avoid shifting by more than the size
+** of an integer. In a worst case, NBM == 113 for long double and
+** sizeof(long) == 32.)
+*/
+#if ((((LUA_MAXINTEGER >> (NBM / 4)) >> (NBM / 4)) >> (NBM / 4)) \
+	>> (NBM - (3 * (NBM / 4))))  >  0
+
+/* limit for integers that fit in a float */
+#define MAXINTFITSF	((lua_Unsigned)1 << NBM)
+
+/* check whether 'i' is in the interval [-MAXINTFITSF, MAXINTFITSF] */
+#define l_intfitsf(i)	((MAXINTFITSF + l_castS2U(i)) <= (2 * MAXINTFITSF))
+
+#else  /* all integers fit in a float precisely */
+
+#define l_intfitsf(i)	1
+
+#endif
+
+//---------------------------------------------------------------------------------
 
 #define UseL() \
 lua_State *L = ctx->L;\
@@ -43,7 +79,7 @@ LClosure *cl = ctx->cl;\
 #define dojump(ci,pi,e) { ctx->jit_pc += JIT_GETARG_sJ(pi) + e; updatetrap(ci); }
 
 #define donextjump(ci) { \
-TInstructionAx *ni = JIT_GET_INST(ctx->jit_pc); \
+TInstructionAx *ni = (TInstructionAx *)JIT_GET_INST(ctx->jit_pc); \
 dojump(ci, ni, 1); }
 
 #define docondjump() if (cond != JIT_GETARG_k(i)) ctx->jit_pc++; else donextjump(ci);
@@ -63,6 +99,184 @@ dojump(ci, ni, 1); }
     luai_threadyield(L); }
 
 #define JIT_GET_INST(pc) TExecuteContext_GetInstruction(ctx, (pc))
+
+/*
+** Compare two strings 'ls' x 'rs', returning an integer less-equal-
+** -greater than zero if 'ls' is less-equal-greater than 'rs'.
+** The code is a little tricky because it allows '\0' in the strings
+** and it uses 'strcoll' (to respect locales) for each segments
+** of the strings.
+*/
+static int l_strcmp (const TString *ls, const TString *rs) {
+  const char *l = getstr(ls);
+  size_t ll = tsslen(ls);
+  const char *r = getstr(rs);
+  size_t lr = tsslen(rs);
+  for (;;) {  /* for each segment */
+    int temp = strcoll(l, r);
+    if (temp != 0)  /* not equal? */
+      return temp;  /* done */
+    else {  /* strings are equal up to a '\0' */
+      size_t len = strlen(l);  /* index of first '\0' in both strings */
+      if (len == lr)  /* 'rs' is finished? */
+        return (len == ll) ? 0 : 1;  /* check 'ls' */
+      else if (len == ll)  /* 'ls' is finished? */
+        return -1;  /* 'ls' is less than 'rs' ('rs' is not finished) */
+      /* both strings longer than 'len'; go on comparing after the '\0' */
+      len++;
+      l += len; ll -= len; r += len; lr -= len;
+    }
+  }
+}
+
+
+/*
+** Check whether integer 'i' is less than float 'f'. If 'i' has an
+** exact representation as a float ('l_intfitsf'), compare numbers as
+** floats. Otherwise, use the equivalence 'i < f <=> i < ceil(f)'.
+** If 'ceil(f)' is out of integer range, either 'f' is greater than
+** all integers or less than all integers.
+** (The test with 'l_intfitsf' is only for performance; the else
+** case is correct for all values, but it is slow due to the conversion
+** from float to int.)
+** When 'f' is NaN, comparisons must result in false.
+*/
+l_sinline int LTintfloat (lua_Integer i, lua_Number f) {
+  if (l_intfitsf(i))
+    return luai_numlt(cast_num(i), f);  /* compare them as floats */
+  else {  /* i < f <=> i < ceil(f) */
+    lua_Integer fi;
+    if (luaV_flttointeger(f, &fi, F2Iceil))  /* fi = ceil(f) */
+      return i < fi;   /* compare them as integers */
+    else  /* 'f' is either greater or less than all integers */
+      return f > 0;  /* greater? */
+  }
+}
+
+
+/*
+** Check whether integer 'i' is less than or equal to float 'f'.
+** See comments on previous function.
+*/
+l_sinline int LEintfloat (lua_Integer i, lua_Number f) {
+  if (l_intfitsf(i))
+    return luai_numle(cast_num(i), f);  /* compare them as floats */
+  else {  /* i <= f <=> i <= floor(f) */
+    lua_Integer fi;
+    if (luaV_flttointeger(f, &fi, F2Ifloor))  /* fi = floor(f) */
+      return i <= fi;   /* compare them as integers */
+    else  /* 'f' is either greater or less than all integers */
+      return f > 0;  /* greater? */
+  }
+}
+
+
+/*
+** Check whether float 'f' is less than integer 'i'.
+** See comments on previous function.
+*/
+l_sinline int LTfloatint (lua_Number f, lua_Integer i) {
+  if (l_intfitsf(i))
+    return luai_numlt(f, cast_num(i));  /* compare them as floats */
+  else {  /* f < i <=> floor(f) < i */
+    lua_Integer fi;
+    if (luaV_flttointeger(f, &fi, F2Ifloor))  /* fi = floor(f) */
+      return fi < i;   /* compare them as integers */
+    else  /* 'f' is either greater or less than all integers */
+      return f < 0;  /* less? */
+  }
+}
+
+
+/*
+** Check whether float 'f' is less than or equal to integer 'i'.
+** See comments on previous function.
+*/
+l_sinline int LEfloatint (lua_Number f, lua_Integer i) {
+  if (l_intfitsf(i))
+    return luai_numle(f, cast_num(i));  /* compare them as floats */
+  else {  /* f <= i <=> ceil(f) <= i */
+    lua_Integer fi;
+    if (luaV_flttointeger(f, &fi, F2Iceil))  /* fi = ceil(f) */
+      return fi <= i;   /* compare them as integers */
+    else  /* 'f' is either greater or less than all integers */
+      return f < 0;  /* less? */
+  }
+}
+
+
+/*
+** Return 'l < r', for numbers.
+*/
+l_sinline int LTnum (const TValue *l, const TValue *r) {
+  lua_assert(ttisnumber(l) && ttisnumber(r));
+  if (ttisinteger(l)) {
+    lua_Integer li = ivalue(l);
+    if (ttisinteger(r))
+      return li < ivalue(r);  /* both are integers */
+    else  /* 'l' is int and 'r' is float */
+      return LTintfloat(li, fltvalue(r));  /* l < r ? */
+  }
+  else {
+    lua_Number lf = fltvalue(l);  /* 'l' must be float */
+    if (ttisfloat(r))
+      return luai_numlt(lf, fltvalue(r));  /* both are float */
+    else  /* 'l' is float and 'r' is int */
+      return LTfloatint(lf, ivalue(r));
+  }
+}
+
+
+/*
+** Return 'l <= r', for numbers.
+*/
+l_sinline int LEnum (const TValue *l, const TValue *r) {
+  lua_assert(ttisnumber(l) && ttisnumber(r));
+  if (ttisinteger(l)) {
+    lua_Integer li = ivalue(l);
+    if (ttisinteger(r))
+      return li <= ivalue(r);  /* both are integers */
+    else  /* 'l' is int and 'r' is float */
+      return LEintfloat(li, fltvalue(r));  /* l <= r ? */
+  }
+  else {
+    lua_Number lf = fltvalue(l);  /* 'l' must be float */
+    if (ttisfloat(r))
+      return luai_numle(lf, fltvalue(r));  /* both are float */
+    else  /* 'l' is float and 'r' is int */
+      return LEfloatint(lf, ivalue(r));
+  }
+}
+
+
+/*
+** return 'l < r' for non-numbers.
+*/
+static int lessthanothers (lua_State *L, const TValue *l, const TValue *r) {
+  lua_assert(!ttisnumber(l) || !ttisnumber(r));
+  if (ttisstring(l) && ttisstring(r))  /* both are strings? */
+    return l_strcmp(tsvalue(l), tsvalue(r)) < 0;
+  else
+    return luaT_callorderTM(L, l, r, TM_LT);
+}
+
+extern int luaV_lessthan (lua_State *L, const TValue *l, const TValue *r);
+extern int luaV_lessequal (lua_State *L, const TValue *l, const TValue *r);
+extern int luaV_equalobj (lua_State *L, const TValue *t1, const TValue *t2);
+
+/*
+** return 'l <= r' for non-numbers.
+*/
+static int lessequalothers (lua_State *L, const TValue *l, const TValue *r) {
+  lua_assert(!ttisnumber(l) || !ttisnumber(r));
+  if (ttisstring(l) && ttisstring(r))  /* both are strings? */
+    return l_strcmp(tsvalue(l), tsvalue(r)) <= 0;
+  else
+    return luaT_callorderTM(L, l, r, TM_LE);
+}
+
+
+//---------------------------------------------------------------------------------
 
 static void OP_MOVE_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
@@ -446,6 +660,37 @@ static void OP_SELF_Func(TExecuteContext *ctx, TInstructionABC* i)
         setivalue(s2v(ra), op(i1, i2)); } \
 }
 
+#define op_order(L,opi,opn,other) { \
+    StkId ra = RA(i); \
+    int cond; \
+    TValue *rb = vRB(i); \
+    if (ttisinteger(s2v(ra)) && ttisinteger(rb)) { \
+        lua_Integer ia = ivalue(s2v(ra)); \
+        lua_Integer ib = ivalue(rb); \
+        cond = opi(ia, ib); } \
+    else if (ttisnumber(s2v(ra)) && ttisnumber(rb)) { \
+        cond = opn(s2v(ra), rb); } \
+    else { \
+        Protect(cond = other(L, s2v(ra), rb)); } \
+    docondjump(); \
+}
+
+#define op_orderI(L,opi,opf,inv,tm) { \
+    StkId ra = RA(i); \
+    int cond; \
+    int im = GETARG_sB(i); \
+    if (ttisinteger(s2v(ra))) { \
+        cond = opi(ivalue(s2v(ra)), im); } \
+    else if (ttisfloat(s2v(ra))) { \
+        lua_Number fa = fltvalue(s2v(ra)); \
+        lua_Number fim = cast_num(im); \
+        cond = opf(fa, fim); } \
+    else { \
+        int isf = GETARG_C(i); \
+        Protect(cond = luaT_callorderiTM(L, s2v(ra), im, inv, isf, tm)); } \
+    docondjump(); \
+}
+
 #define l_addi(L,a,b)	intop(+, a, b)
 #define l_subi(L,a,b)	intop(-, a, b)
 #define l_muli(L,a,b)	intop(*, a, b)
@@ -794,11 +1039,19 @@ static void OP_JMP_Func(TExecuteContext *ctx, TInstructionAx* i)
 static void OP_EQ_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+
+    StkId ra = RA(i);
+    int cond;
+    TValue *rb = vRB(i);
+    Protect(cond = luaV_equalobj(L, s2v(ra), rb));
+    docondjump();
 }
 
 static void OP_LT_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
+
+    op_order(L, l_lti, LTnum, lessthanothers);
 }
 
 static void OP_LE_Func(TExecuteContext *ctx, TInstructionABC* i)

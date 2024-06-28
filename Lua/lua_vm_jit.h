@@ -1,3 +1,7 @@
+/*
+** bianpeng 2024-6-21
+*/
+
 #ifndef __LUA_VM_JIT_H__
 #define __LUA_VM_JIT_H__
 
@@ -32,8 +36,6 @@ inline void *TAllocator_GetMemory(TAllocator *allocator, uint32 offset)
 {
     return allocator->memory + offset;
 }
-
-
 
 
 #endif // __LUA_VM_JIT_H__
