@@ -93,7 +93,7 @@ struct _TExecuteContext
     LClosure *cl;
     TValue *k;
     StkId base;
-    const Instruction *pc;
+    const Instruction *old_pc;
     int trap;
 
     // jit values
@@ -252,13 +252,13 @@ startfunc:
 returning:
     ctx.cl = clLvalue(s2v(ci->func.p));
     ctx.k = ctx.cl->p->k;
-    ctx.pc = ci->u.l.savedpc;
+    ctx.old_pc = ci->u.l.savedpc;
     // TODO: pc!!
     ctx.jit_pc = 0;
 
     if (l_unlikely(ctx.trap))
     {
-        if (ctx.pc == ctx.cl->p->code)
+        if (ctx.old_pc == ctx.cl->p->code)
         {
             if (ctx.cl->p->is_vararg)
             {

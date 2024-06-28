@@ -87,7 +87,7 @@ dojump(ci, ni, 1); }
 
 #define docondjump() if (cond != JIT_GETARG_k(i)) ctx->jit_pc++; else donextjump(ci);
 
-#define savepc(L) (ctx->ci->u.l.savedpc = ctx->pc)
+#define savepc(L) (ctx->ci->u.l.savedpc = ctx->old_pc)
 
 #define savestate(L,ci) (savepc(L), L->top.p = ci->top.p)
 
@@ -469,7 +469,7 @@ static void OP_LOADKX_Func(TExecuteContext *ctx, TInstructionABx* i)
 
     StkId ra = RA(i);
     TValue *rb = KBx(i);
-    ++ctx->pc; ++ctx->jit_pc;
+    ctx->jit_pc++;
     setobj2s(L, ra, rb);
 }
 
@@ -483,7 +483,7 @@ static void OP_LFALSESKIP_Func(TExecuteContext *ctx, TInstructionA* i)
 {
     StkId ra = RA(i);
     setbfvalue(s2v(ra));
-    ++ctx->pc;
+    ctx->jit_pc++;
 }
 
 static void OP_LOADTRUE_Func(TExecuteContext *ctx, TInstructionA* i)
