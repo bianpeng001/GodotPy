@@ -6,39 +6,50 @@
 lua_State *L = ctx->L;\
 CallInfo *ci = ctx->ci;\
 LClosure *cl = ctx->cl;\
-(void)L;(void)ci;(void)cl;(void)ctx;(void)pInstruct;
+(void)L;(void)ci;(void)cl;(void)ctx;(void)i;
 
-#define JIT_GETARG_A() (pInstruct->A)
+#define JIT_GETARG_A(i) (i->A)
+#define JIT_GETARG_Ax(i) (i->Ax)
+#define JIT_GETARG_sJ(i) sC2int(JIT_GETARG_Ax(i))
 
-#define JIT_GETARG_B() (pInstruct->B)
-#define JIT_GETARG_sB() sC2int(JIT_GETARG_B())
+#define JIT_GETARG_B(i) (i->B)
+#define JIT_GETARG_sB(i) sC2int(JIT_GETARG_B(i))
 
-#define JIT_GETARG_C() (pInstruct->C)
-#define JIT_GETARG_sC() sC2int(JIT_GETARG_C())
+#define JIT_GETARG_C(i) (i->C)
+#define JIT_GETARG_sC(i) sC2int(JIT_GETARG_C(i))
 
-#define JIT_GETARG_k() (pInstruct->k)
-#define JIT_GETARG_Bx() (pInstruct->Bx)
+#define JIT_GETARG_k(i) (i->k)
 
-#define RA() (ctx->base + JIT_GETARG_A())
-#define RB() (ctx->base + JIT_GETARG_B())
-#define RC() (ctx->base + JIT_GETARG_C())
+#define JIT_GETARG_Bx(i) (i->Bx)
+#define JIT_GETARG_sBX(i) sC2int(JIT_GETARG_Bx(i))
 
-#define PI_RA(pi) (ctx->base + (pi)->A)
+#define RA(i) (ctx->base + JIT_GETARG_A(i))
+#define RB(i) (ctx->base + JIT_GETARG_B(i))
+#define RC(i) (ctx->base + JIT_GETARG_C(i))
 
-#define PI_GET_OPCODE(pi) (pi->FuncID)
+#define JIT_GET_OPCODE(i) (i->FuncID)
 
-#define vRB() s2v(RB())
-#define vRC() s2v(RC())
+#define vRB(i) s2v(RB(i))
+#define vRC(i) s2v(RC(i))
 
-#define KB() (ctx->k + JIT_GETARG_B())
-#define KC() (ctx->k + JIT_GETARG_C())
-#define KBx() (ctx->k + JIT_GETARG_Bx())
+#define KB(i) (ctx->k + JIT_GETARG_B(i))
+#define KC(i) (ctx->k + JIT_GETARG_C(i))
+#define KBx(i) (ctx->k + JIT_GETARG_Bx(i))
 
-#define RKC() (JIT_GETARG_k() ? ctx->k + JIT_GETARG_C() : s2v(ctx->base + JIT_GETARG_C()))
+#define RKC(i) (JIT_GETARG_k(i) ? ctx->k + JIT_GETARG_C(i) : s2v(ctx->base + JIT_GETARG_C(i)))
 
 #define updatetrap(ci) (ctx->trap = ci->u.l.trap)
 
+#define dojump(ci,pi,e) { ctx->jit_pc += JIT_GETARG_sJ(pi) + e; updatetrap(ci); }
+
+#define donextjump(ci) { \
+TInstructionAx *ni = JIT_GET_INST(ctx->jit_pc); \
+dojump(ci, ni, 1); }
+
+#define docondjump() if (cond != JIT_GETARG_k(i)) ctx->jit_pc++; else donextjump(ci);
+
 #define savepc(L) (ctx->ci->u.l.savedpc = ctx->pc)
+
 #define savestate(L,ci) (savepc(L), L->top.p = ci->top.p)
 
 #define Protect(exp) (savestate(ctx->L, ctx->ci), (exp), updatetrap(ctx->ci))
@@ -53,104 +64,104 @@ LClosure *cl = ctx->cl;\
 
 #define JIT_GET_INST(pc) TExecuteContext_GetInstruction(ctx, (pc))
 
-static void OP_MOVE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_MOVE_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
-    StkId rb = RB();
+    StkId ra = RA(i);
+    StkId rb = RB(i);
     setobjs2s(L, ra, rb);
 }
 
-static void OP_LOADI_Func(TExecuteContext *ctx, TInstructionABx* pInstruct)
+static void OP_LOADI_Func(TExecuteContext *ctx, TInstructionABx* i)
 {
-    StkId ra = RA();
-    lua_Integer b = JIT_GETARG_Bx();
+    StkId ra = RA(i);
+    lua_Integer b = JIT_GETARG_Bx(i);
     setivalue(s2v(ra), b);
 }
 
-static void OP_LOADF_Func(TExecuteContext *ctx, TInstructionABx* pInstruct)
+static void OP_LOADF_Func(TExecuteContext *ctx, TInstructionABx* i)
 {
-    StkId ra = RA();
-    lua_Integer b = JIT_GETARG_Bx();
+    StkId ra = RA(i);
+    lua_Integer b = JIT_GETARG_Bx(i);
     setfltvalue(s2v(ra), cast_num(b));
 }
 
 // 这个参数来自两个指令
-static void OP_LOADK_Func(TExecuteContext *ctx, TInstructionABx* pInstruct)
+static void OP_LOADK_Func(TExecuteContext *ctx, TInstructionABx* i)
 {
     UseL();
 
-    StkId ra = RA();
-    TValue *rb = KBx();
+    StkId ra = RA(i);
+    TValue *rb = KBx(i);
     setobj2s(L, ra, rb);
 }
 
-static void OP_LOADKX_Func(TExecuteContext *ctx, TInstructionABx* pInstruct)
+static void OP_LOADKX_Func(TExecuteContext *ctx, TInstructionABx* i)
 {
     UseL();
 
-    StkId ra = RA();
-    TValue *rb = KBx();
+    StkId ra = RA(i);
+    TValue *rb = KBx(i);
     ++ctx->pc; ++ctx->jit_pc;
     setobj2s(L, ra, rb);
 }
 
-static void OP_LOADFALSE_Func(TExecuteContext *ctx, TInstructionA* pInstruct)
+static void OP_LOADFALSE_Func(TExecuteContext *ctx, TInstructionA* i)
 {
-    StkId ra = RA();
+    StkId ra = RA(i);
     setbfvalue(s2v(ra));
 }
 
-static void OP_LFALSESKIP_Func(TExecuteContext *ctx, TInstructionA* pInstruct)
+static void OP_LFALSESKIP_Func(TExecuteContext *ctx, TInstructionA* i)
 {
-    StkId ra = RA();
+    StkId ra = RA(i);
     setbfvalue(s2v(ra));
     ++ctx->pc;
 }
 
-static void OP_LOADTRUE_Func(TExecuteContext *ctx, TInstructionA* pInstruct)
+static void OP_LOADTRUE_Func(TExecuteContext *ctx, TInstructionA* i)
 {
-    StkId ra = RA();
+    StkId ra = RA(i);
     setbtvalue(s2v(ra));
 }
 
-static void OP_LOADNIL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_LOADNIL_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
-    StkId ra = RA();
-    int b = pInstruct->B;
+    StkId ra = RA(i);
+    int b = i->B;
     do
     {
         setnilvalue(s2v(ra++));
     } while(b--);
 }
 
-static void OP_GETUPVAL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_GETUPVAL_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
-    setobj2s(L, ra, ctx->cl->upvals[JIT_GETARG_B()]->v.p);
+    StkId ra = RA(i);
+    setobj2s(L, ra, ctx->cl->upvals[JIT_GETARG_B(i)]->v.p);
 }
 
-static void OP_SETUPVAL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_SETUPVAL_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
-    UpVal *uv = ctx->cl->upvals[JIT_GETARG_B()];
+    StkId ra = RA(i);
+    UpVal *uv = ctx->cl->upvals[JIT_GETARG_B(i)];
     setobj(L, uv->v.p, s2v(ra));
     luaC_barrier(L, uv, s2v(ra));
 }
 
-static void OP_GETTABUP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_GETTABUP_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
+    StkId ra = RA(i);
     const TValue *slot;
-    TValue *upval = cl->upvals[JIT_GETARG_B()]->v.p;
-    TValue *rc = KC();
+    TValue *upval = cl->upvals[JIT_GETARG_B(i)]->v.p;
+    TValue *rc = KC(i);
     TString *key = tsvalue(rc);  /* key must be a string */
     if (luaV_fastget(L, upval, key, slot, luaH_getshortstr))
     {
@@ -162,14 +173,14 @@ static void OP_GETTABUP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     }
 }
 
-static void OP_GETTABLE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_GETTABLE_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
+    StkId ra = RA(i);
     const TValue *slot;
-    TValue *rb = vRB();
-    TValue *rc = vRC();
+    TValue *rb = vRB(i);
+    TValue *rc = vRC(i);
     lua_Unsigned n;
     if (ttisinteger(rc)  /* fast track for integers? */
             ? (cast_void(n = ivalue(rc)), luaV_fastgeti(ctx->L, rb, n, slot))
@@ -183,14 +194,14 @@ static void OP_GETTABLE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     }
 }
 
-static void OP_GETI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_GETI_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
+    StkId ra = RA(i);
     const TValue *slot;
-    TValue *rb = vRB();
-    lua_Integer c = JIT_GETARG_C();
+    TValue *rb = vRB(i);
+    lua_Integer c = JIT_GETARG_C(i);
     if (luaV_fastgeti(L, rb, c, slot))
     {
         setobj2s(L, ra, slot);
@@ -203,14 +214,14 @@ static void OP_GETI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     }
 }
 
-static void OP_GETFIELD_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_GETFIELD_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
+    StkId ra = RA(i);
     const TValue *slot;
-    TValue *rb = vRB();
-    TValue *rc = KC();
+    TValue *rb = vRB(i);
+    TValue *rc = KC(i);
     TString *key = tsvalue(rc);  /* key must be a string */
     if (luaV_fastget(L, rb, key, slot, luaH_getshortstr))
     {
@@ -222,14 +233,14 @@ static void OP_GETFIELD_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     }
 }
 
-static void OP_SETTABUP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_SETTABUP_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
     const TValue *slot;
-    TValue *upval = cl->upvals[pInstruct->A]->v.p;
-    TValue *rb = KB();
-    TValue *rc = RKC();
+    TValue *upval = cl->upvals[JIT_GETARG_A(i)]->v.p;
+    TValue *rb = KB(i);
+    TValue *rc = RKC(i);
     TString *key = tsvalue(rb);  /* key must be a string */
     if (luaV_fastget(L, upval, key, slot, luaH_getshortstr))
     {
@@ -241,14 +252,14 @@ static void OP_SETTABUP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     }
 }
 
-static void OP_SETTABLE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_SETTABLE_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
+    StkId ra = RA(i);
     const TValue *slot;
-    TValue *rb = vRB();  /* key (table is in 'ra') */
-    TValue *rc = RKC();  /* value */
+    TValue *rb = vRB(i);  /* key (table is in 'ra') */
+    TValue *rc = RKC(i);  /* value */
     lua_Unsigned n;
     if (ttisinteger(rb)  /* fast track for integers? */
             ? (cast_void(n = ivalue(rb)), luaV_fastgeti(L, s2v(ra), n, slot))
@@ -262,14 +273,14 @@ static void OP_SETTABLE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     }
 }
 
-static void OP_SETI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_SETI_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
+    StkId ra = RA(i);
     const TValue *slot;
-    int c = JIT_GETARG_B();
-    TValue *rc = RKC();
+    int c = JIT_GETARG_B(i);
+    TValue *rc = RKC(i);
     if (luaV_fastgeti(L, s2v(ra), c, slot))
     {
         luaV_finishfastset(L, s2v(ra), slot, rc);
@@ -282,14 +293,14 @@ static void OP_SETI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     }
 }
 
-static void OP_SETFIELD_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_SETFIELD_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
+    StkId ra = RA(i);
     const TValue *slot;
-    TValue *rb = KB();
-    TValue *rc = RKC();
+    TValue *rb = KB(i);
+    TValue *rc = RKC(i);
     TString *key = tsvalue(rb);  /* key must be a string */
     if (luaV_fastget(L, s2v(ra), key, slot, luaH_getshortstr))
     {
@@ -301,19 +312,19 @@ static void OP_SETFIELD_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     }
 }
 
-static void OP_NEWTABLE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_NEWTABLE_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
-    int b = JIT_GETARG_B();  /* log2(hash size) + 1 */
-    int c = JIT_GETARG_C();  /* array size */
+    StkId ra = RA(i);
+    int b = JIT_GETARG_B(i);  /* log2(hash size) + 1 */
+    int c = JIT_GETARG_C(i);  /* array size */
     Table *t;
     if (b > 0)
     {
         b = 1 << (b - 1);  /* size is 2^(b - 1) */
     }
-    if (JIT_GETARG_k())  /* non-zero extra argument? */
+    if (JIT_GETARG_k(i))  /* non-zero extra argument? */
     {
         // TODO: 下一个指令的参数
         c += ((TInstructionABx *)JIT_GET_INST(ctx->jit_pc))->Bx * (MAXARG_C + 1);
@@ -329,14 +340,14 @@ static void OP_NEWTABLE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     checkGC(L, ra + 1);
 }
 
-static void OP_SELF_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_SELF_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
+    StkId ra = RA(i);
     const TValue *slot;
-    TValue *rb = vRB();
-    TValue *rc = RKC();
+    TValue *rb = vRB(i);
+    TValue *rc = RKC(i);
     TString *key = tsvalue(rc);  /* key must be a string */
     setobj2s(L, ra + 1, rb);
     if (luaV_fastget(L, rb, key, slot, luaH_getstr))
@@ -351,9 +362,9 @@ static void OP_SELF_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 
 // pc++, 如果是int，float，则跳过下一个处理符号重载的MMBINI
 #define op_arithI(L,iop,fop) { \
-    StkId ra = RA(); \
-    TValue *v1 = vRB(); \
-    int imm = JIT_GETARG_sC(); \
+    StkId ra = RA(i); \
+    TValue *v1 = vRB(i); \
+    int imm = JIT_GETARG_sC(i); \
     if (ttisinteger(v1)) { \
         lua_Integer iv1 = ivalue(v1); \
         ctx->jit_pc++; \
@@ -366,7 +377,7 @@ static void OP_SELF_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 }
 
 #define op_arith_aux(L,v1,v2,iop,fop) { \
-    StkId ra = RA(); \
+    StkId ra = RA(i); \
     if (ttisinteger(v1) && ttisinteger(v2)) { \
         lua_Integer i1 = ivalue(v1); lua_Integer i2 = ivalue(v2); \
         ctx->jit_pc++; \
@@ -389,35 +400,35 @@ static void OP_SELF_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 }
 
 #define op_arithf(L,fop) { \
-    StkId ra = RA(); \
-    TValue *v1 = vRB(); \
-    TValue *v2 = vRC(); \
+    StkId ra = RA(i); \
+    TValue *v1 = vRB(i); \
+    TValue *v2 = vRC(i); \
     op_arithf_aux(L, v1, v2, fop); \
 }
 
 #define op_arith(L,iop,fop) { \
-    TValue *v1 = vRB(); \
-    TValue *v2 = vRC(); \
+    TValue *v1 = vRB(i); \
+    TValue *v2 = vRC(i); \
     op_arith_aux(L, v1, v2, iop, fop); \
 }
 
 #define op_arithK(L,iop,fop) { \
-    TValue *v1 = vRB(); \
-    TValue *v2 = KC(); lua_assert(ttisnumber(v2)); \
+    TValue *v1 = vRB(i); \
+    TValue *v2 = KC(i); lua_assert(ttisnumber(v2)); \
     op_arith_aux(L, v1, v2, iop, fop); \
 }
 
 #define op_arithfK(L,fop) { \
-    StkId ra = RA(); \
-    TValue *v1 = vRB(); \
-    TValue *v2 = KC(); lua_assert(ttisnumber(v2)); \
+    StkId ra = RA(i); \
+    TValue *v1 = vRB(i); \
+    TValue *v2 = KC(i); lua_assert(ttisnumber(v2)); \
     op_arithf_aux(L, v1, v2, fop); \
 }
 
 #define op_bitwiseK(L,op) { \
-    StkId ra = RA(); \
-    TValue *v1 = vRB(); \
-    TValue *v2 = KC();  \
+    StkId ra = RA(i); \
+    TValue *v1 = vRB(i); \
+    TValue *v2 = KC(i);  \
     lua_Integer i1; \
     lua_Integer i2 = ivalue(v2); \
     if (tointegerns(v1, &i1)) { \
@@ -426,9 +437,9 @@ static void OP_SELF_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 }
 
 #define op_bitwise(L,op) { \
-    StkId ra = RA(); \
-    TValue *v1 = vRB(); \
-    TValue *v2 = vRC(); \
+    StkId ra = RA(i); \
+    TValue *v1 = vRB(i); \
+    TValue *v2 = vRC(i); \
     lua_Integer i1; lua_Integer i2; \
     if (tointegerns(v1, &i1) && tointegerns(v2, &i2)) { \
         ctx->jit_pc++; \
@@ -447,35 +458,35 @@ static void OP_SELF_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 #define l_gti(a,b)	(a > b)
 #define l_gei(a,b)	(a >= b)
 
-static void OP_ADDI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_ADDI_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
     op_arithI(L, l_addi, luai_numadd);
 }
 
-static void OP_ADDK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_ADDK_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
     op_arithK(L, l_addi, luai_numadd);
 }
 
-static void OP_SUBK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_SUBK_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
     op_arithK(L, l_subi, luai_numsub);
 }
 
-static void OP_MULK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_MULK_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
     
     op_arithK(L, l_muli, luai_nummul);
 }
 
-static void OP_MODK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_MODK_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
@@ -483,21 +494,21 @@ static void OP_MODK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     op_arithK(L, luaV_mod, luaV_modf);
 }
 
-static void OP_POWK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_POWK_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
     op_arithfK(L, luai_numpow);
 }
 
-static void OP_DIVK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_DIVK_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
     op_arithfK(L, luai_numdiv);
 }
 
-static void OP_IDIVK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_IDIVK_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
@@ -505,34 +516,34 @@ static void OP_IDIVK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     op_arithK(L, luaV_idiv, luai_numidiv);
 }
 
-static void OP_BANDK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_BANDK_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
     op_bitwiseK(L, l_band);
 }
 
-static void OP_BORK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_BORK_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
     op_bitwiseK(L, l_bor);
 }
 
-static void OP_BXORK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_BXORK_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
     op_bitwiseK(L, l_bxor);
 }
 
-static void OP_SHRI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_SHRI_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
-    TValue *rb = vRB();
-    int ic = JIT_GETARG_sC();
+    StkId ra = RA(i);
+    TValue *rb = vRB(i);
+    int ic = JIT_GETARG_sC(i);
     lua_Integer ib;
     if (tointegerns(rb, &ib))
     {
@@ -541,13 +552,13 @@ static void OP_SHRI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     }
 }
 
-static void OP_SHLI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_SHLI_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
-    TValue *rb = vRB();
-    int ic = JIT_GETARG_sC();
+    StkId ra = RA(i);
+    TValue *rb = vRB(i);
+    int ic = JIT_GETARG_sC(i);
     lua_Integer ib;
     if (tointegerns(rb, &ib))
     {
@@ -556,28 +567,28 @@ static void OP_SHLI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     }
 }
 
-static void OP_ADD_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_ADD_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
     op_arith(L, l_addi, luai_numadd);
 }
 
-static void OP_SUB_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_SUB_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
     op_arith(L, l_subi, luai_numsub);
 }
 
-static void OP_MUL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_MUL_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
     op_arith(L, l_muli, luai_nummul);
 }
 
-static void OP_MOD_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_MOD_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
@@ -585,21 +596,21 @@ static void OP_MOD_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     op_arith(L, luaV_mod, luaV_modf);
 }
 
-static void OP_POW_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_POW_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
     op_arithf(L, luai_numpow);
 }
 
-static void OP_DIV_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_DIV_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
     op_arithf(L, luai_numdiv);
 }
 
-static void OP_IDIV_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_IDIV_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
@@ -607,35 +618,35 @@ static void OP_IDIV_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     op_arith(L, luaV_idiv, luai_numidiv);
 }
 
-static void OP_BAND_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_BAND_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
     op_bitwise(L, l_band);
 }
 
-static void OP_BOR_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_BOR_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
     op_bitwise(L, l_bor);
 }
 
-static void OP_BXOR_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_BXOR_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
     op_bitwise(L, l_bxor);
 }
 
-static void OP_SHR_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_SHR_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
     op_bitwise(L, luaV_shiftr);
 }
 
-static void OP_SHL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_SHL_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
@@ -643,51 +654,51 @@ static void OP_SHL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
 }
 
 // 3 metamethod instruction
-static void OP_MMBIN_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_MMBIN_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
+    StkId ra = RA(i);
     TInstructionABC *pi = (TInstructionABC *)JIT_GET_INST(ctx->jit_pc - 2);
-    TValue *rb = vRB();
-    TMS tm = (TMS)JIT_GETARG_C();
-    StkId result = PI_RA(pi);
-    lua_assert(OP_ADD <= PI_GET_OPCODE(pi) && PI_GET_OPCODE(pi) <= OP_SHR);
-    Protect(luaT_trybinTM(L, s2v(ra), rb, result, tm));
-}
-
-static void OP_MMBINI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
-{
-    UseL();
-
-    StkId ra = RA();
-    TInstructionABC *pi = (TInstructionABC *)JIT_GET_INST(ctx->jit_pc - 2);
-    TValue *rb = vRB();
-    TMS tm = (TMS)JIT_GETARG_C();
-    StkId result = PI_RA(pi);
+    TValue *rb = vRB(i);
+    TMS tm = (TMS)JIT_GETARG_C(i);
+    StkId result = RA(pi);
     lua_assert(OP_ADD <= JIT_GET_OPCODE(pi) && JIT_GET_OPCODE(pi) <= OP_SHR);
     Protect(luaT_trybinTM(L, s2v(ra), rb, result, tm));
 }
 
-static void OP_MMBINK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_MMBINI_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
+    StkId ra = RA(i);
     TInstructionABC *pi = (TInstructionABC *)JIT_GET_INST(ctx->jit_pc - 2);
-    TValue *imm = KB();
-    TMS tm = (TMS)JIT_GETARG_C();
-    int flip = JIT_GETARG_k();
-    StkId result = PI_RA(pi);
+    TValue *rb = vRB(i);
+    TMS tm = (TMS)JIT_GETARG_C(i);
+    StkId result = RA(pi);
+    lua_assert(OP_ADD <= JIT_GET_OPCODE(pi) && JIT_GET_OPCODE(pi) <= OP_SHR);
+    Protect(luaT_trybinTM(L, s2v(ra), rb, result, tm));
+}
+
+static void OP_MMBINK_Func(TExecuteContext *ctx, TInstructionABC* i)
+{
+    UseL();
+
+    StkId ra = RA(i);
+    TInstructionABC *pi = (TInstructionABC *)JIT_GET_INST(ctx->jit_pc - 2);
+    TValue *imm = KB(i);
+    TMS tm = (TMS)JIT_GETARG_C(i);
+    int flip = JIT_GETARG_k(i);
+    StkId result = RA(pi);
     Protect(luaT_trybinassocTM(L, s2v(ra), imm, flip, result, tm));
 }
 
-static void OP_UNM_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_UNM_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
-    TValue *rb = vRB();
+    StkId ra = RA(i);
+    TValue *rb = vRB(i);
     lua_Number nb;
     if (ttisinteger(rb))
     {
@@ -704,12 +715,12 @@ static void OP_UNM_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     }
 }
 
-static void OP_BNOT_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_BNOT_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
-    TValue *rb = vRB();
+    StkId ra = RA(i);
+    TValue *rb = vRB(i);
     lua_Integer ib;
     if (tointegerns(rb, &ib)) 
     {
@@ -721,12 +732,12 @@ static void OP_BNOT_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     }
 }
 
-static void OP_NOT_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_NOT_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
-    TValue *rb = vRB();
+    StkId ra = RA(i);
+    TValue *rb = vRB(i);
     if (l_isfalse(rb))
     {
         setbtvalue(s2v(ra));
@@ -737,182 +748,182 @@ static void OP_NOT_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
     }
 }
 
-static void OP_LEN_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_LEN_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
-    Protect(luaV_objlen(L, ra, vRB()));
+    StkId ra = RA(i);
+    Protect(luaV_objlen(L, ra, vRB(i)));
 }
 
-static void OP_CONCAT_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_CONCAT_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
-    int n = JIT_GETARG_B();  /* number of elements to concatenate */
+    StkId ra = RA(i);
+    int n = JIT_GETARG_B(i);  /* number of elements to concatenate */
     L->top.p = ra + n;  /* mark the end of concat operands */
     ProtectNT(luaV_concat(L, n));
     checkGC(L, L->top.p); /* 'luaV_concat' ensures correct top */
 }
 
-static void OP_CLOSE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_CLOSE_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
+    StkId ra = RA(i);
     Protect(luaF_close(L, ra, LUA_OK, 1));
 }
 
-static void OP_TBC_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_TBC_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 
-    StkId ra = RA();
+    StkId ra = RA(i);
     /* create new to-be-closed upvalue */
     halfProtect(luaF_newtbcupval(L, ra));
 }
 
-static void OP_JMP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_JMP_Func(TExecuteContext *ctx, TInstructionAx* i)
 {
     UseL();
 
-    // TODO:
+    dojump(ci, i, 0);
 }
 
-static void OP_EQ_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
-{
-    UseL();
-}
-
-static void OP_LT_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_EQ_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_LE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_LT_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_EQK_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_LE_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_EQI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_EQK_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_LTI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_EQI_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_LEI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_LTI_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_GTI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_LEI_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_GEI_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_GTI_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_TEST_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_GEI_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_TESTSET_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_TEST_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_CALL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_TESTSET_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_TAILCALL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_CALL_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_RETURN_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_TAILCALL_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_RETURN0_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_RETURN_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_RETURN1_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_RETURN0_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_FORLOOP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_RETURN1_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_FORPREP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_FORLOOP_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_TFORPREP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_FORPREP_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_TFORCALL_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_TFORPREP_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_TFORLOOP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_TFORCALL_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_SETLIST_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_TFORLOOP_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_CLOSURE_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_SETLIST_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_VARARG_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_CLOSURE_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_VARARGPREP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_VARARG_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
-static void OP_EXTRAARG_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void OP_VARARGPREP_Func(TExecuteContext *ctx, TInstructionABC* i)
+{
+    UseL();
+}
+
+static void OP_EXTRAARG_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 }
 
 
 // jit 指令
-static void JIT_NOOP_Func(TExecuteContext *ctx, TInstructionABC* pInstruct)
+static void JIT_NOOP_Func(TExecuteContext *ctx, TInstructionABC* i)
 {
     UseL();
 

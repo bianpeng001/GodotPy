@@ -65,6 +65,14 @@ struct _TInstructionABx
 };
 typedef struct _TInstructionABx TInstructionABx;
 
+/* iAx, isJ */
+struct _TInstructionAx
+{
+    struct _TInstruction Inst;
+    uint32 Ax;
+};
+typedef struct _TInstructionAx TInstructionAx;
+
 /* exec context */
 struct _TExecuteContext
 {
