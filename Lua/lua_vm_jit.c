@@ -97,20 +97,22 @@ struct _TExecuteContext
     int trap;
 
     // jit values
-    uint32 jit_pc;
-    uint32 *jit_code;
+    int32 jit_pc;
+    int32 *jit_code;
     TAllocator *allocator;
 
     int exec_flag;
 };
 typedef struct _TExecuteContext TExecuteContext;
 
-static inline TInstruction *TExecuteContext_GetInstruction(TExecuteContext *ctx, uint32 pc)
+static inline TInstruction *TExecuteContext_GetInstruction(TExecuteContext *ctx, int32 pc)
 {
+    lua_assert(pc >= 0);
+
     return (TInstruction*)TAllocator_GetMemory(ctx->allocator, ctx->jit_code[pc]);
 }
 
-typedef void (*TInstructFunction)(TExecuteContext *ctx, TInstruction* pInstruct);
+typedef void (*TInstructFunction)(TExecuteContext *ctx, TInstruction* i);
 
 /*
 ** jit opcodes

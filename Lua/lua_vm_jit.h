@@ -32,11 +32,13 @@ TAllocator *TAllocator_Create(uint32 size);
 void TAllocator_Destroy(TAllocator *allocator);
 uint32 TAllocator_Alloc(TAllocator *allocator, uint32 size);
 
-inline void *TAllocator_GetMemory(TAllocator *allocator, uint32 offset)
+typedef struct _TInstruction TInstruction;
+
+inline void *TAllocator_GetMemory(TAllocator *allocator, int32 offset)
 {
+    lua_assert(offset >= 0);
     return allocator->memory + offset;
 }
-
 
 #endif // __LUA_VM_JIT_H__
 
