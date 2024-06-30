@@ -1,3 +1,8 @@
+
+set langmenu=en_US
+let $LANG = 'en_US'
+language en_US.utf8
+
 set number
 syntax on
 
@@ -6,8 +11,9 @@ set guifont=Jetbrains\ Mono\ NL:h10
 " set guioptions = egmrLtT
 set guioptions-=T
 set guioptions-=r
+set guioptions-=m
 set lines=50 columns=120
-colorscheme retrobox 
+colorscheme sorbet
 
 " python indent
 set backspace=indent,eol,start
