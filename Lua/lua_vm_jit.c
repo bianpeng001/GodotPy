@@ -303,7 +303,6 @@ returning:
 /*
 ** Allocator
 */
-
 TAllocator *TAllocator_Create(uint32 size)
 {
     TAllocator * allocator = (TAllocator *)malloc(sizeof(TAllocator));
@@ -325,9 +324,10 @@ void TAllocator_Destroy(TAllocator *allocator)
 #define MEM_ALIGN 4
 uint32 TAllocator_Alloc(TAllocator *allocator, uint32 size)
 {
-    if(size % MEM_ALIGN != 0)
+    int32 pad = allocator->header % MEM_ALIGN;
+    if(pad != 0)
     {
-        allocator->header += MEM_ALIGN - size % MEM_ALIGN;
+        allocator->header += MEM_ALIGN - pad;
     }
 
     uint32 offset = allocator->header;
