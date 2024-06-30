@@ -284,8 +284,8 @@ returning:
     // run code
     for(;;)
     {
-        TInstruction* pInstruct = (TInstruction*)TAllocator_GetMemory(allocator, code[ctx.jit_pc++]);
-        TInstruction_Execute(pInstruct, &ctx);
+        TInstruction* i = (TInstruction*)TAllocator_GetMemory(allocator, code[ctx.jit_pc++]);
+        TInstruction_Execute(i, &ctx);
 
         switch(ctx.exec_flag)
         {
