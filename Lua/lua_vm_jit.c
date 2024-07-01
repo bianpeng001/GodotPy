@@ -284,8 +284,8 @@ returning:
     // run code
     for(;;)
     {
-        TInstruction* i = (TInstruction*)TAllocator_GetMemory(allocator, code[ctx.jit_pc++]);
-        TInstruction_Execute(i, &ctx);
+        TInstruction* pInstruct = (TInstruction*)TAllocator_GetMemory(allocator, code[ctx.jit_pc++]);
+        TInstruction_Execute(pInstruct, &ctx);
 
         switch(ctx.exec_flag)
         {
@@ -303,6 +303,7 @@ returning:
 /*
 ** Allocator
 */
+
 TAllocator *TAllocator_Create(uint32 size)
 {
     TAllocator * allocator = (TAllocator *)malloc(sizeof(TAllocator));
@@ -324,10 +325,10 @@ void TAllocator_Destroy(TAllocator *allocator)
 #define MEM_ALIGN 4
 uint32 TAllocator_Alloc(TAllocator *allocator, uint32 size)
 {
-    int32 pad = allocator->header % MEM_ALIGN;
-    if(pad != 0)
+    int32 padding = allocator->header % MEM_ALIGN;
+    if(padding != 0)
     {
-        allocator->header += MEM_ALIGN - pad;
+        allocator->header += MEM_ALIGN - padding;
     }
 
     uint32 offset = allocator->header;

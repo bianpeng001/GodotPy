@@ -18,7 +18,7 @@ all: $(LUA_DLL) $(LUA) $(LUA_C)
 
 #-O2 -Wall -Wextra -DLUA_COMPAT_5_3
 # -DLUAI_ASSERT
-CFLAGS = -O2 -Wall -Wextra
+CFLAGS = -O3 -Wall -Wextra
 $(LUA_DLL): CFLAGS += -DLUA_BUILD_AS_DLL
 
 #$(info generate obj files)
