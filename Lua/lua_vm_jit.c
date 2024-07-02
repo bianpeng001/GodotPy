@@ -232,12 +232,12 @@ static TInstructFunction const InstructionFuncTable[NUM_OPCODES + NUM_JIT_OPCODE
 
 };
 
-static inline void TInstruction_Execute(TInstruction* pInstruct, TExecuteContext* ctx)
+static inline void TInstruction_Execute(TInstruction* i, TExecuteContext* ctx)
 {
-    TInstructFunction Fun = InstructionFuncTable[pInstruct->OpCode];
+    TInstructFunction Fun = InstructionFuncTable[i->OpCode];
     if (Fun)
     {
-        Fun(ctx, pInstruct);
+        Fun(ctx, i);
     }
 }
 
@@ -284,8 +284,8 @@ returning:
     // run code
     for(;;)
     {
-        TInstruction* pInstruct = (TInstruction*)TAllocator_GetMemory(allocator, code[ctx.jit_pc++]);
-        TInstruction_Execute(pInstruct, &ctx);
+        TInstruction* i = (TInstruction*)TAllocator_GetMemory(allocator, code[ctx.jit_pc++]);
+        TInstruction_Execute(i, &ctx);
 
         switch(ctx.exec_flag)
         {
@@ -343,6 +343,39 @@ uint32 TAllocator_Alloc(TAllocator *allocator, uint32 size)
     return offset;
 }
 
+/*
+** compile lua bytecode to jit
+*/
+void lua_vm_jit_compile(lua_State *L, CallInfo *ci)
+{
+    const Instruction *pc;
+    Proto *f;
+    int i;
 
+    f = ci_func(ci)->p;
+    
+    for (i = 0, pc = ci->u.l.savedpc; i < f->sizecode; ++i)
+    {
+        int line = luaG_getfuncline(f,i);
+        const Instruction i = *pc++;
+        printf("[%d] %x\n", line, GET_OPCODE(i));
+    }
+}
+
+/*
+
+#ifdef USE_JIT
+#include "../lua_vm_jit.h"
+void luaV_execute(lua_State *L, CallInfo *ci)
+{
+  lua_vm_jit_compile(L, ci);
+  //lua_vm_jit_execute(L, ci);
+}
+void luaV_execute_old(lua_State *L, CallInfo *ci)
+#else
+void luaV_execute (lua_State *L, CallInfo *ci)
+#endif
+
+*/
 
 

@@ -19,7 +19,7 @@ all: $(LUA_DLL) $(LUA) $(LUA_C)
 #-O2 -Wall -Wextra -DLUA_COMPAT_5_3
 # -DLUAI_ASSERT
 CFLAGS = -O3 -Wall -Wextra
-$(LUA_DLL): CFLAGS += -DLUA_BUILD_AS_DLL
+$(LUA_DLL): CFLAGS += -DLUA_BUILD_AS_DLL -DUSE_JIT
 
 #$(info generate obj files)
 #$(info ****************************************)
@@ -58,5 +58,7 @@ $(LUA_C): $(C_OBJ)
 clean:
 	del *.o src\*.o
 
+
+src/lvm_d.o: lua_vm_jit.h src/lvm.c
 
 
