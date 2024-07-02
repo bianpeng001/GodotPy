@@ -343,6 +343,8 @@ uint32 TAllocator_Alloc(TAllocator *allocator, uint32 size)
     return offset;
 }
 
+#include "lopnames.h"
+
 /*
 ** compile lua bytecode to jit
 */
@@ -358,7 +360,8 @@ void lua_vm_jit_compile(lua_State *L, CallInfo *ci)
     {
         int line = luaG_getfuncline(f,j);
         const Instruction i = pc[j];
-        printf("[%d] %x\n", line, GET_OPCODE(i));
+        OpCode o = GET_OPCODE(i);
+        printf("[%d] %s\n", line, opnames[o]);
     }
 }
 
