@@ -350,14 +350,14 @@ void lua_vm_jit_compile(lua_State *L, CallInfo *ci)
 {
     const Instruction *pc;
     Proto *f;
-    int i;
+    int j;
 
     f = ci_func(ci)->p;
     
-    for (i = 0, pc = ci->u.l.savedpc; i < f->sizecode; ++i)
+    for (j = 0, pc = ci->u.l.savedpc; j < f->sizecode; ++j)
     {
-        int line = luaG_getfuncline(f,i);
-        const Instruction i = *pc++;
+        int line = luaG_getfuncline(f,j);
+        const Instruction i = pc[j];
         printf("[%d] %x\n", line, GET_OPCODE(i));
     }
 }
