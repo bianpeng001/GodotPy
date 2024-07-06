@@ -25,7 +25,7 @@ $(LUA_DLL): CFLAGS += -DLUA_BUILD_AS_DLL -DUSE_JIT
 #$(info ****************************************)
 OBJ := $(foreach Item, $(CORE_O) $(LIB_O), src/$(Item).o)
 DLL_OBJ := $(foreach Item, $(CORE_O) $(LIB_O), src/$(Item)_d.o)
-C_OBJ := $(foreach Item, $(CORE_O) $(LIB_O) luac ldump, src/$(Item)_c.o)
+C_OBJ := $(foreach Item, $(CORE_O) $(LIB_O) luac, src/$(Item)_c.o)
 #$(info $(OBJ))
 #$(info ****************************************)
 
@@ -59,6 +59,7 @@ clean:
 	del *.o src\*.o
 
 
-src/lvm_d.o: lua_vm_jit.h src/lvm.c
+src/lvm_d.o: src/lvm.c lua_vm_jit.h
+src/lvm_c.o: src/lvm.c lua_vm_jit.h
 
 

@@ -1637,6 +1637,84 @@ static void JIT_NOOP_Func(TExecuteContext *ctx, TInstructionABC* i)
 }
 
 
+//-------------------------------------------------------------------------------------------
+// compile bytecode to bc2
+//-------------------------------------------------------------------------------------------
+
+#include "lopnames.h"
+
+/*
+** compile lua bytecode to jit
+*/
+void lua_vm_bc2_compile(lua_State *L, CallInfo *ci)
+{
+    const Instruction *pc;
+    Proto *f;
+    int j;
+
+    pc = ci->u.l.savedpc;
+    f = ci_func(ci)->p;
+    
+    if (f->b2_code)
+    {
+        return;
+    }
+
+    f->b2_code = luaM_newvectorchecked(L, f->sizecode, uint32);
+    f->b2_allocator = TAllocator_Create(f->sizecode*sizeof(int)*2);
+
+    for (j = 0; j < f->sizecode; ++j)
+    {
+        int line = luaG_getfuncline(f,j);
+        const Instruction i = f->code[j];
+        OpCode o = GET_OPCODE(i);
+        printf("[%d] %s\n", line, opnames[o]);
+    }
+}
+
+/*
+
+-------------------------
+patch: lvm.c:1150
+
+#ifdef USE_JIT
+#include "../lua_vm_jit.h"
+void luaV_execute(lua_State *L, CallInfo *ci)
+{
+  lua_vm_bc2_compile(L, ci);
+  //lua_vm_bc2_execute(L, ci);
+}
+void luaV_execute_old(lua_State *L, CallInfo *ci)
+#else
+void luaV_execute (lua_State *L, CallInfo *ci)
+#endif
+
+-------------------------
+patch: lobject.h:550
+
+additional fields in struct Proto
+
+  TAllocator *b2_allocator;
+  int* b2_code;
+
+-------------------------
+patch: lfunc.c:240
+
+luaF_newprotp()
+
+  f->b2_allocator = NULL;
+  f->bc_code = NULL;
+
+-------------------------
+patch: lfunc.c:273
+
+luaF_freeproto()
+  luaM_freearray(L, f->b2_code, f->sizecode);
+  TAllocator_Destroy(f->b2_allocator);
+  f->b2_code = NULL;
+  f->b2_allocator = NULL;
+
+*/
 
 
 

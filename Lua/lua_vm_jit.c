@@ -241,7 +241,7 @@ static inline void TInstruction_Execute(TInstruction* i, TExecuteContext* ctx)
     }
 }
 
-void lua_vm_jit_execute(lua_State *L, CallInfo *ci)
+void lua_vm_bc2_execute(lua_State *L, CallInfo *ci)
 {
     TExecuteContext ctx;
     ctx.L = L;
@@ -342,43 +342,5 @@ uint32 TAllocator_Alloc(TAllocator *allocator, uint32 size)
 
     return offset;
 }
-
-#include "lopnames.h"
-
-/*
-** compile lua bytecode to jit
-*/
-void lua_vm_jit_compile(lua_State *L, CallInfo *ci)
-{
-    const Instruction *pc;
-    Proto *f;
-    int j;
-
-    f = ci_func(ci)->p;
-    
-    for (j = 0, pc = ci->u.l.savedpc; j < f->sizecode; ++j)
-    {
-        int line = luaG_getfuncline(f,j);
-        const Instruction i = pc[j];
-        OpCode o = GET_OPCODE(i);
-        printf("[%d] %s\n", line, opnames[o]);
-    }
-}
-
-/*
-
-#ifdef USE_JIT
-#include "../lua_vm_jit.h"
-void luaV_execute(lua_State *L, CallInfo *ci)
-{
-  lua_vm_jit_compile(L, ci);
-  //lua_vm_jit_execute(L, ci);
-}
-void luaV_execute_old(lua_State *L, CallInfo *ci)
-#else
-void luaV_execute (lua_State *L, CallInfo *ci)
-#endif
-
-*/
 
 

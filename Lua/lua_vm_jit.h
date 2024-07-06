@@ -5,8 +5,8 @@
 #ifndef __LUA_VM_JIT_H__
 #define __LUA_VM_JIT_H__
 
-void lua_vm_jit_execute(lua_State *L, CallInfo *ci);
-void lua_vm_jit_compile(lua_State *L, CallInfo *ci);
+void lua_vm_bc2_execute(lua_State *L, CallInfo *ci);
+void lua_vm_bc2_compile(lua_State *L, CallInfo *ci);
 
 #ifndef INT_TYPES
 
