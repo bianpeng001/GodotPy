@@ -155,6 +155,7 @@ PYTHON_OBJS = [
     "Python/thread.c",
     "Python/traceback.c",
     "Python/tracemalloc.c",
+    "Python/typeid.c",
 ]
 MODULE_OBJS = [
     'Modules/main.c',
@@ -278,7 +279,7 @@ cppdefines = [
     ('WITH_MIMALLOC', 1),
     ('Py_GIL_DISABLED', 1),
 
-    # jit, invoke REGEN_JIT_COMMAND fro configure!!!
+    # jit, invoke REGEN_JIT_COMMAND to configure!!!
     # "D_Py_JIT",
     
     # 从python312.zip里面加载标准模块
