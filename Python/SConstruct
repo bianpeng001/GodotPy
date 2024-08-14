@@ -182,6 +182,10 @@ Modules = [
     "Modules/_hacl/Hacl_Hash_SHA1.c",
     "Modules/_hacl/Hacl_Hash_SHA2.c",
     "Modules/_hacl/Hacl_Hash_SHA3.c",
+
+    # 这个看要不要，现在没有也不报错
+    #"Modules/_hacl/Lib_Memzero0.c",
+
     "Modules/_heapqmodule.c",
     "Modules/_json.c",
     "Modules/_lsprof.c",
