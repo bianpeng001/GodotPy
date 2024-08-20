@@ -417,7 +417,7 @@ public:
 	}
 	static void Clear() {
 		if (object_id2gd_obj_dict.size() > 0) {
-			auto &values = object_id2gd_obj_dict.values();
+			const auto &values = object_id2gd_obj_dict.values();
 			for (int i = 0; i < values.size(); ++i) {
 				auto v = values[i];
 				auto slot = Object::cast_to<FGDObjSlot>((Object *)v);
@@ -443,17 +443,17 @@ static const char c_InputEvent[] = "InputEvent";
 static const char c_Resource[] = "Resource";
 static const char c_SurfaceTool[] = "SurfaceTool";
 
+template <const char *pointer_name, typename T>
+inline T *_capsule_get_pointer(PyObject *obj) {
+	auto ptr = reinterpret_cast<T *>(PyCapsule_GetPointer(obj, pointer_name));
+	return ptr;
+}
 template <const char* pointer_name, typename T>
 void _capsule_delete_pointer(PyObject *obj) {
 	//print_line(vformat("delete %s", String(pointer_name)));
 	//auto ptr = reinterpret_cast<T *>(PyCapsule_GetPointer(obj, pointer_name));
 	auto ptr = _capsule_get_pointer<pointer_name, T>(obj);
 	memdelete<T>(ptr);
-}
-template <const char* pointer_name, typename T>
-inline T* _capsule_get_pointer(PyObject* obj) {
-	auto ptr = reinterpret_cast<T *>(PyCapsule_GetPointer(obj, pointer_name));
-	return ptr;
 }
 
 //------------------------------------------------------------------------------
@@ -486,7 +486,7 @@ private:
 					break;
 				case Variant::STRING:
 					do {
-						auto &s = (String)arg;
+						const auto &s = (String)arg;
 						value = PyUnicode_FromString(s.utf8());
 
 					} while (0);
@@ -633,7 +633,7 @@ struct ResCapsule {
 
 	template <typename T>
 	Ref<T> As() {
-		return Res<T>(this->res);
+		return Ref<T>(this->res);
 	}
 };
 static inline ResCapsule *GetResCapsule(PyObject *obj) {
