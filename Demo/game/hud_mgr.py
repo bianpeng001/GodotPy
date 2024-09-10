@@ -2,6 +2,8 @@
 # 2023年2月8日 bianpeng
 #
 
+import math
+
 from game.core import log_debug, OS
 from game.game_mgr import *
 from game.base_type import *
@@ -59,6 +61,7 @@ class HUDItem:
         if unit:
             x,y,z = unit.get_position()
             x1,y1 = get_main_camera().world_to_screen(x,y+self.hud_height,z)
+            #x1,y1 = round(x1/2)*2,round(y1/2)*2
             self.hud_obj.set_position(x1+self.offset, y1)
             
             hud_comp = unit.get_controller().get_hud_comp()

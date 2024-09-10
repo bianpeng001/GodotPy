@@ -3366,7 +3366,10 @@ static int InitPython() {
 		project_path = project_path.substr(0, project_path.length() - 1);
 	}
 
+	// TODO: 这里取出来的是错误的，目前，临时修一下
 	String bin_dir = OS::get_singleton()->get_executable_path().get_base_dir();
+	//String bin_dir = "D:/OpenSource/godot/bin";
+
 	String Lib = bin_dir + "/Lib";
 	String DLLs = bin_dir + "/DLLs";
 	String LibZip = bin_dir + "/python313.zip";
