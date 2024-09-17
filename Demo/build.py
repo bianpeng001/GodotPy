@@ -102,6 +102,7 @@ def build_publish():
     
     # replace app icon
     run(f'{RES_HACKER} -script {PROJECT_DIR}\\Godot\\replace_icon.txt')
+    run(f'{RES_HACKER} -script {PROJECT_DIR}\\Godot\\replace_icon_console.txt')
 
     # zip python313.zip
     call_task('archive_python')

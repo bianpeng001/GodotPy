@@ -4,7 +4,7 @@
 IDI_ICON1               ICON    DISCARDABLE     "PC\icons\python.ico"
 
 #define VER_DBG 0
-#define PYTHON_VERSION "3.13.0a4+"
+#define PYTHON_VERSION "3.x.x"
 #define MY_NAME "GodotEngine + Python"
 
 VS_VERSION_INFO VERSIONINFO

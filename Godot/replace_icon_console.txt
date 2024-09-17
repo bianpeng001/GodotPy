@@ -1,0 +1,9 @@
+[FILENAMES]
+Exe= ..\Build\Demo.console.exe
+SaveAs= ..\Build\Demo.console.exe
+Log= replace_icon_console.log
+
+[COMMANDS]
+-addoverwrite .\app.ico,ICONGROUP,GODOT_ICON,0
+
+
