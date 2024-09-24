@@ -450,7 +450,9 @@ class LogUtil:
 
     def print_stack(self, skip_frame):
         s = traceback.extract_stack(limit=6)
-        for it in s[:-skip_frame]:
+        frames = s[:-skip_frame:]
+        frames.reverse()
+        for it in frames:
             print_line(f'\t{it.filename[self.skip:]}:{it.lineno}')
 
     def debug(self, *args, st=True, **kwargs):
