@@ -156,7 +156,7 @@ PYTHON_OBJS = [
     "Python/thread.c",
     "Python/traceback.c",
     "Python/tracemalloc.c",
-    "Python/typeid.c",
+    "Python/uniqueid.c",
 ]
 MODULE_OBJS = [
     'Modules/main.c',
