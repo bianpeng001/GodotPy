@@ -78,6 +78,7 @@ class StoryPanelController(UIController, PopupTrait):
         label = self.text.find_node('Label')
         label.set_text(text)
     
+    # 连续播放好几段对话
     def show_text(self, text, wait_time=None):
         self.text_queue.put((text, wait_time))
         if not self._co_show_text:
@@ -92,7 +93,7 @@ class StoryPanelController(UIController, PopupTrait):
                     yield wait_time
 
                 self.defer_close()
-                self._co_show_dialog = None
+                self._co_show_text = None
                 
             self._co_show_text = game_mgr.co_mgr.start(co_show_text())
 

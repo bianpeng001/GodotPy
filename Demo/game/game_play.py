@@ -209,10 +209,11 @@ class GamePlay:
             dlg1.defer_close()
             yield WaitForSeconds(2)
             
-            dlg1.show_text('有一天, 我在街上闲逛')
+            log_debug(dlg2.get_waiter())
+            dlg1.show_text('那一天, 我正在街上闲逛')
             dlg1.show_text('看人来人往, 潮起潮落')
-            dlg1.show_text('不疾不徐, 暗自发愁晚饭还没着落')
-            dlg1.show_text('突然, 斜里过来一人, 一把将我拽住')
+            dlg1.show_text('暗自发愁中饭还没着落')
+            dlg1.show_text('突然, 斜里过来一人, 将我一把拽住')
             yield dlg1.get_waiter()
             
             dlg2.show_dialog("陌生人", "兄台请留步")
@@ -220,6 +221,7 @@ class GamePlay:
             dlg2.show_dialog("陌生人", "兄台取笑了, 不是问你要钱, 是给你钱!")
             dlg2.show_dialog("我", "还有这好事?")
             dlg2.show_dialog("陌生人", "未请教尊姓大名?")
+            
             yield dlg2.get_waiter()
             
             dlg3.show_dialog()
@@ -232,7 +234,7 @@ class GamePlay:
             dlg2.show_dialog(player_name, "骗小孩呢? 有事说事, 别耽误我散步")
             dlg2.show_dialog("陌生人", "...这个, 眼下虽然时运不济, 他日风云际会, 必定一飞冲天!")
             dlg2.show_dialog("陌生人", "如今朝廷正在用人之际, 我推荐你到军中效力, 总好过在乡野埋没")
-            dlg2.show_dialog(player_name, "好像有点道理")
+            dlg2.show_dialog(player_name, "多谢恩公指点")
             yield dlg2.get_waiter()
             
             dlg1.show_text('这就是我被拉壮丁的经过')
@@ -240,7 +242,7 @@ class GamePlay:
             dlg1.show_text('我们几个武功还可以, 加上运气不错')
             dlg1.show_text('没在某场战斗里, 被箭射死, 被刀砍死, 被马踩死, 落河淹死...')
             dlg1.show_text('再后来, 仗打完了')
-            dlg1.show_text('我跟两位兄弟, 被安排来此处当了个普通县尉')
+            dlg1.show_text('我跟两位兄弟, 论功行赏，来此处当个普通县尉')
             dlg1.show_text('故事从这里开始', 4.0)
             yield dlg1.get_waiter()
 
