@@ -10,6 +10,9 @@ from game.base_type import UIController
 from game.ui.ui_traits import PopupTrait
 from game.event_name import PRESSED
 
+# 每秒停顿的字数, 方便阅读
+CharsPerSecond = 10
+
 #
 # 剧情
 #
@@ -89,7 +92,7 @@ class StoryPanelController(UIController, PopupTrait):
                     text, wait_time = self.text_queue.get_nowait()
                     self.set_text(text)
                     if wait_time is None:
-                        wait_time = 1.5 * max(math.ceil(len(text)/15), 1.0)
+                        wait_time = 1 * max(math.ceil(len(text)/CharsPerSecond), 1.0)
                     yield wait_time
 
                 self.defer_close()

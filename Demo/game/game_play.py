@@ -239,11 +239,9 @@ class GamePlay:
             
             dlg1.show_text('这就是我被拉壮丁的经过')
             dlg1.show_text('然后我结识了几个兄弟, 一起出生入死')
-            dlg1.show_text('我们几个武功还可以, 加上运气不错')
-            dlg1.show_text('没在某场战斗里, 被箭射死, 被刀砍死, 被马踩死, 落河淹死...')
-            dlg1.show_text('再后来, 仗打完了')
-            dlg1.show_text('我跟两位兄弟, 论功行赏，来此处当个普通县尉')
-            dlg1.show_text('故事从这里开始', 4.0)
+            dlg1.show_text('我们几个运气还可以')
+            dlg1.show_text('没在某场战斗里, 被箭射死, 被刀砍死, 被马踩死, 被石头砸死, 落水淹死...')
+            dlg1.show_text('派到此处当个普通县尉', 4.0)
             yield dlg1.get_waiter()
 
             game_mgr.co_mgr.cancel(co_camera_mov)
