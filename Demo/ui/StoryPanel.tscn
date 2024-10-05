@@ -67,10 +67,12 @@ patch_margin_bottom = 15
 
 [node name="Label" type="Label" parent="Text"]
 layout_mode = 0
+offset_left = 20.0
 offset_top = 100.0
-offset_right = 800.0
+offset_right = 780.0
 offset_bottom = 200.0
 theme = ExtResource("2_aoew4")
 text = "很久很久以前"
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 1
