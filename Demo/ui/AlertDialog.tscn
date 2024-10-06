@@ -11,6 +11,7 @@ offset_bottom = 150.0
 
 [node name="Bg" type="NinePatchRect" parent="."]
 self_modulate = Color(0.156863, 0.156863, 0.156863, 1)
+layout_mode = 0
 offset_right = 250.0
 offset_bottom = 150.0
 texture = ExtResource("1_dgoil")
