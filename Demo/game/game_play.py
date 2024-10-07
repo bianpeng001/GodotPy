@@ -240,7 +240,7 @@ class GamePlay:
             dlg1.show_text('这就是我被拉壮丁的经过')
             dlg1.show_text('然后我结识了几个兄弟, 一起出生入死')
             dlg1.show_text('我们几个运气还可以')
-            dlg1.show_text('没在某场战斗里, 被箭射死, 被刀砍死, 被马踩死, 被石头砸死, 落水淹死...')
+            dlg1.show_text('没在某场战斗里, 被箭射死, 被刀砍死, 被马踩死, \n被石头砸死, 落水淹死...')
             dlg1.show_text('立了些军功, 派到此处当个普通县尉', 4.0)
             yield dlg1.get_waiter()
 
