@@ -245,7 +245,7 @@ class CmdPanelController(UIController, PopupTrait):
             sb.writeln(f'主公 {get_player_name(unit.owner_player_id)}')
 
         if unit.unit_type == UT_TROOP:
-            sb.writeln('方阵')
+            sb.writeln('方阵 骑兵')
         elif unit.unit_type == UT_CITY:
             sb.writeln(f'安居乐业')
         

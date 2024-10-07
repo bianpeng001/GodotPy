@@ -620,7 +620,8 @@ class ConfigMgr:
 
         item = ArmyTypeConfig()
         item.config_id = 0
-        item.name = '徒手'
+        # 民兵, 乡兵, 没有武器,从事后勤
+        item.name = '厢兵'   
         item.supply = 0.1
         add_type(item)
 
