@@ -134,6 +134,7 @@ PYTHON_OBJS = [
     "Python/parking_lot.c",
     "Python/pathconfig.c",
     "Python/perf_trampoline.c",
+    "Python/perf_jit_trampoline.c",
     "Python/preconfig.c",
     "Python/pyarena.c",
     "Python/pyctype.c",
@@ -775,4 +776,13 @@ def regen_jit():
     cmd = "python.exe Tools/jit/build.py x64"
     run(cmd)
 
+
+
+#
+# 我们这里默认不开启
+# enable_experimental_jit
+#   no  jit_flags="", tier2_flags=""
+#   yes jit_flags="-D_Py_JIT" tier2_flags="-D_Py_TIER2=1"
+# see details refer to cpython/configure
+#
 
