@@ -461,14 +461,14 @@ DEEP_FREEZE_FILE = 'Python/deepfreeze/deepfreeze.c'
 #
 # deepfreeze.c  暂时不需要了, 被mark shannon删了. 我这里也生成一个空文件代替. 先不删
 #
-def run_bootstrap2(**kwargs):
+def run_bootstrap_empty(**kwargs):
     with open(DEEP_FREEZE_FILE, 'w') as f:
         f.write('\n')
 
 GenBootstrap = env.Command(
     target = DEEP_FREEZE_FILE,
     source = BootstrapPython,
-    action = run_bootstrap
+    action = run_bootstrap_empty
 )
 env.Requires(GenBootstrap, BootstrapExe)
 
