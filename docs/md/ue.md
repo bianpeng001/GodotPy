@@ -2,6 +2,12 @@
 
 # UE学习笔记
 
+
+## InstancedStaticMesh
+    高性能绘制大量的静态物体，并可以单独控制位置。适合做植被，弹幕，子弹等.
+    AddInstance
+    UpdateInstanceTransform
+
 ## UnrealBuildTool
 构造工具是用C#实现的, 非常方便好用.
 

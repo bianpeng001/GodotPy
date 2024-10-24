@@ -17,6 +17,12 @@ git apply godotpy_fix.patch
 
 ```
 
+
+<div class="date">2024年10月24日</div>
+
+1. MultiMesh 可以用来优化性能，绘制大量重复的物体，植被！！
+   https://docs.godotengine.org/en/stable/tutorials/performance/using_multimesh.html#doc-using-multimesh
+
 <div class="date">2023年9月26日</div>
 
 ## 开发日志
