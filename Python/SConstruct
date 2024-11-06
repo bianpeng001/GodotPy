@@ -114,6 +114,7 @@ PYTHON_OBJS = [
     "Python/getversion.c",
     "Python/hamt.c",
     "Python/hashtable.c",
+    "Python/index_pool.c",
     "Python/import.c",
     "Python/importdl.c",
     "Python/initconfig.c",
