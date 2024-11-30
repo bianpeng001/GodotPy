@@ -6,6 +6,7 @@ import os.path
 EnsureSConsVersion(3, 0, 0)
 EnsurePythonVersion(3, 6)
 
+
 TOKENIZER_OBJS = [
     'Parser/lexer/buffer.c',
 	'Parser/lexer/lexer.c',
@@ -277,14 +278,13 @@ is_release = ARGUMENTS.get('release', True)
 #is_release = False
 
 # module
-ModuleName = 'python3'
-PY_VER = '3.13'
+ModuleName = 'python314'
+PY_VER = '3.14'
 cppdefines = [
     'Py_BUILD_CORE',
     'Py_BUILD_CORE_BUILTIN',
     ('Py_ENABLE_SHARED', 1),
-    ('WITH_MIMALLOC', 1),
-    ('Py_GIL_DISABLED', 1),
+    #('WITH_MIMALLOC', 1),
 
     # jit, invoke REGEN_JIT_COMMAND to configure!!!
     # "D_Py_JIT",
@@ -293,7 +293,7 @@ cppdefines = [
     '_Py_HAVE_ZLIB',
 
     # winreg.c require MACRO CONDITION
-    'MS_WINDOWS_DESKTOP',
+    #'MS_WINDOWS_DESKTOP',
 
     #'_DEBUG',
 
@@ -542,8 +542,7 @@ def build_sqlite3_pyd():
         CPPPATH = incs + [SQLITE3,],
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
-            ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            #('WITH_MIMALLOC', 1),
 
             'SQLITE_ENABLE_MATH_FUNCTIONS',
             'SQLITE_ENABLE_FTS4',
@@ -571,8 +570,7 @@ def build_sqlite3_pyd():
         CPPPATH = incs + [SQLITE3,],
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
-            ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            #('WITH_MIMALLOC', 1),
 
             'PY_SQLITE_HAVE_SERIALIZE',
             'PY_SQLITE_ENABLE_LOAD_EXTENSION',
@@ -612,8 +610,7 @@ def build_asyncio_pyd():
         source = ['Modules/_asynciomodule.c'],
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
-            ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            #('WITH_MIMALLOC', 1),
         ],
         buildtarget = '_asyncio.dll',
         LIBS = [ 'python3.lib', ]
@@ -628,8 +625,7 @@ def build_overlapped_pyd():
         source = ['Modules/overlapped.c'],
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
-            ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            #('WITH_MIMALLOC', 1),
 
         ],
         buildtarget = '_overlapped.dll',
@@ -648,8 +644,7 @@ def build_multiprocessing_pyd():
         ],
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
-            ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            #('WITH_MIMALLOC', 1),
 
         ],
         buildtarget = '_multiprocessing.dll',
@@ -665,8 +660,7 @@ def build_queue_pyd():
         source = ['Modules/_queuemodule.c',],
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
-            ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            #('WITH_MIMALLOC', 1),
 
         ],
         buildtarget = '_queue.dll',
@@ -699,8 +693,7 @@ def build_decimal_pyd():
         ],
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
-            ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            #('WITH_MIMALLOC', 1),
 
             ('CONFIG_64', 1),
             ('ANSI', 1),
@@ -749,8 +742,7 @@ def build_ctypes_pyd():
         ],
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
-            ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            #('WITH_MIMALLOC', 1),
 
         ],
         CPPPATH = incs + [
