@@ -290,7 +290,7 @@ cppdefines = [
     'Py_BUILD_CORE_BUILTIN',
     ('Py_ENABLE_SHARED', 1),
     ('WITH_MIMALLOC', 1),
-    ('Py_GIL_DISABLED', 1),
+    #('Py_GIL_DISABLED', 1),
 
     # jit, invoke REGEN_JIT_COMMAND to configure!!!
     # "D_Py_JIT",
@@ -549,7 +549,7 @@ def build_sqlite3_pyd():
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
             ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            #('Py_GIL_DISABLED', 1),
 
             'SQLITE_ENABLE_MATH_FUNCTIONS',
             'SQLITE_ENABLE_FTS4',
@@ -578,7 +578,7 @@ def build_sqlite3_pyd():
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
             ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            #('Py_GIL_DISABLED', 1),
 
             'PY_SQLITE_HAVE_SERIALIZE',
             'PY_SQLITE_ENABLE_LOAD_EXTENSION',
@@ -619,7 +619,7 @@ def build_asyncio_pyd():
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
             ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            #('Py_GIL_DISABLED', 1),
         ],
         buildtarget = '_asyncio.dll',
         LIBS = [ PyLibName, ]
@@ -635,7 +635,7 @@ def build_overlapped_pyd():
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
             ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            #('Py_GIL_DISABLED', 1),
 
         ],
         buildtarget = '_overlapped.dll',
@@ -655,7 +655,7 @@ def build_multiprocessing_pyd():
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
             ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            #('Py_GIL_DISABLED', 1),
 
         ],
         buildtarget = '_multiprocessing.dll',
@@ -672,7 +672,7 @@ def build_queue_pyd():
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
             ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            #('Py_GIL_DISABLED', 1),
 
         ],
         buildtarget = '_queue.dll',
@@ -706,7 +706,7 @@ def build_decimal_pyd():
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
             ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            #('Py_GIL_DISABLED', 1),
 
             ('CONFIG_64', 1),
             ('ANSI', 1),
@@ -756,7 +756,7 @@ def build_ctypes_pyd():
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
             ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            #('Py_GIL_DISABLED', 1),
 
         ],
         CPPPATH = incs + [
