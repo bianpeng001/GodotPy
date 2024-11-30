@@ -284,7 +284,8 @@ cppdefines = [
     'Py_BUILD_CORE',
     'Py_BUILD_CORE_BUILTIN',
     ('Py_ENABLE_SHARED', 1),
-    #('WITH_MIMALLOC', 1),
+    ('WITH_MIMALLOC', 1),
+    ('Py_GIL_DISABLED', 1),
 
     # jit, invoke REGEN_JIT_COMMAND to configure!!!
     # "D_Py_JIT",
@@ -526,7 +527,7 @@ PythonExe = env2.Program('python.exe',
     ],
     CPPPATH = incs,
     resources = [],
-    LIBS = ['python3.lib',]
+    LIBS = ['python314.lib',]
 )
 # 加一下依赖关系, 保证先后执行顺序
 env2.Requires(PythonExe, [PythonLib, PythonExeRes])
@@ -542,7 +543,8 @@ def build_sqlite3_pyd():
         CPPPATH = incs + [SQLITE3,],
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
-            #('WITH_MIMALLOC', 1),
+            ('WITH_MIMALLOC', 1),
+            ('Py_GIL_DISABLED', 1),
 
             'SQLITE_ENABLE_MATH_FUNCTIONS',
             'SQLITE_ENABLE_FTS4',
@@ -552,7 +554,7 @@ def build_sqlite3_pyd():
             ('SQLITE_API', '__declspec(dllexport)'),
             ],
         buildtarget = 'sqlite3.dll',
-        LIBS = ['python3.lib']
+        LIBS = ['python314.lib']
     )
 
     sqlite3_pyd = env2.SharedLibrary('_sqlite3',
@@ -570,7 +572,8 @@ def build_sqlite3_pyd():
         CPPPATH = incs + [SQLITE3,],
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
-            #('WITH_MIMALLOC', 1),
+            ('WITH_MIMALLOC', 1),
+            ('Py_GIL_DISABLED', 1),
 
             'PY_SQLITE_HAVE_SERIALIZE',
             'PY_SQLITE_ENABLE_LOAD_EXTENSION',
@@ -578,7 +581,7 @@ def build_sqlite3_pyd():
         buildtarget = '_sqlite3.dll',
         LIBS = [
             'sqlite3.lib',
-            'python3.lib',
+            'python314.lib',
         ],
     )
 build_sqlite3_pyd()
@@ -594,7 +597,7 @@ def build_socket_pyd():
         ],
         buildtarget = '_socket.dll',
         LIBS = [
-            'python3.lib',
+            'python314.lib',
             'Rpcrt4.lib',
             'Iphlpapi.lib',
             'Ws2_32.lib',
@@ -610,10 +613,11 @@ def build_asyncio_pyd():
         source = ['Modules/_asynciomodule.c'],
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
-            #('WITH_MIMALLOC', 1),
+            ('WITH_MIMALLOC', 1),
+            ('Py_GIL_DISABLED', 1),
         ],
         buildtarget = '_asyncio.dll',
-        LIBS = [ 'python3.lib', ]
+        LIBS = [ 'python314.lib', ]
     )
 build_asyncio_pyd()
 
@@ -625,11 +629,12 @@ def build_overlapped_pyd():
         source = ['Modules/overlapped.c'],
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
-            #('WITH_MIMALLOC', 1),
+            ('WITH_MIMALLOC', 1),
+            ('Py_GIL_DISABLED', 1),
 
         ],
         buildtarget = '_overlapped.dll',
-        LIBS = [ 'python3.lib', "Ws2_32", ]
+        LIBS = [ 'python314.lib', "Ws2_32", ]
     )
 build_overlapped_pyd()
 
@@ -644,11 +649,12 @@ def build_multiprocessing_pyd():
         ],
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
-            #('WITH_MIMALLOC', 1),
+            ('WITH_MIMALLOC', 1),
+            ('Py_GIL_DISABLED', 1),
 
         ],
         buildtarget = '_multiprocessing.dll',
-        LIBS = [ 'python3.lib', "Ws2_32", ]
+        LIBS = [ 'python314.lib', "Ws2_32", ]
     )
 build_multiprocessing_pyd()
 
@@ -660,11 +666,12 @@ def build_queue_pyd():
         source = ['Modules/_queuemodule.c',],
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
-            #('WITH_MIMALLOC', 1),
+            ('WITH_MIMALLOC', 1),
+            ('Py_GIL_DISABLED', 1),
 
         ],
         buildtarget = '_queue.dll',
-        LIBS = [ 'python3.lib', ]
+        LIBS = [ 'python314.lib', ]
     )
 build_queue_pyd()
 
@@ -693,14 +700,15 @@ def build_decimal_pyd():
         ],
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
-            #('WITH_MIMALLOC', 1),
+            ('WITH_MIMALLOC', 1),
+            ('Py_GIL_DISABLED', 1),
 
             ('CONFIG_64', 1),
             ('ANSI', 1),
         ],
         CPPPATH = incs + [ './Modules/_decimal', './Modules/_decimal/libmpdec', ],
         buildtarget = '_decimal.dll',
-        LIBS = [ 'python3.lib',
+        LIBS = [ 'python314.lib',
             "advapi32.lib",
             "shell32.lib",
             "ole32.lib",
@@ -742,14 +750,15 @@ def build_ctypes_pyd():
         ],
         CPPDEFINES = [
             ('Py_ENABLE_SHARED', 1),
-            #('WITH_MIMALLOC', 1),
+            ('WITH_MIMALLOC', 1),
+            ('Py_GIL_DISABLED', 1),
 
         ],
         CPPPATH = incs + [
             FFI_PATH + '/include',
         ],
         buildtarget = '_ctypes.dll',
-        LIBS = [ 'python3.lib', ]
+        LIBS = [ 'python314.lib', ]
     )
     env2.Requires(ctypes_pyd, CompileAsm)
 

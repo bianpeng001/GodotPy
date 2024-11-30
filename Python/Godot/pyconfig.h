@@ -754,6 +754,6 @@ Py_NO_ENABLE_SHARED to find out.  Also support MS_NO_COREDLL for b/w compat */
 #define HAVE_X509_VERIFY_PARAM_SET1_HOST 1
 
 //#define Py_GIL_DISABLED 1
-#define WITH_MIMALLOC 1
+//#define WITH_MIMALLOC 1
 
 #endif /* !Py_CONFIG_H */
