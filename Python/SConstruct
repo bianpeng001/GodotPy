@@ -277,8 +277,13 @@ SQLITE3 = 'd:/OpenSource/sqlite3'
 is_release = ARGUMENTS.get('release', True)
 #is_release = False
 
+
+
+
 # module
-ModuleName = 'python314'
+ModuleName = "python314t"
+PyLibName = ModuleName + ".lib"
+
 PY_VER = '3.14'
 cppdefines = [
     'Py_BUILD_CORE',
@@ -527,7 +532,7 @@ PythonExe = env2.Program('python.exe',
     ],
     CPPPATH = incs,
     resources = [],
-    LIBS = ['python314.lib',]
+    LIBS = [PyLibName,]
 )
 # 加一下依赖关系, 保证先后执行顺序
 env2.Requires(PythonExe, [PythonLib, PythonExeRes])
@@ -554,7 +559,7 @@ def build_sqlite3_pyd():
             ('SQLITE_API', '__declspec(dllexport)'),
             ],
         buildtarget = 'sqlite3.dll',
-        LIBS = ['python314.lib']
+        LIBS = [PyLibName]
     )
 
     sqlite3_pyd = env2.SharedLibrary('_sqlite3',
@@ -581,7 +586,7 @@ def build_sqlite3_pyd():
         buildtarget = '_sqlite3.dll',
         LIBS = [
             'sqlite3.lib',
-            'python314.lib',
+            PyLibName,
         ],
     )
 build_sqlite3_pyd()
@@ -597,7 +602,7 @@ def build_socket_pyd():
         ],
         buildtarget = '_socket.dll',
         LIBS = [
-            'python314.lib',
+            PyLibName,
             'Rpcrt4.lib',
             'Iphlpapi.lib',
             'Ws2_32.lib',
@@ -617,7 +622,7 @@ def build_asyncio_pyd():
             ('Py_GIL_DISABLED', 1),
         ],
         buildtarget = '_asyncio.dll',
-        LIBS = [ 'python314.lib', ]
+        LIBS = [ PyLibName, ]
     )
 build_asyncio_pyd()
 
@@ -634,7 +639,7 @@ def build_overlapped_pyd():
 
         ],
         buildtarget = '_overlapped.dll',
-        LIBS = [ 'python314.lib', "Ws2_32", ]
+        LIBS = [ PyLibName, "Ws2_32", ]
     )
 build_overlapped_pyd()
 
@@ -654,7 +659,7 @@ def build_multiprocessing_pyd():
 
         ],
         buildtarget = '_multiprocessing.dll',
-        LIBS = [ 'python314.lib', "Ws2_32", ]
+        LIBS = [ PyLibName, "Ws2_32", ]
     )
 build_multiprocessing_pyd()
 
@@ -671,7 +676,7 @@ def build_queue_pyd():
 
         ],
         buildtarget = '_queue.dll',
-        LIBS = [ 'python314.lib', ]
+        LIBS = [ PyLibName, ]
     )
 build_queue_pyd()
 
@@ -708,7 +713,7 @@ def build_decimal_pyd():
         ],
         CPPPATH = incs + [ './Modules/_decimal', './Modules/_decimal/libmpdec', ],
         buildtarget = '_decimal.dll',
-        LIBS = [ 'python314.lib',
+        LIBS = [ PyLibName,
             "advapi32.lib",
             "shell32.lib",
             "ole32.lib",
@@ -758,7 +763,7 @@ def build_ctypes_pyd():
             FFI_PATH + '/include',
         ],
         buildtarget = '_ctypes.dll',
-        LIBS = [ 'python314.lib', ]
+        LIBS = [ PyLibName, ]
     )
     env2.Requires(ctypes_pyd, CompileAsm)
 
