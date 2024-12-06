@@ -11,11 +11,12 @@ print('init GodotPy...')
 PYTHON_HOME = 'D:/OpenSource/cpython'
 BOOST_HOME = 'D:/OpenSource/boost_1_82_0'
 
+PYTHON_DLL = "python314.dll"
+
 if not os.path.exists(PYTHON_HOME):
     PYTHON_HOME = 'H:/cpython'
 if not os.path.exists(BOOST_HOME):
     BOOST_HOME = 'H:/boost_1_82_0'
-
 
 def copy_if_expired(src_path, dst_path):
     dst_path = os.path.abspath(dst_path)
@@ -40,6 +41,8 @@ def GetReady():
     #Python3Lib = PYTHON_HOME + '/python3.lib'
     #Python3LibDst = PYTHON_HOME + '/python3' + env["LIBSUFFIX"]
     #copy_if_expired(Python3Lib, Python3LibDst)
+
+    
     
     file_list = (
             'sqlite3.dll',
@@ -55,7 +58,7 @@ def GetReady():
     mkdir_if_not_exists('../../bin/DLLs')
 
     copy_if_expired(PYTHON_HOME + '/python.exe', '../../bin/python.exe')
-    copy_if_expired(PYTHON_HOME + '/python3.dll', '../../bin/python3.dll')
+    copy_if_expired(PYTHON_HOME + f'/{PYTHON_DLL}', f'../../bin/{PYTHON_DLL}')
     
     for dst_file in file_list:
         src_file = dst_file.replace('.pyd', '.dll')
@@ -85,11 +88,12 @@ godotpy_module.Append(CPPDEFINES =[
     # 这几个是编译python用到的，嵌入python不必
     #'Py_BUILD_CORE',
     #'Py_BUILD_CORE_BUILTIN',
-    #'Py_ENABLE_SHARED=1',
+    #'Py_ENABLE_SHARED',
     
     # 这几个必须了，因为构造python用了，嵌入是也要开
-    'WITH_MIMALLOC=1',
-    'Py_GIL_DISABLED=1'])
+    #'WITH_MIMALLOC=1',
+    #'Py_GIL_DISABLED=1'
+    ])
 godotpy_module.add_source_files(env.modules_sources, "src/*.cpp")
 
 

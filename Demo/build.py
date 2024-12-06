@@ -87,8 +87,11 @@ def build_publish():
         '_queue.pyd',
         '_decimal.pyd',
     )
+
+    PYTHON_DLL = "python314.dll"
+
     copy(os.path.join(GODOT_BIN_DIR, "python.exe"), os.path.join(BUILD_DIR, "python.exe"))
-    copy(os.path.join(GODOT_BIN_DIR, "python3.dll"), os.path.join(BUILD_DIR, "python3.dll"))
+    copy(os.path.join(GODOT_BIN_DIR, PYTHON_DLL), os.path.join(BUILD_DIR, PYTHON_DLL))
     copy(os.path.join(PROJECT_DIR, '3rd', 'vcruntime140.dll'), os.path.join(BUILD_DIR, 'vcruntime140.dll'))
     mkdir_if_not_exists(os.path.join(BUILD_DIR, "DLLs"))
     for item in file_list:

@@ -293,11 +293,8 @@ PYTHON_OBJS
 ZLIB = 'd:/OpenSource/zlib'
 SQLITE3 = 'd:/OpenSource/sqlite3'
 
-is_release = ARGUMENTS.get('release', True)
-#is_release = False
-
-
-
+#is_release = ARGUMENTS.get('release', True)
+is_release = False
 
 # module
 ModuleName = "python314"
@@ -309,16 +306,13 @@ cppdefines = [
     'WIN32',
     '_M_X64',
     '_WIN64',
-    '_WINDLL'
+    '_DEBUG', # ??
     # winreg.c require MACRO CONDITION
-    'MS_WINDOWS_DESKTOP',
+    #'MS_WINDOWS_DESKTOP',
    
     'Py_BUILD_CORE',
     'Py_BUILD_CORE_BUILTIN',
     'Py_ENABLE_SHARED',
-    
-    
-    
 
     # jit, invoke REGEN_JIT_COMMAND to configure!!!
     # "D_Py_JIT",
@@ -326,7 +320,6 @@ cppdefines = [
     # 从python312.zip里面加载标准模块
     '_Py_HAVE_ZLIB',
 
-    # getpath.c
     ('VPATH', f'\\"{ModuleName}\\"'),
     ('PY3_DLLNAME', f'L\\"{ModuleName}\\"'),
     ('MS_DLL_ID', f'TEXT(\\"{PY_VER}\\")'),
@@ -380,12 +373,17 @@ env.Append(CPPDEFINES = cppdefines)
 env.Append(CPPPATH = incs)
 
 if is_release:
-    env.Append(CCFLAGS = ['/O2','/MD', '/MP', '/GS', '/GL',
-        '/W3', '/Zc:wchar_t', '/Gm-', '/Gd', '/GF', '/Gy', '/FC',
-        '/Zc:inline', '/fp:precise', '/Zc:forScope',
+    env.Append(CCFLAGS = [
+        '/MD',
+        #'/O2','/MP', '/GS', '/GL',
+        #'/W3', '/Zc:wchar_t', '/Gm-', '/Gd', '/GF', '/Gy', '/FC',
+        #'/Zc:inline', '/fp:precise', '/Zc:forScope',
     ])
 else:
-    env.Append(CCFLAGS = ['/Zi', '/MDd', '/Od', '/Zi', '/FC', ])
+    env.Append(CCFLAGS = [
+        '/MDd', 
+    #'/Zi', '/Od', '/FC', 
+    ])
     env.Append(LINKFLAGS = ['/DEBUG:FULL',])
 
 env.Append(LIBPATH = [

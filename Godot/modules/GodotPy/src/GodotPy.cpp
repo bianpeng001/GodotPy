@@ -59,7 +59,7 @@
 #define PY_SSIZE_T_CLEAN
 #include <Python.h>
 
-#pragma comment(lib, "python3.lib")
+#pragma comment(lib, "python314.lib")
 
 #include "Binding.h"
 
@@ -3316,7 +3316,7 @@ PyMODINIT_FUNC PyInit_GodotPy(void) {
 #endif
 }
 static int InitPython() {
-	//PyPreConfig PreConfig;
+	PyPreConfig PreConfig;
 	const char program[] = "GodotPyGame";
 	const char codec[] = "utf-8";
 	PyStatus status;
@@ -3325,13 +3325,15 @@ static int InitPython() {
 	String project_path;
 	ProjectSettings *project_settings;
 	
-	/*
+	
 	PyPreConfig_InitIsolatedConfig(&PreConfig);
+	PreConfig.configure_locale = 1;
 	status = Py_PreInitialize(&PreConfig);
 	if (PyStatus_Exception(status)) {
-		goto exception;
+		//goto exception;
+		print_line("init preconfig failed");
 	}
-	*/
+	
 	PyConfig_InitPythonConfig(&PyConfig);
 	//PyConfig_InitIsolatedConfig(&PyConfig);
 	PyConfig.program_name = Py_DecodeLocale(program, &program_len);
@@ -3435,6 +3437,7 @@ static int InitPython() {
 	//	goto exception;
 	//}
 
+	print_line("init python with config");
 	status = Py_InitializeFromConfig(&PyConfig);
 	if (PyStatus_Exception(status)) {
 		goto exception;
