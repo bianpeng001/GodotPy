@@ -98,7 +98,6 @@ PYTHON_OBJS = [
     "Python/errors.c",
     "Python/flowgraph.c",
     "Python/frame.c",
-    #"Python/frozenmain.c",
     "Python/future.c",
     "Python/gc.c",
     "Python/gc_free_threading.c",
@@ -188,12 +187,18 @@ Modules = [
     "Modules/_hacl/Hacl_Hash_SHA1.c",
     "Modules/_hacl/Hacl_Hash_SHA2.c",
     "Modules/_hacl/Hacl_Hash_SHA3.c",
+    "Modules/_hacl/Hacl_Hash_Blake2b.c",
+    "Modules/_hacl/Hacl_Hash_Blake2s.c",
+    #"Modules/blake2module.c",
+    #"Modules/_hacl/Hacl_Hash_Blake2b_Simd256.c",
+    #"Modules/_hacl/Hacl_Hash_Blake2s_Simd128.c",
 
     # 这个看要不要，现在没有也不报错
-    #"Modules/_hacl/Lib_Memzero0.c",
+    "Modules/_hacl/Lib_Memzero0.c",
 
     "Modules/_heapqmodule.c",
     "Modules/_json.c",
+    "Modules/_localemodule.c",
     "Modules/_lsprof.c",
     "Modules/_opcode.c",
     "Modules/_operator.c",
@@ -203,6 +208,7 @@ Modules = [
     "Modules/_stat.c",
     "Modules/_statisticsmodule.c",
     "Modules/_struct.c",
+    "Modules/_suggestions.c",
     "Modules/_threadmodule.c",
     "Modules/_tracemalloc.c",
     "Modules/_typingmodule.c",
@@ -211,6 +217,8 @@ Modules = [
     "Modules/atexitmodule.c",
     "Modules/binascii.c",
     "Modules/cjkcodecs/_codecs_cn.c",
+    "Modules/cjkcodecs/_codecs_hk.c",
+    "Modules/cjkcodecs/_codecs_tw.c",
     "Modules/cjkcodecs/multibytecodec.c",
     "Modules/cmathmodule.c",
     "Modules/errnomodule.c",
@@ -218,6 +226,7 @@ Modules = [
     "Modules/itertoolsmodule.c",
     "Modules/mathmodule.c",
     "Modules/md5module.c",
+    "Modules/mmapmodule.c",
     "Modules/posixmodule.c",
     "Modules/rotatingtree.c",
     "Modules/sha1module.c",
@@ -225,7 +234,14 @@ Modules = [
     "Modules/sha3module.c",
     "Modules/signalmodule.c",
     "Modules/symtablemodule.c",
+    "Modules/_sysconfig.c",
     "Modules/timemodule.c",
+    "Modules/xxsubtype.c",
+    "Modules/_interpretersmodule.c",
+    "Modules/_interpchannelsmodule.c",
+    "Modules/_interpqueuesmodule.c",
+    
+
 ]
 
 # static.c 里面include了上面全部
@@ -261,6 +277,7 @@ Platform_Modules = [
     'PC/invalid_parameter_handler.c',
     'PC/dl_nt.c',
     'PC/winreg.c',
+    'PC/msvcrtmodule.c',
 ]
 
 ALL_MODULES = MODULE_OBJS + IOModules + Modules + Platform_Modules + MIMALLOC_OBJS
@@ -283,11 +300,19 @@ is_release = ARGUMENTS.get('release', True)
 
 
 # module
-ModuleName = "python314t"
+ModuleName = "python314"
 PyLibName = ModuleName + ".lib"
 
 PY_VER = '3.14'
 cppdefines = [
+    '_USRDLL',
+    'WIN32',
+    '_M_X64',
+    '_WIN64',
+    '_WINDLL'
+    # winreg.c require MACRO CONDITION
+    'MS_WINDOWS_DESKTOP',
+   
     'Py_BUILD_CORE',
     'Py_BUILD_CORE_BUILTIN',
     ('Py_ENABLE_SHARED', 1),
@@ -300,11 +325,6 @@ cppdefines = [
     
     # 从python312.zip里面加载标准模块
     '_Py_HAVE_ZLIB',
-
-    # winreg.c require MACRO CONDITION
-    #'MS_WINDOWS_DESKTOP',
-
-    #'_DEBUG',
 
     # getpath.c
     ('VPATH', f'\\"{ModuleName}\\"'),
@@ -500,6 +520,9 @@ srcs = LIBRARY_OBJS_OMIT_FROZEN + ALL_MODULES + [
         ZLIB + '/inftrees.c',
         ZLIB + '/inffast.c',
         ZLIB + '/zutil.c',
+        ZLIB + '/infback.c',
+        ZLIB + '/compress.c',
+        ZLIB + '/uncompr.c',
 
     ]
 PythonLib = env.SharedLibrary(ModuleName,
