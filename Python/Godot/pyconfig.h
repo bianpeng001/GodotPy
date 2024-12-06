@@ -309,6 +309,8 @@ Py_NO_ENABLE_SHARED to find out.  Also support MS_NO_COREDLL for b/w compat */
 
 /* For an MSVC DLL, we can nominate the .lib files used by extensions */
 #ifdef MS_COREDLL
+
+#ifdef XXXX
 #       if !defined(Py_BUILD_CORE) && !defined(Py_BUILD_CORE_BUILTIN)
                 /* not building the core - must be an ext */
 #               if defined(_MSC_VER)
@@ -333,6 +335,9 @@ Py_NO_ENABLE_SHARED to find out.  Also support MS_NO_COREDLL for b/w compat */
 #                       endif /* Py_GIL_DISABLED */
 #               endif /* _MSC_VER */
 #       endif /* Py_BUILD_CORE */
+#elseif
+	pragma comment(lib,"python314.lib")
+#endif
 #endif /* MS_COREDLL */
 
 #ifdef MS_WIN64

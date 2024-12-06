@@ -305,7 +305,7 @@ cppdefines = [
     'WIN32',
     '_M_X64',
     '_WIN64',
-    '_DEBUG', # ??
+    '_DEBUG', # 没有这个会崩溃！！
     # winreg.c require MACRO CONDITION
     #'MS_WINDOWS_DESKTOP',
 
@@ -382,7 +382,7 @@ if is_release:
 else:
     env.Append(CCFLAGS = [
         '/MDd', 
-    #'/Zi', '/Od', '/FC', 
+        #'/Zi', '/Od', '/FC', 
     ])
     env.Append(LINKFLAGS = ['/DEBUG:FULL',])
 
