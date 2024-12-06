@@ -3325,14 +3325,14 @@ static int InitPython() {
 	String project_path;
 	ProjectSettings *project_settings;
 	
-	
+	/*
 	PyPreConfig_InitIsolatedConfig(&PreConfig);
 	PreConfig.configure_locale = 1;
 	status = Py_PreInitialize(&PreConfig);
 	if (PyStatus_Exception(status)) {
-		//goto exception;
-		print_line("init preconfig failed");
+		goto exception;
 	}
+	*/
 	
 	PyConfig_InitPythonConfig(&PyConfig);
 	//PyConfig_InitIsolatedConfig(&PyConfig);

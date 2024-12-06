@@ -89,7 +89,7 @@ PYTHON_OBJS = [
     "Python/brc.c",
     "Python/ceval.c",
     "Python/codecs.c",
-    "Python/codegen.c",
+    #"Python/codegen.c",
     "Python/compile.c",
     "Python/context.c",
     "Python/critical_section.c",
@@ -112,7 +112,7 @@ PYTHON_OBJS = [
     "Python/hashtable.c",
     "Python/import.c",
     "Python/importdl.c",
-    "Python/index_pool.c",
+    #"Python/index_pool.c",
     "Python/initconfig.c",
     "Python/interpconfig.c",
     "Python/instrumentation.c",
@@ -150,7 +150,7 @@ PYTHON_OBJS = [
     "Python/thread.c",
     "Python/traceback.c",
     "Python/tracemalloc.c",
-    "Python/uniqueid.c",
+    #"Python/uniqueid.c",
     "Python/getopt.c",
     "Python/pystrcmp.c",
     "Python/pystrtod.c",
@@ -187,14 +187,13 @@ Modules = [
     "Modules/_hacl/Hacl_Hash_SHA1.c",
     "Modules/_hacl/Hacl_Hash_SHA2.c",
     "Modules/_hacl/Hacl_Hash_SHA3.c",
-    "Modules/_hacl/Hacl_Hash_Blake2b.c",
-    "Modules/_hacl/Hacl_Hash_Blake2s.c",
+    #"Modules/_hacl/Hacl_Hash_Blake2b.c",
+    #"Modules/_hacl/Hacl_Hash_Blake2s.c",
     #"Modules/blake2module.c",
     #"Modules/_hacl/Hacl_Hash_Blake2b_Simd256.c",
     #"Modules/_hacl/Hacl_Hash_Blake2s_Simd128.c",
-
     # 这个看要不要，现在没有也不报错
-    "Modules/_hacl/Lib_Memzero0.c",
+    #"Modules/_hacl/Lib_Memzero0.c",
 
     "Modules/_heapqmodule.c",
     "Modules/_json.c",
@@ -271,13 +270,13 @@ MIMALLOC_OBJS = [
 # PC平台相关的几个文件
 Platform_Modules = [
     'Modules/_io/winconsoleio.c',
-    'Modules/_winapi.c',
+    #'Modules/_winapi.c',
     
     'Python/dynload_win.c',
     'PC/invalid_parameter_handler.c',
     'PC/dl_nt.c',
     'PC/winreg.c',
-    'PC/msvcrtmodule.c',
+    #'PC/msvcrtmodule.c',
 ]
 
 ALL_MODULES = MODULE_OBJS + IOModules + Modules + Platform_Modules + MIMALLOC_OBJS
@@ -293,8 +292,8 @@ PYTHON_OBJS
 ZLIB = 'd:/OpenSource/zlib'
 SQLITE3 = 'd:/OpenSource/sqlite3'
 
-#is_release = ARGUMENTS.get('release', True)
-is_release = False
+is_release = ARGUMENTS.get('release', True)
+#is_release = False
 
 # module
 ModuleName = "python314"
@@ -309,10 +308,11 @@ cppdefines = [
     '_DEBUG', # ??
     # winreg.c require MACRO CONDITION
     #'MS_WINDOWS_DESKTOP',
-   
+
     'Py_BUILD_CORE',
     'Py_BUILD_CORE_BUILTIN',
     'Py_ENABLE_SHARED',
+    'WITH_FREELISTS',
 
     # jit, invoke REGEN_JIT_COMMAND to configure!!!
     # "D_Py_JIT",
@@ -577,8 +577,7 @@ def build_sqlite3_pyd():
         CPPPATH = incs + [SQLITE3,],
         CPPDEFINES = [
             'Py_ENABLE_SHARED',
-            
-            
+            'WITH_FREELISTS',
             
 
             'SQLITE_ENABLE_MATH_FUNCTIONS',
@@ -607,9 +606,7 @@ def build_sqlite3_pyd():
         CPPPATH = incs + [SQLITE3,],
         CPPDEFINES = [
             'Py_ENABLE_SHARED',
-            
-            
-            
+            'WITH_FREELISTS',
 
             'PY_SQLITE_HAVE_SERIALIZE',
             'PY_SQLITE_ENABLE_LOAD_EXTENSION',
@@ -630,6 +627,7 @@ def build_socket_pyd():
         source = ['Modules/socketmodule.c'],
         CPPDEFINES = [
             'Py_ENABLE_SHARED',
+            'WITH_FREELISTS',
         ],
         buildtarget = '_socket.dll',
         LIBS = [
@@ -649,8 +647,7 @@ def build_asyncio_pyd():
         source = ['Modules/_asynciomodule.c'],
         CPPDEFINES = [
             'Py_ENABLE_SHARED',
-            
-            
+            'WITH_FREELISTS',
             
         ],
         buildtarget = '_asyncio.dll',
@@ -666,9 +663,7 @@ def build_overlapped_pyd():
         source = ['Modules/overlapped.c'],
         CPPDEFINES = [
             'Py_ENABLE_SHARED',
-            
-            
-            
+            'WITH_FREELISTS',
 
         ],
         buildtarget = '_overlapped.dll',
@@ -687,8 +682,7 @@ def build_multiprocessing_pyd():
         ],
         CPPDEFINES = [
             'Py_ENABLE_SHARED',
-            
-            
+            'WITH_FREELISTS',
             
 
         ],
@@ -705,8 +699,7 @@ def build_queue_pyd():
         source = ['Modules/_queuemodule.c',],
         CPPDEFINES = [
             'Py_ENABLE_SHARED',
-            
-            
+            'WITH_FREELISTS',
             
 
         ],
@@ -740,10 +733,8 @@ def build_decimal_pyd():
         ],
         CPPDEFINES = [
             'Py_ENABLE_SHARED',
+            'WITH_FREELISTS',
             
-            
-            
-
             ('CONFIG_64', 1),
             ('ANSI', 1),
         ],
@@ -791,9 +782,8 @@ def build_ctypes_pyd():
         ],
         CPPDEFINES = [
             'Py_ENABLE_SHARED',
+            'WITH_FREELISTS',
             
-            
-
         ],
         CPPPATH = incs + [
             FFI_PATH + '/include',

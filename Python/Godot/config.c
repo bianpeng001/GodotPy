@@ -110,7 +110,7 @@ struct _inittab _PyImport_Inittab[] = {
 #endif
     {"_tracemalloc", PyInit__tracemalloc},
     /* XXX Should _winapi go in a WIN32 block?  not WIN64? */
-    {"_winapi", PyInit__winapi},
+    //{"_winapi", PyInit__winapi},
 
     {"_codecs", PyInit__codecs},
     {"_weakref", PyInit__weakref},
