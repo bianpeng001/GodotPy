@@ -315,9 +315,9 @@ cppdefines = [
    
     'Py_BUILD_CORE',
     'Py_BUILD_CORE_BUILTIN',
-    ('Py_ENABLE_SHARED', 1),
-    ('WITH_MIMALLOC', 1),
-    ('Py_GIL_DISABLED', 1),
+    'Py_ENABLE_SHARED',
+    
+    
     
 
     # jit, invoke REGEN_JIT_COMMAND to configure!!!
@@ -328,7 +328,7 @@ cppdefines = [
 
     # getpath.c
     ('VPATH', f'\\"{ModuleName}\\"'),
-    ('PY3_DLLNAME', f'\\"{ModuleName}\\"'),
+    ('PY3_DLLNAME', f'L\\"{ModuleName}\\"'),
     ('MS_DLL_ID', f'TEXT(\\"{PY_VER}\\")'),
     ('PREFIX', f'\\"prefix\\"'),
     ('EXEC_PREFIX', f'\\"exec_prefix\\"'),
@@ -380,9 +380,12 @@ env.Append(CPPDEFINES = cppdefines)
 env.Append(CPPPATH = incs)
 
 if is_release:
-    env.Append(CCFLAGS = ['/O2','/MD'])
+    env.Append(CCFLAGS = ['/O2','/MD', '/MP', '/GS', '/GL',
+        '/W3', '/Zc:wchar_t', '/Gm-', '/Gd', '/GF', '/Gy', '/FC',
+        '/Zc:inline', '/fp:precise', '/Zc:forScope',
+    ])
 else:
-    env.Append(CCFLAGS = ['/Zi', '/MDd'])
+    env.Append(CCFLAGS = ['/Zi', '/MDd', '/Od', '/Zi', '/FC', ])
     env.Append(LINKFLAGS = ['/DEBUG:FULL',])
 
 env.Append(LIBPATH = [
@@ -575,9 +578,9 @@ def build_sqlite3_pyd():
         source = [SQLITE3 +'/sqlite3.c'],
         CPPPATH = incs + [SQLITE3,],
         CPPDEFINES = [
-            ('Py_ENABLE_SHARED', 1),
-            ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            'Py_ENABLE_SHARED',
+            
+            
             
 
             'SQLITE_ENABLE_MATH_FUNCTIONS',
@@ -605,9 +608,9 @@ def build_sqlite3_pyd():
         ],
         CPPPATH = incs + [SQLITE3,],
         CPPDEFINES = [
-            ('Py_ENABLE_SHARED', 1),
-            ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            'Py_ENABLE_SHARED',
+            
+            
             
 
             'PY_SQLITE_HAVE_SERIALIZE',
@@ -647,9 +650,9 @@ def build_asyncio_pyd():
     asyncio_pyd = env2.SharedLibrary('_asyncio',
         source = ['Modules/_asynciomodule.c'],
         CPPDEFINES = [
-            ('Py_ENABLE_SHARED', 1),
-            ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            'Py_ENABLE_SHARED',
+            
+            
             
         ],
         buildtarget = '_asyncio.dll',
@@ -664,9 +667,9 @@ def build_overlapped_pyd():
     overlapped_pyd = env2.SharedLibrary('_overlapped',
         source = ['Modules/overlapped.c'],
         CPPDEFINES = [
-            ('Py_ENABLE_SHARED', 1),
-            ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            'Py_ENABLE_SHARED',
+            
+            
             
 
         ],
@@ -685,9 +688,9 @@ def build_multiprocessing_pyd():
             'Modules/_multiprocessing/semaphore.c'
         ],
         CPPDEFINES = [
-            ('Py_ENABLE_SHARED', 1),
-            ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            'Py_ENABLE_SHARED',
+            
+            
             
 
         ],
@@ -703,9 +706,9 @@ def build_queue_pyd():
     queue_pyd = env2.SharedLibrary('_queue',
         source = ['Modules/_queuemodule.c',],
         CPPDEFINES = [
-            ('Py_ENABLE_SHARED', 1),
-            ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            'Py_ENABLE_SHARED',
+            
+            
             
 
         ],
@@ -738,9 +741,9 @@ def build_decimal_pyd():
             "Modules/_decimal/libmpdec/transpose.c",
         ],
         CPPDEFINES = [
-            ('Py_ENABLE_SHARED', 1),
-            ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            'Py_ENABLE_SHARED',
+            
+            
             
 
             ('CONFIG_64', 1),
@@ -789,9 +792,9 @@ def build_ctypes_pyd():
             FFI_PATH + '/src/tramp.c',
         ],
         CPPDEFINES = [
-            ('Py_ENABLE_SHARED', 1),
-            ('WITH_MIMALLOC', 1),
-            ('Py_GIL_DISABLED', 1),
+            'Py_ENABLE_SHARED',
+            
+            
 
         ],
         CPPPATH = incs + [
