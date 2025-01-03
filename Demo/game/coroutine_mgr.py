@@ -5,7 +5,7 @@
 import sys
 import traceback
 
-from game.core import get_cache_time
+from game.core import get_cache_time, log_debug
 
 #
 # 既然用了python，还是要做一下协程。发现用Iterator来做比较方便。

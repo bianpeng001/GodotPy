@@ -22,7 +22,9 @@ class MainLoop(NodeObject):
 
         game_mgr.scene_root_obj = self.get_obj()
         from game.game_play import GamePlay
+        log_debug("mainloop create", GamePlay)
         game_mgr.game_play = GamePlay()
+        log_debug("mainloop create done", game_mgr.game_play)
         game_mgr.event_mgr.notify(APP_LAUNCH)
 
     def _ready(self):

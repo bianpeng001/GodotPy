@@ -3374,7 +3374,7 @@ static int InitPython() {
 
 	String Lib = bin_dir + "/Lib";
 	String DLLs = bin_dir + "/DLLs";
-	String LibZip = bin_dir + "/python313.zip";
+	String LibZip = bin_dir + "/python314.zip";
 	print_line(project_path);
 	print_line(bin_dir);
 	print_line(Lib);

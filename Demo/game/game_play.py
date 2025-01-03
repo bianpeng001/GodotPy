@@ -27,17 +27,17 @@ class GamePlay:
         from game.effect_mgr import EffectMgr
         from game.hud_mgr import HUDMgr
         from game.audio_mgr import AudioMgr
-        from game.game_data import GameData
+        # from game.game_data import GameData
         
         game_mgr.player_mgr = PlayerMgr()
         game_mgr.hero_mgr = HeroMgr()
         game_mgr.unit_mgr = UnitMgr()
         game_mgr.effect_mgr = EffectMgr()
-        game_mgr.game_data = GameData()
         game_mgr.config_mgr = ConfigMgr()
         game_mgr.hud_mgr = HUDMgr()
         game_mgr.skill_mgr = SkillMgr()
         game_mgr.audio_mgr = AudioMgr()
+        # game_mgr.game_data = GameData()
         
         game_mgr.audio_mgr.init()
         game_mgr.hud_mgr.setup()
@@ -46,6 +46,7 @@ class GamePlay:
         self.data_tick_time = 0
         
         # 处理事件
+        log_debug("gameplay listen events")
         game_mgr.event_mgr.add(APP_LAUNCH, self.on_app_launch)
         game_mgr.event_mgr.add(START_GAME, self.on_start_game)
         game_mgr.event_mgr.add(MAIN_PLAYER_READY, self.on_player_ready)
@@ -72,6 +73,7 @@ class GamePlay:
 
     # create main player
     def on_start_game(self):
+        log_debug("1111")
         pm = game_mgr.player_mgr
         cm = game_mgr.camera_mgr
         cm.update_camera()
@@ -266,6 +268,7 @@ class GamePlay:
             game_mgr.event_mgr.notify(MSG_PANEL_NEW_MSG, f"[color=red]{player_name}[/color]一行进入[color=green]{city_name}[/color]城")
             
         def co_start_game():
+            log_debug("co start game")
             yield game_mgr.co_mgr.start(game_mgr.ui_mgr.co_init_panels())
             while not game_mgr.ground_mgr.load_complete:
                 yield
@@ -285,6 +288,7 @@ class GamePlay:
             log_info('{player_name} 开始 {first_city_name}'.format_map(props))
         
         test_props()
+        log_debug("pre start game")
         game_mgr.co_mgr.start(co_start_game())
 
         test_wait_1()

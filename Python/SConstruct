@@ -292,6 +292,7 @@ PYTHON_OBJS
 ZLIB = 'd:/OpenSource/zlib'
 SQLITE3 = 'd:/OpenSource/sqlite3'
 
+# 注意: 没有_DEBUG 会崩溃, 所以现在构造debug版本，但是跟引擎无法匹配！！
 is_release = ARGUMENTS.get('release', True)
 #is_release = False
 
@@ -305,7 +306,7 @@ cppdefines = [
     'WIN32',
     '_M_X64',
     '_WIN64',
-    '_DEBUG', # 没有这个会崩溃！！
+    ##'_DEBUG', # 没有这个会崩溃！！
     # winreg.c require MACRO CONDITION
     #'MS_WINDOWS_DESKTOP',
 
@@ -364,7 +365,7 @@ incs = [
 # 编译器版本
 # 14.3 = Visual Studio 2022
 # 14.2 = Visual Studio 2019
-env = Environment(MSVC_VERSION="14.3", TARGET_ARCH='x86_64')
+env = Environment(MSVC_VERSION="14.2", TARGET_ARCH='x86_64')
 #env = Environment()
 env2 = env.Clone()
 
@@ -374,7 +375,7 @@ env.Append(CPPPATH = incs)
 
 if is_release:
     env.Append(CCFLAGS = [
-        '/MD',
+        '/MDd',
         #'/O2','/MP', '/GS', '/GL',
         #'/W3', '/Zc:wchar_t', '/Gm-', '/Gd', '/GF', '/Gy', '/FC',
         #'/Zc:inline', '/fp:precise', '/Zc:forScope',

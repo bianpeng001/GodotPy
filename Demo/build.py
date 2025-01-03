@@ -133,8 +133,8 @@ def build_editor_release():
 def run_editor_release():
     run(f'{EDITOR} -w --path {DEMO_DIR} -e')
 
-def play_editor_debug():
-    run(f'{EDITOR_DEBUG} -w --path {DEMO_DIR}')
+def run_editor_debug():
+    run(f'{EDITOR_DEBUG} -w --path {DEMO_DIR} -e')
 
 # 打包一个目录, 过滤文件
 def zipdir(dir_path, f):
@@ -205,7 +205,7 @@ task_table = {
         'editor_debug' : build_editor_debug,
         'editor_release' : build_editor_release,
         'run_editor_release' : run_editor_release,
-        'play_editor_debug' : play_editor_debug,
+        'run_editor_debug' : run_editor_debug,
 
         # 分步骤
         'python' : build_python,

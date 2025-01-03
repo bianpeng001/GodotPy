@@ -3,7 +3,7 @@
 [ext_resource type="Environment" uid="uid://brv5usx5ko5pa" path="res://CameraEnv.tres" id="1_m3nlk"]
 [ext_resource type="QuadMesh" uid="uid://bgvylfri1047g" path="res://models/Outline/ScreenRect.tres" id="2_db807"]
 [ext_resource type="Material" uid="uid://d316njsfv56ci" path="res://models/Outline/OutlineV2Mat.tres" id="3_0qls3"]
-[ext_resource type="Script" path="res://DrawRect.gd" id="4_t7x0c"]
+[ext_resource type="Script" uid="uid://cq2q8oo77q87a" path="res://DrawRect.gd" id="4_t7x0c"]
 [ext_resource type="PackedScene" uid="uid://wfd1ql8vq7bi" path="res://effects/Dust01.tscn" id="5_ftlgw"]
 [ext_resource type="PackedScene" uid="uid://cpyomosvj7tyk" path="res://models/Hill/Hill01.tscn" id="6_hx2sq"]
 [ext_resource type="PackedScene" uid="uid://eimxflua5ypg" path="res://models/Park01.tscn" id="7_afvhy"]
@@ -41,7 +41,7 @@ near = 5.0
 far = 100.0
 
 [node name="PP_Outline" type="MeshInstance3D" parent="CameraMgr/MainCamera"]
-transform = Transform3D(-0.707107, 0, 0.707107, 0.5, 0.707107, 0.5, -0.5, 0.707107, -0.5, 0, 0.857859, -29.1421)
+transform = Transform3D(-0.715339, 0, 0.698778, 0.49411, 0.707107, 0.505821, -0.49411, 0.707107, -0.505821, 0, 0.857859, -29.1421)
 mesh = ExtResource("2_db807")
 surface_material_override/0 = ExtResource("3_0qls3")
 

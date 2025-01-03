@@ -2,6 +2,8 @@
 # 2023年2月21日 bianpeng
 #
 
+from game.core import *
+
 #------------------------------------------------------------
 # event mgr
 #------------------------------------------------------------
@@ -11,6 +13,8 @@ class EventMgr:
 
     # 订阅消息
     def add(self, name, handler):
+        log_debug("listen", name, handler)
+
         if not name in self.map:
             self.map[name] = [handler]
         else:
