@@ -136,7 +136,7 @@ static PyObject *f_get_type(PyObject *a_self, PyObject *args) {
 
 		do {
 			auto args = PyTuple_New(2);
-			PyTuple_SetItem(args, 0, PyUnicode_FromString(class_name.operator String().utf8()));
+			PyTuple_SetItem(args, 0, PyUnicode_FromString(class_name.operator String().utf8().get_data()));
 			PyTuple_SetItem(args, 1, PyLong_FromLong(type));
 			auto ret = PyObject_Call(reg_type_cb, args, NULL);
 			if (ret) {
@@ -170,7 +170,7 @@ static PyObject *f_get_type_name(PyObject *a_self, PyObject *args) {
 		obj = self->obj;
 		const auto &class_name = obj->get_class_name();
 
-		return PyUnicode_FromString(class_name.operator String().utf8());
+		return PyUnicode_FromString(class_name.operator String().utf8().get_data());
 
 	} while (0);
 
@@ -239,7 +239,7 @@ static PyObject *f_is_valid(PyObject *a_self, PyObject *args) {
 }
 static PyObject *PyGDObj_repr(PyGDObj *o) {
 	auto str = vformat("<GDObj id=%x>", (int64_t)o->instance_id);
-	return PyUnicode_FromString(str.utf8());
+	return PyUnicode_FromString(str.utf8().get_data());
 }
 static PyMethodDef PyGDObj_methods[] = {
 	{ "get_type", &gdobj::f_get_type, METH_VARARGS, NULL },
@@ -487,7 +487,7 @@ private:
 				case Variant::STRING:
 					do {
 						const auto &s = (String)arg;
-						value = PyUnicode_FromString(s.utf8());
+						value = PyUnicode_FromString(s.utf8().get_data());
 
 					} while (0);
 					break;
@@ -669,7 +669,7 @@ static PyObject *f_get_project_path(PyObject *module, PyObject *args) {
 	}
 	project_path = project_path;
 
-	return PyUnicode_FromString(project_path.utf8());
+	return PyUnicode_FromString(project_path.utf8().get_data());
 }
 
 static PyObject *f_print_line(PyObject *module, PyObject *args) {
@@ -955,7 +955,7 @@ static PyObject *f_node_get_name(PyObject *module, PyObject *args) {
 		auto node = GetObjPtr<Node>(a_obj);
 		String name = node->get_name();
 
-		return PyUnicode_FromString(name.utf8());
+		return PyUnicode_FromString(name.utf8().get_data());
 	} while (0);
 
 	Py_RETURN_NONE;
@@ -2027,7 +2027,7 @@ static PyObject *f_text_edit_get_text(PyObject *module, PyObject *args) {
 		}
 		auto s = edit->get_text();
 
-		return PyUnicode_FromString(s.utf8());
+		return PyUnicode_FromString(s.utf8().get_data());
 
 	} while (0);
 
@@ -2856,7 +2856,7 @@ static PyObject *f_item_list_get_item_text(PyObject *module, PyObject *args) {
 
 		String text = item_list->get_item_text(a_index);
 
-		return PyUnicode_FromString(text.utf8());
+		return PyUnicode_FromString(text.utf8().get_data());
 	} while (0);
 
 	Py_RETURN_NONE;
@@ -3333,12 +3333,14 @@ static int InitPython() {
 		goto exception;
 	}
 	*/
-	
+
+	print_line("1");
+
 	PyConfig_InitPythonConfig(&PyConfig);
 	//PyConfig_InitIsolatedConfig(&PyConfig);
 	PyConfig.program_name = Py_DecodeLocale(program, &program_len);
 
-	
+	print_line("2");
 	
 	//root_path = root_path.replace("/", "\\");
 

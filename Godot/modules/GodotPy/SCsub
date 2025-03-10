@@ -77,7 +77,7 @@ env.Append(LIBPATH = [
     PYTHON_HOME,
 ])
 env.Append(LIBS = [
-    #'python3',
+    
 ])
 env.Append(CPPPATH = incs)
 

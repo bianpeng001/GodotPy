@@ -125,7 +125,8 @@ def build_publish():
     call_task('archive_demo')
 
 def build_editor_debug():
-    run(f'{SCONS_EXE} p=windows vsproj=yes tools=yes bits=64 -j{THREADS} target=editor warnings=no dev_build=true')
+    #run(f'{SCONS_EXE} p=windows vsproj=yes tools=yes bits=64 -j{THREADS} target=editor warnings=no dev_build=true')
+    run(f'{SCONS_EXE} p=windows vsproj=no tools=yes bits=64 -j{THREADS} target=editor warnings=no dev_build=true')
 
 def build_editor_release():
     run(f'{SCONS_EXE} p=windows vsproj=no tools=yes bits=64 -j{THREADS} target=editor warnings=no dev_build=false')

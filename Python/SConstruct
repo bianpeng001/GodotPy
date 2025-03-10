@@ -375,7 +375,7 @@ env.Append(CPPPATH = incs)
 
 if is_release:
     env.Append(CCFLAGS = [
-        '/MDd',
+        '/MD',
         #'/O2','/MP', '/GS', '/GL',
         #'/W3', '/Zc:wchar_t', '/Gm-', '/Gd', '/GF', '/Gy', '/FC',
         #'/Zc:inline', '/fp:precise', '/Zc:forScope',
